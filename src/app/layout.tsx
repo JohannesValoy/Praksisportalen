@@ -28,7 +28,7 @@ export default function RootLayout({
           <div>Logo</div>
           <div className="flex space-x-6">
             <Link href="/">Home</Link>
-            <Link href="/administerStudents">Administer Students</Link>
+            <Link href="/coordinator/administerStudents">Administer Students</Link>
           </div>
         </header>
         <div className="p-4 overflow-y-scroll w-full h-full">{children}</div>

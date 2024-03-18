@@ -127,10 +127,19 @@ model TimeInterval {
   @@map("timeIntervals")
 }
 
+model Student {
+  id                  String                @id @default(uuid())
+  name                String
+  token               String
+  internshipAgreement internshipAgreement[]
+
+  @@map("students")
+}
+
 model internshipAgreement {
   id        String       @id @default(uuid())
-  userID    String
-  user      User         @relation(fields: [userID], references: [id])
+  studentID String
+  student   Student      @relation(fields: [studentID], references: [id])
   programID String
   program   StudyProgram @relation(fields: [programID], references: [id])
   startDate DateTime
@@ -138,6 +147,8 @@ model internshipAgreement {
   status    String
   createdAt DateTime     @default(now())
   comments  String
+  User      User?        @relation(fields: [userId], references: [id])
+  userId    String?
 
   @@map("internshipAgreements")
 }

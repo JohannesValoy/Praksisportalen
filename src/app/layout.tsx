@@ -18,13 +18,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        
         <header className="flex justify-between p-4" style={{ backgroundColor: 'rgb(var(--accent-color))' }}>
+          <div>Logo</div>
+        <div
+        className="flex space-x-6 text-white"
+        >
           <Link href="/">
             Home
           </Link>
           <Link href="/administerStudents">
             Administer Students
           </Link>
+          </div>
         </header>
         {children}
       </body>

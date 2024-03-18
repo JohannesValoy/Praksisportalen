@@ -1,0 +1,61 @@
+version: "3.7"
+services:
+  dev_server:
+    build: 
+      context: .
+      target: dev
+    profiles:
+      - dev
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+    networks:
+      - defualt
+
+  dev_prisma:
+    build: 
+      context: .
+      target: prismaBrowser
+    profiles:
+      - dev
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+    depends_on:
+      - dev_server
+    ports:
+      - 5555:5555
+    networks:
+      - defualt
+    
+  
+  prod_server:
+    build: 
+      context: .
+      target: release
+    profiles:
+      - prod
+    depends_on:
+      - db
+    ports:
+      - 3000:8080
+
+  db:
+    image: mysql
+    environment:
+      - MYSQL_DATABASE=praksislista
+      - MYSQL_ROOT_PASSWORD=changeme
+    profiles: ["dev", "prod", "db"]
+    networks:
+      - defualt
+    ports:
+      - 3306:3306
+
+networks:
+  defualt:

@@ -57,7 +57,7 @@ Use the built-in continuous integration in GitLab.
 - [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
 - [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
 
-***
+---
 
 # Editing this README
 

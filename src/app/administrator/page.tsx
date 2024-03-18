@@ -1,36 +1,31 @@
-/** @format */
-
 import Link from "next/link";
-
-/**With dummy buttons to log into the different users while backend is being developed */
-export default function Home() {
-  return (
-    <main className="container mx-auto flex flex-row items-start justify-center mt-20 space-x-4">
-      
+export default function Page() {
+    return (
+      <main className="container mx-auto flex flex-row items-start justify-center mt-20 space-x-4">
       <Link
-        href="/student"
+        href="/coordinator/orderInternships"
         className="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
       >
-        Logg in as Student
+        Administrer Studier
       </Link>
       <Link
-        href="/employee"
+        href="/coordinator/administerStudents"
         className="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
       >
-        Logg in as Employee
+        Administrer Lærere
       </Link>
       <Link
-        href="/administrator"
+        href="/coordinator/administerStudents"
         className="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
       >
-        Logg in as Administrator
+        Administrer Ansatte
       </Link>
       <Link
-        href="/coordinator"
+        href="/coordinator/administerStudents"
         className="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
       >
-        Logg in as Coordinator
+        Administrer Avdelinger
       </Link>
     </main>
-  );
-}
+    );
+  }

@@ -13,35 +13,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id                  String                @id @default(uuid())
-  email               String                @unique
-  name                String
-  password            String
-  roleID              String
-  role                Role                  @relation(fields: [roleID], references: [id])
-  deparment           Department?
-  Section             Section[]
-  Token               Token[]
-  RequestInternship   RequestInternship[]
-  internshipAgreement internshipAgreement[]
+model Leader {
+  id        String      @id @default(uuid())
+  email     String      @unique
+  name      String
+  password  String
+  deparment Department?
+  Section   Section?
+  Token     Token[]
 
-  @@map("users")
-}
-
-model Role {
-  id    String @id @default(uuid())
-  name  String @unique
-  users User[]
-
-  @@map("roles")
+  @@map("leaders")
 }
 
 model Department {
   id       String    @id @default(uuid())
   name     String    @unique
   leaderID String    @unique
-  leader   User      @relation(fields: [leaderID], references: [id])
+  leader   Leader    @relation(fields: [leaderID], references: [id])
   Section  Section[]
 
   @@map("departments")
@@ -50,8 +38,8 @@ model Department {
 model Section {
   id           String     @id @default(uuid())
   name         String     @unique
-  leaderID     String
-  leader       User       @relation(fields: [leaderID], references: [id])
+  leaderID     String     @unique
+  leader       Leader     @relation(fields: [leaderID], references: [id])
   departmentID String
   department   Department @relation(fields: [departmentID], references: [id])
 
@@ -62,7 +50,7 @@ model Token {
   id        String   @id @default(uuid())
   token     String
   userID    String
-  user      User     @relation(fields: [userID], references: [id])
+  user      Leader   @relation(fields: [userID], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime
 
@@ -82,27 +70,9 @@ model StudyProgram {
   name                String                @unique
   instituteID         String
   institute           EducationInstitute    @relation(fields: [instituteID], references: [id])
-  RequestInternship   RequestInternship[]
   internshipAgreement internshipAgreement[]
 
   @@map("studyPrograms")
-}
-
-model RequestInternship {
-  id               String       @id @default(uuid())
-  userID           String
-  user             User         @relation(fields: [userID], references: [id])
-  programID        String
-  program          StudyProgram @relation(fields: [programID], references: [id])
-  numberofStudents Int
-  yearOfStudy      Int
-  startDate        DateTime
-  endDate          DateTime
-  status           String
-  createdAt        DateTime     @default(now())
-  comments         String
-
-  @@map("requestInternships")
 }
 
 model Internship {
@@ -127,28 +97,38 @@ model TimeInterval {
   @@map("timeIntervals")
 }
 
-model Student {
+model Cordinator {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  @@map("cordinators")
+}
+
+model Candidate {
   id                  String                @id @default(uuid())
   name                String
-  token               String
+  email               String                @unique
+  password            String
+  createdAt           DateTime              @default(now())
   internshipAgreement internshipAgreement[]
 
-  @@map("students")
+  @@map("candidates")
 }
 
 model internshipAgreement {
-  id        String       @id @default(uuid())
-  studentID String
-  student   Student      @relation(fields: [studentID], references: [id])
-  programID String
-  program   StudyProgram @relation(fields: [programID], references: [id])
-  startDate DateTime
-  endDate   DateTime
-  status    String
-  createdAt DateTime     @default(now())
-  comments  String
-  User      User?        @relation(fields: [userId], references: [id])
-  userId    String?
+  id           String       @id @default(uuid())
+  candidateID  String
+  candidate    Candidate    @relation(fields: [candidateID], references: [id])
+  cordinatorID String
+  cordniator   StudyProgram @relation(fields: [cordinatorID], references: [id])
+  startDate    DateTime
+  endDate      DateTime
+  status       String
+  createdAt    DateTime     @default(now())
+  comments     String
 
   @@map("internshipAgreements")
 }

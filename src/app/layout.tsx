@@ -17,12 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        
-        <header className="flex justify-between p-4" style={{ backgroundColor: 'rgb(var(--accent-color))' }}>
+      <body className={`${inter.className} flex flex-col`}>
+        <header className="flex justify-between p-4" style={{ backgroundColor: 'rgb(var(--accent-color))', color:'rgb(var(--accent-text-color))'}}>
           <div>Logo</div>
         <div
-        className="flex space-x-6 text-white"
+        className="flex space-x-6"
         >
           <Link href="/">
             Home
@@ -32,7 +31,9 @@ export default function RootLayout({
           </Link>
           </div>
         </header>
+        <div className="p-4 overflow-y-scroll w-full h-full">
         {children}
+        </div>
       </body>
     </html>
   );

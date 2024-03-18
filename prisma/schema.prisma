@@ -1,0 +1,143 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String                @id @default(uuid())
+  email               String                @unique
+  name                String
+  password            String
+  roleID              String
+  role                Role                  @relation(fields: [roleID], references: [id])
+  deparment           Department?
+  Section             Section[]
+  Token               Token[]
+  RequestInternship   RequestInternship[]
+  internshipAgreement internshipAgreement[]
+
+  @@map("users")
+}
+
+model Role {
+  id    String @id @default(uuid())
+  name  String @unique
+  users User[]
+
+  @@map("roles")
+}
+
+model Department {
+  id       String    @id @default(uuid())
+  name     String    @unique
+  leaderID String    @unique
+  leader   User      @relation(fields: [leaderID], references: [id])
+  Section  Section[]
+
+  @@map("departments")
+}
+
+model Section {
+  id           String     @id @default(uuid())
+  name         String     @unique
+  leaderID     String
+  leader       User       @relation(fields: [leaderID], references: [id])
+  departmentID String
+  department   Department @relation(fields: [departmentID], references: [id])
+
+  @@map("sections")
+}
+
+model Token {
+  id        String   @id @default(uuid())
+  token     String
+  userID    String
+  user      User     @relation(fields: [userID], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+
+  @@map("tokens")
+}
+
+model EducationInstitute {
+  id           String         @id @default(uuid())
+  name         String         @unique
+  StudyProgram StudyProgram[]
+
+  @@map("educationInstitutes")
+}
+
+model StudyProgram {
+  id                  String                @id @default(uuid())
+  name                String                @unique
+  instituteID         String
+  institute           EducationInstitute    @relation(fields: [instituteID], references: [id])
+  RequestInternship   RequestInternship[]
+  internshipAgreement internshipAgreement[]
+
+  @@map("studyPrograms")
+}
+
+model RequestInternship {
+  id               String       @id @default(uuid())
+  userID           String
+  user             User         @relation(fields: [userID], references: [id])
+  programID        String
+  program          StudyProgram @relation(fields: [programID], references: [id])
+  numberofStudents Int
+  yearOfStudy      Int
+  startDate        DateTime
+  endDate          DateTime
+  status           String
+  createdAt        DateTime     @default(now())
+  comments         String
+
+  @@map("requestInternships")
+}
+
+model Internship {
+  id              String         @id @default(uuid())
+  numberOfBeds    Int
+  MaxCapacity     Int
+  currentCapacity Int
+  field           String
+  yearOfStudy     Int
+  TimeInterval    TimeInterval[]
+
+  @@map("internships")
+}
+
+model TimeInterval {
+  id           String     @id @default(uuid())
+  startDate    DateTime
+  endDate      DateTime
+  internshipID String
+  internship   Internship @relation(fields: [internshipID], references: [id])
+
+  @@map("timeIntervals")
+}
+
+model internshipAgreement {
+  id        String       @id @default(uuid())
+  userID    String
+  user      User         @relation(fields: [userID], references: [id])
+  programID String
+  program   StudyProgram @relation(fields: [programID], references: [id])
+  startDate DateTime
+  endDate   DateTime
+  status    String
+  createdAt DateTime     @default(now())
+  comments  String
+
+  @@map("internshipAgreements")
+}

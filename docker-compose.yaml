@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   dev_server:
-    build: 
+    build:
       context: .
       target: dev
     profiles:
@@ -18,7 +18,7 @@ services:
       - defualt
 
   dev_prisma:
-    build: 
+    build:
       context: .
       target: prismaBrowser
     profiles:
@@ -33,10 +33,9 @@ services:
       - 5555:5555
     networks:
       - defualt
-    
-  
+
   prod_server:
-    build: 
+    build:
       context: .
       target: release
     profiles:

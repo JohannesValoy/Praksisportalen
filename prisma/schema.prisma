@@ -14,13 +14,13 @@ datasource db {
 }
 
 model Leader {
-  id        String      @id @default(uuid())
-  email     String      @unique
-  name      String
-  password  String
-  deparment Department?
-  Section   Section?
-  Token     Token[]
+  id         String      @id @default(uuid())
+  email      String      @unique
+  name       String
+  password   String
+  department Department?
+  Section    Section?
+  Token      Token[]
 
   @@map("leaders")
 }
@@ -119,16 +119,16 @@ model Candidate {
 }
 
 model InternshipAgreement {
-  id           String       @id @default(uuid())
-  candidateID  String
-  candidate    Candidate    @relation(fields: [candidateID], references: [id])
-  cordinatorID String
-  cordinator   StudyProgram @relation(fields: [cordinatorID], references: [id])
-  startDate    DateTime
-  endDate      DateTime
-  status       String
-  createdAt    DateTime     @default(now())
-  comments     String
+  id            String       @id @default(uuid())
+  candidateID   String
+  candidate     Candidate    @relation(fields: [candidateID], references: [id])
+  coordinatorID String
+  coordinator   StudyProgram @relation(fields: [coordinatorID], references: [id])
+  startDate     DateTime
+  endDate       DateTime
+  status        String
+  createdAt     DateTime     @default(now())
+  comments      String
 
   @@map("internshipAgreements")
 }

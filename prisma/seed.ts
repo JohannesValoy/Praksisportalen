@@ -1,19 +1,48 @@
-import { parseArgs } from "util";
-import prisma from "@/app/module/prismaClient";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 async function main() {
-    const {
-        values: { environment },
-    } = parseArgs({
-        args: Bun.argv,
-        options: {
-            environment: { type: "string" },
-        },
-    });
+    const environment = process.argv[2] || "development";
 
     switch (environment) {
         case "development":
-            /** data for your development environment */
+            if (await prisma.coordinator.count() === 0) {
+                await prisma.coordinator.createMany({
+                    data: [
+                        {
+                            name: "John Doe",
+                            email: "Hello@world",
+                            password: "",
+                        },
+                        {
+                            name: "Jane Doe",
+                            email: "Word@hello",
+                            password: "",
+                        },
+                    ],
+                });
+            } else {
+                console.log("Coordinator already exists");
+            }
+            if (await prisma.candidate.count() === 0) {
+                await prisma.candidate.createMany({
+                    data: [
+                        {
+                            name: "John Doe stud",
+                            email: "Testing@hello",
+                            password: "",
+                        },
+                        {
+                            name: "Jane Doe stud",
+                            email: "Hello@testing",
+                            password: "",
+                        },
+                    ],
+                });
+            } else {
+                console.log("Candidate already exists");
+            }
             
             break;
 
@@ -22,6 +51,7 @@ async function main() {
 
             break;
         default:
+            console.log(`${environment} is a wrong environment. Please use development or test.`)
             break;
     }
 }

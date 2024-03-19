@@ -85,14 +85,14 @@ CREATE TABLE `timeIntervals` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `cordinators` (
+CREATE TABLE `coordinators` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-    UNIQUE INDEX `cordinators_email_key`(`email`),
+    UNIQUE INDEX `coordinators_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -112,7 +112,7 @@ CREATE TABLE `candidates` (
 CREATE TABLE `internshipAgreements` (
     `id` VARCHAR(191) NOT NULL,
     `candidateID` VARCHAR(191) NOT NULL,
-    `cordinatorID` VARCHAR(191) NOT NULL,
+    `coordinatorID` VARCHAR(191) NOT NULL,
     `startDate` DATETIME(3) NOT NULL,
     `endDate` DATETIME(3) NOT NULL,
     `status` VARCHAR(191) NOT NULL,
@@ -144,4 +144,4 @@ ALTER TABLE `timeIntervals` ADD CONSTRAINT `timeIntervals_internshipID_fkey` FOR
 ALTER TABLE `internshipAgreements` ADD CONSTRAINT `internshipAgreements_candidateID_fkey` FOREIGN KEY (`candidateID`) REFERENCES `candidates`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `internshipAgreements` ADD CONSTRAINT `internshipAgreements_cordinatorID_fkey` FOREIGN KEY (`cordinatorID`) REFERENCES `studyPrograms`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `internshipAgreements` ADD CONSTRAINT `internshipAgreements_coordinatorID_fkey` FOREIGN KEY (`coordinatorID`) REFERENCES `studyPrograms`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

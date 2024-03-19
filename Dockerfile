@@ -1,12 +1,11 @@
 FROM oven/bun:1 as base
+COPY --from=node:18 /usr/local/bin/node /usr/local/bin/node
 
 FROM base as dev
 WORKDIR /app
 CMD ["/bin/bash","-c", "bun install && bun prisma generate && bun dev"]
 
-FROM base as prismaBrowser
-WORKDIR /app
-COPY --from=node:18 /usr/local/bin/node /usr/local/bin/node
+FROM dev as prismaBrowser
 COPY prisma .
 COPY package.json .
 COPY bun.lockb .

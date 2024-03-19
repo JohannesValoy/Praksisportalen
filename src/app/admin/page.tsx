@@ -29,3 +29,6 @@ export default function Page() {
     </main>
   );
 }
+git clone https://johakv:glpat-ogjLUx9L4b-JYn955eRt@https://gitlab.stud.idi.ntnu.no/bachelorgruppe-12-bidata-2024/praksisplasslista.git
+
+   

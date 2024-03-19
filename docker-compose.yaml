@@ -11,8 +11,8 @@ services:
         source: .
         target: /app
     depends_on:
-      prisma_browser:
-        condition: service_started
+      db:
+        condition: service_healthy
     ports:
       - 3000:3000
 
@@ -27,11 +27,11 @@ services:
         source: .
         target: /app
     depends_on:
-      db:
+      dev_server:
         condition: service_healthy
     ports:
       - 5555:5555
-  
+
   prod_server:
     build:
       context: .
@@ -51,8 +51,9 @@ services:
     profiles: ["dev", "prod", "db"]
     #Taken from https://stackoverflow.com/questions/42567475/docker-compose-check-if-mysql-connection-is-ready
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 5s
       retries: 10
+      start_period: 10s
     ports:
       - 3306:3306

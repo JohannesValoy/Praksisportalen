@@ -1,17 +1,24 @@
-FROM oven/bun:1 as base
+FROM oven/bun:debian as base
+#Prisma requires node
 COPY --from=node:18 /usr/local/bin/node /usr/local/bin/node
+#For healthcheck
+RUN apt-get update && apt-get install -y wget
 
 FROM base as dev
 WORKDIR /app
-CMD ["/bin/bash","-c", "bun install && bun prisma generate && bun dev"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=10 CMD wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
+CMD ["/bin/bash","-c", "bun install && bun prisma migrate dev && bun dev"]
 
 FROM dev as prismaBrowser
 COPY prisma .
 COPY package.json .
 COPY bun.lockb .
+#The secret is not a real secret, it is a placeholder for a local dev database
+# trunk-ignore(checkov/CKV_SECRET_4)
 RUN echo "DATABASE_URL=\"mysql://root:changeme@db:3306/praksislista\"" > .env
 RUN bun install
-CMD ["/bin/bash","-c", "bun prisma migrate dev && bun prisma studio --port 5555 --browser none"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=10 CMD wget --no-verbose --tries=1 --spider http://localhost:5555 || exit 1
+CMD ["/bin/bash","-c", "bun prisma generate && bun prisma studio --port 5555 --browser none"]
 
 # Taken from https://bun.sh/guides/ecosystem/docker
 

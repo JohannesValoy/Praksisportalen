@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   dev_server:
-    build: 
+    build:
       context: .
       target: dev
     profiles:
@@ -11,14 +11,13 @@ services:
         source: .
         target: /app
     depends_on:
-      - db
+      prisma_browser:
+        condition: service_started
     ports:
       - 3000:3000
-    networks:
-      - defualt
 
-  dev_prisma:
-    build: 
+  prisma_browser:
+    build:
       context: .
       target: prismaBrowser
     profiles:
@@ -28,15 +27,13 @@ services:
         source: .
         target: /app
     depends_on:
-      - dev_server
+      db:
+        condition: service_healthy
     ports:
       - 5555:5555
-    networks:
-      - defualt
-    
   
   prod_server:
-    build: 
+    build:
       context: .
       target: release
     profiles:
@@ -52,10 +49,10 @@ services:
       - MYSQL_DATABASE=praksislista
       - MYSQL_ROOT_PASSWORD=changeme
     profiles: ["dev", "prod", "db"]
-    networks:
-      - defualt
+    #Taken from https://stackoverflow.com/questions/42567475/docker-compose-check-if-mysql-connection-is-ready
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
     ports:
       - 3306:3306
-
-networks:
-  defualt:

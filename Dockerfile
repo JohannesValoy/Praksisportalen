@@ -2,7 +2,7 @@ FROM oven/bun:1 as base
 
 FROM base as dev
 WORKDIR /app
-CMD ["/bin/bash","-c", "bun dev"]
+CMD ["/bin/bash","-c", "bun install && bun prisma generate && bun dev"]
 
 FROM base as prismaBrowser
 WORKDIR /app

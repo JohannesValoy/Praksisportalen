@@ -70,7 +70,7 @@ model StudyProgram {
   name                String                @unique
   instituteID         String
   institute           EducationInstitute    @relation(fields: [instituteID], references: [id])
-  internshipAgreement internshipAgreement[]
+  internshipAgreement InternshipAgreement[]
 
   @@map("studyPrograms")
 }
@@ -113,12 +113,12 @@ model Candidate {
   email               String                @unique
   password            String
   createdAt           DateTime              @default(now())
-  internshipAgreement internshipAgreement[]
+  internshipAgreement InternshipAgreement[]
 
   @@map("candidates")
 }
 
-model internshipAgreement {
+model InternshipAgreement {
   id           String       @id @default(uuid())
   candidateID  String
   candidate    Candidate    @relation(fields: [candidateID], references: [id])

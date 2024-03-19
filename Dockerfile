@@ -1,14 +1,18 @@
-# syntax=docker/dockerfile:1
-
 FROM oven/bun:1 as base
 
 FROM base as dev
 WORKDIR /app
-CMD ["/bin/bash","-c","bun prisma generate && bun prisma migrate deploy  && bun prisma db push && bun dev"]
+CMD ["/bin/bash","-c", "bun dev"]
 
 FROM base as prismaBrowser
 WORKDIR /app
-CMD ["bun", "prisma", "studio"]
+COPY --from=node:18 /usr/local/bin/node /usr/local/bin/node
+COPY prisma .
+COPY package.json .
+COPY bun.lockb .
+RUN echo "DATABASE_URL=\"mysql://root:changeme@db:3306/praksislista\"" > .env
+RUN bun install
+CMD ["/bin/bash","-c", "bun prisma migrate dev && bun prisma studio --port 5555 --browser none"]
 
 # Taken from https://bun.sh/guides/ecosystem/docker
 

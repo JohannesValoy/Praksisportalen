@@ -97,7 +97,7 @@ model TimeInterval {
   @@map("timeIntervals")
 }
 
-model Cordinator {
+model Coordinator {
   id        String   @id @default(uuid())
   name      String
   email     String   @unique

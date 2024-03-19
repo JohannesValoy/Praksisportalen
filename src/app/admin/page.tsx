@@ -15,6 +15,7 @@ export default async function Page() {
         href="/admin/administerS"
         className="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
       >
+        <h1>{user?.email}</h1>
         Administrer Studier
       </Link>
       <Link

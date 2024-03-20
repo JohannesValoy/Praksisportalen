@@ -25,7 +25,7 @@ export default function RootLayout({
             color: "rgb(var(--accent-text-color))",
           }}
         >
-          <div>Logo</div>
+          <img src="/logo-helse-mr.svg" alt="Description" className="h-8" />
           <div className="flex space-x-6">
             <Link href="/">Home</Link>
             <Link href="/coordinator/administerStudents">

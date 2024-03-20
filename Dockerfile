@@ -12,15 +12,14 @@ COPY package.json .
 # trunk-ignore(checkov/CKV_SECRET_4)
 RUN echo "DATABASE_URL=\"mysql://root:changeme@db:3306/praksislista\"" > .env
 RUN bun install
-RUN bun prisma generate
 COPY --chown=app:app . .
+RUN bun prisma generate
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=10 CMD wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
 CMD ["/bin/bash","-c", "bun next dev"]
 
 FROM dev AS prismaBrowser
 COPY  --from=dev /app/.env /app/.env
 COPY --from=dev /app/node_modules /app/node_modules
-RUN bun prisma generate
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=10 CMD wget --no-verbose --tries=1 --spider http://localhost:5555 || exit 1
 CMD ["/bin/bash","-c", "bun prisma migrate deploy && bun prisma db seed -- development && bun prisma studio --port 5555 --browser none"]
 

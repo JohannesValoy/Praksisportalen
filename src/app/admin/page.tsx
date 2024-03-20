@@ -3,19 +3,12 @@
 import Link from "next/link";
 import prisma from "../module/prismaClient";
 export default async function Page() {
-  const user = await prisma.candidate.findUnique({
-    where: {
-      id: "1",
-    },
-  });
   return (
     <main className="container mx-auto flex flex-row items-start justify-center mt-20 space-x-4">
-      <h1>{user?.email}</h1>
       <Link
         href="/admin/administers"
         className="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
       >
-        <h1>{user?.email}</h1>
         Administrer Studier
       </Link>
       <Link

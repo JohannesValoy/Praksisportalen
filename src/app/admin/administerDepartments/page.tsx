@@ -1,6 +1,9 @@
 /** @format */
-
-// `app/page.tsx` is the UI for the `/` URL
+import ListOfDepartments from "@/app/components/listOfDepartments";
 export default function Page() {
-  return <h1>Hello, administerDepartments page!</h1>;
+  return (
+    <main>
+      <ListOfDepartments />
+    </main>
+  );
 }

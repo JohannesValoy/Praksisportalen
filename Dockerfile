@@ -1,17 +1,28 @@
-FROM oven/bun:debian as base
+FROM oven/bun:debian AS base
 #Prisma requires node
 COPY --from=node:18 /usr/local/bin/node /usr/local/bin/node
 #For healthcheck
-RUN apt-get update && apt-get install -y wget
-
-FROM base as dev
+RUN apt-get update && apt-get install -y wget && apt-get clean
 WORKDIR /app
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=10 CMD wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
-CMD ["/bin/bash","-c", "bun install && bun prisma migrate deploy && bun dev"]
 
-FROM dev as prismaBrowser
+FROM base AS dev
+RUN apt-get install -y tar && apt-get clean
+COPY package.json .
+# Local Development server, does not matter if it is not secure
+# trunk-ignore(checkov/CKV_SECRET_4)
+RUN echo "DATABASE_URL=\"mysql://root:changeme@db:3306/praksislista\"" > .env
+RUN bun install
+RUN bun prisma generate
+COPY --chown=app:app . .
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=10 CMD wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
+CMD ["/bin/bash","-c", "bun next dev"]
+
+FROM dev AS prismaBrowser
+COPY  --from=dev /app/.env /app/.env
+COPY --from=dev /app/node_modules /app/node_modules
+RUN bun prisma generate
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=10 CMD wget --no-verbose --tries=1 --spider http://localhost:5555 || exit 1
-CMD ["/bin/bash","-c", "bun prisma db seed -- development &&bun prisma studio --port 5555 --browser none"]
+CMD ["/bin/bash","-c", "bun prisma migrate deploy && bun prisma db seed -- development && bun prisma studio --port 5555 --browser none"]
 
 # Taken from https://bun.sh/guides/ecosystem/docker
 

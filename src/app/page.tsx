@@ -28,7 +28,7 @@ export default function Home() {
         href="/coordinator"
         className="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
       >
-        Logg in as Coordinator
+        Log in as Coordinator
       </Link>
     </main>
   );

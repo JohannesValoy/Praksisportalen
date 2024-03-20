@@ -32,10 +32,7 @@ const ListOfDepartments = async () => {
                     </div>
                   </td>
                   <td>
-                    {
-                      leader.filter((l) => l.id === department.leaderID)[0]
-                        ?.email
-                    }
+                    {department?.leaderID}
                     <br />
                     <span className="badge badge-ghost badge-sm">
                       {department?.id}

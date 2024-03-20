@@ -58,19 +58,21 @@ CREATE TABLE `studyPrograms` (
     `name` VARCHAR(191) NOT NULL,
     `instituteID` VARCHAR(191) NOT NULL,
 
-    UNIQUE INDEX `studyPrograms_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `internships` (
     `id` VARCHAR(191) NOT NULL,
-    `numberOfBeds` INTEGER NOT NULL,
-    `MaxCapacity` INTEGER NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
+    `numberOfBeds` INTEGER NULL,
+    `maxCapacity` INTEGER NOT NULL,
     `currentCapacity` INTEGER NOT NULL,
     `field` VARCHAR(191) NOT NULL,
     `yearOfStudy` INTEGER NOT NULL,
+    `sectionID` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `internships_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -113,11 +115,12 @@ CREATE TABLE `internshipAgreements` (
     `id` VARCHAR(191) NOT NULL,
     `candidateID` VARCHAR(191) NOT NULL,
     `coordinatorID` VARCHAR(191) NOT NULL,
+    `internshipID` VARCHAR(191) NOT NULL,
     `startDate` DATETIME(3) NOT NULL,
     `endDate` DATETIME(3) NOT NULL,
     `status` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `comments` VARCHAR(191) NOT NULL,
+    `comments` VARCHAR(191) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -138,6 +141,9 @@ ALTER TABLE `tokens` ADD CONSTRAINT `tokens_userID_fkey` FOREIGN KEY (`userID`) 
 ALTER TABLE `studyPrograms` ADD CONSTRAINT `studyPrograms_instituteID_fkey` FOREIGN KEY (`instituteID`) REFERENCES `educationInstitutes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE `internships` ADD CONSTRAINT `internships_sectionID_fkey` FOREIGN KEY (`sectionID`) REFERENCES `sections`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE `timeIntervals` ADD CONSTRAINT `timeIntervals_internshipID_fkey` FOREIGN KEY (`internshipID`) REFERENCES `internships`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -145,3 +151,6 @@ ALTER TABLE `internshipAgreements` ADD CONSTRAINT `internshipAgreements_candidat
 
 -- AddForeignKey
 ALTER TABLE `internshipAgreements` ADD CONSTRAINT `internshipAgreements_coordinatorID_fkey` FOREIGN KEY (`coordinatorID`) REFERENCES `studyPrograms`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `internshipAgreements` ADD CONSTRAINT `internshipAgreements_internshipID_fkey` FOREIGN KEY (`internshipID`) REFERENCES `internships`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

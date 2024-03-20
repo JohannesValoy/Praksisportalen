@@ -27,11 +27,11 @@ model Leader {
 }
 
 model Department {
-  id       String    @id @default(uuid())
-  name     String    @unique
-  leaderID String    @unique
-  leader   Leader    @relation(fields: [leaderID], references: [id])
-  Section  Section[]
+  id          String    @id @default(uuid())
+  name        String    @unique
+  leaderID    String    @unique
+  leader      Leader    @relation(fields: [leaderID], references: [id])
+  Section     Section[]
 
   @@map("departments")
 }
@@ -69,7 +69,7 @@ model EducationInstitute {
 
 model StudyProgram {
   id                  String                @id @default(uuid())
-  name                String                @unique
+  name                String                
   instituteID         String
   institute           EducationInstitute    @relation(fields: [instituteID], references: [id])
   internshipAgreement InternshipAgreement[]
@@ -79,8 +79,9 @@ model StudyProgram {
 
 model Internship {
   id                  String         @id @default(uuid())
-  numberOfBeds        Int
-  MaxCapacity         Int
+  name                String         @unique
+  numberOfBeds        Int?
+  maxCapacity         Int
   currentCapacity     Int
   field               String
   yearOfStudy         Int
@@ -135,7 +136,7 @@ model InternshipAgreement {
   endDate       DateTime
   status        String
   createdAt     DateTime     @default(now())
-  comments      String
+  comments      String?
 
   @@map("internshipAgreements")
 }

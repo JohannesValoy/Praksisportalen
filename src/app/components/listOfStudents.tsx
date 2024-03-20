@@ -10,19 +10,23 @@ const ListOfDepartments = async () => {
     <div>
       <div className="flex justify-center mt-4">
         <div className="overflow-x-auto w-full p-4">
-          <h1 className="text-3xl font-semibold">List of Departments</h1>
+          <h1 className="text-3xl font-semibold">List of Users</h1>
           {users.map((user, index) => (
             <div key={index}>
               <table className="table my-4">
                 <tbody>
                   <tr>
-                    {/* <th>
-                                        <label>
-                                            <input type="checkbox" className="checkbox" />
-                                        </label>
-                                    </th> */}
                     <td>
                       <div className="flex items-center gap-3">
+                        <div className="avatar">
+                          <div className="mask mask-squircle w-12 h-12">
+                            <img
+                              //imports Example profile picture
+                              src="Example-profile-picture.jpg"
+                              alt="Avatar Tailwind CSS Component"
+                            />
+                          </div>
+                        </div>
                         <div>
                           <div className="font-bold">{user?.name}</div>
                         </div>

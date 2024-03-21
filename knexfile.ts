@@ -17,13 +17,13 @@ export const config: { [key: string]: Knex.Config } = {
       uri: env.DATABASE_URL,
     },
     migrations: {
-      directory: path.join(__dirname, "knex/migrations"),
+      directory: path.join(__dirname, "src/knex/migrations"),
       extension: extension,
       tableName: "knex_migrations",
       loadExtensions: [`.${extension}`],
     },
     seeds: {
-      directory: path.join(__dirname, "knex/seeds"),
+      directory: path.join(__dirname, "src/knex/seeds"),
     }
   },
 

@@ -7,13 +7,16 @@ import Gantt from "../components/Gantt";
 
 export default function Page() {
   const datalist = [
-    ["Washington", new Date(1801, 3, 29), new Date(1827, 2, 3)],
-    ["Adams", new Date(1797, 2, 3), new Date(1801, 2, 3)],
-    ["Jefferson", new Date(1801, 2, 3), new Date(1809, 2, 3)],
+    ["Section 1", new Date(2024, 3, 9), new Date(2024, 3, 25)],
+    ["Section 1", new Date(2024, 2, 3), new Date(2024, 2, 20)],
+    ["Section 3", new Date(2024, 2, 23), new Date(2024, 3, 5)],
+    ["Section 2", new Date(2024, 3, 27), new Date(2024, 4, 8)],
+    ["Section 4", new Date(2024, 4, 9), new Date(2024, 4, 28)],
+    ["Section ", new Date(2024, 4, 28), new Date(2024, 5, 12)],
   ];
 
   return (
-    <div className="flex flex-row gap-20 w-full h-full items-center justify-center">
+    <div className="flex flex-row gap-20 w-full h-full items-center justify-center p-10 ">
       <Gantt datalist={datalist} />
       <div className="flex flex-col gap-5 items-center justify-center">
         <div

@@ -1,9 +1,15 @@
 import { Knex } from "knex";
+import Bun from "bun";
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> } 
  */
 exports.seed = async function(knex : Knex ) {
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> } 
+ */
+exports.seed = async function (knex: Knex) {
   // Deletes ALL existing entries
   await knex("timeIntervals").del();
   await knex("internshipAgreements").del();
@@ -277,4 +283,4 @@ exports.seed = async function(knex : Knex ) {
       endDate: new Date("2024-06-01"),
     },
   ]);
-};
+}; }

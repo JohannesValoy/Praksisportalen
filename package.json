@@ -9,11 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@prisma/client": "5.11.0",
     "bcrypt": "^5.1.1",
+    "knex": "^3.1.0",
+    "mysql2": "^3.9.2",
     "next": "^14.1.4",
     "next-auth": "^4.24.7",
-    "prisma": "^5.11.0",
     "react": "^18",
     "react-dom": "^18"
   },
@@ -30,8 +30,5 @@
     "tailwindcss": "^3.3.0",
     "ts-node": "^10.9.2",
     "typescript": "^5"
-  },
-  "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   }
 }

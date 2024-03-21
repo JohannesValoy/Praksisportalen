@@ -14,43 +14,22 @@ services:
         - action: sync
           path: ./public
           target: /app/public
-        - action: sync+restart
-          path: ./prisma/
-          ignore:
-            - schema.prisma
-            - migrations
-          target: /app/prisma/
         - action: rebuild
           path: package.json
-        - action: rebuild
-          path: ./prisma/migrations
     depends_on:
-      prisma_browser:
+      db:
         condition: service_healthy
     ports:
       - 3000:3000
 
-  prisma_browser:
-    build:
-      context: .
-      target: prismaBrowser
+  adminer:
     profiles:
       - dev
     depends_on:
       db:
         condition: service_healthy
-    develop:
-      watch:
-        - action: sync+restart
-          path: ./prisma
-          target: /app/prisma
-          ignore:
-            - schema.prisma
-            - migrations
-        - action: rebuild
-          path: ./prisma/migrations
     ports:
-      - 5555:5555
+      - 8080:8080
 
   prod_server:
     build:

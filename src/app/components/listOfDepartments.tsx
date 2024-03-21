@@ -1,17 +1,8 @@
 /** @format */
 
 import React from "react";
-import prisma from "../module/prismaClient";
 
 const ListOfDepartments = async () => {
-  const departments = await prisma.department.findMany();
-  const leader = await prisma.leader.findMany({
-    where: {
-      id: {
-        in: departments.map((department) => department.leaderID),
-      },
-    },
-  });
   return (
     <div>
       <div className="flex justify-center mt-4">

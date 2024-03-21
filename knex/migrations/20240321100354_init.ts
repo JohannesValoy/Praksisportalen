@@ -78,12 +78,17 @@ export async function up(knex: Knex): Promise<void> {
       table.string("status").notNullable();
       table.date("startDate").notNullable();
       table.date("endDate").notNullable();
+<<<<<<<< HEAD:src/knex/migrations/20240321100354_init.ts
+      table.integer("student_id").unsigned();
+========
       table.integer("student_id").unsigned().notNullable();
+>>>>>>>> 4730530 (Missing getting seed to work):knex/migrations/20240321100354_init.ts
       table
         .foreign("student_id")
         .references("id")
         .inTable("users")
         .onDelete("CASCADE");
+<<<<<<<< HEAD:src/knex/migrations/20240321100354_init.ts
       table.integer("coordinator_id").unsigned();
       table.foreign("coordinator_id").references("id").inTable("users");
 
@@ -92,6 +97,12 @@ export async function up(knex: Knex): Promise<void> {
         .foreign("studyProgram_id")
         .references("id")
         .inTable("studyPrograms");
+========
+      table.integer("coordinator_id").unsigned().notNullable();
+      table.foreign("coordinator_id").references("id").inTable("users");
+      table.integer("studyProgram_id").unsigned().notNullable();
+      table.foreign("studyProgram_id").references("id").inTable("studyProgram");
+>>>>>>>> 4730530 (Missing getting seed to work):knex/migrations/20240321100354_init.ts
       table.integer("internship_id").unsigned().notNullable();
       table
         .foreign("internship_id")

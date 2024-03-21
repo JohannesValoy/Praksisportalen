@@ -1,7 +1,14 @@
 import type { Knex } from "knex";
-import { env } from "process";
+import path from "path";
+import { env } from "node:process";
 
 // Update with your config settings.
+const extension =
+  process.env.NODE_CONFIG_ENV === 'production' || process.env.NODE_CONFIG_ENV === 'staging'
+    ? 'js'
+    : 'ts';
+
+console.log('extension ============> ', extension);
 
 export const config: { [key: string]: Knex.Config } = {
   development: {
@@ -10,11 +17,13 @@ export const config: { [key: string]: Knex.Config } = {
       uri: env.DATABASE_URL,
     },
     migrations: {
-      directory: "migrations",
-      tableName: "knex_migrations"
+      directory: path.join(__dirname, "knex/migrations"),
+      extension: extension,
+      tableName: "knex_migrations",
+      loadExtensions: [`.${extension}`],
     },
     seeds: {
-      directory: "seeds"
+      directory: path.join(__dirname, "knex/seeds"),
     }
   },
 
@@ -30,6 +39,7 @@ export const config: { [key: string]: Knex.Config } = {
       max: 10
     },
     migrations: {
+      directory: "migrations",
       tableName: "knex_migrations"
     }
   },

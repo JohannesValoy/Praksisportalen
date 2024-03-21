@@ -1,5 +1,3 @@
-import { Knex } from "knex";
-
 declare module "knex/types/tables" {
   interface User {
       id: number;

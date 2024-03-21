@@ -1,8 +1,11 @@
 /** @format */
 
 import React from "react";
+import { ListOfUsers } from "@/app/components/listOfStudents";
 
 const ListOfDepartments = async () => {
+  const departments = await ListOfDepartments;
+  const leader = await ListOfUsers.filter((item) => item.role === "employee");
   return (
     <div>
       <div className="flex justify-center mt-4">

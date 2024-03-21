@@ -9,10 +9,11 @@ COPY package.json .
 # Local Development server, does not matter if it is not secure
 # trunk-ignore(checkov/CKV_SECRET_4)
 RUN echo "DATABASE_URL=\"mysql://root:changeme@db:3306/praksislista\"" > .env
+COPY --from=node:18 /usr/local/bin/node /usr/local/bin/node
 RUN bun install
 COPY --chown=app:app . .
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=10 CMD wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
-CMD ["/bin/bash","-c", "bun knex migrate:latest && bun next dev"]
+CMD ["/bin/bash","-c", "bunx knex migrate:latest && bunx knex seed:run && bun next dev"]
 
 # Taken from https://bun.sh/guides/ecosystem/docker
 

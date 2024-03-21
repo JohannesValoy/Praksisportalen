@@ -11,12 +11,14 @@
   "dependencies": {
     "knex": "^3.1.0",
     "mysql2": "^3.9.2",
+    "@syncfusion/ej2-react-gantt": "^25.1.35",
     "next": "^14.1.4",
     "next-auth": "^4.24.7",
     "oracledb": "^6.4.0",
     "pg-query-stream": "^4.5.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-google-charts": "^4.0.1"
   },
   "devDependencies": {
     "@types/bun": "^1.0.10",

@@ -86,7 +86,6 @@ export async function up(knex: Knex): Promise<void> {
         .onDelete("CASCADE");
       table.integer("coordinator_id").unsigned();
       table.foreign("coordinator_id").references("id").inTable("users");
-
       table.integer("studyProgram_id").unsigned().notNullable();
       table
         .foreign("studyProgram_id")

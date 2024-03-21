@@ -78,26 +78,16 @@ export async function up(knex: Knex): Promise<void> {
       table.string("status").notNullable();
       table.date("startDate").notNullable();
       table.date("endDate").notNullable();
-      table.integer("student_id").unsigned().notNullable();
+      table.integer("student_id").unsigned()
       table
         .foreign("student_id")
         .references("id")
         .inTable("users")
         .onDelete("CASCADE");
-<<<<<<<< HEAD:src/knex/migrations/20240321100354_init.ts
-      table.integer("coordinator_id").unsigned();
-      table.foreign("coordinator_id").references("id").inTable("users");
-      table.integer("studyProgram_id").unsigned().notNullable();
-      table
-        .foreign("studyProgram_id")
-        .references("id")
-        .inTable("studyPrograms");
-========
-      table.integer("coordinator_id").unsigned().notNullable();
+      table.integer("coordinator_id").unsigned()
       table.foreign("coordinator_id").references("id").inTable("users");
       table.integer("studyProgram_id").unsigned().notNullable();
       table.foreign("studyProgram_id").references("id").inTable("studyProgram");
->>>>>>>> 7b2ee89 (Missing getting seed to work):knex/migrations/20240321100354_init.ts
       table.integer("internship_id").unsigned().notNullable();
       table
         .foreign("internship_id")
@@ -115,6 +105,3 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     });
-}
-
-export async function down(knex: Knex): Promise<void> {}

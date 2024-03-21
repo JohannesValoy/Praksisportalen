@@ -11,7 +11,6 @@ const ListOfDepartments = async () => {
       <div className="flex justify-center mt-4">
         <div className="overflow-x-auto w-full p-4">
           <h1 className="text-3xl font-semibold">List of Users</h1>
-
           <div>
             <table className="table my-4">
               {users.map((user, index) => (

@@ -1,6 +1,4 @@
 FROM oven/bun:debian AS base
-#Prisma requires node
-COPY --from=node:18 /usr/local/bin/node /usr/local/bin/node
 #For healthcheck
 RUN apt-get update && apt-get install -y wget && apt-get clean
 WORKDIR /app
@@ -13,15 +11,8 @@ COPY package.json .
 RUN echo "DATABASE_URL=\"mysql://root:changeme@db:3306/praksislista\"" > .env
 RUN bun install
 COPY --chown=app:app . .
-RUN bun prisma generate
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=10 CMD wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
-CMD ["/bin/bash","-c", "bun next dev"]
-
-FROM dev AS prismaBrowser
-COPY  --from=dev /app/.env /app/.env
-COPY --from=dev /app/node_modules /app/node_modules
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=10 CMD wget --no-verbose --tries=1 --spider http://localhost:5555 || exit 1
-CMD ["/bin/bash","-c", "bun prisma migrate deploy && bun prisma db seed -- development && bun prisma studio --port 5555 --browser none"]
+CMD ["/bin/bash","-c", "bun knex migrate:latest && bun next dev"]
 
 # Taken from https://bun.sh/guides/ecosystem/docker
 

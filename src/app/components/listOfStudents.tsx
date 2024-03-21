@@ -2,10 +2,9 @@
 /** @format */
 
 import React from "react";
-import prisma from "../module/prismaClient";
 
 const ListOfDepartments = async () => {
-  const users = await prisma.candidate.findMany();
+  const users = await knex("ListOfUsers").where("role", "student").select("*");
   return (
     <div>
       <div className="flex justify-center mt-4">
@@ -20,11 +19,7 @@ const ListOfDepartments = async () => {
                       <div className="flex items-center gap-3">
                         <div className="avatar">
                           <div className="mask mask-squircle w-12 h-12">
-                            <img
-                              //imports Example profile picture
-                              src="example-profile-picture.jpg"
-                              alt="Avatar Tailwind CSS Component"
-                            />
+                            <img alt="Avatar Tailwind CSS Component" />
                           </div>
                         </div>
                         <div>

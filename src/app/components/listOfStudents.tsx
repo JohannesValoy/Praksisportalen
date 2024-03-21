@@ -2,10 +2,9 @@
 /** @format */
 
 import React from "react";
-import prisma from "../module/prismaClient";
+
 
 const ListOfDepartments = async () => {
-  const users = await prisma.candidate.findMany();
   return (
     <div>
       <div className="flex justify-center mt-4">

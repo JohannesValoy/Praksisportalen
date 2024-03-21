@@ -1,7 +1,6 @@
 /** @format */
 
 import Link from "next/link";
-import prisma from "../module/prismaClient";
 export default async function Page() {
   return (
     <main className="container mx-auto flex flex-row items-start justify-center mt-20 space-x-4">

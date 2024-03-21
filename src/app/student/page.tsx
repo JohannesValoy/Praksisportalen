@@ -1,5 +1,5 @@
 /** @format */
-
+"use client";
 // `app/page.tsx` is the UI for the `/` URL
 import Gantt from "../components/Gantt";
 export default function Page() {

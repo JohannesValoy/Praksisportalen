@@ -10,26 +10,24 @@ const ListOfDepartments = async () => {
       <div className="flex justify-center mt-4">
         <div className="overflow-x-auto w-full p-4">
           <h1 className="text-3xl font-semibold">List of Users</h1>
-          <table className="table my-4">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th></th>
-              </tr>
-            </thead>
-            {users.map((user, index) => (
-              <tbody key={index}>
-                <tr>
-                  <td>
-                    <div className="flex items-center gap-3">
-                      <div className="avatar">
-                        <div className="mask mask-squircle w-12 h-12">
-                          <img
-                            //imports Example profile picture
-                            src="Example-profile-picture.jpg"
-                            alt="Avatar Tailwind CSS Component"
-                          />
+          <div>
+            <table className="table my-4">
+              {users.map((user, index) => (
+                <tbody key={index}>
+                  <tr>
+                    <td>
+                      <div className="flex items-center gap-3">
+                        <div className="avatar">
+                          <div className="mask mask-squircle w-12 h-12">
+                            <img
+                              //imports Example profile picture
+                              src="Example-profile-picture.jpg"
+                              alt="Avatar Tailwind CSS Component"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="font-bold">{user?.name}</div>
                         </div>
                       </div>
                       <div>

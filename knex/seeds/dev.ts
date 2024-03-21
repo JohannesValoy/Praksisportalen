@@ -4,6 +4,16 @@ import { Knex } from "knex";
  * @returns { Promise<void> }
  */
 exports.seed = async function (knex: Knex) {
+  // Deletes ALL existing entries
+  await knex("timeIntervals").del();
+  await knex("internshipAgreements").del();
+  await knex("studyPrograms").del();
+  await knex("educationInstitutions").del();
+  await knex("internships").del();
+  await knex("sections").del();
+  await knex("departments").del();
+  await knex("users").del();
+  // Inserts seed entries
   await knex("users").insert([
     // Admins
     {

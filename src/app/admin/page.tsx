@@ -12,10 +12,10 @@ export default async function Page() {
         Administrer Studier
       </Link>
       <Link
-        href="/admin/administerTeachers"
+        href="/admin/administerCoordinators"
         className="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
       >
-        Administrer Lærere
+        Administrer Kordinatorer
       </Link>
       <Link
         href="/admin/administerEmployees"

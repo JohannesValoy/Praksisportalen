@@ -1,12 +1,29 @@
 import type { Knex } from "knex";
+import path from "path";
+import { env } from "node:process";
 
 // Update with your config settings.
+const extension =
+  process.env.NODE_CONFIG_ENV === 'production' || process.env.NODE_CONFIG_ENV === 'staging'
+    ? 'js'
+    : 'ts';
 
-const config: { [key: string]: Knex.Config } = {
+console.log('extension ============> ', extension);
+
+export const config: { [key: string]: Knex.Config } = {
   development: {
-    client: "sqlite3",
+    client: "mysql2",
     connection: {
-      filename: "./dev.sqlite3"
+      uri: env.DATABASE_URL,
+    },
+    migrations: {
+      directory: path.join(__dirname, "knex/migrations"),
+      extension: extension,
+      tableName: "knex_migrations",
+      loadExtensions: [`.${extension}`],
+    },
+    seeds: {
+      directory: path.join(__dirname, "knex/seeds"),
     }
   },
 
@@ -22,6 +39,7 @@ const config: { [key: string]: Knex.Config } = {
       max: 10
     },
     migrations: {
+      directory: "migrations",
       tableName: "knex_migrations"
     }
   },
@@ -38,10 +56,10 @@ const config: { [key: string]: Knex.Config } = {
       max: 10
     },
     migrations: {
+      directory: "migrations",
       tableName: "knex_migrations"
     }
   }
+}
 
-};
-
-module.exports = {config};
+export default config;

@@ -16,6 +16,9 @@ services:
           target: /app/public
         - action: rebuild
           path: package.json
+        - action : sync+restart
+          path: ./knex
+          target: /app/knex
     depends_on:
       db:
         condition: service_healthy
@@ -23,6 +26,7 @@ services:
       - 3000:3000
 
   adminer:
+    image: adminer
     profiles:
       - dev
     depends_on:

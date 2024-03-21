@@ -12,7 +12,7 @@ RUN echo "DATABASE_URL=\"mysql://root:changeme@db:3306/praksislista\"" > .env
 RUN bun install
 COPY --chown=app:app . .
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=10 CMD wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
-CMD ["/bin/bash","-c", "bun next dev"]
+CMD ["/bin/bash","-c", "bun knex migrate:latest && bun next dev"]
 
 # Taken from https://bun.sh/guides/ecosystem/docker
 

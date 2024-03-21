@@ -21,7 +21,7 @@ const ListOfDepartments = async () => {
                           <div className="mask mask-squircle w-12 h-12">
                             <img
                               //imports Example profile picture
-                              src="Example-profile-picture.jpg"
+                              src="example-profile-picture.jpg"
                               alt="Avatar Tailwind CSS Component"
                             />
                           </div>

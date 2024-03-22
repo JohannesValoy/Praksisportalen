@@ -1,4 +1,7 @@
+/** @format */
+
 import DBclient from "@/knex/config/DBClient";
+import ListOfDepartments from "../components/listOfDepartments";
 
 /** @format */
 export default async function Page() {
@@ -6,11 +9,7 @@ export default async function Page() {
   return (
     <main>
       <h1>Departments</h1>
-      <ul>
-        {departments.map((department) => (
-          <li key={department.id}>{department.name}</li>
-        ))}
-      </ul>
+      <ListOfDepartments />
     </main>
   );
 }

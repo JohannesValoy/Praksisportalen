@@ -297,18 +297,19 @@ const Gantt = () => {
 };
 export default Gantt;
  */
+
 import React from "react";
 
 // Your updated data list
 const datalist = [
   ["Section 1", new Date(2024, 3, 9), new Date(2024, 3, 25)],
   ["Section 2", new Date(2024, 4, 28), new Date(2024, 5, 25)],
-  ["Section 2", new Date(2024, 1, 28), new Date(2024, 2, 20)],
+  ["Section 2", new Date(2024, 0, 25), new Date(2024, 2, 20)],
   ["Section 3", new Date(2024, 2, 23), new Date(2024, 3, 5)],
   ["Section 4", new Date(2024, 3, 27), new Date(2024, 4, 8)],
   ["Section 5", new Date(2024, 4, 9), new Date(2024, 4, 28)],
-  ["Section 6", new Date(2024, 9, 28), new Date(2024, 10, 2)],
-  ["Section 7", new Date(2024, 7, 28), new Date(2024, 8, 18)],
+  ["Section 6", new Date(2024, 9, 28), new Date(2024, 10, 1)],
+  ["Section 6", new Date(2024, 7, 28), new Date(2024, 8, 18)],
   ["Section 8", new Date(2024, 6, 28), new Date(2024, 7, 15)],
   ["Section 9", new Date(2024, 5, 28), new Date(2024, 6, 20)],
   ["Section 11", new Date(2024, 8, 28), new Date(2024, 9, 12)],
@@ -324,12 +325,12 @@ const Gantt = () => {
   // Calculate month markers
   const monthMarkers = [];
   let currentMonth = new Date(minStartDate);
-  if (currentMonth.getDate() > 1) {
+  if (currentMonth.getDate() > 0) {
     currentMonth.setMonth(currentMonth.getMonth() + 1);
   }
   currentMonth.setDate(1); // Set to the first day of the month
 
-  while (currentMonth.getTime() < maxEndDate) {
+  while (currentMonth.getTime() < maxEndDate + 1) {
     const monthStart = currentMonth.getTime();
     const offsetPercent = ((monthStart - minStartDate) / totalTime) * 100;
 
@@ -351,15 +352,23 @@ const Gantt = () => {
           className="flex flex-row gap-2"
           style={{ height: "90%", width: "95%" }}
         >
-          <div
-            className="flex flex-col justify-around"
-            style={{ width: "10rem" }}
-          >
+          <div className="flex flex-col" style={{ width: "10rem" }}>
             {datalist.map((item, index) => (
-              <div key={index}>{item[0]}</div>
+              <div
+                style={{
+                  height: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                key={index}
+              >
+                {item[0]}
+              </div>
             ))}
           </div>
-          <div className="bg-gray-700 p-2 rounded-lg flex-1 flex flex-col relative h-full">
+
+          <div className="bg-gray-700 rounded-lg flex-1 flex flex-col relative h-full">
             {/* Bars */}
             {datalist.map((item, index) => {
               const [section, startDate, endDate] = item;
@@ -370,11 +379,12 @@ const Gantt = () => {
               return (
                 <div
                   key={index}
-                  className="bg-gray-400 p-2 rounded-lg mb-1"
+                  className="bg-gray-400  rounded-lg mb-1"
                   style={{
                     width: `${widthPercent}%`,
                     marginLeft: `${marginLeftPercent}%`,
                     height: "100%",
+                    zIndex: 99,
                   }}
                 ></div>
               );
@@ -383,10 +393,12 @@ const Gantt = () => {
             {monthMarkers.map((marker, index) => (
               <div
                 key={index}
-                className="absolute bg-blue-500"
+                className="absolute"
                 style={{
+                  backgroundColor: "rgba(150, 150, 150, 0.5)",
                   height: "100%",
                   width: "2px",
+                  transform: "translateX(-50%)",
                   left: `${marker.offsetPercent}%`,
                 }}
               >

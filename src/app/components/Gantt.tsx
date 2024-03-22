@@ -297,7 +297,6 @@ const Gantt = () => {
 };
 export default Gantt;
  */
-
 import React from "react";
 
 // Your updated data list
@@ -376,18 +375,19 @@ const Gantt = () => {
               const offset = startDate.getTime() - minStartDate;
               const widthPercent = (duration / totalTime) * 100;
               const marginLeftPercent = (offset / totalTime) * 100;
-              return (
-                <div
-                  key={index}
-                  className="bg-gray-400  rounded-lg mb-1"
-                  style={{
-                    width: `${widthPercent}%`,
-                    marginLeft: `${marginLeftPercent}%`,
-                    height: "100%",
-                    zIndex: 99,
-                  }}
-                ></div>
-              );
+              if (index + 1)
+                return (
+                  <div
+                    key={index}
+                    className="bg-gray-400  rounded-lg mb-1"
+                    style={{
+                      width: `${widthPercent}%`,
+                      marginLeft: `${marginLeftPercent}%`,
+                      height: "100%",
+                      zIndex: 99,
+                    }}
+                  ></div>
+                );
             })}
             {/* Month Markers */}
             {monthMarkers.map((marker, index) => (

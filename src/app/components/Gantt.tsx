@@ -333,7 +333,6 @@ const Gantt = () => {
     const monthStart = currentMonth.getTime();
     const offsetPercent = ((monthStart - minStartDate) / totalTime) * 100;
 
-    currentMonth.setMonth(currentMonth.getMonth() - 1);
     monthMarkers.push({
       label: currentMonth.toLocaleString("default", {
         month: "short",

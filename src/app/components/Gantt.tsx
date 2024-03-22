@@ -10,8 +10,8 @@ const datalist = [
   ["Section 3", new Date(2024, 2, 23), new Date(2024, 3, 5)],
   ["Section 3", new Date(2024, 3, 27), new Date(2024, 4, 8)],
   ["Section 6", new Date(2024, 4, 9), new Date(2024, 4, 28)],
-  ["Section 6", new Date(2024, 9, 28), new Date(2024, 10, 1)],
-  ["Section 6", new Date(2024, 7, 28), new Date(2024, 8, 18)],
+  ["Section 6", new Date(2024, 9, 28), new Date(2024, 10, 31)],
+  ["Section 6", new Date(2024, 8, 1), new Date(2024, 9, 1)],
   ["Section 9", new Date(2024, 6, 28), new Date(2024, 7, 15)],
   ["Section 9", new Date(2024, 5, 28), new Date(2024, 6, 20)],
   ["Section 9", new Date(2024, 8, 28), new Date(2024, 9, 12)],
@@ -39,7 +39,6 @@ const Gantt = () => {
     monthMarkers.push({
       label: currentMonth.toLocaleString("default", {
         month: "short",
-        year: "numeric",
       }),
       offsetPercent,
     });
@@ -57,7 +56,10 @@ const Gantt = () => {
   }, {});
 
   return (
-    <div className="bg-gray-800 p-5 rounded-lg flex flex-col items-center justify-center w-full h-full">
+    <div
+      className="bg-gray-800 p-5 rounded-lg flex flex-col items-center justify-center"
+      style={{ height: "70%", width: "70%" }}
+    >
       <h1>Timeline</h1>
       <div className="flex flex-col w-full h-full">
         <div
@@ -119,7 +121,7 @@ const Gantt = () => {
                   backgroundColor: "rgba(150, 150, 150, 0.5)",
                   height: "100%",
                   width: "2px",
-                  transform: "translateX(-50%)",
+                  transform: "translateX(-100%)",
                   left: `${marker.offsetPercent}%`,
                 }}
               >

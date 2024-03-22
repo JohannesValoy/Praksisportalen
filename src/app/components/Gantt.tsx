@@ -44,7 +44,7 @@ const Gantt = ({ datalist }) => {
 
   return (
     <div
-      className="bg-gray-800 p-5 rounded-lg flex flex-col items-center justify-center"
+      className="dark:bg-gray-800 bg-gray-100  p-5 rounded-lg flex flex-col items-center justify-center"
       style={{ height: "70%", width: "70%" }}
     >
       <h1>Timeline</h1>
@@ -55,7 +55,11 @@ const Gantt = ({ datalist }) => {
         >
           <div
             className="flex flex-col"
-            style={{ width: "fit-content", padding: "2%" }}
+            style={{
+              width: "fit-content",
+              paddingLeft: "2%",
+              paddingRight: "2%",
+            }}
           >
             {Object.keys(groupedData).map((section, index) => (
               <div
@@ -72,7 +76,7 @@ const Gantt = ({ datalist }) => {
             ))}
           </div>
 
-          <div className="bg-gray-700 rounded-lg flex-1 flex flex-col relative h-full">
+          <div className="dark:bg-gray-700 bg-gray-200  rounded-lg flex-1 flex flex-col relative h-full">
             {/* Bars */}
             {Object.values(groupedData).map((dateRanges, index) => (
               <div
@@ -92,15 +96,28 @@ const Gantt = ({ datalist }) => {
                   return (
                     <div
                       key={index}
-                      className="bg-gray-400 rounded-lg mb-1"
                       style={{
                         width: `${widthPercent}%`,
                         marginLeft: `${marginLeftPercent}%`,
                         height: "100%",
                         position: "absolute",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
                         zIndex: 99,
                       }}
-                    ></div>
+                    >
+                      <div
+                        className="bg-blue-500"
+                        style={{
+                          opacity: 0.7,
+                          borderRadius: "5px",
+                          height: "50%",
+                          width: "100%",
+                          border: "1px solid black",
+                        }}
+                      ></div>
+                    </div>
                   );
                 })}
               </div>

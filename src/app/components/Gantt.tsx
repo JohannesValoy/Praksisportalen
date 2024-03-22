@@ -303,7 +303,7 @@ import React from "react";
 const datalist = [
   ["Section 1", new Date(2024, 3, 9), new Date(2024, 3, 25)],
   ["Section 2", new Date(2024, 4, 28), new Date(2024, 5, 25)],
-  ["Section 2", new Date(2024, 2, 1), new Date(2024, 2, 20)],
+  ["Section 2", new Date(2024, 1, 28), new Date(2024, 2, 20)],
   ["Section 3", new Date(2024, 2, 23), new Date(2024, 3, 5)],
   ["Section 4", new Date(2024, 3, 27), new Date(2024, 4, 8)],
   ["Section 5", new Date(2024, 4, 9), new Date(2024, 4, 28)],
@@ -324,11 +324,16 @@ const Gantt = () => {
   // Calculate month markers
   const monthMarkers = [];
   let currentMonth = new Date(minStartDate);
+  if (currentMonth.getDate() > 1) {
+    currentMonth.setMonth(currentMonth.getMonth() + 1);
+  }
   currentMonth.setDate(1); // Set to the first day of the month
 
   while (currentMonth.getTime() < maxEndDate) {
     const monthStart = currentMonth.getTime();
     const offsetPercent = ((monthStart - minStartDate) / totalTime) * 100;
+
+    currentMonth.setMonth(currentMonth.getMonth() - 1);
     monthMarkers.push({
       label: currentMonth.toLocaleString("default", {
         month: "short",

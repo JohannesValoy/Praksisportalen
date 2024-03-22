@@ -30,9 +30,6 @@ export default function RootLayout({
           <img src="/logo-helse-mr.svg" alt="Description" className="h-8" />
           <div className="flex space-x-6 items-center">
             <Link href="/">Home</Link>
-            <Link href="/coordinator/administerStudents">
-              Administer Students
-            </Link>
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn m-1">
                 Settings

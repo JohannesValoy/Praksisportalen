@@ -27,7 +27,16 @@ const ListOfUsers = ({ role }: { role: string }) => {
                       <div className="flex items-center gap-3">
                         <div className="avatar">
                           <div className="mask mask-squircle w-12 h-12">
-                            <img alt="Avatar Tailwind CSS Component" />
+                            <img
+                              src="/example-profile-picture.jpg"
+                              alt="Description"
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                objectPosition: "center",
+                              }}
+                            />
                           </div>
                         </div>
                         <div>

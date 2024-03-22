@@ -2,19 +2,22 @@
 /** @format */
 
 "use client";
-import React, { useEffect, useState } from "react";
-const ListOfStudents = () => {
+import React, { useState, useEffect } from "react";
+
+const ListOfUsers = ({ role }: { role: string }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch("/api/users/students").then((res) => res.json().then(setUsers));
-  }, []);
-
+    fetch(`/api/users?role=${role}`) // Adjusted the fetch URL to match backend routing.
+      .then((res) => res.json())
+      .then((data) => setUsers(data)) // Ensure proper data handling.
+      .catch((error) => console.error("Failed to fetch users", error)); // Error handling.
+  }, [role]);
   return (
     <div>
       <div className="flex justify-center mt-4">
         <div className="overflow-x-auto w-full p-4">
-          <h1 className="text-3xl font-semibold">List of Students</h1>
+          <h1 className="text-3xl font-semibold">List of {role}s</h1>
           <div>
             <table className="table my-4">
               {users.map((user, index) => (
@@ -47,4 +50,4 @@ const ListOfStudents = () => {
   );
 };
 
-export default ListOfStudents;
+export default ListOfUsers;

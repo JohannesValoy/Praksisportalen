@@ -1,8 +1,7 @@
 import Knex from 'knex';
+import KnexConfig from "@/../knexfile";
 
 const evn = process.env.NODE_ENV || 'development';
-console.log("Hello world")
-const config = require('../knexfile').config;
-const DBclient = Knex(config[evn]);
+const DBclient = Knex(KnexConfig[evn]);
 
 export default DBclient;

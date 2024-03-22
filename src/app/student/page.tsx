@@ -1,6 +1,5 @@
 /** @format */
 
-"use client";
 import dynamic from "next/dynamic";
 import prisma from "../module/prismaClient";
 import Gantt from "../components/Gantt";
@@ -8,11 +7,16 @@ import Gantt from "../components/Gantt";
 export default function Page() {
   const datalist = [
     ["Section 1", new Date(2024, 3, 9), new Date(2024, 3, 25)],
-    ["Section 1", new Date(2024, 2, 3), new Date(2024, 2, 20)],
+    ["Section 2", new Date(2024, 0, 25), new Date(2024, 2, 20)],
+    ["Section 2", new Date(2024, 4, 28), new Date(2024, 5, 25)],
     ["Section 3", new Date(2024, 2, 23), new Date(2024, 3, 5)],
-    ["Section 2", new Date(2024, 3, 27), new Date(2024, 4, 8)],
-    ["Section 4", new Date(2024, 4, 9), new Date(2024, 4, 28)],
-    ["Section ", new Date(2024, 4, 28), new Date(2024, 5, 12)],
+    ["Section 3", new Date(2024, 3, 27), new Date(2024, 4, 8)],
+    ["Section 6", new Date(2024, 4, 9), new Date(2024, 4, 28)],
+    ["Section 6", new Date(2024, 9, 28), new Date(2024, 10, 31)],
+    ["Section 6", new Date(2024, 8, 1), new Date(2024, 9, 1)],
+    ["Section 9", new Date(2024, 6, 28), new Date(2024, 7, 15)],
+    ["Section 9", new Date(2024, 5, 28), new Date(2024, 6, 20)],
+    ["Section 9", new Date(2024, 8, 28), new Date(2024, 9, 12)],
   ];
 
   return (

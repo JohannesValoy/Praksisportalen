@@ -2,7 +2,7 @@
 interface FeideUser  {
     userid: string;
     email: string;
-    profile : Dict<string>;
+    profile : any;
     openid: string;
 }
 

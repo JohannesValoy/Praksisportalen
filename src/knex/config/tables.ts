@@ -29,7 +29,7 @@ declare module "knex/types/tables.js" {
     updated_at: Date;
   }
 
-  interface Sector {
+  interface Section {
     id: number;
     name: string;
     type: string;
@@ -67,7 +67,7 @@ declare module "knex/types/tables.js" {
     updated_at: Date;
   }
 
-  interface InternshipAgreements {
+  interface internshipAgreements {
     id: number;
     status: string;
     startDate: Date;
@@ -80,22 +80,14 @@ declare module "knex/types/tables.js" {
     updated_at: Date;
   }
 
-  interface Session {
-    id: number;
-    userId: number;
-    sessionToken: string;
-    expires: Date;
-  }
-
   interface Tables {
     users: User;
     departments: Department;
     accounts: Account;
-    sectors: Sector;
+    sectors: Section;
     internships: Internship;
     educationInstitutions: EducationInstitution;
     studyPrograms: StudyProgram;
-    internshipAgreements: InternshipAgreements;
-    sessions: Session;
+    internshipAgreements: internshipAgreements;
   }
 }

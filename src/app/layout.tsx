@@ -24,12 +24,18 @@ export default function RootLayout({
           className="flex justify-between p-4 items-center"
           style={{
             backgroundColor: "rgb(var(--accent-color))",
-            color: "rgb(var(--accent-text-color))",
           }}
         >
           <img src="/logo-helse-mr.svg" alt="Description" className="h-8" />
           <div className="flex space-x-6 items-center">
-            <Link href="/">Home</Link>
+            <Link
+              href="/"
+              style={{
+                color: "rgb(var(--accent-text-color))",
+              }}
+            >
+              Home
+            </Link>
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn m-1">
                 Settings

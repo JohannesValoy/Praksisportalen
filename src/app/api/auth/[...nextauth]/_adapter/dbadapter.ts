@@ -1,4 +1,4 @@
-import knex, { Knex } from "knex";
+import { Knex } from "knex";
 import type { User } from "knex/types/tables.js";
 import { Account } from "next-auth";
 import {

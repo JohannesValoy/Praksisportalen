@@ -1,5 +1,4 @@
-/** @format */
-"use server";
+/** @format */ "use client";
 
 import React from "react";
 

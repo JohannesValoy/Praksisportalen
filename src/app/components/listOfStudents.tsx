@@ -1,6 +1,7 @@
 /** @format */
 /** @format */
 
+import knex from "knex";
 import React from "react";
 
 const ListOfDepartments = async () => {

@@ -1,14 +1,9 @@
 /** @format */
 
-import DBclient from "@/knex/config/DBClient";
-import ListOfDepartments from "../components/listOfDepartments";
-
-/** @format */
-export default async function Page() {
-  const departments = await DBclient.from("departments").select("*");
+import ListOfDepartments from "@/app/components/listOfDepartments";
+export default function Page() {
   return (
     <main>
-      <h1>Departments</h1>
       <ListOfDepartments />
     </main>
   );

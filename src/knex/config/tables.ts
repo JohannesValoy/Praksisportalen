@@ -1,4 +1,6 @@
-declare module "knex/types/tables" {
+import { Knex } from "knex";
+
+declare module "knex/types/tables.js" {
   interface User {
       id: number;
       email: string;
@@ -7,18 +9,15 @@ declare module "knex/types/tables" {
       updated_at: Date;
   }
 
-    interface Departments {
-        departments: {
+    interface Department {
         id: number;
         name: string;
         created_at: Date;
         updated_at: Date;
-        };
     }
 
     interface Tables {
         users: User;
-        departments: Departments;
-
+        departments: Department;
     }
 }

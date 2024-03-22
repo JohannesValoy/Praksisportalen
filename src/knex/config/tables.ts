@@ -1,3 +1,5 @@
+/** @format */
+
 import { Knex } from "knex";
 
 declare module "knex/types/tables.js" {
@@ -29,7 +31,7 @@ declare module "knex/types/tables.js" {
     updated_at: Date;
   }
 
-  interface Sector {
+  interface Section {
     id: number;
     name: string;
     type: string;
@@ -84,7 +86,7 @@ declare module "knex/types/tables.js" {
     users: User;
     departments: Department;
     accounts: Account;
-    sectors: Sector;
+    sectors: Section;
     internships: Internship;
     educationInstitutions: EducationInstitution;
     studyPrograms: StudyProgram;

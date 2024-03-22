@@ -1,16 +1,20 @@
 /** @format */
 /** @format */
 
-import knex from "knex";
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
+const ListOfStudents = () => {
+  const [users, setUsers] = useState([]);
 
-const ListOfDepartments = async () => {
-  const users = await knex("ListOfUsers").where("role", "student").select("*");
+  useEffect(() => {
+    fetch("/api/users/students").then((res) => res.json().then(setUsers));
+  }, []);
+
   return (
     <div>
       <div className="flex justify-center mt-4">
         <div className="overflow-x-auto w-full p-4">
-          <h1 className="text-3xl font-semibold">List of Users</h1>
+          <h1 className="text-3xl font-semibold">List of Students</h1>
           <div>
             <table className="table my-4">
               {users.map((user, index) => (
@@ -29,7 +33,6 @@ const ListOfDepartments = async () => {
                       </div>
                     </td>
                     <td>{user?.email}</td>
-                    <td>{user?.createdAt.toLocaleDateString()}</td>
                     <th>
                       <button className="btn btn-ghost btn-xs">details</button>
                     </th>
@@ -44,4 +47,4 @@ const ListOfDepartments = async () => {
   );
 };
 
-export default ListOfDepartments;
+export default ListOfStudents;

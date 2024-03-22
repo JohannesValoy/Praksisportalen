@@ -1,23 +1,11 @@
 /** @format */
+"use server";
 
 import React from "react";
 
 // Your updated data list
-const datalist = [
-  ["Section 1", new Date(2024, 3, 9), new Date(2024, 3, 25)],
-  ["Section 2", new Date(2024, 0, 25), new Date(2024, 2, 20)],
-  ["Section 2", new Date(2024, 4, 28), new Date(2024, 5, 25)],
-  ["Section 3", new Date(2024, 2, 23), new Date(2024, 3, 5)],
-  ["Section 3", new Date(2024, 3, 27), new Date(2024, 4, 8)],
-  ["Section 6", new Date(2024, 4, 9), new Date(2024, 4, 28)],
-  ["Section 6", new Date(2024, 9, 28), new Date(2024, 10, 31)],
-  ["Section 6", new Date(2024, 8, 1), new Date(2024, 9, 1)],
-  ["Section 9", new Date(2024, 6, 28), new Date(2024, 7, 15)],
-  ["Section 9", new Date(2024, 5, 28), new Date(2024, 6, 20)],
-  ["Section 9", new Date(2024, 8, 28), new Date(2024, 9, 12)],
-];
 
-const Gantt = () => {
+const Gantt = ({ datalist }) => {
   const startDates = datalist.map((item) => item[1].getTime());
   const endDates = datalist.map((item) => item[2].getTime());
   const minStartDate = Math.min(...startDates);
@@ -66,7 +54,10 @@ const Gantt = () => {
           className="flex flex-row gap-2"
           style={{ height: "90%", width: "95%" }}
         >
-          <div className="flex flex-col" style={{ width: "10rem" }}>
+          <div
+            className="flex flex-col"
+            style={{ width: "fit-content", padding: "2%" }}
+          >
             {Object.keys(groupedData).map((section, index) => (
               <div
                 style={{
@@ -91,6 +82,9 @@ const Gantt = () => {
                 style={{ height: "100%", position: "relative" }}
               >
                 {dateRanges.map((dateRange, index) => {
+                  // TODO - Should properly handle overlapping date ranges
+                  //TODO - Add a tooltip to show the date range
+                  //TODO - Add a label to show the section name
                   const [startDate, endDate] = dateRange;
                   const duration = endDate.getTime() - startDate.getTime();
                   const offset = startDate.getTime() - minStartDate;

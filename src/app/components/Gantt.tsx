@@ -44,8 +44,12 @@ const Gantt = ({ datalist }) => {
 
   return (
     <div
-      className="dark:bg-gray-800 bg-gray-100  p-5 rounded-lg flex flex-col items-center justify-center"
-      style={{ height: "70%", width: "70%" }}
+      className="dark:bg-neutral-800 bg-neutral-50  p-5 rounded-lg flex flex-col items-center justify-center"
+      style={{
+        height: "70%",
+        width: "70%",
+        border: "1px solid rgba(100,100,100,0.2)",
+      }}
     >
       <h1>Timeline</h1>
       <div className="flex flex-col w-full h-full">
@@ -61,6 +65,7 @@ const Gantt = ({ datalist }) => {
               paddingRight: "2%",
             }}
           >
+            {/* Section Labels */}
             {Object.keys(groupedData).map((section, index) => (
               <div
                 style={{
@@ -76,7 +81,7 @@ const Gantt = ({ datalist }) => {
             ))}
           </div>
 
-          <div className="dark:bg-gray-700 bg-gray-200  rounded-lg flex-1 flex flex-col relative h-full">
+          <div className="dark:bg-neutral-700 bg-neutral-200  rounded-lg flex-1 flex flex-col relative h-full">
             {/* Bars */}
             {Object.values(groupedData).map((dateRanges, index) => (
               <div
@@ -85,9 +90,6 @@ const Gantt = ({ datalist }) => {
                 style={{ height: "100%", position: "relative" }}
               >
                 {dateRanges.map((dateRange, index) => {
-                  // TODO - Should properly handle overlapping date ranges
-                  //TODO - Add a tooltip to show the date range
-                  //TODO - Add a label to show the section name
                   const [startDate, endDate] = dateRange;
                   const duration = endDate.getTime() - startDate.getTime();
                   const offset = startDate.getTime() - minStartDate;
@@ -114,7 +116,7 @@ const Gantt = ({ datalist }) => {
                           borderRadius: "5px",
                           height: "50%",
                           width: "100%",
-                          border: "1px solid black",
+                          border: "1px solid rgba(100,100,100,0.5)",
                         }}
                       ></div>
                     </div>
@@ -126,9 +128,8 @@ const Gantt = ({ datalist }) => {
             {monthMarkers.map((marker, index) => (
               <div
                 key={index}
-                className="absolute"
+                className="absolute bg-neutral-400 bg-opacity-50"
                 style={{
-                  backgroundColor: "rgba(150, 150, 150, 0.5)",
                   height: "100%",
                   width: "2px",
                   transform: "translateX(-100%)",
@@ -139,7 +140,7 @@ const Gantt = ({ datalist }) => {
                   style={{
                     position: "absolute",
                     bottom: "0",
-                    transform: "translateY(105%)",
+                    transform: "translateY(105%) translateX(-50%)",
                   }}
                 >
                   {marker.label}

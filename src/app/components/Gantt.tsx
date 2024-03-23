@@ -2,11 +2,13 @@
 
 import React from "react";
 
-// Your updated data list
-
 const Gantt = ({ datalist }) => {
-  const startDates = datalist.map((item) => item[1].getTime());
-  const endDates = datalist.map((item) => item[2].getTime());
+  const startDates = datalist.map((item: { getTime: () => any }[]) =>
+    item[1].getTime()
+  );
+  const endDates = datalist.map((item: { getTime: () => any }[]) =>
+    item[2].getTime()
+  );
   const minStartDate = Math.min(...startDates);
   const maxEndDate = Math.max(...endDates);
   const totalTime = maxEndDate - minStartDate;

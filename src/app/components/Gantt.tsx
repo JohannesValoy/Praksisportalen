@@ -112,11 +112,9 @@ const Gantt = ({ datalist }) => {
                       <div
                         className="bg-blue-500"
                         style={{
-                          opacity: 0.7,
                           borderRadius: "5px",
                           height: "50%",
                           width: "100%",
-                          border: "1px solid rgba(100,100,100,0.5)",
                         }}
                       ></div>
                     </div>
@@ -128,10 +126,11 @@ const Gantt = ({ datalist }) => {
             {monthMarkers.map((marker, index) => (
               <div
                 key={index}
-                className="absolute bg-neutral-400 bg-opacity-50"
+                className="absolute bg-blue-200 "
                 style={{
                   height: "100%",
-                  width: "2px",
+                  width: "3px",
+                  borderRadius: "10px",
                   transform: "translateX(-100%)",
                   left: `${marker.offsetPercent}%`,
                 }}

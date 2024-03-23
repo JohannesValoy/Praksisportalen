@@ -1,6 +1,7 @@
 /** @format */
 
 "use client";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 const ListOfDepartments = () => {
   const [departments, setdepartments] = useState([]);
@@ -15,15 +16,32 @@ const ListOfDepartments = () => {
       <table className="table my-5">
         <thead>
           <tr>
+            <th>
+              <label>
+                <input type="checkbox" className="checkbox" />
+              </label>
+            </th>
             <th>Name</th>
             <th>Email</th>
             <th>Created At</th>
-            <th></th>
+            <th>
+              <Link
+                href="/"
+                className="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
+              >
+                Add Department
+              </Link>
+            </th>
           </tr>
         </thead>
         {departments.map((department, index) => (
           <tbody key={index}>
             <tr>
+              <th>
+                <label>
+                  <input type="checkbox" className="checkbox" />
+                </label>
+              </th>
               <th>
                 <div className="font-bold">{department?.name}</div>
               </th>

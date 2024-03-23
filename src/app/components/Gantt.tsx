@@ -1,39 +1,46 @@
-/** @format */ "use client";
+/** @format */
 
 import React from "react";
 
-// Your updated data list
+interface GanttProps {
+  datalist: Array<[string, Date, Date]>;
+}
 
-const Gantt = ({ datalist }) => {
+interface MonthMarker {
+  label: string;
+  offsetPercent: number;
+}
+
+interface DateRange {
+  [key: string]: Array<[Date, Date]>;
+}
+
+const Gantt: React.FC<GanttProps> = ({ datalist }) => {
   const startDates = datalist.map((item) => item[1].getTime());
   const endDates = datalist.map((item) => item[2].getTime());
   const minStartDate = Math.min(...startDates);
   const maxEndDate = Math.max(...endDates);
   const totalTime = maxEndDate - minStartDate;
 
-  // Calculate month markers
-  const monthMarkers = [];
+  const monthMarkers: MonthMarker[] = [];
   let currentMonth = new Date(minStartDate);
   if (currentMonth.getDate() > 0) {
     currentMonth.setMonth(currentMonth.getMonth() + 1);
   }
   currentMonth.setDate(1); // Set to the first day of the month
 
-  while (currentMonth.getTime() < maxEndDate + 1) {
+  while (currentMonth.getTime() < maxEndDate) {
     const monthStart = currentMonth.getTime();
     const offsetPercent = ((monthStart - minStartDate) / totalTime) * 100;
 
     monthMarkers.push({
-      label: currentMonth.toLocaleString("default", {
-        month: "short",
-      }),
+      label: currentMonth.toLocaleString("default", { month: "short" }),
       offsetPercent,
     });
     currentMonth.setMonth(currentMonth.getMonth() + 1);
   }
 
-  // Group data by section
-  const groupedData = datalist.reduce((acc: number, curr: number) => {
+  const groupedData: DateRange = datalist.reduce((acc: DateRange, curr) => {
     const [section, startDate, endDate] = curr;
     if (!acc[section]) {
       acc[section] = [];
@@ -65,7 +72,6 @@ const Gantt = ({ datalist }) => {
               paddingRight: "2%",
             }}
           >
-            {/* Section Labels */}
             {Object.keys(groupedData).map((section, index) => (
               <div
                 style={{
@@ -82,7 +88,6 @@ const Gantt = ({ datalist }) => {
           </div>
 
           <div className="dark:bg-neutral-700 bg-neutral-200  rounded-lg flex-1 flex flex-col relative h-full">
-            {/* Bars */}
             {Object.values(groupedData).map((dateRanges, index) => (
               <div
                 key={index}
@@ -122,7 +127,6 @@ const Gantt = ({ datalist }) => {
                 })}
               </div>
             ))}
-            {/* Month Markers */}
             {monthMarkers.map((marker, index) => (
               <div
                 key={index}

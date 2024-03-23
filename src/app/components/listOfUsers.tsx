@@ -3,6 +3,7 @@
 
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 
 const ListOfUsers = ({ role }: { role: string }) => {
   const [users, setUsers] = useState<User[]>([]);
@@ -36,15 +37,14 @@ const ListOfUsers = ({ role }: { role: string }) => {
             <tbody key={index}>
               <tr>
                 <th>
-                  <div className="mask mask-squircle w-12 h-12">
-                    <img
+                  <div className="mask mask-squircle w-12 h-12 overflow-hidden">
+                    <Image
                       src="/example-profile-picture.jpg"
                       alt="Description"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
+                      className=" bg-neutral-300 h-full object-cover"
+                      width={100}
+                      height={100}
+                      objectFit="cover"
                     />
                   </div>
                 </th>

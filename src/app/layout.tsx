@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,8 +23,16 @@ export default function RootLayout({
       <body
         className={`${inter.className} flex flex-col dark:bg-neutral-900 bg-white dark:text-neutral-100 text-black`}
       >
-        <header className="flex justify-between p-4 items-center dark:bg-neutral-800 shadow-md ">
-          <img src="/logo-helse-mr.svg" alt="Description" className="h-8" />
+        <header className="flex justify-between p-4 items-center dark:bg-neutral-800 shadow-">
+          <Link href={"/"}>
+            <Image
+              src="/logo-helse-mr.svg"
+              alt="Description"
+              className="h-10 w-auto"
+              width={100}
+              height={300}
+            />
+          </Link>
           <div className="flex space-x-6 items-center">
             <Link
               href="/"

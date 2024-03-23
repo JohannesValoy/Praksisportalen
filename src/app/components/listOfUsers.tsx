@@ -5,7 +5,11 @@
 import React, { useState, useEffect } from "react";
 
 const ListOfUsers = ({ role }: { role: string }) => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<User[]>([]);
+  type User = {
+    name: string;
+    email: string;
+  };
 
   useEffect(() => {
     fetch(`/api/users?role=${role}`) // Adjusted the fetch URL to match backend routing.

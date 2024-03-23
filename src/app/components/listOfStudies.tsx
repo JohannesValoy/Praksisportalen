@@ -20,20 +20,19 @@ const ListOfStudies = () => {
           <h1 className="text-3xl font-semibold">List of StudyPrograms</h1>
           <div>
             <table className="table my-4">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th></th>
+                </tr>
+              </thead>
               {studies.map((study, index) => (
                 <tbody key={index}>
                   <tr>
                     <td>
-                      <div className="flex items-center gap-3">
-                        <div className="avatar">
-                          <div className="mask mask-squircle w-12 h-12"></div>
-                        </div>
-                        <div>
-                          <div className="font-bold">{study?.name}</div>
-                        </div>
-                      </div>
+                      <div className="font-bold">{study?.name}</div>
                     </td>
-                    <th>
+                    <th className="flex justify-end">
                       <button className="btn btn-ghost btn-xs">details</button>
                     </th>
                   </tr>

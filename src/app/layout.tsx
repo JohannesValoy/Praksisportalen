@@ -19,20 +19,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} flex flex-col`}>
-        <header
-          className="flex justify-between p-4 items-center"
-          style={{
-            backgroundColor: "rgb(var(--accent-color))",
-          }}
-        >
+      <body
+        className={`${inter.className} flex flex-col dark:bg-neutral-900 bg-white dark:text-neutral-100 text-black`}
+      >
+        <header className="flex justify-between p-4 items-center dark:bg-neutral-800 shadow-md ">
           <img src="/logo-helse-mr.svg" alt="Description" className="h-8" />
           <div className="flex space-x-6 items-center">
             <Link
               href="/"
-              style={{
-                color: "rgb(var(--accent-text-color))",
-              }}
+              className="btn btn-ghost rounded-btn dark:text-neutral-100 text-black h-full"
             >
               Home
             </Link>

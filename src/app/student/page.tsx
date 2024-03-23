@@ -1,8 +1,8 @@
 /** @format */
 
 import dynamic from "next/dynamic";
-import prisma from "../module/prismaClient";
 import Gantt from "../components/Gantt";
+import Image from "next/image";
 
 export default function Page() {
   const datalist = [
@@ -24,16 +24,16 @@ export default function Page() {
             borderRadius: "50%",
           }}
         >
-          <img
-            src="example-profile-picture.jpg"
-            alt="Description"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center",
-            }}
-          />
+          <div className="mask mask-squircle w-full h-full overflow-hidden">
+            <Image
+              src="/example-profile-picture.jpg"
+              alt="Description"
+              className=" bg-neutral-300 h-full object-cover"
+              width={400}
+              height={400}
+              objectFit="cover"
+            />
+          </div>
         </div>
         <h1>Hello, Student home page!</h1>
       </div>

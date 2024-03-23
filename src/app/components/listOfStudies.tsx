@@ -2,10 +2,14 @@
 /** @format */
 
 "use client";
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
 const ListOfStudies = () => {
-  const [studies, setStudies] = useState([]);
+  const [studies, setStudies] = useState<Study[]>([]);
+  type Study = {
+    name: string;
+  };
 
   useEffect(() => {
     fetch(`/api/studyPrograms`) // Adjusted the fetch URL to match backend routing.
@@ -14,34 +18,41 @@ const ListOfStudies = () => {
       .catch((error) => console.error("Failed to fetch studies", error)); // Error handling.
   }, []);
   return (
-    <div>
-      <div className="flex justify-center mt-4">
-        <div className="overflow-x-auto w-full p-4">
-          <h1 className="text-3xl font-semibold">List of StudyPrograms</h1>
-          <div>
-            <table className="table my-4">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th></th>
-                </tr>
-              </thead>
-              {studies.map((study, index) => (
-                <tbody key={index}>
-                  <tr>
-                    <td>
-                      <div className="font-bold">{study?.name}</div>
-                    </td>
-                    <th className="flex justify-end">
-                      <button className="btn btn-ghost btn-xs">details</button>
-                    </th>
-                  </tr>
-                </tbody>
-              ))}
-            </table>
-          </div>
-        </div>
-      </div>
+    <div className="p-4">
+      <h1 className="text-3xl font-semibold">List of StudyPrograms</h1>
+      <table className="table my-4">
+        <thead>
+          <tr>
+            <th>
+              <input type="checkbox" className="checkbox" />
+            </th>
+            <th>Name</th>
+            <th>
+              <Link
+                href="/"
+                className="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
+              >
+                Add Study
+              </Link>
+            </th>
+          </tr>
+        </thead>
+        {studies.map((study, index) => (
+          <tbody key={index}>
+            <tr>
+              <td>
+                <input type="checkbox" className="checkbox" />
+              </td>
+              <td>
+                <div className="font-bold">{study?.name}</div>
+              </td>
+              <th>
+                <button className="btn btn-ghost btn">details</button>
+              </th>
+            </tr>
+          </tbody>
+        ))}
+      </table>
     </div>
   );
 };

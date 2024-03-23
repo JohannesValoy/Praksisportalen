@@ -5,7 +5,10 @@
 import React, { useState, useEffect } from "react";
 
 const ListOfStudies = () => {
-  const [studies, setStudies] = useState([]);
+  const [studies, setStudies] = useState<Study[]>([]);
+  type Study = {
+    name: string;
+  };
 
   useEffect(() => {
     fetch(`/api/studyPrograms`) // Adjusted the fetch URL to match backend routing.

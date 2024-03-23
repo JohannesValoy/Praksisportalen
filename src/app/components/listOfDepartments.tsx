@@ -3,11 +3,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
 const ListOfDepartments = () => {
-  const [departments, setdepartments] = useState([]);
+  const [departments, setDepartments] = useState<Department[]>([]);
 
   useEffect(() => {
-    fetch("/api/departments").then((res) => res.json().then(setdepartments));
+    fetch("/api/departments").then((res) => res.json().then(setDepartments));
   }, []);
+
+  type Department = {
+    name: string;
+    id: string;
+  };
 
   return (
     <div className="p-10">

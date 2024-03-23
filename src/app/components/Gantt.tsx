@@ -33,7 +33,7 @@ const Gantt = ({ datalist }) => {
   }
 
   // Group data by section
-  const groupedData = datalist.reduce((acc, curr) => {
+  const groupedData = datalist.reduce((acc: number, curr: number) => {
     const [section, startDate, endDate] = curr;
     if (!acc[section]) {
       acc[section] = [];

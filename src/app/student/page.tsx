@@ -5,7 +5,7 @@ import Gantt from "../components/Gantt";
 import Image from "next/image";
 
 export default function Page() {
-  const datalist = [
+  const datalist: [string, Date, Date][] = [
     ["Section 1", new Date(2024, 2, 20), new Date(2024, 4, 28)],
     ["Section 2", new Date(2024, 0, 25), new Date(2024, 2, 20)],
     ["Section 2", new Date(2024, 4, 28), new Date(2024, 8, 1)],

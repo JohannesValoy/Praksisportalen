@@ -7,6 +7,7 @@ export default function Home() {
   return (
     <main className="container mx-auto flex flex-col items-center justify-center gap-5 h-full">
       <div className="flex flex-col space-y-4 " style={{ width: "20rem" }}>
+        <form>
         <label className="input input-bordered flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -35,6 +36,8 @@ export default function Home() {
           </svg>
           <input type="password" className="grow" value="password" />
         </label>
+        </form>
+        <button formAction={"/api/auth/cred"} type="submit" ></button>
       </div>
       <Link
         href="/student"

@@ -1,9 +1,12 @@
+
 import { Knex } from "knex";
+import Bun from "bun";
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.seed = async function (knex: Knex) {
+
+export const seed = async function (knex: Knex) {
   // Deletes ALL existing entries
   await knex("timeIntervals").del();
   await knex("internshipAgreements").del();
@@ -20,7 +23,7 @@ exports.seed = async function (knex: Knex) {
       id: 1,
       name: "Master Bob",
       email: "masterbob@dummy",
-      password: "123456",
+      password: await Bun.password.hash("123456", {algorithm: "bcrypt"}),
       role: "admin",
     },
     {

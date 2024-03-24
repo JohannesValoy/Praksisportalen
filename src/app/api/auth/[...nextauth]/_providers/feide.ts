@@ -1,3 +1,5 @@
+import { AuthOptions } from "next-auth";
+import { OAuthConfig } from "next-auth/providers/oauth";
 
 interface FeideUser  {
     userid: string;
@@ -6,17 +8,12 @@ interface FeideUser  {
     openid: string;
 }
 
-const feideProvider = {
+const feideProvider : OAuthConfig<FeideUser> = {
     id: 'feide',
     name: 'Feide',
     type: 'oauth',
-    version: '2.0',
-    scope: 'openid, profile, email, userid, groups-edu',
-    params: { grant_type: 'authorization_code' },
-    accessTokenUrl: 'https://auth.dataporten.no/oauth/token',
-    requestTokenUrl: 'https://auth.dataporten.no/oauth/token',
-    authorizationUrl: 'https://auth.dataporten.no/oauth/authorization',
     userinfo: 'https://auth.dataporten.no/openid/userinfo',
+    issuer: "https://my.oidc-provider.com",
     profile: (profile : FeideUser) => {
         return {
         id: profile.userid,
@@ -27,7 +24,6 @@ const feideProvider = {
     },
     clientId: process.env.FEIDE_CLIENT_ID,
     clientSecret: process.env.FEIDE_CLIENT_SECRET,
-    idToken: true,
 };
 
 export default feideProvider;

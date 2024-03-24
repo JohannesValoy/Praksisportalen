@@ -1,4 +1,3 @@
-
 import { Knex } from "knex";
 import Bun from "bun";
 /**
@@ -23,9 +22,10 @@ export const seed = async function (knex: Knex) {
       id: 1,
       name: "Master Bob",
       email: "masterbob@dummy",
-      password: await Bun.password.hash("123456", {algorithm: "bcrypt"}),
+      password: await Bun.password.hash("123456", { algorithm: "bcrypt" }),
       role: "admin",
     },
+    { email: "ann.berntsen@test.feide.no", name: "Ann Elg", role: "admin", password: "" },
     {
       id: 2,
       name: "Admin Jane",

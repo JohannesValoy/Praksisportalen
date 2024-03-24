@@ -1,29 +1,37 @@
-import { AuthOptions } from "next-auth";
+import DBclient from "@/knex/config/DBClient";
+import { AuthOptions, Profile } from "next-auth";
 import { OAuthConfig } from "next-auth/providers/oauth";
 
 interface FeideUser  {
-    userid: string;
+    sub : string;
     email: string;
-    profile : any;
     openid: string;
+    name: string;
+    picture: string;
 }
 
 const feideProvider : OAuthConfig<FeideUser> = {
     id: 'feide',
     name: 'Feide',
     type: 'oauth',
+    wellKnown: "https://auth.dataporten.no/.well-known/openid-configuration",
     userinfo: 'https://auth.dataporten.no/openid/userinfo',
-    issuer: "https://my.oidc-provider.com",
-    profile: (profile : FeideUser) => {
-        return {
-        id: profile.userid,
-        name: profile.profile.name,
-        email: profile.email,
-        image: profile.profile.picture,
-        };
+    authorization: "https://auth.dataporten.no/oauth/authorization",
+    token: {
+        url: "https://auth.dataporten.no/oauth/token",
+
+    },
+    profile: async (profile : FeideUser) => {
+        return ({
+            id: profile.email,
+            name: profile.name,
+            email: profile.email,
+            image: profile.picture,
+        })
     },
     clientId: process.env.FEIDE_CLIENT_ID,
     clientSecret: process.env.FEIDE_CLIENT_SECRET,
+    idToken: true,
 };
 
 export default feideProvider;

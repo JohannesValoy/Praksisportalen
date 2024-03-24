@@ -36,17 +36,8 @@ export default function KnexAdapter(client: Knex): Adapter {
       return Promise.resolve(
         client
           .select("id")
-          .from("accounts")
-          .where("providerAccountId", providerAccountId)
-          .andWhere("provider", provider)
-      )
-        .then<User[] | null>((results) => {
-          const user_id = results || null;
-          if (user_id == null) return null;
-          return Promise.resolve(
-            client.select().from("users").where("id", user_id)
-          );
-        })
+          .from("users")
+          .where("providerAccountId", providerAccountId).first())
         .then<AdapterUser | null>((results) => {
           const user = results == null ? null : results[0] || null;
           return user == null ? null : fromUserToUserAdapter(user);
@@ -60,7 +51,6 @@ export default function KnexAdapter(client: Knex): Adapter {
     },
     async linkAccount(account) {
       DBclient("accounts").insert(account);
-      return;
     },
     async unlinkAccount({ providerAccountId, provider }) {
       return;

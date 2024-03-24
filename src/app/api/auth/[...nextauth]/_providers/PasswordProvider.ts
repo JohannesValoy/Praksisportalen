@@ -2,6 +2,7 @@ import DBclient from "@/knex/config/DBClient";
 import type { User } from "knex/types/tables.js";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { fromUserToUserAdapter } from "../_adapter/dbadapter";
+import bcrypt from "bcrypt";
 
 const passwordProvider = CredentialsProvider({
   // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -28,7 +29,7 @@ const passwordProvider = CredentialsProvider({
     if (user == undefined || password == undefined) {
       throw new Error("User not found");
     }
-    return await Bun.password.verify(String(password), user.password) ? fromUserToUserAdapter(user) : null;
+    return await bcrypt.compareSync(String(password), user.password) ? fromUserToUserAdapter(user) : null;
   }
 
 });

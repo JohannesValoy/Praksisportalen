@@ -37,7 +37,7 @@ export default function KnexAdapter(client: Knex): Adapter {
         client
           .select("id")
           .from("users")
-          .where("providerAccountId", providerAccountId).first())
+          .where("email", providerAccountId).first())
         .then<AdapterUser | null>((results) => {
           const user = results == null ? null : results[0] || null;
           return user == null ? null : fromUserToUserAdapter(user);

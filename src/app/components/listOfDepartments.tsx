@@ -31,12 +31,12 @@ const ListOfDepartments = () => {
             <th>Email</th>
             <th>Created At</th>
             <th>
-              <Link
-                href="/"
-                className="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
+              <a
+                href={`/admin/administerDepartments/addDepartment`}
+                className="btn btn-xs"
               >
                 Add Department
-              </Link>
+              </a>
             </th>
           </tr>
         </thead>

@@ -54,7 +54,14 @@ const ListOfDepartments = () => {
               <td>{department?.employee_id}</td>
               <td>{department?.id}</td>
               <th>
-                <button className="btn btn-ghost btn-xs">details</button>
+                <button
+                  className="btn btn-ghost btn-xs"
+                  onClick={() => {
+                    window.location.href = `/admin/administerSections/?department_id=${department.id}`;
+                  }}
+                >
+                  details
+                </button>
               </th>
             </tr>
           </tbody>

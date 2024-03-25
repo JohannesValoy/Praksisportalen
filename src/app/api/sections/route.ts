@@ -1,6 +1,7 @@
 /** @format */
 
 import DBclient from "@/knex/config/DBClient";
+import { NextRequest } from "next/server";
 
 export async function GET(request: Request) {
   const sections = await DBclient.from("sections").select("*");

@@ -31,12 +31,12 @@ const ListOfSections = () => {
             <th>Email</th>
             <th>Created At</th>
             <th>
-              <Link
-                href="/"
-                className="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
+              <a
+                href={`/admin/administerSections/addSection`}
+                className="btn btn-xs"
               >
                 Add Section
-              </Link>
+              </a>
             </th>
           </tr>
         </thead>

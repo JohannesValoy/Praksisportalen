@@ -13,10 +13,6 @@ export default function Page() {
   const [sectionType, setSectionType] = useState("");
   const [employee_id, setEmployee_id] = useState("");
   const [department_id, setDepartment_id] = useState("");
-  console.log(employee_id);
-  console.log(name);
-  console.log(sectionType);
-  console.log(department_id);
 
   const [users, setUsers] = useState<User[]>([]);
   type User = {

@@ -61,54 +61,66 @@ export default function Page() {
             onChange={(e) => setname(e.target.value)}
           />
         </label>
-        <div className="dropdown dropdown-end w-full">
-          <div tabIndex={0} role="button" className="btn m-1 w-full h-fit">
-            {selectedUser ? (
-              <div className="flex flex-row justify-start items-center gap-5 w-full p-5">
-                <div className="mask mask-squircle w-12 h-12 overflow-hidden">
-                  <Image
-                    src="/example-profile-picture.jpg"
-                    alt="Description"
-                    className=" bg-neutral-300 h-full object-cover"
-                    width={100}
-                    height={100}
-                  />
+        <div className="flex flex-row m-1 gap-2">
+          <div className="dropdown dropdown-end w-full">
+            <div tabIndex={0} role="button" className="btn w-full h-full">
+              {selectedUser ? (
+                <div className="flex flex-row justify-start items-center gap-5 w-full p-3">
+                  <div className="mask mask-squircle w-12 h-12 overflow-hidden">
+                    <Image
+                      src="/example-profile-picture.jpg"
+                      alt="Description"
+                      className=" bg-neutral-300 h-full object-cover"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
+                  <div>{selectedUser.name}</div>
+                  <div>{selectedUser.email}</div>
                 </div>
-                <div>{selectedUser.name}</div>
-                <div>{selectedUser.email}</div>
-              </div>
-            ) : (
-              "Leader Name"
-            )}
+              ) : (
+                "Leader Name"
+              )}
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-full"
+            >
+              {users.map((user, index) => (
+                <tbody key={index} className="m-2 p-1">
+                  <tr
+                    onClick={() => setEmployee_id(user?.id)}
+                    className="btn w-full flex flex-row justify-start items-center p-2 h-fit"
+                  >
+                    <th>
+                      <div className="mask mask-squircle w-12 h-12 overflow-hidden">
+                        <Image
+                          src="/example-profile-picture.jpg"
+                          alt="Description"
+                          className=" bg-neutral-300 h-full object-cover"
+                          width={100}
+                          height={100}
+                        />
+                      </div>
+                    </th>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                  </tr>
+                </tbody>
+              ))}
+            </ul>
           </div>
-          <ul
-            tabIndex={0}
-            className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-full"
-          >
-            {users.map((user, index) => (
-              <tbody key={index} className="m-2 p-1">
-                <tr
-                  onClick={() => setEmployee_id(user?.id)}
-                  className="btn w-full flex flex-row justify-start items-center p-2 h-fit"
-                >
-                  <th>
-                    <div className="mask mask-squircle w-12 h-12 overflow-hidden">
-                      <Image
-                        src="/example-profile-picture.jpg"
-                        alt="Description"
-                        className=" bg-neutral-300 h-full object-cover"
-                        width={100}
-                        height={100}
-                      />
-                    </div>
-                  </th>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                </tr>
-              </tbody>
-            ))}
-          </ul>
+          <button>
+            <a
+              href={`/admin/addUser?role=${"employee"}`}
+              className="btn btn-primary h-full p-5"
+            >
+              Add employee
+            </a>
+          </button>
         </div>
+        <div className="flex flex-row"></div>
+
         <div className="flex w-full justify-center p-10 gap-5">
           <button className="btn w-20" onClick={() => router.back()}>
             Cancel

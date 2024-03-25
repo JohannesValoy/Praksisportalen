@@ -1,4 +1,8 @@
+import DBclient from "@/knex/config/DBClient";
+import type { User } from "knex/types/tables.js";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { fromUserToUserAdapter } from "../_adapter/dbadapter";
+import bcrypt from "bcrypt";
 
 const passwordProvider = CredentialsProvider({
   // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -11,18 +15,24 @@ const passwordProvider = CredentialsProvider({
     username: { label: "Username", type: "text", placeholder: "jsmith" },
     password: { label: "Password", type: "password" },
   },
+  id: "cred",
   async authorize(credentials, req) {
-    // You need to provide your own logic here that takes the credentials
-    // submitted and returns either a object representing a user or value
-    // that is false/null if the credentials are invalid.
-    // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-    // You can also use the `req` object to obtain additional parameters
-    // (i.e., the request IP address)
+    const username = credentials?.username;
+    if (username == undefined) {
+      return null;
+    }
+    console.log("username: ", username);
+    const user = await DBclient.from<User>("users").where("email", username).first();
+    console.log("user: ", user);
+    const password = credentials?.password;
+    console.log("password: ", password);
+    if (user == undefined || password == undefined) {
+      throw new Error("User not found");
+    }
+    return await bcrypt.compareSync(String(password), user.password) ? fromUserToUserAdapter(user) : null;
+  }
 
-    // If no error and we have user data, return it
-    // Return null if user data could not be retrieved
-    return null;
-  },
 });
+
 
 export default passwordProvider;

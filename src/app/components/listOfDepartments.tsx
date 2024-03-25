@@ -13,6 +13,7 @@ const ListOfDepartments = () => {
   type Department = {
     name: string;
     id: string;
+    employee_id: string;
   };
 
   return (
@@ -50,7 +51,7 @@ const ListOfDepartments = () => {
               <th>
                 <div className="font-bold">{department?.name}</div>
               </th>
-              <td>leader@leader.email.no</td>
+              <td>{department?.employee_id}</td>
               <td>{department?.id}</td>
               <th>
                 <button className="btn btn-ghost btn-xs">details</button>

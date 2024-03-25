@@ -237,8 +237,8 @@ exports.seed = async function (knex: Knex) {
       internship_id: 1,
       studyProgram_id: 1,
       status: "Avtalt",
-      startDate: "2024-03-21",
-      endDate: "2024-04-21",
+      startDate: new Date("2024-03-21"),
+      endDate: new Date("2024-04-21"),
     },
     {
       id: 2,
@@ -246,8 +246,8 @@ exports.seed = async function (knex: Knex) {
       internship_id: 1,
       studyProgram_id: 1,
       status: "Avtalt",
-      startDate: "2024-03-21",
-      endDate: "2024-04-21",
+      startDate: new Date("2024-03-21"),
+      endDate: new Date("2024-04-21"),
     },
     {
       id: 3,
@@ -255,8 +255,8 @@ exports.seed = async function (knex: Knex) {
       internship_id: 2,
       studyProgram_id: 1,
       status: "Avtalt",
-      startDate: "2024-03-21",
-      endDate: "2024-04-21",
+      startDate: new Date("2024-03-21"),
+      endDate: new Date("2024-04-21"),
     },
     {
       id: 4,
@@ -264,8 +264,8 @@ exports.seed = async function (knex: Knex) {
       internship_id: 2,
       studyProgram_id: 1,
       status: "Avtalt",
-      startDate: "2024-03-21",
-      endDate: "2024-04-21",
+      startDate: new Date("2024-03-21"),
+      endDate: new Date("2024-04-21"),
     },
     {
       id: 5,
@@ -273,8 +273,8 @@ exports.seed = async function (knex: Knex) {
       internship_id: 3,
       studyProgram_id: 1,
       status: "Diskuteres",
-      startDate: "2024-05-01",
-      endDate: "2024-06-01",
+      startDate: new Date("2024-05-01"),
+      endDate: new Date("2024-06-01"),
     },
   ]);
 };

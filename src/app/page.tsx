@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <main className="container mx-auto flex flex-col items-center justify-center gap-5 h-full">
       <div className="flex flex-col space-y-4 " style={{ width: "20rem" }}>
-        <label className="input input-bordered flex items-center gap-2">
+        <label className="input input-bordered flex items-center gap-2 dark:bg-neutral-800 bg-neutral-100">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -20,7 +20,7 @@ export default function Home() {
           <input type="text" className="grow" placeholder="Email" />
         </label>
 
-        <label className="input input-bordered flex items-center gap-2">
+        <label className="input input-bordered flex items-center gap-2 dark:bg-neutral-800 bg-neutral-100">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"

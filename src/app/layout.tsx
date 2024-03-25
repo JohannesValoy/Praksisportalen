@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,19 +20,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} flex flex-col`}>
-        <header
-          className="flex justify-between p-4 items-center"
-          style={{
-            backgroundColor: "rgb(var(--accent-color))",
-            color: "rgb(var(--accent-text-color))",
-          }}
-        >
-          <img src="/logo-helse-mr.svg" alt="Description" className="h-8" />
+      <body
+        className={`${inter.className} flex flex-col dark:bg-neutral-900 bg-white dark:text-neutral-100 text-black`}
+      >
+        <header className="flex justify-between p-4 items-center dark:bg-neutral-800 shadow-">
+          <Link href={"/"}>
+            <Image
+              src="/logo-helse-mr.svg"
+              alt="Description"
+              className="h-10 w-auto"
+              width={100}
+              height={300}
+            />
+          </Link>
           <div className="flex space-x-6 items-center">
-            <Link href="/">Home</Link>
-            <Link href="/coordinator/administerStudents">
-              Administer Students
+            <Link
+              href="/"
+              className="btn btn-ghost rounded-btn dark:text-neutral-100 text-black h-full"
+            >
+              Home
             </Link>
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn m-1">

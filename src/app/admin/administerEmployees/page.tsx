@@ -1,6 +1,13 @@
 /** @format */
+import React from "react";
+import ListOfUsers from "@/app/components/listOfUsers"; // Make sure the path is correct
 
-// `app/page.tsx` is the UI for the `/` URL
-export default function Page() {
-  return <h1>Hello, administerEmployees page!</h1>;
-}
+const Page = () => {
+  return (
+    <main>
+      <ListOfUsers role="employee" />
+    </main>
+  );
+};
+
+export default Page;

@@ -49,7 +49,7 @@ const ListOfDepartments = async () => {
                   </th>
                 </tr>
               </tbody>
-            ))}
+            ))};
           </table>
         </div>
       </div>

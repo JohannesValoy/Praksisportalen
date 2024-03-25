@@ -1,6 +1,5 @@
 
 import { Knex } from "knex";
-<<<<<<< HEAD
 import Bun from "bun";
 /**
  * @param { import("knex").Knex } knex
@@ -8,13 +7,6 @@ import Bun from "bun";
  */
 
 export const seed = async function (knex: Knex) {
-=======
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> } 
- */
-exports.seed = async function (knex: Knex) {
->>>>>>> 6b72034 (moved next for easier import for other libs)
   // Deletes ALL existing entries
   await knex("timeIntervals").del();
   await knex("internshipAgreements").del();

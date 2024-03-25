@@ -1,4 +1,10 @@
 /** @format */
+
+import ListOfDepartments from "@/app/components/listOfDepartments";
 export default function Page() {
-  return <main></main>;
+  return (
+    <main>
+      <ListOfDepartments />
+    </main>
+  );
 }

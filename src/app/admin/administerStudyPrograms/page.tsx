@@ -1,38 +1,122 @@
-import React from "react";
+/** @format */
 
-import ListOfEducationInstitutions from "@/app/components/listOfEducationInstitutions";
+"use client";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
-const StudyProgramForm = () => {
-  return (
-    <div className="flex justify-center items-center flex-col">
-      <h1>Legg til Studieprogram</h1>
-      <br />
-      <form className="flex justify-center items-center flex-col">
-        <label
-          htmlFor="name"
-          className="input input-bordered flex items-center gap-2"
-        >
-          Name:
-          <input type="text" className="grow" placeholder="Name" />
-        </label>
-        <br />
-        <label htmlFor="educationInstitution">Education Institution:</label>
+export default function Page() {
+  const router = useRouter();
 
-        <select
-          className="btn p-2 shadow flex dropdown-content z-[1] bg-base-100 rounded-box w-52"
-          id="educationInstitution"
-        >
-          <option value="ListOfEducationInstitutions">
-            <ListOfEducationInstitutions />
-          </option>
-        </select>
-        <br />
-        <button type="submit" className="btn">
-          Lagre
-        </button>
-      </form>
-    </div>
+  const [name, setame] = useState("");
+  const [educationInstitution_id, setEducationInstitution_id] = useState("");
+  console.log(educationInstitution_id);
+  console.log(name);
+
+  const [educationInstitutions, setEducationInstitutions] = useState<
+    EducationInstitution[]
+  >([]);
+  type EducationInstitution = {
+    name: string;
+    email: string;
+    id: string;
+  };
+
+  useEffect(() => {
+    fetch(`/api/educationInstitutions`) // Adjusted the fetch URL to match backend routing.
+      .then((res) => res.json())
+      .then((data) => setEducationInstitutions(data)) // Ensure proper data handling.
+      .catch((error) =>
+        console.error("Failed to fetch educationInstitutions", error)
+      ); // Error handling.
+  }, []);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const response = await fetch("/api/studyPrograms", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, educationInstitution_id }),
+    });
+
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    router.back();
+  };
+  const selectedEI = educationInstitutions.find(
+    (educationInstitution) =>
+      educationInstitution.id === educationInstitution_id
   );
-};
 
-export default StudyProgramForm;
+  return (
+    <main className="flex flex-col items-center justify-center w-full h-full">
+      <div className="justify-center items-center" style={{ width: "50rem" }}>
+        <h1>Add Study Program</h1>
+        <label className="form-control w-full ">
+          <div className="label">
+            <span className="label-text">Study Program Name</span>
+          </div>
+          <input
+            type="text"
+            placeholder="Study Program Name"
+            className="input input-bordered w-full"
+            onChange={(e) => setame(e.target.value)}
+          />
+        </label>
+
+        {/** Button to activate dropdown */}
+        <div className="flex flex-row m-1 gap-2">
+          <div className="dropdown dropdown-end w-full">
+            <div tabIndex={0} role="button" className="btn w-full h-full">
+              {selectedEI ? (
+                <div className="flex flex-row justify-start items-center gap-5 w-full p-3">
+                  <div>{selectedEI.name}</div>
+                  <div>{selectedEI.email}</div>
+                </div>
+              ) : (
+                "Education Institution"
+              )}
+            </div>
+            {/** List inside dropdown */}
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-full"
+            >
+              {educationInstitutions.map((educationInstitution, index) => (
+                <div key={index} className="m-2 p-1">
+                  <div
+                    onClick={() =>
+                      setEducationInstitution_id(educationInstitution?.id)
+                    }
+                    className="btn w-full flex flex-row justify-start items-center p-2 h-fit"
+                  >
+                    <div>{educationInstitution.name}</div>
+                  </div>
+                </div>
+              ))}
+            </ul>
+          </div>
+          <button>
+            <a
+              href={`/admin/administerStudies/addEducationInstitution`}
+              className="btn btn-primary h-full p-5"
+            >
+              Add Education Institution
+            </a>
+          </button>
+        </div>
+        <div className="flex w-full justify-center p-10 gap-5">
+          <button className="btn w-20" onClick={() => router.back()}>
+            Cancel
+          </button>
+          <button className="btn btn-primary w-20" onClick={handleSubmit}>
+            Save
+          </button>
+        </div>
+      </div>
+    </main>
+  );
+}

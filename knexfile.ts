@@ -8,8 +8,6 @@ const extension =
     ? 'js'
     : 'ts';
 
-console.log('extension ============> ', extension);
-
 export const config: { [key: string]: Knex.Config } = {
   development: {
     client: "mysql2",
@@ -24,6 +22,7 @@ export const config: { [key: string]: Knex.Config } = {
     },
     seeds: {
       directory: path.join(__dirname, "src/knex/seeds"),
+      loadExtensions: [`.${extension}`],
     }
   },
 

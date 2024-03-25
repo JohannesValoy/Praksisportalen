@@ -23,6 +23,7 @@ services:
       - 3000:3000
 
   adminer:
+    image: adminer
     profiles:
       - dev
     depends_on:

@@ -1,12 +1,16 @@
-import NextAuth from "next-auth"
+import NextAuth from "next-auth";
+import KnexAdapter from "./_adapter/dbadapter";
+import DBclient from "@/knex/config/DBClient";
+import passwordProvider from "./_providers/PasswordProvider";
+import feideProvider from "./_providers/feide";
 
 const handler = NextAuth({
-    providers: [],
-    pages: {
-        signIn: '/auth/signin',
-        signOut: '/auth/signout',
-        error: '/auth/error',    
-        },
-    }
-)
-export { handler as GET, handler as POST }
+  providers: [passwordProvider, feideProvider],
+  session: {
+    strategy: "jwt",
+  },
+  pages: {},
+  adapter: KnexAdapter(DBclient),
+});
+
+export { handler as GET, handler as POST };

@@ -28,6 +28,12 @@ export default async function Page() {
       >
         Administrer Avdelinger
       </Link>
+      <Link
+        href="/admin/administerSections"
+        className="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
+      >
+        Administrer Seksjoner
+      </Link>
     </main>
   );
 }

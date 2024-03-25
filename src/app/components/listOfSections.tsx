@@ -5,10 +5,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-type ListOfSectionsProps = {
-  department_id: number;
-};
-
 const ListOfSections = () => {
   const searchParams = useSearchParams();
   const department_id = searchParams.get("department_id");
@@ -17,6 +13,10 @@ const ListOfSections = () => {
   useEffect(() => {
     if (department_id !== null) {
       fetch(`/api/sections/sectionsID?department_id=${department_id}`)
+        .then((res) => res.json())
+        .then(setSections);
+    } else {
+      fetch(`/api/sections`)
         .then((res) => res.json())
         .then(setSections);
     }

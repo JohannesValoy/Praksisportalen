@@ -3,15 +3,11 @@
 "use client";
 
 import Image from "next/image";
-import {
-  useNavigation,
-  useRouter,
-  usePathname,
-  useSearchParams,
-} from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export default function Page() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const role = searchParams.get("role") || "user";
 
@@ -23,17 +19,18 @@ export default function Page() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const response = await fetch(`/api/users/addUser?role=${role}`, {
+    const response = await fetch(`/api/users/addUser`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ firstName, lastName, email, phoneNumber }),
+      body: JSON.stringify({ firstName, lastName, email, phoneNumber, role }),
     });
 
     if (!response.ok) {
       throw new Error(response.statusText);
     }
+    router.back();
   };
 
   return (
@@ -113,7 +110,9 @@ export default function Page() {
           </label>
         </div>
         <div className="flex w-full justify-center p-10 gap-5">
-          <button className="btn w-20">Cancel</button>
+          <button className="btn w-20" onClick={() => router.back()}>
+            Cancel
+          </button>
           <button className="btn btn-primary w-20" onClick={handleSubmit}>
             Save
           </button>

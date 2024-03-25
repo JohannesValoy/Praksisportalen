@@ -8,12 +8,11 @@ export async function POST(request: NextRequest) {
     await request.json();
 
   const newUser = await DBclient.table("users").insert({
-    id: 910238,
     name: firstName + " " + lastName,
     email,
-    password: "string",
-    //lastName,
-    //phoneNumber,
+    password: "123456", //should probably be auto-generated and return to a message to the user with the password
+    //lastName, //to be implemented in the server
+    //phoneNumber, //to be implemented in the server
     role,
   });
 

@@ -1,5 +1,7 @@
 import React from "react";
 
+import ListOfEducationInstitutions from "@/app/components/listOfEducationInstitutions";
+
 const StudyProgramForm = () => {
   return (
     <div className="flex justify-center items-center flex-col">
@@ -20,7 +22,9 @@ const StudyProgramForm = () => {
           className="btn p-2 shadow flex dropdown-content z-[1] bg-base-100 rounded-box w-52"
           id="educationInstitution"
         >
-          <option value="">ingen</option>
+          <option value="ListOfEducationInstitutions">
+            <ListOfEducationInstitutions />
+          </option>
         </select>
         <br />
         <button type="submit" className="btn">

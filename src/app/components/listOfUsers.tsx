@@ -29,8 +29,11 @@ const ListOfUsers = ({ role }: { role: string }) => {
               <th>Photo</th>
               <th>Name</th>
               <th>Email</th>
-              <th></th>
-              <th></th>
+              <th>
+                <a href={`/admin/addUser?role=${role}`} className="btn btn-xs">
+                  Add {role}
+                </a>
+              </th>
             </tr>
           </thead>
           {users.map((user, index) => (
@@ -44,7 +47,6 @@ const ListOfUsers = ({ role }: { role: string }) => {
                       className=" bg-neutral-300 h-full object-cover"
                       width={100}
                       height={100}
-                      objectFit="cover"
                     />
                   </div>
                 </th>

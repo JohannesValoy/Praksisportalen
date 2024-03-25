@@ -1,4 +1,9 @@
 /** @format */
+import ListOfUsers from "@/app/components/listOfUsers";
 export default function Page() {
-  return <main></main>;
+  return (
+    <main>
+      <ListOfUsers role="student" />
+    </main>
+  );
 }

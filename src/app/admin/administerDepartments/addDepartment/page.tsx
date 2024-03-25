@@ -83,11 +83,14 @@ export default function Page() {
           </div>
           <ul
             tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full"
+            className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-full"
           >
             {users.map((user, index) => (
-              <tbody key={index}>
-                <tr onClick={() => setEmployee_id(user?.id)}>
+              <tbody key={index} className="m-2 p-1">
+                <tr
+                  onClick={() => setEmployee_id(user?.id)}
+                  className="btn w-full flex flex-row justify-start items-center p-2 h-fit"
+                >
                   <th>
                     <div className="mask mask-squircle w-12 h-12 overflow-hidden">
                       <Image

@@ -22,6 +22,7 @@
     "tailwind": "^4.0.0"
   },
   "devDependencies": {
+    "@types/bun": "^1.0.10",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

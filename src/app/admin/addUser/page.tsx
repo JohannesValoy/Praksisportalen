@@ -3,11 +3,38 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import {
+  useNavigation,
+  useRouter,
+  usePathname,
+  useSearchParams,
+} from "next/navigation";
+import { useState } from "react";
 
 export default function Page() {
   const searchParams = useSearchParams();
   const role = searchParams.get("role") || "user";
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const response = await fetch(`/api/users/addUser?role=${role}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ firstName, lastName, email, phoneNumber }),
+    });
+
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+  };
 
   return (
     <main className="flex flex-col items-center justify-center w-full h-full">
@@ -23,6 +50,7 @@ export default function Page() {
                 type="text"
                 placeholder="First Name"
                 className="input input-bordered w-full"
+                onChange={(e) => setFirstName(e.target.value)}
               />
             </label>
             <label className="form-control w-full">
@@ -33,6 +61,7 @@ export default function Page() {
                 type="text"
                 placeholder="Last Name"
                 className="input input-bordered w-full"
+                onChange={(e) => setLastName(e.target.value)}
               />
             </label>
           </div>
@@ -68,6 +97,7 @@ export default function Page() {
               type="text"
               placeholder="Email"
               className="input input-bordered w-full"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </label>
           <label className="form-control w-full">
@@ -78,12 +108,15 @@ export default function Page() {
               type="text"
               placeholder="Phone Number"
               className="input input-bordered w-full"
+              onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </label>
         </div>
         <div className="flex w-full justify-center p-10 gap-5">
           <button className="btn w-20">Cancel</button>
-          <button className="btn btn-primary w-20">Save</button>
+          <button className="btn btn-primary w-20" onClick={handleSubmit}>
+            Save
+          </button>
         </div>
       </div>
     </main>

@@ -21,9 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} flex flex-col dark:bg-neutral-900 bg-white dark:text-neutral-100 text-black`}
+        className={`${inter.className} flex flex-col dark:bg-neutral-900 bg-white  dark:text-neutral-200 text-black`}
       >
-        <header className="flex justify-between p-4 items-center dark:bg-neutral-800 shadow-">
+        <header className="flex justify-between p-4 items-center dark:bg-neutral-800 bg-blue-700 text-white">
           <Link href={"/"}>
             <Image
               src="/logo-helse-mr.svg"
@@ -36,10 +36,11 @@ export default function RootLayout({
           <div className="flex space-x-6 items-center">
             <Link
               href="/"
-              className="btn btn-ghost rounded-btn dark:text-neutral-100 text-black h-full"
+              className="btn btn-ghost rounded-btn dark:text-neutral-100  h-full"
             >
               Home
             </Link>
+
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn m-1">
                 Settings

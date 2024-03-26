@@ -5,6 +5,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import Dropdown from "@/app/components/Dropdown";
 
 export default function Page() {
   const router = useRouter();
@@ -41,8 +42,21 @@ export default function Page() {
       .catch((error) => console.error("Failed to fetch users", error)); // Error handling.
   }, []);
 
+  const [sectionTypes, setSectionTypes] = useState<string[]>([]);
+  const [newType, setNewType] = useState("");
+
+  useEffect(() => {
+    setSectionTypes([
+      "Sengepost",
+      "Poliklinikk og dagbehandling",
+      "Spesialseksjon",
+    ]);
+  }, []);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const selectedSectionType = sectionTypes[0]; // Default value
 
     const response = await fetch("/api/sections", {
       method: "POST",
@@ -57,6 +71,12 @@ export default function Page() {
     }
     router.back();
   };
+
+  const handleAddType = () => {
+    setSectionTypes([...sectionTypes, newType]);
+    setNewType(""); // Clear the input field
+  };
+
   const selectedUser = users.find((user) => user.id === employee_id);
   const selectedDepartment = departments.find(
     (department) => department.id === department_id
@@ -64,11 +84,13 @@ export default function Page() {
 
   return (
     <main className="flex flex-col items-center justify-center w-full h-full">
-      <div className="justify-center items-center" style={{ width: "50rem" }}>
-        <h1>Add Section</h1>
-        <label className="form-control w-full ">
+      <div style={{ width: "50rem" }}>
+        <h1 className="flex justify-center text-4xl font-bold mb-4">
+          Add Section
+        </h1>
+        <label className="form-control w-full mb-2">
           <div className="label">
-            <span className="label-text">Section Name</span>
+            <span className="label-text text-xl">Section Name</span>
           </div>
           <input
             type="text"
@@ -77,11 +99,17 @@ export default function Page() {
             onChange={(e) => setname(e.target.value)}
           />
         </label>
-        <div className="flex flex-row m-1 gap-2">
-          <div className="dropdown dropdown-end w-full">
-            <div tabIndex={0} role="button" className="btn w-full h-full">
-              {selectedUser ? (
-                <div className="flex flex-row justify-start items-center gap-5 w-full p-3">
+        <div className="flex flex-row   mb-2">
+          <Dropdown
+            dropdownName="Leader"
+            options={users}
+            selectedOption={
+              users.find((user) => user.id === employee_id) || null
+            }
+            setSelectedOption={(user) => setEmployee_id(user.id)}
+            renderOption={(user) => (
+              <>
+                <th>
                   <div className="mask mask-squircle w-12 h-12 overflow-hidden">
                     <Image
                       src="/example-profile-picture.jpg"
@@ -91,104 +119,83 @@ export default function Page() {
                       height={100}
                     />
                   </div>
-                  <div>{selectedUser.name}</div>
-                  <div>{selectedUser.email}</div>
-                </div>
-              ) : (
-                "Leader Name"
-              )}
-            </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-full"
-            >
-              {users.map((user, index) => (
-                <tbody key={index} className="m-2 p-1">
-                  <tr
-                    onClick={() => setEmployee_id(user?.id)}
-                    className="btn w-full flex flex-row justify-start items-center p-2 h-fit"
-                  >
-                    <th>
-                      <div className="mask mask-squircle w-12 h-12 overflow-hidden">
-                        <Image
-                          src="/example-profile-picture.jpg"
-                          alt="Description"
-                          className=" bg-neutral-300 h-full object-cover"
-                          width={100}
-                          height={100}
-                        />
-                      </div>
-                    </th>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                  </tr>
-                </tbody>
-              ))}
-            </ul>
-          </div>
+                </th>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+              </>
+            )}
+          />
           <button>
             <a
               href={`/admin/addUser?role=${"employee"}`}
-              className="btn btn-primary h-full p-5"
+              className="btn btn-primary h-full"
             >
-              Add employee
+              Add Employee
             </a>
           </button>
         </div>
-        <div className="flex flex-row m-1 gap-2">
-          <div className="dropdown dropdown-end w-full">
-            <div tabIndex={0} role="button" className="btn w-full h-full">
-              {selectedDepartment ? (
-                <div className="flex flex-row justify-start items-center gap-5 w-full p-3">
+        <div className="flex flex-row mb-2">
+          <Dropdown
+            dropdownName="Department"
+            options={departments}
+            selectedOption={
+              departments.find(
+                (department) => department.id === department_id
+              ) || null
+            }
+            setSelectedOption={(department) => setDepartment_id(department.id)}
+            renderOption={(department) => (
+              <>
+                <th>
                   <div className="mask mask-squircle w-12 h-12 overflow-hidden"></div>
-                  <div>{selectedDepartment.name}</div>
-                </div>
-              ) : (
-                "Department Name"
-              )}
-            </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-full"
-            >
-              {departments.map((department, index) => (
-                <tbody key={index} className="m-2 p-1">
-                  <tr
-                    onClick={() => setDepartment_id(department?.id)}
-                    className="btn w-full flex flex-row justify-start items-center p-2 h-fit"
-                  >
-                    <th>
-                      <div className="mask mask-squircle w-12 h-12 overflow-hidden"></div>
-                    </th>
-                    <td>{department.name}</td>
-                  </tr>
-                </tbody>
-              ))}
-            </ul>
-          </div>
+                </th>
+                <td>{department.name}</td>
+              </>
+            )}
+          />
           <button>
             <a
               href={`/admin/administerDepartments/addDepartment`}
-              className="btn btn-primary h-full p-5"
+              className="btn btn-primary h-full"
             >
               Add Department
             </a>
           </button>
         </div>
-
-        <label className="form-control w-full ">
+        <label className="form-control w-full">
           <div className="label">
-            <span className="label-text">Section Type</span>
+            <span className="label-text text-xl">Section Type</span>
           </div>
-          <input
-            type="text"
-            placeholder="Section Type"
-            className="input input-bordered w-full"
-            onChange={(e) => setSectionType(e.target.value)}
+          <Dropdown
+            dropdownName="Section Type"
+            options={sectionTypes.map((type) => ({ id: type, name: type }))}
+            selectedOption={
+              sectionType ? { id: sectionType, name: sectionType } : null
+            }
+            setSelectedOption={(option) => setSectionType(option.name)}
+            renderOption={(option) => (
+              <>
+                <th>
+                  <div className="mask mask-squircle w-12 h-12 overflow-hidden "></div>
+                </th>
+                <td>{option.name}</td>
+              </>
+            )}
           />
         </label>
+        <div className="flex flex-row mt-2">
+          <input
+            type="text"
+            value={newType}
+            onChange={(e) => setNewType(e.target.value)}
+            placeholder="Enter new section type"
+            className="input input-bordered w-full"
+          />
+          <button className="btn btn-primary h-full" onClick={handleAddType}>
+            Add new type
+          </button>
+        </div>
         <div className="flex flex-row"></div>
-
         <div className="flex w-full justify-center p-10 gap-5">
           <button className="btn w-20" onClick={() => router.back()}>
             Cancel

@@ -27,7 +27,13 @@ export const seed = async function (knex: Knex) {
       role: "admin",
     },
     {
-      id: 2,
+      email: "ann.berntsen@test.feide.no",
+      name: "Ann Elg",
+      role: "admin",
+      password: "",
+    },
+    {
+      id: 3,
       name: "Admin Jane",
       email: "adminjane@dummy",
       password: "123456",

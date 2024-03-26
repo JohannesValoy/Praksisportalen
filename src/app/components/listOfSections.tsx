@@ -19,10 +19,6 @@ const ListOfSections = () => {
         .then((res) => res.json())
         .then(setSections);
     }
-    console.log(sections);
-    console.log(id);
-    console.log("sections");
-    console.log(`/api/departments/${id}`);
   }, [id, sections]);
 
   type Section = {

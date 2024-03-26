@@ -4,21 +4,18 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import UserView from "../api/users/UserView";
 
 const ListOfUsers = ({ role }: { role: string }) => {
-  const [users, setUsers] = useState<User[]>([]);
-  type User = {
-    name: string;
-    email: string;
-    id: string;
-  };
-
+  const [users, setUsers] = useState<UserView[]>([]);
   useEffect(() => {
     fetch(`/api/users?role=${role}`) // Adjusted the fetch URL to match backend routing.
       .then((res) => res.json())
-      .then((data) => setUsers(data)) // Ensure proper data handling.
+      .then((data) => {
+        setUsers(data.elements)}) // Ensure proper data handling.
       .catch((error) => console.error("Failed to fetch users", error)); // Error handling.
-  }, [role]);
+  }, []);
+
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <h1 className="text-3xl font-semibold">List of {role}s</h1>
@@ -35,7 +32,7 @@ const ListOfUsers = ({ role }: { role: string }) => {
             </th>
           </tr>
         </thead>
-        {users.map((user, index) => (
+        {users?.map((user, index) => (
           <tbody key={index}>
             <tr>
               <th>

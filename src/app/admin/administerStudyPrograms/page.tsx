@@ -9,8 +9,6 @@ export default function Page() {
 
   const [name, setame] = useState("");
   const [educationInstitution_id, setEducationInstitution_id] = useState("");
-  console.log(educationInstitution_id);
-  console.log(name);
 
   const [educationInstitutions, setEducationInstitutions] = useState<
     EducationInstitution[]

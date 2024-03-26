@@ -8,7 +8,6 @@ export default function Page() {
   const router = useRouter();
 
   const [name, setame] = useState("");
-  console.log(name);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

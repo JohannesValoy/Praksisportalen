@@ -109,7 +109,7 @@ export default function Page() {
             setSelectedOption={(user) => setEmployee_id(user.id)}
             renderOption={(user) => (
               <>
-                <th>
+                <div>
                   <div className="mask mask-squircle w-12 h-12 overflow-hidden">
                     <Image
                       src="/example-profile-picture.jpg"
@@ -119,9 +119,9 @@ export default function Page() {
                       height={100}
                     />
                   </div>
-                </th>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
+                </div>
+                <div>{user.name}</div>
+                <div>{user.email}</div>
               </>
             )}
           />

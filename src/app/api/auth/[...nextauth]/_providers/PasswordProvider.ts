@@ -1,3 +1,5 @@
+/** @format */
+
 import DBclient from "@/knex/config/DBClient";
 import type { User } from "knex/types/tables.js";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -21,18 +23,17 @@ const passwordProvider = CredentialsProvider({
     if (username == undefined) {
       return null;
     }
-    console.log("username: ", username);
-    const user = await DBclient.from<User>("users").where("email", username).first();
-    console.log("user: ", user);
+    const user = await DBclient.from<User>("users")
+      .where("email", username)
+      .first();
     const password = credentials?.password;
-    console.log("password: ", password);
     if (user == undefined || password == undefined) {
       throw new Error("User not found");
     }
-    return await bcrypt.compareSync(String(password), user.password) ? fromUserToUserAdapter(user) : null;
-  }
-
+    return (await bcrypt.compareSync(String(password), user.password))
+      ? fromUserToUserAdapter(user)
+      : null;
+  },
 });
-
 
 export default passwordProvider;

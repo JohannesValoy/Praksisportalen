@@ -17,6 +17,5 @@ export async function POST(request: Request) {
     department_id,
     employee_id,
   });
-  console.log(newSection);
   return Response.json(newSection);
 }

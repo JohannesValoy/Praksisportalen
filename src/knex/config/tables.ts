@@ -39,6 +39,10 @@ declare module "knex/types/tables.js" {
     updated_at: Date;
   }
 
+  interface SectionType {
+    name: string;
+  }
+
   interface Internship {
     id: number;
     name: string;
@@ -50,6 +54,10 @@ declare module "knex/types/tables.js" {
     section_id: number;
     created_at: Date;
     updated_at: Date;
+  }
+
+  interface InternshipField {
+    name: string;
   }
 
   interface EducationInstitution {

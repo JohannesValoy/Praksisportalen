@@ -1,9 +1,8 @@
 /** @format */
 
 "use client";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const ListOfSections = () => {
   const searchParams = useSearchParams();

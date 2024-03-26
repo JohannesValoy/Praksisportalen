@@ -20,8 +20,6 @@ const ListOfSections = () => {
         .then(setSections);
     }
   }, [id]);
-  console.log(`/api/sections/${id}`);
-  console.log(sections);
 
   type Section = {
     name: string;

@@ -69,11 +69,18 @@ const InternshipComponent = () => {
               <p>Number of Beds: {internship.numberOfBeds}</p>
               <p>Year of Study: {internship.yearOfStudy}</p>
             </div>
-            <div>
-              <h2 className="text-2xl font-semibold">
-                {internship.leader_name}
-              </h2>
-              <p>{internship.leader_email}</p>
+            <div
+              onClick={() => {
+                window.location.href = `/employee?id=${internship.leader_id}`;
+              }}
+              className="btn btn-ghost btn-xl"
+            >
+              <div>
+                <h2 className="text-2xl font-semibold">
+                  {internship.leader_name}
+                </h2>
+                <p>{internship.leader_email}</p>
+              </div>
             </div>
           </div>
           <Gantt datalist={datalist} />

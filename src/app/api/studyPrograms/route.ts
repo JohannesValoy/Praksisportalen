@@ -13,6 +13,5 @@ export async function POST(request: Request) {
     name,
     educationInstitution_id,
   });
-  console.log(newStudyProgram);
   return Response.json(newStudyProgram);
 }

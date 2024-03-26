@@ -16,7 +16,6 @@ type Student = {
 export default function Page() {
   const searchParams = useSearchParams();
   const student_id = searchParams.get("id");
-  console.log(student_id);
   const [student, setStudent] = useState<Student>();
 
   const datalist: [string, Date, Date][] = [
@@ -38,8 +37,7 @@ export default function Page() {
           .catch((error) => console.error("Failed to fetch student", error));
       });
   }, [student_id]);
-  console.log(student);
-  console.log(`/api/users/students/oneStudent?id=${student_id}`);
+
   return (
     <div className="flex flex-row w-full h-full items-center justify-center">
       {student ? (

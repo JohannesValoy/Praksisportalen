@@ -78,7 +78,6 @@ export default function Page() {
                   className=" bg-neutral-300 h-full object-cover"
                   width={400}
                   height={400}
-                  objectFit="cover"
                 />
               </div>
             </div>

@@ -11,8 +11,6 @@ export default function Page() {
 
   const [name, setname] = useState("");
   const [employee_id, setEmployee_id] = useState("");
-  console.log(employee_id);
-  console.log(name);
 
   const [users, setUsers] = useState<User[]>([]);
   type User = {
@@ -87,12 +85,12 @@ export default function Page() {
               className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-full"
             >
               {users.map((user, index) => (
-                <tbody key={index} className="m-2 p-1">
-                  <tr
+                <div key={index} className="m-2 p-1">
+                  <div
                     onClick={() => setEmployee_id(user?.id)}
                     className="btn w-full flex flex-row justify-start items-center p-2 h-fit"
                   >
-                    <th>
+                    <div>
                       <div className="mask mask-squircle w-12 h-12 overflow-hidden">
                         <Image
                           src="/example-profile-picture.jpg"
@@ -102,11 +100,11 @@ export default function Page() {
                           height={100}
                         />
                       </div>
-                    </th>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                  </tr>
-                </tbody>
+                    </div>
+                    <div>{user.name}</div>
+                    <div>{user.email}</div>
+                  </div>
+                </div>
               ))}
             </ul>
           </div>

@@ -11,6 +11,5 @@ export async function POST(request: Request) {
     name,
     employee_id,
   });
-  console.log(newDepartment);
   return Response.json(newDepartment);
 }

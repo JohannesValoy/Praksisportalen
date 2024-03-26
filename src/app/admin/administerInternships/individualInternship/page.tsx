@@ -9,10 +9,10 @@ import Gantt from "@/app/components/Gantt";
 
 // Assuming datalist is used elsewhere in your component for a Gantt chart
 const datalist: [string, Date, Date][] = [
-  ["Section 1", new Date(2024, 2, 20), new Date(2024, 4, 28)],
-  ["Section 2", new Date(2024, 0, 25), new Date(2024, 2, 20)],
-  ["Section 2", new Date(2024, 4, 28), new Date(2024, 8, 1)],
-  ["Section 6", new Date(2024, 8, 1), new Date(2024, 10, 31)],
+  ["Student 1", new Date(2024, 2, 20), new Date(2024, 4, 28)],
+  ["Student 2", new Date(2024, 0, 25), new Date(2024, 2, 20)],
+  ["Student 2", new Date(2024, 4, 28), new Date(2024, 8, 1)],
+  ["Student 6", new Date(2024, 8, 1), new Date(2024, 10, 31)],
 ];
 
 // Redefined Internship type to include leader information

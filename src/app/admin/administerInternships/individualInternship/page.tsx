@@ -2,11 +2,12 @@
 
 "use client";
 
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
 import Gantt from "@/app/components/Gantt";
 
+// Assuming datalist is used elsewhere in your component for a Gantt chart
 const datalist: [string, Date, Date][] = [
   ["Section 1", new Date(2024, 2, 20), new Date(2024, 4, 28)],
   ["Section 2", new Date(2024, 0, 25), new Date(2024, 2, 20)],
@@ -14,46 +15,74 @@ const datalist: [string, Date, Date][] = [
   ["Section 6", new Date(2024, 8, 1), new Date(2024, 10, 31)],
 ];
 
-const ListOfInternships = () => {
+// Redefined Internship type to include leader information
+type Internship = {
+  id: number;
+  name: string;
+  field: string;
+  maxCapacity: number;
+  currentCapacity: number;
+  numberOfBeds: number;
+  yearOfStudy: number;
+  created_at: Date;
+  updated_at: Date;
+  // Section details
+  section_name: string;
+  section_id: number;
+  // Leader (employee) details
+  leader_id: number;
+  leader_name: string;
+  leader_email: string;
+  leader_role: string;
+  leader_created_at: Date;
+  leader_updated_at: Date;
+};
+
+const InternshipComponent = () => {
   const searchParams = useSearchParams();
   const internship_id = searchParams.get("internship_id");
-  const [internship, setInternships] = useState<Internship[]>([]);
+  const [internship, setInternship] = useState<Internship | null>(null);
+
   useEffect(() => {
     if (internship_id !== null) {
       fetch(`/api/internships/oneInternship?id=${internship_id}`)
         .then((res) => res.json())
-        .then(setInternships);
+        .then((data) => setInternship(data))
+        .catch((error) =>
+          console.error("Failed to fetch internship details:", error)
+        );
     }
   }, [internship_id]);
 
-  type Internship = {
-    name: string;
-    id: string;
-    maxCapacity: number;
-    currentCapacity: number;
-    numberOfBeds: number;
-    yearOfStudy: number;
-    sectionId: string;
-  };
-
   return (
-    <div className="flex flex-col gap-20 w-full h-full items-center justify-center p-10 ">
-      <div className="flex flex-row justify-between w-full">
-        <div className="flex flex-col justify-center text-center">
-          <h1 className="text-3xl font-semibold">{internship.name}</h1>
-          <p>Max Capacity: {internship.maxCapacity}</p>
-          <p>Current Capacity: {internship.currentCapacity}</p>
-          <p>Number of Beds: {internship.numberOfBeds}</p>
-          <p>Year of Study: {internship.yearOfStudy}</p>
-          <p>Section ID: {internship.sectionId}</p>
+    <div className=" w-full h-full">
+      {internship ? (
+        <div className="flex flex-col gap-20w-full h-full items-center justify-center p-10">
+          <div className="flex flex-row justify-between w-full">
+            <div className="flex flex-col justify-center text-center">
+              <h1 className="text-3xl font-semibold">{internship.name}</h1>
+              <p>Section: {internship.section_name}</p>
+              <p>SectionID: {internship.section_id}</p>
+              <p>Field: {internship.field}</p>
+              <p>Max Capacity: {internship.maxCapacity}</p>
+              <p>Current Capacity: {internship.currentCapacity}</p>
+              <p>Number of Beds: {internship.numberOfBeds}</p>
+              <p>Year of Study: {internship.yearOfStudy}</p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-semibold">
+                {internship.leader_name}
+              </h2>
+              <p>{internship.leader_email}</p>
+            </div>
+          </div>
+          <Gantt datalist={datalist} />
         </div>
-        <div>
-          <p>{internship.maxCapacity}</p>
-        </div>
-      </div>
-      <Gantt datalist={datalist} />
+      ) : (
+        <p>Loading internship details...</p>
+      )}
     </div>
   );
 };
 
-export default ListOfInternships;
+export default InternshipComponent;

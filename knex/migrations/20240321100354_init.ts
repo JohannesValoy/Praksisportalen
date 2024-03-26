@@ -78,7 +78,7 @@ export async function up(knex: Knex): Promise<void> {
       table.string("status").notNullable();
       table.date("startDate").notNullable();
       table.date("endDate").notNullable();
-      table.integer("student_id").unsigned();
+      table.integer("student_id").unsigned().notNullable();
       table
         .foreign("student_id")
         .references("id")
@@ -87,7 +87,10 @@ export async function up(knex: Knex): Promise<void> {
       table.integer("coordinator_id").unsigned();
       table.foreign("coordinator_id").references("id").inTable("users");
       table.integer("studyProgram_id").unsigned().notNullable();
-      table.foreign("studyProgram_id").references("id").inTable("studyProgram");
+      table
+        .foreign("studyProgram_id")
+        .references("id")
+        .inTable("studyPrograms");
       table.integer("internship_id").unsigned().notNullable();
       table
         .foreign("internship_id")
@@ -105,4 +108,6 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     });
-  }
+}
+
+export async function down(knex: Knex): Promise<void> {}

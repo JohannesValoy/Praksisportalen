@@ -1,8 +1,9 @@
+
 import { Knex } from "knex";
 import Bun from "bun";
 /**
  * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
+ * @returns { Promise<void> } 
  */
 
 export const seed = async function (knex: Knex) {
@@ -22,7 +23,7 @@ export const seed = async function (knex: Knex) {
       id: 1,
       name: "Master Bob",
       email: "masterbob@dummy",
-      password: await Bun.password.hash("123456", { algorithm: "bcrypt" }),
+      password: await Bun.password.hash("123456", {algorithm: "bcrypt"}),
       role: "admin",
     },
     {

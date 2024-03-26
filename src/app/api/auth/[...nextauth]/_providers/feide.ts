@@ -32,7 +32,6 @@ const feideProvider : OAuthConfig<FeideUser> = {
     allowDangerousEmailAccountLinking: true, 
     clientId: process.env.FEIDE_CLIENT_ID,
     clientSecret: process.env.FEIDE_CLIENT_SECRET,
-    idToken: true,
 };
 
 export default feideProvider;

@@ -16,6 +16,5 @@ export async function POST(request: Request) {
   ).insert({
     name,
   });
-  console.log(newEducationInstitution);
   return Response.json(newEducationInstitution);
 }

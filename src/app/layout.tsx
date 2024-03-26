@@ -31,6 +31,7 @@ export default function RootLayout({
               className="h-10 w-auto"
               width={100}
               height={300}
+              priority={true} // {false} | {true}
             />
           </Link>
           <div className="flex space-x-6 items-center">

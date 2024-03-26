@@ -1,9 +1,8 @@
 /** @format */
 
 "use client";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const ListOfSections = () => {
   const searchParams = useSearchParams();
@@ -66,7 +65,14 @@ const ListOfSections = () => {
               <td>{section?.employee_id}</td>
               <td>{section?.id}</td>
               <th>
-                <button className="btn btn-ghost btn-xs">details</button>
+                <button
+                  className="btn btn-ghost btn-xs"
+                  onClick={() => {
+                    window.location.href = `/admin/administerInternships/?section_id=${section.id}`;
+                  }}
+                >
+                  details
+                </button>
               </th>
             </tr>
           </tbody>

@@ -1,18 +1,32 @@
 /** @format */
 
 "use client";
+
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+
 const ListOfInternships = () => {
+  const searchParams = useSearchParams();
+  const section_id = searchParams.get("section_id");
   const [internships, setInternships] = useState<Internship[]>([]);
 
   useEffect(() => {
-    fetch("/api/internship").then((res) => res.json().then(setInternships));
-  }, []);
+    if (section_id !== null) {
+      fetch(`/api/internships/internshipID?section_id=${section_id}`)
+        .then((res) => res.json())
+        .then(setInternships);
+    } else {
+      fetch(`/api/internships`)
+        .then((res) => res.json())
+        .then(setInternships);
+    }
+  }, [section_id]);
 
   type Internship = {
     name: string;
     id: string;
+    employee_id: string;
   };
 
   return (
@@ -28,7 +42,7 @@ const ListOfInternships = () => {
             </th>
             <th>Name</th>
             <th>Email</th>
-            <th>Created At</th>
+            <th>ID</th>
             <th>
               <Link
                 href="/"
@@ -53,7 +67,14 @@ const ListOfInternships = () => {
               <td>none</td>
               <td>{internship?.id}</td>
               <th>
-                <button className="btn btn-ghost btn-xs">details</button>
+                <button
+                  className="btn btn-ghost btn-xs"
+                  onClick={() => {
+                    window.location.href = `/admin/administerInternships/individualInternship?internship_id=${internship.id}`;
+                  }}
+                >
+                  details
+                </button>
               </th>
             </tr>
           </tbody>

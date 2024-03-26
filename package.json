@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "knex": "^3.1.0",
     "mysql2": "^3.9.2",
     "@syncfusion/ej2-react-gantt": "^25.1.35",

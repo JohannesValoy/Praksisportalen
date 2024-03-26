@@ -23,8 +23,6 @@ const ListOfInternships = () => {
     }
   }, [id]);
 
-  console.log(`/api/internships/${id}`);
-  console.log(internships);
   type Internship = {
     name: string;
     id: string;

@@ -296,7 +296,7 @@ export const seed = async function (knex: Knex) {
       name: "Spesialseksjon",
     },
   ]);
-  await knex("internshipField").insert([
+  await knex("internshipFields").insert([
     {
       name: "Kirurgi",
     },

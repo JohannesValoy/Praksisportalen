@@ -30,11 +30,16 @@ export default function Page() {
     fetch(`/api/users/students/oneStudent?id=${student_id}`) // Adjusted the fetch URL to match backend routing.
       .then((res) => res.json())
       .then((data) => setStudent(data)) // Ensure proper data handling.
-      .catch((error) => console.error("Failed to fetch users", error)); // Error handling.
+      .catch((error) => {
+        console.error("Failed to fetch one student", error); // Error handling.
+        fetch(`/api/users/student?id=${student_id}`)
+          .then((res) => res.json())
+          .then((data) => setStudent(data))
+          .catch((error) => console.error("Failed to fetch student", error));
+      });
   }, [student_id]);
   console.log(student);
   console.log(`/api/users/students/oneStudent?id=${student_id}`);
-
   return (
     <div className="flex flex-row w-full h-full items-center justify-center">
       {student ? (

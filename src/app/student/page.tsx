@@ -37,7 +37,6 @@ export default function Page() {
           .catch((error) => console.error("Failed to fetch student", error));
       });
   }, [student_id]);
-  console.log(`/api/users/${student_id}`);
 
   return (
     <div className="flex flex-row w-full h-full items-center justify-center">

@@ -23,7 +23,7 @@ const ListOfSections = () => {
     console.log(id);
     console.log("sections");
     console.log(`/api/departments/${id}`);
-  }, [id]);
+  }, [id, sections]);
 
   type Section = {
     name: string;

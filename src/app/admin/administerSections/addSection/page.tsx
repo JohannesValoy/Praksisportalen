@@ -42,21 +42,25 @@ export default function Page() {
       .catch((error) => console.error("Failed to fetch users", error)); // Error handling.
   }, []);
 
-  const [sectionTypes, setSectionTypes] = useState<string[]>([]);
+  // Initialize sectionTypes as an array of SectionType
+  const [sectionTypes, setSectionTypes] = useState<SectionType[]>([]);
   const [newType, setNewType] = useState("");
 
+  // Add a new type for SectionType
+  type SectionType = {
+    name: string;
+  };
+
+  // Fetch section types from the API
   useEffect(() => {
-    setSectionTypes([
-      "Sengepost",
-      "Poliklinikk og dagbehandling",
-      "Spesialseksjon",
-    ]);
+    fetch(`/api/sections/sectionTypes`) // Adjust the fetch URL to match backend routing.
+      .then((res) => res.json())
+      .then((data) => setSectionTypes(data)) // Ensure proper data handling.
+      .catch((error) => console.error("Failed to fetch section types", error)); // Error handling.
   }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const selectedSectionType = sectionTypes[0]; // Default value
 
     const response = await fetch("/api/sections", {
       method: "POST",
@@ -72,8 +76,25 @@ export default function Page() {
     router.back();
   };
 
-  const handleAddType = () => {
-    setSectionTypes([...sectionTypes, newType]);
+  const handleAddType = async () => {
+    const response = await fetch("/api/sections/sectionTypes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: newType }),
+    });
+
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
+    // Fetch the updated list of section types
+    fetch(`/api/sections/sectionTypes`)
+      .then((res) => res.json())
+      .then((data) => setSectionTypes(data))
+      .catch((error) => console.error("Failed to fetch section types", error));
+
     setNewType(""); // Clear the input field
   };
 
@@ -166,23 +187,23 @@ export default function Page() {
           <div className="label">
             <span className="label-text text-xl">Section Type</span>
           </div>
-          <Dropdown
-            dropdownName="Section Type"
-            options={sectionTypes.map((type) => ({ id: type, name: type }))}
-            selectedOption={
-              sectionType ? { id: sectionType, name: sectionType } : null
-            }
-            setSelectedOption={(option) => setSectionType(option.name)}
-            renderOption={(option) => (
-              <>
-                <th>
-                  <div className="mask mask-squircle w-12 h-12 overflow-hidden "></div>
-                </th>
-                <td>{option.name}</td>
-              </>
-            )}
-          />
         </label>
+        <Dropdown
+          dropdownName="Section Type"
+          options={sectionTypes}
+          selectedOption={
+            sectionTypes.find((type) => type.name === sectionType) || null
+          }
+          setSelectedOption={(type) => setSectionType(type.name)}
+          renderOption={(type) => (
+            <>
+              <th>
+                <div className="mask mask-squircle w-12 h-12 overflow-hidden "></div>
+              </th>
+              <td>{type.name}</td>
+            </>
+          )}
+        />
         <div className="flex flex-row mt-2">
           <input
             type="text"
@@ -207,4 +228,7 @@ export default function Page() {
       </div>
     </main>
   );
+}
+function setNewType(arg0: string) {
+  throw new Error("Function not implemented.");
 }

@@ -14,6 +14,7 @@ const ListOfDepartments = () => {
     name: string;
     id: string;
     employee_id: string;
+    employee_email: string;
   };
 
   return (
@@ -28,8 +29,7 @@ const ListOfDepartments = () => {
               </label>
             </th>
             <th>Name</th>
-            <th>Email</th>
-            <th>Created At</th>
+            <th>Leader Email</th>
             <th>
               <a
                 href={`/admin/administerDepartments/addDepartment`}
@@ -51,8 +51,7 @@ const ListOfDepartments = () => {
               <th>
                 <div className="font-bold">{department?.name}</div>
               </th>
-              <td>{department?.employee_id}</td>
-              <td>{department?.id}</td>
+              <td>{department?.employee_email}</td>
               <th>
                 <button
                   className="btn btn-ghost btn-xs"

@@ -1,6 +1,7 @@
 /** @format */
 "use client";
 import Link from "next/link";
+import ThemeChanger from "./components/ThemeChanger";
 
 /**With dummy buttons to log into the different users while backend is being developed */
 export default function Home() {
@@ -32,6 +33,7 @@ export default function Home() {
       >
         Logg in as Administrator
       </Link>
+      <ThemeChanger />
     </main>
   );
 }

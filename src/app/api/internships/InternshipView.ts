@@ -7,6 +7,8 @@ class InternshipView {
   name: string;
   field: string;
   maxCapacity: number;
+  employee_email: string;
+  employee_id: number;
   currentCapacity: number;
   numberOfBeds: number;
   yearOfStudy: number;
@@ -21,6 +23,8 @@ class InternshipView {
     this.maxCapacity = internship.maxCapacity;
     this.currentCapacity = internship.currentCapacity;
     this.numberOfBeds = internship.numberOfBeds;
+    this.employee_email = internship.employee_email;
+    this.employee_id = internship.employee_id;
     this.yearOfStudy = internship.yearOfStudy;
     this.section_id = internship.section_id;
     this.created_at = internship.created_at;

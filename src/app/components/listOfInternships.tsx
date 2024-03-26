@@ -23,10 +23,13 @@ const ListOfInternships = () => {
     }
   }, [id]);
 
+  console.log(`/api/internships/${id}`);
+  console.log(internships);
   type Internship = {
     name: string;
     id: string;
     employee_id: string;
+    employee_email: string;
   };
 
   return (
@@ -66,7 +69,16 @@ const ListOfInternships = () => {
                   <th>
                     <div className="font-bold">{internship?.name}</div>
                   </th>
-                  <td>none</td>
+                  <td>
+                    <button
+                      className="btn btn-ghost btn-xs"
+                      onClick={() => {
+                        window.location.href = `/employee/?user_id=${internship.employee_id}`;
+                      }}
+                    >
+                      {internship?.employee_email}
+                    </button>
+                  </td>
                   <td>{internship?.id}</td>
                   <th>
                     <button

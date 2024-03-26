@@ -6,20 +6,22 @@ import { useSearchParams } from "next/navigation";
 
 const ListOfSections = () => {
   const searchParams = useSearchParams();
-  const id = searchParams.get("id");
+  const id = searchParams.get("department_id");
   const [sections, setSections] = useState<Section[]>([]);
 
   useEffect(() => {
     if (id !== null) {
-      fetch(`/api/departments/${id}`)
+      fetch(`/api/sections/${id}`)
         .then((res) => res.json())
-        .then(setSections);
+        .then((data) => setSections([data]));
     } else {
       fetch(`/api/sections`)
         .then((res) => res.json())
         .then(setSections);
     }
-  }, [id, sections]);
+  }, [id]);
+  console.log(`/api/sections/${id}`);
+  console.log(sections);
 
   type Section = {
     name: string;

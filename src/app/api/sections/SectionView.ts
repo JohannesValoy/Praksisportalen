@@ -10,8 +10,10 @@ class SectionView {
   department_id: number;
   created_at: Date;
   updated_at: Date;
+  employee_email: string; // Add this line
 
-  constructor(section: Section) {
+  constructor(section: Section & { employee_email: string }) {
+    // Modify this line
     this.id = section.id;
     this.name = section.name;
     this.type = section.type;
@@ -19,6 +21,7 @@ class SectionView {
     this.department_id = section.department_id;
     this.created_at = section.created_at;
     this.updated_at = section.updated_at;
+    this.employee_email = section.employee_email; // Add this line
   }
 }
 

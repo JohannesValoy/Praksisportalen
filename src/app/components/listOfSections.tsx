@@ -62,7 +62,16 @@ const ListOfSections = () => {
               <th>
                 <div className="font-bold">{section?.name}</div>
               </th>
-              <td>{section?.employee_email}</td>
+              <td>
+                <button
+                  className="btn btn-ghost btn-xs"
+                  onClick={() => {
+                    window.location.href = `/employee/?user_id=${section.employee_id}`;
+                  }}
+                >
+                  {section?.employee_email}
+                </button>
+              </td>
               <th>
                 <button
                   className="btn btn-ghost btn-xs"

@@ -25,6 +25,7 @@ const ListOfSections = () => {
     name: string;
     id: string;
     employee_id: string;
+    employee_email: string;
   };
 
   return (
@@ -39,8 +40,7 @@ const ListOfSections = () => {
               </label>
             </th>
             <th>Name</th>
-            <th>Email</th>
-            <th>Created At</th>
+            <th>Leader Email</th>
             <th>
               <a
                 href={`/admin/administerSections/addSection`}
@@ -62,8 +62,7 @@ const ListOfSections = () => {
               <th>
                 <div className="font-bold">{section?.name}</div>
               </th>
-              <td>{section?.employee_id}</td>
-              <td>{section?.id}</td>
+              <td>{section?.employee_email}</td>
               <th>
                 <button
                   className="btn btn-ghost btn-xs"

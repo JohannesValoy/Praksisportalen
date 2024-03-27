@@ -13,7 +13,7 @@ const ListOfSections = () => {
     if (id !== null) {
       fetch(`/api/sections/${id}`)
         .then((res) => res.json())
-        .then((data) => setSections([data]));
+        .then((data) => setSections(data));
     } else {
       fetch(`/api/sections`)
         .then((res) => res.json())

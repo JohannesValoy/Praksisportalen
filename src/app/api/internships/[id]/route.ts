@@ -18,9 +18,14 @@ export async function GET(
     );
 
   if (internships.length > 0) {
-    return new Response(JSON.stringify(new InternshipJson(internships[0])), {
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify(
+        internships.map((internship) => new InternshipJson(internship))
+      ),
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   } else {
     return new Response(JSON.stringify({ message: "Internship not found" }), {
       status: 404,

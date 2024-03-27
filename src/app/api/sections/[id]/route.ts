@@ -12,7 +12,7 @@ export async function GET(
     .join("users", "sections.employee_id", "=", "users.id")
     .select("sections.*", "users.email as employee_email");
   if (section) {
-    return Response.json(new SectionView(section[0]));
+    return Response.json(section.map((sec) => new SectionView(sec)));
   }
   return Response.json({ message: "Internship not found" }, { status: 404 });
 }

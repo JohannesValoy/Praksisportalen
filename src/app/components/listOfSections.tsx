@@ -13,13 +13,14 @@ const ListOfSections = () => {
     if (id !== null) {
       fetch(`/api/sections/${id}`)
         .then((res) => res.json())
-        .then((data) => setSections([data]));
+        .then((data) => setSections(data));
     } else {
       fetch(`/api/sections`)
         .then((res) => res.json())
         .then(setSections);
     }
   }, [id]);
+  console.log(sections);
 
   type Section = {
     name: string;
@@ -68,7 +69,7 @@ const ListOfSections = () => {
                     <button
                       className="btn btn-ghost btn-xs"
                       onClick={() => {
-                        window.location.href = `/employee/?user_id=${section.employee_id}`;
+                        window.location.href = `/profile/?id=${section.employee_id}`;
                       }}
                     >
                       {section?.employee_email}

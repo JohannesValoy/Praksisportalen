@@ -65,7 +65,7 @@ export default function Page() {
           </div>
         </div>
       ) : (
-        <p>Loading internship details...</p>
+        <p>Loading Profile details...</p>
       )}
     </div>
   );

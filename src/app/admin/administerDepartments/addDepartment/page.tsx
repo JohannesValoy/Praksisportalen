@@ -22,9 +22,10 @@ export default function Page() {
   useEffect(() => {
     fetch(`/api/users?role=${"employee"}`) // Adjusted the fetch URL to match backend routing.
       .then((res) => res.json())
-      .then((data) => setUsers(data)) // Ensure proper data handling.
+      .then((data) => setUsers(data.elements)) // Ensure proper data handling.
       .catch((error) => console.error("Failed to fetch users", error)); // Error handling.
   }, []);
+  console.log(users);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

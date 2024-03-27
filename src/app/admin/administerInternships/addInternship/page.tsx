@@ -1,56 +1,41 @@
 /** @format */
-/** @format */
-
 "use client";
 
+import Dropdown from "@/app/components/Dropdown";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import Dropdown from "@/app/components/Dropdown";
+import { useEffect, useState } from "react";
 
 export default function Page() {
+  const [name, setname] = useState("");
+  const [sections, setSections] = useState<Section[]>([]);
+  const [section_id, setSections_id] = useState(0);
+  const [field, setField] = useState("");
+  const [newField, setNewField] = useState("");
+  const [internshipFields, setFields] = useState<Fields[]>([]);
+  const [currentCapacity, setCurrentCapacity] = useState(0);
+  const [maxCapacity, setMaxCapacity] = useState(0);
+  const [numberOfBeds, setNumberOfBeds] = useState(0);
+  const [yearOfStudy, setYearOfStudy] = useState(0);
+
   const router = useRouter();
 
-  const [name, setname] = useState("");
-  const [sectionType, setSectionType] = useState("");
-  const [employee_id, setEmployee_id] = useState("");
-  const [department_id, setDepartment_id] = useState(""); // Initialize sectionTypes as an array of SectionType
-  const [sectionTypes, setSectionTypes] = useState<SectionType[]>([]);
-  const [newType, setNewType] = useState("");
-
-  // Add a new type for SectionType
-  type SectionType = {
+  type Section = {
     name: string;
-  };
-
-  const [users, setUsers] = useState<User[]>([]);
-  type User = {
-    name: string;
-    email: string;
     id: string;
   };
 
-  const [departments, setDepartments] = useState<Department[]>([]);
-  type Department = {
+  type Fields = {
     name: string;
-    id: string;
   };
 
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        const usersResponse = await fetch(`/api/users?role=employee`).then(
-          (res) => res.json()
+        const sectionsResponse = await fetch(`/api/sections`).then((res) =>
+          res.json()
         );
-        setUsers(usersResponse.elements || []);
-        const departmentsResponse = await fetch(`/api/departments`).then(
-          (res) => res.json()
-        );
-        setDepartments(departmentsResponse || []);
-        const sectionTypesResponse = await fetch(
-          `/api/sections/sectionTypes`
-        ).then((res) => res.json());
-        setSectionTypes(sectionTypesResponse || []);
+        setSections(sectionsResponse || []);
       } catch (error) {
         console.error("Failed to fetch data", error);
       }
@@ -59,15 +44,47 @@ export default function Page() {
     fetchAllData();
   }, []);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const response = await fetch("/api/sections", {
+  const handleAddField = async () => {
+    const response = await fetch("/api/internships/internshipFields", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, sectionType, employee_id, department_id }),
+      body: JSON.stringify({
+        name: newField,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
+    // Fetch the updated list of section types
+    fetch(`/api/internships/internshipFields`)
+      .then((res) => res.json())
+      .then((data) => setFields(data))
+      .catch((error) => console.error("Failed to fetch section types", error));
+
+    setNewField(""); // Clear the input field
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const response = await fetch("/api/internships", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        field,
+        maxCapacity,
+        currentCapacity,
+        numberOfBeds,
+        yearOfStudy,
+        section_id,
+      }),
     });
 
     if (!response.ok) {
@@ -76,153 +93,114 @@ export default function Page() {
     router.back();
   };
 
-  const handleAddType = async () => {
-    const response = await fetch("/api/sections/sectionTypes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: newType }),
-    });
-
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-
-    // Fetch the updated list of section types
-    fetch(`/api/sections/sectionTypes`)
-      .then((res) => res.json())
-      .then((data) => setSectionTypes(data))
-      .catch((error) => console.error("Failed to fetch section types", error));
-
-    setNewType(""); // Clear the input field
-  };
   return (
-    <main className="flex flex-col items-center justify-center w-full h-full">
-      <div style={{ width: "50rem" }}>
-        <h1 className="flex justify-center text-4xl font-bold mb-4">
-          Add Section
-        </h1>
-        <label className="form-control w-full mb-2">
-          <div className="label">
-            <span className="label-text text-xl">Section Name</span>
-          </div>
-          <input
-            type="text"
-            placeholder="Section Name"
-            className="input input-bordered w-full"
-            onChange={(e) => setname(e.target.value)}
-          />
-        </label>
-        <div className="flex flex-row   mb-2">
-          <Dropdown
-            dropdownName="Leader"
-            options={users}
-            selectedOption={
-              users.find((user) => user.id === employee_id) || null
-            }
-            setSelectedOption={(user) => setEmployee_id(user.id)}
-            renderOption={(user) => (
-              <>
-                <div>
-                  <div className="mask mask-squircle w-12 h-12 overflow-hidden">
-                    <Image
-                      src="/example-profile-picture.jpg"
-                      alt="Description"
-                      className=" bg-neutral-300 h-full object-cover"
-                      width={100}
-                      height={100}
-                    />
-                  </div>
-                </div>
-                <div>{user.name}</div>
-                <div>{user.email}</div>
-              </>
-            )}
-          />
-          <button>
-            <a
-              href={`/admin/addUser?role=${"employee"}`}
-              className="btn btn-primary h-full"
-            >
-              Add Employee
-            </a>
-          </button>
+    <main className="w-full h-full flex flex-col items-center">
+      Add Internship
+      <label className="form-control w-full mb-2">
+        <div className="label">
+          <span className="label-text text-xl">Internship Name</span>
         </div>
-        <div className="flex flex-row mb-2">
-          <Dropdown
-            dropdownName="Department"
-            options={departments}
-            selectedOption={
-              departments.find(
-                (department) => department.id === department_id
-              ) || null
-            }
-            setSelectedOption={(department) => setDepartment_id(department.id)}
-            renderOption={(department) => (
-              <>
-                <th>
-                  <div className="mask mask-squircle w-12 h-12 overflow-hidden"></div>
-                </th>
-                <td>{department.name}</td>
-              </>
-            )}
-          />
-          <button>
-            <a
-              href={`/admin/administerDepartments/addDepartment`}
-              className="btn btn-primary h-full"
-            >
-              Add Department
-            </a>
-          </button>
-        </div>
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text text-xl">Section Type</span>
-          </div>
-        </label>
-        <Dropdown
-          dropdownName="Section Type"
-          options={sectionTypes}
-          selectedOption={
-            sectionTypes.find((type) => type.name === sectionType) || null
-          }
-          setSelectedOption={(type) => setSectionType(type.name)}
-          renderOption={(type) => (
-            <>
-              <th>
-                <div className="mask mask-squircle w-12 h-12 overflow-hidden "></div>
-              </th>
-              <td>{type.name}</td>
-            </>
-          )}
+        <input
+          type="text"
+          placeholder="Section Name"
+          className="input input-bordered w-full"
+          onChange={(e) => setname(e.target.value)}
         />
-        <div className="flex flex-row mt-2">
-          <input
-            type="text"
-            value={newType}
-            onChange={(e) => setNewType(e.target.value)}
-            placeholder="Enter new section type"
-            className="input input-bordered w-full"
-          />
-          <button className="btn btn-primary h-full" onClick={handleAddType}>
-            Add new type
-          </button>
+      </label>
+      <label className="form-control w-full">
+        <div className="label">
+          <span className="label-text text-xl">Section</span>
         </div>
-        <div className="flex flex-row"></div>
-        <div className="flex w-full justify-center p-10 gap-5">
-          <button className="btn w-20" onClick={() => router.back()}>
-            Cancel
-          </button>
-          <button className="btn btn-primary w-20" onClick={handleSubmit}>
-            Save
-          </button>
+      </label>
+      <Dropdown
+        dropdownName="Section"
+        options={sections}
+        selectedOption={
+          sections.find((currSections) => currSections.id === section_id) ||
+          null
+        }
+        setSelectedOption={(currSections) => setSections_id(currSections.id)}
+        renderOption={(currSections) => <div>{currSections.name}</div>}
+      />
+      <label className="form-control w-full">
+        <div className="label">
+          <span className="label-text text-xl">Internship Field</span>
         </div>
+      </label>
+      <Dropdown
+        dropdownName="Internship Field"
+        options={internshipFields}
+        selectedOption={
+          internshipFields.find((currField) => currField.name === field) || null
+        }
+        setSelectedOption={(currField) => setField(currField.name)}
+        renderOption={(currField) => <div>{currField.name}</div>}
+      />
+      <div className="flex flex-row mt-2">
+        <input
+          type="text"
+          value={newField}
+          onChange={(e) => setNewField(e.target.value)}
+          placeholder="Enter new internship field"
+          className="input input-bordered w-full"
+        />
+        <button className="btn btn-primary h-full" onClick={handleAddField}>
+          Add new field
+        </button>
+      </div>
+      <label className="form-control w-full mb-2">
+        <div className="label">
+          <span className="label-text text-xl">Number of Intern Spots</span>
+        </div>
+        <input
+          type="number"
+          placeholder="Number of intern Spots"
+          className="input input-bordered w-full"
+          onChange={(e) => setCurrentCapacity(e.target.value)}
+        />
+      </label>
+      <label className="form-control w-full mb-2">
+        <div className="label">
+          <span className="label-text text-xl">Max Capacity</span>
+        </div>
+        <input
+          type="number"
+          placeholder="Max Capacity"
+          className="input input-bordered w-full"
+          onChange={(e) => setMaxCapacity(e.target.value)}
+        />
+      </label>
+      <label className="form-control w-full mb-2">
+        <div className="label">
+          <span className="label-text text-xl">Number of Beds</span>
+        </div>
+        <input
+          type="number"
+          placeholder="Number of Beds"
+          className="input input-bordered w-full"
+          onChange={(e) => setNumberOfBeds(e.target.value)}
+        />
+      </label>
+      <label className="form-control w-full mb-2">
+        <div className="label">
+          <span className="label-text text-xl">Year of Study</span>
+        </div>
+        <input
+          type="number"
+          placeholder="Year of Study"
+          className="input input-bordered w-full"
+          onChange={(e) => setYearOfStudy(e.target.value)}
+        />
+      </label>
+      <div className="flex flex-row"></div>
+      <div className="flex w-full justify-center p-10 gap-5">
+        <button className="btn w-20" onClick={() => router.back()}>
+          Cancel
+        </button>
+        <button className="btn btn-primary w-20" onClick={handleSubmit}>
+          Save
+        </button>
       </div>
     </main>
   );
-}
-function setNewType(arg0: string) {
-  throw new Error("Function not implemented.");
 }

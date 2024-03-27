@@ -98,11 +98,6 @@ export default function Page() {
     setNewType(""); // Clear the input field
   };
 
-  const selectedUser = users.find((user) => user.id === employee_id);
-  const selectedDepartment = departments.find(
-    (department) => department.id === department_id
-  );
-
   return (
     <main className="flex flex-col items-center justify-center w-full h-full">
       <div style={{ width: "50rem" }}>
@@ -228,7 +223,4 @@ export default function Page() {
       </div>
     </main>
   );
-}
-function setNewType(arg0: string) {
-  throw new Error("Function not implemented.");
 }

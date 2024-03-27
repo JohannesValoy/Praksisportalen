@@ -10,7 +10,7 @@ export async function GET(
   const section = await DBclient("sections")
     .where({ "sections.department_id": params.id })
     .join("users", "sections.employee_id", "=", "users.id")
-    .select("sections.*", "users.email as employee_email"); // Selecting all from sections and user's email
+    .select("sections.*", "users.email as employee_email");
   if (section) {
     return Response.json(new SectionView(section[0]));
   }

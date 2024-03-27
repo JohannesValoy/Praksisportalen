@@ -12,7 +12,8 @@ const ListOfUsers = ({ role }: { role: string }) => {
     fetch(`/api/users?role=${role}`) // Adjusted the fetch URL to match backend routing.
       .then((res) => res.json())
       .then((data) => {
-        setUsers(data.elements)}) // Ensure proper data handling.
+        setUsers(data.elements);
+      }) // Ensure proper data handling.
       .catch((error) => console.error("Failed to fetch users", error)); // Error handling.
   }, []);
 
@@ -53,7 +54,7 @@ const ListOfUsers = ({ role }: { role: string }) => {
               <th>
                 <button
                   onClick={() => {
-                    window.location.href = `/${role}?id=${user.id}`;
+                    window.location.href = `/profile?id=${user.id}`;
                   }}
                   className="btn btn-ghost btn-xs"
                 >

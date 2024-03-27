@@ -20,6 +20,7 @@ const ListOfSections = () => {
         .then(setSections);
     }
   }, [id]);
+  console.log(sections);
 
   type Section = {
     name: string;
@@ -68,7 +69,7 @@ const ListOfSections = () => {
                     <button
                       className="btn btn-ghost btn-xs"
                       onClick={() => {
-                        window.location.href = `/employee/?user_id=${section.employee_id}`;
+                        window.location.href = `/profile/?id=${section.employee_id}`;
                       }}
                     >
                       {section?.employee_email}

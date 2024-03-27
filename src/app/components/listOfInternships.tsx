@@ -71,7 +71,7 @@ const ListOfInternships = () => {
                     <button
                       className="btn btn-ghost btn-xs"
                       onClick={() => {
-                        window.location.href = `/employee/?user_id=${internship.employee_id}`;
+                        window.location.href = `/profile/?id=${internship.employee_id}`;
                       }}
                     >
                       {internship?.employee_email}

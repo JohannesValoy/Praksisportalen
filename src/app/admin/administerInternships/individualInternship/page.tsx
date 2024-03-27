@@ -71,7 +71,7 @@ const InternshipComponent = () => {
             </div>
             <div
               onClick={() => {
-                window.location.href = `/employee?id=${internship.leader_id}`;
+                window.location.href = `/profile?id=${internship.leader_id}`;
               }}
               className="btn btn-ghost btn-xl"
             >

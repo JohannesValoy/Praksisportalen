@@ -55,7 +55,7 @@ const ListOfDepartments = () => {
                 <button
                   className="btn btn-ghost btn-xs"
                   onClick={() => {
-                    window.location.href = `/employee/?user_id=${department.employee_id}`;
+                    window.location.href = `/profile/?id=${department.employee_id}`;
                   }}
                 >
                   {department?.employee_email}

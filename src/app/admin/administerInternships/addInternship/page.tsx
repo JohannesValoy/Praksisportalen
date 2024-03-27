@@ -44,6 +44,13 @@ export default function Page() {
     fetchAllData();
   }, []);
 
+  useEffect(() => {
+    fetch(`/api/internships/internshipFields`) // Adjust the fetch URL to match backend routing.
+      .then((res) => res.json())
+      .then((data) => setFields(data)) // Ensure proper data handling.
+      .catch((error) => console.error("Failed to fetch section types", error)); // Error handling.
+  }, []);
+
   const handleAddField = async () => {
     const response = await fetch("/api/internships/internshipFields", {
       method: "POST",
@@ -94,7 +101,7 @@ export default function Page() {
   };
 
   return (
-    <main className="w-full h-full flex flex-col items-center">
+    <main className="w-full h-full max-w-[50rem] mx-auto m-10 flex flex-col items-center">
       Add Internship
       <label className="form-control w-full mb-2">
         <div className="label">
@@ -156,7 +163,8 @@ export default function Page() {
           type="number"
           placeholder="Number of intern Spots"
           className="input input-bordered w-full"
-          onChange={(e) => setCurrentCapacity(e.target.value)}
+          onChange={(e) => setCurrentCapacity(Number(e.target.value))}
+          max={50}
         />
       </label>
       <label className="form-control w-full mb-2">
@@ -167,7 +175,8 @@ export default function Page() {
           type="number"
           placeholder="Max Capacity"
           className="input input-bordered w-full"
-          onChange={(e) => setMaxCapacity(e.target.value)}
+          onChange={(e) => setMaxCapacity(Number(e.target.value))}
+          max={50}
         />
       </label>
       <label className="form-control w-full mb-2">
@@ -178,7 +187,8 @@ export default function Page() {
           type="number"
           placeholder="Number of Beds"
           className="input input-bordered w-full"
-          onChange={(e) => setNumberOfBeds(e.target.value)}
+          onChange={(e) => setNumberOfBeds(Number(e.target.value))}
+          max={50}
         />
       </label>
       <label className="form-control w-full mb-2">
@@ -189,7 +199,8 @@ export default function Page() {
           type="number"
           placeholder="Year of Study"
           className="input input-bordered w-full"
-          onChange={(e) => setYearOfStudy(e.target.value)}
+          onChange={(e) => setYearOfStudy(Number(e.target.value))}
+          max={50}
         />
       </label>
       <div className="flex flex-row"></div>

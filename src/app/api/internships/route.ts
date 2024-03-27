@@ -11,6 +11,7 @@ console.log("test");
 export async function POST(request: Request) {
   const {
     name,
+    field,
     maxCapacity,
     currentCapacity,
     numberOfBeds,
@@ -20,7 +21,7 @@ export async function POST(request: Request) {
   console.log(request);
   const internship = await DBclient("internships").insert({
     name,
-    field: "field",
+    field,
     maxCapacity,
     currentCapacity,
     numberOfBeds,

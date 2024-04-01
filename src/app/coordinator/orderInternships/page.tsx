@@ -11,10 +11,6 @@ export default function Page() {
 
   const [studyProgram_id, setStudyProgram_id] = useState("");
   const [internshipField, setInternshipField] = useState("");
-  const [studyYear, setStudyYear] = useState("");
-  const [numStudents, setNumStudents] = useState("");
-  const [startWeek, setStartWeek] = useState("");
-  const [endWeek, setEndWeek] = useState("");
   const [comment, setComment] = useState("");
   const [fieldGroups, setFieldGroups] = useState([]);
 

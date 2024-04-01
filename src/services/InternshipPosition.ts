@@ -1,6 +1,7 @@
 import { Internship } from "knex/types/tables.js";
-import { InternshipAgreementObject, fetchInternshipAgreementByInternshipID } from "./Agreement";
 import DBclient from "@/knex/config/DBClient";
+import { PageRequest } from "@/app/_models/pageinition";
+import { NextRequest } from "next/server";
 
 class InternshipPositionObject implements Internship {
     id: number;
@@ -11,11 +12,10 @@ class InternshipPositionObject implements Internship {
     numberOfBeds: number;
     yearOfStudy: number;
     section_id: number;
-    internshipAgreements: InternshipAgreementObject[];
     created_at: Date;
     updated_at: Date;
 
-    constructor(query: Internship, agreements: InternshipAgreementObject[]) {
+    constructor(query: Internship) {
         this.id = query.id;
         this.name = query.name;
         this.field = query.field;
@@ -24,7 +24,6 @@ class InternshipPositionObject implements Internship {
         this.numberOfBeds = query.numberOfBeds;
         this.yearOfStudy = query.yearOfStudy;
         this.section_id = query.section_id;
-        this.internshipAgreements = agreements;
         this.created_at = query.created_at;
         this.updated_at = query.updated_at;
     }
@@ -39,12 +38,37 @@ class InternshipPositionObject implements Internship {
             numberOfBeds: this.numberOfBeds,
             yearOfStudy: this.yearOfStudy,
             section_id: this.section_id,
-            internshipAgreements: this.internshipAgreements,
             created_at: this.created_at,
             updated_at: this.updated_at
         };
     }
 }
+
+class InternshipPaginationRequest extends PageRequest {
+    section_id: number[];
+    yearOfStudy: number[];
+    field: string;
+
+    constructor(page: number = 0, size: number = 10 , sort: string = "id", section_id: number[] = [], yearOfStudy: number[] = [], field: string = "") {
+        super(page, size, sort);
+        if (sort == null) {
+            this.sort = "id";
+        }
+        this.section_id = section_id;
+        this.yearOfStudy = yearOfStudy;
+        this.field = field;
+    }
+
+    static fromRequest(request: NextRequest): InternshipPaginationRequest {
+        const page = super.fromRequest(request);
+        const section_id = request.nextUrl.searchParams.get("section_id") ? request.nextUrl.searchParams.get("section_id").split(",").map((id) => parseInt(id)) : null;
+        const yearOfStudy = request.nextUrl.searchParams.get("yearOfStudy") ? request.nextUrl.searchParams.get("yearOfStudy").split(",").map((year) => parseInt(year)) : null;
+        const field = request.nextUrl.searchParams.get("field");
+        return new InternshipPaginationRequest(page.page, page.size, page.sort, section_id, yearOfStudy, field);
+    }
+}
+
+
 
 async function getInternshipPositionObjectByID(id: number): Promise<InternshipPositionObject> {
     const internship = await getInternshipPositionObjectByIDList([id]);
@@ -57,11 +81,50 @@ async function getInternshipPositionObjectByID(id: number): Promise<InternshipPo
 async function getInternshipPositionObjectByIDList(idList: number[]): Promise<Map<number, InternshipPositionObject>> {
     const query = await DBclient.select().from<Internship>("internships").whereIn("id", idList);
     const internships: Map<number, InternshipPositionObject> = new Map();
-    const internshipAgreements: Map<number, InternshipAgreementObject[]> = await fetchInternshipAgreementByInternshipID(idList);
     query.forEach((internship) => {
-        internships.set(internship.id, new InternshipPositionObject(internship, internshipAgreements.get(internship.id)));
+        internships.set(internship.id, new InternshipPositionObject(internship));
     });
     return internships;
 }
 
-export { InternshipPositionObject, getInternshipPositionObjectByID, getInternshipPositionObjectByIDList};
+async function getInternshipPositionObjectBySectionID(sections : number[]) : Promise<Map<number, InternshipPositionObject[]>> {
+    const query = await DBclient.from<Internship>("internships").select("id","section_id").whereIn("section_id", sections);
+    const internships = await getInternshipPositionObjectByIDList(query.map((internship) => internship.id));
+    const internshipsMap = new Map();
+    query.forEach((internship) => {
+        if (internshipsMap.has(internship.section_id)) {
+            internshipsMap.get(internship.section_id).push(internships.get(internship.id));
+        } else {
+            internshipsMap.set(internship.section_id, [internships.get(internship.id)]);
+        }
+    });
+    return internshipsMap;
+}
+
+
+
+async function getInternshipPositionObjectByPage(pageRequest : InternshipPaginationRequest) : Promise<InternshipPositionObject[]> {
+    const query = await DBclient.select().from<Internship>("internships").where((builder) => {
+        if (pageRequest.section_id != null && pageRequest.section_id.length > 0) {
+            builder.whereIn("section_id", pageRequest.section_id);
+        }
+        if (pageRequest.yearOfStudy != null && pageRequest.yearOfStudy.length > 0) {
+            builder.whereIn("yearOfStudy", pageRequest.yearOfStudy);
+        }
+        if (pageRequest.field != null && pageRequest.field.length > 0) {
+            builder.where("field", pageRequest.field);
+        }
+        builder.orderBy(pageRequest.sort);
+        builder.limit(pageRequest.size);
+        builder.offset(pageRequest.page * pageRequest.size);
+    });
+    const internships: InternshipPositionObject[] = [];
+    query.forEach((internship) => {
+        internships.push(new InternshipPositionObject(internship));
+    })
+    return internships;
+
+}
+
+
+export { InternshipPositionObject, getInternshipPositionObjectByID, getInternshipPositionObjectByIDList, getInternshipPositionObjectBySectionID};

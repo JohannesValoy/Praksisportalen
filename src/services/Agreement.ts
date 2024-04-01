@@ -1,11 +1,9 @@
 import DBclient from "@/knex/config/DBClient";
-import { TimeInterval, fetchTimeIntervalByIDList } from "./TimeInterval";
 import { InternshipAgreements } from "knex/types/tables.js";
 import { StudyProgramObject } from "./StudyProgram";
 
 class InternshipAgreementObject implements InternshipAgreements {
     private _id: number;
-    //private _timeIntervals: TimeInterval[];
     private _status: string;
     startDate: Date;
     endDate: Date;
@@ -17,10 +15,9 @@ class InternshipAgreementObject implements InternshipAgreements {
     created_at: Date;
     updated_at: Date;
 
-    constructor(agreement: InternshipAgreements//, intervals: TimeInterval[] = null
-    ) {
+    constructor(agreement: InternshipAgreements) {
         this._id = agreement.id;
-        //this._timeIntervals = intervals;
+
         this._status = agreement.status;
         this.startDate = agreement.startDate;
         this.endDate = agreement.endDate;
@@ -43,7 +40,6 @@ class InternshipAgreementObject implements InternshipAgreements {
     toJSON() {
         return {
             id: this._id,
-            //timeIntervals: this._timeIntervals,
             status: this._status,
             startDate: this.startDate,
             endDate: this.endDate,
@@ -57,10 +53,6 @@ class InternshipAgreementObject implements InternshipAgreements {
     }
 }
 
-
-
-
-
 async function fetchInternshipAgreementByID(id: number): Promise<InternshipAgreementObject> {
     const agreement = (await fetchInternshipAgreementByIDList([id])).get(id);
     if (agreement == undefined) {
@@ -71,12 +63,8 @@ async function fetchInternshipAgreementByID(id: number): Promise<InternshipAgree
 
 async function fetchInternshipAgreementByIDList(idList: number[]): Promise<Map<number, InternshipAgreementObject>> {
     const query = await DBclient.select().from<InternshipAgreements>("internshipAgreements").whereIn("id", idList)
-    //.join("time_intervals", "internship_agreements.intervalID", "time_intervals.id");
     const agreements: Map<number, InternshipAgreementObject> = new Map();
-    //const timeIntervalIDs = new Set(query.map((agreement) => agreement.id));
-    //const timeIntervals = await fetchTimeIntervalByIDList(timeIntervalIDs);
     idList.forEach((id) => {
-        //const timeintervalsForAgreement = query.filter((agreement) => agreement.id == id).map((agreement) => timeIntervals.get(agreement.intervalID));
         agreements.set(id, new InternshipAgreementObject(query.find((agreement) => agreement.id == id)//, timeintervalsForAgreement
         ));
     })
@@ -99,7 +87,7 @@ async function fetchInternshipAgreementByInternshipID(internshipsID : number[]) 
 
     }
     return internshipAgreements;
-
 }
+
 
 export { InternshipAgreementObject, fetchInternshipAgreementByID, fetchInternshipAgreementByInternshipID, fetchInternshipAgreementByIDList };

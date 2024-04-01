@@ -6,11 +6,19 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Internship } from "knex/types/tables.js";
+import UniversalList from "./UniversalList";
 
 const ListOfInternships = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("section_id");
   const [internships, setInternships] = useState<Internship[]>([]);
+  const [selectedRows, setSelectedRows] = useState<Internship[]>([]);
+  const headers = { Name: "name", Email: "employee_email", ID: "id" };
+  const clickableColumns = {
+    employee_email: (row) => {
+      window.location.href = `/profile/?id=${row.employee_id}`;
+    },
+  };
 
   useEffect(() => {
     if (id !== null) {
@@ -33,88 +41,24 @@ const ListOfInternships = () => {
   };
 
   return (
-    <div className="p-10">
-      {internships ? (
-        <div>
-          <h1 className="text-3xl font-semibold">List of Internships</h1>
-          <table className="table my-5">
-            <thead>
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>ID</th>
-                <th>
-                  <a
-                    href={`/admin/administerInternships/addInternship`}
-                    className="btn btn-xs"
-                  >
-                    Add Internship
-                  </a>
-                </th>
-              </tr>
-            </thead>
-
-            {Array.isArray(internships) &&
-            internships.filter(
-              (internship) =>
-                internship.name &&
-                internship.id &&
-                internship.employee_id &&
-                internship.employee_email
-            ).length > 0 ? (
-              internships.map((internship, index) => (
-                <tbody key={index}>
-                  <tr>
-                    <th>
-                      <label>
-                        <input type="checkbox" className="checkbox" />
-                      </label>
-                    </th>
-                    <th>
-                      <div className="font-bold">{internship?.name}</div>
-                    </th>
-                    <td>
-                      <button
-                        className="btn btn-ghost btn-xs"
-                        onClick={() => {
-                          window.location.href = `/profile/?id=${internship.employee_id}`;
-                        }}
-                      >
-                        {internship?.employee_email}
-                      </button>
-                    </td>
-                    <td>{internship?.id}</td>
-                    <th>
-                      <button
-                        className="btn btn-ghost btn-xs"
-                        onClick={() => {
-                          window.location.href = `/admin/administerInternships/individualInternship?internship_id=${internship.id}`;
-                        }}
-                      >
-                        details
-                      </button>
-                    </th>
-                  </tr>
-                </tbody>
-              ))
-            ) : (
-              <tbody>
-                <tr>
-                  <td colSpan={5}>Empty</td>
-                </tr>
-              </tbody>
-            )}
-          </table>
-        </div>
-      ) : (
-        <p>Loading internship details...</p>
-      )}
-    </div>
+    <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+      <UniversalList
+        rows={internships}
+        tableName="Internships"
+        headers={headers}
+        selectedRows={selectedRows}
+        setSelectedRows={setSelectedRows}
+        onRowClick={() => {}}
+        onRowButtonClick={(row) => {
+          window.location.href = `/admin/administerInternships/individualInternship?internship_id=${row.id}`;
+        }}
+        buttonName={"Details"}
+        onAddButtonClick={() => {
+          window.location.href = `/admin/administerInternships/addInternship`;
+        }}
+        clickableColumns={clickableColumns}
+      />
+    </main>
   );
 };
 

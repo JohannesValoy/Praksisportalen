@@ -61,4 +61,4 @@ async function getInternshipPositionObjectByPage(pageRequest : InternshipPaginat
 }
 
 
-export { InternshipPositionObject, getInternshipPositionObjectByID, getInternshipPositionObjectByIDList, getInternshipPositionObjectBySectionID};
+export { getInternshipPositionObjectByID, getInternshipPositionObjectByIDList, getInternshipPositionObjectBySectionID};

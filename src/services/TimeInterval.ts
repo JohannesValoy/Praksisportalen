@@ -53,4 +53,4 @@ async function fetchTimeIntervalByIDList(idList : Set<number>): Promise<Map<numb
     return timeIntervals;
 }
 
-export { TimeInterval, fetchTimeIntervalByID, fetchTimeIntervalByIDList };
+export { fetchTimeIntervalByID, fetchTimeIntervalByIDList };

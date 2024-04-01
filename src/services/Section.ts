@@ -31,4 +31,4 @@ async function getSectionObjectByIDList(idList: number[]): Promise<Map<number, S
     return sections;
 }
 
-export { SectionObject, getSectionObjectByID, getSectionObjectByIDList };
+export { getSectionObjectByID, getSectionObjectByIDList };

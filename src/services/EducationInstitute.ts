@@ -21,4 +21,4 @@ async function getEducationInstitutionByIDList(idList : Set<number>) : Promise<M
 }
 
 
-export { EducationInstitutionObject, getEducationInstitutionByID, getEducationInstitutionByIDList};
+export { getEducationInstitutionByID, getEducationInstitutionByIDList};

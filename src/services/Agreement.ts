@@ -43,4 +43,4 @@ async function fetchInternshipAgreementByInternshipID(internshipsID : number[]) 
 }
 
 
-export { InternshipAgreementObject, fetchInternshipAgreementByID, fetchInternshipAgreementByInternshipID, fetchInternshipAgreementByIDList };
+export { fetchInternshipAgreementByID, fetchInternshipAgreementByInternshipID, fetchInternshipAgreementByIDList };

@@ -20,4 +20,4 @@ async function getEmployeeObjectByIDList(idList: number[]): Promise<Map<number, 
     return employees;
 }
 
-export { getEmployeeObjectByID, getEmployeeObjectByIDList, EmployeeObject };
+export { getEmployeeObjectByID, getEmployeeObjectByIDList };

@@ -22,4 +22,4 @@ async function getDepartmentObjectByIDList(idList: number[]): Promise<Map<number
     return departments;
 }
 
-export { DepartmentObject, getDepartmentObjectByID, getDepartmentObjectByIDList };
+export { getDepartmentObjectByID, getDepartmentObjectByIDList };

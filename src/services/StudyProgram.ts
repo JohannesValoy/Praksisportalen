@@ -23,4 +23,4 @@ async function getStudyProgramObjectByIDList(idList: number[]): Promise<Map<numb
         return studyPrograms;
     }
 
-export { StudyProgramObject, getStudyProgramObjectByID, getStudyProgramObjectByIDList };
+export { getStudyProgramObjectByID, getStudyProgramObjectByIDList };

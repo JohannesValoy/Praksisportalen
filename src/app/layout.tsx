@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,20 +20,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} flex flex-col`}>
-        <header
-          className="flex justify-between p-4 items-center"
-          style={{
-            backgroundColor: "rgb(var(--accent-color))",
-            color: "rgb(var(--accent-text-color))",
-          }}
-        >
-          <img src="/logo-helse-mr.svg" alt="Description" className="h-8" />
+      <body
+        className={`${inter.className} flex flex-col dark:bg-neutral-900 bg-white  dark:text-neutral-200 text-black`}
+      >
+        <header className="flex justify-between p-4 items-center dark:bg-neutral-800 bg-blue-700 text-white">
+          <Link href={"/"}>
+            <Image
+              src="/logo-helse-mr.svg"
+              alt="Description"
+              className="h-10 w-auto"
+              width={100}
+              height={300}
+              priority={true} // {false} | {true}
+            />
+          </Link>
           <div className="flex space-x-6 items-center">
-            <Link href="/">Home</Link>
-            <Link href="/coordinator/administerStudents">
-              Administer Students
+            <Link
+              href="/"
+              className="btn btn-ghost rounded-btn dark:text-neutral-100  h-full"
+            >
+              Home
             </Link>
+
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn m-1">
                 Settings
@@ -41,40 +50,6 @@ export default function RootLayout({
                 tabIndex={0}
                 className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
               >
-                <label className="flex cursor-pointer gap-2 p-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <circle cx="12" cy="12" r="5" />
-                    <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
-                  </svg>
-                  <input
-                    type="checkbox"
-                    value="synthwave"
-                    className="toggle theme-controller"
-                  />
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                  </svg>
-                </label>
                 <li>
                   <a href="/">Log out</a>
                 </li>

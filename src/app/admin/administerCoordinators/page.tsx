@@ -1,9 +1,14 @@
 /** @format */
-import ListOfUsers from "@/app/components/listOfStudents";
-export default function Page() {
+
+import React from "react";
+import ListOfUsers from "@/app/components/listOfUsers"; // Make sure the path is correct
+
+const Page = () => {
   return (
     <main>
-      <ListOfUsers />
+      <ListOfUsers role="coordinator" />
     </main>
   );
-}
+};
+
+export default Page;

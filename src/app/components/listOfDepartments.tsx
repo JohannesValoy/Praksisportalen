@@ -1,57 +1,50 @@
 /** @format */
 
-import React from "react";
+"use client";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import UniversalList from "./UniversalList";
+const ListOfDepartments = () => {
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [selectedRows, setSelectedRows] = useState<Department[]>([]);
+  const headers = { Name: "name", Email: "employee_email" };
+  const role = "department";
+  const clickableColumns = {
+    employee_email: (row) => {
+      window.location.href = `/profile?id=${row.employee_id}`;
+    },
+  };
 
-const ListOfDepartments = async () => {
+  useEffect(() => {
+    fetch("/api/departments").then((res) => res.json().then(setDepartments));
+  }, []);
+
+  type Department = {
+    name: string;
+    id: string;
+    employee_id: string;
+    employee_email: string;
+  };
+
   return (
-    <div>
-      <div className="flex justify-center mt-4">
-        <div className="overflow-x-auto w-full p-4">
-          <h1 className="text-3xl font-semibold">List of Departments</h1>
-          <table className="table my-4">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th></th>
-              </tr>
-            </thead>
-            {departments.map((department, index) => (
-              <tbody key={index}>
-                <tr>
-                  {/* <th>
-                                      <label>
-                                          <input type="checkbox" className="checkbox" />
-                                      </label>
-                                  </th> */}
-                  <td>
-                    <div className="flex items-center gap-3">
-                      <div>
-                        <div className="font-bold">{department?.name}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    {
-                      leader.filter((l) => l.id === department.leaderID)[0]
-                        ?.email
-                    }
-                    <br />
-                    <span className="badge badge-ghost badge-sm">
-                      {department?.id}
-                    </span>
-                  </td>
-                  <td>{department?.id}</td>
-                  <th>
-                    <button className="btn btn-ghost btn-xs">details</button>
-                  </th>
-                </tr>
-              </tbody>
-            ))}
-          </table>
-        </div>
-      </div>
-    </div>
+    <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+      <UniversalList
+        rows={departments}
+        tableName="Departments"
+        headers={headers}
+        selectedRows={selectedRows}
+        setSelectedRows={setSelectedRows}
+        onRowClick={() => {}}
+        onRowButtonClick={(row) => {
+          window.location.href = `/admin/administerSections/?department_id=${row.id}`;
+        }}
+        buttonName={"Details"}
+        onAddButtonClick={() => {
+          window.location.href = `/admin/administerDepartments/addDepartment`;
+        }}
+        clickableColumns={clickableColumns}
+      />
+    </main>
   );
 };
 

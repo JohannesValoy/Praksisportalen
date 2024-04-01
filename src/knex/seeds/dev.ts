@@ -1,9 +1,8 @@
-
 import { Knex } from "knex";
 import Bun from "bun";
 /**
  * @param { import("knex").Knex } knex
- * @returns { Promise<void> } 
+ * @returns { Promise<void> }
  */
 
 export const seed = async function (knex: Knex) {
@@ -13,7 +12,9 @@ export const seed = async function (knex: Knex) {
   await knex("studyPrograms").del();
   await knex("educationInstitutions").del();
   await knex("internships").del();
+  await knex("internshipFields").del();
   await knex("sections").del();
+  await knex("sectionTypes").del();
   await knex("departments").del();
   await knex("users").del();
   // Inserts seed entries
@@ -23,11 +24,17 @@ export const seed = async function (knex: Knex) {
       id: 1,
       name: "Master Bob",
       email: "masterbob@dummy",
-      password: await Bun.password.hash("123456", {algorithm: "bcrypt"}),
+      password: await Bun.password.hash("123456", { algorithm: "bcrypt" }),
       role: "admin",
     },
     {
-      id: 2,
+      email: "ann.berntsen@test.feide.no",
+      name: "Ann Elg",
+      role: "admin",
+      password: "",
+    },
+    {
+      id: 3,
       name: "Admin Jane",
       email: "adminjane@dummy",
       password: "123456",
@@ -157,34 +164,56 @@ export const seed = async function (knex: Knex) {
       employee_id: 1002,
     },
   ]);
+  await knex("sectionTypes").insert([
+    {
+      name: "Sengepost",
+    },
+    {
+      name: "Poliklinikk og dagbehandling",
+    },
+    {
+      name: "Spesialseksjon",
+    },
+  ]);
   await knex("sections").insert([
     {
       id: 1,
       name: "Kirugisk sengepost",
-      type: "Sengepost",
+      section_type: "Sengepost",
       employee_id: 1003,
       department_id: 1,
     },
     {
       id: 2,
       name: "Kirugisk poliklinikk",
-      type: "Poliklinikk og dagbehandling",
+      section_type: "Poliklinikk og dagbehandling",
       employee_id: 1004,
       department_id: 1,
     },
     {
       id: 3,
       name: "Akuttmottak",
-      type: "Spesialseksjon",
+      section_type: "Spesialseksjon",
       employee_id: 1005,
       department_id: 2,
+    },
+  ]);
+  await knex("internshipFields").insert([
+    {
+      name: "Kirurgi",
+    },
+    {
+      name: "Medisin",
+    },
+    {
+      name: "Psykologi",
     },
   ]);
   await knex("internships").insert([
     {
       id: 1,
       name: "Sjukepleiepraksis",
-      field: "kirurgi",
+      internship_field: "kirurgi",
       maxCapacity: 10,
       currentCapacity: 0,
       numberOfBeds: 10,
@@ -194,7 +223,7 @@ export const seed = async function (knex: Knex) {
     {
       id: 2,
       name: "Sjukepleiepraksis",
-      field: "Kirurgi",
+      internship_field: "Kirurgi",
       maxCapacity: 10,
       currentCapacity: 0,
       numberOfBeds: 10,
@@ -204,7 +233,7 @@ export const seed = async function (knex: Knex) {
     {
       id: 3,
       name: "Sjukepleiepraksis",
-      field: "Kirurgi",
+      internship_field: "Kirurgi",
       maxCapacity: 15,
       currentCapacity: 0,
       yearOfStudy: 3,

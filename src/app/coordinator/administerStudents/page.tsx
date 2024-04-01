@@ -1,9 +1,9 @@
 /** @format */
-import ListOfStudents from "@/app/components/listOfStudents";
+import ListOfUsers from "@/app/components/listOfUsers";
 export default function Page() {
   return (
     <main>
-      <ListOfStudents />
+      <ListOfUsers role="student" />
     </main>
   );
 }

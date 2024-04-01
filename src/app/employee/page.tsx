@@ -1,5 +1,6 @@
 /** @format */
-import ListOfDepartments from "../components/listOfDepartments";
+
+import ListOfDepartments from "@/app/components/listOfDepartments";
 export default function Page() {
   return (
     <main>

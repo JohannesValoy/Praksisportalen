@@ -1,6 +1,7 @@
 import DBclient from "@/knex/config/DBClient";
 import { TimeInterval, fetchTimeIntervalByIDList } from "./TimeInterval";
 import { InternshipAgreements } from "knex/types/tables.js";
+import { StudyProgramObject } from "./StudyProgram";
 
 class InternshipAgreementObject implements InternshipAgreements {
     private _id: number;
@@ -11,6 +12,7 @@ class InternshipAgreementObject implements InternshipAgreements {
     student_id: number;
     internship_id: number;
     studyProgram_id: number;
+    private studyProgram: StudyProgramObject;
     comment: string;
     created_at: Date;
     updated_at: Date;
@@ -50,13 +52,16 @@ class InternshipAgreementObject implements InternshipAgreements {
             endDate: this.endDate,
             student_id: this.student_id,
             internship_id: this.internship_id,
-            studyProgram_id: this.studyProgram_id,
+            studyProgram: this.studyProgram,
             comment: this.comment,
             created_at: this.created_at,
             updated_at: this.updated_at
         };
     }
 }
+
+
+
 
 
 async function fetchInternshipAgreementByID(id: number): Promise<InternshipAgreementObject> {
@@ -68,7 +73,8 @@ async function fetchInternshipAgreementByID(id: number): Promise<InternshipAgree
 }
 
 async function fetchInternshipAgreementByIDList(idList: number[]): Promise<Map<number, InternshipAgreementObject>> {
-    const query = await DBclient.select().from<InternshipAgreements>("internship_agreements").whereIn("id", idList);
+    const query = await DBclient.select().from<InternshipAgreements>("internship_agreements").whereIn("id", idList)
+    .join("time_intervals", "internship_agreements.intervalID", "time_intervals.id");
     const agreements: Map<number, InternshipAgreementObject> = new Map();
     const timeIntervalIDs = new Set(query.map((agreement) => agreement.id));
     const timeIntervals = await fetchTimeIntervalByIDList(timeIntervalIDs);
@@ -78,6 +84,10 @@ async function fetchInternshipAgreementByIDList(idList: number[]): Promise<Map<n
         agreements.set(id, new InternshipAgreementObject(query.find((agreement) => agreement.id == id), timeintervalsForAgreement));
     })
     return agreements;
+}
+
+async function fetchInternshipAgreementByPagination() : Promise<InternshipAgreementObject[]>  {
+
 }
 
 export { InternshipAgreementObject, fetchInternshipAgreementByID };

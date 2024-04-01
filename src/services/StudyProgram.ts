@@ -17,7 +17,16 @@ class StudyProgramObject implements StudyProgram {
         this.created_at = query.created_at;
         this.updated_at = query.updated_at;
     }
-    
+
+    toJson() {
+        return {
+            id: this.id,
+            name: this.name,
+            educationInstitution: this.educationInstitution,
+            created_at: this.created_at,
+            updated_at: this.updated_at
+        };
+    }
 }    
 
 
@@ -40,3 +49,5 @@ async function getStudyProgramObjectByIDList(idList: number[]): Promise<Map<numb
         }
         return studyPrograms;
     }
+
+export { StudyProgramObject, getStudyProgramObjectByID, getStudyProgramObjectByIDList };

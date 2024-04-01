@@ -117,12 +117,6 @@ export async function up(knex: Knex): Promise<void> {
       table.time("endTime").notNullable();
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
-    })
-    .createTable("sectionTypes", (table) => {
-      table.string("name").primary();
-    })
-    .createTable("internshipFields", (table) => {
-      table.string("name").primary();
     });
 }
 export async function down(knex: Knex): Promise<void> {
@@ -130,13 +124,12 @@ export async function down(knex: Knex): Promise<void> {
     .dropTableIfExists("users")
     .dropTableIfExists("accounts")
     .dropTableIfExists("departments")
+    .dropTableIfExists("sectionTypes")
     .dropTableIfExists("sections")
+    .dropTableIfExists("internshipFields")
     .dropTableIfExists("internships")
     .dropTableIfExists("educationInstitutions")
     .dropTableIfExists("studyPrograms")
     .dropTableIfExists("internshipAgreements")
-    .dropTableIfExists("timeIntervals")
-    .dropTableIfExists("sectionTypes")
-    .dropTableIfExists("internshipFields");
+    .dropTableIfExists("timeIntervals");
 }
-export async function down(knex: Knex): Promise<void> {}

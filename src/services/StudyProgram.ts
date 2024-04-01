@@ -18,7 +18,7 @@ class StudyProgramObject implements StudyProgram {
         this.updated_at = query.updated_at;
     }
 
-    toJson() {
+    toJSON() {
         return {
             id: this.id,
             name: this.name,

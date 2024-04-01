@@ -75,7 +75,7 @@ declare module "knex/types/tables.js" {
     updated_at: Date;
   }
 
-  interface InternshipAgreements {
+  interface InternshipAgreement {
     id: number;
     status: string;
     startDate: Date;
@@ -105,7 +105,7 @@ declare module "knex/types/tables.js" {
     internships: Internship;
     educationInstitutions: EducationInstitution;
     studyPrograms: StudyProgram;
-    internshipAgreements: InternshipAgreements;
+    internshipAgreements: InternshipAgreement;
     sessions: Session;
   }
 }

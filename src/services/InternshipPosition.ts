@@ -1,5 +1,5 @@
 import { Internship } from "knex/types/tables.js";
-import { InternshipAgreementObject } from "./Aggrement";
+import { InternshipAgreementObject, fetchInternshipAgreementByInternshipID } from "./Agreement";
 import DBclient from "@/knex/config/DBClient";
 
 class InternshipPositionObject implements Internship {
@@ -47,17 +47,21 @@ class InternshipPositionObject implements Internship {
 }
 
 async function getInternshipPositionObjectByID(id: number): Promise<InternshipPositionObject> {
-    const internship = (await getInternshipPositionObjectByIDList([id])).get(id);
-    if (internship == undefined) {
+    const internship = await getInternshipPositionObjectByIDList([id]);
+    if (internship.get(id) == undefined) {
         throw new Error("Internship Position not found");
     }
-    return internship;
+    return internship.get(id);
 }
 
 async function getInternshipPositionObjectByIDList(idList: number[]): Promise<Map<number, InternshipPositionObject>> {
-    const query = await DBclient.select().from<Internship>("internship").whereIn("id", idList);
+    const query = await DBclient.select().from<Internship>("internships").whereIn("id", idList);
     const internships: Map<number, InternshipPositionObject> = new Map();
+    const internshipAgreements: Map<number, InternshipAgreementObject[]> = await fetchInternshipAgreementByInternshipID(idList);
+    query.forEach((internship) => {
+        internships.set(internship.id, new InternshipPositionObject(internship, internshipAgreements.get(internship.id)));
+    });
     return internships;
 }
 
-export { InternshipPositionObject };
+export { InternshipPositionObject, getInternshipPositionObjectByID, getInternshipPositionObjectByIDList};

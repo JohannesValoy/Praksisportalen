@@ -1,35 +1,22 @@
 /** @format */
-
-import DBClient from "@/knex/config/DBClient";
-import InternshipJson from "../InternshipView";
+import { getInternshipPositionObjectByID } from "@/services/InternshipPosition";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
-  const internships = await DBClient("internships")
-    .where("internships.section_id", params.id)
-    .join("sections", "internships.section_id", "=", "sections.id")
-    .join("users", "sections.employee_id", "=", "users.id")
-    .select(
-      "internships.*",
-      "users.email as employee_email",
-      "users.id as employee_id"
-    );
-
-  if (internships.length > 0) {
+  try{
+    const internship = await getInternshipPositionObjectByID(parseInt(params.id));
+    return Response.json(internship);
+  } catch (error) {
+    console.log("Error fetching internship data:", error);
     return new Response(
-      JSON.stringify(
-        internships.map((internship) => new InternshipJson(internship))
-      ),
+      JSON.stringify({ error: "Failed to fetch internship data" }),
       {
+        status: 500,
         headers: { "Content-Type": "application/json" },
       }
     );
-  } else {
-    return new Response(JSON.stringify({ message: "Internship not found" }), {
-      status: 404,
-      headers: { "Content-Type": "application/json" },
-    });
   }
+
 }

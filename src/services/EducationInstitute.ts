@@ -25,7 +25,7 @@ async function getEducationInstitutionByID(id: number) : Promise<EducationInstit
 }
 
 async function getEducationInstitutionByIDList(idList : Set<number>) : Promise<Map<number, EducationInstitutionObject>> {
-    const query = await DBclient.select().from("education_institution").whereIn("id", idList);
+    const query = await DBclient.select().from<EducationInstitution>("educationInstitutions").whereIn("id", Array.from(idList));
     const educationInstitutions : Map<number, EducationInstitutionObject> = new Map();
     for (const educationInstitution of query) {
         educationInstitutions.set(educationInstitution.id, new EducationInstitutionObject(educationInstitution));

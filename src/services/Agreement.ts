@@ -5,7 +5,7 @@ import { StudyProgramObject } from "./StudyProgram";
 
 class InternshipAgreementObject implements InternshipAgreements {
     private _id: number;
-    private _timeIntervals: TimeInterval[];
+    //private _timeIntervals: TimeInterval[];
     private _status: string;
     startDate: Date;
     endDate: Date;
@@ -17,9 +17,10 @@ class InternshipAgreementObject implements InternshipAgreements {
     created_at: Date;
     updated_at: Date;
 
-    constructor(agreement: InternshipAgreements, intervals: TimeInterval[] = null) {
+    constructor(agreement: InternshipAgreements//, intervals: TimeInterval[] = null
+    ) {
         this._id = agreement.id;
-        this._timeIntervals = intervals;
+        //this._timeIntervals = intervals;
         this._status = agreement.status;
         this.startDate = agreement.startDate;
         this.endDate = agreement.endDate;
@@ -35,10 +36,6 @@ class InternshipAgreementObject implements InternshipAgreements {
         return this._id;
     }
 
-    get timeIntervals(): TimeInterval[] {
-        return this._timeIntervals;
-    }
-
     get status(): string {
         return this._status;
     }
@@ -46,7 +43,7 @@ class InternshipAgreementObject implements InternshipAgreements {
     toJSON() {
         return {
             id: this._id,
-            timeIntervals: this._timeIntervals,
+            //timeIntervals: this._timeIntervals,
             status: this._status,
             startDate: this.startDate,
             endDate: this.endDate,
@@ -73,21 +70,36 @@ async function fetchInternshipAgreementByID(id: number): Promise<InternshipAgree
 }
 
 async function fetchInternshipAgreementByIDList(idList: number[]): Promise<Map<number, InternshipAgreementObject>> {
-    const query = await DBclient.select().from<InternshipAgreements>("internship_agreements").whereIn("id", idList)
-    .join("time_intervals", "internship_agreements.intervalID", "time_intervals.id");
+    const query = await DBclient.select().from<InternshipAgreements>("internshipAgreements").whereIn("id", idList)
+    //.join("time_intervals", "internship_agreements.intervalID", "time_intervals.id");
     const agreements: Map<number, InternshipAgreementObject> = new Map();
-    const timeIntervalIDs = new Set(query.map((agreement) => agreement.id));
-    const timeIntervals = await fetchTimeIntervalByIDList(timeIntervalIDs);
-    const agreementIds = new Set(query.map((agreement) => agreement.id));
-    agreementIds.forEach((id) => {
-        const timeintervalsForAgreement = query.filter((agreement) => agreement.id == id).map((agreement) => timeIntervals.get(agreement.intervalID));
-        agreements.set(id, new InternshipAgreementObject(query.find((agreement) => agreement.id == id), timeintervalsForAgreement));
+    //const timeIntervalIDs = new Set(query.map((agreement) => agreement.id));
+    //const timeIntervals = await fetchTimeIntervalByIDList(timeIntervalIDs);
+    idList.forEach((id) => {
+        //const timeintervalsForAgreement = query.filter((agreement) => agreement.id == id).map((agreement) => timeIntervals.get(agreement.intervalID));
+        agreements.set(id, new InternshipAgreementObject(query.find((agreement) => agreement.id == id)//, timeintervalsForAgreement
+        ));
     })
     return agreements;
 }
 
-async function fetchInternshipAgreementByPagination() : Promise<InternshipAgreementObject[]>  {
+async function fetchInternshipAgreementByInternshipID(internshipsID : number[]) : Promise<Map<number,InternshipAgreementObject[]>>  {
+    const query = await DBclient.select("id").from<InternshipAgreements>("internshipAgreements").whereIn("internship_id", internshipsID);
+    const agreementIds = query.map((agreement) => agreement.id);
+    const agreements = (await fetchInternshipAgreementByIDList(agreementIds)).values();
+    const internshipAgreements: Map<number, InternshipAgreementObject[]> = new Map();
+    let agreement = agreements.next();
+    while (!agreement.done) {
+        const internship_id = agreement.value.internship_id;
+        if (!internshipAgreements.has(internship_id)) {
+            internshipAgreements.set(internship_id, []);
+        }
+        internshipAgreements.get(internship_id).push(agreement.value);
+        agreement = agreements.next();
+
+    }
+    return internshipAgreements;
 
 }
 
-export { InternshipAgreementObject, fetchInternshipAgreementByID };
+export { InternshipAgreementObject, fetchInternshipAgreementByID, fetchInternshipAgreementByInternshipID, fetchInternshipAgreementByIDList };

@@ -1,10 +1,12 @@
-import { Section } from "knex/types/tables.js";
-import { EmployeeObject, getEmployeeObjectByIDList } from "./Employees";
-import DBclient from "@/knex/config/DBClient";
-import { InternshipPositionObject, getInternshipPositionObjectBySectionID } from "./InternshipPosition";
-import "server-only"
 import SectionObject from "@/app/_models/Section";
+import EmployeeObject from "@/app/_models/Employee";
+import InternshipPositionObject from "@/app/_models/InternshipPosition";
+import DBclient from "@/knex/config/DBClient";
+import { Section } from "knex/types/tables.js";
+import {getEmployeeObjectByIDList } from "./Employees";
+import {getInternshipPositionObjectBySectionID } from "./InternshipPosition";
 
+import "server-only"
 
 async function getSectionObjectByID(id: number): Promise<SectionObject> {
     const section = await getSectionObjectByIDList([id]);

@@ -26,7 +26,7 @@ class SectionObject implements Section {
         this.internships = internships.copyWithin(0, internships.length);
     }
 
-    toJson() {
+    toJSON() {
         return {
             id: this.id,
             name: this.name,

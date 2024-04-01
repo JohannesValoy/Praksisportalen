@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     await request.json();
   const newSection = await DBclient.table("sections").insert({
     name,
-    type: sectionType,
+    section_type: sectionType,
     department_id,
     employee_id,
   });

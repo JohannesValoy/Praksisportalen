@@ -1,3 +1,5 @@
+/** @format */
+
 import type { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
@@ -42,7 +44,12 @@ export async function up(knex: Knex): Promise<void> {
       table.integer("employee_id").unsigned().notNullable();
       table.foreign("employee_id").references("id").inTable("users");
       table.integer("department_id").unsigned().notNullable();
-      table.foreign("department_id").references("id").inTable("departments");
+      table
+        .foreign("department_id")
+        .references("id")
+        .inTable("departments")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
@@ -62,7 +69,12 @@ export async function up(knex: Knex): Promise<void> {
       table.integer("numberOfBeds").nullable();
       table.integer("yearOfStudy").notNullable();
       table.integer("section_id").unsigned().notNullable();
-      table.foreign("section_id").references("id").inTable("sections");
+      table
+        .foreign("section_id")
+        .references("id")
+        .inTable("sections")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
@@ -93,6 +105,7 @@ export async function up(knex: Knex): Promise<void> {
         .foreign("student_id")
         .references("id")
         .inTable("users")
+        .onUpdate("CASCADE")
         .onDelete("CASCADE");
       table.integer("coordinator_id").unsigned();
       table.foreign("coordinator_id").references("id").inTable("users");

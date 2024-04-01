@@ -19,7 +19,7 @@ const datalist: [string, Date, Date][] = [
 type Internship = {
   id: number;
   name: string;
-  field: string;
+  internship_field: string;
   maxCapacity: number;
   currentCapacity: number;
   numberOfBeds: number;
@@ -45,7 +45,7 @@ const InternshipComponent = () => {
 
   useEffect(() => {
     if (internship_id !== null) {
-      fetch(`/api/internships/oneInternship?id=${internship_id}`)
+      fetch(`/api/internships/${internship_id}`)
         .then((res) => res.json())
         .then((data) => setInternship(data))
         .catch((error) =>
@@ -63,7 +63,7 @@ const InternshipComponent = () => {
               <h1 className="text-3xl font-semibold">{internship.name}</h1>
               <p>Section: {internship.section_name}</p>
               <p>SectionID: {internship.section_id}</p>
-              <p>Field: {internship.field}</p>
+              <p>Field: {internship.internship_field}</p>
               <p>Max Capacity: {internship.maxCapacity}</p>
               <p>Current Capacity: {internship.currentCapacity}</p>
               <p>Number of Beds: {internship.numberOfBeds}</p>

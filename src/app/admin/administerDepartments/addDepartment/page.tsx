@@ -25,7 +25,6 @@ export default function Page() {
       .then((data) => setUsers(data.elements)) // Ensure proper data handling.
       .catch((error) => console.error("Failed to fetch users", error)); // Error handling.
   }, []);
-  console.log(users);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

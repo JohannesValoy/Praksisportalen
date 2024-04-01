@@ -8,7 +8,7 @@ const ListOfDepartments = () => {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [selectedRows, setSelectedRows] = useState<Department[]>([]);
   const headers = { Name: "name", Email: "employee_email" };
-  const role = "department";
+  const [sortedBy, setSortedBy] = useState<string>("name");
   const clickableColumns = {
     employee_email: (row) => {
       window.location.href = `/profile?id=${row.employee_id}`;
@@ -43,6 +43,33 @@ const ListOfDepartments = () => {
           window.location.href = `/admin/administerDepartments/addDepartment`;
         }}
         clickableColumns={clickableColumns}
+        sortableBy={["name", "email"]}
+        setSortedBy={setSortedBy}
+        onDeleteButtonClicked={() => {
+          Promise.all(
+            selectedRows.map((row) =>
+              fetch(`/api/departments/${row.id}`, {
+                method: "DELETE",
+              }).then((res) => res.json())
+            )
+          ).then((results) => {
+            const failedDeletes = results.filter((result) => !result.success);
+            if (failedDeletes.length > 0) {
+              alert(
+                `Failed to delete departments with ids ${failedDeletes
+                  .map((result) => result.id)
+                  .join(", ")}`
+              );
+            } else {
+              setDepartments(
+                departments.filter(
+                  (department) =>
+                    !selectedRows.find((row) => row.id === department.id)
+                )
+              );
+            }
+          });
+        }}
       />
     </main>
   );

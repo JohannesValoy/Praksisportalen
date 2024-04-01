@@ -8,6 +8,7 @@ const ListOfInternshipAgreements = () => {
   const [internshipAgreements, setInternshipAgreements] = useState<
     InternshipAgreement[]
   >([]);
+  const [sortedBy, setSortedBy] = useState<string>("name");
   const [selectedRows, setSelectedRows] = useState<InternshipAgreement[]>([]);
   const headers = { Name: "name" };
   useEffect(() => {
@@ -20,6 +21,18 @@ const ListOfInternshipAgreements = () => {
     name: string;
     id: string;
   };
+
+  if (sortedBy) {
+    internshipAgreements.sort((a, b) => {
+      if (a[sortedBy] < b[sortedBy]) {
+        return -1;
+      }
+      if (a[sortedBy] > b[sortedBy]) {
+        return 1;
+      }
+      return 0;
+    });
+  }
 
   return (
     <div className="p-10">
@@ -37,6 +50,30 @@ const ListOfInternshipAgreements = () => {
           buttonName={"Details"}
           onAddButtonClick={() => {
             window.location.href = `/admin/administerDepartments/addDepartment`;
+          }}
+          sortableBy={["name", "email"]}
+          setSortedBy={setSortedBy}
+          onDeleteButtonClicked={() => {
+            Promise.all(
+              selectedRows.map((row) =>
+                fetch(`/api/departments/${row.id}`, {
+                  method: "DELETE",
+                }).then((res) => res.json())
+              )
+            ).then((results) => {
+              const failedDeletes = results.filter((result) => !result.success);
+              if (failedDeletes.length > 0) {
+                alert(`Failed to delete ${failedDeletes.length} departments`);
+              }
+              setInternshipAgreements(
+                internshipAgreements.filter(
+                  (department) =>
+                    !failedDeletes.some(
+                      (failedDelete) => failedDelete.id === department.id
+                    )
+                )
+              );
+            });
           }}
         />
       </main>

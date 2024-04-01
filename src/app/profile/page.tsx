@@ -55,7 +55,7 @@ export default function Page() {
                 />
               </div>
             </div>
-            <h1>Hello, {employee.name}</h1>
+            <h1>{employee.name}</h1>
             <p>ID: {employee.id}</p>
             <p>Email: {employee.email}</p>
             <ul className="text-center">

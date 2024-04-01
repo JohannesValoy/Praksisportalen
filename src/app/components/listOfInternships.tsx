@@ -3,9 +3,7 @@
 "use client";
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { Internship } from "knex/types/tables.js";
 import UniversalList from "./UniversalList";
 
 const ListOfInternships = () => {
@@ -14,6 +12,7 @@ const ListOfInternships = () => {
   const [internships, setInternships] = useState<Internship[]>([]);
   const [selectedRows, setSelectedRows] = useState<Internship[]>([]);
   const headers = { Name: "name", Email: "employee_email", ID: "id" };
+  const [sortedBy, setSortedBy] = useState<string>("name");
   const clickableColumns = {
     employee_email: (row) => {
       window.location.href = `/profile/?id=${row.employee_id}`;
@@ -31,7 +30,6 @@ const ListOfInternships = () => {
         .then(setInternships);
     }
   }, [id]);
-  console.log(internships);
 
   type Internship = {
     name: string;
@@ -57,6 +55,36 @@ const ListOfInternships = () => {
           window.location.href = `/admin/administerInternships/addInternship`;
         }}
         clickableColumns={clickableColumns}
+        sortableBy={["name", "email"]}
+        setSortedBy={setSortedBy}
+        onDeleteButtonClicked={() => {
+          Promise.all(
+            selectedRows.map((row) =>
+              fetch(`/api/internships/${row.id}`, {
+                method: "DELETE",
+              }).then((res) => res.json())
+            )
+          ).then((results) => {
+            const failedDeletes = results.filter((result) => !result.success);
+            if (failedDeletes.length > 0) {
+              alert(
+                `Failed to delete users with ids ${failedDeletes
+                  .map((result) => result.id)
+                  .join(", ")}`
+              );
+            } else {
+              setInternships(
+                internships.filter(
+                  (internship) =>
+                    !selectedRows.some(
+                      (selectedRow) => selectedRow.id === internship.id
+                    )
+                )
+              );
+              setSelectedRows([]);
+            }
+          });
+        }}
       />
     </main>
   );

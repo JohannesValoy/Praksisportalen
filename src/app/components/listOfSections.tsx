@@ -11,6 +11,7 @@ const ListOfSections = () => {
   const [sections, setSections] = useState<Section[]>([]);
   const [selectedRows, setSelectedRows] = useState<Section[]>([]);
   const headers = { Name: "name", Email: "employee_email" };
+  const [sortedBy, setSortedBy] = useState<string>("name");
   const clickableColumns = {
     employee_email: (row) => {
       window.location.href = `/profile/?id=${row.employee_id}`;
@@ -28,7 +29,6 @@ const ListOfSections = () => {
         .then(setSections);
     }
   }, [id]);
-  console.log(sections);
 
   type Section = {
     name: string;
@@ -54,6 +54,33 @@ const ListOfSections = () => {
           window.location.href = `/admin/administerSections/addSection`;
         }}
         clickableColumns={clickableColumns}
+        sortableBy={["name", "email"]}
+        setSortedBy={setSortedBy}
+        onDeleteButtonClicked={() => {
+          Promise.all(
+            selectedRows.map((row) =>
+              fetch(`/api/sections/${row.id}`, {
+                method: "DELETE",
+              }).then((res) => res.json())
+            )
+          ).then((results) => {
+            const failedDeletes = results.filter((result) => !result.success);
+            if (failedDeletes.length > 0) {
+              alert(
+                `Failed to delete sections with ids ${failedDeletes
+                  .map((result) => result.id)
+                  .join(", ")}`
+              );
+            } else {
+              setSections(
+                sections.filter(
+                  (section) =>
+                    !selectedRows.find((row) => row.id === section.id)
+                )
+              );
+            }
+          });
+        }}
       />
     </main>
   );

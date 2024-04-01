@@ -16,3 +16,11 @@ export async function GET(
   }
   return Response.json({ message: "Internship not found" }, { status: 404 });
 }
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: number } }
+) {
+  const section = await DBclient("sections").where({ id: params.id }).delete();
+  return Response.json({ success: true });
+}

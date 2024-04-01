@@ -2,6 +2,8 @@
 
 import DBClient from "@/knex/config/DBClient";
 import InternshipJson from "../InternshipView";
+import { Internship } from "knex/types/tables.js";
+import DBclient from "@/knex/config/DBClient";
 
 export async function GET(
   request: Request,
@@ -32,4 +34,15 @@ export async function GET(
       headers: { "Content-Type": "application/json" },
     });
   }
+}
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: number } }
+) {
+  const Internship = await DBclient("internships")
+    .where({ id: params.id })
+    .delete();
+  console.log(Internship);
+  return Response.json({ success: true });
 }

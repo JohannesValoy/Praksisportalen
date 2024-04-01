@@ -7,7 +7,6 @@ export async function GET(request: Request) {
   return Response.json(internships);
 }
 debugger;
-console.log("test");
 export async function POST(request: Request) {
   const {
     name,
@@ -18,10 +17,9 @@ export async function POST(request: Request) {
     yearOfStudy,
     section_id,
   } = await request.json();
-  console.log(request);
   const internship = await DBclient("internships").insert({
     name,
-    field,
+    internship_field: field,
     maxCapacity,
     currentCapacity,
     numberOfBeds,

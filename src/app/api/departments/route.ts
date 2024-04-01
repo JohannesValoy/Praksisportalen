@@ -2,7 +2,7 @@ import DBclient from "@/knex/config/DBClient";
 
 export async function GET(request: Request) {
   try {
-    const departments = await DBClient.table("departments")
+    const departments = await DBclient.table("departments")
       .join("users", "departments.employee_id", "=", "users.id")
       .select(
         "departments.*",
@@ -25,7 +25,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const { name, employee_id } = await request.json();
-  const newDepartment = await DBClient.table("departments").insert({
+  const newDepartment = await DBclient.table("departments").insert({
     name,
     employee_id,
   });

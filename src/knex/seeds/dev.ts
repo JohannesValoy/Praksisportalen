@@ -10,6 +10,7 @@ export const seed = async function (knex: Knex) {
   await knex("timeIntervals").del();
   await knex("internshipAgreements").del();
   await knex("studyPrograms").del();
+  await knex("internshipFields").del();
   await knex("educationInstitutions").del();
   await knex("internships").del();
   await knex("internshipFields").del();
@@ -307,6 +308,28 @@ export const seed = async function (knex: Knex) {
       status: "Diskuteres",
       startDate: new Date("2024-05-01"),
       endDate: new Date("2024-06-01"),
+    },
+  ]);
+  await knex("sectionTypes").insert([
+    {
+      name: "Sengepost",
+    },
+    {
+      name: "Poliklinikk og dagbehandling",
+    },
+    {
+      name: "Spesialseksjon",
+    },
+  ]);
+  await knex("internshipFields").insert([
+    {
+      name: "Kirurgi",
+    },
+    {
+      name: "Medisin",
+    },
+    {
+      name: "Psykologi",
     },
   ]);
 };

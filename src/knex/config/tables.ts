@@ -60,6 +60,10 @@ declare module "knex/types/tables.js" {
     updated_at: Date;
   }
 
+  interface InternshipField {
+    name: string;
+  }
+
   interface EducationInstitution {
     id: number;
     name: string;
@@ -86,13 +90,6 @@ declare module "knex/types/tables.js" {
     comment: string;
     created_at: Date;
     updated_at: Date;
-  }
-
-  interface Session {
-    id: number;
-    userId: number;
-    sessionToken: string;
-    expires: Date;
   }
 
   interface Tables {

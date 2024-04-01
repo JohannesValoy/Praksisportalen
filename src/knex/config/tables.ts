@@ -1,3 +1,5 @@
+/** @format */
+
 import { Knex } from "knex";
 
 declare module "knex/types/tables.js" {
@@ -29,24 +31,26 @@ declare module "knex/types/tables.js" {
     updated_at: Date;
   }
 
+  interface SectionType {
+    name: string;
+  }
   interface Section {
     id: number;
     name: string;
-    type: string;
+    section_type: string;
     employee_id: number;
     department_id: number;
     created_at: Date;
     updated_at: Date;
   }
 
-  interface SectionType {
+  interface InternshipField {
     name: string;
   }
-
   interface Internship {
     id: number;
     name: string;
-    field: string;
+    internship_field: string;
     maxCapacity: number;
     currentCapacity: number;
     numberOfBeds: number;
@@ -75,7 +79,7 @@ declare module "knex/types/tables.js" {
     updated_at: Date;
   }
 
-  interface InternshipAgreements {
+  interface InternshipAgreement {
     id: number;
     status: string;
     startDate: Date;
@@ -92,10 +96,13 @@ declare module "knex/types/tables.js" {
     users: User;
     departments: Department;
     accounts: Account;
+    sectionTypes: SectionType;
     sectors: Section;
+    internshipFields: InternshipField;
     internships: Internship;
     educationInstitutions: EducationInstitution;
     studyPrograms: StudyProgram;
-    internshipAgreements: InternshipAgreements;
+    internshipAgreements: InternshipAgreement;
+    sessions: Session;
   }
 }

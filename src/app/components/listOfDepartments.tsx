@@ -3,8 +3,17 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import UniversalList from "./UniversalList";
 const ListOfDepartments = () => {
   const [departments, setDepartments] = useState<Department[]>([]);
+  const [selectedRows, setSelectedRows] = useState<Department[]>([]);
+  const headers = { Name: "name", Email: "employee_email" };
+  const role = "department";
+  const clickableColumns = {
+    employee_email: (row) => {
+      window.location.href = `/profile?id=${row.employee_id}`;
+    },
+  };
 
   useEffect(() => {
     fetch("/api/departments").then((res) => res.json().then(setDepartments));
@@ -18,64 +27,24 @@ const ListOfDepartments = () => {
   };
 
   return (
-    <div className="p-10">
-      <h1 className="text-3xl font-semibold">List of Departments</h1>
-      <table className="table my-5">
-        <thead>
-          <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
-            <th>Name</th>
-            <th>Leader Email</th>
-            <th>
-              <a
-                href={`/admin/administerDepartments/addDepartment`}
-                className="btn btn-xs"
-              >
-                Add Department
-              </a>
-            </th>
-          </tr>
-        </thead>
-        {departments.map((department, index) => (
-          <tbody key={index}>
-            <tr>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
-              <th>
-                <div className="font-bold">{department?.name}</div>
-              </th>
-              <th>
-                <button
-                  className="btn btn-ghost btn-xs"
-                  onClick={() => {
-                    window.location.href = `/profile/?id=${department.employee_id}`;
-                  }}
-                >
-                  {department?.employee_email}
-                </button>
-              </th>
-              <th>
-                <button
-                  className="btn btn-ghost btn-xs"
-                  onClick={() => {
-                    window.location.href = `/admin/administerSections/?department_id=${department.id}`;
-                  }}
-                >
-                  details
-                </button>
-              </th>
-            </tr>
-          </tbody>
-        ))}
-      </table>
-    </div>
+    <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+      <UniversalList
+        rows={departments}
+        tableName="Departments"
+        headers={headers}
+        selectedRows={selectedRows}
+        setSelectedRows={setSelectedRows}
+        onRowClick={() => {}}
+        onRowButtonClick={(row) => {
+          window.location.href = `/admin/administerSections/?department_id=${row.id}`;
+        }}
+        buttonName={"Details"}
+        onAddButtonClick={() => {
+          window.location.href = `/admin/administerDepartments/addDepartment`;
+        }}
+        clickableColumns={clickableColumns}
+      />
+    </main>
   );
 };
 

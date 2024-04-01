@@ -3,11 +3,19 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import UniversalList from "./UniversalList";
 
 const ListOfSections = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("department_id");
   const [sections, setSections] = useState<Section[]>([]);
+  const [selectedRows, setSelectedRows] = useState<Section[]>([]);
+  const headers = { Name: "name", Email: "employee_email" };
+  const clickableColumns = {
+    employee_email: (row) => {
+      window.location.href = `/profile/?id=${row.employee_id}`;
+    },
+  };
 
   useEffect(() => {
     if (id !== null) {
@@ -30,70 +38,24 @@ const ListOfSections = () => {
   };
 
   return (
-    <div className="p-10">
-      {sections ? (
-        <div>
-          <h1 className="text-3xl font-semibold">List of Sections</h1>
-          <table className="table my-5">
-            <thead>
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <th>Name</th>
-                <th>Leader Email</th>
-                <th>
-                  <a
-                    href={`/admin/administerSections/addSection`}
-                    className="btn btn-xs"
-                  >
-                    Add Section
-                  </a>
-                </th>
-              </tr>
-            </thead>
-            {sections.map((section, index) => (
-              <tbody key={index}>
-                <tr>
-                  <th>
-                    <label>
-                      <input type="checkbox" className="checkbox" />
-                    </label>
-                  </th>
-                  <th>
-                    <div className="font-bold">{section?.name}</div>
-                  </th>
-                  <td>
-                    <button
-                      className="btn btn-ghost btn-xs"
-                      onClick={() => {
-                        window.location.href = `/profile/?id=${section.employee_id}`;
-                      }}
-                    >
-                      {section?.employee_email}
-                    </button>
-                  </td>
-                  <th>
-                    <button
-                      className="btn btn-ghost btn-xs"
-                      onClick={() => {
-                        window.location.href = `/admin/administerInternships/?section_id=${section.id}`;
-                      }}
-                    >
-                      details
-                    </button>
-                  </th>
-                </tr>
-              </tbody>
-            ))}
-          </table>
-        </div>
-      ) : (
-        <p>Loading internship details...</p>
-      )}
-    </div>
+    <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+      <UniversalList
+        rows={sections}
+        tableName="Sections"
+        headers={headers}
+        selectedRows={selectedRows}
+        setSelectedRows={setSelectedRows}
+        onRowClick={() => {}}
+        onRowButtonClick={(row) => {
+          window.location.href = `/admin/administerInternships/?section_id=${row.id}`;
+        }}
+        buttonName={"Details"}
+        onAddButtonClick={() => {
+          window.location.href = `/admin/administerSections/addSection`;
+        }}
+        clickableColumns={clickableColumns}
+      />
+    </main>
   );
 };
 

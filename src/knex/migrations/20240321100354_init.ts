@@ -152,4 +152,3 @@ export async function down(knex: Knex): Promise<void> {
     .dropTableIfExists("sectionTypes")
     .dropTableIfExists("internshipFields");
 }
-export async function down(knex: Knex): Promise<void> {}

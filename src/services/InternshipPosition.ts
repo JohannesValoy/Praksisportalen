@@ -6,7 +6,7 @@ import { NextRequest } from "next/server";
 class InternshipPositionObject implements Internship {
     id: number;
     name: string;
-    field: string;
+    internship_field: string;    
     maxCapacity: number;
     currentCapacity: number;
     numberOfBeds: number;
@@ -18,7 +18,7 @@ class InternshipPositionObject implements Internship {
     constructor(query: Internship) {
         this.id = query.id;
         this.name = query.name;
-        this.field = query.field;
+        this.internship_field = query.internship_field;
         this.maxCapacity = query.maxCapacity;
         this.currentCapacity = query.currentCapacity;
         this.numberOfBeds = query.numberOfBeds;
@@ -28,11 +28,11 @@ class InternshipPositionObject implements Internship {
         this.updated_at = query.updated_at;
     }
 
-    toJson() {
+    toJSON() {
         return {
             id: this.id,
             name: this.name,
-            field: this.field,
+            field: this.internship_field,
             maxCapacity: this.maxCapacity,
             currentCapacity: this.currentCapacity,
             numberOfBeds: this.numberOfBeds,

@@ -1,16 +1,15 @@
 /** @format */
 
+import { DepartmentPageRequest } from "@/app/_models/Department";
 import DBClient from "@/knex/config/DBClient";
+import { getDepartmentsByPageRequest } from "@/services/Department";
+import { NextRequest } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
-    const departments = await DBClient.table("departments")
-      .join("users", "departments.employee_id", "=", "users.id")
-      .select(
-        "departments.*",
-        "users.email as employee_email" // Selecting the employee's email and any other details you need
-      );
-    return new Response(JSON.stringify(departments), {
+    const pageRequest = DepartmentPageRequest.fromRequest(request);
+
+    return new Response(JSON.stringify(await getDepartmentsByPageRequest(pageRequest)), {
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {

@@ -7,7 +7,7 @@ export class PageRequest {
   size: number;
   sort: string;
 
-  constructor(page: number = 0, size: number = 10, sort: string = "id") {
+  constructor(page: number = 0, size: number = 10) {
     if (page < 0) {
       page = 0;
     }
@@ -16,7 +16,7 @@ export class PageRequest {
     }
     this.page = page;
     this.size = size;
-    this.sort = sort;
+    this.sort = "id";
   }
 
   static fromRequest(request: NextRequest): PageRequest {
@@ -27,7 +27,7 @@ export class PageRequest {
       ? parseInt(request.nextUrl.searchParams.get("size"))
       : 10;
     const sort = request.nextUrl.searchParams.get("sort");
-    return new PageRequest(page, size, sort);
+    return new PageRequest(page, size);
   }
 }
 
@@ -37,7 +37,7 @@ export class PageResponse extends PageRequest {
   totalPages: number;
 
   constructor(PageRequest: PageRequest, elements: any[]) {
-    super(PageRequest.page, PageRequest.size, PageRequest.sort);
+    super(PageRequest.page, PageRequest.size);
     this.elements = elements.slice(
       this.page * this.size,
       this.page * this.size + this.size
@@ -51,10 +51,10 @@ export class UserPageRequest extends PageRequest {
   roles: string[];
 
   constructor(page: number, size: number, sort: string, roles: string[]) {
-    if (["id", "name", "email", "role"].indexOf(sort) === -1) {
-      sort = "id";
+    super(page, size);
+    if (["name", "email", "role"].includes(sort)) {
+      this.sort = sort;
     }
-    super(page, size, sort);
     if (
       roles.length === 0 &&
       roles.every(

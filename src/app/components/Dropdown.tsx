@@ -13,6 +13,7 @@ interface DropdownProps {
   selectedOption: Option | null;
   setSelectedOption: (option: Option) => void;
   renderOption: (option: Option) => JSX.Element;
+  required?: boolean;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -37,6 +38,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         onChange={(e) => setSearchTerm(e.target.value)}
         onClick={() => setIsDropdownOpen(true)}
         className="input input-bordered w-full"
+        aria-label={dropdownName}
       />
       {isDropdownOpen && (
         <ul

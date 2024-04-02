@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 
 const ThemeChanger = () => {
-  const [theme, setTheme] = useState("Dark");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+
+  useEffect(() => {
+    document.body.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const themes = [
-    "light",
     "dark",
+    "light",
     "bumblebee",
     "emerald",
     "corporate",
@@ -36,22 +43,18 @@ const ThemeChanger = () => {
     "nord",
     "sunset",
   ];
-
-  const changeTheme = (theme) => {
-    setTheme(theme);
-    document.body.setAttribute("data-theme", theme);
-  };
-
   return (
-    <div>
-      <select value={theme} onChange={(e) => changeTheme(e.target.value)}>
-        {themes.map((theme, index) => (
-          <option key={index} value={theme}>
-            {theme}
-          </option>
-        ))}
-      </select>
-    </div>
+    <select
+      className="select select-ghost"
+      value={theme}
+      onChange={(e) => setTheme(e.target.value)}
+    >
+      {themes.map((theme, index) => (
+        <option key={index} value={theme}>
+          {theme}
+        </option>
+      ))}
+    </select>
   );
 };
 

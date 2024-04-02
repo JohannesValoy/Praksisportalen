@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
+import ThemeChanger from "./components/ThemeChanger";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,26 +20,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.className} flex flex-col dark:bg-neutral-900 bg-white  dark:text-neutral-200 text-black`}
-      >
-        <header className="flex justify-between p-4 items-center dark:bg-neutral-800 bg-blue-700 text-white">
+    <html lang="en" data-theme="cupcake">
+      <body className={`${inter.className} flex flex-col`}>
+        <header className="flex justify-between bg-base-200 p-4 items-center ">
           <Link href={"/"}>
             <Image
               src="/logo-helse-mr.svg"
               alt="Description"
-              className="h-10 w-auto"
+              className="h-10 w-auto "
               width={100}
               height={300}
               priority={true} // {false} | {true}
             />
           </Link>
           <div className="flex space-x-6 items-center">
-            <Link
-              href="/"
-              className="btn btn-ghost rounded-btn dark:text-neutral-100  h-full"
-            >
+            <Link href="/" className="btn  rounded-btn h-full">
               Home
             </Link>
 
@@ -46,18 +42,16 @@ export default function RootLayout({
               <div tabIndex={0} role="button" className="btn m-1">
                 Settings
               </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-              >
+              <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-300 rounded-box w-52">
                 <li>
+                  <ThemeChanger />
                   <a href="/">Log out</a>
                 </li>
               </ul>
             </div>
           </div>
         </header>
-        <div className="p-4 overflow-y-scroll w-full h-full">{children}</div>
+        <main className="p-4 overflow-y-scroll w-full h-full">{children}</main>
       </body>
     </html>
   );

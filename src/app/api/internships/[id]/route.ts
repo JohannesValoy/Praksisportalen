@@ -1,12 +1,15 @@
 /** @format */
+import DBclient from "@/knex/config/DBClient";
 import { getInternshipPositionObjectByID } from "@/services/InternshipPosition";
 
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  try{
-    const internship = await getInternshipPositionObjectByID(parseInt(params.id));
+  try {
+    const internship = await getInternshipPositionObjectByID(
+      parseInt(params.id)
+    );
     return Response.json(internship);
   } catch (error) {
     console.log("Error fetching internship data:", error);
@@ -18,7 +21,6 @@ export async function GET(
       }
     );
   }
-
 }
 
 export async function DELETE(

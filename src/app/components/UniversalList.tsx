@@ -4,6 +4,7 @@ import React from "react";
 
 function DynamicTable({
   rows,
+  setRows,
   tableName,
   headers,
   selectedRows,
@@ -15,7 +16,7 @@ function DynamicTable({
   clickableColumns = {},
   sortableBy,
   setSortedBy,
-  onDeleteButtonClicked,
+  url,
 }) {
   const toggleSelection = (row, event) => {
     event.stopPropagation(); // Prevent the row click event from firing when toggling selection
@@ -31,6 +32,39 @@ function DynamicTable({
   const headerTitles = Object.keys(headers);
   const rowDataKeys = Object.values(headers);
   console.log("rows", rows);
+
+  const onDeleteButtonClicked = () => {
+    Promise.all(
+      selectedRows.map((row) =>
+        fetch(`${url + row.id}`, {
+          method: "DELETE",
+        })
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error(`Failed to delete user with id ${row.id}`);
+            }
+            return res.json();
+          })
+          .catch((error) => {
+            console.error(error);
+            return { success: false, id: row.id };
+          })
+      )
+    ).then((results) => {
+      const failedDeletes = results.filter((result) => !result.success);
+      if (failedDeletes.length > 0) {
+        alert(
+          `Failed to delete users with ids ${failedDeletes
+            .map((result) => result.id)
+            .join(", ")}`
+        );
+      } else {
+        setRows(
+          rows.filter((user) => !selectedRows.find((row) => row.id === user.id))
+        );
+      }
+    });
+  };
 
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
@@ -50,7 +84,7 @@ function DynamicTable({
             <button
               onClick={(event) => {
                 event.stopPropagation(); // Prevent row click when button is clicked
-                onDeleteButtonClicked(selectedRows);
+                onDeleteButtonClicked();
               }}
               className="btn btn-ghost btn-xs"
             >

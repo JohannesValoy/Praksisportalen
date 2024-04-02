@@ -31,6 +31,7 @@ const ListOfUsers = ({ role }: { role: string }) => {
     <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <UniversalList
         rows={users}
+        setRows={setUsers}
         tableName="Users"
         headers={headers}
         selectedRows={selectedRows}
@@ -46,30 +47,7 @@ const ListOfUsers = ({ role }: { role: string }) => {
         clickableColumns={clickableColumns}
         sortableBy={["id", "name", "email"]}
         setSortedBy={setSortedBy}
-        onDeleteButtonClicked={() => {
-          Promise.all(
-            selectedRows.map((row) =>
-              fetch(`/api/users/${row.id}`, {
-                method: "DELETE",
-              }).then((res) => res.json())
-            )
-          ).then((results) => {
-            const failedDeletes = results.filter((result) => !result.success);
-            if (failedDeletes.length > 0) {
-              alert(
-                `Failed to delete users with ids ${failedDeletes
-                  .map((result) => result.id)
-                  .join(", ")}`
-              );
-            } else {
-              setUsers(
-                users.filter(
-                  (user) => !selectedRows.find((row) => row.id === user.id)
-                )
-              );
-            }
-          });
-        }}
+        url="/api/users/"
       />
     </main>
   );

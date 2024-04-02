@@ -310,26 +310,4 @@ export const seed = async function (knex: Knex) {
       endDate: new Date("2024-06-01"),
     },
   ]);
-  await knex("sectionTypes").insert([
-    {
-      name: "Sengepost",
-    },
-    {
-      name: "Poliklinikk og dagbehandling",
-    },
-    {
-      name: "Spesialseksjon",
-    },
-  ]);
-  await knex("internshipFields").insert([
-    {
-      name: "Kirurgi",
-    },
-    {
-      name: "Medisin",
-    },
-    {
-      name: "Psykologi",
-    },
-  ]);
 };

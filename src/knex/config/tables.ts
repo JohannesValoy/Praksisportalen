@@ -103,6 +103,5 @@ declare module "knex/types/tables.js" {
     educationInstitutions: EducationInstitution;
     studyPrograms: StudyProgram;
     internshipAgreements: InternshipAgreement;
-    sessions: Session;
   }
 }

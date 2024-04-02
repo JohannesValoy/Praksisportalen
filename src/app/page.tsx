@@ -21,7 +21,7 @@ export default function Home() {
       >
         Employee
       </button>
-      <Link href="/admin" className="btn btn-success">
+      <Link href="/admin" className="btn">
         Logg in as Administrator
       </Link>
     </div>

@@ -29,9 +29,9 @@ function DynamicTable({
       setSelectedRows([...selectedRows, row]);
     }
   };
+
   const headerTitles = Object.keys(headers);
   const rowDataKeys = Object.values(headers);
-  console.log("rows", rows);
 
   const onDeleteButtonClicked = () => {
     Promise.all(
@@ -41,7 +41,7 @@ function DynamicTable({
         })
           .then((res) => {
             if (!res.ok) {
-              throw new Error(`Failed to delete user with id ${row.id}`);
+              throw new Error(`Failed to delete row with id ${row.id}`);
             }
             return res.json();
           })
@@ -54,13 +54,15 @@ function DynamicTable({
       const failedDeletes = results.filter((result) => !result.success);
       if (failedDeletes.length > 0) {
         alert(
-          `Failed to delete users with ids ${failedDeletes
+          `Failed to delete rows with ids ${failedDeletes
             .map((result) => result.id)
             .join(", ")}`
         );
       } else {
         setRows(
-          rows.filter((user) => !selectedRows.find((row) => row.id === user.id))
+          rows.filter(
+            (currRow) => !selectedRows.find((row) => row.id === currRow.id)
+          )
         );
       }
     });
@@ -123,7 +125,7 @@ function DynamicTable({
               </tr>
             </tbody>
           ) : (
-            rows.map((row, index) => (
+            (Array.isArray(rows) ? rows : [rows]).map((row, index) => (
               <tbody key={index}>
                 <tr onClick={() => onRowClick(row)}>
                   <th onClick={(e) => e.stopPropagation()}>

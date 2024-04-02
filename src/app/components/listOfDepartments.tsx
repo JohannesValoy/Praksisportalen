@@ -3,7 +3,7 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import UniversalList from "./UniversalList";
+import UniversalList from "./DynamicTable";
 const ListOfDepartments = () => {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [selectedRows, setSelectedRows] = useState<Department[]>([]);

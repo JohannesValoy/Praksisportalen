@@ -4,7 +4,7 @@
 "use client";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import UniversalList from "./UniversalList";
+import UniversalList from "./DynamicTable";
 
 const ListOfStudies = () => {
   const [studies, setStudies] = useState<Study[]>([]);
@@ -42,30 +42,8 @@ const ListOfStudies = () => {
         }}
         sortableBy={["id", "name", "email"]}
         setSortedBy={setSortedBy}
-        onDeleteButtonClicked={() => {
-          Promise.all(
-            selectedRows.map((row) =>
-              fetch(`/api/studyPrograms/${row.id}`, {
-                method: "DELETE",
-              }).then((res) => res.json())
-            )
-          ).then((results) => {
-            const failedDeletes = results.filter((result) => !result.success);
-            if (failedDeletes.length > 0) {
-              alert(
-                `Failed to delete users with ids ${failedDeletes
-                  .map((result) => result.id)
-                  .join(", ")}`
-              );
-            } else {
-              setStudies(
-                studies.filter(
-                  (study) => !selectedRows.find((row) => row.id === study.id)
-                )
-              );
-            }
-          });
-        }}
+        url="/api/studyPrograms/"
+        setRows={setStudies}
       />
     </main>
   );

@@ -4,7 +4,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import UserView from "../api/users/UserView";
-import UniversalList from "./UniversalList";
+import UniversalList from "./DynamicTable";
 
 const ListOfUsers = ({ role }: { role: string }) => {
   const [users, setUsers] = useState<UserView[]>([]);

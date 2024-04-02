@@ -4,7 +4,7 @@
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import UniversalList from "./UniversalList";
+import UniversalList from "./DynamicTable";
 
 const ListOfInternships = () => {
   const searchParams = useSearchParams();

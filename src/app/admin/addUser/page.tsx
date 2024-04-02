@@ -46,7 +46,7 @@ export default function Page() {
   return (
     <form onSubmit={handleSubmit} className="flex justify-center items-center">
       <div className="flex-col">
-        <h1>Add {role}</h1>
+        <h1 className="text-3xl mb-2">Add {role}</h1>
         <div className="flex flex-row ">
           <div className="w-full">
             <label className="form-control ">

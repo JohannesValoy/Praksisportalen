@@ -67,7 +67,6 @@ function DynamicTable({
       }
     });
   };
-
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <div>
@@ -78,9 +77,12 @@ function DynamicTable({
               onClick={() => {
                 setSelectedRows([]);
               }}
-              className="btn btn-xs"
+              className="btn btn-xs btn-ghost"
             >
               Clear Selection
+            </button>
+            <button onClick={onAddButtonClick} className="btn btn-xs btn-ghost">
+              Add {tableName}
             </button>
 
             <button
@@ -92,16 +94,6 @@ function DynamicTable({
             >
               Delete
             </button>
-            <select
-              className="p-2 my-4 rounded-md"
-              onChange={(e) => setSortedBy(e.target.value)}
-            >
-              {sortableBy.map((key, index) => (
-                <option key={index} value={key}>
-                  {key}
-                </option>
-              ))}
-            </select>
           </div>
         </div>
         <table className="table my-4">
@@ -109,13 +101,16 @@ function DynamicTable({
             <tr>
               <th></th>
               {headerTitles.map((title, index) => (
-                <th key={index}>{title}</th>
+                <th key={index}>
+                  <div
+                    onClick={() => setSortedBy(title.toLowerCase())}
+                    className="btn btn-ghost btn-xs"
+                  >
+                    {title}
+                  </div>
+                </th>
               ))}
-              <th>
-                <button onClick={onAddButtonClick} className="btn btn-xs">
-                  Add {tableName}
-                </button>
-              </th>
+              <th></th>
             </tr>
           </thead>
           {!rows || rows.length === 0 || (rows && rows.message != null) ? (

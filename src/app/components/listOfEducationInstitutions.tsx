@@ -52,7 +52,7 @@ const ListOfEducationInstitutions = () => {
           setRows={setEducationInstitutions}
         />
       </main>
-      <h1 className="text-3xl font-semibold">List of Education Instituts</h1>
+      <h1 className="text-3xl font-semibold">List of Education Institutes</h1>
       <table className="table my-5">
         <thead>
           <tr>

@@ -10,13 +10,13 @@ export default function Page() {
   }, []);
 
   return (
-    <main>
+    <div>
       <h1>Sections</h1>
       <ul>
         {sections?.map((section) => (
           <li key={section.id}>{section.name}</li>
         ))}
       </ul>
-    </main>
+    </div>
   );
 }

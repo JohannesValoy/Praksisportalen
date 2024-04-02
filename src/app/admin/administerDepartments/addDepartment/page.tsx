@@ -46,7 +46,7 @@ export default function Page() {
   const selectedUser = users.find((user) => user.id === employee_id);
 
   return (
-    <main className="flex flex-col items-center justify-center w-full h-full">
+    <div className="flex flex-col items-center justify-center w-full h-full">
       <div className="justify-center items-center" style={{ width: "50rem" }}>
         <h1>Add Department</h1>
         <label className="form-control w-full ">
@@ -129,6 +129,6 @@ export default function Page() {
           </button>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

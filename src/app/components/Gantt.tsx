@@ -115,7 +115,7 @@ const Gantt: React.FC<GanttProps> = ({ datalist }) => {
                       }}
                     >
                       <div
-                        className="bg-blue-500"
+                        className="bg-accent"
                         style={{
                           borderRadius: "5px",
                           height: "50%",
@@ -130,7 +130,7 @@ const Gantt: React.FC<GanttProps> = ({ datalist }) => {
             {monthMarkers.map((marker, index) => (
               <div
                 key={index}
-                className="absolute bg-blue-200 "
+                className="absolute bg-primary"
                 style={{
                   height: "100%",
                   width: "3px",

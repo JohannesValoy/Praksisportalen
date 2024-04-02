@@ -1,7 +1,5 @@
 /** @format */
 
-import { Knex } from "knex";
-
 declare module "knex/types/tables.js" {
   interface User {
     id: number;
@@ -59,7 +57,6 @@ declare module "knex/types/tables.js" {
     created_at: Date;
     updated_at: Date;
   }
-
   interface EducationInstitution {
     id: number;
     name: string;

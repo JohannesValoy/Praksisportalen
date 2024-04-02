@@ -3,8 +3,8 @@
 import ListOfInternships from "@/app/components/listOfInternships";
 export default function Page() {
   return (
-    <main>
+    <div>
       <ListOfInternships />
-    </main>
+    </div>
   );
 }

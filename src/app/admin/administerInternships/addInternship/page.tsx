@@ -101,7 +101,7 @@ export default function Page() {
   };
 
   return (
-    <main className="w-full h-full max-w-[50rem] mx-auto m-10 flex flex-col items-center">
+    <div className="w-full h-full max-w-[50rem] mx-auto m-10 flex flex-col items-center">
       Add Internship
       <label className="form-control w-full mb-2">
         <div className="label">
@@ -212,6 +212,6 @@ export default function Page() {
           Save
         </button>
       </div>
-    </main>
+    </div>
   );
 }

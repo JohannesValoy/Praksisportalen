@@ -3,7 +3,7 @@
 import Link from "next/link";
 export default async function Page() {
   return (
-    <main className="container mx-auto flex flex-row items-start justify-center mt-20 space-x-4">
+    <div className="container mx-auto flex flex-row items-start justify-center mt-20 space-x-4">
       <Link href="/admin/administerStudies" className="btn">
         Administrer Studier
       </Link>
@@ -19,6 +19,6 @@ export default async function Page() {
       <Link href="/admin/administerSections" className="btn">
         Administrer Seksjoner
       </Link>
-    </main>
+    </div>
   );
 }

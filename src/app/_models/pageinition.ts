@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 
-class PageRequest {
+export class PageRequest {
     page: number;
     size: number;
     sort: string;

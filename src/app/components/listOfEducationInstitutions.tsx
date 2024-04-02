@@ -3,10 +3,13 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import UniversalList from "./UniversalList";
 const ListOfEducationInstitutions = () => {
   const [educationInstitutions, setEducationInstitutions] = useState<
     EducationInstitution[]
   >([]);
+  const [selectedRows, setSelectedRows] = useState<EducationInstitution[]>([]);
+  const headers = { Name: "name" };
 
   useEffect(() => {
     fetch("/api/educationInstitution").then((res) =>
@@ -21,6 +24,23 @@ const ListOfEducationInstitutions = () => {
 
   return (
     <div className="p-10">
+      <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+        <UniversalList
+          rows={educationInstitutions}
+          tableName="Departments"
+          headers={headers}
+          selectedRows={selectedRows}
+          setSelectedRows={setSelectedRows}
+          onRowClick={() => {}}
+          onRowButtonClick={(row) => {
+            window.location.href = `/admin/administerSections/?department_id=${row.id}`;
+          }}
+          buttonName={"Details"}
+          onAddButtonClick={() => {
+            window.location.href = `/admin/administerDepartments/addDepartment`;
+          }}
+        />
+      </main>
       <h1 className="text-3xl font-semibold">List of Education Instituts</h1>
       <table className="table my-5">
         <thead>

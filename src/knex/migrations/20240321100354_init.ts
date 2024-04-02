@@ -124,12 +124,12 @@ export async function down(knex: Knex): Promise<void> {
     .dropTableIfExists("users")
     .dropTableIfExists("accounts")
     .dropTableIfExists("departments")
+    .dropTableIfExists("sectionTypes")
     .dropTableIfExists("sections")
+    .dropTableIfExists("internshipFields")
     .dropTableIfExists("internships")
     .dropTableIfExists("educationInstitutions")
     .dropTableIfExists("studyPrograms")
     .dropTableIfExists("internshipAgreements")
-    .dropTableIfExists("timeIntervals")
-    .dropTableIfExists("sectionTypes")
-    .dropTableIfExists("internshipFields");
+    .dropTableIfExists("timeIntervals");
 }

@@ -10,6 +10,7 @@ export const seed = async function (knex: Knex) {
   await knex("timeIntervals").del();
   await knex("internshipAgreements").del();
   await knex("studyPrograms").del();
+  await knex("internshipFields").del();
   await knex("educationInstitutions").del();
   await knex("internships").del();
   await knex("internshipFields").del();

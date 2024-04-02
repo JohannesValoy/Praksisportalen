@@ -4,9 +4,13 @@
 "use client";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
+import UniversalList from "./UniversalList";
 
 const ListOfStudies = () => {
   const [studies, setStudies] = useState<Study[]>([]);
+  const [selectedRows, setSelectedRows] = useState<Study[]>([]);
+  const headers = { Name: "name" };
+
   type Study = {
     name: string;
   };
@@ -18,39 +22,25 @@ const ListOfStudies = () => {
       .catch((error) => console.error("Failed to fetch studies", error)); // Error handling.
   }, []);
   return (
-    <div className="p-4">
-      <h1 className="text-3xl font-semibold">List of StudyPrograms</h1>
-      <table className="table my-4">
-        <thead>
-          <tr>
-            <th>
-              <input type="checkbox" className="checkbox" />
-            </th>
-            <th>Name</th>
-            <th>
-              <Link href="/admin/administerStudyPrograms" className="btn">
-                Add Study
-              </Link>
-            </th>
-          </tr>
-        </thead>
-        {studies.map((study, index) => (
-          <tbody key={index}>
-            <tr>
-              <td>
-                <input type="checkbox" className="checkbox" />
-              </td>
-              <td>
-                <div className="font-bold">{study?.name}</div>
-              </td>
-              <th>
-                <button className="btn btn-ghost btn">details</button>
-              </th>
-            </tr>
-          </tbody>
-        ))}
-      </table>
-    </div>
+    <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+      <UniversalList
+        rows={studies}
+        tableName={"studyprogram"}
+        headers={headers}
+        onRowClick={() => {
+          console.log("Row clicked");
+        }}
+        onRowButtonClick={(row) => {
+          window.location.href = `/studyProgram?id=${row.id}`;
+        }}
+        buttonName={"Details"}
+        setSelectedRows={setSelectedRows}
+        selectedRows={selectedRows}
+        onAddButtonClick={() => {
+          window.location.href = `/admin/administerStudyPrograms`;
+        }}
+      />
+    </main>
   );
 };
 

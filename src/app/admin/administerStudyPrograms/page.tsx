@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 export default function Page() {
   const router = useRouter();
 
-  const [name, setame] = useState("");
+  const [name, setName] = useState("");
   const [educationInstitution_id, setEducationInstitution_id] = useState("");
 
   const [educationInstitutions, setEducationInstitutions] = useState<
@@ -61,7 +61,7 @@ export default function Page() {
             type="text"
             placeholder="Study Program Name"
             className="input input-bordered w-full"
-            onChange={(e) => setame(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
           />
         </label>
 

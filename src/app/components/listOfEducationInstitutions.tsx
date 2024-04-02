@@ -10,6 +10,12 @@ const ListOfEducationInstitutions = () => {
   >([]);
   const [selectedRows, setSelectedRows] = useState<EducationInstitution[]>([]);
   const headers = { Name: "name" };
+  const [sortedBy, setSortedBy] = useState<string>("name");
+  const clickableColumns = {
+    employee_email: (row) => {
+      window.location.href = `/profile?id=${row.employee_id}`;
+    },
+  };
 
   useEffect(() => {
     fetch("/api/educationInstitution").then((res) =>
@@ -39,6 +45,11 @@ const ListOfEducationInstitutions = () => {
           onAddButtonClick={() => {
             window.location.href = `/admin/administerDepartments/addDepartment`;
           }}
+          clickableColumns={clickableColumns}
+          sortableBy={["name"]}
+          setSortedBy={setSortedBy}
+          url="/api/departments/"
+          setRows={setEducationInstitutions}
         />
       </main>
       <h1 className="text-3xl font-semibold">List of Education Instituts</h1>

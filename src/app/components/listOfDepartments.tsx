@@ -45,31 +45,8 @@ const ListOfDepartments = () => {
         clickableColumns={clickableColumns}
         sortableBy={["name", "email"]}
         setSortedBy={setSortedBy}
-        onDeleteButtonClicked={() => {
-          Promise.all(
-            selectedRows.map((row) =>
-              fetch(`/api/departments/${row.id}`, {
-                method: "DELETE",
-              }).then((res) => res.json())
-            )
-          ).then((results) => {
-            const failedDeletes = results.filter((result) => !result.success);
-            if (failedDeletes.length > 0) {
-              alert(
-                `Failed to delete departments with ids ${failedDeletes
-                  .map((result) => result.id)
-                  .join(", ")}`
-              );
-            } else {
-              setDepartments(
-                departments.filter(
-                  (department) =>
-                    !selectedRows.find((row) => row.id === department.id)
-                )
-              );
-            }
-          });
-        }}
+        url="/api/departments/"
+        setRows={setDepartments}
       />
     </main>
   );

@@ -60,7 +60,8 @@ export class DepartmentPageRequest extends PageRequest {
         const containsName = request.nextUrl.searchParams.get("containsName")
             ? request.nextUrl.searchParams.get("containsName")
             : "";
-        return new DepartmentPageRequest(pageRequest.page, pageRequest.size, pageRequest.sort, hasEmployeeID, hasSectionID, containsName);
+        const sort = request.nextUrl.searchParams.get("sort")
+        return new DepartmentPageRequest(pageRequest.page, pageRequest.size, sort, hasEmployeeID, hasSectionID, containsName);
     }
     
     public get hasEmployeeID() : number {

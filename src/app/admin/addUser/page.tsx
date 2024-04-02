@@ -16,15 +16,25 @@ export default function Page() {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
+  const [countryCode, setCountryCode] = useState("");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const fullPhoneNumber = `${countryCode}${phoneNumber}`;
 
     const response = await fetch(`/api/users/addUser`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ firstName, lastName, email, phoneNumber, role }),
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        phoneNumber: fullPhoneNumber,
+        role,
+      }),
     });
 
     if (!response.ok) {
@@ -34,20 +44,21 @@ export default function Page() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center w-full h-full">
-      <div className="justify-center items-center" style={{ width: "50rem" }}>
+    <form onSubmit={handleSubmit} className="flex justify-center items-center">
+      <div className="flex-col">
         <h1>Add {role}</h1>
         <div className="flex flex-row ">
           <div className="w-full">
-            <label className="form-control w-full ">
+            <label className="form-control ">
               <div className="label">
                 <span className="label-text">First Name</span>
               </div>
               <input
-                type="text"
+                type="name"
                 placeholder="First Name"
                 className="input input-bordered w-full"
                 onChange={(e) => setFirstName(e.target.value)}
+                required
               />
             </label>
             <label className="form-control w-full">
@@ -55,10 +66,11 @@ export default function Page() {
                 <span className="label-text">Last Name</span>
               </div>
               <input
-                type="text"
+                type="name"
                 placeholder="Last Name"
                 className="input input-bordered w-full"
                 onChange={(e) => setLastName(e.target.value)}
+                required
               />
             </label>
           </div>
@@ -90,33 +102,50 @@ export default function Page() {
               <span className="label-text">Email</span>
             </div>
             <input
-              type="text"
+              type="email"
               placeholder="Email"
               className="input input-bordered w-full"
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </label>
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text">Phone Number</span>
-            </div>
-            <input
-              type="text"
-              placeholder="Phone Number"
-              className="input input-bordered w-full"
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-          </label>
+          <div className="flex flex-row gap-5 w-full">
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text">Country Code</span>
+              </div>
+              <select
+                className="input input-bordered w-full"
+                onChange={(e) => setCountryCode(e.target.value)}
+                required
+              >
+                <option value="+47">Norway (+47)</option>
+                {/* Add more options for other countries here */}
+              </select>
+            </label>
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text">Phone Number</span>
+              </div>
+              <input
+                type="tel"
+                placeholder="Phone Number"
+                className="input input-bordered w-full"
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                required
+              />
+            </label>
+          </div>
         </div>
         <div className="flex w-full justify-center p-10 gap-5">
           <button className="btn w-20" onClick={() => router.back()}>
             Cancel
           </button>
-          <button className="btn btn-primary w-20" onClick={handleSubmit}>
+          <button className="btn btn-primary w-20" type="submit">
             Save
           </button>
         </div>
       </div>
-    </main>
+    </form>
   );
 }

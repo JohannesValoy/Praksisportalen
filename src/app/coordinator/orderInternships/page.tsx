@@ -17,19 +17,19 @@ export default function Page() {
   const initialSubFieldGroups = [
     {
       studyYear: "1. års studenter",
-      numStudents: "",
+      numStudents: 0,
       startWeek: "",
       endWeek: "",
     },
     {
       studyYear: "2. års studenter",
-      numStudents: "",
+      numStudents: 0,
       startWeek: "",
       endWeek: "",
     },
     {
       studyYear: "3. års studenter",
-      numStudents: "",
+      numStudents: 0,
       startWeek: "",
       endWeek: "",
     },
@@ -125,18 +125,16 @@ export default function Page() {
   };
 
   return (
-    <main className="flex flex-col items-center w-full h-full">
-      <div>
+    <form>
+      <div className="flex flex-col items-center w-full h-full">
         <h1 className="flex justify-center text-4xl font-bold mb-4">
           Behov for praksisplasser
         </h1>
 
-        <label className="form-control">
-          <div className="label">
-            <span className="label-text text-xl">Studieprogram</span>
-          </div>
-        </label>
-        <div className="flex flex-row mb-2">
+        <div className="mb-2">
+          <span className="label-text text-xl">Studieprogram</span>
+        </div>
+        <div className="flex flex-row mb-2 gap-2">
           <Dropdown
             dropdownName="studieprogram"
             options={studyPrograms}
@@ -156,144 +154,144 @@ export default function Page() {
                 <td>{studyProgram.name}</td>
               </>
             )}
+            required
           />
           <button>
             <a
               href={`/admin/administerStudyPrograms`}
-              className="btn btn-primary h-full"
+              className="btn btn-secondary"
             >
               Nytt studieprogram
             </a>
           </button>
         </div>
-        <div className="flex flex-wrap justify-center   gap-4">
+        <div className="flex flex-wrap justify-center gap-4">
           {Object.entries(fieldGroups).map(([groupId, group]) => (
             <div
               key={groupId}
-              className="group carousel-item relative justify-center bg-neutral rounded-box p-4"
+              className="group relative justify-centers rounded-3xl bg-base-200 mb-2 p-8"
             >
-              <div>
-                <div className="flex flex-row">
-                  <label className="form-control w-full">
-                    <div className="label">
-                      <span className="label-text text-xl">Praksisfelt</span>
-                    </div>
-                  </label>
-                  <button
-                    onClick={() => handleDeleteButtonClick(groupId)}
-                    className="btn btn-error"
-                  >
-                    X
-                  </button>
+              <div className="flex flex-row items-center">
+                <div className=" w-full">
+                  <span className="label-text text-2xl">Praksisfelt</span>
                 </div>
-                <Dropdown
-                  dropdownName="Praksisfelt"
-                  options={internshipFields}
-                  selectedOption={
-                    internshipFields.find(
-                      (type) => type.name === internshipField
-                    ) || null
-                  }
-                  setSelectedOption={(type) => setInternshipField(type.name)}
-                  renderOption={(type) => (
-                    <>
-                      <th>
-                        <div className="mask mask-squircle w-12 h-12 overflow-hidden "></div>
-                      </th>
-                      <td>{type.name}</td>
-                    </>
-                  )}
+                <button
+                  onClick={() => handleDeleteButtonClick(groupId)}
+                  className="btn btn-error rounded-full m-2"
+                >
+                  X
+                </button>
+              </div>
+              <Dropdown
+                dropdownName="Praksisfelt"
+                options={internshipFields}
+                selectedOption={
+                  internshipFields.find(
+                    (type) => type.name === internshipField
+                  ) || null
+                }
+                setSelectedOption={(type) => setInternshipField(type.name)}
+                renderOption={(type) => (
+                  <>
+                    <th>
+                      <div className="mask mask-squircle w-12 h-12 overflow-hidden "></div>
+                    </th>
+                    <td>{type.name}</td>
+                  </>
+                )}
+                required
+              />
+              <div className="flex flex-row mt-2 gap-2">
+                <input
+                  type="text"
+                  value={newType}
+                  onChange={(e) => setNewType(e.target.value)}
+                  placeholder="Legg til nytt praksisfelt"
+                  className="input input-bordered w-full"
+                  aria-label="Add new type"
                 />
-                <div className="flex flex-row mt-2">
-                  <input
-                    type="text"
-                    value={newType}
-                    onChange={(e) => setNewType(e.target.value)}
-                    placeholder="Legg til nytt praksisfelt"
-                    className="input input-bordered w-full"
-                  />
-                  <button
-                    className="btn btn-primary h-full"
-                    onClick={handleAddType}
-                  >
-                    Legg til
-                  </button>
-                </div>
-                <div className="flex flex-row mt-2">
-                  {group.subFieldGroups.map((subFieldGroup, index) => (
-                    <div key={index} className="mr-4">
-                      <label className="form-control w-full">
-                        <div className="label">
-                          <span className="label-text text-xl">
-                            {subFieldGroup.studyYear}
-                          </span>
-                        </div>
-                      </label>
-
-                      <label className="form-control w-full">
-                        <div className="label">
-                          <span className="label-text text-xl">
-                            Antall Studenter
-                          </span>
-                        </div>
-                        <input
-                          type="number"
-                          min="0"
-                          value={group.numStudents}
-                          onChange={(e) => {
-                            const newFieldGroups = { ...fieldGroups };
-                            newFieldGroups[groupId].subFieldGroups[
-                              index
-                            ].numStudents = e.target.value;
-                            setFieldGroups(newFieldGroups);
-                          }}
-                          className="input input-bordered"
-                        />
-                      </label>
-
-                      <label className="form-control w-full">
-                        <div className="label">
-                          <span className="label-text text-xl">Start Uke</span>
-                        </div>
-                        <input
-                          type="week"
-                          value={subFieldGroup.startWeek}
-                          className={`input input-bordered`}
-                          onChange={(e) => {
-                            const newFieldGroups = { ...fieldGroups };
-                            newFieldGroups[groupId].subFieldGroups[
-                              index
-                            ].startWeek = e.target.value;
-                            setFieldGroups(newFieldGroups);
-                          }}
-                        />
-                      </label>
-
-                      <label className="form-control w-full">
-                        <div className="label">
-                          <span className="label-text text-xl">Slutt Uke</span>
-                        </div>
-                        <input
-                          type="week"
-                          value={subFieldGroup.endWeek}
-                          className={`input input-bordered ${
-                            weekStringToDate(subFieldGroup.endWeek) <
-                            weekStringToDate(subFieldGroup.startWeek)
-                              ? "input-error"
-                              : ""
-                          }`}
-                          onChange={(e) => {
-                            const newFieldGroups = { ...fieldGroups };
-                            newFieldGroups[groupId].subFieldGroups[
-                              index
-                            ].endWeek = e.target.value;
-                            setFieldGroups(newFieldGroups);
-                          }}
-                        />
-                      </label>
+                <button
+                  className="btn btn-secondary h-full"
+                  onClick={handleAddType}
+                >
+                  Legg til
+                </button>
+              </div>
+              <div className="flex flex-row mt-2">
+                {group.subFieldGroups.map((subFieldGroup, index) => (
+                  <div key={index} className="mr-4">
+                    <div className="label  w-full">
+                      <span className="label-text text-xl">
+                        {subFieldGroup.studyYear}
+                      </span>
                     </div>
-                  ))}
-                </div>
+
+                    <label className="form-control w-full">
+                      <div className="label">
+                        <span className="label-text text-xl">
+                          Antall Studenter
+                        </span>
+                      </div>
+                      <input
+                        type="number"
+                        min="0"
+                        value={subFieldGroup.numStudents}
+                        onChange={(e) => {
+                          const newFieldGroups = { ...fieldGroups };
+                          newFieldGroups[groupId].subFieldGroups[
+                            index
+                          ].numStudents = e.target.value;
+                          setFieldGroups(newFieldGroups);
+                        }}
+                        className="input input-bordered"
+                        required
+                      />
+                    </label>
+
+                    <label className="form-control w-full">
+                      <div className="label">
+                        <span className="label-text text-xl">Start Uke</span>
+                      </div>
+                      <input
+                        type="week"
+                        value={subFieldGroup.startWeek}
+                        className={`input input-bordered`}
+                        onChange={(e) => {
+                          const newFieldGroups = { ...fieldGroups };
+                          newFieldGroups[groupId].subFieldGroups[
+                            index
+                          ].startWeek = e.target.value;
+                          setFieldGroups(newFieldGroups);
+                        }}
+                        required
+                      />
+                    </label>
+
+                    <label className="form-control w-full">
+                      <div className="label">
+                        <span className="label-text text-xl">Slutt Uke</span>
+                      </div>
+                      <input
+                        type="week"
+                        value={subFieldGroup.endWeek}
+                        className={`input input-bordered ${
+                          weekStringToDate(subFieldGroup.endWeek) <
+                          weekStringToDate(subFieldGroup.startWeek)
+                            ? "input-error"
+                            : ""
+                        }`}
+                        onChange={(e) => {
+                          const newFieldGroups = { ...fieldGroups };
+                          newFieldGroups[groupId].subFieldGroups[
+                            index
+                          ].endWeek = e.target.value;
+                          setFieldGroups(newFieldGroups);
+                        }}
+                        required
+                      />
+                    </label>
+                  </div>
+                ))}
               </div>
             </div>
           ))}
@@ -302,16 +300,17 @@ export default function Page() {
           Legg til praksisfelt
         </button>
 
-        <label className="form-control w-full">
+        <div className="w-3/4 ">
           <div className="label">
             <span className="label-text text-xl">Kommentar</span>
           </div>
           <textarea
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            className="textarea textarea-bordered"
+            className="textarea textarea-bordered h-32 w-full"
+            aria-label="Kommentarfelt"
           />
-        </label>
+        </div>
         <div className="flex flex-row"></div>
         <div className="flex w-full justify-center p-10 gap-5">
           <button className="btn w-20" onClick={() => router.back()}>
@@ -322,6 +321,6 @@ export default function Page() {
           </button>
         </div>
       </div>
-    </main>
+    </form>
   );
 }

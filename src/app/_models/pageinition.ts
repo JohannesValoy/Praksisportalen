@@ -31,18 +31,16 @@ export class PageRequest {
   }
 }
 
-export class PageResponse extends PageRequest {
-  elements: any[];
+export class PageResponse<T> extends PageRequest {
+  elements: T[];
   totalElements: number;
   totalPages: number;
 
-  constructor(PageRequest: PageRequest, elements: any[]) {
+  constructor(PageRequest: PageRequest, elements: T[], totalElements: number) {
     super(PageRequest.page, PageRequest.size);
-    this.elements = elements.slice(
-      this.page * this.size,
-      this.page * this.size + this.size
-    );
-    this.totalElements = elements.length;
+    this.sort = PageRequest.sort;
+    this.elements = elements;
+    this.totalElements = totalElements;
     this.totalPages = Math.ceil(this.totalElements / this.size);
   }
 }

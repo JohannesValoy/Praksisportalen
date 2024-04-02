@@ -1,11 +1,13 @@
 /** @format */
 
+import { SectionPageRequest } from "@/app/_models/Section";
 import DBclient from "@/knex/config/DBClient";
+import { getSectionsByPageRequest } from "@/services/Section";
 import { NextRequest } from "next/server";
 
-export async function GET(request: Request) {
-  const sections = await DBclient.from("sections").select("*");
-  return Response.json(sections);
+export async function GET(request: NextRequest) {
+  const pageRequest = SectionPageRequest.fromRequest(request);
+  return Response.json(await getSectionsByPageRequest(pageRequest));
 }
 
 export async function POST(request: Request) {

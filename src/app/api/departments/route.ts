@@ -2,14 +2,14 @@
 
 import { DepartmentPageRequest } from "@/app/_models/Department";
 import DBClient from "@/knex/config/DBClient";
-import { getDepartmentsByPageRequest } from "@/services/Department";
+import { getDepartmentPageByPageRequest } from "@/services/Department";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
     const pageRequest = DepartmentPageRequest.fromRequest(request);
 
-    return new Response(JSON.stringify(await getDepartmentsByPageRequest(pageRequest)), {
+    return new Response(JSON.stringify(await getDepartmentPageByPageRequest(pageRequest)), {
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {

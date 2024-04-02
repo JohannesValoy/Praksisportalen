@@ -5,6 +5,7 @@ import { Department } from "knex/types/tables.js";
 import { getEmployeeObjectByIDList } from "./Employees";
 
 import "server-only"
+import { PageResponse } from "@/app/_models/pageinition";
 
 
 async function getDepartmentObjectByID(id: number): Promise<DepartmentObject> {
@@ -25,9 +26,9 @@ async function getDepartmentObjectByIDList(idList: number[]): Promise<Map<number
     return departments;
 }
 
-async function getDepartmentsByPageRequest(pageRequest : DepartmentPageRequest) : Promise<DepartmentObject[]> 
+async function getDepartmentPageByPageRequest(pageRequest : DepartmentPageRequest) : Promise<PageResponse<DepartmentObject>> 
 {
-    const query = await DBclient.select("id").from<Department>("departments").where((builder) => {
+    const baseQuery = await DBclient.select("").from<Department>("departments").where((builder) => {
         if (pageRequest.hasEmployeeID != -1) {
             builder.where("employee_id", pageRequest.hasEmployeeID);
         }
@@ -39,11 +40,17 @@ async function getDepartmentsByPageRequest(pageRequest : DepartmentPageRequest) 
         if (pageRequest.containsName != "" && pageRequest.containsName) {
             builder.where("name", "like", `%${pageRequest.containsName}%`);
         }
-        builder.orderBy(pageRequest.sort)
-        builder.limit(pageRequest.size);
-        builder.offset(pageRequest.page * pageRequest.size);
-    })
-    return Array.from((await getDepartmentObjectByIDList(query.map((department) => department.id))).values());
+    }).orderBy(pageRequest.sort);
+    const pageQuery = baseQuery.slice(pageRequest.page * pageRequest.size, (pageRequest.page + 1) * pageRequest.size);
+    return new PageResponse<DepartmentObject>(pageRequest,await createDepartmentObject(pageQuery), baseQuery.length);
     }
 
-export { getDepartmentObjectByID, getDepartmentObjectByIDList, getDepartmentsByPageRequest };
+async function createDepartmentObject(query: Department[]) : Promise<DepartmentObject[]> {
+    const departments: DepartmentObject[] = [];
+    const employees: Map<number, EmployeeObject> = await getEmployeeObjectByIDList(query.map((department) => department.employee_id));
+    query.forEach((department) => {
+        departments.push(new DepartmentObject(department, employees.get(department.employee_id)));
+    });
+    return departments;
+}
+export { getDepartmentObjectByID, getDepartmentObjectByIDList, getDepartmentPageByPageRequest };

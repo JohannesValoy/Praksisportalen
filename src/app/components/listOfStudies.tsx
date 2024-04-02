@@ -28,10 +28,7 @@ const ListOfStudies = () => {
             </th>
             <th>Name</th>
             <th>
-              <Link
-                href="/admin/administerStudyPrograms"
-                className="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
-              >
+              <Link href="/admin/administerStudyPrograms" className="btn">
                 Add Study
               </Link>
             </th>

@@ -49,6 +49,9 @@ async function  createSectionObject(query: Section[]) : Promise<SectionObject[]>
     const internshipsPromise: Promise<Map<number, InternshipPositionObject[]>> = getInternshipPositionObjectBySectionID(query.map((section) => section.id));
     const values = await Promise.all([employeesPromise, internshipsPromise])
     const sections = [];
+    if (values.length != 2) {
+        throw new Error("Error fetching section data");
+    }
     const employees = values[0];
     const internships = values[1];
     query.forEach((section) => {

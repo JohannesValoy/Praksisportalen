@@ -4,9 +4,9 @@ import ListOfUsers from "@/app/components/listOfUsers"; // Make sure the path is
 
 const Page = () => {
   return (
-    <main>
+    <div>
       <ListOfUsers role="coordinator" />
-    </main>
+    </div>
   );
 };
 

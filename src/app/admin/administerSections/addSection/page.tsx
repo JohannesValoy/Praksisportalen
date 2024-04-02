@@ -99,7 +99,7 @@ export default function Page() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center w-full h-full">
+    <div className="flex flex-col items-center justify-center w-full h-full">
       <div style={{ width: "50rem" }}>
         <h1 className="flex justify-center text-4xl font-bold mb-4">
           Add Section
@@ -221,6 +221,6 @@ export default function Page() {
           </button>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

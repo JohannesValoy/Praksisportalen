@@ -6,7 +6,7 @@ import ThemeChanger from "./components/ThemeChanger";
 /**With dummy buttons to log into the different users while backend is being developed */
 export default function Home() {
   return (
-    <main className="container mx-auto flex flex-col items-center justify-center gap-5 h-full">
+    <div className="container mx-auto flex flex-col items-center justify-center gap-5 h-full">
       <Link href="/student" className="btn">
         Logg in as Student
       </Link>
@@ -24,6 +24,6 @@ export default function Home() {
       <Link href="/admin" className="btn btn-success">
         Logg in as Administrator
       </Link>
-    </main>
+    </div>
   );
 }

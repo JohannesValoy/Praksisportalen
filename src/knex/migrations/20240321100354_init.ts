@@ -130,19 +130,19 @@ export async function up(knex: Knex): Promise<void> {
       table.time("endTime").notNullable();
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
-    })
+    });
 }
 export async function down(knex: Knex): Promise<void> {
   return knex.schema
     .dropTableIfExists("users")
     .dropTableIfExists("accounts")
     .dropTableIfExists("departments")
+    .dropTableIfExists("sectionTypes")
     .dropTableIfExists("sections")
+    .dropTableIfExists("internshipFields")
     .dropTableIfExists("internships")
     .dropTableIfExists("educationInstitutions")
     .dropTableIfExists("studyPrograms")
     .dropTableIfExists("internshipAgreements")
-    .dropTableIfExists("timeIntervals")
-    .dropTableIfExists("sectionTypes")
-    .dropTableIfExists("internshipFields");
+    .dropTableIfExists("timeIntervals");
 }

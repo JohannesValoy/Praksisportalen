@@ -2,8 +2,8 @@
 import ListOfStudies from "@/app/components/listOfStudies";
 export default function Page() {
   return (
-    <main>
+    <div>
       <ListOfStudies />
-    </main>
+    </div>
   );
 }

@@ -53,7 +53,7 @@ const ThemeChanger = () => {
       onChange={(e) => setTheme(e.target.value)}
     >
       {themes.map((theme, index) => (
-        <option key={index} value={theme}>
+        <option className="bg-base-300" key={index} value={theme}>
           {theme}
         </option>
       ))}

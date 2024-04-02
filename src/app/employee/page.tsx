@@ -3,8 +3,8 @@
 import ListOfDepartments from "@/app/components/listOfDepartments";
 export default function Page() {
   return (
-    <main>
+    <div>
       <ListOfDepartments />
-    </main>
+    </div>
   );
 }

@@ -51,7 +51,7 @@ const Gantt: React.FC<GanttProps> = ({ datalist }) => {
 
   return (
     <div
-      className="dark:bg-neutral-800 bg-neutral-50  p-5 rounded-lg flex flex-col items-center justify-center"
+      className="bg-base-200  p-5 rounded-lg flex flex-col items-center justify-center"
       style={{
         height: "70%",
         width: "70%",
@@ -87,7 +87,7 @@ const Gantt: React.FC<GanttProps> = ({ datalist }) => {
             ))}
           </div>
 
-          <div className="dark:bg-neutral-700 bg-neutral-200  rounded-lg flex-1 flex flex-col relative h-full">
+          <div className="rounded-lg flex-1 flex flex-col relative h-full">
             {Object.values(groupedData).map((dateRanges, index) => (
               <div
                 key={index}

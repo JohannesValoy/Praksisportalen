@@ -10,13 +10,13 @@ export default function Page() {
   }, []);
 
   return (
-    <main>
+    <div>
       <h1>Departments</h1>
       <ul>
         {departments?.map((department) => (
           <li key={department.id}>{department.name}</li>
         ))}
       </ul>
-    </main>
+    </div>
   );
 }

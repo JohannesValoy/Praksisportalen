@@ -27,7 +27,7 @@ export default function Page() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center w-full h-full">
+    <div className="flex flex-col items-center justify-center w-full h-full">
       <div className="justify-center items-center" style={{ width: "50rem" }}>
         <h1>Add Study Program</h1>
         <label className="form-control w-full ">
@@ -51,6 +51,6 @@ export default function Page() {
           </button>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

@@ -3,7 +3,9 @@
 import React, { useEffect, useState } from "react";
 
 const ThemeChanger = () => {
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+  const [theme, setTheme] = useState(
+    window.localStorage.getItem("theme") || "dark"
+  );
 
   useEffect(() => {
     document.body.setAttribute("data-theme", theme);

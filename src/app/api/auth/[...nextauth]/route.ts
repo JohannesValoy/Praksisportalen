@@ -9,7 +9,7 @@ const handler = NextAuth({
   session: {
     strategy: "jwt",
   },
-  pages: {},
+  pages: { signIn: "/login" },
   adapter: KnexAdapter(DBclient),
 });
 

@@ -1,3 +1,5 @@
+/** @format */
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -42,6 +44,7 @@ const ThemeChanger = () => {
     "dim",
     "nord",
     "sunset",
+    "myTheme",
   ];
   return (
     <select

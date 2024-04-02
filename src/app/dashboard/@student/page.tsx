@@ -1,8 +1,8 @@
 /** @format */
 
 "use client";
-import dynamic from "next/dynamic";
-import Gantt from "../components/Gantt";
+
+import Gantt from "@/app/components/Gantt";
 import Image from "next/image";
 
 import React, { useEffect, useState } from "react";

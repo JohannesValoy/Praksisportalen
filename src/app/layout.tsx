@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="cupcake">
+    <html lang="en">
       <body className={`${inter.className} flex flex-col`}>
         <header className="flex justify-between bg-base-200 p-4 items-center ">
           <Link href={"/"}>

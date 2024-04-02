@@ -46,7 +46,7 @@ function DynamicTable({
             </th>
           </tr>
         </thead>
-        {rows.map((row, index) => (
+        {(Array.isArray(rows) ? rows : [rows]).map((row, index) => (
           <tbody key={index}>
             <tr onClick={() => onRowClick(row)}>
               <th onClick={(e) => e.stopPropagation()}>

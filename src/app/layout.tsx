@@ -25,7 +25,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${inter.className} flex flex-col`}>
         <header className="flex justify-between bg-base-200 p-4 items-center ">
-          <Link href={"/dashboard"}>
+          <Link href={"/"}>
             <Image
               src="/logo-helse-mr.svg"
               alt="Description"
@@ -36,7 +36,7 @@ export default async function RootLayout({
             />
           </Link>
           <div className="flex space-x-6 items-center">
-            <Link href="/dashboard" className="btn  rounded-btn h-full">
+            <Link href="/" className="btn  rounded-btn h-full">
               Home
             </Link>
 

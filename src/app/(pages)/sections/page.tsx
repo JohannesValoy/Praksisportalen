@@ -62,11 +62,11 @@ const ListOfSections = () => {
         setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
-          window.location.href = `/admin/administerInternships/?section_id=${row.id}`;
+          window.location.href = `/internships/?section_id=${row.id}`;
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {
-          window.location.href = `/admin/administerSections/addSection`;
+          window.location.href = `/sections/addSection`;
         }}
         setSortedBy={setSortedBy}
         url="/api/sections/"

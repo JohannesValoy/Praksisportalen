@@ -157,10 +157,7 @@ export default function Page() {
             required
           />
           <button>
-            <a
-              href={`/admin/administerStudyPrograms`}
-              className="btn btn-secondary"
-            >
+            <a href={`/studyPrograms`} className="btn btn-secondary">
               Nytt studieprogram
             </a>
           </button>

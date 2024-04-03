@@ -39,11 +39,11 @@ const ListOfEducationInstitutions = () => {
         setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
-          window.location.href = `/admin/administerSections/?department_id=${row.id}`;
+          window.location.href = `/sections/?department_id=${row.id}`;
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {
-          window.location.href = `/admin/administerDepartments/addDepartment`;
+          window.location.href = `/sections/addDepartment`;
         }}
         clickableColumns={clickableColumns}
         setSortedBy={setSortedBy}

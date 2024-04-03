@@ -41,11 +41,11 @@ const ListOfDepartments = () => {
         setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
-          window.location.href = `/admin/administerDepartments/?department_id=${row.id}`;
+          window.location.href = `/sections/?department_id=${row.id}`;
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {
-          window.location.href = `/admin/administerDepartments/addDepartment`;
+          window.location.href = `/departments/addDepartment`;
         }}
         setSortedBy={setSortedBy}
         url="/api/departments/"

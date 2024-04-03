@@ -20,6 +20,7 @@ const ThemeChanger = () => {
   const themes = [
     "dark",
     "light",
+    "cupcake",
     "bumblebee",
     "emerald",
     "corporate",

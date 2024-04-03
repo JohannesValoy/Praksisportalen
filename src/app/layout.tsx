@@ -34,7 +34,7 @@ export default function RootLayout({
             />
           </Link>
           <div className="flex space-x-6 items-center">
-            <Link href="/" className="btn  rounded-btn h-full">
+            <Link href="/dashboard" className="btn  rounded-btn h-full">
               Home
             </Link>
 

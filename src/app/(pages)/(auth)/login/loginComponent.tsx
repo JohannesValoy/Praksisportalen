@@ -49,16 +49,13 @@ export const LoginComponent = () => {
     window.location.href = "api/auth/signin/feide";
   };
 
-  const input_style =
-    "form-control block w-full px-4 py-5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
+  const input_style = "input input-bordered w-full max-w-xs";
 
   return (
-    <div>
+    <div className="flex flex-col items-center gap-4">
       <h1 className="text-3xl mb-4">Login Page</h1>
-      <form onSubmit={onSubmit}>
-        {error && (
-          <p className="text-center bg-red-300 py-4 mb-6 rounded">{error}</p>
-        )}
+      <form className="flex flex-col items-center" onSubmit={onSubmit}>
+        {error && <p className="text-xl bg-error p-4 mb-6 rounded">{error}</p>}
         <div className="mb-6">
           <input
             required
@@ -83,14 +80,13 @@ export const LoginComponent = () => {
         </div>
         <button
           type="submit"
-          style={{ backgroundColor: `${loading ? "#ccc" : "#3446eb"}` }}
-          className="inline-block px-7 mb-4 py-4 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full"
+          className="btn btn-primary w-full"
           disabled={loading}
         >
           {loading ? "loading..." : "Sign In"}
         </button>
       </form>
-      <button className="btn btn-primary" onClick={handleFeideLogin}>
+      <button className="btn btn-success " onClick={handleFeideLogin}>
         Login with Feide
       </button>
     </div>

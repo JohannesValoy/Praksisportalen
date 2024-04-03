@@ -1,7 +1,7 @@
 "use client";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 export const LoginComponent = () => {
   const router = useRouter();
@@ -12,7 +12,7 @@ export const LoginComponent = () => {
   });
   const [error, setError] = useState("");
 
-  const callbackUrl = "/";
+  const callbackUrl =  "/";
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,7 +32,7 @@ export const LoginComponent = () => {
       if (!res?.error) {
         router.push(callbackUrl);
       } else {
-        setError("invalid username or password");
+        setError("Invalid username or password");
       }
     } catch (error: any) {
       setLoading(false);
@@ -40,13 +40,21 @@ export const LoginComponent = () => {
     }
   };
 
+const onLoading = useEffect(() => {
+  if (loading) {
+    document.body.style.cursor = "wait";
+  } else {
+    document.body.style.cursor = "default";
+}}, [loading])
+
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
   };
 
   const handleFeideLogin = async () => {
-    window.location.href = "api/auth/signin/feide";
+    signIn("feide", { callbackUrl });
   };
 
   const input_style = "input input-bordered w-full max-w-xs";

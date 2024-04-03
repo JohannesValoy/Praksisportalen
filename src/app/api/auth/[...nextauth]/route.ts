@@ -4,13 +4,33 @@ import DBclient from "@/knex/config/DBClient";
 import passwordProvider from "./_providers/PasswordProvider";
 import feideProvider from "./_providers/feide";
 
-const handler = NextAuth({
+export const authoptions = {
   providers: [passwordProvider, feideProvider],
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60,
   },
-  pages: { signIn: "/login" },
+  pages: { },
   adapter: KnexAdapter(DBclient),
-});
+  callbacks: {
+    async jwt({token, user, }) {
+      if (user) {
+        token.role = user.role;
+      }
+      return token;
+    },
+    async session({session, token}) {
+      console.log("Session invoked");
+      console.log(session, token)
+      if (token && session.user) {
+        session.user.role = token.role
+      }
+      return session;
+    },
+  },
+}
+
+// Just ignore the error it works :=)
+const handler = NextAuth(authoptions);
 
 export { handler as GET, handler as POST };

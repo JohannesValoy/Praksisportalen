@@ -57,34 +57,8 @@ const ListOfInternships = () => {
         clickableColumns={clickableColumns}
         sortableBy={["name", "email"]}
         setSortedBy={setSortedBy}
-        onDeleteButtonClicked={() => {
-          Promise.all(
-            selectedRows.map((row) =>
-              fetch(`/api/internships/${row.id}`, {
-                method: "DELETE",
-              }).then((res) => res.json())
-            )
-          ).then((results) => {
-            const failedDeletes = results.filter((result) => !result.success);
-            if (failedDeletes.length > 0) {
-              alert(
-                `Failed to delete users with ids ${failedDeletes
-                  .map((result) => result.id)
-                  .join(", ")}`
-              );
-            } else {
-              setInternships(
-                internships.filter(
-                  (internship) =>
-                    !selectedRows.some(
-                      (selectedRow) => selectedRow.id === internship.id
-                    )
-                )
-              );
-              setSelectedRows([]);
-            }
-          });
-        }}
+        url={"/api/internships/"}
+        setRows={setInternships}
       />
     </main>
   );

@@ -39,7 +39,7 @@ const ListOfDepartments = () => {
     <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <UniversalList
         rows={departments}
-        tableName="Departments"
+        tableName="Sections"
         headers={headers}
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
@@ -51,10 +51,9 @@ const ListOfDepartments = () => {
         onAddButtonClick={() => {
           window.location.href = `/admin/administerDepartments/addDepartment`;
         }}
-        clickableColumns={clickableColumns}
         sortableBy={["name", "email"]}
         setSortedBy={setSortedBy}
-        url="/api/departments/"
+        url="/api/sections/"
         setRows={setDepartments}
       />
     </main>

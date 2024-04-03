@@ -43,7 +43,7 @@ const ListOfSections = () => {
     }
   }, [id]);
   return (
-    <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+    <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <UniversalList
         rows={sections}
         tableName="Sections"
@@ -63,7 +63,7 @@ const ListOfSections = () => {
         url="/api/sections/"
         setRows={setSections}
       />
-    </main>
+    </div>
   );
 };
 

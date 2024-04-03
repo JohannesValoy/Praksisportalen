@@ -123,7 +123,7 @@ function DynamicTable({
               </tr>
             </tbody>
           ) : (
-            (Array.isArray(rows) ? rows : rows.elements).map((row, index) => (
+            (Array.isArray(rows) ? rows : [rows]).map((row, index) => (
               <tbody key={index}>
                 <tr onClick={() => onRowClick(row)}>
                   <th onClick={(e) => e.stopPropagation()}>

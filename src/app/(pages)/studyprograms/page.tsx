@@ -47,7 +47,7 @@ const ListOfStudies = () => {
         setSelectedRows={setSelectedRows}
         selectedRows={selectedRows}
         onAddButtonClick={() => {
-          window.location.href = `/admin/administerStudyPrograms`;
+          window.location.href = `/studyPrograms/add`;
         }}
         setSortedBy={setSortedBy}
         url="/api/studyPrograms/"

@@ -99,7 +99,7 @@ export default function Page() {
           </div>
           <button>
             <a
-              href={`/educationInstitutions/addEducationInstitution`}
+              href={`/educationInstitutions/add`}
               className="btn btn-primary h-full p-5"
             >
               Add Education Institution

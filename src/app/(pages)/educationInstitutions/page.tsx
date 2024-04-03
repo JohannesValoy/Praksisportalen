@@ -43,7 +43,7 @@ const ListOfEducationInstitutions = () => {
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {
-          window.location.href = `/sections/addDepartment`;
+          window.location.href = `/educationInstitutions/add`;
         }}
         clickableColumns={clickableColumns}
         setSortedBy={setSortedBy}

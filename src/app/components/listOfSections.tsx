@@ -11,7 +11,7 @@ const ListOfSections = () => {
   const id = searchParams.get("department_id");
   const [sections, setSections] = useState<SectionObject[]>([]);
   const [selectedRows, setSelectedRows] = useState<SectionObject[]>([]);
-  const headers = { Name: "name", Email: "employee_email" };
+  const headers = { Name: "name", Email: "email" };
   /**TODO add sorted by */
   const [sortedBy, setSortedBy] = useState<string>("name");
 
@@ -42,6 +42,7 @@ const ListOfSections = () => {
         .then(setSections);
     }
   }, [id]);
+  console.log(sections);
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <UniversalList
@@ -58,10 +59,10 @@ const ListOfSections = () => {
         onAddButtonClick={() => {
           window.location.href = `/admin/administerSections/addSection`;
         }}
-        sortableBy={["name", "email"]}
         setSortedBy={setSortedBy}
         url="/api/sections/"
         setRows={setSections}
+        clickableColumns={clickableColumns}
       />
     </div>
   );

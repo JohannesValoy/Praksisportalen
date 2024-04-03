@@ -11,7 +11,7 @@ const ListOfInternships = () => {
   const id = searchParams.get("section_id");
   const [internships, setInternships] = useState<Internship[]>([]);
   const [selectedRows, setSelectedRows] = useState<Internship[]>([]);
-  const headers = { Name: "name", Email: "employee_email", ID: "id" };
+  const headers = { Name: "name", Email: "email" };
   const [sortedBy, setSortedBy] = useState<string>("name");
   const clickableColumns = {
     employee_email: (row) => {
@@ -55,7 +55,6 @@ const ListOfInternships = () => {
           window.location.href = `/admin/administerInternships/addInternship`;
         }}
         clickableColumns={clickableColumns}
-        sortableBy={["name", "email"]}
         setSortedBy={setSortedBy}
         url={"/api/internships/"}
         setRows={setInternships}

@@ -14,12 +14,14 @@ function DynamicTable({
   buttonName,
   onAddButtonClick,
   clickableColumns = {},
-  sortableBy,
   setSortedBy,
   url,
 }) {
+  // Ensure rows is always an array
+  const normalizedRows = Array.isArray(rows) ? rows : [rows];
+
   const toggleSelection = (row, event) => {
-    event.stopPropagation(); // Prevent the row click event from firing when toggling selection
+    event.stopPropagation();
     const isSelected = selectedRows.includes(row);
     if (isSelected) {
       setSelectedRows(
@@ -60,14 +62,14 @@ function DynamicTable({
         );
       } else {
         setRows(
-          rows.filter(
+          normalizedRows.filter(
             (currRow) => !selectedRows.find((row) => row.id === currRow.id)
           )
         );
       }
     });
   };
-  console.log(rows);
+
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <div>
@@ -88,7 +90,7 @@ function DynamicTable({
 
             <button
               onClick={(event) => {
-                event.stopPropagation(); // Prevent row click when button is clicked
+                event.stopPropagation();
                 onDeleteButtonClicked();
               }}
               className="btn btn-ghost btn-xs"
@@ -114,16 +116,19 @@ function DynamicTable({
               <th></th>
             </tr>
           </thead>
-          {!rows ||
-          (Array.isArray(rows) && rows.length === 0) ||
-          rows?.message != null ? (
+          {normalizedRows.length === 0 ||
+          normalizedRows?.[0]?.message != null ? (
             <tbody>
               <tr>
-                <td>{Array.isArray(rows) ? "Loading" : rows.message}</td>
+                <td>
+                  {normalizedRows.length === 0
+                    ? "Loading"
+                    : normalizedRows[0].message}
+                </td>
               </tr>
             </tbody>
           ) : (
-            (Array.isArray(rows) ? rows : [rows]).map((row, index) => (
+            normalizedRows.map((row, index) => (
               <tbody key={index}>
                 <tr onClick={() => onRowClick(row)}>
                   <th onClick={(e) => e.stopPropagation()}>

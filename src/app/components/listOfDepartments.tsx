@@ -1,16 +1,17 @@
 /** @format */
 
 "use client";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import UniversalList from "./DynamicTable";
+import Department from "../_models/Department";
 const ListOfDepartments = () => {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [selectedRows, setSelectedRows] = useState<Department[]>([]);
-  const headers = { Name: "name", Email: "employee_email" };
+  const headers = { Name: "name", Email: "email" };
   const [sortedBy, setSortedBy] = useState<string>("name");
   const clickableColumns = {
-    employee_email: (row) => {
+    //TODO update this once the api is finished
+    email: (row) => {
       window.location.href = `/profile?id=${row.employee_id}`;
     },
   };
@@ -22,39 +23,34 @@ const ListOfDepartments = () => {
         const modifiedData = data.elements.map((department: any) => ({
           name: department.name,
           email: department.employee.email, // Assuming employee object has an email property
+          id: department.id,
         }));
         setDepartments(modifiedData);
       })
       .catch((error) => console.error("Failed to fetch departments", error));
   }, []);
-  console.log(departments);
-  type Department = {
-    name: string;
-    id: string;
-    employee_id: string;
-    employee_email: string;
-  };
 
+  console.log(departments);
   return (
     <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <UniversalList
         rows={departments}
-        tableName="Sections"
+        tableName="departments"
         headers={headers}
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
-          window.location.href = `/admin/administerSections/?department_id=${row.id}`;
+          window.location.href = `/admin/administerDepartments/?department_id=${row.id}`;
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {
           window.location.href = `/admin/administerDepartments/addDepartment`;
         }}
-        sortableBy={["name", "email"]}
         setSortedBy={setSortedBy}
-        url="/api/sections/"
+        url="/api/departments/"
         setRows={setDepartments}
+        clickableColumns={clickableColumns}
       />
     </main>
   );

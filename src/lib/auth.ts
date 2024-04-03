@@ -1,5 +1,5 @@
 import DBclient from "@/knex/config/DBClient";
-import { getSession } from "next-auth/react";
+import { getToken } from "next-auth/jwt";
 
 export enum Role {
   STUDENT = "student",
@@ -8,13 +8,12 @@ export enum Role {
   ADMIN = "admin",
   NONE = "none",
 }
-export async function checkUserRole(): Promise<Role> {
-  await getSession().then((session) => {
-    console.log(session);
-    if (session) {
+export async function checkUserRole(req): Promise<Role> {
+  await getToken(req).then((jwt) => {
+    if (jwt) {
       return DBclient.from("users")
         .select("role")
-        .where("email", session.user.email)
+        .where("email", jwt.email)
         .first()
         .then((user) => {
           console.log(user);

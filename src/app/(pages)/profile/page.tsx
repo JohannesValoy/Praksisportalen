@@ -1,7 +1,6 @@
 /** @format */
 
 "use client";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 
 import React, { useEffect, useState } from "react";

@@ -12,7 +12,7 @@ export const LoginComponent = () => {
   });
   const [error, setError] = useState("");
 
-  const callbackUrl = "/dashboard";
+  const callbackUrl = "/";
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

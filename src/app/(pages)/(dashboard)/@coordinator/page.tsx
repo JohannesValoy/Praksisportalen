@@ -7,10 +7,10 @@ import Link from "next/link";
 const CoordinatorLayout = () => {
   return (
     <div className="container mx-auto flex flex-row items-start justify-center mt-20 space-x-4">
-      <Link href="/coordinator/orderInternships" className="btn">
+      <Link href="./internship/orderInternships" className="btn">
         Order Internships
       </Link>
-      <Link href="/coordinator/administerStudents" className="btn">
+      <Link href="./users/administerStudents" className="btn">
         Administer Students
       </Link>
     </div>

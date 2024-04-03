@@ -17,30 +17,39 @@ const ListOfSections = () => {
 
   debugger;
   const clickableColumns = {
-    employee_email: (row) => {
+    email: (row) => {
       window.location.href = `/profile/?id=${row.employee_id}`;
     },
   };
-
   useEffect(() => {
-    if (id !== null) {
-      fetch(`/api/sections/${id}`)
-        .then((res) => res.json())
+    const fetchUrl = id !== null ? `/api/sections/${id}` : `/api/sections`;
 
-        .then((data) => {
-          debugger;
-          if (data.message) {
-            console.error(data.message);
-          } else {
-            debugger;
-            setSections(data);
-          }
-        });
-    } else {
-      fetch(`/api/sections`)
-        .then((res) => res.json())
-        .then(setSections);
-    }
+    fetch(fetchUrl)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message) {
+          console.error(data.message);
+        } else {
+          // If data.elements is present, map over it to create a new array
+          // where each element is a flattened version of the original element.
+          // If data.elements is not present, use data directly.
+          const rows = data.elements
+            ? data.elements.map((element) => ({
+                ...element,
+                email: element.employee.email,
+                employee_id: element.employee.id,
+              }))
+            : [
+                {
+                  ...data,
+                  email: data.employee.email,
+                  employee_id: data.employee.id,
+                },
+              ];
+
+          setSections(rows);
+        }
+      });
   }, [id]);
   console.log(sections);
   return (

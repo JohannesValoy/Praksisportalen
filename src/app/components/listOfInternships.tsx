@@ -11,7 +11,11 @@ const ListOfInternships = () => {
   const id = searchParams.get("section_id");
   const [internships, setInternships] = useState<Internship[]>([]);
   const [selectedRows, setSelectedRows] = useState<Internship[]>([]);
-  const headers = { Name: "name", Email: "email" };
+  const headers = {
+    Name: "name",
+    "Max Capacity": "maxCapacity",
+    "Current Capacity": "currentCapacity",
+  };
   const [sortedBy, setSortedBy] = useState<string>("name");
   const clickableColumns = {
     employee_email: (row) => {
@@ -20,16 +24,33 @@ const ListOfInternships = () => {
   };
 
   useEffect(() => {
-    if (id !== null) {
-      fetch(`/api/internships/${id}`)
-        .then((res) => res.json())
-        .then((data) => setInternships(data));
-    } else {
-      fetch(`/api/internships`)
-        .then((res) => res.json())
-        .then(setInternships);
-    }
+    const fetchUrl =
+      id !== null ? `/api/internships/${id}` : `/api/internships`;
+
+    fetch(fetchUrl)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message) {
+          console.error(data.message);
+        } else {
+          // If data.elements is present, map over it to create a new array
+          // where each element is a flattened version of the original element.
+          // If data.elements is not present, use data directly.
+          const rows = data.elements
+            ? data.elements.map((element) => ({
+                ...element,
+              }))
+            : [
+                {
+                  ...data,
+                },
+              ];
+
+          setInternships(rows);
+        }
+      });
   }, [id]);
+  console.log(internships);
 
   type Internship = {
     name: string;

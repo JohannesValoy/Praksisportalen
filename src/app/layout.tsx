@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} flex flex-col`}>
         <header className="flex justify-between bg-base-200 p-4 items-center ">
-          <Link href={"/"}>
+          <Link href={"/dashboard"}>
             <Image
               src="/logo-helse-mr.svg"
               alt="Description"

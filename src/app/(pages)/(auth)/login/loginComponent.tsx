@@ -26,9 +26,7 @@ export const LoginComponent = () => {
         password: formValues.password,
         callbackUrl,
       });
-
       setLoading(false);
-
       if (!res?.error) {
         router.push(callbackUrl);
       } else {

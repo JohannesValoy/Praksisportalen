@@ -4,7 +4,6 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import Link from "next/link";
 import Gantt from "@/app/components/Gantt";
 
 // Assuming datalist is used elsewhere in your component for a Gantt chart

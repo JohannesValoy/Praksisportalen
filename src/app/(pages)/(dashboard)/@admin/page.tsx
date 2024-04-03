@@ -1,22 +1,23 @@
 /** @format */
 
 import Link from "next/link";
-export default async function Page() {
+
+const AdminLayout = () => {
   return (
     <div className="container mx-auto flex flex-row items-start justify-center mt-20 space-x-4">
-      <Link href="/admin/administerStudies" className="btn">
+      <Link href="./studyprograms" className="btn">
         Administrer Studier
       </Link>
-      <Link href="/admin/administerCoordinators" className="btn">
+      <Link href="/administerCoordinators" className="btn">
         Administrer Kordinatorer
       </Link>
-      <Link href="/admin/administerEmployees" className="btn">
+      <Link href="/administerEmployees" className="btn">
         Administrer Ansatte
       </Link>
-      <Link href="/admin/administerDepartments" className="btn">
+      <Link href="./departments" className="btn">
         Administrer Avdelinger
       </Link>
-      <Link href="/admin/administerSections" className="btn">
+      <Link href="./sections" className="btn">
         Administrer Seksjoner
       </Link>
       <Link href="/admin/administerInternships" className="btn">
@@ -30,4 +31,6 @@ export default async function Page() {
       </Link>
     </div>
   );
-}
+};
+
+export default AdminLayout;

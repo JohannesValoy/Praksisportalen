@@ -1,7 +1,7 @@
 /** @format */
 
 declare module "knex/types/tables.js" {
-  interface User {
+  interface UserTable {
     id: number;
     name: string;
     email: string;
@@ -86,7 +86,7 @@ declare module "knex/types/tables.js" {
   }
 
   interface Tables {
-    users: User;
+    users: UserTable;
     departments: Department;
     accounts: Account;
     sectionTypes: SectionType;

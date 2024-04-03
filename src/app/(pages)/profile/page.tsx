@@ -1,48 +1,39 @@
 /** @format */
 
 "use client";
-import dynamic from "next/dynamic";
-import Gantt from "../components/Gantt";
 import Image from "next/image";
 
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-type Student = {
+type Employee = {
   name: string;
   id: string;
+  email: string;
 };
 
 export default function Page() {
   const searchParams = useSearchParams();
-  const student_id = searchParams.get("id");
-  const [student, setStudent] = useState<Student>();
-
-  const datalist: [string, Date, Date][] = [
-    ["Section 1", new Date(2024, 2, 20), new Date(2024, 4, 28)],
-    ["Section 2", new Date(2024, 0, 25), new Date(2024, 2, 20)],
-    ["Section 2", new Date(2024, 4, 28), new Date(2024, 8, 1)],
-    ["Section 6", new Date(2024, 8, 1), new Date(2024, 10, 31)],
-  ];
+  const employee_id = searchParams.get("id");
+  const [employee, setEmployee] = useState<Employee>();
 
   useEffect(() => {
-    fetch(`/api/users/${student_id}`) // Adjusted the fetch URL to match backend routing.
+    fetch(`/api/users/${employee_id}`) // Adjusted the fetch URL to match backend routing.
       .then((res) => res.json())
-      .then((data) => setStudent(data)) // Ensure proper data handling.
+      .then((data) => setEmployee(data)) // Ensure proper data handling.
       .catch((error) => {
-        console.error("Failed to fetch one student", error); // Error handling.
-        fetch(`/api/users/student`)
+        console.error("Failed to fetch one employee", error); // Error handling.
+        fetch(`/api/users/employee`)
           .then((res) => res.json())
-          .then((data) => setStudent(data))
-          .catch((error) => console.error("Failed to fetch student", error));
+          .then((data) => setEmployee(data))
+          .catch((error) => console.error("Failed to fetch employee", error));
       });
-  }, [student_id]);
+  }, [employee_id]);
 
   return (
     <div className="flex flex-row w-full h-full items-center justify-center">
-      {student ? (
+      {employee ? (
         <div className="flex flex-row gap-20 w-full h-full items-center justify-center p-10 ">
-          <Gantt datalist={datalist} />
           <div className="flex flex-col gap-5 items-center justify-center">
             <div
               style={{
@@ -63,11 +54,17 @@ export default function Page() {
                 />
               </div>
             </div>
-            <h1>Hello, {student.name}</h1>
+            <h1>{employee.name}</h1>
+            <p>ID: {employee.id}</p>
+            <p>Email: {employee.email}</p>
+            <ul className="text-center">
+              List of sections
+              <li>Not yet implemented</li>
+            </ul>
           </div>
         </div>
       ) : (
-        <p>Loading internship details...</p>
+        <p>Loading Profile details...</p>
       )}
     </div>
   );

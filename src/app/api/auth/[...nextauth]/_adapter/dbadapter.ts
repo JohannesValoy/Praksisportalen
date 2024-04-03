@@ -1,12 +1,13 @@
 import DBclient from "@/knex/config/DBClient";
 import { Knex } from "knex";
-import type { Session, User } from "knex/types/tables.js";
+import type { UserTable } from "knex/types/tables.js";
 import {
   Adapter,
   AdapterUser,
   AdapterAccount,
   AdapterSession,
 } from "next-auth/adapters";
+import { Role } from "../nextauth";
 export default function KnexAdapter(client: Knex): Adapter {
   return {
     async createUser(user): Promise<AdapterUser> {
@@ -96,11 +97,12 @@ export default function KnexAdapter(client: Knex): Adapter {
   };
 }
 
-export function fromUserToUserAdapter(user: User): AdapterUser {
+export function fromUserToUserAdapter(user: UserTable): AdapterUser {
   return {
     id: user.id.toString(),
     name: user.name,
     email: user.email,
+    role: Role[user.role] || Role.none,
     image: null,
     emailVerified: null,
   };

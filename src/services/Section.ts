@@ -47,13 +47,13 @@ async function getSectionsByPageRequest(pageRequest : SectionPageRequest) {
 async function  createSectionObject(query: Section[]) : Promise<SectionObject[]> {
     const employeesPromise: Promise<Map<number, EmployeeObject>> = getEmployeeObjectByIDList(query.map((section) => section.employee_id));
     const internshipsPromise: Promise<Map<number, InternshipPositionObject[]>> = getInternshipPositionObjectBySectionID(query.map((section) => section.id));
-    const values = await Promise.allSettled([employeesPromise, internshipsPromise])
+    const values = await Promise.all([employeesPromise, internshipsPromise])
     const sections = [];
-    if (values.some((value) => value.status === "rejected")) {
-        throw new Error("Failed to fetch Section data");
+    if (values.length != 2) {
+        throw new Error("Error fetching section data");
     }
-    const employees = values[0].value;
-    const internships = values[1].value;
+    const employees = values[0];
+    const internships = values[1];
     query.forEach((section) => {
         sections.push(new SectionObject(section, employees?.get(section.employee_id), internships?.get(section.id)));
     });

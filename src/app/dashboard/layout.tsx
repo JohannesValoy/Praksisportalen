@@ -1,21 +1,29 @@
 import { checkUserRole } from "@/lib/auth";
-import AdminLayout from "./@admin/page";
-import CoordinatorLayout from "./@coordinator/page";
-import EmployeeLayout from "./@employee/page";
-import StudentLayout from "./@student/page";
 
-export default async function App() {
+export default async function Layout({
+  children,
+  admin,
+  coordinator,
+  employee,
+  student
+} : Readonly<{
+  children: React.ReactNode,
+  admin: React.ReactNode,
+  coordinator: React.ReactNode,
+  employee: React.ReactNode,
+  student: React.ReactNode
+}>) {
   const role = await checkUserRole();
-
+  let layout = null;
   if (role === "admin") {
-    return <AdminLayout />;
+    layout = admin
   } else if (role === "coordinator") {
-    return <CoordinatorLayout />;
+    layout = coordinator;
   } else if (role === "employee") {
-    return <EmployeeLayout />;
+    layout =  employee;
   } else if (role === "student") {
-    return <StudentLayout />;
-  } else {
-    return null; // or some kind of default layout or loading state
+    layout = student;
   }
+  console.log(admin)
+  return (<>{layout}</>);
 }

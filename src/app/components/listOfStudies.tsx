@@ -15,15 +15,22 @@ const ListOfStudies = () => {
   type Study = {
     name: string;
     id: string;
+    employee: {
+      email: string;
+    };
   };
-
   useEffect(() => {
     fetch(`/api/studyPrograms?sort=${sortedBy}`) // Adjusted the fetch URL to include sorting.
       .then((res) => res.json())
-      .then((data) => setStudies(data)) // Ensure proper data handling.
+      .then((data) => {
+        const modifiedData = data.map((study: Study) => ({
+          name: study.name,
+          email: study.employee.email,
+        }));
+        setStudies(modifiedData);
+      }) // Ensure proper data handling.
       .catch((error) => console.error("Failed to fetch studies", error)); // Error handling.
   }, [sortedBy]); // Added sortedBy to the dependency array.
-
   return (
     <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <UniversalList

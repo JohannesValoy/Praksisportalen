@@ -16,9 +16,18 @@ const ListOfDepartments = () => {
   };
 
   useEffect(() => {
-    fetch("/api/departments").then((res) => res.json().then(setDepartments));
+    fetch("/api/departments")
+      .then((res) => res.json())
+      .then((data) => {
+        const modifiedData = data.elements.map((department: any) => ({
+          name: department.name,
+          email: department.employee.email, // Assuming employee object has an email property
+        }));
+        setDepartments(modifiedData);
+      })
+      .catch((error) => console.error("Failed to fetch departments", error));
   }, []);
-
+  console.log(departments);
   type Department = {
     name: string;
     id: string;

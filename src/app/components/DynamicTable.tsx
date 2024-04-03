@@ -67,6 +67,7 @@ function DynamicTable({
       }
     });
   };
+  console.log(rows);
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <div>
@@ -113,14 +114,16 @@ function DynamicTable({
               <th></th>
             </tr>
           </thead>
-          {!rows || rows.length === 0 || (rows && rows.message != null) ? (
+          {!rows ||
+          (Array.isArray(rows) && rows.length === 0) ||
+          rows?.message != null ? (
             <tbody>
               <tr>
-                <td>{rows.message ? rows.message : "Loading"}</td>
+                <td>{Array.isArray(rows) ? "Loading" : rows.message}</td>
               </tr>
             </tbody>
           ) : (
-            (Array.isArray(rows) ? rows : [rows]).map((row, index) => (
+            (Array.isArray(rows) ? rows : rows.elements).map((row, index) => (
               <tbody key={index}>
                 <tr onClick={() => onRowClick(row)}>
                   <th onClick={(e) => e.stopPropagation()}>
@@ -153,7 +156,7 @@ function DynamicTable({
                   <td>
                     <button
                       onClick={(event) => {
-                        event.stopPropagation(); // Prevent row click when button is clicked
+                        event.stopPropagation();
                         onRowButtonClick(row);
                       }}
                       className="btn btn-ghost btn-xs"

@@ -51,7 +51,7 @@ export default function RootLayout({
             </div>
           </div>
         </header>
-        <main className="p-4 overflow-y-scroll w-full h-full">{children}</main>
+        <main className="p-4 overflow-y-auto w-full h-full">{children}</main>
       </body>
     </html>
   );

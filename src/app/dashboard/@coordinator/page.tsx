@@ -4,7 +4,7 @@
 
 import Link from "next/link";
 
-export default function Page() {
+const CoordinatorLayout = () => {
   return (
     <div className="container mx-auto flex flex-row items-start justify-center mt-20 space-x-4">
       <Link href="/coordinator/orderInternships" className="btn">
@@ -15,4 +15,6 @@ export default function Page() {
       </Link>
     </div>
   );
-}
+};
+
+export default CoordinatorLayout;

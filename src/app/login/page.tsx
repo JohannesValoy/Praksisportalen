@@ -1,10 +1,5 @@
-import { getCsrfToken } from "next-auth/react";
-import LoginComponent from "./loginPage";
-import type { GetServerSidePropsContext } from "next";
-async function LoginPage(context: GetServerSidePropsContext) {
-  return (
-    <LoginComponent csrfToken={await getCsrfToken(context)}></LoginComponent>
-  );
-}
+import LoginComponent from "./loginComponent";
 
-export default LoginPage;
+export default function LoginPage() {
+  return <LoginComponent />;
+}

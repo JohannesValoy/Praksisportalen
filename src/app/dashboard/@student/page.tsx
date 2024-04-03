@@ -13,7 +13,7 @@ type Student = {
   id: string;
 };
 
-export default function Page() {
+const StudentLayout = () => {
   const searchParams = useSearchParams();
   const student_id = searchParams.get("id");
   const [student, setStudent] = useState<Student>();
@@ -71,4 +71,6 @@ export default function Page() {
       )}
     </div>
   );
-}
+};
+
+export default StudentLayout;

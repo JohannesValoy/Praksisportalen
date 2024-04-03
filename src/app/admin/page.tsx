@@ -19,6 +19,15 @@ export default async function Page() {
       <Link href="/admin/administerSections" className="btn">
         Administrer Seksjoner
       </Link>
+      <Link href="/admin/administerInternships" className="btn">
+        Administrer Internships
+      </Link>
+      <Link href="/admin/administerInternshipAgreements" className="btn">
+        Administrer Internship Agreements
+      </Link>
+      <Link href="/admin/administerEducationInstitutions" className="btn">
+        Administrer Utdanningsinstitusjoner
+      </Link>
     </div>
   );
 }

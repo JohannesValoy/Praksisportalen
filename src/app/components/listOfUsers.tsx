@@ -45,7 +45,6 @@ const ListOfUsers = ({ role }: { role: string }) => {
           window.location.href = `/admin/addUser?role=${role}`;
         }}
         clickableColumns={clickableColumns}
-        sortableBy={["id", "name", "email"]}
         setSortedBy={setSortedBy}
         url="/api/users/"
       />

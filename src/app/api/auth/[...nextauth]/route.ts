@@ -1,10 +1,10 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import KnexAdapter from "./_adapter/dbadapter";
 import DBclient from "@/knex/config/DBClient";
 import passwordProvider from "./_providers/PasswordProvider";
 import feideProvider from "./_providers/feide";
 
-export const authoptions = {
+export const authoptions : NextAuthOptions = {
   providers: [passwordProvider, feideProvider],
   session: {
     strategy: "jwt",
@@ -30,7 +30,6 @@ export const authoptions = {
   },
 }
 
-// Just ignore the error it works :=)
 const handler = NextAuth(authoptions);
 
 export { handler as GET, handler as POST };

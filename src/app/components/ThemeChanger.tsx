@@ -4,10 +4,12 @@ import React, { useEffect, useState } from "react";
 
 const ThemeChanger = () => {
   const [theme, setTheme] = useState(() => {
-    if (typeof window !== "undefined") {
-      return window.localStorage.getItem("theme") || "dark";
+    let theme = "dark"
+    if (typeof localStorage !== "undefined") {
+      theme = localStorage.getItem("theme") || "dark";
     }
-    return "dark";
+    document.body.setAttribute("data-theme", theme);
+    return theme;
   });
 
   useEffect(() => {

@@ -20,13 +20,13 @@ const AdminLayout = () => {
       <Link href="./sections" className="btn">
         Administrer Seksjoner
       </Link>
-      <Link href="/admin/administerInternships" className="btn">
+      <Link href="/internships" className="btn">
         Administrer Internships
       </Link>
-      <Link href="/admin/administerInternshipAgreements" className="btn">
+      <Link href="/internshipAgreements" className="btn">
         Administrer Internship Agreements
       </Link>
-      <Link href="/admin/administerEducationInstitutions" className="btn">
+      <Link href="/educationInstitutions" className="btn">
         Administrer Utdanningsinstitusjoner
       </Link>
     </div>

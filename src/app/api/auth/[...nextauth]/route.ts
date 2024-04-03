@@ -10,7 +10,7 @@ export const authoptions : NextAuthOptions = {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60,
   },
-  pages: { signIn: "/login", signOut: "/logout"},
+  pages: { signIn: "/login", signOut: "/"},
   adapter: KnexAdapter(DBclient),
   callbacks: {
     async jwt({token, user, }) {

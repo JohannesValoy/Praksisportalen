@@ -2,6 +2,7 @@ import { Internship } from "knex/types/tables.js";
 import DBclient from "@/knex/config/DBClient";
 import InternshipPositionObject, { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
 import "server-only"
+import { PageResponse } from "@/app/_models/pageinition";
 
 
 async function getInternshipPositionObjectByID(id: number): Promise<InternshipPositionObject> {
@@ -37,7 +38,7 @@ async function getInternshipPositionObjectBySectionID(sections : number[]) : Pro
 
 
 
-async function getInternshipPositionObjectByPage(pageRequest : InternshipPaginationRequest) : Promise<InternshipPositionObject[]> {
+async function getInternshipPositionObjectByPage(pageRequest : InternshipPaginationRequest) : Promise<PageResponse<InternshipPositionObject>> {
     const query = await DBclient.select().from<Internship>("internships").where((builder) => {
         if (pageRequest.section_id != null && pageRequest.section_id.length > 0) {
             builder.whereIn("section_id", pageRequest.section_id);
@@ -48,15 +49,12 @@ async function getInternshipPositionObjectByPage(pageRequest : InternshipPaginat
         if (pageRequest.field != null && pageRequest.field.length > 0) {
             builder.where("field", pageRequest.field);
         }
-        builder.orderBy(pageRequest.sort);
-        builder.limit(pageRequest.size);
-        builder.offset(pageRequest.page * pageRequest.size);
-    });
+    }).orderBy(pageRequest.sort);;
     const internships: InternshipPositionObject[] = [];
-    query.forEach((internship) => {
+    query.slice(pageRequest.size*pageRequest.page, pageRequest.size*pageRequest.page+pageRequest.size).forEach((internship) => {
         internships.push(new InternshipPositionObject(internship));
     })
-    return internships;
+    return new PageResponse(pageRequest, internships, query.length);    
 
 }
 

@@ -24,6 +24,5 @@ export default async function Layout({
   } else if (role === "student") {
     layout = student;
   }
-  console.log(admin)
   return (<>{layout}</>);
 }

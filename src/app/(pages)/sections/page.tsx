@@ -15,7 +15,6 @@ const ListOfSections = () => {
   /**TODO add sorted by */
   const [sortedBy, setSortedBy] = useState<string>("name");
 
-  debugger;
   const clickableColumns = {
     email: (row) => {
       window.location.href = `/profile/?id=${row.employee_id}`;
@@ -51,7 +50,6 @@ const ListOfSections = () => {
         }
       });
   }, [id]);
-  console.log(sections);
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <DynamicTable

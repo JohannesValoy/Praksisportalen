@@ -32,7 +32,6 @@ const ListOfStudies = () => {
       .catch((error) => console.error("Failed to fetch studies", error)); // Error handling.
   }, [sortedBy]); // Added sortedBy to the dependency array.
 
-  console.log(studies);
   return (
     <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <DynamicTable

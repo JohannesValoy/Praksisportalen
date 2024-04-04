@@ -50,7 +50,6 @@ const ListOfInternships = () => {
         }
       });
   }, [id]);
-  console.log(internships);
 
   type Internship = {
     name: string;
@@ -69,7 +68,7 @@ const ListOfInternships = () => {
         setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
-          window.location.href = `/admin/administerInternships/individualInternship?internship_id=${row.id}`;
+          window.location.href = `/individualInternship?internship_id=${row.id}`;
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {

@@ -20,7 +20,6 @@ const ListOfInternshipAgreements = () => {
       res.json().then(setInternshipAgreements)
     );
   }, []);
-  console.log(internshipAgreements);
 
   type InternshipAgreement = {
     name: string;

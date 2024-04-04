@@ -24,13 +24,13 @@ const ListOfDepartments = () => {
           name: department.name,
           email: department.employee.email, // Assuming employee object has an email property
           id: department.id,
+          employee_id: department.employee.id,
         }));
         setDepartments(modifiedData);
       })
       .catch((error) => console.error("Failed to fetch departments", error));
   }, []);
 
-  console.log(departments);
   return (
     <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <DynamicTable

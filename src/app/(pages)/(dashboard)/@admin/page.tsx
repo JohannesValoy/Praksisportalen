@@ -5,13 +5,13 @@ import Link from "next/link";
 const AdminLayout = () => {
   return (
     <div className="container mx-auto flex flex-row items-start justify-center mt-20 space-x-4">
-      <Link href="./studyPrograms" className="btn">
+      <Link href="./studyprograms" className="btn">
         Administrer Studier
       </Link>
-      <Link href="/administerCoordinators" className="btn">
+      <Link href="/users/administerCoordinators" className="btn">
         Administrer Kordinatorer
       </Link>
-      <Link href="/administerEmployees" className="btn">
+      <Link href="users//administerEmployees" className="btn">
         Administrer Ansatte
       </Link>
       <Link href="./departments" className="btn">

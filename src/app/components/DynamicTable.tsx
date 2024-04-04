@@ -1,6 +1,9 @@
 /** @format */
 
 import React from "react";
+import Image from "next/image";
+import Trash from "../../../public/Icons/trash";
+import Add from "../../../public/Icons/add";
 
 function DynamicTable({
   rows,
@@ -76,16 +79,11 @@ function DynamicTable({
         <div className="flex flex-row justify-between items-center">
           <h1 className="text-3xl font-semibold">List of {tableName}</h1>
           <div>
-            <button
-              onClick={() => {
-                setSelectedRows([]);
-              }}
-              className="btn btn-xs btn-ghost"
-            >
-              Clear Selection
-            </button>
             <button onClick={onAddButtonClick} className="btn btn-xs btn-ghost">
-              Add {tableName}
+              <Add
+                currentColor="currentColor"
+                aria-label={`Add ${tableName}`}
+              />
             </button>
 
             <button
@@ -95,14 +93,32 @@ function DynamicTable({
               }}
               className="btn btn-ghost btn-xs"
             >
-              Delete
+              <Trash currentColor="currentColor" />
             </button>
           </div>
         </div>
         <table className="table my-4">
           <thead>
             <tr>
-              <th></th>
+              <th>
+                <label>
+                  <input
+                    type="checkbox"
+                    className="checkbox"
+                    checked={
+                      normalizedRows.length > 0 &&
+                      selectedRows.length === normalizedRows.length
+                    }
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRows(normalizedRows);
+                      } else {
+                        setSelectedRows([]);
+                      }
+                    }}
+                  />
+                </label>
+              </th>
               {headerTitles.map((title, index) => (
                 <th key={index}>
                   <div
@@ -122,7 +138,7 @@ function DynamicTable({
               <tr>
                 <td>
                   {normalizedRows.length === 0
-                    ? "Loading"
+                    ? "No data available."
                     : normalizedRows[0].message}
                 </td>
               </tr>
@@ -136,7 +152,8 @@ function DynamicTable({
                       <input
                         type="checkbox"
                         className="checkbox"
-                        onClick={(e) => toggleSelection(row, e)}
+                        checked={selectedRows.includes(row)}
+                        onChange={(e) => toggleSelection(row, e)}
                       />
                     </label>
                   </th>

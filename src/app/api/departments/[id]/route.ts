@@ -24,6 +24,5 @@ export async function DELETE(
   const department = await DBclient("departments")
     .where({ id: params.id })
     .delete();
-  console.log(department);
   return Response.json({ success: true });
 }

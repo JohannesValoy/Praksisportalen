@@ -8,6 +8,7 @@ import Image from "next/image";
 import ThemeChanger from "./components/ThemeChanger";
 import { checkUserRole } from "@/lib/auth";
 import LogoutButton from "./components/LogoutButton";
+import Logo from "../../public/Icons/logo-helse-mr";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,14 +27,9 @@ export default async function RootLayout({
       <body className={`${inter.className} flex flex-col`}>
         <header className="flex justify-between bg-base-200 p-4 items-center ">
           <Link href={"/"}>
-            <Image
-              src="/logo-helse-mr.svg"
-              alt="Description"
-              className="h-10 w-auto "
-              width={100}
-              height={300}
-              priority={true} // {false} | {true}
-            />
+            <div className="h-10">
+              <Logo currentColor="currentColor" />
+            </div>
           </Link>
           <div className="flex space-x-6 items-center">
             <Link href="/" className="btn  rounded-btn h-full">

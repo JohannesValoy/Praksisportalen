@@ -68,11 +68,11 @@ const ListOfInternships = () => {
         setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
-          window.location.href = `/individualInternship?internship_id=${row.id}`;
+          window.location.href = `/internships/individualInternship?internship_id=${row.id}`;
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {
-          window.location.href = `/admin/administerInternships/addInternship`;
+          window.location.href = `/internships/addInternship`;
         }}
         clickableColumns={clickableColumns}
         setSortedBy={setSortedBy}

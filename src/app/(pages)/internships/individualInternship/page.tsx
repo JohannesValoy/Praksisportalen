@@ -116,7 +116,7 @@ const InternshipComponent = () => {
               </div>
             </div>
           </div>
-          <Gantt datalist={datalist} onClickUrl={"students/student_id"} />
+          <Gantt datalist={datalist} onClickUrl={"/profile?id="} />
         </div>
       ) : (
         <p>Loading internship details...</p>

@@ -9,7 +9,7 @@ import DynamicTable from "@/app/components/DynamicTable";
 const ListOfStudies = () => {
   const [studies, setStudies] = useState<Study[]>([]);
   const [selectedRows, setSelectedRows] = useState<Study[]>([]);
-  const headers = { Name: "name", Employee: "employee.email", id: "id" };
+  const headers = { Name: "name", id: "id" };
   const [sortedBy, setSortedBy] = useState<string>("name");
 
   type Study = {

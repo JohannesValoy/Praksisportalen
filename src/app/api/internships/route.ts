@@ -9,7 +9,6 @@ export async function GET(request: NextRequest) {
   const pageRequest = UserPageRequest.fromRequest(request);
   const internships = await DBclient.from("internships")
     .select("*")
-    .whereIn("role", pageRequest.roles)
     .orderBy(pageRequest.sort);
   return Response.json(new PageResponse(pageRequest, internships));
 }

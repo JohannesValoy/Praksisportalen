@@ -5,13 +5,47 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Gantt from "@/app/components/Gantt";
+import { on } from "events";
+
+type DataItem = {
+  id: number;
+  row_id: number;
+  name: string;
+  startDate: Date;
+  endDate: Date;
+};
 
 // Assuming datalist is used elsewhere in your component for a Gantt chart
-const datalist: [string, Date, Date][] = [
-  ["Student 1", new Date(2024, 2, 20), new Date(2024, 4, 28)],
-  ["Student 2", new Date(2024, 0, 25), new Date(2024, 2, 20)],
-  ["Student 2", new Date(2024, 4, 28), new Date(2024, 8, 1)],
-  ["Student 6", new Date(2024, 8, 1), new Date(2024, 10, 31)],
+
+const datalist: DataItem[] = [
+  {
+    id: 1,
+    row_id: 1,
+    name: "Section 1",
+    startDate: new Date(2024, 2, 20),
+    endDate: new Date(2024, 4, 28),
+  },
+  {
+    id: 2,
+    row_id: 2,
+    name: "Section 2",
+    startDate: new Date(2024, 0, 25),
+    endDate: new Date(2024, 2, 20),
+  },
+  {
+    id: 3,
+    row_id: 2,
+    name: "Section 2",
+    startDate: new Date(2024, 4, 28),
+    endDate: new Date(2024, 8, 1),
+  },
+  {
+    id: 4,
+    row_id: 6,
+    name: "Section 6",
+    startDate: new Date(2024, 8, 1),
+    endDate: new Date(2024, 10, 31),
+  },
 ];
 
 // Redefined Internship type to include leader information
@@ -82,7 +116,7 @@ const InternshipComponent = () => {
               </div>
             </div>
           </div>
-          <Gantt datalist={datalist} />
+          <Gantt datalist={datalist} onClickUrl={"students/student_id"} />
         </div>
       ) : (
         <p>Loading internship details...</p>

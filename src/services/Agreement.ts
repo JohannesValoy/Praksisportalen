@@ -1,9 +1,8 @@
 import InternshipAgreementObject from "@/app/_models/Agreement";
 import DBclient from "@/knex/config/DBClient";
-import { InternshipAgreement } from "knex/types/tables.js";
+import { InternshipAgreementTable } from "knex/types/tables.js";
 import { getStudyProgramObjectByIDList } from "./StudyProgram";
 import { getInternshipPositionObjectByIDList } from "./InternshipPosition";
-import "server-only"
 
 async function fetchInternshipAgreementByID(id: number): Promise<InternshipAgreementObject> {
     const agreement = (await fetchInternshipAgreementByIDList([id])).get(id);
@@ -14,7 +13,7 @@ async function fetchInternshipAgreementByID(id: number): Promise<InternshipAgree
 }
 
 async function fetchInternshipAgreementByIDList(idList: number[]): Promise<Map<number, InternshipAgreementObject>> {
-    const query = await DBclient.select().from<InternshipAgreement>("internshipAgreements").whereIn("id", idList)
+    const query = await DBclient.select().from<InternshipAgreementTable>("internshipAgreements").whereIn("id", idList)
     const agreements: Map<number, InternshipAgreementObject> = new Map();
     const studyPrograms = await getStudyProgramObjectByIDList(query.map((agreement) => agreement.studyProgram_id));
     const internships = await getInternshipPositionObjectByIDList(query.map((agreement) => agreement.internship_id));
@@ -25,7 +24,7 @@ async function fetchInternshipAgreementByIDList(idList: number[]): Promise<Map<n
 }
 
 async function fetchInternshipAgreementByInternshipID(internshipsID : number[]) : Promise<Map<number,InternshipAgreementObject[]>>  {
-    const query = await DBclient.select("id").from<InternshipAgreement>("internshipAgreements").whereIn("internship_id", internshipsID);
+    const query = await DBclient.select("id").from<InternshipAgreementTable>("internshipAgreements").whereIn("internship_id", internshipsID);
     const agreementIds = query.map((agreement) => agreement.id);
     const agreements = (await fetchInternshipAgreementByIDList(agreementIds)).values();
     const internshipAgreements: Map<number, InternshipAgreementObject[]> = new Map();

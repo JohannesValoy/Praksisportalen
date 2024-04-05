@@ -1,7 +1,7 @@
 import DBclient from "@/knex/config/DBClient";
 import DepartmentObject, { DepartmentPageRequest } from "@/app/_models/Department";
 import EmployeeObject from "@/app/_models/Employee";
-import { Department } from "knex/types/tables.js";
+import { DepartmentTable } from "knex/types/tables.js";
 import { getEmployeeObjectByIDList } from "./Employees";
 
 import "server-only"
@@ -17,9 +17,9 @@ async function getDepartmentObjectByID(id: number): Promise<DepartmentObject> {
 }
 
 async function getDepartmentObjectByIDList(idList: number[]): Promise<Map<number, DepartmentObject>> {
-    const query = await DBclient.select().from<Department>("departments").whereIn("id", idList);
+    const query = await DBclient.select().from<DepartmentTable>("departments").whereIn("id", idList);
     const departments: Map<number, DepartmentObject> = new Map();
-    const employees: Map<number, EmployeeObject> = await getEmployeeObjectByIDList(query.map((department) => department.employee_id));
+    const employees: Map<string, EmployeeObject> = await getEmployeeObjectByIDList(query.map((department) => department.employee_id));
     query.forEach((department) => {
         departments.set(department.id, new DepartmentObject(department, employees.get(department.employee_id)));
     });
@@ -28,7 +28,7 @@ async function getDepartmentObjectByIDList(idList: number[]): Promise<Map<number
 
 async function getDepartmentPageByPageRequest(pageRequest : DepartmentPageRequest) : Promise<PageResponse<DepartmentObject>> 
 {
-    const baseQuery = await DBclient.select("").from<Department>("departments").where((builder) => {
+    const baseQuery = await DBclient.select("").from<DepartmentTable>("departments").where((builder) => {
         if (pageRequest.hasEmployeeID != -1) {
             builder.where("employee_id", pageRequest.hasEmployeeID);
         }
@@ -45,9 +45,9 @@ async function getDepartmentPageByPageRequest(pageRequest : DepartmentPageReques
     return new PageResponse<DepartmentObject>(pageRequest,await createDepartmentObject(pageQuery), baseQuery.length);
     }
 
-async function createDepartmentObject(query: Department[]) : Promise<DepartmentObject[]> {
+async function createDepartmentObject(query: DepartmentTable[]) : Promise<DepartmentObject[]> {
     const departments: DepartmentObject[] = [];
-    const employees: Map<number, EmployeeObject> = await getEmployeeObjectByIDList(query.map((department) => department.employee_id));
+    const employees: Map<string, EmployeeObject> = await getEmployeeObjectByIDList(query.map((department) => department.employee_id));
     query.forEach((department) => {
         departments.push(new DepartmentObject(department, employees.get(department.employee_id)));
     });

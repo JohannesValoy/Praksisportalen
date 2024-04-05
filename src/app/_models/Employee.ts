@@ -1,9 +1,9 @@
-import { UserTable } from "knex/types/tables.js";
+import { EmployeeTable } from "knex/types/tables.js";
 /**
  * A class representing a Employee
  */
-class EmployeeObject implements UserTable {
-    id: number;
+class EmployeeObject implements EmployeeTable {
+    id: string;
     name: string;
     email: string;
     password: string;
@@ -15,7 +15,7 @@ class EmployeeObject implements UserTable {
      * Creates an instance of Employee.
      * @param query DB query
      */
-    constructor(query: UserTable) {
+    constructor(query: EmployeeTable) {
         this.id = query.id;
         this.name = query.name;
         this.email = query.email;

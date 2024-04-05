@@ -1,4 +1,4 @@
-import { StudyProgram } from "knex/types/tables.js";
+import { StudyProgramTable } from "knex/types/tables.js";
 import { getEducationInstitutionByIDList } from "./EducationInstitute";
 import DBclient from "@/knex/config/DBClient";
 import StudyProgramObject from "@/app/_models/StudyProgram";
@@ -13,7 +13,7 @@ async function getStudyProgramObjectByID(id: number): Promise<StudyProgramObject
     }
 
 async function getStudyProgramObjectByIDList(idList: number[]): Promise<Map<number, StudyProgramObject>> {
-        const query = await DBclient.select().from<StudyProgram>("study_program").whereIn("id", idList);
+        const query = await DBclient.select().from<StudyProgramTable>("study_program").whereIn("id", idList);
         const studyPrograms: Map<number, StudyProgramObject> = new Map();
         const educationInstitutionIDs = new Set(query.map((studyProgram) => studyProgram.educationInstitution_id));
         const educationInstitutions = await getEducationInstitutionByIDList(educationInstitutionIDs);

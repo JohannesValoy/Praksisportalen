@@ -1,6 +1,6 @@
 import EducationInstitutionObject from "@/app/_models/EducationInstitution";
 import DBclient from "@/knex/config/DBClient";
-import { EducationInstitution } from "knex/types/tables.js";
+import { EducationInstitutionTable } from "knex/types/tables.js";
 import "server-only"
 
 async function getEducationInstitutionByID(id: number) : Promise<EducationInstitutionObject> {
@@ -12,7 +12,7 @@ async function getEducationInstitutionByID(id: number) : Promise<EducationInstit
 }
 
 async function getEducationInstitutionByIDList(idList : Set<number>) : Promise<Map<number, EducationInstitutionObject>> {
-    const query = await DBclient.select().from<EducationInstitution>("educationInstitutions").whereIn("id", Array.from(idList));
+    const query = await DBclient.select().from<EducationInstitutionTable>("educationInstitutions").whereIn("id", Array.from(idList));
     const educationInstitutions : Map<number, EducationInstitutionObject> = new Map();
     for (const educationInstitution of query) {
         educationInstitutions.set(educationInstitution.id, new EducationInstitutionObject(educationInstitution));

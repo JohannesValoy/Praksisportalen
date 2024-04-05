@@ -48,7 +48,7 @@ export default async function RootLayout({
               <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-300 rounded-box w-52">
                 <li>
                   <ThemeChanger />
-                  {(await getServerSession())?.user ? <LogoutButton/> : null}
+                   <LogoutButton hide={!(await getServerSession())?.user}/> 
                 </li>
               </ul>
             </div>

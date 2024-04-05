@@ -3,7 +3,7 @@
 export default function logo({ currentColor }) {
   return (
     <svg
-      width="auto"
+      width="100%"
       viewBox="0 0 436 80"
       fill="currentColor"
       className="h-fill"

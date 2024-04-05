@@ -32,7 +32,7 @@ const ListOfUsers = ({ role }: { role: string }) => {
       <UniversalList
         rows={users}
         setRows={setUsers}
-        tableName="Users"
+        tableName={role + "s"}
         headers={headers}
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}

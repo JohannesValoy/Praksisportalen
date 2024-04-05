@@ -48,7 +48,7 @@ export const seed = async function (knex: Knex) {
       id: 1001,
       name: "John Doe",
       email: "johnDoe@dummy",
-      password: "123456",
+      password: await Bun.password.hash("123456", { algorithm: "bcrypt" }),
       role: "employee",
     },
     {
@@ -85,7 +85,7 @@ export const seed = async function (knex: Knex) {
       id: 2001,
       name: "Clark Kent",
       email: "clarkKent@dummy",
-      password: "123456",
+      password: await Bun.password.hash("123456", { algorithm: "bcrypt" }),
       role: "coordinator",
     },
     {
@@ -122,7 +122,7 @@ export const seed = async function (knex: Knex) {
       id: 3001,
       name: "Peter Parker",
       email: "peterParker@dummy",
-      password: "123456",
+      password: await Bun.password.hash("123456", { algorithm: "bcrypt" }),
       role: "student",
     },
     {

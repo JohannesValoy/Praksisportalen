@@ -65,9 +65,6 @@ export class InternshipPaginationRequest extends PageRequest {
      */
     constructor(page: number = 0, size: number = 10 , sort: string = "id", section_id: number[] = [], yearOfStudy: number[] = [], field: string = "") {
         super(page, size);
-        if (sort == null) {
-            this.sort = "id";
-        }
         this.section_id = section_id;
         this.yearOfStudy = yearOfStudy;
         this.field = field;

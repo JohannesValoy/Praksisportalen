@@ -9,7 +9,7 @@ export class PageRequest {
   page: number;
   size: number;
   sort: string;
-  
+
   /**
    * Creates a new PageRequest object.
    * @param page @default 0 The page number 
@@ -94,7 +94,7 @@ export class UserPageRequest extends PageRequest {
   }
   /**
    * Creates a new UserPageRequest object from a NextRequest object.
-   * @param request  The request object that contains the page, size, and sort.
+   * @param request  The request object that contains the parameters to search after.  
    * @returns A new UserPageRequest object.
    */
   static fromRequest(request: NextRequest) {

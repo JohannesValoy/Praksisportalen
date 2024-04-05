@@ -1,4 +1,4 @@
-import { Internship } from "knex/types/tables.js";
+import { InternshipTable } from "knex/types/tables.js";
 import DBclient from "@/knex/config/DBClient";
 import InternshipPositionObject, { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
 import "server-only"
@@ -23,7 +23,7 @@ async function getInternshipPositionObjectByID(id: number): Promise<InternshipPo
  * @returns  A Map object that contains the list of InternshipPositionObject objects.
  */
 async function getInternshipPositionObjectByIDList(idList: number[]): Promise<Map<number, InternshipPositionObject>> {
-    const query = await DBclient.select().from<Internship>("internships").whereIn("id", idList);
+    const query = await DBclient.select().from<InternshipTable>("internships").whereIn("id", idList);
     const internships: Map<number, InternshipPositionObject> = new Map();
     query.forEach((internship) => {
         internships.set(internship.id, new InternshipPositionObject(internship));
@@ -37,7 +37,7 @@ async function getInternshipPositionObjectByIDList(idList: number[]): Promise<Ma
  */
 
 async function getInternshipPositionObjectBySectionID(sections : number[]) : Promise<Map<number, InternshipPositionObject[]>> {
-    const query = await DBclient.from<Internship>("internships").select("id","section_id").whereIn("section_id", sections);
+    const query = await DBclient.from<InternshipTable>("internships").select("id","section_id").whereIn("section_id", sections);
     const internships = await getInternshipPositionObjectByIDList(query.map((internship) => internship.id));
     const internshipsMap = new Map();
     query.forEach((internship) => {
@@ -56,8 +56,8 @@ async function getInternshipPositionObjectBySectionID(sections : number[]) : Pro
  * @param pageRequest  The request object that contains the page, size, sort, section_id, yearOfStudy, and field.
  * @returns  A PageResponse object that contains the list of InternshipPositionObject objects.
  */
-async function getInternshipPositionObjectByPage(pageRequest : InternshipPaginationRequest) : Promise<PageResponse<InternshipPositionObject>> {
-    const query = await DBclient.select().from<Internship>("internships").where((builder) => {
+async function getInternshipPositionObjectByPageRequest(pageRequest : InternshipPaginationRequest) : Promise<PageResponse<InternshipPositionObject>> {
+    const query = await DBclient.select().from<InternshipTable>("internships").where((builder) => {
         if (pageRequest.section_id != null && pageRequest.section_id.length > 0) {
             builder.whereIn("section_id", pageRequest.section_id);
         }
@@ -69,6 +69,7 @@ async function getInternshipPositionObjectByPage(pageRequest : InternshipPaginat
         }
     }).orderBy(pageRequest.sort);;
     const internships: InternshipPositionObject[] = [];
+    console.log("Query length: ", query.length)
     query.slice(pageRequest.size*pageRequest.page, pageRequest.size*pageRequest.page+pageRequest.size).forEach((internship) => {
         internships.push(new InternshipPositionObject(internship));
     })
@@ -77,4 +78,4 @@ async function getInternshipPositionObjectByPage(pageRequest : InternshipPaginat
 }
 
 
-export { getInternshipPositionObjectByID, getInternshipPositionObjectByIDList, getInternshipPositionObjectBySectionID};
+export { getInternshipPositionObjectByID, getInternshipPositionObjectByIDList, getInternshipPositionObjectBySectionID, getInternshipPositionObjectByPageRequest};

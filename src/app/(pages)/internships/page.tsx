@@ -25,7 +25,7 @@ const ListOfInternships = () => {
 
   useEffect(() => {
     const fetchUrl =
-      id !== null ? `/api/internships/${id}` : `/api/internships`;
+      id !== null ? `/api/internships?section_id=${id}` : "/api/internships";
 
     fetch(fetchUrl)
       .then((res) => res.json())

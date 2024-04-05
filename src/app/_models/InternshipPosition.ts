@@ -1,7 +1,9 @@
 import { NextRequest } from "next/server";
 import { PageRequest } from "./pageinition";
 import { Internship } from "knex/types/tables.js";
-
+/**
+ * InternshipPositionObject is a class that represents an Internship object.
+ */
 class InternshipPositionObject implements Internship {
     id: number;
     name: string;
@@ -43,13 +45,26 @@ class InternshipPositionObject implements Internship {
     }
 }
 
+/**
+ * InternshipPaginationRequest is a class that represents a request for a paginated list of Internship objects.
+ * It should be used when you want to get a list of Internship objects from the server.
+ */
 export class InternshipPaginationRequest extends PageRequest {
     section_id: number[];
     yearOfStudy: number[];
     field: string;
 
+    /**
+     * Creates a new InternshipPaginationRequest object.
+     * @param page the page number
+     * @param size the size of the page
+     * @param sort the sort order
+     * @param section_id  id's of the sections
+     * @param yearOfStudy the year of study's
+     * @param field  the field of study
+     */
     constructor(page: number = 0, size: number = 10 , sort: string = "id", section_id: number[] = [], yearOfStudy: number[] = [], field: string = "") {
-        super(page, size, sort);
+        super(page, size);
         if (sort == null) {
             this.sort = "id";
         }
@@ -58,6 +73,11 @@ export class InternshipPaginationRequest extends PageRequest {
         this.field = field;
     }
 
+    /**
+     * Creates a new InternshipPaginationRequest object from a NextRequest object.
+     * @param request the NextRequest object
+     * @returns a new InternshipPaginationRequest object
+     */
     static fromRequest(request: NextRequest): InternshipPaginationRequest {
         const page = super.fromRequest(request);
         const section_id = request.nextUrl.searchParams.get("section_id") ? request.nextUrl.searchParams.get("section_id").split(",").map((id) => parseInt(id)) : null;

@@ -4,7 +4,12 @@ import InternshipPositionObject, { InternshipPaginationRequest } from "@/app/_mo
 import "server-only"
 import { PageResponse } from "@/app/_models/pageinition";
 
-
+/**
+ * getInternshipPositionObjectByID returns an InternshipPositionObject object by id.
+ * @param id The id of the InternshipPositionObject.
+ * @returns A InternshipPositionObject object.
+ * @throws Error if the InternshipPositionObject is not found.
+ */
 async function getInternshipPositionObjectByID(id: number): Promise<InternshipPositionObject> {
     const internship = await getInternshipPositionObjectByIDList([id]);
     if (internship.get(id) == undefined) {
@@ -12,7 +17,11 @@ async function getInternshipPositionObjectByID(id: number): Promise<InternshipPo
     }
     return internship.get(id);
 }
-
+/**
+ * getInternshipPositionObjectByIDList returns a map of InternshipPositionObject objects by id.
+ * @param idList The list of id.
+ * @returns  A Map object that contains the list of InternshipPositionObject objects.
+ */
 async function getInternshipPositionObjectByIDList(idList: number[]): Promise<Map<number, InternshipPositionObject>> {
     const query = await DBclient.select().from<Internship>("internships").whereIn("id", idList);
     const internships: Map<number, InternshipPositionObject> = new Map();
@@ -21,6 +30,11 @@ async function getInternshipPositionObjectByIDList(idList: number[]): Promise<Ma
     });
     return internships;
 }
+/**
+ * getInternshipPositionObjectBySectionID returns a map of InternshipPositionObject objects by section_id.
+ * @param sections  The list of section_id.
+ * @returns  A Map object that contains the list of InternshipPositionObject objects.
+ */
 
 async function getInternshipPositionObjectBySectionID(sections : number[]) : Promise<Map<number, InternshipPositionObject[]>> {
     const query = await DBclient.from<Internship>("internships").select("id","section_id").whereIn("section_id", sections);
@@ -37,7 +51,11 @@ async function getInternshipPositionObjectBySectionID(sections : number[]) : Pro
 }
 
 
-
+/**
+ * getInternshipPositionObjectByPage returns a paginated list of InternshipPositionObject objects.
+ * @param pageRequest  The request object that contains the page, size, sort, section_id, yearOfStudy, and field.
+ * @returns  A PageResponse object that contains the list of InternshipPositionObject objects.
+ */
 async function getInternshipPositionObjectByPage(pageRequest : InternshipPaginationRequest) : Promise<PageResponse<InternshipPositionObject>> {
     const query = await DBclient.select().from<Internship>("internships").where((builder) => {
         if (pageRequest.section_id != null && pageRequest.section_id.length > 0) {

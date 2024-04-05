@@ -1,6 +1,8 @@
 import { StudyProgram } from "knex/types/tables.js";
 import EducationInstitutionObject from "./EducationInstitution";
-
+/**
+ * A class representing a StudyProgram
+ */
 class StudyProgramObject implements StudyProgram {
     id: number;
     name: string;
@@ -8,7 +10,11 @@ class StudyProgramObject implements StudyProgram {
     educationInstitution: EducationInstitutionObject;
     created_at: Date;
     updated_at: Date;
-
+    /**
+     * Creates a new StudyProgram object.
+     * @param query DB query
+     * @param educationInstitution EducationInstitution object 
+     */
     constructor(query: StudyProgram, educationInstitution: EducationInstitutionObject) {
         this.id = query.id;
         this.name = query.name;

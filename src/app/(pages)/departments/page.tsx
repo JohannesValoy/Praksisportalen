@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import Department from "@/app/_models/Department";
+import ContainerBox from "@/app/components/ContainerBox";
 const ListOfDepartments = () => {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [selectedRows, setSelectedRows] = useState<Department[]>([]);
@@ -31,28 +32,31 @@ const ListOfDepartments = () => {
       .catch((error) => console.error("Failed to fetch departments", error));
   }, []);
 
+  console.log(departments);
   return (
-    <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
-      <DynamicTable
-        rows={departments}
-        tableName="departments"
-        headers={headers}
-        selectedRows={selectedRows}
-        setSelectedRows={setSelectedRows}
-        onRowClick={() => {}}
-        onRowButtonClick={(row) => {
-          window.location.href = `/sections/?department_id=${row.id}`;
-        }}
-        buttonName={"Details"}
-        onAddButtonClick={() => {
-          window.location.href = `/departments/addDepartment`;
-        }}
-        setSortedBy={setSortedBy}
-        url="/api/departments/"
-        setRows={setDepartments}
-        clickableColumns={clickableColumns}
-      />
-    </main>
+    <div className="flex flex-row justify-center mt-4 overflow-x-auto p-4">
+      <div className="w-full">
+        <DynamicTable
+          rows={departments}
+          tableName="departments"
+          headers={headers}
+          selectedRows={selectedRows}
+          setSelectedRows={setSelectedRows}
+          onRowClick={() => {}}
+          onRowButtonClick={(row) => {
+            window.location.href = `/sections/?department_id=${row.id}`;
+          }}
+          buttonName={"Details"}
+          onAddButtonClick={() => {
+            window.location.href = `/departments/addDepartment`;
+          }}
+          setSortedBy={setSortedBy}
+          url="/api/departments/"
+          setRows={setDepartments}
+          clickableColumns={clickableColumns}
+        />
+      </div>
+    </div>
   );
 };
 

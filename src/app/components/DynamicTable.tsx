@@ -74,7 +74,7 @@ function DynamicTable({
   };
 
   return (
-    <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+    <div className="flex flex-col w-full h-full justify-center mt-4 overflow-x-auto p-4">
       <div>
         <div className="flex flex-row justify-between items-center">
           <h1 className="text-3xl font-semibold">List of {tableName}</h1>

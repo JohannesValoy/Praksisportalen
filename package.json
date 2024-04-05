@@ -9,12 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/x-charts": "^7.1.1",
+    "@syncfusion/ej2-react-gantt": "^25.1.35",
     "bcrypt": "^5.1.1",
     "knex": "^3.1.0",
     "mysql2": "^3.9.2",
-    "@syncfusion/ej2-react-gantt": "^25.1.35",
     "next": "^14.1.4",
     "next-auth": "^4.24.7",
+    "next-themes": "^0.3.0",
     "oracledb": "^6.4.0",
     "pg-query-stream": "^4.5.3",
     "react": "^18",

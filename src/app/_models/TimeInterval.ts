@@ -10,16 +10,16 @@ import { TimeIntervalTable } from "knex/types/tables.js";
 
 class TimeIntervalObject implements TimeIntervalTable {
   id: number;
-  startTime: Date;
-  endTime: Date;
+  startDate: Date;
+  endDate: Date;
   internship_id: number;
   created_at: Date;
   updated_at: Date;
 
   constructor(query: TimeIntervalTable) {
     this.id = query.id;
-    this.startTime = query.startTime;
-    this.endTime = query.endTime;
+    this.startDate = query.startDate;
+    this.endDate = query.endDate;
     this.internship_id = query.internship_id;
     this.created_at = query.created_at;
     this.updated_at = query.updated_at;
@@ -28,8 +28,8 @@ class TimeIntervalObject implements TimeIntervalTable {
   toJSON() {
     return {
       id: this.id,
-      start: this.startTime,
-      end: this.endTime,
+      startDate: this.startDate,
+      endDate: this.endDate,
       created_at: this.created_at,
       updated_at: this.updated_at,
     };
@@ -42,28 +42,28 @@ class TimeIntervalObject implements TimeIntervalTable {
  */
 export class TimeIntervalPageRequest extends PageRequest {
   internship_id: number[];
-  start: Date;
-  end: Date;
+  startDate: Date;
+  endDate: Date;
 
   /**
    * Creates a new TimeIntervalPageRequest object.
    * @param page the page number
    * @param size the size of the page
    * @param internship_id the id of the internship
-   * @param start the start time of the interval
+   * @param startDate the start time of the interval
    * @param end the end time of the interval
    */
   constructor(
     page: number,
     size: number,
     internship_id: number[],
-    start: Date,
+    startDate: Date,
     end: Date
   ) {
     super(page, size);
     this.internship_id = internship_id;
-    this.start = start;
-    this.end = end;
+    this.startDate = startDate;
+    this.endDate = end;
   }
 
   /**
@@ -75,16 +75,16 @@ export class TimeIntervalPageRequest extends PageRequest {
     const internship_id = request.nextUrl.searchParams
       .getAll("internship_id")
       .map(Number);
-    const startDate = request.nextUrl.searchParams.get("startDate");
-    const start = startDate ? new Date(startDate) : null;
-    const endDate = request.nextUrl.searchParams.get("endDate");
-    const end = endDate ? new Date(endDate) : null;
+    const start = request.nextUrl.searchParams.get("startDate");
+    const startDate = start ? new Date(start) : null;
+    const end = request.nextUrl.searchParams.get("endDate");
+    const endDate = end ? new Date(end) : null;
     return new TimeIntervalPageRequest(
       page.page,
       page.size,
       internship_id,
-      start,
-      end
+      startDate,
+      endDate
     );
   }
 }

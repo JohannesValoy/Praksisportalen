@@ -88,8 +88,8 @@ declare module "knex/types/tables.js" {
 
   interface TimeIntervalTable {
     id: number;
-    startTime: Date;
-    endTime: Date;
+    startDate: Date;
+    endDate: Date;
     internship_id: number;
     created_at: Date;
     updated_at: Date;

@@ -73,18 +73,26 @@ type Internship = {
 
 const InternshipComponent = () => {
   const searchParams = useSearchParams();
-  const [datalist, setDatalist] = useState<Internship | null>(null);
+  const [datalist, setDatalist] = useState<DataItem[]>(null);
 
   const internship_id = searchParams.get("internship_id");
   const [internship, setInternship] = useState<Internship | null>(null);
-
   useEffect(() => {
     if (internship_id !== null) {
       fetch(`/api/internships/${internship_id}`)
         .then((res) => res.json())
         .then((data) => {
           setInternship(data);
-          setDatalist(data.timeIntervals);
+          const dataList: DataItem[] = data.timeIntervals.map(
+            (interval: any, index: number) => ({
+              id: index + 1,
+              row_id: interval.id,
+              name: `Interval ${index + 1}`,
+              startDate: new Date(interval.startDate),
+              endDate: new Date(interval.endDate),
+            })
+          );
+          setDatalist(dataList);
         })
         .catch((error) =>
           console.error("Failed to fetch internship details:", error)

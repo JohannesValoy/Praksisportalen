@@ -32,7 +32,7 @@ async function fetchTimeIntervalsByInternshipID(
   const query = await DBclient.select()
     .from("timeIntervals")
     .whereIn("internship_id", internShipID)
-    .orderBy("startTime", "desc");
+    .orderBy("startDate", "asc");
   const timeIntervals: Map<number, TimeIntervalObject[]> = new Map();
   for (const timeInterval of query) {
     if (!timeIntervals.has(timeInterval.internship_id)) {

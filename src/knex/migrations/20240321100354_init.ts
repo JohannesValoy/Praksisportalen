@@ -129,8 +129,8 @@ export async function up(knex: Knex): Promise<void> {
     })
     .createTable("timeIntervals", (table) => {
       table.increments("id").primary();
-      table.time("startTime").notNullable();
-      table.time("endTime").notNullable();
+      table.timestamp("startDate").notNullable();
+      table.timestamp("endDate").notNullable();
       table.integer("internship_id").unsigned().notNullable();
       table.foreign("internship_id").references("id").inTable("internships");
       table.timestamp("created_at").defaultTo(knex.fn.now());

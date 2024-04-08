@@ -1,13 +1,13 @@
 /** @format */
 "use client";
 
+import Section from "@/app/_models/Section";
 import Dropdown from "@/app/components/Dropdown";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Page() {
-  const [name, setname] = useState("");
+  const [name, setName] = useState("");
   const [sections, setSections] = useState<Section[]>([]);
   const [section_id, setSections_id] = useState(0);
   const [field, setField] = useState("");
@@ -19,11 +19,6 @@ export default function Page() {
   const [yearOfStudy, setYearOfStudy] = useState(0);
 
   const router = useRouter();
-
-  type Section = {
-    name: string;
-    id: string;
-  };
 
   type Fields = {
     name: string;
@@ -111,7 +106,7 @@ export default function Page() {
           type="text"
           placeholder="Section Name"
           className="input input-bordered w-full"
-          onChange={(e) => setname(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
         />
       </label>
       <label className="form-control w-full">

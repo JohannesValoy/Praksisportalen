@@ -9,8 +9,7 @@ export async function up(knex: Knex): Promise<void> {
       table.string("name").notNullable();
       table.string("email").notNullable().unique();
       table.string("password").notNullable();
-      table
-        .enum("role", ["admin", "user"]).defaultTo("user").notNullable();
+      table.enum("role", ["admin", "user"]).defaultTo("user").notNullable();
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
@@ -132,6 +131,8 @@ export async function up(knex: Knex): Promise<void> {
       table.increments("id").primary();
       table.time("startTime").notNullable();
       table.time("endTime").notNullable();
+      table.integer("internship_id").unsigned().notNullable();
+      table.foreign("internship_id").references("id").inTable("internships");
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     });

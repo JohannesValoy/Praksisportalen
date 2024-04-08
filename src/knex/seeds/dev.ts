@@ -69,9 +69,10 @@ export const seed = async function (knex: Knex) {
       email: "sarahBrown@dummy",
       password: "123456",
       role: "user",
-    }])
+    },
+  ]);
 
-    await createCoordinators([
+  await createCoordinators([
     // Coordinators
     {
       name: "Clark Kent",
@@ -79,13 +80,11 @@ export const seed = async function (knex: Knex) {
       password: "123456",
     },
     {
-
       name: "Bruce Wayne",
       email: "bruceWayne@dummy",
       password: "123456",
     },
     {
-
       name: "Diana Prince",
       email: "dianaPrince@dummy",
       password: "123456",
@@ -99,7 +98,8 @@ export const seed = async function (knex: Knex) {
       name: "Natasha Romanoff",
       email: "natashaRomanoff@dummy",
       password: "123456",
-    }])
+    },
+  ]);
 
   await createStudents([
     // Students
@@ -128,17 +128,19 @@ export const seed = async function (knex: Knex) {
       name: "Ann Elg",
     },
   ]);
-  
+
   await knex("departments").insert([
     {
       id: 1,
       name: "Avdeling kirugi, Ålesund",
-      employee_id: "3cfad1fde39871acfafe47f0267d51d35dcb8ec6144593746042a2fb37e0446e",
+      employee_id:
+        "3cfad1fde39871acfafe47f0267d51d35dcb8ec6144593746042a2fb37e0446e",
     },
     {
       id: 2,
       name: "Volda sjukehus",
-      employee_id: "9d7463049c3e9f83b32202d2cf5cc6138ddc6dc18954ca83b9b7978d9cc83f96",
+      employee_id:
+        "9d7463049c3e9f83b32202d2cf5cc6138ddc6dc18954ca83b9b7978d9cc83f96",
     },
   ]);
   await knex("sectionTypes").insert([
@@ -157,21 +159,24 @@ export const seed = async function (knex: Knex) {
       id: 1,
       name: "Kirugisk sengepost",
       section_type: "Sengepost",
-      employee_id: "8b1827f72317504c1bb24b0f650f693c8c58565f4dd15d3c21aebe94751596c0",
+      employee_id:
+        "8b1827f72317504c1bb24b0f650f693c8c58565f4dd15d3c21aebe94751596c0",
       department_id: 1,
     },
     {
       id: 2,
       name: "Kirugisk poliklinikk",
       section_type: "Poliklinikk og dagbehandling",
-      employee_id: "3dd150bdc63c3b5a68b20be5874ee6baff22265347c8068fe2abf3e5d6b09aaa",
+      employee_id:
+        "3dd150bdc63c3b5a68b20be5874ee6baff22265347c8068fe2abf3e5d6b09aaa",
       department_id: 1,
     },
     {
       id: 3,
       name: "Akuttmottak",
       section_type: "Spesialseksjon",
-      employee_id: "8d84a7f9425688a9d39ba5ffb4fa842d4f239c8f89877e0e4c08a234008dc035",
+      employee_id:
+        "8d84a7f9425688a9d39ba5ffb4fa842d4f239c8f89877e0e4c08a234008dc035",
       department_id: 2,
     },
   ]);
@@ -242,7 +247,8 @@ export const seed = async function (knex: Knex) {
   await knex("internshipAgreements").insert([
     {
       id: 1,
-      student_id: "5142c54115e167da37842bc61a210d0a21a6fc3e95ffe3f43ec979c5d5a9a267",
+      student_id:
+        "5142c54115e167da37842bc61a210d0a21a6fc3e95ffe3f43ec979c5d5a9a267",
       internship_id: 1,
       studyProgram_id: 1,
       status: "Avtalt",
@@ -251,7 +257,8 @@ export const seed = async function (knex: Knex) {
     },
     {
       id: 2,
-      student_id: "ab2cbca3d7f1f8ca80eec22f6dcb8a00b04376fb66adf1e8cfa94b9d1c0fafcd",
+      student_id:
+        "ab2cbca3d7f1f8ca80eec22f6dcb8a00b04376fb66adf1e8cfa94b9d1c0fafcd",
       internship_id: 1,
       studyProgram_id: 1,
       status: "Avtalt",
@@ -260,7 +267,8 @@ export const seed = async function (knex: Knex) {
     },
     {
       id: 3,
-      student_id: "79f888584399f71d44fd55be246aa8d1347d0d9aa07c38c67de94d7abb4aa83f",
+      student_id:
+        "79f888584399f71d44fd55be246aa8d1347d0d9aa07c38c67de94d7abb4aa83f",
       internship_id: 2,
       studyProgram_id: 1,
       status: "Avtalt",
@@ -269,7 +277,8 @@ export const seed = async function (knex: Knex) {
     },
     {
       id: 4,
-      student_id: "79f888584399f71d44fd55be246aa8d1347d0d9aa07c38c67de94d7abb4aa83f",
+      student_id:
+        "79f888584399f71d44fd55be246aa8d1347d0d9aa07c38c67de94d7abb4aa83f",
       internship_id: 2,
       studyProgram_id: 1,
       status: "Avtalt",
@@ -278,12 +287,51 @@ export const seed = async function (knex: Knex) {
     },
     {
       id: 5,
-      student_id: "79f888584399f71d44fd55be246aa8d1347d0d9aa07c38c67de94d7abb4aa83f",
+      student_id:
+        "79f888584399f71d44fd55be246aa8d1347d0d9aa07c38c67de94d7abb4aa83f",
       internship_id: 3,
       studyProgram_id: 1,
       status: "Diskuteres",
       startDate: new Date("2024-05-01"),
       endDate: new Date("2024-06-01"),
+    },
+  ]);
+  await knex("timeIntervals").insert([
+    {
+      id: 1,
+      startTime: new Date("2024-03-21"),
+      endTime: new Date("2024-04-21"),
+      internship_id: 1,
+    },
+    {
+      id: 2,
+      startTime: new Date("2024-03-21"),
+      endTime: new Date("2024-04-21"),
+      internship_id: 1,
+    },
+    {
+      id: 3,
+      startTime: new Date("2024-04-21"),
+      endTime: new Date("2024-04-28"),
+      internship_id: 1,
+    },
+    {
+      id: 4,
+      startTime: new Date("2024-05-01"),
+      endTime: new Date("2024-06-01"),
+      internship_id: 2,
+    },
+    {
+      id: 5,
+      startTime: new Date("2024-05-01"),
+      endTime: new Date("2024-06-01"),
+      internship_id: 3,
+    },
+    {
+      id: 6,
+      startTime: new Date("2024-05-01"),
+      endTime: new Date("2024-06-01"),
+      internship_id: 3,
     },
   ]);
 };

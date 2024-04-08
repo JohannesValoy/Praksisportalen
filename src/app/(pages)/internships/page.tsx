@@ -5,6 +5,7 @@
 import DynamicTable from "@/app/components/DynamicTable";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import Internship from "@/app/_models/InternshipPosition";
 
 const ListOfInternships = () => {
   const searchParams = useSearchParams();
@@ -50,14 +51,7 @@ const ListOfInternships = () => {
         }
       });
   }, [id]);
-
-  type Internship = {
-    name: string;
-    id: string;
-    employee_id: string;
-    employee_email: string;
-  };
-
+  console.log(internships);
   return (
     <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <DynamicTable

@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import Image from "next/image";
 import ThemeChanger from "./components/ThemeChanger";
 import { checkUserRole } from "@/lib/auth";
 import LogoutButton from "./components/LogoutButton";
@@ -50,7 +49,7 @@ export default async function RootLayout({
           </div>
         </header>
         <main className="flex p-4 overflow-y-auto w-full h-full bg-base-300 p-15">
-          <div className="flex bg-base-200 rounded-3xl h-full w-full">
+          <div className="bg-base-200 rounded-3xl h-full w-full">
             {children}
           </div>
         </main>

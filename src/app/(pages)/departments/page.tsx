@@ -17,7 +17,7 @@ const ListOfDepartments = () => {
   };
 
   useEffect(() => {
-    fetch("/api/departments")
+    fetch(`/api/departments?sort=${sortedBy}`)
       .then((res) => res.json())
       .then((data) => {
         const modifiedData = data.elements.map((department: any) => ({

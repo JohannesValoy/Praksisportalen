@@ -2,7 +2,6 @@
 /** @format */
 
 "use client";
-import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 
@@ -33,7 +32,7 @@ const ListOfStudies = () => {
   }, [sortedBy]); // Added sortedBy to the dependency array.
 
   return (
-    <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+    <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <DynamicTable
         rows={studies}
         tableName={"Study Program"}
@@ -52,7 +51,7 @@ const ListOfStudies = () => {
         url="/api/studyPrograms/"
         setRows={setStudies}
       />
-    </main>
+    </div>
   );
 };
 

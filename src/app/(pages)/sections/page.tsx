@@ -12,7 +12,6 @@ const ListOfSections = () => {
   const [sections, setSections] = useState<SectionObject[]>([]);
   const [selectedRows, setSelectedRows] = useState<SectionObject[]>([]);
   const headers = { Name: "name", Email: "email" };
-  /**TODO add sorted by */
   const [sortedBy, setSortedBy] = useState<string>("name");
 
   const clickableColumns = {
@@ -21,7 +20,8 @@ const ListOfSections = () => {
     },
   };
   useEffect(() => {
-    const fetchUrl = id !== null ? `/api/sections/${id}` : `/api/sections`;
+    const fetchUrl =
+      id !== null ? `/api/sections/${id}&sort=${sortedBy}` : `/api/sections`;
 
     fetch(fetchUrl)
       .then((res) => res.json())
@@ -49,9 +49,9 @@ const ListOfSections = () => {
           setSections(rows);
         }
       });
-  }, [id]);
+  }, [id, sortedBy]);
   return (
-    <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+    <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4 ">
       <DynamicTable
         rows={sections}
         tableName="Sections"

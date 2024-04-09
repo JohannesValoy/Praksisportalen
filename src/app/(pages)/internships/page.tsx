@@ -3,7 +3,7 @@
 "use client";
 
 import DynamicTable from "@/app/components/DynamicTable";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Internship from "@/app/_models/InternshipPosition";
 
@@ -26,7 +26,9 @@ const ListOfInternships = () => {
 
   useEffect(() => {
     const fetchUrl =
-      id !== null ? `/api/internships?section_id=${id}` : "/api/internships";
+      id !== null
+        ? `/api/internships?section_id=${id}&sort=${sortedBy}`
+        : "/api/internships";
 
     fetch(fetchUrl)
       .then((res) => res.json())
@@ -50,10 +52,17 @@ const ListOfInternships = () => {
           setInternships(rows);
         }
       });
-  }, [id]);
-  console.log(internships);
+  }, [id, sortedBy]);
+
+  type Internship = {
+    name: string;
+    id: string;
+    employee_id: string;
+    employee_email: string;
+  };
+
   return (
-    <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+    <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <DynamicTable
         rows={internships}
         tableName="Internships"
@@ -73,7 +82,7 @@ const ListOfInternships = () => {
         url={"/api/internships/"}
         setRows={setInternships}
       />
-    </main>
+    </div>
   );
 };
 

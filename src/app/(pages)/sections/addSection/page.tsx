@@ -98,7 +98,6 @@ export default function Page() {
     setNewType(""); // Clear the input field
   };
 
-
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
       <div style={{ width: "50rem" }}>
@@ -157,7 +156,7 @@ export default function Page() {
             options={departments}
             selectedOption={
               departments.find(
-                (department) => department.id === department_id
+                (department) => department.id === department_id,
               ) || null
             }
             setSelectedOption={(department) => setDepartment_id(department.id)}

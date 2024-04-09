@@ -82,7 +82,7 @@ const InternshipComponent = () => {
         .then((res) => res.json())
         .then((data) => setInternship(data))
         .catch((error) =>
-          console.error("Failed to fetch internship details:", error)
+          console.error("Failed to fetch internship details:", error),
         );
     }
   }, [internship_id]);

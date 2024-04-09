@@ -9,9 +9,12 @@ export async function GET(request: NextRequest) {
   try {
     const pageRequest = DepartmentPageRequest.fromRequest(request);
 
-    return new Response(JSON.stringify(await getDepartmentPageByPageRequest(pageRequest)), {
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify(await getDepartmentPageByPageRequest(pageRequest)),
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   } catch (error) {
     console.error("Error fetching department data:", error);
     return new Response(
@@ -19,7 +22,7 @@ export async function GET(request: NextRequest) {
       {
         status: 500,
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
   }
 }

@@ -4,11 +4,11 @@ import { getInternshipPositionObjectByID } from "@/services/InternshipPosition";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const internship = await getInternshipPositionObjectByID(
-      parseInt(params.id)
+      parseInt(params.id),
     );
     return Response.json(internship);
   } catch (error) {
@@ -18,14 +18,14 @@ export async function GET(
       {
         status: 500,
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
   }
 }
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: number } },
 ) {
   const Internship = await DBclient("internships")
     .where({ id: params.id })

@@ -12,7 +12,7 @@ export class PageRequest {
 
   /**
    * Creates a new PageRequest object.
-   * @param page @default 0 The page number 
+   * @param page @default 0 The page number
    * @param size @default 10 The size of the page
    */
   constructor(page: number = 0, size: number = 10) {
@@ -46,9 +46,9 @@ export class PageResponse<T> extends PageRequest {
   elements: T[];
   totalElements: number;
   totalPages: number;
-  
+
   /**
-   * Creates a new PageResponse object. 
+   * Creates a new PageResponse object.
    * @param PageRequest The request object that contains the page, size, and sort.
    * @param elements  The list of elements.
    * @param totalElements  The total number of elements.
@@ -85,7 +85,7 @@ export class UserPageRequest extends PageRequest {
       roles.length === 0 &&
       roles.every(
         (role) =>
-          ["admin", "employee", "coordinator", "student"].indexOf(role) === -1
+          ["admin", "employee", "coordinator", "student"].indexOf(role) === -1,
       )
     ) {
       roles = ["admin", "employee", "coordinator", "student"];
@@ -94,7 +94,7 @@ export class UserPageRequest extends PageRequest {
   }
   /**
    * Creates a new UserPageRequest object from a NextRequest object.
-   * @param request  The request object that contains the parameters to search after.  
+   * @param request  The request object that contains the parameters to search after.
    * @returns A new UserPageRequest object.
    */
   static fromRequest(request: NextRequest) {

@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     await deleteEmployee(params.id);

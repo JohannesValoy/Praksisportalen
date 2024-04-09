@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: Request) {
   const { name } = await request.json();
   const newEducationInstitution = await DBclient.table(
-    "educationInstitutions"
+    "educationInstitutions",
   ).insert({
     name,
   });

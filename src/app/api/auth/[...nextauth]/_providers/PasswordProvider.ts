@@ -19,16 +19,16 @@ const passwordProvider = CredentialsProvider({
     password: { label: "Password", type: "password" },
   },
   id: "cred",
-  async authorize(credentials, req) : Promise<User> {
+  async authorize(credentials, req): Promise<User> {
     const username = credentials?.username;
     if (username == undefined) {
       return null;
     }
-    // We are going to say it as a CoordinatorTable as it contains only the password field 
+    // We are going to say it as a CoordinatorTable as it contains only the password field
     let user = await DBclient.from<CoordinatorTable>("employees")
       .where("email", username)
       .first();
-    
+
     if (user == undefined) {
       user = await DBclient.from<CoordinatorTable>("coordinators")
         .where("email", username)

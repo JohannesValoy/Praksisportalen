@@ -7,7 +7,7 @@ export enum Role {
   coordinator = "coordinator",
   employee = "employee",
   admin = "admin",
-  none = "none"
+  none = "none",
 }
 // common interface for JWT and Session
 interface IUser extends DefaultUser {

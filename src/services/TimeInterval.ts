@@ -29,10 +29,19 @@ async function fetchTimeIntervalByIDList(
 async function fetchTimeIntervalsByInternshipID(
   internShipID: number[]
 ): Promise<Map<number, TimeIntervalObject[]>> {
+  debugger;
+  console.log("internShipID", internShipID);
   const query = await DBclient.select()
+
     .from("timeIntervals")
+    .join(
+      "internshipAgreements",
+      "timeIntervals.internshipAgreement_id",
+      "internshipAgreements.internship_id"
+    )
     .whereIn("internship_id", internShipID)
-    .orderBy("startDate", "asc");
+    .orderBy("timeIntervals.startDate", "asc");
+  debugger;
   const timeIntervals: Map<number, TimeIntervalObject[]> = new Map();
   for (const timeInterval of query) {
     if (!timeIntervals.has(timeInterval.internship_id)) {

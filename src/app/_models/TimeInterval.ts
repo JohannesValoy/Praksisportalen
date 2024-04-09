@@ -30,6 +30,7 @@ class TimeIntervalObject implements TimeIntervalTable {
       id: this.id,
       startDate: this.startDate,
       endDate: this.endDate,
+      internshipAgreement_id: this.internshipAgreement_id,
       created_at: this.created_at,
       updated_at: this.updated_at,
     };

@@ -43,10 +43,9 @@ class InternshipPositionObject implements InternshipTable {
       currentCapacity: this.currentCapacity,
       numberOfBeds: this.numberOfBeds,
       yearOfStudy: this.yearOfStudy,
-      timeIntervals: this.timeIntervals,
+
+      timeIntervals: this.timeIntervals
       section_id: this.section_id,
-      created_at: this.created_at,
-      updated_at: this.updated_at,
     };
   }
 }
@@ -75,7 +74,7 @@ export class InternshipPaginationRequest extends PageRequest {
     sort: string = "id",
     section_id: number[] = [],
     yearOfStudy: number[] = [],
-    field: string = ""
+    field: string = "",
   ) {
     super(page, size);
     this.section_id = section_id;
@@ -109,7 +108,7 @@ export class InternshipPaginationRequest extends PageRequest {
       page.sort,
       section_id,
       yearOfStudy,
-      field
+      field,
     );
   }
 }

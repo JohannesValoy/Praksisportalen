@@ -4,9 +4,10 @@ import { env } from "node:process";
 
 // Update with your config settings.
 const extension =
-  process.env.NODE_CONFIG_ENV === 'production' || process.env.NODE_CONFIG_ENV === 'staging'
-    ? 'js'
-    : 'ts';
+  process.env.NODE_CONFIG_ENV === "production" ||
+  process.env.NODE_CONFIG_ENV === "staging"
+    ? "js"
+    : "ts";
 
 export const config: { [key: string]: Knex.Config } = {
   development: {
@@ -23,7 +24,7 @@ export const config: { [key: string]: Knex.Config } = {
     seeds: {
       directory: path.join(__dirname, "src/knex/seeds"),
       loadExtensions: [`.${extension}`],
-    }
+    },
   },
 
   staging: {
@@ -31,16 +32,16 @@ export const config: { [key: string]: Knex.Config } = {
     connection: {
       database: "my_db",
       user: "username",
-      password: "password"
+      password: "password",
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
       directory: "migrations",
-      tableName: "knex_migrations"
-    }
+      tableName: "knex_migrations",
+    },
   },
 
   production: {
@@ -48,17 +49,17 @@ export const config: { [key: string]: Knex.Config } = {
     connection: {
       database: "my_db",
       user: "username",
-      password: "password"
+      password: "password",
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
       directory: "migrations",
-      tableName: "knex_migrations"
-    }
-  }
-}
+      tableName: "knex_migrations",
+    },
+  },
+};
 
 export default config;

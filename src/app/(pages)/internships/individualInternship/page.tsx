@@ -61,7 +61,7 @@ const InternshipComponent = () => {
           setDatalist(dataList);
         })
         .catch((error) =>
-          console.error("Failed to fetch internship details:", error)
+          console.error("Failed to fetch internship details:", error),
         );
     }
   }, [internship_id]);

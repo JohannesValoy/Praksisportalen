@@ -19,7 +19,7 @@ const ListOfEducationInstitutions = () => {
 
   useEffect(() => {
     fetch(`/api/educationInstitutions?sort=${sortedBy}`).then((res) =>
-      res.json().then(setEducationInstitutions)
+      res.json().then(setEducationInstitutions),
     );
   }, [sortedBy]);
 

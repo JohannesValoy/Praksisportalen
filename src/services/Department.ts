@@ -4,7 +4,7 @@ import DBclient from "@/knex/config/DBClient";
 import DepartmentObject, {
   DepartmentPageRequest,
 } from "@/app/_models/Department";
-import EmployeeObject from "@/app/_models/Employee";
+import {EmployeeObject} from "@/app/_models/Employee";
 import { DepartmentTable } from "knex/types/tables.js";
 import { getEmployeeObjectByIDList } from "./Employees";
 

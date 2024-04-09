@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 
 const ThemeChanger = () => {
   const [theme, setTheme] = useState(() => {
-    let theme = "dark"
+    let theme = "dark";
     if (typeof localStorage !== "undefined") {
       theme = localStorage.getItem("theme") || "dark";
     }

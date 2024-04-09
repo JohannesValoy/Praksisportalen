@@ -12,12 +12,14 @@ const AdminLayout = () => {
   return (
     <div className="  flex flex-row items-center justify-center rounded-lg w-full h-full container mx-auto">
       <div className="flex flex-col h-full w-full">
-        <ContainerBox title={"Statistics"}>
-          <PieChart
-            series={[{ data: [{ value: 10 }, { value: 15 }, { value: 20 }] }]}
-            {...pieParams}
-          />
-        </ContainerBox>
+        <Link href="/statistics" className="h-full w-full">
+          <ContainerBox title={"Statistics"}>
+            <PieChart
+              series={[{ data: [{ value: 10 }, { value: 15 }, { value: 20 }] }]}
+              {...pieParams}
+            />
+          </ContainerBox>
+        </Link>
         <ContainerBox title={"Notifications"}>
           <div role="alert" className="alert shadow-lg">
             <svg

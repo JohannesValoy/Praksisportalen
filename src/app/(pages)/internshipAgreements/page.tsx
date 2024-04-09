@@ -48,7 +48,7 @@ const ListOfInternshipAgreements = () => {
         setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
-          window.location.href = `/admin/administerInternships/?department_id=${row.id}`;
+          window.location.href = `/internshipAgreements/individualInternshipAgreement?internshipAgreement_id=${row.id}`;
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {

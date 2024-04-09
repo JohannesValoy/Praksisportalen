@@ -131,8 +131,11 @@ export async function up(knex: Knex): Promise<void> {
       table.increments("id").primary();
       table.timestamp("startDate").notNullable();
       table.timestamp("endDate").notNullable();
-      table.integer("internship_id").unsigned().notNullable();
-      table.foreign("internship_id").references("id").inTable("internships");
+      table.integer("internshipAgreement_id").unsigned().notNullable();
+      table
+        .foreign("internshipAgreement_id")
+        .references("id")
+        .inTable("internshipAgreements");
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     });

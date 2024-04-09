@@ -12,7 +12,7 @@ class TimeIntervalObject implements TimeIntervalTable {
   id: number;
   startDate: Date;
   endDate: Date;
-  internship_id: number;
+  internshipAgreement_id: number;
   created_at: Date;
   updated_at: Date;
 
@@ -20,7 +20,7 @@ class TimeIntervalObject implements TimeIntervalTable {
     this.id = query.id;
     this.startDate = query.startDate;
     this.endDate = query.endDate;
-    this.internship_id = query.internship_id;
+    this.internshipAgreement_id = query.internshipAgreement_id;
     this.created_at = query.created_at;
     this.updated_at = query.updated_at;
   }
@@ -41,7 +41,7 @@ class TimeIntervalObject implements TimeIntervalTable {
  * It should be used when you want to get a list of TimeInterval objects from the server.
  */
 export class TimeIntervalPageRequest extends PageRequest {
-  internship_id: number[];
+  internshipAgreement_id: number[];
   startDate: Date;
   endDate: Date;
 
@@ -49,19 +49,19 @@ export class TimeIntervalPageRequest extends PageRequest {
    * Creates a new TimeIntervalPageRequest object.
    * @param page the page number
    * @param size the size of the page
-   * @param internship_id the id of the internship
+   * @param internshipAgreement_id the id of the internship
    * @param startDate the start time of the interval
    * @param end the end time of the interval
    */
   constructor(
     page: number,
     size: number,
-    internship_id: number[],
+    internshipAgreement_id: number[],
     startDate: Date,
     end: Date
   ) {
     super(page, size);
-    this.internship_id = internship_id;
+    this.internshipAgreement_id = internshipAgreement_id;
     this.startDate = startDate;
     this.endDate = end;
   }
@@ -72,8 +72,8 @@ export class TimeIntervalPageRequest extends PageRequest {
    */
   static fromRequest(request: NextRequest): TimeIntervalPageRequest {
     const page = super.fromRequest(request);
-    const internship_id = request.nextUrl.searchParams
-      .getAll("internship_id")
+    const internshipAgreement_id = request.nextUrl.searchParams
+      .getAll("internshipAgreement_id")
       .map(Number);
     const start = request.nextUrl.searchParams.get("startDate");
     const startDate = start ? new Date(start) : null;
@@ -82,7 +82,7 @@ export class TimeIntervalPageRequest extends PageRequest {
     return new TimeIntervalPageRequest(
       page.page,
       page.size,
-      internship_id,
+      internshipAgreement_id,
       startDate,
       endDate
     );

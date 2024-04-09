@@ -90,7 +90,7 @@ declare module "knex/types/tables.js" {
     id: number;
     startDate: Date;
     endDate: Date;
-    internship_id: number;
+    internshipAgreement_id: number;
     created_at: Date;
     updated_at: Date;
   }

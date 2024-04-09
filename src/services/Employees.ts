@@ -57,10 +57,15 @@ async function getEmployeeObjectsByPagination(
   return new PageResponse(request, employees, employees.length);
 }
 
+async function deleteEmployee(id: string) {
+  return await DBclient.delete().from("employees").where("id", id);
+}
+
 export {
   getEmployeeObjectByID,
   getEmployeeObjectByIDList,
   createEmployee,
   createEmployees,
   getEmployeeObjectsByPagination,
+  deleteEmployee,
 };

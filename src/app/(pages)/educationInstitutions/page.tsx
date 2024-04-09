@@ -1,7 +1,6 @@
 /** @format */
 
 "use client";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import DynamicTable from "../../components/DynamicTable";
 
@@ -19,10 +18,10 @@ const ListOfEducationInstitutions = () => {
   };
 
   useEffect(() => {
-    fetch("/api/educationInstitutions").then((res) =>
+    fetch(`/api/educationInstitutions?sort=${sortedBy}`).then((res) =>
       res.json().then(setEducationInstitutions)
     );
-  }, []);
+  }, [sortedBy]);
 
   type EducationInstitution = {
     name: string;

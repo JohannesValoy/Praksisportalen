@@ -28,7 +28,7 @@ const ListOfUsers = ({ role }: { role: string }) => {
   };
 
   return (
-    <main className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+    <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <UniversalList
         rows={users}
         setRows={setUsers}
@@ -48,7 +48,7 @@ const ListOfUsers = ({ role }: { role: string }) => {
         setSortedBy={setSortedBy}
         url="/api/users/"
       />
-    </main>
+    </div>
   );
 };
 

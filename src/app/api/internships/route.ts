@@ -2,15 +2,16 @@
 
 import DBclient from "@/knex/config/DBClient";
 
-import { PageResponse, UserPageRequest } from "@/app/_models/pageinition";
 import { NextRequest } from "next/server";
 
+import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
+import { getInternshipPositionObjectByPageRequest } from "@/services/InternshipPosition";
+
 export async function GET(request: NextRequest) {
-  const pageRequest = UserPageRequest.fromRequest(request);
-  const internships = await DBclient.from("internships")
-    .select("*")
-    .orderBy(pageRequest.sort);
-  return Response.json(new PageResponse(pageRequest, internships));
+  const pageRequest = InternshipPaginationRequest.fromRequest(request);
+  return Response.json(
+    await getInternshipPositionObjectByPageRequest(pageRequest)
+  );
 }
 
 export async function POST(request: Request) {

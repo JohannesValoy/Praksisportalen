@@ -21,6 +21,7 @@
     "next-themes": "^0.3.0",
     "oracledb": "^6.4.0",
     "pg-query-stream": "^4.5.3",
+    "prettier": "^3.2.5",
     "react": "^18",
     "react-dom": "^18",
     "react-google-charts": "^4.0.1",

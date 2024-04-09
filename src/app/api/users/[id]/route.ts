@@ -1,7 +1,6 @@
 /** @format */
 
 import DBclient from "@/knex/config/DBClient";
-import UserJson from "../UserView";
 import { NextRequest } from "next/server";
 
 export async function GET(

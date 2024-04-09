@@ -3,16 +3,15 @@
 
 "use client";
 import React, { useState, useEffect } from "react";
-import UserView from "../api/users/UserView";
 import UniversalList from "./DynamicTable";
 
 const ListOfUsers = ({ role }: { role: string }) => {
-  const [users, setUsers] = useState<UserView[]>([]);
-  const [selectedRows, setSelectedRows] = useState<UserView[]>([]);
+  const [users, setUsers] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
   const headers = { Name: "name", Email: "email" };
   const [sortedBy, setSortedBy] = useState<string>("name");
   useEffect(() => {
-    fetch(`/api/users?role=${role}&sort=${sortedBy}`) // Adjusted the fetch URL to match backend routing.
+    fetch(`/api/${role}s?sort=${sortedBy}`) // Adjusted the fetch URL to match backend routing.
       .then((res) => res.json())
       .then((data) => {
         setUsers(data.elements);

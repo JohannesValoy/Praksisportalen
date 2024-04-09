@@ -1,20 +1,20 @@
 /** @format */
-  interface UserAttributes {
-    id?: string;
-    name: string;
-    email: string;
-    created_at?: Date;
-    updated_at?: Date;
-  }
+//DO NOT REMOVE THE FOLLOWING IMPORT, IT IS NEEDED FOR TYPE DECLARATIONS
+import { Knex } from "knex";
+interface UserAttributes {
+  id?: string;
+  name: string;
+  email: string;
+  created_at?: Date;
+  updated_at?: Date;
+}
 
 declare module "knex/types/tables.js" {
-
   interface EmployeeTable extends CoordinatorTable {
     role: string;
   }
 
-  interface StudentTable extends UserAttributes{
-  }
+  interface StudentTable extends UserAttributes {}
 
   interface CoordinatorTable extends UserAttributes {
     password: string;
@@ -88,7 +88,7 @@ declare module "knex/types/tables.js" {
     updated_at: Date;
   }
   interface Tables {
-    employees: EmployeeTable
+    employees: EmployeeTable;
     students: StudentTable;
     departments: DepartmentTable;
     sectionTypes: SectionType;

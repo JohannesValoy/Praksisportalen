@@ -1,4 +1,6 @@
 import { EmployeeTable } from "knex/types/tables.js";
+import { PageRequest } from "./pageinition";
+import { NextRequest } from "next/server";
 /**
  * A class representing a Employee
  */
@@ -36,4 +38,41 @@ class EmployeeObject implements EmployeeTable {
     }
 }
 
-export default EmployeeObject;
+class EmployeePaginationRequest extends PageRequest {
+    private _name: string;
+    private _email: string;
+    private _role: string;
+
+    constructor(page, size, sort = "id", name = "", role = "", email = "") {
+        super(page, size);
+        if (["name", "email", "role"].includes(sort)) {
+            this.sort = sort;
+        }
+        this._name = name;
+        this._email = email;
+        this._role = role;
+    }
+
+    static fromRequest(request : NextRequest) {
+        const pageRequest = super.fromRequest(request);
+        const name = request.nextUrl.searchParams.get("name") || "";
+        const email = request.nextUrl.searchParams.get("email") || "";
+        const role = request.nextUrl.searchParams.get("role") || "";
+        const sort = request.nextUrl.searchParams.get("sort") || "id";
+        return new EmployeePaginationRequest(pageRequest.page, pageRequest.size, sort, name, role, email);
+    }
+
+    get name() {
+        return this._name;
+    }
+
+    get email() {
+        return this._email;
+    }
+
+    get role() {
+        return this._role;
+    }
+}
+
+export {EmployeeObject, EmployeePaginationRequest};

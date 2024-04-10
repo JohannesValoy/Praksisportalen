@@ -89,6 +89,7 @@ declare module "knex/types/tables.js" {
   }
   interface Tables {
     employees: EmployeeTable;
+    coordinators: CoordinatorTable;
     students: StudentTable;
     departments: DepartmentTable;
     sectionTypes: SectionType;

@@ -55,9 +55,9 @@ class EmployeePaginationRequest extends PageRequest {
 
   static fromRequest(request: NextRequest) {
     const pageRequest = super.fromRequest(request);
-    const name = request.nextUrl.searchParams.get("name") || "";
-    const email = request.nextUrl.searchParams.get("email") || "";
-    const role = request.nextUrl.searchParams.get("role") || "";
+    const name = request.nextUrl.searchParams.get("name");
+    const email = request.nextUrl.searchParams.get("email");
+    const role = request.nextUrl.searchParams.get("role");
     const sort = request.nextUrl.searchParams.get("sort") || "id";
     return new EmployeePaginationRequest(
       pageRequest.page,
@@ -65,7 +65,7 @@ class EmployeePaginationRequest extends PageRequest {
       sort,
       name,
       role,
-      email,
+      email
     );
   }
 

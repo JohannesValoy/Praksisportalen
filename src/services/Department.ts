@@ -1,3 +1,5 @@
+/** @format */
+
 import DBclient from "@/knex/config/DBClient";
 import DepartmentObject, {
   DepartmentPageRequest,
@@ -18,7 +20,7 @@ async function getDepartmentObjectByID(id: number): Promise<DepartmentObject> {
 }
 
 async function getDepartmentObjectByIDList(
-  idList: number[],
+  idList: number[]
 ): Promise<Map<number, DepartmentObject>> {
   const query = await DBclient.select()
     .from<DepartmentTable>("departments")
@@ -26,22 +28,22 @@ async function getDepartmentObjectByIDList(
   const departments: Map<number, DepartmentObject> = new Map();
   const employees: Map<string, EmployeeObject> =
     await getEmployeeObjectByIDList(
-      query.map((department) => department.employee_id),
+      query.map((department) => department.employee_id)
     );
   query.forEach((department) => {
     departments.set(
       department.id,
-      new DepartmentObject(department, employees.get(department.employee_id)),
+      new DepartmentObject(department, employees.get(department.employee_id))
     );
   });
   return departments;
 }
 
 async function getDepartmentPageByPageRequest(
-  pageRequest: DepartmentPageRequest,
+  pageRequest: DepartmentPageRequest
 ): Promise<PageResponse<DepartmentObject>> {
-  const baseQuery = await DBclient.select("")
-    .from<DepartmentTable>("departments")
+  const baseQuery = await DBclient.from("employees")
+    .innerJoin("departments", "employees.id", "departments.employee_id")
     .where((builder) => {
       if (pageRequest.hasEmployeeID != -1) {
         builder.where("employee_id", pageRequest.hasEmployeeID);
@@ -59,28 +61,29 @@ async function getDepartmentPageByPageRequest(
       }
     })
     .orderBy(pageRequest.sort);
+  console.log(baseQuery);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   return new PageResponse<DepartmentObject>(
     pageRequest,
     await createDepartmentObject(pageQuery),
-    baseQuery.length,
+    baseQuery.length
   );
 }
 
 async function createDepartmentObject(
-  query: DepartmentTable[],
+  query: DepartmentTable[]
 ): Promise<DepartmentObject[]> {
   const departments: DepartmentObject[] = [];
   const employees: Map<string, EmployeeObject> =
     await getEmployeeObjectByIDList(
-      query.map((department) => department.employee_id),
+      query.map((department) => department.employee_id)
     );
   query.forEach((department) => {
     departments.push(
-      new DepartmentObject(department, employees.get(department.employee_id)),
+      new DepartmentObject(department, employees.get(department.employee_id))
     );
   });
   return departments;

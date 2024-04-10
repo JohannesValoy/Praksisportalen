@@ -28,7 +28,7 @@ function DynamicTable({
     const isSelected = selectedRows.includes(row);
     if (isSelected) {
       setSelectedRows(
-        selectedRows.filter((selectedRow) => selectedRow !== row),
+        selectedRows.filter((selectedRow) => selectedRow !== row)
       );
     } else {
       setSelectedRows([...selectedRows, row]);
@@ -53,21 +53,21 @@ function DynamicTable({
           .catch((error) => {
             console.error(error);
             return { success: false, id: row.id };
-          }),
-      ),
+          })
+      )
     ).then((results) => {
       const failedDeletes = results.filter((result) => !result.success);
       if (failedDeletes.length > 0) {
         alert(
           `Failed to delete rows with ids ${failedDeletes
             .map((result) => result.id)
-            .join(", ")}`,
+            .join(", ")}`
         );
       } else {
         setRows(
           normalizedRows.filter(
-            (currRow) => !selectedRows.find((row) => row.id === currRow.id),
-          ),
+            (currRow) => !selectedRows.find((row) => row.id === currRow.id)
+          )
         );
       }
     });
@@ -122,7 +122,7 @@ function DynamicTable({
               {headerTitles.map((title, index) => (
                 <th key={index}>
                   <div
-                    onClick={() => setSortedBy(title.toLowerCase())}
+                    onClick={() => setSortedBy(headerTitles[title])}
                     className="btn btn-ghost btn-xs"
                   >
                     {title}

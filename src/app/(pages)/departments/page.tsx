@@ -9,7 +9,7 @@ const ListOfDepartments = () => {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [selectedRows, setSelectedRows] = useState<Department[]>([]);
   const headers = { Name: "name", Email: "email" };
-  const [sortedBy, setSortedBy] = useState<string>("name");
+  const [sortedBy, setSortedBy] = useState<string>("departments.name");
   const clickableColumns = {
     //TODO update this once the api is finished
     email: (row) => {
@@ -18,7 +18,9 @@ const ListOfDepartments = () => {
   };
 
   useEffect(() => {
-    fetch(`/api/departments?sort=${sortedBy}`)
+    const url = `/api/departments?sort=${sortedBy}`;
+    console.log(`Fetching by link  ${url}azure`);
+    fetch(url)
       .then((res) => res.json())
       .then((data) => {
         const modifiedData = data.elements.map((department: any) => ({
@@ -30,7 +32,7 @@ const ListOfDepartments = () => {
         setDepartments(modifiedData);
       })
       .catch((error) => console.error("Failed to fetch departments", error));
-  }, []);
+  }, [sortedBy]);
 
   console.log(departments);
   return (
@@ -51,7 +53,7 @@ const ListOfDepartments = () => {
             window.location.href = `/departments/addDepartment`;
           }}
           setSortedBy={setSortedBy}
-          url="/api/departments/"
+          url="/api/departments"
           setRows={setDepartments}
           clickableColumns={clickableColumns}
         />

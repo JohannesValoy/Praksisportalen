@@ -34,7 +34,6 @@ export class PageRequest {
     const size = request.nextUrl.searchParams.get("size")
       ? parseInt(request.nextUrl.searchParams.get("size"))
       : 10;
-    const sort = request.nextUrl.searchParams.get("sort");
     return new PageRequest(page, size);
   }
 }

@@ -10,10 +10,10 @@ import { EducationInstitutionTable } from "knex/types/tables.js";
 import "server-only";
 
 async function getEducationInstitutionByID(
-  id: number,
+  id: number
 ): Promise<EducationInstitutionObject> {
   const institute = (await getEducationInstitutionByIDList(new Set([id]))).get(
-    id,
+    id
   );
   if (institute == undefined) {
     throw new Error("Education Institution not found");
@@ -22,7 +22,7 @@ async function getEducationInstitutionByID(
 }
 
 async function getEducationInstitutionByIDList(
-  idList: Set<number>,
+  idList: Set<number>
 ): Promise<Map<number, EducationInstitutionObject>> {
   const query = await DBclient.select()
     .from<EducationInstitutionTable>("educationInstitutions")
@@ -32,14 +32,14 @@ async function getEducationInstitutionByIDList(
   for (const educationInstitution of query) {
     educationInstitutions.set(
       educationInstitution.id,
-      new EducationInstitutionObject(educationInstitution),
+      new EducationInstitutionObject(educationInstitution)
     );
   }
   return educationInstitutions;
 }
 
 async function getEducationInstitutionsByPageRequest(
-  pageRequest: EducationInstitutionPageRequest,
+  pageRequest: EducationInstitutionPageRequest
 ) {
   const baseQuery = await DBclient.select("")
     .from<EducationInstitution>("educationInstitutions")
@@ -51,25 +51,29 @@ async function getEducationInstitutionsByPageRequest(
     .orderBy(pageRequest.sort);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   return new PageResponse<EducationInstitutionObject>(
     pageRequest,
     await createEducationInstitutionObject(pageQuery),
-    baseQuery.length,
+    baseQuery.length
   );
 }
 
 async function createEducationInstitutionObject(
-  query: EducationInstitution[],
+  query: EducationInstitution[]
 ): Promise<EducationInstitutionObject[]> {
   const educationInstitutions = [];
   query.forEach((educationInstitution) => {
     educationInstitutions.push(
-      new EducationInstitutionObject(educationInstitution),
+      new EducationInstitutionObject(educationInstitution)
     );
   });
   return educationInstitutions;
 }
 
-export { getEducationInstitutionByID, getEducationInstitutionByIDList };
+export {
+  getEducationInstitutionByID,
+  getEducationInstitutionByIDList,
+  getEducationInstitutionsByPageRequest,
+};

@@ -18,16 +18,16 @@ const ListOfEducationInstitutions = () => {
   };
 
   useEffect(() => {
-    fetch(`/api/educationInstitutions?sort=${sortedBy}`).then((res) =>
-      res.json().then(setEducationInstitutions),
-    );
+    fetch(`/api/educationInstitutions?sort=${sortedBy}`)
+      .then((res) => res.json())
+      .then((data) => setEducationInstitutions(data.elements));
   }, [sortedBy]);
 
   type EducationInstitution = {
     name: string;
     id: string;
   };
-
+  console.log(educationInstitutions);
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <DynamicTable

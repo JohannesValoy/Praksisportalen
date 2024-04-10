@@ -1,18 +1,20 @@
 /** @format */
 
-import { SectionPageRequest } from "@/app/_models/Section";
-import { getSectionsByPageRequest } from "@/services/Section";
+import { EducationInstitutionPageRequest } from "@/app/_models/EducationInstitution";
+import { getEducationInstitutionsByPageRequest } from "@/services/EducationInstitute";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const pageRequest = SectionPageRequest.fromRequest(request);
-  return Response.json(await getSectionsByPageRequest(pageRequest));
+  const pageRequest = EducationInstitutionPageRequest.fromRequest(request);
+  return Response.json(
+    await getEducationInstitutionsByPageRequest(pageRequest)
+  );
 }
 
 export async function POST(request: Request) {
   const { name } = await request.json();
   const newEducationInstitution = await DBclient.table(
-    "educationInstitutions",
+    "educationInstitutions"
   ).insert({
     name,
   });

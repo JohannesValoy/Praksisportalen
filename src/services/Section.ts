@@ -20,7 +20,7 @@ async function getSectionObjectByID(id: number): Promise<SectionObject> {
 }
 
 async function getSectionObjectByIDList(
-  idList: number[],
+  idList: number[]
 ): Promise<Map<number, SectionObject>> {
   const query = await DBclient.select()
     .from<Section>("sections")
@@ -51,17 +51,17 @@ async function getSectionsByPageRequest(pageRequest: SectionPageRequest) {
     .orderBy(pageRequest.sort);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   return new PageResponse<SectionObject>(
     pageRequest,
     await createSectionObject(pageQuery),
-    baseQuery.length,
+    baseQuery.length
   );
 }
 
 async function createSectionObject(query: Section[]): Promise<SectionObject[]> {
-  const employeesPromise: Promise<Map<number, EmployeeObject>> =
+  const employeesPromise: Promise<Map<string, EmployeeObject>> =
     getEmployeeObjectByIDList(query.map((section) => section.employee_id));
   const internshipsPromise: Promise<Map<number, InternshipPositionObject[]>> =
     getInternshipPositionObjectBySectionID(query.map((section) => section.id));
@@ -77,8 +77,8 @@ async function createSectionObject(query: Section[]): Promise<SectionObject[]> {
       new SectionObject(
         section,
         employees?.get(section.employee_id),
-        internships?.get(section.id),
-      ),
+        internships?.get(section.id)
+      )
     );
   });
   return sections;

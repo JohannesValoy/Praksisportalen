@@ -1,3 +1,5 @@
+/** @format */
+
 import { Department } from "knex/types/tables.js";
 import EmployeeObject from "./Employee";
 import { PageRequest } from "./pageinition";
@@ -57,14 +59,23 @@ export class DepartmentPageRequest extends PageRequest {
   constructor(
     page: number,
     size: number,
-    sort: string,
+    sort: string = "departments.name",
     hasEmployeeID: number,
     hasSectionID: number,
-    containsName: string,
+    containsName: string
   ) {
     super(page, size);
-    if (["name", "created_at", "updated_at"].includes(sort)) {
+    if (
+      [
+        "departments.name",
+        "employees.email",
+        "created_at",
+        "updated_at",
+      ].includes(sort)
+    ) {
       this.sort = sort;
+    } else {
+      this.sort = "departments.id";
     }
     this._hasEmployeeID = hasEmployeeID;
     this._hasSectionID = hasSectionID;
@@ -93,7 +104,7 @@ export class DepartmentPageRequest extends PageRequest {
       sort,
       hasEmployeeID,
       hasSectionID,
-      containsName,
+      containsName
     );
   }
   /**

@@ -35,8 +35,8 @@ async function getDepartmentObjectByIDList(
 async function getDepartmentPageByPageRequest(
   pageRequest: DepartmentPageRequest
 ): Promise<PageResponse<DepartmentObject>> {
-  const baseQuery = await DBclient.select("")
-    .from<DepartmentTable>("departments")
+  const baseQuery = await DBclient.from("employees")
+    .innerJoin("departments", "employees.id", "departments.employee_id")
     .where((builder) => {
       if (pageRequest.hasEmployeeID != -1) {
         builder.where("employee_id", pageRequest.hasEmployeeID);
@@ -54,6 +54,7 @@ async function getDepartmentPageByPageRequest(
       }
     })
     .orderBy(pageRequest.sort);
+  console.log(baseQuery);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
     (pageRequest.page + 1) * pageRequest.size

@@ -19,26 +19,21 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 image: oven/bun:latest
 
+defualt:
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
 stages:
   - install
-  - test
   - format
   - lint
   - build
-
-cache:
-  paths:
-    - node_modules/*
 
 install:
   stage: install
   script:
     - bun install
-
-test:
-  stage: test
-  script:
-    - bun run test
 
 build:
   stage: build

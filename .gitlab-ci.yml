@@ -20,17 +20,19 @@
 image: node:latest
 
 stages:
+  - lint
+  - build
   - test
 
 cache:
   paths:
     - node_modules/
 
-# lint:
-#   stage: lint
-#   script:
-#     - npm install
-#     - npm run lint
+lint:
+  stage: lint
+  script:
+    - npm install
+    - npm run lint
 
 format:
   stage: lint

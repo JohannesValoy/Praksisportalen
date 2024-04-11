@@ -34,6 +34,12 @@ lint:
     - npm install
     - npm run lint
 
+format:
+  stage: lint
+  script:
+    - npm ci
+    - npm run format
+
 build:
   stage: build
   script:

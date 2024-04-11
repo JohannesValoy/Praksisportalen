@@ -1,10 +1,12 @@
+/** @format */
+
 import { NextRequest } from "next/server";
 import { PageRequest } from "./pageinition";
-import { Internship } from "knex/types/tables.js";
+import { InternshipTable } from "knex/types/tables.js";
 /**
  * InternshipPositionObject is a class that represents an Internship object.
  */
-class InternshipPositionObject implements Internship {
+class InternshipPositionObject implements InternshipTable {
   id: number;
   name: string;
   internship_field: string;
@@ -16,7 +18,7 @@ class InternshipPositionObject implements Internship {
   created_at: Date;
   updated_at: Date;
 
-  constructor(query: Internship) {
+  constructor(query: InternshipTable) {
     this.id = query.id;
     this.name = query.name;
     this.internship_field = query.internship_field;
@@ -69,7 +71,7 @@ export class InternshipPaginationRequest extends PageRequest {
     sort: string = "id",
     section_id: number[] = [],
     yearOfStudy: number[] = [],
-    field: string = "",
+    field: string = ""
   ) {
     super(page, size);
     this.section_id = section_id;
@@ -103,7 +105,7 @@ export class InternshipPaginationRequest extends PageRequest {
       page.sort,
       section_id,
       yearOfStudy,
-      field,
+      field
     );
   }
 }

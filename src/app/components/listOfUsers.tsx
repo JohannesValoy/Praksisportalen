@@ -18,7 +18,7 @@ const ListOfUsers = ({ role }: { role: string }) => {
         setUsers(data.elements);
       }) // Ensure proper data handling.
       .catch((error) => console.error("Failed to fetch users", error)); // Error handling.
-  }, [role, sortedBy]); // Added sortedBy to the dependency array.
+  }, [role, sortedBy, url]); // Added sortedBy to the dependency array.
   const handleEmailClick = (row) => {
     window.location.href = `/profile?id=${row.id}`;
   };

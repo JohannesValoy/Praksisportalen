@@ -1,6 +1,6 @@
 /** @format */
 
-import { StudyProgram } from "knex/types/tables.js";
+import { StudyProgramTable } from "knex/types/tables.js";
 
 class StudyProgramView {
   id: number;
@@ -10,7 +10,7 @@ class StudyProgramView {
   created_at: Date;
   updated_at: Date;
 
-  constructor(studyProgram: StudyProgram) {
+  constructor(studyProgram: StudyProgramTable) {
     this.id = studyProgram.id;
     this.name = studyProgram.name;
     this.educationInstitution_id = studyProgram.educationInstitution_id;

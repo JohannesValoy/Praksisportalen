@@ -1,6 +1,6 @@
 /** @format */
 
-import { Section } from "knex/types/tables.js";
+import { SectionTable } from "knex/types/tables.js";
 
 class SectionView {
   id: number;
@@ -12,7 +12,11 @@ class SectionView {
   updated_at: Date;
   employee_email: string; // Add this line
 
-  constructor(section: Section & { employee_email: string }) {
+  constructor(
+    section: SectionTable & { employee_email: string } & { type: string } & {
+      department_id: number;
+    } & { employee_id: number }
+  ) {
     // Modify this line
     this.id = section.id;
     this.name = section.name;

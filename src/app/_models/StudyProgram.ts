@@ -1,9 +1,11 @@
-import { StudyProgram } from "knex/types/tables.js";
+/** @format */
+
+import { StudyProgramTable } from "knex/types/tables.js";
 import EducationInstitutionObject from "./EducationInstitution";
 /**
  * A class representing a StudyProgram
  */
-class StudyProgramObject implements StudyProgram {
+class StudyProgramObject implements StudyProgramTable {
   id: number;
   name: string;
   educationInstitution_id: number;
@@ -16,8 +18,8 @@ class StudyProgramObject implements StudyProgram {
    * @param educationInstitution EducationInstitution object
    */
   constructor(
-    query: StudyProgram,
-    educationInstitution: EducationInstitutionObject,
+    query: StudyProgramTable,
+    educationInstitution: EducationInstitutionObject
   ) {
     this.id = query.id;
     this.name = query.name;

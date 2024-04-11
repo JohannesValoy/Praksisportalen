@@ -40,5 +40,4 @@ next-env.d.ts
 
 # bun and npm
 npm-debug.log
-bun.lockb
 package-lock.json

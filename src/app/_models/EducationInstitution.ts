@@ -65,7 +65,7 @@ export class EducationInstitutionPageRequest extends PageRequest {
       pageRequest.page,
       pageRequest.size,
       sort,
-      containsName
+      containsName,
     );
   }
 }

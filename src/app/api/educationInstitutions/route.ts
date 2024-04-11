@@ -8,14 +8,14 @@ import { NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
   const pageRequest = EducationInstitutionPageRequest.fromRequest(request);
   return Response.json(
-    await getEducationInstitutionsByPageRequest(pageRequest)
+    await getEducationInstitutionsByPageRequest(pageRequest),
   );
 }
 
 export async function POST(request: Request) {
   const { name } = await request.json();
   const newEducationInstitution = await DBclient.table(
-    "educationInstitutions"
+    "educationInstitutions",
   ).insert({
     name,
   });

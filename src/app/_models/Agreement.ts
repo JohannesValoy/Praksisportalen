@@ -22,7 +22,7 @@ class InternshipAgreementObject implements InternshipAgreementTable {
   constructor(
     agreement: InternshipAgreementTable,
     studyProgram: StudyProgramObject,
-    interShip: InternshipPositionObject
+    interShip: InternshipPositionObject,
   ) {
     this._id = agreement.id;
     this._status = agreement.status;

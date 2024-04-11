@@ -1,3 +1,5 @@
+/** @format */
+
 import NextAuth, { NextAuthOptions } from "next-auth";
 import KnexAdapter from "./_adapter/dbadapter";
 import DBclient from "@/knex/config/DBClient";

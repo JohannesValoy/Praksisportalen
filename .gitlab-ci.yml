@@ -20,9 +20,10 @@
 image: oven/bun:latest
 
 stages:
-  - lint
   - build
   - test
+  - format
+  - lint
 
 cache:
   paths:

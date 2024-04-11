@@ -15,7 +15,7 @@ class SectionView {
   constructor(
     section: SectionTable & { employee_email: string } & { type: string } & {
       department_id: number;
-    } & { employee_id: number }
+    } & { employee_id: number },
   ) {
     // Modify this line
     this.id = section.id;

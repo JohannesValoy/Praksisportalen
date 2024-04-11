@@ -42,7 +42,8 @@ export default function KnexAdapter(client: Knex): Adapter {
         const users = results
           .filter((result) => result.status === "fulfilled")
           .map(
-            (result) => (result as PromiseFulfilledResult<UserAttributes>).value
+            (result) =>
+              (result as PromiseFulfilledResult<UserAttributes>).value,
           )
           .filter((user) => user != null);
         const user = results.length > 0 ? users[0] || null : null;
@@ -70,7 +71,8 @@ export default function KnexAdapter(client: Knex): Adapter {
         const users = results
           .filter((result) => result.status === "fulfilled")
           .map(
-            (result) => (result as PromiseFulfilledResult<UserAttributes>).value
+            (result) =>
+              (result as PromiseFulfilledResult<UserAttributes>).value,
           )
           .filter((user) => user != null);
         const user = results.length > 0 ? users[0] || null : null;
@@ -96,7 +98,8 @@ export default function KnexAdapter(client: Knex): Adapter {
         const users = results
           .filter((result) => result.status === "fulfilled")
           .map(
-            (result) => (result as PromiseFulfilledResult<UserAttributes>).value
+            (result) =>
+              (result as PromiseFulfilledResult<UserAttributes>).value,
           )
           .filter((user) => user != null);
         const user = results == null ? null : users[0] || null;
@@ -113,10 +116,10 @@ export default function KnexAdapter(client: Knex): Adapter {
       return;
     },
     async getSessionAndUser(
-      sessionToken
+      sessionToken,
     ): Promise<{ session: AdapterSession; user: AdapterUser } | null> {
       return Promise.resolve(
-        DBclient.select().from("sessions").where("sessionToken", sessionToken)
+        DBclient.select().from("sessions").where("sessionToken", sessionToken),
       ).then<{ session: AdapterSession; user: AdapterUser } | null>(
         async (results) => {
           const session = results.length > 0 ? results[0] || null : null;
@@ -128,7 +131,7 @@ export default function KnexAdapter(client: Knex): Adapter {
             session: sessionToAdapterSession(session),
             user: fromUserToUserAdapter(user[0]),
           };
-        }
+        },
       );
     },
     async deleteSession(sessionToken) {
@@ -136,7 +139,7 @@ export default function KnexAdapter(client: Knex): Adapter {
         DBclient("sessions")
           .where("sessionToken", sessionToken)
           .del()
-          .returning("*")
+          .returning("*"),
       ).then<AdapterSession | null>((results) => {
         if (results.length == 0) return null;
         return sessionToAdapterSession(results[0]);

@@ -39,7 +39,7 @@ class CoordinatorPageRequest extends PageRequest {
     size: number,
     sort: string = "id",
     name: string = "",
-    email: string = ""
+    email: string = "",
   ) {
     super(page, size);
     if (["name", "email"].includes(sort)) {

@@ -20,7 +20,7 @@ async function createCoordinators(coordinators: CoordinatorTable[]) {
 }
 
 async function getCoordinatorsByPageRequest(
-  pageRequest: CoordinatorPageRequest
+  pageRequest: CoordinatorPageRequest,
 ) {
   const baseQuery = await DBclient.select("")
     .from("coordinators")

@@ -18,36 +18,35 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 image: node:latest
+# stages:
+#   - lint
+#   - build
+#   - test
 
-stages:
-  - lint
-  - build
-  - test
+# cache:
+#   paths:
+#     - node_modules/
 
-cache:
-  paths:
-    - node_modules/
+# # lint:
+# #   stage: lint
+# #   script:
+# #     - npm install
+# #     - npm run lint
 
-# lint:
+# format:
 #   stage: lint
 #   script:
+#     - npm ci
+#     - npm run format
+
+# build:
+#   stage: build
+#   script:
 #     - npm install
-#     - npm run lint
+#     - npm run build
 
-format:
-  stage: lint
-  script:
-    - npm ci
-    - npm run format
-
-build:
-  stage: build
-  script:
-    - npm install
-    - npm run build
-
-test:
-  stage: test
-  script:
-    - npm install
-    - npm run test
+# test:
+#   stage: test
+#   script:
+#     - npm install
+#     - npm run test

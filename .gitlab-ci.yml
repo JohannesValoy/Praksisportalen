@@ -37,7 +37,7 @@ lint:
 format:
   stage: lint
   script:
-    - npm ci
+    - npm install
     - npm run format
 
 build:

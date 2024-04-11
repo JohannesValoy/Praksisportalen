@@ -1,30 +1,29 @@
 /** @format */
+//DO NOT REMOVE THE FOLLOWING IMPORT, IT IS NEEDED FOR TYPE DECLARATIONS
+import { Knex } from "knex";
+interface UserAttributes {
+  id?: string;
+  name: string;
+  email: string;
+  created_at?: Date;
+  updated_at?: Date;
+}
 
 declare module "knex/types/tables.js" {
-  interface UserTable {
-    id: number;
-    name: string;
-    email: string;
-    password: string;
+  interface EmployeeTable extends CoordinatorTable {
     role: string;
-    created_at: Date;
-    updated_at: Date;
   }
 
-  interface Account {
-    id: number;
-    type: string;
-    provider: string;
-    providerAccountID: string;
-    user_id: number;
-    created_at: Date;
-    updated_at: Date;
+  interface StudentTable extends UserAttributes {}
+
+  interface CoordinatorTable extends UserAttributes {
+    password: string;
   }
 
-  interface Department {
+  interface DepartmentTable {
     id: number;
     name: string;
-    employee_id: number;
+    employee_id: string;
     created_at: Date;
     updated_at: Date;
   }
@@ -32,20 +31,22 @@ declare module "knex/types/tables.js" {
   interface SectionType {
     name: string;
   }
-  interface Section {
+
+  interface SectionTable {
     id: number;
     name: string;
     section_type: string;
-    employee_id: number;
+    employee_id: string;
     department_id: number;
     created_at: Date;
     updated_at: Date;
   }
 
-  interface InternshipField {
+  interface InternshipFieldTable {
     name: string;
   }
-  interface Internship {
+
+  interface InternshipTable {
     id: number;
     name: string;
     internship_field: string;
@@ -57,14 +58,15 @@ declare module "knex/types/tables.js" {
     created_at: Date;
     updated_at: Date;
   }
-  interface EducationInstitution {
+
+  interface EducationInstitutionTable {
     id: number;
     name: string;
     created_at: Date;
     updated_at: Date;
   }
 
-  interface StudyProgram {
+  interface StudyProgramTable {
     id: number;
     name: string;
     educationInstitution_id: number;
@@ -72,29 +74,30 @@ declare module "knex/types/tables.js" {
     updated_at: Date;
   }
 
-  interface InternshipAgreement {
+  interface InternshipAgreementTable {
     id: number;
     status: string;
     startDate: Date;
     endDate: Date;
-    student_id: number;
-    internship_id: number;
+    student_id: string;
+    coordinator_id: string;
     studyProgram_id: number;
+    internship_id: number;
     comment: string;
     created_at: Date;
     updated_at: Date;
   }
-
   interface Tables {
-    users: UserTable;
-    departments: Department;
-    accounts: Account;
+    employees: EmployeeTable;
+    coordinators: CoordinatorTable;
+    students: StudentTable;
+    departments: DepartmentTable;
     sectionTypes: SectionType;
-    sectors: Section;
-    internshipFields: InternshipField;
-    internships: Internship;
-    educationInstitutions: EducationInstitution;
-    studyPrograms: StudyProgram;
-    internshipAgreements: InternshipAgreement;
+    sections: SectionTable;
+    internshipFields: InternshipFieldTable;
+    internships: InternshipTable;
+    educationInstitutions: EducationInstitutionTable;
+    studyPrograms: StudyProgramTable;
+    internshipAgreements: InternshipAgreementTable;
   }
 }

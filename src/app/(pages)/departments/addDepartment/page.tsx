@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 export default function Page() {
   const router = useRouter();
 
-  const [name, setname] = useState("");
+  const [name, setName] = useState("");
   const [employee_id, setEmployee_id] = useState("");
 
   const [users, setUsers] = useState<User[]>([]);
@@ -25,8 +25,6 @@ export default function Page() {
       .then((data) => setUsers(data.elements)) // Ensure proper data handling.
       .catch((error) => console.error("Failed to fetch users", error)); // Error handling.
   }, []);
-  console.log(users);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -46,18 +44,22 @@ export default function Page() {
   const selectedUser = users.find((user) => user.id === employee_id);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full">
+    <form
+      className="flex flex-col items-center justify-center w-full h-full"
+      onSubmit={handleSubmit}
+    >
       <div className="justify-center items-center" style={{ width: "50rem" }}>
         <h1>Add Department</h1>
-        <label className="form-control w-full ">
+        <label className="form-control ">
           <div className="label">
-            <span className="label-text">Department Name</span>
+            <span className="label-text">First Name</span>
           </div>
           <input
-            type="text"
-            placeholder="Department Name"
+            type="name"
+            placeholder="First Name"
             className="input input-bordered w-full"
-            onChange={(e) => setname(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
+            required
           />
         </label>
         <div className="flex flex-row m-1 gap-2">
@@ -124,11 +126,11 @@ export default function Page() {
           <button className="btn w-20" onClick={() => router.back()}>
             Cancel
           </button>
-          <button className="btn btn-primary w-20" onClick={handleSubmit}>
+          <button className="btn btn-primary w-20" type="submit">
             Save
           </button>
         </div>
       </div>
-    </div>
+    </form>
   );
 }

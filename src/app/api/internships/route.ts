@@ -2,12 +2,18 @@
 
 import DBclient from "@/knex/config/DBClient";
 
-export async function GET(request: Request) {
-  const internships = await DBclient.from("internships").select("*");
-  return Response.json(internships);
+import { NextRequest } from "next/server";
+
+import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
+import { getInternshipPositionObjectByPageRequest } from "@/services/InternshipPosition";
+
+export async function GET(request: NextRequest) {
+  const pageRequest = InternshipPaginationRequest.fromRequest(request);
+  return Response.json(
+    await getInternshipPositionObjectByPageRequest(pageRequest),
+  );
 }
-debugger;
-console.log("test");
+
 export async function POST(request: Request) {
   const {
     name,
@@ -18,10 +24,9 @@ export async function POST(request: Request) {
     yearOfStudy,
     section_id,
   } = await request.json();
-  console.log(request);
   const internship = await DBclient("internships").insert({
     name,
-    field,
+    internship_field: field,
     maxCapacity,
     currentCapacity,
     numberOfBeds,

@@ -1,12 +1,14 @@
 /** @format */
 
-import DBclient from "@/knex/config/DBClient";
+import { EducationInstitutionPageRequest } from "@/app/_models/EducationInstitution";
+import { getEducationInstitutionsByPageRequest } from "@/services/EducationInstitute";
+import { NextRequest } from "next/server";
 
-export async function GET(request: Request) {
-  const educationInstitutions = await DBclient.from(
-    "educationInstitutions"
-  ).select("*");
-  return Response.json(educationInstitutions);
+export async function GET(request: NextRequest) {
+  const pageRequest = EducationInstitutionPageRequest.fromRequest(request);
+  return Response.json(
+    await getEducationInstitutionsByPageRequest(pageRequest)
+  );
 }
 
 export async function POST(request: Request) {

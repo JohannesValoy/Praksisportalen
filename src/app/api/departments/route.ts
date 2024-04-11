@@ -1,18 +1,20 @@
 /** @format */
 
+import { DepartmentPageRequest } from "@/app/_models/Department";
 import DBClient from "@/knex/config/DBClient";
+import { getDepartmentPageByPageRequest } from "@/services/Department";
+import { NextRequest } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
-    const departments = await DBClient.table("departments")
-      .join("users", "departments.employee_id", "=", "users.id")
-      .select(
-        "departments.*",
-        "users.email as employee_email" // Selecting the employee's email and any other details you need
-      );
-    return new Response(JSON.stringify(departments), {
-      headers: { "Content-Type": "application/json" },
-    });
+    const pageRequest = DepartmentPageRequest.fromRequest(request);
+
+    return new Response(
+      JSON.stringify(await getDepartmentPageByPageRequest(pageRequest)),
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   } catch (error) {
     console.error("Error fetching department data:", error);
     return new Response(
@@ -20,7 +22,7 @@ export async function GET(request: Request) {
       {
         status: 500,
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
   }
 }

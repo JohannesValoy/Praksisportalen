@@ -38,7 +38,7 @@ export default function Page() {
   useEffect(() => {
     fetch(`/api/departments`) // Adjusted the fetch URL to match backend routing.
       .then((res) => res.json())
-      .then((data) => setDepartments(data)) // Ensure proper data handling.
+      .then((data) => setDepartments(data.elements)) // Ensure proper data handling.
       .catch((error) => console.error("Failed to fetch users", error)); // Error handling.
   }, []);
 
@@ -156,7 +156,7 @@ export default function Page() {
             options={departments}
             selectedOption={
               departments.find(
-                (department) => department.id === department_id
+                (department) => department.id === department_id,
               ) || null
             }
             setSelectedOption={(department) => setDepartment_id(department.id)}

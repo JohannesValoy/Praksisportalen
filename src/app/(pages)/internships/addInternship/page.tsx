@@ -33,7 +33,7 @@ export default function Page() {
     const fetchAllData = async () => {
       try {
         const sectionsResponse = await fetch(`/api/sections`).then((res) =>
-          res.json()
+          res.json(),
         );
         setSections(sectionsResponse || []);
       } catch (error) {

@@ -4,10 +4,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import Image from "next/image";
 import ThemeChanger from "./components/ThemeChanger";
 import LogoutButton from "./components/LogoutButton";
 import { getServerSession } from "next-auth";
+import Logo from "../../public/Icons/logo-helse-mr";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -27,14 +27,9 @@ export default async function RootLayout({
       <body className={`${inter.className} flex flex-col`}>
         <header className="flex justify-between bg-base-200 p-4 items-center ">
           <Link href={"/"}>
-            <Image
-              src="/logo-helse-mr.svg"
-              alt="Description"
-              className="h-10 w-auto "
-              width={100}
-              height={300}
-              priority={true} // {false} | {true}
-            />
+            <div className="h-10">
+              <Logo currentColor="currentColor" />
+            </div>
           </Link>
           <div className="flex space-x-6 items-center">
             <Link href="/" className="btn  rounded-btn h-full">
@@ -54,7 +49,11 @@ export default async function RootLayout({
             </div>
           </div>
         </header>
-        <main className="p-4 overflow-y-scroll w-full h-full">{children}</main>
+        <main className="flex p-4 overflow-y-auto w-full h-full bg-base-300 p-15">
+          <div className="bg-base-200 rounded-3xl h-full w-full">
+            {children}
+          </div>
+        </main>
       </body>
     </html>
   );

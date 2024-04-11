@@ -5,7 +5,7 @@ import type { Knex } from "knex";
 export async function up(knex: Knex): Promise<void> {
   return knex.schema
     .createTable("employees", (table) => {
-      table.string("id").primary();
+      table.uuid("id").primary();
       table.string("name").notNullable();
       table.string("email").notNullable().unique();
       table.string("password").notNullable();
@@ -14,14 +14,14 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
     .createTable("students", (table) => {
-      table.string("id").primary();
+      table.uuid("id").primary();
       table.string("name").notNullable();
       table.string("email").notNullable().unique();
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
     .createTable("coordinators", (table) => {
-      table.string("id").primary();
+      table.uuid("id").primary();
       table.string("name").notNullable();
       table.string("email").notNullable().unique();
       table.string("password").notNullable();
@@ -138,6 +138,39 @@ export async function up(knex: Knex): Promise<void> {
       table.time("endTime").notNullable();
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
+    })
+    .createView("usersView", (view) => {
+      view.as(
+        knex
+          .select("id", "name", "email", "role", "created_at", "updated_at")
+          .from("employees")
+          .union(
+            knex.raw(
+              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators'
+            )
+          )
+          .union(
+            knex.raw(
+              'select id, name, email, "student" as role, created_at, updated_at from students'
+            )
+          )
+      );
+    })
+    .then(() => {
+      //TODO: It works, but will cause a infinitely big loop whenever the database has 1B users. Very unlikely to happen, but still a problem.
+      knex.raw(
+        ` CREATE TRIGGER check_email_and_id 
+            BEFORE INSERT ON employees, coordinators, students 
+            FOR EACH ROW 
+            BEGIN
+              if exists (select 1 from users where email = NEW.email) then
+                signal sqlstate '45999' set message_text = 'Email Already exist in user tables' ;
+              end if
+              while exists (select 1 from users where id = NEW.id) do
+                set NEW.id = uuid();
+              end while;
+            END`
+      );
     });
 }
 export async function down(knex: Knex): Promise<void> {

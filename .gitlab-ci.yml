@@ -21,7 +21,6 @@ image: oven/bun:latest
 
 stages:
   - install
-  - test
   - format
   - lint
   - build

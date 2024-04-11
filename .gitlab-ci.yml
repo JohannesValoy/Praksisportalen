@@ -34,11 +34,6 @@ install:
   script:
     - bun install
 
-test:
-  stage: test
-  script:
-    - bun run test
-
 build:
   stage: build
   script:

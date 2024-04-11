@@ -1,5 +1,7 @@
-import { Section } from "knex/types/tables.js";
-import EmployeeObject from "./Employee";
+/** @format */
+
+import { SectionTable } from "knex/types/tables.js";
+import { EmployeeObject } from "./Employee";
 import InternshipPositionObject from "./InternshipPosition";
 import { PageRequest } from "./pageinition";
 import { NextRequest } from "next/server";
@@ -7,10 +9,10 @@ import { NextRequest } from "next/server";
 /**
  * A class representing a Section
  */
-class SectionObject implements Section {
+class SectionObject implements SectionTable {
   id: number;
   name: string;
-  employee_id: number;
+  employee_id: string;
   section_type: string;
   employee: EmployeeObject;
   internships: InternshipPositionObject[];
@@ -24,9 +26,9 @@ class SectionObject implements Section {
    * @param internships Internship objects created from the section_id
    */
   constructor(
-    query: Section,
+    query: SectionTable,
     employee: EmployeeObject,
-    internships: InternshipPositionObject[] = [],
+    internships: InternshipPositionObject[] = []
   ) {
     this.id = query.id;
     this.name = query.name;
@@ -74,7 +76,7 @@ export class SectionPageRequest extends PageRequest {
     sort: string,
     hasEmployeeID: number,
     hasDepartmentID: number,
-    containsName: string,
+    containsName: string
   ) {
     super(page, size);
     if (["name", "created_at", "updated_at"].includes(sort)) {
@@ -108,7 +110,7 @@ export class SectionPageRequest extends PageRequest {
       sort,
       hasEmployeeID,
       hasDepartmentID,
-      containsName,
+      containsName
     );
   }
   /**

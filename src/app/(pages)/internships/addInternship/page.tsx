@@ -28,7 +28,7 @@ export default function Page() {
     const fetchAllData = async () => {
       try {
         const sectionsResponse = await fetch(`/api/sections`).then((res) =>
-          res.json(),
+          res.json()
         );
         setSections(sectionsResponse || []);
       } catch (error) {
@@ -118,10 +118,12 @@ export default function Page() {
         dropdownName="Section"
         options={sections}
         selectedOption={
-          sections.find((currSections) => currSections.id === section_id) ||
-          null
+          sections.find((currSections) => currSections.id === section_id)
+            .toString || null
         }
-        setSelectedOption={(currSections) => setSections_id(currSections.id)}
+        setSelectedOption={(currSections) =>
+          setSections_id(Number(currSections.id))
+        }
         renderOption={(currSections) => <div>{currSections.name}</div>}
       />
       <label className="form-control w-full">

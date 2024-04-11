@@ -1,13 +1,15 @@
-import { InternshipAgreement } from "knex/types/tables.js";
+/** @format */
+
+import { InternshipAgreementTable } from "knex/types/tables.js";
 import StudyProgramObject from "./StudyProgram";
 import InternshipPositionObject from "./InternshipPosition";
 
-class InternshipAgreementObject implements InternshipAgreement {
+class InternshipAgreementObject implements InternshipAgreementTable {
   private _id: number;
   private _status: string;
   startDate: Date;
   endDate: Date;
-  student_id: number;
+  student_id: string;
   internship_id: number;
   studyProgram_id: number;
   studyProgram: StudyProgramObject;
@@ -15,11 +17,12 @@ class InternshipAgreementObject implements InternshipAgreement {
   comment: string;
   created_at: Date;
   updated_at: Date;
+  coordinator_id: string;
 
   constructor(
-    agreement: InternshipAgreement,
+    agreement: InternshipAgreementTable,
     studyProgram: StudyProgramObject,
-    interShip: InternshipPositionObject,
+    interShip: InternshipPositionObject
   ) {
     this._id = agreement.id;
     this._status = agreement.status;
@@ -33,6 +36,7 @@ class InternshipAgreementObject implements InternshipAgreement {
     this.created_at = agreement.created_at;
     this.updated_at = agreement.updated_at;
     this.internship = interShip;
+    this.coordinator_id = agreement.coordinator_id;
   }
 
   get id(): number {

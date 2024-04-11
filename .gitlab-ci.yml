@@ -18,20 +18,22 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
+stages:
+  - install
+  - format
+  - lint
+  - build
+
 default:
-  cache: &global_cache
+  cache:
     key: $CI_COMMIT_REF_SLUG
     paths:
       - node_modules/
       - public/
     policy: pull-push
   image: oven/bun:latest
-
-stages:
-  - install
-  - format
-  - lint
-  - build
+  after_script:
+    - bun run install
 
 install:
   stage: install

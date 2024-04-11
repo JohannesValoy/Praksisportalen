@@ -46,15 +46,16 @@ async function getEmployeeObjectsByPagination(
   const query = await DBclient.select()
     .from<EmployeeTable>("employees")
     .where((builder) => {
-      if(request.name ){
-        builder.where("name", "like", `%${request.name}%`)
+      if (request.name) {
+        builder.where("name", "like", `%${request.name}%`);
       }
-      if(request.email){
-        builder.where("email", "like", `%${request.email}%`)
+      if (request.email) {
+        builder.where("email", "like", `%${request.email}%`);
       }
-      if(request.role){
-        builder.where("role", "like", `%${request.role}%`)
-      }})
+      if (request.role) {
+        builder.where("role", "like", `%${request.role}%`);
+      }
+    })
     .orderBy(request.sort);
   const employees: EmployeeObject[] = [];
   const offset = request.page * request.size;

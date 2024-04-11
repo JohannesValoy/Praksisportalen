@@ -65,7 +65,7 @@ class EmployeePaginationRequest extends PageRequest {
       sort,
       name,
       role,
-      email
+      email,
     );
   }
 

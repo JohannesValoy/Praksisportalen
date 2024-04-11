@@ -62,7 +62,7 @@ export class DepartmentPageRequest extends PageRequest {
     sort: string = "departments.name",
     hasEmployeeID: number,
     hasSectionID: number,
-    containsName: string
+    containsName: string,
   ) {
     super(page, size);
     if (
@@ -104,7 +104,7 @@ export class DepartmentPageRequest extends PageRequest {
       sort,
       hasEmployeeID,
       hasSectionID,
-      containsName
+      containsName,
     );
   }
   /**

@@ -9,7 +9,6 @@ import LogoutButton from "./components/LogoutButton";
 import { getServerSession } from "next-auth";
 import Logo from "../../public/Icons/logo-helse-mr";
 
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -43,7 +42,7 @@ export default async function RootLayout({
               <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-300 rounded-box w-52">
                 <li>
                   <ThemeChanger />
-                   <LogoutButton hide={!(await getServerSession())?.user}/> 
+                  <LogoutButton hide={!(await getServerSession())?.user} />
                 </li>
               </ul>
             </div>

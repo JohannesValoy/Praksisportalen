@@ -7,7 +7,7 @@ export const fetchCache = "force-no-store";
 
 export async function GET(request: NextRequest) {
   const internshipAgreements = await DBclient.from(
-    "internshipAgreements"
+    "internshipAgreements",
   ).select("*");
   return Response.json(internshipAgreements);
 }

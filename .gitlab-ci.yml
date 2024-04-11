@@ -17,7 +17,7 @@
 # https://docs.gitlab.com/ee/development/cicd/templates.html
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
-image: node:latest
+image: oven/bun:latest
 
 stages:
   - lint
@@ -26,28 +26,25 @@ stages:
 
 cache:
   paths:
-    - node_modules/
-
-lint:
-  stage: lint
-  script:
-    - npm install
-    - npm run lint
-
-format:
-  stage: lint
-  script:
-    - npm install
-    - npm run format
-
-build:
-  stage: build
-  script:
-    - npm install
-    - npm run build
+    - node_modules/*
 
 test:
   stage: test
   script:
-    - npm install
-    - npm run test
+    - bun run test
+
+build:
+  stage: build
+  script:
+    - bun install
+    - bun run --target:node build
+
+lint:
+  stage: lint
+  script:
+    - bun run lint
+
+format:
+  stage: lint
+  script:
+    - bun run format

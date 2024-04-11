@@ -42,7 +42,7 @@ build:
   stage: build
   script:
     - bun install
-    - bun run --target:node build
+    - bun run --target=node build
 
 lint:
   stage: lint

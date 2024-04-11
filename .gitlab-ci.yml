@@ -24,7 +24,6 @@ default:
     paths:
       - node_modules/
       - public/
-      - vendor/
     policy: pull-push
   image: oven/bun:latest
 

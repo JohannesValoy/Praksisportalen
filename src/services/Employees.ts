@@ -6,6 +6,7 @@ import DBclient from "@/knex/config/DBClient";
 import { EmployeeTable } from "knex/types/tables.js";
 import { encodeID, encryptPassword } from "@/lib/auth";
 import { PageResponse } from "@/app/_models/pageinition";
+import { randomUUID } from "crypto";
 
 async function getEmployeeObjectByID(id: string): Promise<EmployeeObject> {
   const employee = await getEmployeeObjectByIDList([id]);
@@ -16,7 +17,7 @@ async function getEmployeeObjectByID(id: string): Promise<EmployeeObject> {
 }
 
 async function getEmployeeObjectByIDList(
-  idList: string[],
+  idList: string[]
 ): Promise<Map<string, EmployeeObject>> {
   const query = await DBclient.select()
     .from<EmployeeTable>("employees")
@@ -29,7 +30,9 @@ async function getEmployeeObjectByIDList(
 }
 
 async function createEmployee(employee: EmployeeTable) {
-  employee.id = await encodeID(employee.email, employee.name);
+  if (!employee.id) {
+    employee.id = randomUUID();
+  }
   employee.password = await encryptPassword(employee.password);
   await DBclient.insert(employee).into("employees");
 }
@@ -41,20 +44,21 @@ async function createEmployees(employee: EmployeeTable[]) {
 }
 
 async function getEmployeeObjectsByPagination(
-  request: EmployeePaginationRequest,
+  request: EmployeePaginationRequest
 ): Promise<PageResponse<EmployeeObject>> {
   const query = await DBclient.select()
     .from<EmployeeTable>("employees")
     .where((builder) => {
-      if(request.name ){
-        builder.where("name", "like", `%${request.name}%`)
+      if (request.name) {
+        builder.where("name", "like", `%${request.name}%`);
       }
-      if(request.email){
-        builder.where("email", "like", `%${request.email}%`)
+      if (request.email) {
+        builder.where("email", "like", `%${request.email}%`);
       }
-      if(request.role){
-        builder.where("role", "like", `%${request.role}%`)
-      }})
+      if (request.role) {
+        builder.where("role", "like", `%${request.role}%`);
+      }
+    })
     .orderBy(request.sort);
   const employees: EmployeeObject[] = [];
   const offset = request.page * request.size;

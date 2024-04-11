@@ -20,14 +20,20 @@
 image: oven/bun:latest
 
 stages:
-  - build
+  - install
   - test
   - format
   - lint
+  - build
 
 cache:
   paths:
     - node_modules/*
+
+install:
+  stage: install
+  script:
+    - bun install
 
 test:
   stage: test

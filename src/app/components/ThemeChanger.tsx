@@ -1,9 +1,18 @@
+/** @format */
+
 "use client";
 
 import React, { useEffect, useState } from "react";
 
 const ThemeChanger = () => {
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+  const [theme, setTheme] = useState(() => {
+    let theme = "dark";
+    if (typeof localStorage !== "undefined") {
+      theme = localStorage.getItem("theme") || "dark";
+    }
+    document.body.setAttribute("data-theme", theme);
+    return theme;
+  });
 
   useEffect(() => {
     document.body.setAttribute("data-theme", theme);
@@ -13,6 +22,7 @@ const ThemeChanger = () => {
   const themes = [
     "dark",
     "light",
+    "cupcake",
     "bumblebee",
     "emerald",
     "corporate",
@@ -42,6 +52,7 @@ const ThemeChanger = () => {
     "dim",
     "nord",
     "sunset",
+    "myTheme",
   ];
   return (
     <select

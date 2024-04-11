@@ -1,51 +1,78 @@
+import {
+  EmployeeObject,
+  EmployeePaginationRequest,
+} from "@/app/_models/Employee";
 import DBclient from "@/knex/config/DBClient";
-import { User } from "knex/types/tables.js";
+import { EmployeeTable } from "knex/types/tables.js";
+import { encodeID, encryptPassword } from "@/lib/auth";
+import { PageResponse } from "@/app/_models/pageinition";
 
-class EmployeeObject implements User {
-    id: number;
-    name: string;
-    email: string;
-    password: string;
-    role: string;
-    created_at: Date;
-    updated_at: Date;
-
-    constructor(query: User) {
-        this.id = query.id;
-        this.name = query.name;
-        this.email = query.email;
-        this.password = query.password;
-        this.role = query.role;
-        this.created_at = query.created_at;
-        this.updated_at = query.updated_at;
-    }
-
-    toJSON() {
-        return {
-            id: this.id,
-            name: this.name,
-            email: this.email,
-            created_at: this.created_at,
-            updated_at: this.updated_at
-        };
-    }
+async function getEmployeeObjectByID(id: string): Promise<EmployeeObject> {
+  const employee = await getEmployeeObjectByIDList([id]);
+  if (employee.get(id) == undefined) {
+    throw new Error("Employee not found");
+  }
+  return employee.get(id);
 }
 
-async function getEmployeeObjectByID(id: number): Promise<EmployeeObject> {
-    const employee = await getEmployeeObjectByIDList([id]);
-    if (employee.get(id) == undefined) {
-        throw new Error("Employee not found");
-    }
-    return employee.get(id);
+async function getEmployeeObjectByIDList(
+  idList: string[],
+): Promise<Map<string, EmployeeObject>> {
+  const query = await DBclient.select()
+    .from<EmployeeTable>("employees")
+    .whereIn("id", idList);
+  const employees: Map<string, EmployeeObject> = new Map();
+  query.forEach((employee) => {
+    employees.set(employee.id, new EmployeeObject(employee));
+  });
+  return employees;
 }
 
-async function getEmployeeObjectByIDList(idList: number[]): Promise<Map<number, EmployeeObject>> {
-    const query = await DBclient.select().from<User>("users").whereIn("id", idList);
-    const employees: Map<number, EmployeeObject> = new Map();
-    query.forEach((employee) => {
-        employees.set(employee.id, new EmployeeObject(employee));
-    });
-    return employees;
+async function createEmployee(employee: EmployeeTable) {
+  employee.id = await encodeID(employee.email, employee.name);
+  employee.password = await encryptPassword(employee.password);
+  await DBclient.insert(employee).into("employees");
 }
 
-export { getEmployeeObjectByID, getEmployeeObjectByIDList, EmployeeObject };
+async function createEmployees(employee: EmployeeTable[]) {
+  for (const emp of employee) {
+    await createEmployee(emp);
+  }
+}
+
+async function getEmployeeObjectsByPagination(
+  request: EmployeePaginationRequest,
+): Promise<PageResponse<EmployeeObject>> {
+  const query = await DBclient.select()
+    .from<EmployeeTable>("employees")
+    .where((builder) => {
+      if(request.name ){
+        builder.where("name", "like", `%${request.name}%`)
+      }
+      if(request.email){
+        builder.where("email", "like", `%${request.email}%`)
+      }
+      if(request.role){
+        builder.where("role", "like", `%${request.role}%`)
+      }})
+    .orderBy(request.sort);
+  const employees: EmployeeObject[] = [];
+  const offset = request.page * request.size;
+  query.slice(offset, request.size + offset).forEach((employee) => {
+    employees.push(new EmployeeObject(employee));
+  });
+  return new PageResponse(request, employees, employees.length);
+}
+
+async function deleteEmployee(id: string) {
+  return await DBclient.delete().from("employees").where("id", id);
+}
+
+export {
+  getEmployeeObjectByID,
+  getEmployeeObjectByIDList,
+  createEmployee,
+  createEmployees,
+  getEmployeeObjectsByPagination,
+  deleteEmployee,
+};

@@ -1,10 +1,11 @@
 /** @format */
 
 import DBclient from "@/knex/config/DBClient";
-import type { User } from "knex/types/tables.js";
+import type { CoordinatorTable } from "knex/types/tables.js";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { fromUserToUserAdapter } from "../_adapter/dbadapter";
 import bcrypt from "bcrypt";
+import { User } from "next-auth";
 
 const passwordProvider = CredentialsProvider({
   // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -18,14 +19,21 @@ const passwordProvider = CredentialsProvider({
     password: { label: "Password", type: "password" },
   },
   id: "cred",
-  async authorize(credentials, req) {
+  async authorize(credentials, req): Promise<User> {
     const username = credentials?.username;
     if (username == undefined) {
       return null;
     }
-    const user = await DBclient.from<User>("users")
+    // We are going to say it as a CoordinatorTable as it contains only the password field
+    let user = await DBclient.from<CoordinatorTable>("employees")
       .where("email", username)
       .first();
+
+    if (user == undefined) {
+      user = await DBclient.from<CoordinatorTable>("coordinators")
+        .where("email", username)
+        .first();
+    }
     const password = credentials?.password;
     if (user == undefined || password == undefined) {
       throw new Error("User not found");

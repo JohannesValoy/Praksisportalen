@@ -1,67 +1,91 @@
-import { Section } from "knex/types/tables.js";
-import { EmployeeObject, getEmployeeObjectByIDList } from "./Employees";
+/** @format */
+
+import SectionObject, { SectionPageRequest } from "@/app/_models/Section";
+import EmployeeObject from "@/app/_models/Employee";
+import InternshipPositionObject from "@/app/_models/InternshipPosition";
 import DBclient from "@/knex/config/DBClient";
-import { InternshipPositionObject, getInternshipPositionObjectBySectionID } from "./InternshipPosition";
+import { Section } from "knex/types/tables.js";
+import { getEmployeeObjectByIDList } from "./Employees";
+import { getInternshipPositionObjectBySectionID } from "./InternshipPosition";
 
-class SectionObject implements Section {
-    id: number;
-    name: string;
-    type: string;
-    employee_id: number;
-    employee : EmployeeObject
-    internships: InternshipPositionObject[];
-    department_id: number;
-    created_at: Date;
-    updated_at: Date;
-
-    constructor(query: Section, employee: EmployeeObject, internships: InternshipPositionObject[] = []) {
-        this.id = query.id;
-        this.name = query.name;
-        this.type = query.type;
-        this.employee_id = query.employee_id;
-        this.employee = employee;
-        this.department_id = query.department_id;
-        this.created_at = query.created_at;
-        this.updated_at = query.updated_at;
-        this.internships = internships.copyWithin(0, internships.length);
-    }
-
-    toJSON() {
-        return {
-            id: this.id,
-            name: this.name,
-            type: this.type,
-            employee: this.employee,
-            internships: this.internships,
-            created_at: this.created_at,
-            updated_at: this.updated_at
-        };
-    }
-}
+import "server-only";
+import { PageResponse } from "@/app/_models/pageinition";
 
 async function getSectionObjectByID(id: number): Promise<SectionObject> {
-    const section = await getSectionObjectByIDList([id]);
-    if (section.get(id) == undefined) {
-        throw new Error("Section not found");
-    }
-    return section.get(id);
+  const section = await getSectionObjectByIDList([id]);
+  if (section.get(id) == undefined) {
+    throw new Error("Section not found");
+  }
+  return section.get(id);
 }
 
-async function getSectionObjectByIDList(idList: number[]): Promise<Map<number, SectionObject>> {
-    const query = await DBclient.select().from<Section>("sections").whereIn("id", idList);
-    const sections: Map<number, SectionObject> = new Map();
-    const employeesPromise: Promise<Map<number, EmployeeObject>> = getEmployeeObjectByIDList(query.map((section) => section.employee_id));
-    const internshipsPromise: Promise<Map<number, InternshipPositionObject[]>> = getInternshipPositionObjectBySectionID(query.map((section) => section.id));
-    const values = await Promise.allSettled([employeesPromise, internshipsPromise])
-    if (values.some((value) => value.status === "rejected")) {
-        throw new Error("Failed to fetch Section data");
-    }
-    const employees = values[0].value;
-    const internships = values[1].value;
-    query.forEach((section) => {
-        sections.set(section.id, new SectionObject(section, employees?.get(section.employee_id), internships?.get(section.id)));
+async function getSectionObjectByIDList(
+  idList: number[]
+): Promise<Map<number, SectionObject>> {
+  const query = await DBclient.select()
+    .from<Section>("sections")
+    .whereIn("id", idList);
+  const sections: Map<number, SectionObject> = new Map();
+  await createSectionObject(query).then((sectionObjects) => {
+    sectionObjects.forEach((section) => {
+      sections.set(section.id, section);
     });
-    return sections;
+  });
+  return sections;
 }
 
-export { SectionObject, getSectionObjectByID, getSectionObjectByIDList };
+async function getSectionsByPageRequest(pageRequest: SectionPageRequest) {
+  const baseQuery = await DBclient.select("")
+    .from<Section>("sections")
+    .where((builder) => {
+      if (pageRequest.hasEmployeeID != -1) {
+        builder.where("employee_id", pageRequest.hasEmployeeID);
+      }
+      if (pageRequest.hasDepartmentID != -1) {
+        builder.where("department_id", pageRequest.hasDepartmentID);
+      }
+      if (pageRequest.containsName != "" && pageRequest.containsName) {
+        builder.where("name", "like", `%${pageRequest.containsName}%`);
+      }
+    })
+    .orderBy(pageRequest.sort);
+  const pageQuery = baseQuery.slice(
+    pageRequest.page * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
+  );
+  return new PageResponse<SectionObject>(
+    pageRequest,
+    await createSectionObject(pageQuery),
+    baseQuery.length
+  );
+}
+
+async function createSectionObject(query: Section[]): Promise<SectionObject[]> {
+  const employeesPromise: Promise<Map<string, EmployeeObject>> =
+    getEmployeeObjectByIDList(query.map((section) => section.employee_id));
+  const internshipsPromise: Promise<Map<number, InternshipPositionObject[]>> =
+    getInternshipPositionObjectBySectionID(query.map((section) => section.id));
+  const values = await Promise.all([employeesPromise, internshipsPromise]);
+  const sections = [];
+  if (values.length != 2) {
+    throw new Error("Error fetching section data");
+  }
+  const employees = values[0];
+  const internships = values[1];
+  query.forEach((section) => {
+    sections.push(
+      new SectionObject(
+        section,
+        employees?.get(section.employee_id),
+        internships?.get(section.id)
+      )
+    );
+  });
+  return sections;
+}
+
+export {
+  getSectionObjectByID,
+  getSectionObjectByIDList,
+  getSectionsByPageRequest,
+};

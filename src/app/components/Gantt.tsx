@@ -2,8 +2,17 @@
 
 import React from "react";
 
+interface DataItem {
+  id: number;
+  row_id: number;
+  name: string;
+  startDate: Date;
+  endDate: Date;
+}
+
 interface GanttProps {
-  datalist: Array<[string, Date, Date]>;
+  datalist: DataItem[];
+  onClickUrl: string;
 }
 
 interface MonthMarker {
@@ -12,12 +21,12 @@ interface MonthMarker {
 }
 
 interface DateRange {
-  [key: string]: Array<[Date, Date]>;
+  [key: string]: Array<[Date, Date, number]>;
 }
 
-const Gantt: React.FC<GanttProps> = ({ datalist }) => {
-  const startDates = datalist.map((item) => item[1].getTime());
-  const endDates = datalist.map((item) => item[2].getTime());
+const Gantt: React.FC<GanttProps> = ({ datalist, onClickUrl }) => {
+  const startDates = datalist.map((item) => new Date(item.startDate).getTime());
+  const endDates = datalist.map((item) => new Date(item.endDate).getTime());
   const minStartDate = Math.min(...startDates);
   const maxEndDate = Math.max(...endDates);
   const totalTime = maxEndDate - minStartDate;
@@ -29,7 +38,7 @@ const Gantt: React.FC<GanttProps> = ({ datalist }) => {
   }
   currentMonth.setDate(1); // Set to the first day of the month
 
-  while (currentMonth.getTime() < maxEndDate) {
+  while (currentMonth.getTime() <= maxEndDate) {
     const monthStart = currentMonth.getTime();
     const offsetPercent = ((monthStart - minStartDate) / totalTime) * 100;
 
@@ -40,15 +49,17 @@ const Gantt: React.FC<GanttProps> = ({ datalist }) => {
     currentMonth.setMonth(currentMonth.getMonth() + 1);
   }
 
-  const groupedData: DateRange = datalist.reduce((acc: DateRange, curr) => {
-    const [section, startDate, endDate] = curr;
-    if (!acc[section]) {
-      acc[section] = [];
-    }
-    acc[section].push([startDate, endDate]);
-    return acc;
-  }, {});
-
+  const groupedData: DateRange = datalist.reduce(
+    (acc: DateRange, curr: DataItem) => {
+      const { name, startDate, endDate, row_id } = curr;
+      if (!acc[name]) {
+        acc[name] = [];
+      }
+      acc[name].push([new Date(startDate), new Date(endDate), row_id]); // Include row_id here
+      return acc;
+    },
+    {},
+  );
   return (
     <div
       className="bg-base-200  p-5 rounded-lg flex flex-col items-center justify-center"
@@ -95,7 +106,7 @@ const Gantt: React.FC<GanttProps> = ({ datalist }) => {
                 style={{ height: "100%", position: "relative" }}
               >
                 {dateRanges.map((dateRange, index) => {
-                  const [startDate, endDate] = dateRange;
+                  const [startDate, endDate, row_id] = dateRange;
                   const duration = endDate.getTime() - startDate.getTime();
                   const offset = startDate.getTime() - minStartDate;
                   const widthPercent = (duration / totalTime) * 100;
@@ -115,13 +126,19 @@ const Gantt: React.FC<GanttProps> = ({ datalist }) => {
                       }}
                     >
                       <div
-                        className="bg-blue-500"
+                        className="btn btn-primary"
+                        onClick={() => {
+                          window.location.href = `${onClickUrl + row_id}`;
+                        }}
                         style={{
                           borderRadius: "5px",
                           height: "50%",
                           width: "100%",
                         }}
-                      ></div>
+                      >
+                        start: {startDate.toLocaleDateString()} <br />
+                        end: {endDate.toLocaleDateString()}
+                      </div>
                     </div>
                   );
                 })}
@@ -130,7 +147,7 @@ const Gantt: React.FC<GanttProps> = ({ datalist }) => {
             {monthMarkers.map((marker, index) => (
               <div
                 key={index}
-                className="absolute bg-blue-200 "
+                className="absolute bg-primary"
                 style={{
                   height: "100%",
                   width: "3px",

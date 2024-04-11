@@ -32,8 +32,6 @@ default:
       - public/
     policy: pull-push
   image: oven/bun:latest
-  after_script:
-    - bun run install
 
 install:
   stage: install

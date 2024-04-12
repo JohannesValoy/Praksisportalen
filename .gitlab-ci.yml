@@ -30,18 +30,17 @@ default:
       - node_modules/
       - public/
     policy: pull-push
-  image: oven/bun:latest
+  image: imbios/bun-node:latest-18-debian
 
 install:
   stage: install
   script:
-    - bun install
+    - bun --target=node next build
 
 build:
   stage: build
-  image: node:18
   script:
-    - npm run build
+    - bun run build
 
 lint:
   stage: lint

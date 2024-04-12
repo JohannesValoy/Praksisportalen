@@ -1,10 +1,10 @@
 /** @format */
 
 import SectionObject, { SectionPageRequest } from "@/app/_models/Section";
-import EmployeeObject from "@/app/_models/Employee";
+import { EmployeeObject } from "@/app/_models/Employee";
 import InternshipPositionObject from "@/app/_models/InternshipPosition";
 import DBclient from "@/knex/config/DBClient";
-import { Section } from "knex/types/tables.js";
+import { SectionTable } from "knex/types/tables.js";
 import { getEmployeeObjectByIDList } from "./Employees";
 import { getInternshipPositionObjectBySectionID } from "./InternshipPosition";
 
@@ -20,10 +20,10 @@ async function getSectionObjectByID(id: number): Promise<SectionObject> {
 }
 
 async function getSectionObjectByIDList(
-  idList: number[]
+  idList: number[],
 ): Promise<Map<number, SectionObject>> {
   const query = await DBclient.select()
-    .from<Section>("sections")
+    .from<SectionTable>("sections")
     .whereIn("id", idList);
   const sections: Map<number, SectionObject> = new Map();
   await createSectionObject(query).then((sectionObjects) => {
@@ -36,7 +36,7 @@ async function getSectionObjectByIDList(
 
 async function getSectionsByPageRequest(pageRequest: SectionPageRequest) {
   const baseQuery = await DBclient.select("")
-    .from<Section>("sections")
+    .from<SectionTable>("sections")
     .where((builder) => {
       if (pageRequest.hasEmployeeID != -1) {
         builder.where("employee_id", pageRequest.hasEmployeeID);
@@ -51,16 +51,18 @@ async function getSectionsByPageRequest(pageRequest: SectionPageRequest) {
     .orderBy(pageRequest.sort);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size
+    (pageRequest.page + 1) * pageRequest.size,
   );
   return new PageResponse<SectionObject>(
     pageRequest,
     await createSectionObject(pageQuery),
-    baseQuery.length
+    baseQuery.length,
   );
 }
 
-async function createSectionObject(query: Section[]): Promise<SectionObject[]> {
+async function createSectionObject(
+  query: SectionTable[],
+): Promise<SectionObject[]> {
   const employeesPromise: Promise<Map<string, EmployeeObject>> =
     getEmployeeObjectByIDList(query.map((section) => section.employee_id));
   const internshipsPromise: Promise<Map<number, InternshipPositionObject[]>> =
@@ -77,8 +79,8 @@ async function createSectionObject(query: Section[]): Promise<SectionObject[]> {
       new SectionObject(
         section,
         employees?.get(section.employee_id),
-        internships?.get(section.id)
-      )
+        internships?.get(section.id),
+      ),
     );
   });
   return sections;

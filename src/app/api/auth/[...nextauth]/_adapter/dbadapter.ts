@@ -1,5 +1,8 @@
+/** @format */
+
 import DBclient from "@/knex/config/DBClient";
 import { Knex } from "knex";
+import { UserAttributes } from "@/knex/config/tables";
 import {
   EmployeeTable,
   StudentTable,
@@ -103,9 +106,6 @@ export default function KnexAdapter(client: Knex): Adapter {
         return user == null ? null : fromUserToUserAdapter(user);
       });
     },
-    async updateUser(user) {
-      return;
-    },
     async deleteUser(userId) {
       return;
     },
@@ -133,9 +133,6 @@ export default function KnexAdapter(client: Knex): Adapter {
           };
         },
       );
-    },
-    async updateSession({ sessionToken }) {
-      return;
     },
     async deleteSession(sessionToken) {
       return Promise.resolve(
@@ -170,7 +167,7 @@ export function fromUserToUserAdapter(user: UserAttributes): AdapterUser {
   };
 }
 
-export function sessionToAdapterSession(results: Session): AdapterSession {
+export function sessionToAdapterSession(results): AdapterSession {
   return {
     userId: results.userId.toString(),
     expires: results.expires,

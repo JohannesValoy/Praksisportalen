@@ -26,10 +26,9 @@ export const LoginComponent = () => {
         password: formValues.password,
         callbackUrl,
       });
-
       setLoading(false);
-
       if (!res?.error) {
+        document.getElementById("logout")?.classList.remove("hidden");
         router.push(callbackUrl);
       } else {
         setError("Invalid username or password");

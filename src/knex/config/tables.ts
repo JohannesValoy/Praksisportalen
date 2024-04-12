@@ -1,7 +1,7 @@
 /** @format */
 //DO NOT REMOVE THE FOLLOWING IMPORT, IT IS NEEDED FOR TYPE DECLARATIONS
 import { Knex } from "knex";
-interface UserAttributes {
+export interface UserAttributes {
   id?: string;
   name: string;
   email: string;

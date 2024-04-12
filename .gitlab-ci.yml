@@ -20,7 +20,6 @@
 
 stages:
   - install
-  - format
   - lint
   - build
 
@@ -40,9 +39,9 @@ install:
 
 build:
   stage: build
+  image: node:18
   script:
-    - bun install
-    - bun run --target=node build
+    - npm run build
 
 lint:
   stage: lint

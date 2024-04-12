@@ -50,6 +50,6 @@ lint:
     - bun run lint
 
 format:
-  stage: lint
+  stage: format
   script:
     - bun run format

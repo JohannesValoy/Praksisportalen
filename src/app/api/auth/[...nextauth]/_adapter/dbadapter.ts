@@ -7,6 +7,7 @@ import {
   EmployeeTable,
   StudentTable,
   CoordinatorTable,
+  UserAttributes
 } from "knex/types/tables.js";
 import {
   Adapter,

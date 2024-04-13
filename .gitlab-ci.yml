@@ -38,7 +38,7 @@ default:
 install:
   stage: install
   script:
-    - bun --target=node next build
+    - bun install
 
 build:
   stage: build

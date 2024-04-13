@@ -1,7 +1,9 @@
 import { Role} from "./app/api/auth/[...nextauth]/nextauth";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "next-auth/middleware";
 import { JWT } from "next-auth/jwt";
+import Negotiator from 'negotiator'
+
 /**
  * This is a class that represents a route in the application.
  * It has a path, methods, and roles that are allowed to access it.
@@ -13,10 +15,10 @@ import { JWT } from "next-auth/jwt";
  */
 class Route {
   methods: string[];
-  path: string;
+  pathregex: RegExp;
   roles: Role[];
   constructor(
-    path: string,
+    path: RegExp,
     methods: string[] = ["GET", "OPTIONS", "POST", "DELETE"],
     roles: Role[] = [Role.admin, Role.employee, Role.student, Role.none]
   ) {
@@ -24,7 +26,7 @@ class Route {
     if(!methods.includes("OPTIONS")){
       this.methods.push("OPTIONS");
     }
-    this.path = path;
+    this.pathregex = path;
     this.roles = roles;
   }
 
@@ -39,24 +41,45 @@ class Route {
  */
 const routeRestrictions: Route[] = [
   //API Routes
-  new Route("\/$", ["GET"], [Role.admin, Role.employee, Role.student]),
-  new Route("(api)", ["GET", "POST", "DELETE"], [Role.admin]),
-  new Route("(api\/employees)", ["GET"], [Role.admin, Role.employee]),
-  new Route("(api\/students)", ["GET"], [Role.admin, Role.student]),
-  new Route("(api\/employees)", ["POST"], [Role.admin]),
-  new Route("(api\/students)", ["POST"], [Role.admin, Role.coordinator]),
-  new Route("(api\/employees)", ["DELETE"], [Role.admin]),
-  new Route("(api\/students)", ["DELETE"], [Role.admin, Role.coordinator]),
+  new Route(/(api)/, ["GET", "POST", "DELETE"], [Role.admin]),
+  new Route(/(api\/employees)/, ["GET"], [Role.admin, Role.employee]),
+  new Route(/(api\/students)/, ["GET"], [Role.admin, Role.student]),
+  new Route(/(api\/employees)/, ["POST"], [Role.admin]),
+  new Route(/(api\/students)/, ["POST"], [Role.admin, Role.coordinator]),
+  new Route(/(api\/employees)/, ["DELETE"], [Role.admin]),
+  new Route(/(api\/students)/, ["DELETE"], [Role.admin, Role.coordinator]),
 
   //PAGE Routes
-  new Route("(employees)", ["GET"], [Role.admin, Role.employee]),
-  new Route("(students)", ["GET"], [Role.admin, Role.student]),
-  new Route("(studyprograms)", ["GET"], [Role.admin, Role.coordinator]),
+  //A route that matches the root URL + language code
+  new Route(/^(\/(\w{2}$|\w{2}-\w{2}))$/, ["GET"], [Role.admin, Role.employee, Role.student]),
+  new Route(/(employees)/, ["GET"], [Role.admin, Role.employee]),
+  new Route(/(students)/, ["GET"], [Role.admin, Role.student]),
+  new Route(/(studyprograms)/, ["GET"], [Role.admin, Role.coordinator]),
 ];
+
+
+let locales = ['en-US', 'nb']
 
 export default withAuth(function middleware(request) {
   const token = request.nextauth.token;
-
+  const localization = request.nextUrl.pathname.split("/")[1];
+  if (localization === "api") {
+    return;
+  }
+  // Gotten from https://nextjs.org/docs/app/building-your-application/routing/internationalization#routing-overview
+  const { pathname } = request.nextUrl
+  const pathnameHasLocale = locales.some(
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+  )
+  if (pathnameHasLocale) {
+    return;
+  }
+  const locale = getLocale(request)
+  // The new URL is now /en-US/products
+  const newUrl = `/${locale}${pathname}`
+  const url = request.nextUrl.clone()
+  url.pathname = newUrl
+  return NextResponse.redirect(url)
 }, {
   callbacks: {
     authorized({ req, token }) {
@@ -64,13 +87,24 @@ export default withAuth(function middleware(request) {
     },
   },
 });
+
+function getLocale(request : NextRequest) { 
+  const headers = request.headers
+  let languages = new Negotiator({headers}).languages()
+  let defaultLocale = 'en-US'
+  let locale = languages.find(l => locales.includes(l)) || defaultLocale
+  return locale
+}
+
+
 function compareIfAccess(request: NextRequest, token: JWT | null) {
   const url = request.nextUrl.pathname;
   const method = request.method;
-  
   const routes = routeRestrictions.filter(
-    (route) => RegExp(route.path).exec(url) && route.methods.includes(method)
+    (route) => route.pathregex.exec(url) && route.methods.includes(method)
   );
+  console.log(url);
+  console.log(routes);
   
   //If no routes are found, return true
   if (routes.length === 0) {

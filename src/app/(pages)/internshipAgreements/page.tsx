@@ -17,7 +17,7 @@ const ListOfInternshipAgreements = () => {
   };
   useEffect(() => {
     fetch("/api/internshipAgreements").then((res) =>
-      res.json().then(setInternshipAgreements)
+      res.json().then(setInternshipAgreements),
     );
   }, []);
 

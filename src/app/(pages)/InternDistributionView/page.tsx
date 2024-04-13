@@ -1,37 +1,70 @@
 /** @format */
-"use client";
-import { useEffect, useState } from "react";
-function DistributeInterns() {
-  const [interns, setInterns] = useState([]);
-  const [loading, setLoading] = useState(true);
 
+"use client";
+import Modal from "./Modal";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import DynamicTable from "../../components/DynamicTable";
+const ListOfInternshipAgreements = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [internshipAgreements, setInternshipAgreements] = useState<
+    InternshipAgreement[]
+  >([]);
+  const [sortedBy, setSortedBy] = useState<string>("name");
+  const [selectedRows, setSelectedRows] = useState<InternshipAgreement[]>([]);
+  const headers = {
+    Status: "status",
+    " Start Date": "startDate",
+    "End Date": "endDate",
+  };
   useEffect(() => {
-    fetch("/api/internshipAgreements")
-      .then((res) => res.json())
-      .then((data) => {
-        setInterns(data);
-        setLoading(false); // set loading to false after data is fetched
-      });
+    fetch("/api/DistributeInterns").then((res) =>
+      res.json().then(setInternshipAgreements),
+    );
   }, []);
-  console.log(interns);
-  if (loading) {
-    return <p>Loading...</p>;
+
+  type InternshipAgreement = {
+    name: string;
+    id: string;
+  };
+
+  if (sortedBy) {
+    internshipAgreements.sort((a, b) => {
+      if (a[sortedBy] < b[sortedBy]) {
+        return -1;
+      }
+      if (a[sortedBy] > b[sortedBy]) {
+        return 1;
+      }
+      return 0;
+    });
   }
+
   return (
-    <div>
-      <h1>Interns</h1>
-      <ul>
-        {Object.keys(interns).map((key) => (
-          <li key={key}>
-            {Object.entries(interns[key]).map(([property, value]) => (
-              <p key={property}>
-                {property}: {String(value)}
-              </p>
-            ))}
-          </li>
-        ))}
-      </ul>
+    <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+      <DynamicTable
+        rows={internshipAgreements}
+        tableName="Internship Agreements"
+        headers={headers}
+        selectedRows={selectedRows}
+        setSelectedRows={setSelectedRows}
+        onRowClick={() => {}}
+        onRowButtonClick={(row) => {
+          setShowModal(true);
+        }}
+        buttonName={"Distribuer"}
+        onAddButtonClick={() => {
+          window.location.href = `/admin/administerInternships/addInternship`;
+        }}
+        setSortedBy={setSortedBy}
+        url="/api/internships/"
+        setRows={setInternshipAgreements}
+      />
+
+      <button onClick={() => setShowModal(true)}>Distribuer alle</button>
+      {showModal && <Modal setShow={setShowModal} />}
     </div>
   );
-}
-export default DistributeInterns;
+};
+
+export default ListOfInternshipAgreements;

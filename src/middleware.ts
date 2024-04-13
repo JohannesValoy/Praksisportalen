@@ -89,10 +89,8 @@ export default withAuth(function middleware(request) {
 
 function getLocale(request : NextRequest) { 
   const headers = {"accept-language": request.headers.get('accept-language')}
-  console.log(headers)
   let languages = new Negotiator({headers}).languages()
   let defaultLocale = 'en-US'
-  console.log(languages)
   let locale = languages.find(l => locales.includes(l)) || defaultLocale
   return locale
 }

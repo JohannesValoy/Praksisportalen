@@ -1,7 +1,6 @@
 import { Role} from "./app/api/auth/[...nextauth]/nextauth";
 import { NextRequest } from "next/server";
 import { withAuth } from "next-auth/middleware";
-import { MiddlewareConfig } from "next/dist/build/analysis/get-page-static-info";
 import { JWT } from "next-auth/jwt";
 /**
  * This is a class that represents a route in the application.

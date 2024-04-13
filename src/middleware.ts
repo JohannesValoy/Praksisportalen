@@ -88,7 +88,3 @@ function compareIfAccess(request: NextRequest, token: JWT | null) {
   }
   return false;
 }
-
-export const config: MiddlewareConfig = {
-  matchers: [],
-};

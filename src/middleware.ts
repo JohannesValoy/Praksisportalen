@@ -58,10 +58,9 @@ const routeRestrictions: Route[] = [
 ];
 
 
-let locales = ['en-US', 'nb']
+let locales = ['en-US', 'nb-NO']
 
 export default withAuth(function middleware(request) {
-  const token = request.nextauth.token;
   const localization = request.nextUrl.pathname.split("/")[1];
   if (localization === "api") {
     return;
@@ -89,9 +88,11 @@ export default withAuth(function middleware(request) {
 });
 
 function getLocale(request : NextRequest) { 
-  const headers = request.headers
+  const headers = {"accept-language": request.headers.get('accept-language')}
+  console.log(headers)
   let languages = new Negotiator({headers}).languages()
   let defaultLocale = 'en-US'
+  console.log(languages)
   let locale = languages.find(l => locales.includes(l)) || defaultLocale
   return locale
 }
@@ -103,8 +104,6 @@ function compareIfAccess(request: NextRequest, token: JWT | null) {
   const routes = routeRestrictions.filter(
     (route) => route.pathregex.exec(url) && route.methods.includes(method)
   );
-  console.log(url);
-  console.log(routes);
   
   //If no routes are found, return true
   if (routes.length === 0) {

@@ -2,8 +2,8 @@
 
 import React from "react";
 import Image from "next/image";
-import Trash from "../../../public/Icons/trash";
-import Add from "../../../public/Icons/add";
+import Trash from "@/../public/Icons/trash";
+import Add from "@/../public/Icons/add";
 
 function DynamicTable({
   rows,

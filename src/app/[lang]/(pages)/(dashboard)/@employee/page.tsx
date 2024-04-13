@@ -1,6 +1,6 @@
 /** @format */
 
-import ListOfDepartments from "../../departments/page";
+import ListOfDepartments from "@/app/[lang]/(pages)/departments/page";
 
 const EmployeeLayout = () => {
   return (

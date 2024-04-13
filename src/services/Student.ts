@@ -1,9 +1,11 @@
 import DBclient from "@/knex/config/DBClient";
-import { encodeID } from "@/lib/auth";
+import { randomUUID } from "crypto";
 import { StudentTable } from "knex/types/tables.js";
 
 async function createStudent(student: StudentTable) {
-  student.id = await encodeID(student.email, student.name);
+  if (!student.id) {
+    student.id = randomUUID();
+  }
   await DBclient.insert(student).into("students");
 }
 

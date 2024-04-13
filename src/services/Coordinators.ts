@@ -1,11 +1,14 @@
 import DBclient from "@/knex/config/DBClient";
 import { CoordinatorTable } from "knex/types/tables.js";
-import { encodeID, encryptPassword } from "@/lib/auth";
+import { encryptPassword } from "@/lib/auth";
 import { Coordinator, CoordinatorPageRequest } from "@/app/_models/Coordinator";
 import { PageResponse } from "@/app/_models/pageinition";
+import { randomUUID } from "crypto";
 
 async function createCoordinator(coordinator: CoordinatorTable) {
-  coordinator.id = await encodeID(coordinator.email, coordinator.name);
+  if (!coordinator.id) {
+    coordinator.id = randomUUID();
+  }
   coordinator.password = await encryptPassword(coordinator.password);
   await DBclient.insert(coordinator).into("coordinators");
 }
@@ -17,7 +20,8 @@ async function createCoordinators(coordinators: CoordinatorTable[]) {
 }
 
 async function getCoordinatorsByPageRequest(
-  pageRequest: CoordinatorPageRequest,
+  pageRequest: CoordinatorPageRequest
+
 ) {
   const baseQuery = await DBclient.select("")
     .from("coordinators")
@@ -29,12 +33,12 @@ async function getCoordinatorsByPageRequest(
     .orderBy(pageRequest.sort);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   return new PageResponse<Coordinator>(
     pageRequest,
     await createCoordinatorObjects(pageQuery),
-    baseQuery.length,
+    baseQuery.length
   );
 }
 

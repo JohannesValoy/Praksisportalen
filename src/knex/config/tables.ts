@@ -1,15 +1,16 @@
 /** @format */
 //DO NOT REMOVE THE FOLLOWING IMPORT, IT IS NEEDED FOR TYPE DECLARATIONS
 import { Knex } from "knex";
-export interface UserAttributes {
-  id?: string;
-  name: string;
-  email: string;
-  created_at?: Date;
-  updated_at?: Date;
-}
 
 declare module "knex/types/tables.js" {
+  interface UserAttributes {
+    id?: string;
+    name: string;
+    email: string;
+    created_at?: Date;
+    updated_at?: Date;
+  }
+
   interface EmployeeTable extends CoordinatorTable {
     role: string;
   }
@@ -99,5 +100,6 @@ declare module "knex/types/tables.js" {
     educationInstitutions: EducationInstitutionTable;
     studyPrograms: StudyProgramTable;
     internshipAgreements: InternshipAgreementTable;
+    users: UserAttributes;
   }
 }

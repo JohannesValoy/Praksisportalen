@@ -18,17 +18,3 @@ export async function encryptPassword(password: string): Promise<string> {
   return await Bun.password.hash(password, { algorithm: "bcrypt", cost: 11 });
 }
 
-export async function encodeID(email: string, name: string) {
-  return await getSHA256Hash(email + name);
-}
-
-//Credit https://stackoverflow.com/questions/59777670/how-can-i-hash-a-string-with-sha256
-const getSHA256Hash = async (input) => {
-  const textAsBuffer = new TextEncoder().encode(input);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", textAsBuffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hash = hashArray
-    .map((item) => item.toString(16).padStart(2, "0"))
-    .join("");
-  return hash;
-};

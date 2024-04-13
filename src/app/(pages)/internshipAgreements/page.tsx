@@ -17,7 +17,7 @@ const ListOfInternshipAgreements = () => {
   };
   useEffect(() => {
     fetch("/api/internshipAgreements").then((res) =>
-      res.json().then(setInternshipAgreements),
+      res.json().then(setInternshipAgreements)
     );
   }, []);
 
@@ -58,6 +58,9 @@ const ListOfInternshipAgreements = () => {
         url="/api/internships/"
         setRows={setInternshipAgreements}
       />
+      <Link href="/InternDistributionView" className="btn btn-primary mt-4">
+        Fordel alle ufordelte praktikanter
+      </Link>
     </div>
   );
 };

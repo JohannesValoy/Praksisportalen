@@ -28,7 +28,7 @@ export default function Page() {
     const fetchAllData = async () => {
       try {
         const sectionsResponse = await fetch(`/api/sections`).then((res) =>
-          res.json(),
+          res.json()
         );
         setSections(sectionsResponse || []);
       } catch (error) {
@@ -118,8 +118,9 @@ export default function Page() {
         dropdownName="Section"
         options={sections}
         selectedOption={
-          sections.find((currSections) => currSections.id === section_id)
-            .toString || null
+          Array.isArray(sections)
+            ? sections.find((currSections) => currSections.id === section_id)
+            : null
         }
         setSelectedOption={(currSections) =>
           setSections_id(Number(currSections.id))

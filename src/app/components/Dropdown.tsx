@@ -26,9 +26,11 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const filteredOptions = options.filter((option) =>
-    option.name.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const filteredOptions = Array.isArray(options)
+    ? options.filter((option) =>
+        option.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
   return (
     <div className="dropdown dropdown-end w-full">
       <input

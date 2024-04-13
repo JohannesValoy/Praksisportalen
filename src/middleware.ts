@@ -51,7 +51,7 @@ const routeRestrictions: Route[] = [
 
   //PAGE Routes
   //A route that matches the root URL + language code
-  new Route(/^(\/(\w{2}$|\w{2}-\w{2}))$/, ["GET"], [Role.admin, Role.employee, Role.student]),
+  new Route(/^(\/(\w{2}|\w{2}-\w{2}))$/, ["GET"], [Role.admin, Role.employee, Role.student]),
   new Route(/(employees)/, ["GET"], [Role.admin, Role.employee]),
   new Route(/(students)/, ["GET"], [Role.admin, Role.student]),
   new Route(/(studyprograms)/, ["GET"], [Role.admin, Role.coordinator]),

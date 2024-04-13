@@ -34,7 +34,6 @@ const ListOfDepartments = () => {
       .catch((error) => console.error("Failed to fetch departments", error));
   }, [sortedBy]);
 
-  console.log(departments);
   return (
     <div className="flex flex-row justify-center mt-4 overflow-x-auto p-4">
       <div className="w-full">

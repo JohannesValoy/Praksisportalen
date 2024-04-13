@@ -4,7 +4,6 @@
  */
 
 function Modal({ setShow, Field }: { setShow: any; Field: any }) {
-  console.log(Field);
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
       <div className="p-8 border w-fit shadow-lg rounded-md bg-white">
@@ -55,10 +54,7 @@ const ListOfInternships = ({ Field }: { Field: any }) => {
   };
 
   useEffect(() => {
-    const fetchUrl =
-      id !== null
-        ? `/api/DistributeInterns/AvailableInternshipSpots?Field=${Field}`
-        : "/api/internships";
+    const fetchUrl = `/api/DistributeInterns/AvailableInternshipSpots?Field=${Field}`;
 
     fetch(fetchUrl)
       .then((res) => res.json())

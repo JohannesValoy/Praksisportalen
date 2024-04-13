@@ -27,7 +27,6 @@ const ListOfEducationInstitutions = () => {
     name: string;
     id: string;
   };
-  console.log(educationInstitutions);
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <DynamicTable

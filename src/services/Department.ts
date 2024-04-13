@@ -61,7 +61,6 @@ async function getDepartmentPageByPageRequest(
       }
     })
     .orderBy(pageRequest.sort);
-  console.log(baseQuery);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
     (pageRequest.page + 1) * pageRequest.size,

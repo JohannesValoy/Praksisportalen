@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
       "<",
       DBclient("students")
         .count("*")
-        .whereRaw("students.internship_id = internships.id")
+        .whereRaw("students.internship_id = internships.id"),
     )
     .select("*");
 

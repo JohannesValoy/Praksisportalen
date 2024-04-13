@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   const pageRequest = InternshipAgreementPageRequest.fromRequest(request);
   console.log(
     pageRequest,
-    "------------------------------------------------------------------------------"
+    "------------------------------------------------------------------------------",
   );
   const data = await getInternshipAgreementsByPageRequest(pageRequest);
   console.log(data);

@@ -3,7 +3,7 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import DynamicTable from "../../components/DynamicTable";
+import DynamicTable from "@/app/components/DynamicTable";
 const ListOfInternshipAgreements = () => {
   const [internshipAgreements, setInternshipAgreements] = useState<
     InternshipAgreement[]

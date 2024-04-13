@@ -2,7 +2,7 @@
 
 "use client";
 import React, { useEffect, useState } from "react";
-import DynamicTable from "../../components/DynamicTable";
+import DynamicTable from "@/app/components/DynamicTable";
 
 const ListOfEducationInstitutions = () => {
   const [educationInstitutions, setEducationInstitutions] = useState<

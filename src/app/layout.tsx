@@ -5,8 +5,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import ThemeChanger from "./components/ThemeChanger";
-import { checkUserRole } from "@/lib/auth";
 import LogoutButton from "./components/LogoutButton";
+import { getServerSession } from "next-auth";
 import Logo from "../../public/Icons/logo-helse-mr";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -42,7 +42,7 @@ export default async function RootLayout({
               <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-300 rounded-box w-52">
                 <li>
                   <ThemeChanger />
-                  {(await checkUserRole()) !== "none" ? <LogoutButton /> : null}
+                  <LogoutButton hide={!(await getServerSession())?.user} />
                 </li>
               </ul>
             </div>

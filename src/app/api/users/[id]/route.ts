@@ -1,6 +1,7 @@
 /** @format */
 
 import DBclient from "@/knex/config/DBClient";
+
 import { NextRequest } from "next/server";
 
 export async function GET(
@@ -9,7 +10,7 @@ export async function GET(
 ) {
   const user = await DBclient("users").where({ id: params.id }).first();
   if (user) {
-    return Response.json(new UserJson(user));
+    return Response.json(user);
   }
   return Response.json({ message: "User not found" }, { status: 404 });
 }

@@ -1,16 +1,16 @@
 /** @format */
 
-import { Department } from "knex/types/tables.js";
-import EmployeeObject from "./Employee";
+import { DepartmentTable } from "knex/types/tables.js";
+import { EmployeeObject } from "./Employee";
 import { PageRequest } from "./pageinition";
 import { NextRequest } from "next/server";
 /**
  * A class representing a Department
  */
-class DepartmentObject implements Department {
+class DepartmentObject implements DepartmentTable {
   id: number;
   name: string;
-  employee_id: number;
+  employee_id: string;
   employee: EmployeeObject;
   created_at: Date;
   updated_at: Date;
@@ -19,7 +19,7 @@ class DepartmentObject implements Department {
    * @param query from the database
    * @param employee the employee object from employee_id
    */
-  constructor(query: Department, employee: EmployeeObject) {
+  constructor(query: DepartmentTable, employee: EmployeeObject) {
     this.id = query.id;
     this.name = query.name;
     this.employee_id = query.employee_id;
@@ -62,7 +62,7 @@ export class DepartmentPageRequest extends PageRequest {
     sort: string = "departments.name",
     hasEmployeeID: number,
     hasSectionID: number,
-    containsName: string
+    containsName: string,
   ) {
     super(page, size);
     if (
@@ -104,7 +104,7 @@ export class DepartmentPageRequest extends PageRequest {
       sort,
       hasEmployeeID,
       hasSectionID,
-      containsName
+      containsName,
     );
   }
   /**

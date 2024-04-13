@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     .select("*")
     .whereIn("role", pageRequest.roles)
     .orderBy(pageRequest.sort);
-  return Response.json(new PageResponse(pageRequest, users));
+  return Response.json(new PageResponse(pageRequest, users, users.length));
 }
 
 export async function POST(request: NextRequest) {

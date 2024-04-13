@@ -1,3 +1,5 @@
+/** @format */
+
 import {
   EmployeeObject,
   EmployeePaginationRequest,
@@ -11,7 +13,7 @@ import { randomUUID } from "crypto";
 async function getEmployeeObjectByID(id: string): Promise<EmployeeObject> {
   const employee = await getEmployeeObjectByIDList([id]);
   if (employee.get(id) == undefined) {
-    throw new Error("Employee not found");
+    throw new Error("Employee not found ;-(");
   }
   return employee.get(id);
 }

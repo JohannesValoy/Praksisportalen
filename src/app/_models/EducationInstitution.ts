@@ -55,9 +55,7 @@ export class EducationInstitutionPageRequest extends PageRequest {
    * @param request NextRequest object
    * @returns A new EducationInstitutionPageRequest object.
    */
-  static fromNextRequest(
-    request: NextRequest
-  ): EducationInstitutionPageRequest {
+  static fromRequest(request: NextRequest): EducationInstitutionPageRequest {
     const pageRequest = super.fromRequest(request);
     const containsName = request.nextUrl.searchParams.get("containsName")
       ? request.nextUrl.searchParams.get("containsName")
@@ -67,7 +65,7 @@ export class EducationInstitutionPageRequest extends PageRequest {
       pageRequest.page,
       pageRequest.size,
       sort,
-      containsName
+      containsName,
     );
   }
 }

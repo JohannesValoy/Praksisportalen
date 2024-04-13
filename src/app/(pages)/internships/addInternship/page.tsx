@@ -1,14 +1,14 @@
 /** @format */
 "use client";
 
+import Section from "@/app/_models/Section";
 import Dropdown from "@/app/components/Dropdown";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Page() {
   const [name, setname] = useState("");
-  const [sections, setSections] = useState<Section[]>([]);
+  const [sections, setSections] = useState([]);
   const [section_id, setSections_id] = useState(0);
   const [field, setField] = useState("");
   const [newField, setNewField] = useState("");
@@ -19,11 +19,6 @@ export default function Page() {
   const [yearOfStudy, setYearOfStudy] = useState(0);
 
   const router = useRouter();
-
-  type Section = {
-    name: string;
-    id: string;
-  };
 
   type Fields = {
     name: string;
@@ -123,10 +118,12 @@ export default function Page() {
         dropdownName="Section"
         options={sections}
         selectedOption={
-          sections.find((currSections) => currSections.id === section_id) ||
-          null
+          sections.find((currSections) => currSections.id === section_id)
+            .toString || null
         }
-        setSelectedOption={(currSections) => setSections_id(currSections.id)}
+        setSelectedOption={(currSections) =>
+          setSections_id(Number(currSections.id))
+        }
         renderOption={(currSections) => <div>{currSections.name}</div>}
       />
       <label className="form-control w-full">

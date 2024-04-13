@@ -110,6 +110,11 @@ export async function up(knex: Knex): Promise<void> {
         .inTable("students")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
+      table.string("internship_field").notNullable();
+      table
+        .foreign("internship_field")
+        .references("name")
+        .inTable("internshipFields");
       table.string("coordinator_id");
       table.foreign("coordinator_id").references("id").inTable("coordinators");
       table.integer("studyProgram_id").unsigned().notNullable();

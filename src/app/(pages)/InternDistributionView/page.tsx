@@ -2,7 +2,6 @@
 
 "use client";
 import Modal from "./Modal";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import DynamicTable from "../../components/DynamicTable";
 const ListOfInternshipAgreements = () => {
@@ -10,18 +9,21 @@ const ListOfInternshipAgreements = () => {
   const [internshipAgreements, setInternshipAgreements] = useState<
     InternshipAgreement[]
   >([]);
+  const [field, setField] = useState(null);
   const [sortedBy, setSortedBy] = useState<string>("name");
   const [selectedRows, setSelectedRows] = useState<InternshipAgreement[]>([]);
   const headers = {
     Status: "status",
     " Start Date": "startDate",
     "End Date": "endDate",
+    Field: "internship_field",
   };
   useEffect(() => {
-    fetch("/api/DistributeInterns").then((res) =>
-      res.json().then(setInternshipAgreements),
+    fetch(`/api/DistributeInterns?containsStatus:=${"Diskuteres"}`).then(
+      (res) => res.json().then(setInternshipAgreements)
     );
   }, []);
+  console.log(field);
 
   type InternshipAgreement = {
     name: string;
@@ -40,6 +42,8 @@ const ListOfInternshipAgreements = () => {
     });
   }
 
+  console.log(internshipAgreements);
+
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <DynamicTable
@@ -50,6 +54,7 @@ const ListOfInternshipAgreements = () => {
         setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
+          setField(row.internship_field);
           setShowModal(true);
         }}
         buttonName={"Distribuer"}
@@ -62,7 +67,7 @@ const ListOfInternshipAgreements = () => {
       />
 
       <button onClick={() => setShowModal(true)}>Distribuer alle</button>
-      {showModal && <Modal setShow={setShowModal} />}
+      {showModal && <Modal setShow={setShowModal} Field={field} />}
     </div>
   );
 };

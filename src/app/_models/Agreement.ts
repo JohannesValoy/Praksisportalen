@@ -3,10 +3,15 @@
 import { InternshipAgreementTable } from "knex/types/tables.js";
 import StudyProgramObject from "./StudyProgram";
 import InternshipPositionObject from "./InternshipPosition";
+import { PageRequest } from "./pageinition";
+import { NextRequest } from "next/server";
 
+/**
+ * A class representing an Internship Agreement.
+ */
 class InternshipAgreementObject implements InternshipAgreementTable {
-  private _id: number;
-  private _status: string;
+  id: number;
+  status: string;
   startDate: Date;
   endDate: Date;
   student_id: string;
@@ -14,52 +19,171 @@ class InternshipAgreementObject implements InternshipAgreementTable {
   studyProgram_id: number;
   studyProgram: StudyProgramObject;
   internship: InternshipPositionObject;
+  internship_field: string;
   comment: string;
   created_at: Date;
   updated_at: Date;
   coordinator_id: string;
 
+  /**
+   * Constructs a new Internship Agreement object.
+   * @param agreement The raw agreement data from the database.
+   * @param studyProgram An object representing the associated study program.
+   * @param internship An object representing the associated internship position.
+   */
   constructor(
     agreement: InternshipAgreementTable,
     studyProgram: StudyProgramObject,
-    interShip: InternshipPositionObject,
+    internship: InternshipPositionObject
   ) {
-    this._id = agreement.id;
-    this._status = agreement.status;
+    this.id = agreement.id;
+    this.status = agreement.status;
     this.startDate = agreement.startDate;
     this.endDate = agreement.endDate;
     this.student_id = agreement.student_id;
     this.internship_id = agreement.internship_id;
     this.studyProgram_id = agreement.studyProgram_id;
     this.studyProgram = studyProgram;
+    this.internship = internship;
+    this.internship_field = agreement.internship_field;
     this.comment = agreement.comment;
     this.created_at = agreement.created_at;
     this.updated_at = agreement.updated_at;
-    this.internship = interShip;
     this.coordinator_id = agreement.coordinator_id;
   }
 
-  get id(): number {
-    return this._id;
-  }
-
-  get status(): string {
-    return this._status;
-  }
-
+  /**
+   * Converts the agreement object to a JSON representation.
+   * @returns A JSON object representing the agreement.
+   */
   toJSON() {
     return {
-      id: this._id,
-      status: this._status,
+      id: this.id,
+      status: this.status,
       startDate: this.startDate,
       endDate: this.endDate,
       student_id: this.student_id,
-      internship: this.internship,
+      internship_id: this.internship_id,
+      studyProgram_id: this.studyProgram_id,
       studyProgram: this.studyProgram,
+      internship: this.internship,
+      internship_field: this.internship_field,
       comment: this.comment,
       created_at: this.created_at,
       updated_at: this.updated_at,
+      coordinator_id: this.coordinator_id,
     };
+  }
+}
+
+/**
+ * InternshipAgreementPageRequest is a class that represents a request for a paginated list of Internship Agreement objects.
+ * It should be used when you want to get a list of Internship Agreements from the server.
+ */
+export class InternshipAgreementPageRequest extends PageRequest {
+  private _hasCoordinatorID: number;
+  private _hasStudentID: number;
+  private _hasInternshipID: number;
+  private _containsComment: string;
+  private _containsInternshipField: string;
+  private _containsStudyProgramID: number;
+  private _containsStatus: string;
+
+  /**
+   * Creates a new InternshipAgreementPageRequest object.
+   * @param page page number
+   * @param size of the page
+   * @param sort what to sort by
+   * @param filters Additional filter parameters.
+   */
+  constructor(
+    page: number,
+    size: number,
+    sort: string,
+    hasCoordinatorID: number,
+    hasStudentID: number,
+    hasInternshipID: number,
+    containsComment: string,
+    containsInternshipField: string,
+    containsStudyProgramID: number,
+    containsStatus: string
+  ) {
+    super(page, size);
+    if (
+      [
+        "status",
+        "startDate",
+        "endDate",
+        "student_id",
+        "internship_field",
+        "coordinator_id",
+        "studyProgram_id",
+        "internship_id",
+        "comment",
+        "created_at",
+        "updated_at",
+      ].includes(sort)
+    ) {
+      this.sort = sort;
+    }
+    this._hasCoordinatorID = hasCoordinatorID;
+    this._hasStudentID = hasStudentID;
+    this._hasInternshipID = hasInternshipID;
+    this._containsComment = containsComment;
+    this._containsInternshipField = containsInternshipField;
+    this._containsStudyProgramID = containsStudyProgramID;
+    this._containsStatus = containsStatus;
+  }
+
+  /**
+   * Creates a new InternshipAgreementPageRequest object from a NextRequest object, parsing URL search parameters.
+   * @param request The incoming NextRequest object.
+   * @returns A configured page request object.
+   */
+  static fromRequest(request: NextRequest): InternshipAgreementPageRequest {
+    const pageRequest = super.fromRequest(request);
+    const params = request.nextUrl.searchParams;
+    return new InternshipAgreementPageRequest(
+      pageRequest.page,
+      pageRequest.size,
+      params.get("sort") || "",
+      Number(params.get("hasCoordinatorID")) || -1,
+      Number(params.get("hasStudentID")) || -1,
+      Number(params.get("hasInternshipID")) || -1,
+      params.get("containsComment") || "",
+      params.get("containsInternshipField") || "",
+      Number(params.get("containsStudyProgramID")) || -1,
+      params.get("containsStatus") || ""
+    );
+  }
+
+  // Getters for private fields with filters
+  get hasCoordinatorID(): number {
+    return this._hasCoordinatorID;
+  }
+
+  get hasStudentID(): number {
+    return this._hasStudentID;
+  }
+
+  get hasInternshipID(): number {
+    return this._hasInternshipID;
+  }
+
+  get containsComment(): string {
+    return this._containsComment;
+  }
+
+  get containsInternshipField(): string {
+    return this._containsInternshipField;
+  }
+
+  get containsStudyProgramID(): number {
+    return this._containsStudyProgramID;
+  }
+
+  get containsStatus(): string {
+    return this._containsStatus;
   }
 }
 

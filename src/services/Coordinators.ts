@@ -1,6 +1,6 @@
 import DBclient from "@/knex/config/DBClient";
 import { CoordinatorTable } from "knex/types/tables.js";
-import { encodeID, encryptPassword } from "@/lib/auth";
+import { encryptPassword } from "@/lib/auth";
 import { Coordinator, CoordinatorPageRequest } from "@/app/_models/Coordinator";
 import { PageResponse } from "@/app/_models/pageinition";
 import { randomUUID } from "crypto";

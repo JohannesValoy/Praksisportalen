@@ -6,7 +6,7 @@ import {
 } from "@/app/_models/Employee";
 import DBclient from "@/knex/config/DBClient";
 import { EmployeeTable } from "knex/types/tables.js";
-import { encodeID, encryptPassword } from "@/lib/auth";
+import { encryptPassword } from "@/lib/auth";
 import { PageResponse } from "@/app/_models/pageinition";
 import { randomUUID } from "crypto";
 

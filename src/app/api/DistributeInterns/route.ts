@@ -13,5 +13,7 @@ export async function GET(request: NextRequest) {
     pageRequest,
     "------------------------------------------------------------------------------"
   );
-  return Response.json(await getInternshipAgreementsByPageRequest(pageRequest));
+  const data = await getInternshipAgreementsByPageRequest(pageRequest);
+  console.log(data);
+  return Response.json(data);
 }

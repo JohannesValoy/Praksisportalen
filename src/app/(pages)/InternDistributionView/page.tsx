@@ -13,17 +13,24 @@ const ListOfInternshipAgreements = () => {
   const [sortedBy, setSortedBy] = useState<string>("name");
   const [selectedRows, setSelectedRows] = useState<InternshipAgreement[]>([]);
   const headers = {
-    Status: "status",
+    containsStatus: "status",
     " Start Date": "startDate",
     "End Date": "endDate",
     Field: "internship_field",
   };
   useEffect(() => {
-    fetch(`/api/DistributeInterns?containsStatus:=${"Diskuteres"}`).then(
-      (res) => res.json().then(setInternshipAgreements)
-    );
-  }, []);
-  console.log(field);
+    const fetchUrl = `/api/DistributeInterns?containsStatus=${"Diskuteres"}`;
+
+    fetch(fetchUrl)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message) {
+          console.error(data.message);
+        } else {
+          setInternshipAgreements(data.elements || [data]);
+        }
+      });
+  }, [sortedBy]);
 
   type InternshipAgreement = {
     name: string;

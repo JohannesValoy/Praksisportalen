@@ -45,6 +45,7 @@ const ListOfInternships = ({ Field }: { Field: any }) => {
     "Max Capacity": "maxCapacity",
     "Current Capacity": "currentCapacity",
     Field: "internship_field",
+    "Available Places": "availablePlaces",
   };
   const [sortedBy, setSortedBy] = useState<string>("name");
   const clickableColumns = {

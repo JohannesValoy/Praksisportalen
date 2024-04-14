@@ -35,8 +35,8 @@ class InternshipPositionObject implements InternshipTable {
     return {
       id: this.id,
       name: this.name,
-      field: this.internship_field,
       maxCapacity: this.maxCapacity,
+      internship_field: this.internship_field,
       currentCapacity: this.currentCapacity,
       numberOfBeds: this.numberOfBeds,
       yearOfStudy: this.yearOfStudy,
@@ -54,7 +54,7 @@ class InternshipPositionObject implements InternshipTable {
 export class InternshipPaginationRequest extends PageRequest {
   section_id: number[];
   yearOfStudy: number[];
-  field: string;
+  _internship_field: string;
 
   /**
    * Creates a new InternshipPaginationRequest object.
@@ -71,12 +71,12 @@ export class InternshipPaginationRequest extends PageRequest {
     sort: string = "id",
     section_id: number[] = [],
     yearOfStudy: number[] = [],
-    field: string = "",
+    internship_field: string = ""
   ) {
     super(page, size);
     this.section_id = section_id;
     this.yearOfStudy = yearOfStudy;
-    this.field = field;
+    this._internship_field = internship_field;
   }
 
   /**
@@ -105,8 +105,52 @@ export class InternshipPaginationRequest extends PageRequest {
       page.sort,
       section_id,
       yearOfStudy,
-      field,
+      field
     );
+  }
+
+  /**
+   * Returns the section_id.
+   */
+  getSectionID(): number[] {
+    return this.section_id;
+  }
+
+  /**
+   * Returns the yearOfStudy.
+   */
+  getYearOfStudy(): number[] {
+    return this.yearOfStudy;
+  }
+
+  /**
+   * Returns the field.
+   */
+  getField(): string {
+    console.log(this._internship_field);
+    return this._internship_field;
+  }
+
+  /**
+   * Returns the page.
+   */
+  getPage(): number {
+    return this.page;
+  }
+
+  /**
+   * Returns the size.
+   */
+  getSize(): number {
+    return this.size;
+  }
+
+  /**
+   * Returns the sort.
+   */
+
+  getSort(): string {
+    return this.sort;
   }
 }
 

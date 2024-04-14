@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 export default function Page() {
   const [name, setName] = useState("");
   const [sections, setSections] = useState<Section[]>([]);
+
   const [section_id, setSections_id] = useState(0);
   const [field, setField] = useState("");
   const [newField, setNewField] = useState("");

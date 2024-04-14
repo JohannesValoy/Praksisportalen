@@ -68,7 +68,6 @@ const StudentLayout = () => {
       });
   }, [student_id]);
 
-
   return (
     <div className="flex flex-row w-full h-full items-center justify-center">
       {student ? (

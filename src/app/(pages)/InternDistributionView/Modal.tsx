@@ -44,7 +44,7 @@ const ListOfInternships = ({ Field }: { Field: any }) => {
     Name: "name",
     "Max Capacity": "maxCapacity",
     "Current Capacity": "currentCapacity",
-    Field: "field",
+    Field: "internship_field",
   };
   const [sortedBy, setSortedBy] = useState<string>("name");
   const clickableColumns = {
@@ -52,7 +52,6 @@ const ListOfInternships = ({ Field }: { Field: any }) => {
       window.location.href = `/profile/?id=${row.employee_id}`;
     },
   };
-
   useEffect(() => {
     const fetchUrl = `/api/DistributeInterns/AvailableInternshipSpots?Field=${Field}`;
 
@@ -62,24 +61,10 @@ const ListOfInternships = ({ Field }: { Field: any }) => {
         if (data.message) {
           console.error(data.message);
         } else {
-          // If data.elements is present, map over it to create a new array
-          // where each element is a flattened version of the original element.
-          // If data.elements is not present, use data directly.
-          const rows = data.elements
-            ? data.elements.map((element) => ({
-                ...element,
-              }))
-            : [
-                {
-                  ...data,
-                },
-              ];
-
-          setInternships(rows);
+          setInternships(data);
         }
       });
   }, [Field, id, sortedBy]);
-
   type Internship = {
     name: string;
     id: string;

@@ -19,7 +19,7 @@ const ListOfDepartments = () => {
 
   useEffect(() => {
     const url = `/api/departments?sort=${sortedBy}`;
-    console.log(`Fetching by link  ${url}azure`);
+    console.log(`Fetching by link  ${url}`);
     fetch(url)
       .then((res) => res.json())
       .then((data) => {

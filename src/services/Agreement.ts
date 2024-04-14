@@ -5,7 +5,9 @@ import InternshipAgreementObject, {
 } from "@/app/_models/Agreement";
 import { InternshipAgreementTable } from "knex/types/tables.js";
 import StudyProgramObject from "@/app/_models/StudyProgram";
-import InternshipPositionObject from "@/app/_models/InternshipPosition";
+import InternshipPositionObject, {
+  InternshipPaginationRequest,
+} from "@/app/_models/InternshipPosition";
 import DBclient from "@/knex/config/DBClient";
 import { PageResponse } from "@/app/_models/pageinition";
 
@@ -105,6 +107,33 @@ async function getInternshipAgreementsByPageRequest(
 }
 
 /**
+ * Returns a list of internships with available places based on the internship request.
+ * @param internshipRequest
+ * @returns internshipAgreements
+ */
+async function getInternshipAgreementsByInternshipRequest(
+  internshipRequest: InternshipPaginationRequest,
+) {
+  const internships = await DBclient("internships")
+    .leftJoin(
+      "internshipAgreements",
+      "internships.id",
+      "internshipAgreements.internship_id",
+    )
+    .select("internships.*")
+    .count("internshipAgreements.id as internshipAgreementCount")
+    .groupBy("internships.id")
+    .then((rows) => {
+      return rows.map((row) => ({
+        ...row,
+        availablePlaces: row.currentCapacity - row.internshipAgreementCount,
+      }));
+    });
+  console.log(internships);
+  return internships;
+}
+
+/**
  * Creates Internship Agreement objects from database query results.
  * @param query Result of the database query.
  * @returns An array of Internship Agreement objects.
@@ -136,4 +165,5 @@ export {
   getInternshipAgreementObjectByID,
   getInternshipAgreementObjectByIDList,
   getInternshipAgreementsByPageRequest,
+  getInternshipAgreementsByInternshipRequest,
 };

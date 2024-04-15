@@ -1,124 +1,95 @@
+/** @format */
 "use client";
-
 import React, { useState } from "react";
+import axios from "axios";
 
-const BulkImportPage = () => {
-  const [file, setFile] = useState();
-  const [array, setArray] = useState([]);
+const InternshipUploader = () => {
+  const [file, setFile] = useState(null);
+  const [responses, setResponses] = useState([]);
 
-  const handleOnChange = (e) => {
-    setFile(e.target.files[0]);
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
   };
 
-  const csvFileToArray = (string) => {
-    const csvHeader = string.slice(0, string.indexOf("\n")).split("\t");
-    const csvRows = string.slice(string.indexOf("\n") + 1).split("\n");
+  // Parse CSV Data into JSON
+  const parseCSV = async (text) => {
+    const lines = text.split("\n").filter((line) => line.trim());
+    const headers = lines[0].split(",").map((header) => header.trim());
 
-    const groupedData = csvRows.reduce((groups, row) => {
-      const values = row.split("\t");
-      const obj = csvHeader.reduce((object, header, index) => {
-        object[header] = values[index];
+    return lines.slice(1).map((line) => {
+      const values = line.split(",");
+      return headers.reduce((object, header, index) => {
+        object[header] = values[index] ? values[index].trim() : null;
         return object;
       }, {});
-
-      const table = obj.table;
-      delete obj.table;
-
-      if (!groups[table]) {
-        groups[table] = [];
-      }
-
-      groups[table].push(obj);
-
-      return groups;
-    }, {});
-
-    setArray(groupedData);
+    });
   };
 
-  const handleOnSubmit = async (e) => {
-    e.preventDefault();
-
-    const fileReader = new FileReader();
-
-    if (file) {
-      fileReader.onload = async function (event) {
-        const text = event.target.result;
-        await csvFileToArray(text);
-      };
-
-      fileReader.onloadend = () => {
-        for (const table in array) {
-          fetch(`/api/${table}`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(array[table]),
-          })
-            .then((response) => response.json())
-            .then((data) => console.log(data))
-            .catch((error) => console.error("Error:", error));
-        }
-      };
-
-      fileReader.readAsText(file);
+  // Select API endpoint based on the "table" value
+  const getApiEndpoint = (tableValue) => {
+    switch (tableValue) {
+      case "internship":
+        return "/api/internships";
+      case "section":
+        return "/api/sections";
+      // Add other cases as needed
+      default:
+        return "/api/default"; // Default endpoint or handling error
     }
   };
 
-  const headerKeys = [
-    new Set<string>(
-      Object.values(array)
-        .flat()
-        .reduce((keys, obj) => [...keys, ...Object.keys(obj)], [])
-    ),
-  ];
+  // API request function adapted for dynamic endpoint usage
+  const sendInternshipData = async (internship) => {
+    console.log(internship.table);
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/api/${internship.table}`,
+        internship,
+      );
+      return response;
+    } catch (error) {
+      return error.response || { status: 500, statusText: "Server Error" };
+    }
+  };
+
+  // Handle file upload
+  const handleUpload = async () => {
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const text = e.target.result;
+        const internships = await parseCSV(text);
+        const responses = await Promise.all(
+          internships.map((internship) => sendInternshipData(internship)),
+        );
+        setResponses(responses);
+      };
+      reader.readAsText(file);
+    }
+  };
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1>REACTJS CSV IMPORT EXAMPLE </h1>
-      <form>
-        <input
-          type={"file"}
-          id={"csvFileInput"}
-          accept={".csv"}
-          onChange={handleOnChange}
-        />
-
-        <button
-          onClick={(e) => {
-            handleOnSubmit(e);
-          }}
-        >
-          IMPORT CSV
-        </button>
-      </form>
-
-      <br />
-
-      <table>
-        <thead>
-          <tr key={"header"}>
-            {headerKeys.map((key, index) => (
-              <th key={index}>{key}</th>
-            ))}
-          </tr>
-        </thead>
-
-        <tbody>
-          {Object.values(array)
-            .flat()
-            .map((item, index) => (
-              <tr key={index}>
-                {Object.values(item).map((val, i) => (
-                  <td key={`${index}-${i}`}>{String(val)}</td>
-                ))}
-              </tr>
-            ))}
-        </tbody>
-      </table>
+    <div className="container mx-auto p-4">
+      <input
+        id="fileInput"
+        type="file"
+        className="file-input file-input-bordered w-full max-w-xs"
+        onChange={handleFileChange}
+        accept=".csv"
+      />
+      <button onClick={handleUpload} className="btn btn-secondary mt-2">
+        Send Data
+      </button>
+      <div>
+        {responses.map((response, index) => (
+          <div key={index} className="alert alert-info">
+            Response for entry {index + 1}: {response.status}{" "}
+            {response.statusText} + {console.log(response)}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default BulkImportPage;
+export default InternshipUploader;

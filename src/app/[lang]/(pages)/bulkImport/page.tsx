@@ -44,7 +44,7 @@ const InternshipUploader = () => {
     try {
       const response = await axios.post(
         `http://localhost:3000/api/${internship.table}`,
-        internship
+        internship,
       );
       return response;
     } catch (error) {
@@ -60,7 +60,7 @@ const InternshipUploader = () => {
         const text = e.target.result;
         const internships = await parseCSV(text);
         const responses = await Promise.all(
-          internships.map((internship) => sendInternshipData(internship))
+          internships.map((internship) => sendInternshipData(internship)),
         );
         setResponses(responses);
       };

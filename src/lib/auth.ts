@@ -17,4 +17,3 @@ export async function encryptPassword(password: string): Promise<string> {
   }
   return await Bun.password.hash(password, { algorithm: "bcrypt", cost: 11 });
 }
-

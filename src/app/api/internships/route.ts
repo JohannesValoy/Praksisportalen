@@ -10,7 +10,7 @@ import { getInternshipPositionObjectByPageRequest } from "@/services/InternshipP
 export async function GET(request: NextRequest) {
   const pageRequest = InternshipPaginationRequest.fromRequest(request);
   return Response.json(
-    await getInternshipPositionObjectByPageRequest(pageRequest)
+    await getInternshipPositionObjectByPageRequest(pageRequest),
   );
 }
 
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     "yearOfStudy: " + yearOfStudy,
     "section_id: " + section_id,
     "-----------------------------------------------------------",
-    request.json()
+    request.json(),
   );
   const internship = await DBclient("internships").insert({
     name,

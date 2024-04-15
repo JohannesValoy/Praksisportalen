@@ -1,13 +1,11 @@
 {
-    "dashboard": {
-        
-    },
-    "login":{
-        "pageName": "Login",
-        "header": "Login",
-        "loginButton": "Login",
-        "feideLoginButton": "Login with Feide",
-        "username": "Username",
-        "password": "Password"
-    }
+  "dashboard": {},
+  "login": {
+    "pageName": "Login",
+    "header": "Login",
+    "loginButton": "Login",
+    "feideLoginButton": "Login with Feide",
+    "username": "Username",
+    "password": "Password"
+  }
 }

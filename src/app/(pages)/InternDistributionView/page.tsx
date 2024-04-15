@@ -17,6 +17,7 @@ const ListOfInternshipAgreements = () => {
     " Start Date": "startDate",
     "End Date": "endDate",
     Field: "internship_field",
+    "Amount of Interns": "amount_of_interns",
   };
   useEffect(() => {
     const fetchUrl = `/api/DistributeInterns?containsStatus=${"Diskuteres"}`;
@@ -37,6 +38,7 @@ const ListOfInternshipAgreements = () => {
     id: string;
   };
 
+  console.log(internshipAgreements);
   if (sortedBy) {
     internshipAgreements.sort((a, b) => {
       if (a[sortedBy] < b[sortedBy]) {
@@ -79,7 +81,13 @@ const ListOfInternshipAgreements = () => {
       >
         Distribuer alle
       </button>
-      {showModal && <Modal setShow={setShowModal} Field={field} />}
+      {showModal && (
+        <Modal
+          setShow={setShowModal}
+          internship_field={field}
+          amount={internshipAgreements.length}
+        />
+      )}
     </div>
   );
 };

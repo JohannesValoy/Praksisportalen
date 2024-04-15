@@ -3,7 +3,7 @@
  * From https://medium.com/@dtulpa16/next-js-modals-made-easy-7bdce15b2a5e
  */
 
-function Modal({ setShow, Field }: { setShow: any; Field: any }) {
+function Modal({ setShow, Field }: { setShow: any; Field: string }) {
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
       <div className="p-8 border w-fit shadow-lg rounded-md bg-white">
@@ -11,8 +11,9 @@ function Modal({ setShow, Field }: { setShow: any; Field: any }) {
           <h3 className="text-2xl font-bold text-gray-900">
             Distribuer Studenter på praksisplasser
           </h3>
+          <h4>Antall studenter å distribuere:</h4>
           <div className="mt-2 px-7 py-3">
-            <ListOfInternships Field={Field} />
+            <ListOfInternships internship_field={Field} />
           </div>
           <div className="flex justify-center mt-4">
             {/* Navigates back to the base URL - closing the modal */}
@@ -35,7 +36,11 @@ import DynamicTable from "@/app/components/DynamicTable";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const ListOfInternships = ({ Field }: { Field: any }) => {
+const ListOfInternships = ({
+  internship_field,
+}: {
+  internship_field: string;
+}) => {
   const searchParams = useSearchParams();
   const id = searchParams.get("section_id");
   const [internships, setInternships] = useState<Internship[]>([]);
@@ -44,7 +49,7 @@ const ListOfInternships = ({ Field }: { Field: any }) => {
     Name: "name",
     "Max Capacity": "maxCapacity",
     "Current Capacity": "currentCapacity",
-    Field: "internship_field",
+    internship_field: "internship_field",
     "Available Places": "availablePlaces",
   };
   const [sortedBy, setSortedBy] = useState<string>("name");
@@ -54,7 +59,7 @@ const ListOfInternships = ({ Field }: { Field: any }) => {
     },
   };
   useEffect(() => {
-    const fetchUrl = `/api/DistributeInterns/AvailableInternshipSpots?Field=${Field}`;
+    const fetchUrl = `/api/DistributeInterns/AvailableInternshipSpots?internship_field=${internship_field}`;
 
     fetch(fetchUrl)
       .then((res) => res.json())
@@ -65,13 +70,17 @@ const ListOfInternships = ({ Field }: { Field: any }) => {
           setInternships(data);
         }
       });
-  }, [Field, id, sortedBy]);
+  }, [internship_field, id, sortedBy]);
+
+  console.log("in modal: " + internship_field);
+
   type Internship = {
     name: string;
     id: string;
     employee_id: string;
     employee_email: string;
   };
+  console.log(internships);
 
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">

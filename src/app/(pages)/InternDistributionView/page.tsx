@@ -9,7 +9,7 @@ const ListOfInternshipAgreements = () => {
   const [internshipAgreements, setInternshipAgreements] = useState<
     InternshipAgreement[]
   >([]);
-  const [field, setField] = useState(null);
+  const [field, setField] = useState("");
   const [sortedBy, setSortedBy] = useState<string>("name");
   const [selectedRows, setSelectedRows] = useState<InternshipAgreement[]>([]);
   const headers = {
@@ -71,7 +71,14 @@ const ListOfInternshipAgreements = () => {
         setRows={setInternshipAgreements}
       />
 
-      <button onClick={() => setShowModal(true)}>Distribuer alle</button>
+      <button
+        onClick={() => {
+          setField("");
+          setShowModal(true);
+        }}
+      >
+        Distribuer alle
+      </button>
       {showModal && <Modal setShow={setShowModal} Field={field} />}
     </div>
   );

@@ -105,10 +105,7 @@ async function getInternshipAgreementsByPageRequest(
 async function getInternshipAgreementsByInternshipRequest(
   internshipRequest: InternshipPaginationRequest,
 ) {
-  console.log("---------------------------------------------------------");
-  console.log(internshipRequest.getField());
-  console.log("---------------------------------------------------------");
-
+  console.log("internshipRequest: " + JSON.stringify(internshipRequest));
   const internships = await DBclient("internships")
     .leftJoin(
       "internshipAgreements",
@@ -120,11 +117,17 @@ async function getInternshipAgreementsByInternshipRequest(
     .groupBy("internships.id")
     .where((builder) => {
       if (internshipRequest.getField() !== "") {
+        console.log(internshipRequest.getField());
+        console.log("internshipRequest.getField() is not empty");
         // Ensure to reference the correct table for the internship_field column
         builder.where(
           "internships.internship_field",
           internshipRequest.getField(),
         );
+      } else {
+        // Select all records when internship_field is empty
+        console.log("internshipRequest.getField() is empty");
+        builder.select("*");
       }
     })
     .then((rows) => {
@@ -133,7 +136,6 @@ async function getInternshipAgreementsByInternshipRequest(
         availablePlaces: row.currentCapacity - row.internshipAgreementCount,
       }));
     });
-  console.log(internships);
   return internships;
 }
 

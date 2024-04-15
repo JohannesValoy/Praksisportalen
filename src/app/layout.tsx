@@ -35,6 +35,10 @@ export default async function RootLayout({
               Home
             </Link>
 
+            <Link href="/bulkImport" className="btn  rounded-btn h-full">
+              Import Data from Excel
+            </Link>
+
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn m-1">
                 Settings

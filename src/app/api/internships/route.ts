@@ -6,12 +6,6 @@ import { NextRequest } from "next/server";
 import { getInternshipPositionObjectByPageRequest } from "@/services/InternshipPosition";
 import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
 
-import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
-import { getInternshipPositionObjectByPageRequest } from "@/services/InternshipPosition";
-
-import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
-import { getInternshipPositionObjectByPageRequest } from "@/services/InternshipPosition";
-
 export async function GET(request: NextRequest) {
   try {
     const pageRequest = InternshipPaginationRequest.fromRequest(request);

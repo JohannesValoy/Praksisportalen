@@ -35,17 +35,13 @@ const ListOfStudies = () => {
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <DynamicTable
         rows={studies}
-        tableName={"Study Program"}
+        tableName={"Study Programs"}
         headers={headers}
         onRowClick={() => {}}
-        onRowButtonClick={(row) => {
-          window.location.href = `/studyProgram?id=${row.id}`;
-        }}
-        buttonName={"Details"}
         setSelectedRows={setSelectedRows}
         selectedRows={selectedRows}
         onAddButtonClick={() => {
-          window.location.href = `/studyPrograms/add`;
+          window.location.href = `/studyprograms/add`;
         }}
         setSortedBy={setSortedBy}
         url="/api/studyPrograms/"

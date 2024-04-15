@@ -25,18 +25,10 @@ export default function Page() {
   };
 
   useEffect(() => {
-    const fetchAllData = async () => {
-      try {
-        const sectionsResponse = await fetch(`/api/sections`).then((res) =>
-          res.json()
-        );
-        setSections(sectionsResponse || []);
-      } catch (error) {
-        console.error("Failed to fetch data", error);
-      }
-    };
-
-    fetchAllData();
+    fetch(`/api/sections`) // Adjusted the fetch URL to match backend routing.
+      .then((res) => res.json())
+      .then((data) => setSections(data.elements)) // Ensure proper data handling.
+      .catch((error) => console.error("Failed to fetch users", error)); // Error handling.
   }, []);
 
   useEffect(() => {
@@ -96,7 +88,10 @@ export default function Page() {
   };
 
   return (
-    <div className="w-full h-full max-w-[50rem] mx-auto m-10 flex flex-col items-center">
+    <form
+      onSubmit={handleSubmit}
+      className="w-full h-full max-w-[50rem] mx-auto m-10 flex flex-col items-center"
+    >
       Add Internship
       <label className="form-control w-full mb-2">
         <div className="label">
@@ -104,9 +99,10 @@ export default function Page() {
         </div>
         <input
           type="text"
-          placeholder="Section Name"
+          placeholder="Internship Name"
           className="input input-bordered w-full"
           onChange={(e) => setname(e.target.value)}
+          required
         />
       </label>
       <label className="form-control w-full">
@@ -126,6 +122,7 @@ export default function Page() {
           setSections_id(Number(currSections.id))
         }
         renderOption={(currSections) => <div>{currSections.name}</div>}
+        required
       />
       <label className="form-control w-full">
         <div className="label">
@@ -140,6 +137,7 @@ export default function Page() {
         }
         setSelectedOption={(currField) => setField(currField.name)}
         renderOption={(currField) => <div>{currField.name}</div>}
+        required
       />
       <div className="flex flex-row mt-2">
         <input
@@ -162,7 +160,8 @@ export default function Page() {
           placeholder="Number of intern Spots"
           className="input input-bordered w-full"
           onChange={(e) => setCurrentCapacity(Number(e.target.value))}
-          max={50}
+          min={0}
+          required
         />
       </label>
       <label className="form-control w-full mb-2">
@@ -174,7 +173,8 @@ export default function Page() {
           placeholder="Max Capacity"
           className="input input-bordered w-full"
           onChange={(e) => setMaxCapacity(Number(e.target.value))}
-          max={50}
+          min={0}
+          required
         />
       </label>
       <label className="form-control w-full mb-2">
@@ -186,7 +186,8 @@ export default function Page() {
           placeholder="Number of Beds"
           className="input input-bordered w-full"
           onChange={(e) => setNumberOfBeds(Number(e.target.value))}
-          max={50}
+          defaultValue={0}
+          min={0}
         />
       </label>
       <label className="form-control w-full mb-2">
@@ -198,7 +199,8 @@ export default function Page() {
           placeholder="Year of Study"
           className="input input-bordered w-full"
           onChange={(e) => setYearOfStudy(Number(e.target.value))}
-          max={50}
+          min={0}
+          required
         />
       </label>
       <div className="flex flex-row"></div>
@@ -206,10 +208,10 @@ export default function Page() {
         <button className="btn w-20" onClick={() => router.back()}>
           Cancel
         </button>
-        <button className="btn btn-primary w-20" onClick={handleSubmit}>
+        <button type="submit" className="btn btn-primary w-20">
           Save
         </button>
       </div>
-    </div>
+    </form>
   );
 }

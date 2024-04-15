@@ -17,7 +17,7 @@ const ListOfInternshipAgreements = () => {
   };
   useEffect(() => {
     fetch("/api/internshipAgreements").then((res) =>
-      res.json().then(setInternshipAgreements),
+      res.json().then(setInternshipAgreements)
     );
   }, []);
 
@@ -48,11 +48,11 @@ const ListOfInternshipAgreements = () => {
         setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
-          window.location.href = `/admin/administerInternships/?department_id=${row.id}`;
+          window.location.href = `./internships/?department_id=${row.id}`;
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {
-          window.location.href = `/admin/administerInternships/addInternship`;
+          window.location.href = `./internships/addInternship`;
         }}
         setSortedBy={setSortedBy}
         url="/api/internships/"

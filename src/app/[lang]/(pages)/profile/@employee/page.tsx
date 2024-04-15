@@ -1,34 +1,5 @@
-/** @format */
-
-"use client";
-import Image from "next/image";
-
-import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-
-type Employee = {
-  name: string;
-  id: string;
-  email: string;
-};
-
+'use client'
 export default function Page() {
-  const searchParams = useSearchParams();
-  const employee_id = searchParams.get("id");
-  const [employee, setEmployee] = useState<Employee>();
-
-  useEffect(() => {
-    fetch(`/api/users/${employee_id}`) // Adjusted the fetch URL to match backend routing.
-      .then((res) => res.json())
-      .then((data) => setEmployee(data)) // Ensure proper data handling.
-      .catch((error) => {
-        console.error("Failed to fetch one employee", error); // Error handling.
-        fetch(`/api/users/employee`)
-          .then((res) => res.json())
-          .then((data) => setEmployee(data))
-          .catch((error) => console.error("Failed to fetch employee", error));
-      });
-  }, [employee_id]);
 
   return (
     <div className="flex flex-row w-full h-full items-center justify-center">

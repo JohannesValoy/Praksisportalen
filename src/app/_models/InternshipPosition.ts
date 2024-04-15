@@ -63,7 +63,7 @@ export class InternshipPaginationRequest extends PageRequest {
    * @param sort the sort order
    * @param section_id  id's of the sections
    * @param yearOfStudy the year of study's
-   * @param field  the field of study
+   * @param internship_field  the field of study
    */
   constructor(
     page: number = 0,
@@ -71,7 +71,7 @@ export class InternshipPaginationRequest extends PageRequest {
     sort: string = "id",
     section_id: number[] = [],
     yearOfStudy: number[] = [],
-    internship_field: string = "all",
+    internship_field: string = "all"
   ) {
     super(page, size);
     this.section_id = section_id;
@@ -106,7 +106,7 @@ export class InternshipPaginationRequest extends PageRequest {
       page.sort,
       section_id,
       yearOfStudy,
-      internship_field,
+      internship_field
     );
   }
 

@@ -3,15 +3,15 @@
 "use client";
 import Modal from "./Modal";
 import React, { useEffect, useState } from "react";
-import DynamicTable from "../../components/DynamicTable";
+import DynamicTable from "../../../components/DynamicTable";
+import { getInternDistribution } from "./Actions";
+
 const ListOfInternshipAgreements = () => {
   const [showModal, setShowModal] = useState(false);
-  const [internshipAgreements, setInternshipAgreements] = useState<
-    InternshipAgreement[]
-  >([]);
+  const [internshipAgreements, setInternshipAgreements] = useState([]);
   const [field, setField] = useState("");
   const [sortedBy, setSortedBy] = useState<string>("name");
-  const [selectedRows, setSelectedRows] = useState<InternshipAgreement[]>([]);
+  const [selectedRows, setSelectedRows] = useState([]);
   const headers = {
     containsStatus: "status",
     " Start Date": "startDate",
@@ -19,18 +19,16 @@ const ListOfInternshipAgreements = () => {
     Field: "internship_field",
     "Amount of Interns": "amount_of_interns",
   };
-  useEffect(() => {
-    const fetchUrl = `/api/DistributeInterns?containsStatus=${"Diskuteres"}`;
+  const [page, setPage] = useState(1);
+  const [pageLimit, setPageLimit] = useState(10);
 
-    fetch(fetchUrl)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.message) {
-          console.error(data.message);
-        } else {
-          setInternshipAgreements(data.elements || [data]);
-        }
-      });
+  useEffect(() => {
+    const updateAggrements = async () => {
+      const aggrements = await getInternDistribution();
+      console.log(aggrements);
+      setInternshipAgreements(aggrements);
+    };
+    updateAggrements();
   }, [sortedBy]);
 
   type InternshipAgreement = {
@@ -38,7 +36,6 @@ const ListOfInternshipAgreements = () => {
     id: string;
   };
 
-  console.log(internshipAgreements);
   if (sortedBy) {
     internshipAgreements.sort((a, b) => {
       if (a[sortedBy] < b[sortedBy]) {

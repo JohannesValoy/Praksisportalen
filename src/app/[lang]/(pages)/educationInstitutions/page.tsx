@@ -11,11 +11,6 @@ const ListOfEducationInstitutions = () => {
   const [selectedRows, setSelectedRows] = useState<EducationInstitution[]>([]);
   const headers = { Name: "name" };
   const [sortedBy, setSortedBy] = useState<string>("name");
-  const clickableColumns = {
-    employee_email: (row) => {
-      window.location.href = `/profile?id=${row.employee_id}`;
-    },
-  };
 
   useEffect(() => {
     fetch(`/api/educationInstitutions`)
@@ -44,7 +39,6 @@ const ListOfEducationInstitutions = () => {
         onAddButtonClick={() => {
           window.location.href = `/educationInstitutions/add`;
         }}
-        clickableColumns={clickableColumns}
         setSortedBy={setSortedBy}
         url="/api/educationInstitutions/"
         setRows={setEducationInstitutions}

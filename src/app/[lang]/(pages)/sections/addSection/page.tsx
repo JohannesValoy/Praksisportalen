@@ -218,9 +218,12 @@ export default function Page() {
             Add new type
           </button>
         </div>
-        <div className="flex flex-row"></div>
         <div className="flex w-full justify-center p-10 gap-5">
-          <button className="btn w-20" onClick={() => router.back()}>
+          <button
+            type="button"
+            className="btn w-20"
+            onClick={() => router.back()}
+          >
             Cancel
           </button>
           <button type="submit" className="btn btn-primary w-20">

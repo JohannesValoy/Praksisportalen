@@ -10,7 +10,7 @@ import { getInternshipPositionObjectByPageRequest } from "@/services/InternshipP
 export async function GET(request: NextRequest) {
   const pageRequest = InternshipPaginationRequest.fromRequest(request);
   return Response.json(
-    await getInternshipPositionObjectByPageRequest(pageRequest),
+    await getInternshipPositionObjectByPageRequest(pageRequest)
   );
 }
 
@@ -23,19 +23,9 @@ export async function POST(request: Request) {
     numberOfBeds,
     yearOfStudy,
     section_id,
+    page,
   } = await request.json();
-  console.log(
-    "-----------------------------------------------------------",
-    "name: " + name,
-    "internship_field: " + internship_field,
-    "maxCapacity: " + maxCapacity,
-    "currentCapacity: " + currentCapacity,
-    "numberOfBeds: " + numberOfBeds,
-    "yearOfStudy: " + yearOfStudy,
-    "section_id: " + section_id,
-    "-----------------------------------------------------------",
-    request.json(),
-  );
+  console.log(page);
   const internship = await DBclient("internships").insert({
     name,
     internship_field,
@@ -45,8 +35,5 @@ export async function POST(request: Request) {
     yearOfStudy,
     section_id,
   });
-  console.log(internship);
-  console.log("Internship created");
-  console.log(request);
   return Response.json(internship);
 }

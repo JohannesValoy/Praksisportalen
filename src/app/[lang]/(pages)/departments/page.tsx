@@ -10,6 +10,7 @@ const ListOfDepartments = () => {
   const [selectedRows, setSelectedRows] = useState<Department[]>([]);
   const headers = { Name: "name", Email: "email" };
   const [sortedBy, setSortedBy] = useState<string>("departments.name");
+  const [page, setPage] = useState(0);
   const clickableColumns = {
     //TODO update this once the api is finished
     email: (row) => {
@@ -18,8 +19,8 @@ const ListOfDepartments = () => {
   };
 
   useEffect(() => {
-    const url = `/api/departments?sort=${sortedBy}`;
-    console.log(`Fetching by link  ${url}azure`);
+    const url = `/api/departments?sort=${sortedBy}&page=${page}`;
+    console.log(`Fetching by link  ${url}`);
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
@@ -32,7 +33,7 @@ const ListOfDepartments = () => {
         setDepartments(modifiedData);
       })
       .catch((error) => console.error("Failed to fetch departments", error));
-  }, [sortedBy]);
+  }, [page, sortedBy]);
 
   console.log(departments);
   return (
@@ -56,6 +57,8 @@ const ListOfDepartments = () => {
           url="/api/departments"
           setRows={setDepartments}
           clickableColumns={clickableColumns}
+          setPage={setPage}
+          page={page}
         />
       </div>
     </div>

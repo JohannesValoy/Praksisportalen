@@ -3,8 +3,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import SectionObject from "@/app/_models/Section";
+import SectionObject, { SectionPageRequest } from "@/app/_models/Section";
 import DynamicTable from "@/app/components/DynamicTable";
+import { paginateSections } from "./action";
 
 const ListOfSections = () => {
   const searchParams = useSearchParams();
@@ -13,7 +14,7 @@ const ListOfSections = () => {
   const [selectedRows, setSelectedRows] = useState<SectionObject[]>([]);
   const headers = { Name: "name", Email: "email" };
   const [sortedBy, setSortedBy] = useState<string>("name");
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
   const clickableColumns = {
     email: (row) => {
@@ -21,38 +22,17 @@ const ListOfSections = () => {
     },
   };
   useEffect(() => {
-    const fetchUrl =
-      id !== null
-        ? `/api/sections/${id}&sort=${sortedBy}&page=${page}`
-        : `/api/sections`;
+    const request = new SectionPageRequest(page, 10, sortedBy, -1, -1, "");
+    paginateSections(request.toJSON()).then((data) => {
+      const rows = data.elements.map((element) => ({
+        ...element,
+        email: element.employee.email,
+        employee_id: element.employee.id,
+      }));
 
-    fetch(fetchUrl)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.message) {
-          console.error(data.message);
-        } else {
-          // If data.elements is present, map over it to create a new array
-          // where each element is a flattened version of the original element.
-          // If data.elements is not present, use data directly.
-          const rows = data.elements
-            ? data.elements.map((element) => ({
-                ...element,
-                email: element.employee.email,
-                employee_id: element.employee.id,
-              }))
-            : [
-                {
-                  ...data,
-                  email: data.employee.email,
-                  employee_id: data.employee.id,
-                },
-              ];
-
-          setSections(rows);
-        }
-      });
-  }, [id, sortedBy]);
+      setSections(rows);
+    });
+  }, [page, sortedBy]);
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4 ">
       <DynamicTable
@@ -74,6 +54,7 @@ const ListOfSections = () => {
         setRows={setSections}
         clickableColumns={clickableColumns}
         setPage={setPage}
+        page={page}
       />
     </div>
   );

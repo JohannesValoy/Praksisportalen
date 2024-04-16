@@ -4,22 +4,39 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
+import { InternshipAgreementPageRequest } from "@/app/_models/Agreement";
+import { paginateInternshipAgreements } from "./actions";
 const ListOfInternshipAgreements = () => {
   const [internshipAgreements, setInternshipAgreements] = useState<
     InternshipAgreement[]
   >([]);
   const [sortedBy, setSortedBy] = useState<string>("name");
   const [selectedRows, setSelectedRows] = useState<InternshipAgreement[]>([]);
+  const [page, setPage] = useState(0);
   const headers = {
     Status: "status",
     " Start Date": "startDate",
     "End Date": "endDate",
   };
   useEffect(() => {
-    fetch("/api/internshipAgreements").then((res) =>
-      res.json().then(setInternshipAgreements),
+    const request = new InternshipAgreementPageRequest(
+      page,
+      10,
+      sortedBy,
+      -1,
+      -1,
+      -1,
+      "",
+      -1,
+      ""
     );
-  }, []);
+    paginateInternshipAgreements(request.toJSON()).then((data) => {
+      const rows = data.elements.map((element) => ({
+        ...element,
+      }));
+      setInternshipAgreements(rows);
+    });
+  }, [page, sortedBy]);
 
   type InternshipAgreement = {
     name: string;
@@ -57,6 +74,8 @@ const ListOfInternshipAgreements = () => {
         setSortedBy={setSortedBy}
         url="/api/internships/"
         setRows={setInternshipAgreements}
+        page={page}
+        setPage={setPage}
       />
     </div>
   );

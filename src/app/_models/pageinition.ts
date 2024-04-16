@@ -59,6 +59,17 @@ export class PageResponse<T> extends PageRequest {
     this.totalElements = totalElements;
     this.totalPages = Math.ceil(this.totalElements / this.size);
   }
+
+  toJSON() {
+    return {
+      page: this.page,
+      size: this.size,
+      sort: this.sort,
+      elements: this.elements.map((element) => element.toJSON()),
+      totalElements: this.totalElements,
+      totalPages: this.totalPages,
+    };
+  }
 }
 
 /**
@@ -84,7 +95,7 @@ export class UserPageRequest extends PageRequest {
       roles.length === 0 &&
       roles.every(
         (role) =>
-          ["admin", "employee", "coordinator", "student"].indexOf(role) === -1,
+          ["admin", "employee", "coordinator", "student"].indexOf(role) === -1
       )
     ) {
       roles = ["admin", "employee", "coordinator", "student"];

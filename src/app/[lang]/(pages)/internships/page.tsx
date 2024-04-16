@@ -5,18 +5,26 @@
 import DynamicTable from "@/app/components/DynamicTable";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import InternshipPositionObject, {
+  InternshipPaginationRequest,
+} from "../../../_models/InternshipPosition";
+import { paginateInternships } from "./action";
 
 const ListOfInternships = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("section_id");
-  const [internships, setInternships] = useState<Internship[]>([]);
-  const [selectedRows, setSelectedRows] = useState<Internship[]>([]);
+  const [internships, setInternships] = useState<InternshipPositionObject[]>(
+    []
+  );
+  const [selectedRows, setSelectedRows] = useState<InternshipPositionObject[]>(
+    []
+  );
   const headers = {
     Name: "name",
     "Max Capacity": "maxCapacity",
     "Current Capacity": "currentCapacity",
   };
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [sortedBy, setSortedBy] = useState<string>("name");
   const clickableColumns = {
     employee_email: (row) => {
@@ -25,41 +33,24 @@ const ListOfInternships = () => {
   };
 
   useEffect(() => {
-    const fetchUrl =
-      id !== null
-        ? `/api/internships?section_id=${id}&sort=${sortedBy}&page=${page}`
-        : "/api/internships";
+    const request = new InternshipPaginationRequest(page);
+    paginateInternships(request.toJSON()).then((data) => {
+      // If data.elements is present, map over it to create a new array
+      // where each element is a flattened version of the original element.
+      // If data.elements is not present, use data directly.
+      const rows = data.elements
+        ? data.elements.map((element) => ({
+            ...element,
+          }))
+        : [
+            {
+              ...data,
+            },
+          ];
 
-    fetch(fetchUrl)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.message) {
-          console.error(data.message);
-        } else {
-          // If data.elements is present, map over it to create a new array
-          // where each element is a flattened version of the original element.
-          // If data.elements is not present, use data directly.
-          const rows = data.elements
-            ? data.elements.map((element) => ({
-                ...element,
-              }))
-            : [
-                {
-                  ...data,
-                },
-              ];
-
-          setInternships(rows);
-        }
-      });
-  }, [id, sortedBy]);
-
-  type Internship = {
-    name: string;
-    id: string;
-    employee_id: string;
-    employee_email: string;
-  };
+      setInternships(rows);
+    });
+  }, [id, page, sortedBy]);
 
   console.log(page);
 
@@ -83,6 +74,7 @@ const ListOfInternships = () => {
         setSortedBy={setSortedBy}
         url={"/api/internships/"}
         setRows={setInternships}
+        page={page}
         setPage={setPage}
       />
     </div>

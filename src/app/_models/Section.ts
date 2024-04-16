@@ -28,7 +28,7 @@ class SectionObject implements SectionTable {
   constructor(
     query: SectionTable,
     employee: EmployeeObject,
-    internships: InternshipPositionObject[] = [],
+    internships: InternshipPositionObject[] = []
   ) {
     this.id = query.id;
     this.name = query.name;
@@ -76,7 +76,7 @@ export class SectionPageRequest extends PageRequest {
     sort: string,
     hasEmployeeID: number,
     hasDepartmentID: number,
-    containsName: string,
+    containsName: string
   ) {
     super(page, size);
     if (["name", "created_at", "updated_at"].includes(sort)) {
@@ -110,7 +110,7 @@ export class SectionPageRequest extends PageRequest {
       sort,
       hasEmployeeID,
       hasDepartmentID,
-      containsName,
+      containsName
     );
   }
   /**
@@ -130,6 +130,17 @@ export class SectionPageRequest extends PageRequest {
    */
   get containsName(): string {
     return this._containsName;
+  }
+
+  toJSON() {
+    return {
+      page: this.page,
+      size: this.size,
+      sort: this.sort,
+      hasEmployeeID: this._hasEmployeeID,
+      hasDepartmentID: this._hasDepartmentID,
+      containsName: this._containsName,
+    };
   }
 }
 

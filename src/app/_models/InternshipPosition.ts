@@ -41,8 +41,8 @@ class InternshipPositionObject implements InternshipTable {
       numberOfBeds: this.numberOfBeds,
       yearOfStudy: this.yearOfStudy,
       section_id: this.section_id,
-      created_at: this.created_at,
-      updated_at: this.updated_at,
+      created_at: this.created_at.toDateString(),
+      updated_at: this.updated_at.toDateString(),
     };
   }
 }
@@ -71,7 +71,7 @@ export class InternshipPaginationRequest extends PageRequest {
     sort: string = "id",
     section_id: number[] = [],
     yearOfStudy: number[] = [],
-    field: string = "",
+    field: string = ""
   ) {
     super(page, size);
     this.section_id = section_id;
@@ -105,8 +105,19 @@ export class InternshipPaginationRequest extends PageRequest {
       page.sort,
       section_id,
       yearOfStudy,
-      field,
+      field
     );
+  }
+
+  toJSON() {
+    return {
+      page: this.page,
+      size: this.size,
+      sort: this.sort,
+      section_id: this.section_id,
+      yearOfStudy: this.yearOfStudy,
+      field: this.field,
+    };
   }
 }
 

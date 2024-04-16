@@ -1,7 +1,6 @@
-/** @format */
 "use client";
 import React, { useState } from "react";
-import axios from "axios";
+import { createRecord } from "./actions";
 
 const InternshipUploader = () => {
   const [file, setFile] = useState(null);
@@ -25,43 +24,28 @@ const InternshipUploader = () => {
     });
   };
 
-  // Select API endpoint based on the "table" value
-  const getApiEndpoint = (tableValue) => {
-    switch (tableValue) {
-      case "internship":
-        return "/api/internships";
-      case "section":
-        return "/api/sections";
-      // Add other cases as needed
-      default:
-        return "/api/default"; // Default endpoint or handling error
-    }
-  };
-
-  // API request function adapted for dynamic endpoint usage
-  const sendInternshipData = async (internship) => {
-    console.log(internship.table);
+  const sendData = async (data) => {
     try {
-      const response = await axios.post(
-        `http://localhost:3000/api/${internship.table}`,
-        internship,
-      );
-      return response;
+      const { table, ...recordData } = data;
+      const response = await createRecord(table, recordData);
+      return { status: 200, statusText: "Record successfully created" };
     } catch (error) {
-      return error.response || { status: 500, statusText: "Server Error" };
+      return {
+        status: error.response?.status || 500,
+        statusText: error.response?.statusText || "Server Error",
+      };
     }
   };
 
   // Handle file upload
   const handleUpload = async () => {
     if (file) {
+      setResponses([]);
       const reader = new FileReader();
       reader.onload = async (e) => {
         const text = e.target.result;
-        const internships = await parseCSV(text);
-        const responses = await Promise.all(
-          internships.map((internship) => sendInternshipData(internship)),
-        );
+        const data = await parseCSV(text);
+        const responses = await Promise.all(data.map((item) => sendData(item)));
         setResponses(responses);
       };
       reader.readAsText(file);
@@ -69,23 +53,28 @@ const InternshipUploader = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <input
-        id="fileInput"
-        type="file"
-        className="file-input file-input-bordered w-full max-w-xs"
-        onChange={handleFileChange}
-        accept=".csv"
-      />
-      <button onClick={handleUpload} className="btn btn-secondary mt-2">
-        Send Data
-      </button>
-      <div>
+    <div>
+      <div className="flex flex-row justify-center mx-auto p-4">
+        <input
+          id="fileInput"
+          type="file"
+          className="file-input file-input-bordered w-full max-w-xs"
+          onChange={handleFileChange}
+          accept=".csv"
+        />
+        <button onClick={handleUpload} className="btn btn-secondary ">
+          Upload
+        </button>
+      </div>
+      <div className="flex flex-col items-center">
         {responses.map((response, index) => (
-          <div key={index} className="alert alert-info">
-            Response for entry {index + 1}: {response.status}{" "}
-            {response.statusText} + {console.log(response)}
-          </div>
+          <p key={index}>
+            {response.status === 200 ? (
+              <span style={{ color: "green" }}>{response.statusText}</span>
+            ) : (
+              <span style={{ color: "red" }}>{response.statusText}</span>
+            )}
+          </p>
         ))}
       </div>
     </div>

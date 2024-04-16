@@ -13,6 +13,7 @@ const ListOfSections = () => {
   const [selectedRows, setSelectedRows] = useState<SectionObject[]>([]);
   const headers = { Name: "name", Email: "email" };
   const [sortedBy, setSortedBy] = useState<string>("name");
+  const [page, setPage] = useState(1);
 
   const clickableColumns = {
     email: (row) => {
@@ -21,7 +22,9 @@ const ListOfSections = () => {
   };
   useEffect(() => {
     const fetchUrl =
-      id !== null ? `/api/sections/${id}&sort=${sortedBy}` : `/api/sections`;
+      id !== null
+        ? `/api/sections/${id}&sort=${sortedBy}&page=${page}`
+        : `/api/sections`;
 
     fetch(fetchUrl)
       .then((res) => res.json())
@@ -70,6 +73,7 @@ const ListOfSections = () => {
         url="/api/sections/"
         setRows={setSections}
         clickableColumns={clickableColumns}
+        setPage={setPage}
       />
     </div>
   );

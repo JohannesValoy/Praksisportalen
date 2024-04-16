@@ -23,7 +23,7 @@ export default function Page() {
 
     const fullPhoneNumber = `${countryCode}${phoneNumber}`;
 
-    const response = await fetch(`/api/users/addUser`, {
+    const response = await fetch(`/api/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -138,7 +138,11 @@ export default function Page() {
           </div>
         </div>
         <div className="flex w-full justify-center p-10 gap-5">
-          <button className="btn w-20" onClick={() => router.back()}>
+          <button
+            type="button"
+            className="btn w-20"
+            onClick={() => router.back()}
+          >
             Cancel
           </button>
           <button className="btn btn-primary w-20" type="submit">

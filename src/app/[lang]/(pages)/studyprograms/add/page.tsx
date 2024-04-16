@@ -50,9 +50,12 @@ export default function Page() {
   );
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full">
-      <div className="justify-center items-center" style={{ width: "50rem" }}>
-        <h1>Add Study Program</h1>
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col items-center justify-center w-full h-full"
+    >
+      <div className=" justify-center items-center" style={{ width: "50rem" }}>
+        <h1 className="text-3xl flex justify-center">Add Study Program</h1>
         <label className="form-control w-full ">
           <div className="label">
             <span className="label-text">Study Program Name</span>
@@ -62,6 +65,7 @@ export default function Page() {
             placeholder="Study Program Name"
             className="input input-bordered w-full"
             onChange={(e) => setName(e.target.value)}
+            required
           />
         </label>
 
@@ -107,14 +111,18 @@ export default function Page() {
           </button>
         </div>
         <div className="flex w-full justify-center p-10 gap-5">
-          <button className="btn w-20" onClick={() => router.back()}>
+          <button
+            type="button"
+            className="btn w-20"
+            onClick={() => router.back()}
+          >
             Cancel
           </button>
-          <button className="btn btn-primary w-20" onClick={handleSubmit}>
+          <button type="submit" className="btn btn-primary w-20">
             Save
           </button>
         </div>
       </div>
-    </div>
+    </form>
   );
 }

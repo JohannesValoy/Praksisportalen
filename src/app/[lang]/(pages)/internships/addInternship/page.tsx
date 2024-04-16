@@ -72,7 +72,7 @@ export default function Page() {
       },
       body: JSON.stringify({
         name,
-        field,
+        internship_field: field,
         maxCapacity,
         currentCapacity,
         numberOfBeds,

@@ -256,6 +256,11 @@ export const seed = async function (knex: Knex) {
       name: "BA - Sykepleie",
       educationInstitution_id: 2,
     },
+    {
+      id: 45,
+      name: "BA - Sykepleie",
+      educationInstitution_id: 2,
+    },
   ]);
   await knex("internshipAgreements").insert([
     {

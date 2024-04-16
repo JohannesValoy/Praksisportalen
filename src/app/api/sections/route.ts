@@ -11,11 +11,11 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: Request) {
-  const { name, sectionType, employee_id, department_id } =
+  const { name, section_type, employee_id, department_id } =
     await request.json();
   const newSection = await DBclient.table("sections").insert({
     name,
-    section_type: sectionType,
+    section_type,
     department_id,
     employee_id,
   });

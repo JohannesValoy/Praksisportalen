@@ -16,6 +16,7 @@ const ListOfInternships = () => {
     "Max Capacity": "maxCapacity",
     "Current Capacity": "currentCapacity",
   };
+  const [page, setPage] = useState(1);
   const [sortedBy, setSortedBy] = useState<string>("name");
   const clickableColumns = {
     employee_email: (row) => {
@@ -26,7 +27,7 @@ const ListOfInternships = () => {
   useEffect(() => {
     const fetchUrl =
       id !== null
-        ? `/api/internships?section_id=${id}&sort=${sortedBy}`
+        ? `/api/internships?section_id=${id}&sort=${sortedBy}&page=${page}`
         : "/api/internships";
 
     fetch(fetchUrl)
@@ -60,6 +61,8 @@ const ListOfInternships = () => {
     employee_email: string;
   };
 
+  console.log(page);
+
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <DynamicTable
@@ -80,6 +83,7 @@ const ListOfInternships = () => {
         setSortedBy={setSortedBy}
         url={"/api/internships/"}
         setRows={setInternships}
+        setPage={setPage}
       />
     </div>
   );

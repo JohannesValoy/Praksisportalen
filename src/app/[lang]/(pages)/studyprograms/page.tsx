@@ -43,6 +43,10 @@ const ListOfStudies = () => {
         onAddButtonClick={() => {
           window.location.href = `/studyprograms/add`;
         }}
+        onRowButtonClick={(row) => {
+          window.location.href = `/studyprograms/${row.id}`;
+        }}
+        buttonName={"Details"}
         setSortedBy={setSortedBy}
         url="/api/studyPrograms/"
         setRows={setStudies}

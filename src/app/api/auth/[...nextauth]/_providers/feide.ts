@@ -21,9 +21,13 @@ const feideProvider: OAuthConfig<FeideUser> = {
     url: "https://auth.dataporten.no/oauth/token",
   },
   profile: async (profile: FeideUser) => {
+    const user = await DBclient.from("users")
+      .where("email", profile.email)
+      .first();
     return {
       id: profile.email,
       name: profile.name,
+      role: user.role,
       email: profile.email,
       image: profile.picture,
     };

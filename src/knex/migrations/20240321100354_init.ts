@@ -134,7 +134,7 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
-    .createView("usersView", (view) => {
+    .createView("users", (view) => {
       view.as(
         knex
           .select("id", "name", "email", "role", "created_at", "updated_at")

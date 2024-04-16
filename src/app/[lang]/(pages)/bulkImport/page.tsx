@@ -53,7 +53,7 @@ const InternshipUploader = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center h-full">
       <div className="flex flex-row justify-center mx-auto p-4">
         <input
           id="fileInput"
@@ -62,7 +62,7 @@ const InternshipUploader = () => {
           onChange={handleFileChange}
           accept=".csv"
         />
-        <button onClick={handleUpload} className="btn btn-secondary ">
+        <button onClick={handleUpload} className="btn btn-primary">
           Upload
         </button>
       </div>
@@ -70,9 +70,9 @@ const InternshipUploader = () => {
         {responses.map((response, index) => (
           <p key={index}>
             {response.status === 200 ? (
-              <span style={{ color: "green" }}>{response.statusText}</span>
+              <span className="text-success">{response.statusText}</span>
             ) : (
-              <span style={{ color: "red" }}>{response.statusText}</span>
+              <span className="text-error">{response.statusText}</span>
             )}
           </p>
         ))}

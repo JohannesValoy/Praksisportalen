@@ -6,12 +6,8 @@ import Gantt from "@/app/components/Gantt";
 import Image from "next/image";
 
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-
-type Student = {
-  name: string;
-  id: string;
-};
+import { getStudent } from "./actions";
+import { User } from "next-auth";
 
 interface DataItem {
   id: number;
@@ -22,9 +18,7 @@ interface DataItem {
 }
 
 const StudentLayout = () => {
-  const searchParams = useSearchParams();
-  const student_id = searchParams.get("id");
-  const [student, setStudent] = useState<Student>();
+  const [student, setStudent] = useState<User>();
 
   const datalist: DataItem[] = [
     {
@@ -58,17 +52,12 @@ const StudentLayout = () => {
   ];
 
   useEffect(() => {
-    //TODO Replace with /api/users/me when me is implemented
-    const url = student_id ? `/api/users/${student_id}` : "/api/users/1";
-    fetch(url)
-      .then((res) => res.json())
+    getStudent()
       .then((data) => setStudent(data))
       .catch((error) => {
         console.error("Failed to fetch student", error);
       });
-  }, [student_id]);
-
-  console.log("Student", student);
+  }, []);
 
   return (
     <div className="flex flex-row w-full h-full items-center justify-center">

@@ -5,6 +5,8 @@ import Section from "@/app/_models/Section";
 import Dropdown from "@/app/components/Dropdown";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getInternshipTypes } from "../Actions";
+import { InternshipFieldTable } from "knex/types/tables.js";
 
 export default function Page() {
   const [name, setname] = useState("");
@@ -12,17 +14,13 @@ export default function Page() {
   const [section_id, setSections_id] = useState(0);
   const [field, setField] = useState("");
   const [newField, setNewField] = useState("");
-  const [internshipFields, setFields] = useState<Fields[]>([]);
+  const [internshipFields, setFields] = useState<InternshipFieldTable[]>([]);
   const [currentCapacity, setCurrentCapacity] = useState(0);
   const [maxCapacity, setMaxCapacity] = useState(0);
   const [numberOfBeds, setNumberOfBeds] = useState(0);
   const [yearOfStudy, setYearOfStudy] = useState(0);
 
   const router = useRouter();
-
-  type Fields = {
-    name: string;
-  };
 
   useEffect(() => {
     fetch(`/api/sections`) // Adjusted the fetch URL to match backend routing.
@@ -32,8 +30,7 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    fetch(`/api/internships/internshipFields`) // Adjust the fetch URL to match backend routing.
-      .then((res) => res.json())
+    getInternshipTypes() // Adjust the fetch URL to match backend routing.
       .then((data) => setFields(data)) // Ensure proper data handling.
       .catch((error) => console.error("Failed to fetch section types", error)); // Error handling.
   }, []);

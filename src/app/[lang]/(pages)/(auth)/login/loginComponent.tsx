@@ -1,3 +1,5 @@
+/** @format */
+
 "use client";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -59,7 +61,7 @@ export const LoginComponent = () => {
   const input_style = "input input-bordered w-full max-w-xs";
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center justify-center gap-4 h-full">
       <h1 className="text-3xl mb-4">Login Page</h1>
       <form className="flex flex-col items-center" onSubmit={onSubmit}>
         {error && <p className="text-xl bg-error p-4 mb-6 rounded">{error}</p>}

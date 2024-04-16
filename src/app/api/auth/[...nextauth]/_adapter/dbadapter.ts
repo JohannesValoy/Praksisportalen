@@ -7,7 +7,7 @@ import {
   EmployeeTable,
   StudentTable,
   CoordinatorTable,
-  UserAttributes
+  UserAttributes,
 } from "knex/types/tables.js";
 import {
   Adapter,
@@ -24,27 +24,12 @@ export default function KnexAdapter(client: Knex): Adapter {
     },
     async getUser(id): Promise<AdapterUser | null> {
       return Promise.allSettled([
-        client
-          .select()
-          .from<UserAttributes>("employees")
-          .where("id", id)
-          .first(),
-        client
-          .select()
-          .from<UserAttributes>("students")
-          .where("id", id)
-          .first(),
-        client
-          .select()
-          .from<UserAttributes>("coordinators")
-          .where("id", id)
-          .first(),
+        client.select().from("users").where("id", id).first(),
       ]).then<AdapterUser | null>((results) => {
         const users = results
           .filter((result) => result.status === "fulfilled")
           .map(
-            (result) =>
-              (result as PromiseFulfilledResult<UserAttributes>).value,
+            (result) => (result as PromiseFulfilledResult<UserAttributes>).value
           )
           .filter((user) => user != null);
         const user = results.length > 0 ? users[0] || null : null;
@@ -53,27 +38,12 @@ export default function KnexAdapter(client: Knex): Adapter {
     },
     async getUserByEmail(email): Promise<AdapterUser | null> {
       return Promise.allSettled([
-        client
-          .select()
-          .from<UserAttributes>("employees")
-          .where("email", email)
-          .first(),
-        client
-          .select()
-          .from<UserAttributes>("students")
-          .where("email", email)
-          .first(),
-        client
-          .select()
-          .from<UserAttributes>("coordinators")
-          .where("email", email)
-          .first(),
+        client.select().from("users").where("email", email).first(),
       ]).then<AdapterUser | null>((results) => {
         const users = results
           .filter((result) => result.status === "fulfilled")
           .map(
-            (result) =>
-              (result as PromiseFulfilledResult<UserAttributes>).value,
+            (result) => (result as PromiseFulfilledResult<UserAttributes>).value
           )
           .filter((user) => user != null);
         const user = results.length > 0 ? users[0] || null : null;
@@ -99,8 +69,7 @@ export default function KnexAdapter(client: Knex): Adapter {
         const users = results
           .filter((result) => result.status === "fulfilled")
           .map(
-            (result) =>
-              (result as PromiseFulfilledResult<UserAttributes>).value,
+            (result) => (result as PromiseFulfilledResult<UserAttributes>).value
           )
           .filter((user) => user != null);
         const user = results == null ? null : users[0] || null;
@@ -117,10 +86,10 @@ export default function KnexAdapter(client: Knex): Adapter {
       return;
     },
     async getSessionAndUser(
-      sessionToken,
+      sessionToken
     ): Promise<{ session: AdapterSession; user: AdapterUser } | null> {
       return Promise.resolve(
-        DBclient.select().from("sessions").where("sessionToken", sessionToken),
+        DBclient.select().from("sessions").where("sessionToken", sessionToken)
       ).then<{ session: AdapterSession; user: AdapterUser } | null>(
         async (results) => {
           const session = results.length > 0 ? results[0] || null : null;
@@ -132,7 +101,7 @@ export default function KnexAdapter(client: Knex): Adapter {
             session: sessionToAdapterSession(session),
             user: fromUserToUserAdapter(user[0]),
           };
-        },
+        }
       );
     },
     async deleteSession(sessionToken) {
@@ -140,7 +109,7 @@ export default function KnexAdapter(client: Knex): Adapter {
         DBclient("sessions")
           .where("sessionToken", sessionToken)
           .del()
-          .returning("*"),
+          .returning("*")
       ).then<AdapterSession | null>((results) => {
         if (results.length == 0) return null;
         return sessionToAdapterSession(results[0]);
@@ -150,19 +119,11 @@ export default function KnexAdapter(client: Knex): Adapter {
 }
 
 export function fromUserToUserAdapter(user: UserAttributes): AdapterUser {
-  let role = null;
-  if ("role" in user) {
-    role = (user as EmployeeTable).role;
-  } else if ("password" in user) {
-    role = Role.coordinator;
-  } else {
-    role = Role.student;
-  }
   return {
     id: user.id.toString(),
     name: user.name,
     email: user.email,
-    role: role,
+    role: user.role as Role,
     image: null,
     emailVerified: null,
   };

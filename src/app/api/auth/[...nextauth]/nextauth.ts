@@ -5,7 +5,7 @@ import { DefaultSession, DefaultUser } from "next-auth";
 export enum Role {
   student = "student",
   coordinator = "coordinator",
-  employee = "employee",
+  employee = "user",
   admin = "admin",
   none = "none",
 }

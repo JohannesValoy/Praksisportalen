@@ -15,10 +15,10 @@ const ListOfInternships = () => {
   const id = searchParams.get("section_id");
   const [totalElements, setTotalElements] = useState<number>(0);
   const [internships, setInternships] = useState<InternshipPositionObject[]>(
-    [],
+    []
   );
   const [selectedRows, setSelectedRows] = useState<InternshipPositionObject[]>(
-    [],
+    []
   );
   const headers = {
     Name: "name",
@@ -34,8 +34,8 @@ const ListOfInternships = () => {
   };
 
   useEffect(() => {
-    const request = new InternshipPaginationRequest(page);
-    paginateInternships(request.toJSON()).then((data) => {
+    const request = { page } as InternshipPaginationRequest;
+    paginateInternships(request).then((data) => {
       // If data.elements is present, map over it to create a new array
       // where each element is a flattened version of the original element.
       // If data.elements is not present, use data directly.

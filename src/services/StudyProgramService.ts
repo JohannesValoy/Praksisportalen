@@ -3,7 +3,10 @@
 import { StudyProgramTable } from "knex/types/tables.js";
 import { getEducationInstitutionByIDList } from "./EducationInstituteService";
 import DBclient from "@/knex/config/DBClient";
-import { StudyProgram } from "@/app/_models/StudyProgram";
+import {
+  StudyProgram,
+  StudyProgramPageRequest,
+} from "@/app/_models/StudyProgram";
 import "server-only";
 import { PageResponse } from "@/app/_models/pageinition";
 
@@ -19,7 +22,7 @@ async function getStudyProgramObjectByIDList(
   idList: number[]
 ): Promise<Map<number, StudyProgram>> {
   const query = await DBclient.select()
-    .from<StudyProgramTable>("study_program")
+    .from<StudyProgramTable>("studyPrograms")
     .whereIn("id", idList);
   const studyPrograms: Map<number, StudyProgram> = new Map();
   const educationInstitutionIDs = new Set(
@@ -40,28 +43,29 @@ async function getStudyProgramObjectByIDList(
 }
 
 async function getStudyProgramsByPageRequest(
-  pageRequest: StudyProgramPageRequest, //to be changed
-): Promise<PageResponse<StudyProgramObject>> {
+  pageRequest: StudyProgramPageRequest //to be changed
+): Promise<PageResponse<StudyProgram>> {
   const baseQuery = await DBclient.select()
-    .from<StudyProgramTable>("study_program")
+    .from<StudyProgramTable>("studyPrograms")
     .where((builder) => {
-      if (pageRequest.name) {
-        builder.where("name", "like", `%${pageRequest.name}%`);
+      if (pageRequest.containsName) {
+        builder.where("name", "like", `%${pageRequest.containsName}%`);
       }
     })
     .orderBy(pageRequest.sort);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   const studyPrograms = await getStudyProgramObjectByIDList(
-    pageQuery.map((studyProgram) => studyProgram.id),
+    pageQuery.map((studyProgram) => studyProgram.id)
   );
-  return new PageResponse<StudyProgramObject>(
-    pageRequest,
-    Array.from(studyPrograms.values()),
-    baseQuery.length,
-  );
+  return {
+    ...pageRequest,
+    elements: Array.from(studyPrograms.values()),
+    totalElements: baseQuery.length,
+    totalPages: Math.ceil(baseQuery.length / pageRequest.size),
+  } as PageResponse<StudyProgram>;
 }
 
 export {

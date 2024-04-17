@@ -3,8 +3,8 @@
 import DBclient from "@/knex/config/DBClient";
 import { randomUUID } from "crypto";
 import { StudentTable } from "knex/types/tables.js";
-import { PageRequest, PageResponse } from "../app/_models/pageinition";
-import { StudentPageRequest } from "@/app/_models/Student";
+import { PageResponse } from "../app/_models/pageinition";
+import { Student, StudentPageRequest } from "@/app/_models/Student";
 
 async function createStudent(student: StudentTable) {
   if (!student.id) {
@@ -23,20 +23,21 @@ async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
   const baseQuery = await DBclient.select("*")
     .from("students")
     .where((builder) => {
-      if (pageRequest.name) {
-        builder.where("name", "like", `%${pageRequest.name}%`);
+      if (pageRequest.hasEmail) {
+        builder.where("name", "like", `%${pageRequest.hasName}%`);
       }
     })
     .orderBy(pageRequest.sort);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
-  return new PageResponse<StudentTable>(
-    pageRequest,
-    pageQuery,
-    baseQuery.length,
-  );
+  return {
+    ...pageRequest,
+    elements: pageQuery,
+    totalElements: baseQuery.length,
+    totalPages: Math.ceil(baseQuery.length / pageRequest.size),
+  } as PageResponse<Student>;
 }
 
 export { createStudent, createStudents, getStudentsByPageRequest };

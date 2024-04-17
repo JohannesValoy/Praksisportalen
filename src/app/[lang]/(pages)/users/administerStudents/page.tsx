@@ -4,8 +4,8 @@
 "use client";
 import React, { useState, useEffect, use } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
-import { UserPageRequest } from "@/app/_models/pageinition";
 import { paginateStudents } from "./actions";
+import { StudentPageRequest } from "@/app/_models/Student";
 
 const ListOfUsers = () => {
   const [users, setUsers] = useState([]);
@@ -18,8 +18,12 @@ const ListOfUsers = () => {
   const [totalElements, setTotalElements] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   useEffect(() => {
-    const request = new UserPageRequest(page, 10, sortedBy, ["name", "email"]);
-    paginateStudents(request.toJSON()).then((data) => {
+    const request = {
+      page,
+      size: pageSize,
+      sort: sortedBy,
+    } as StudentPageRequest;
+    paginateStudents(request).then((data) => {
       const totalElements = data.totalElements;
 
       const rows = data.elements.map((element) => ({

@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import { paginateStudyPrograms } from "./actions";
+import { StudyProgramPageRequest } from "@/app/_models/StudyProgram";
 
 const ListOfStudies = () => {
   const [studies, setStudies] = useState<Study[]>([]);
@@ -17,17 +18,25 @@ const ListOfStudies = () => {
 
   type Study = {
     name: string;
-    id: string;
+    id: number;
     employee: {
       email: string;
     };
   };
   useEffect(() => {
-    const request = new StudyProgramPageRequest(0, 10, sortedBy, "", "");
-    paginateStudyPrograms(request.toJSON()).then((data) => {
+    const request = {
+      page,
+      size: pageSize,
+      sort: sortedBy,
+    } as StudyProgramPageRequest;
+    paginateStudyPrograms(request).then((data) => {
       const totalElements = data.totalElements;
       const rows = data.elements.map((element) => ({
-        ...element,
+        name: element.name,
+        id: element.id,
+        employee: {
+          email: element.educationInstitution.name,
+        },
       }));
       setPageSize(data.size);
       setTotalElements(totalElements);

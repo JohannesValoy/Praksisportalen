@@ -21,22 +21,17 @@ const ListOfInternshipAgreements = () => {
     "End Date": "endDate",
   };
   useEffect(() => {
-    const request = new InternshipAgreementPageRequest(
-      page,
-      10,
-      sortedBy,
-      -1,
-      -1,
-      -1,
-      "",
-      -1,
-      "",
-    );
-    paginateInternshipAgreements(request.toJSON()).then((data) => {
+    const request = {
+      page: page,
+      size: pageSize,
+      sort: sortedBy,
+    } as InternshipAgreementPageRequest;
+    paginateInternshipAgreements(request).then((data) => {
       setTotalElements(data.totalElements);
       setPageSize(data.size);
       const rows = data.elements.map((element) => ({
-        ...element,
+        name: element.internship.name,
+        id: element.id,
       }));
       setInternshipAgreements(rows);
     });
@@ -44,7 +39,7 @@ const ListOfInternshipAgreements = () => {
 
   type InternshipAgreement = {
     name: string;
-    id: string;
+    id: number;
   };
 
   if (sortedBy) {

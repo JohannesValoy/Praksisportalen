@@ -7,7 +7,7 @@ import { getInternshipAgreementsByPageRequest } from "@/services/AgreementServic
 import "server-only";
 
 export async function paginateInternshipAgreements(
-  request: InternshipAgreementPageRequest,
+  request: InternshipAgreementPageRequest
 ) {
-  return (await getInternshipAgreementsByPageRequest(request)).toJSON();
+  return await getInternshipAgreementsByPageRequest(request);
 }

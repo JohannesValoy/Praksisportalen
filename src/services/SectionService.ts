@@ -50,7 +50,8 @@ async function getSectionsByPageRequest(
         builder.where("name", "like", `%${pageRequest.containsName}%`);
       }
     })
-    .orderBy(pageRequest.sort);
+    .orderBy(pageRequest.sort || "id");
+  console.log(baseQuery, pageRequest);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
     (pageRequest.page + 1) * pageRequest.size

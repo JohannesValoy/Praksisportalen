@@ -18,9 +18,13 @@ const ListOfUsers = () => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   useEffect(() => {
-    const request = new UserPageRequest(page, 10, sortedBy, ["name", "email"]);
+    const request = {
+      page,
+      size: pageSize,
+      sort: sortedBy,
+    } as UserPageRequest;
 
-    paginateCoordinators(request.toJSON()).then((data) => {
+    paginateCoordinators(request).then((data) => {
       setTotalElements(data.totalElements);
       const rows = data.elements.map((element) => ({
         ...element,

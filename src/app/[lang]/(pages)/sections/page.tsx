@@ -3,15 +3,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import SectionObject, { SectionPageRequest } from "@/app/_models/Section";
+import { SectionPageRequest, Section } from "@/app/_models/Section";
 import DynamicTable from "@/app/components/DynamicTable";
 import { paginateSections } from "./action";
 
 const ListOfSections = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("department_id");
-  const [sections, setSections] = useState<SectionObject[]>([]);
-  const [selectedRows, setSelectedRows] = useState<SectionObject[]>([]);
+  const [sections, setSections] = useState<Section[]>([]);
+  const [selectedRows, setSelectedRows] = useState<Section[]>([]);
   const headers = { Name: "name", Email: "email" };
   const [sortedBy, setSortedBy] = useState<string>("name");
   const [page, setPage] = useState(0);
@@ -24,8 +24,9 @@ const ListOfSections = () => {
     },
   };
   useEffect(() => {
-    const request = new SectionPageRequest(page, 10, sortedBy, -1, -1, "");
-    paginateSections(request.toJSON()).then((data) => {
+    const request = { page } as SectionPageRequest;
+    paginateSections(request).then((data) => {
+      console.log(data);
       setTotalElements(data.totalElements);
       setPageSize(data.size);
       const rows = data.elements.map((element) => ({

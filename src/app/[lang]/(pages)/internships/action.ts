@@ -2,11 +2,11 @@
 
 "use server";
 import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
-import { getInternshipPositionObjectByPageRequest } from "@/services/InternshipPosition";
+import { getInternshipPositionObjectByPageRequest } from "@/services/InternshipPositionService";
 import "server-only";
 
 export async function paginateInternships(
-  request: InternshipPaginationRequest,
+  request: InternshipPaginationRequest
 ) {
-  return (await getInternshipPositionObjectByPageRequest(request)).toJSON();
+  return await getInternshipPositionObjectByPageRequest(request);
 }

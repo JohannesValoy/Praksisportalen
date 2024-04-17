@@ -130,14 +130,14 @@ async function createInternshipAgreementObject(
     internshipsPromise,
   ]);
   const objects: InternshipAgreement[] = [];
-  for (let i = 0; i < query.length; i++) {
+  for (const element of query) {
     objects.push({
-      ...query[i],
-      studyProgram: studyPrograms.get(query[i].studyProgram_id),
-      internship: internships.get(query[i].internship_id),
+      ...element,
+      studyProgram: studyPrograms.get(element.studyProgram_id),
+      internship: internships.get(element.internship_id),
     });
   }
-  return;
+  return objects;
 }
 
 export {

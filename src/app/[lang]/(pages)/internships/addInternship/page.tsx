@@ -1,7 +1,7 @@
 /** @format */
 "use client";
 
-import Section from "@/app/_models/Section";
+import { Section } from "@/app/_models/Section";
 import Dropdown from "@/app/components/Dropdown";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

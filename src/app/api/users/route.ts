@@ -1,29 +1,34 @@
 /** @format */
 import { PageResponse, UserPageRequest } from "@/app/_models/pageinition";
 import DBclient from "@/knex/config/DBClient";
+import { UserAttributes } from "knex/types/tables.js";
 import { NextRequest } from "next/server";
-//FIXME: Does not work
+
+//TODO: Move over to a service / Server Action
 export async function GET(request: NextRequest) {
-  const pageRequest = UserPageRequest.fromRequest(request);
+  const pageRequest: UserPageRequest = {
+    page: request.nextUrl.searchParams.get("page")
+      ? parseInt(request.nextUrl.searchParams.get("page"))
+      : 0,
+    size: request.nextUrl.searchParams.get("size")
+      ? parseInt(request.nextUrl.searchParams.get("size"))
+      : 10,
+    sort: request.nextUrl.searchParams.get("sort") as "id" | "name" | undefined,
+    roles: request.nextUrl.searchParams.get("roles")
+      ? request.nextUrl.searchParams.get("roles").split(",")
+      : [],
+  };
   const users = await DBclient.from("users")
     .select("*")
     .whereIn("role", pageRequest.roles)
     .orderBy(pageRequest.sort);
-  return Response.json(new PageResponse(pageRequest, users, users.length));
-}
-
-export async function POST(request: NextRequest) {
-  const { firstName, lastName, email, phoneNumber, role } =
-    await request.json();
-
-  const newUser = await DBclient.table("users").insert({
-    name: firstName + " " + lastName,
-    //lastName, //to be implemented in the server
-    email,
-    password: "123456", //should probably be auto-generated and return to a message to the user with the password
-    //phoneNumber, //to be implemented in the server
-    role,
-  });
-
-  return Response.json(newUser);
+  return Response.json({
+    ...pageRequest,
+    elements: users.slice(
+      pageRequest.size * pageRequest.page,
+      pageRequest.size
+    ),
+    totalElements: users.length,
+    totalPages: Math.ceil(users.length / pageRequest.size),
+  } as PageResponse<UserAttributes>);
 }

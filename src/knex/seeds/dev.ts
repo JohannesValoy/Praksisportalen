@@ -1,9 +1,9 @@
 /** @format */
 
 import { Knex } from "knex";
-import { createEmployees } from "@/services/Employees";
-import { createCoordinators } from "@/services/Coordinator";
-import { createStudents } from "@/services/Student";
+import { createEmployees } from "@/services/EmployeeService";
+import { createCoordinators } from "@/services/CoordinatorService";
+import { createStudents } from "@/services/StudentService";
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }

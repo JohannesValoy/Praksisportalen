@@ -14,6 +14,7 @@ export const seed = async function (knex: Knex) {
   await knex("timeIntervals").del();
   await knex("internshipAgreements").del();
   await knex("studyPrograms").del();
+  await knex("coordinators").del();
   await knex("educationInstitutions").del();
   await knex("internships").del();
   await knex("internshipFields").del();
@@ -22,7 +23,6 @@ export const seed = async function (knex: Knex) {
   await knex("departments").del();
   await knex("employees").del();
   await knex("students").del();
-  await knex("coordinators").del();
   // Inserts seed entries
   await createEmployees([
     // Admins
@@ -79,6 +79,16 @@ export const seed = async function (knex: Knex) {
     },
   ]);
 
+  await knex("educationInstitutions").insert([
+    {
+      id: 1,
+      name: "NTNU",
+    },
+    {
+      id: 2,
+      name: "HIMOLDE",
+    },
+  ]);
   await createCoordinators([
     // Coordinators
     {
@@ -86,30 +96,35 @@ export const seed = async function (knex: Knex) {
       name: "Clark Kent",
       email: "clarkKent@dummy",
       password: "123456",
+      educationInstitution_id: 1,
     },
     {
       id: "98044060-fb7c-4e83-9b4f-2af8138b58d1",
       name: "Bruce Wayne",
       email: "bruceWayne@dummy",
       password: "123456",
+      educationInstitution_id: 1,
     },
     {
       id: "b2080012-9cb7-4704-9d60-8dab059bcb52",
       name: "Diana Prince",
       email: "dianaPrince@dummy",
       password: "123456",
+      educationInstitution_id: 1,
     },
     {
       id: "2d67d2f5-5f59-4415-b5e3-cb627603bbc8",
       name: "Barry Allen",
       email: "barryAllen@dummy",
       password: "123456",
+      educationInstitution_id: 2,
     },
     {
       id: "fcfa7bcb-0cd0-4fa8-a2fc-f86521f12285",
       name: "Natasha Romanoff",
       email: "natashaRomanoff@dummy",
       password: "123456",
+      educationInstitution_id: 2,
     },
   ]);
 
@@ -233,16 +248,6 @@ export const seed = async function (knex: Knex) {
       currentCapacity: 0,
       yearOfStudy: 3,
       section_id: 3,
-    },
-  ]);
-  await knex("educationInstitutions").insert([
-    {
-      id: 1,
-      name: "NTNU",
-    },
-    {
-      id: 2,
-      name: "HIMOLDE",
     },
   ]);
   await knex("studyPrograms").insert([

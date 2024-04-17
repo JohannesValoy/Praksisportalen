@@ -20,14 +20,6 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
-    .createTable("coordinators", (table) => {
-      table.uuid("id").primary();
-      table.string("name").notNullable();
-      table.string("email").notNullable().unique();
-      table.string("password").notNullable();
-      table.timestamp("created_at").defaultTo(knex.fn.now());
-      table.timestamp("updated_at").defaultTo(knex.fn.now());
-    })
     .createTable("departments", (table) => {
       table.increments("id").primary();
       table.string("name").notNullable();
@@ -87,6 +79,19 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
+    .createTable("coordinators", (table) => {
+      table.uuid("id").primary();
+      table.string("name").notNullable();
+      table.string("email").notNullable().unique();
+      table.string("password").notNullable();
+      table.integer("educationInstitution_id").unsigned().notNullable();
+      table
+        .foreign("educationInstitution_id")
+        .references("id")
+        .inTable("educationInstitutions");
+      table.timestamp("created_at").defaultTo(knex.fn.now());
+      table.timestamp("updated_at").defaultTo(knex.fn.now());
+    })
     .createTable("studyPrograms", (table) => {
       table.increments("id").primary();
       table.string("name").notNullable();
@@ -127,6 +132,19 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
+    .createTable("internshipOrders", (table) => {
+      table.increments("id").primary();
+      table.integer("studyProgram_id").unsigned().notNullable();
+      table
+        .foreign("studyProgram_id")
+        .references("id")
+        .inTable("studyPrograms")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
+      table.text("comment").nullable();
+      table.text("fieldGroups").notNullable();
+      table.timestamp("created_at").defaultTo(knex.fn.now());
+    })
     .createTable("timeIntervals", (table) => {
       table.increments("id").primary();
       table.time("startTime").notNullable();
@@ -141,14 +159,14 @@ export async function up(knex: Knex): Promise<void> {
           .from("employees")
           .union(
             knex.raw(
-              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators',
-            ),
+              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators'
+            )
           )
           .union(
             knex.raw(
-              'select id, name, email, "student" as role, created_at, updated_at from students',
-            ),
-          ),
+              'select id, name, email, "student" as role, created_at, updated_at from students'
+            )
+          )
       );
     })
     .then(() => {
@@ -164,7 +182,7 @@ export async function up(knex: Knex): Promise<void> {
               while exists (select 1 from users where id = NEW.id) do
                 set NEW.id = uuid();
               end while;
-            END`,
+            END`
       );
     });
 }

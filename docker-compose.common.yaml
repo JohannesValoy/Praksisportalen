@@ -7,6 +7,11 @@ services:
         condition: service_healthy
     networks:
       - praksislista_network
+    environment:
+      DATABASE_URL: mysql://root:${MYSQL_ROOT_PASSWORD}@db/praksislista
+      FEIDE_CLIENT_ID: ${FEIDE_CLIENT_ID}
+      FEIDE_CLIENT_SECRET: ${FEIDE_CLIENT_SECRET}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
 
   db:
     image: mysql
@@ -16,6 +21,9 @@ services:
       timeout: 5s
       retries: 10
       start_period: 10s
+    environment:
+      MYSQL_DATABASE: praksislista
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
       - praksislista_network
 

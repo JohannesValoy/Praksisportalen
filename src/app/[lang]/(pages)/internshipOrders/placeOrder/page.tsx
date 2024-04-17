@@ -5,6 +5,12 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Dropdown from "@/app/components/Dropdown";
+import {
+  fetchInternhipFields,
+  addInternshipField,
+  fetchStudyPrograms,
+  placeOrder,
+} from "./actions";
 
 export default function Page() {
   const router = useRouter();
@@ -67,14 +73,14 @@ export default function Page() {
   type StudyProgram = {
     id: string;
     name: string;
-    educationInstitution_id: string;
   };
 
   useEffect(() => {
-    fetch(`/api/studyPrograms`) // Adjusted the fetch URL to match backend routing.
-      .then((res) => res.json())
-      .then((data) => setStudyPrograms(data)) // Ensure proper data handling.
-      .catch((error) => console.error("Failed to fetch users", error)); // Error handling.
+    fetchStudyPrograms()
+      .then((data) => {
+        setStudyPrograms(data);
+      })
+      .catch((error) => console.error("Failed to fetch Study Programs", error));
   }, []);
 
   // Initialize internshipFields as an array of InternshipField
@@ -90,37 +96,50 @@ export default function Page() {
 
   // Fetch internship field from the API
   useEffect(() => {
-    fetch(`/api/internships/internshipFields`) // Adjust the fetch URL to match backend routing.
-      .then((res) => res.json())
-      .then((data) => setInternshipFields(data)) // Ensure proper data handling.
-      .catch((error) => console.error("Failed to fetch section types", error)); // Error handling.
+    fetchInternhipFields()
+      .then((data) => {
+        setInternshipFields(data);
+      }) // Ensure proper data handling.
+      .catch((error) =>
+        console.error("Failed to fetch internship field", error)
+      ); // Error handling.
   }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    router.back();
-  };
-
-  const handleAddType = async () => {
-    const response = await fetch("/api/internships/internshipFields", {
+    // Gather form data
+    const formData = {
+      studyProgram_id,
+      comment,
+      fieldGroups,
+    };
+    // Send POST request
+    const response = await fetch("/api/form-endpoint", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: newType }),
+      body: JSON.stringify(formData),
     });
 
     if (!response.ok) {
       throw new Error(response.statusText);
     }
 
-    // Fetch the updated list of section types
-    fetch(`/api/internships/internshipFields`)
-      .then((res) => res.json())
-      .then((data) => setInternshipFields(data))
-      .catch((error) => console.error("Failed to fetch section types", error));
+    // Handle response
+    const data = await response.json();
+    console.log(data);
 
+    // Clear form or redirect user
+    router.back();
+  };
+
+  const handleAddType = async () => {
+    addInternshipField(newType); // Add the new type to the database
+
+    fetchInternhipFields().then((data) => {
+      setInternshipFields(data);
+    }); // Fetch the updated list of types
     setNewType(""); // Clear the input field
   };
 
@@ -157,7 +176,7 @@ export default function Page() {
             required
           />
           <button type="button">
-            <a href={`/studyPrograms`} className="btn btn-secondary">
+            <a href={`/studyprograms/add`} className="btn btn-secondary">
               Nytt studieprogram
             </a>
           </button>
@@ -191,10 +210,9 @@ export default function Page() {
                 setSelectedOption={(type) => setInternshipField(type.name)}
                 renderOption={(type) => (
                   <>
-                    <th>
-                      <div className="mask mask-squircle w-12 h-12 overflow-hidden "></div>
-                    </th>
-                    <td>{type.name}</td>
+                    <div className="mask mask-squircle w-12 h-12 overflow-hidden "></div>
+
+                    <div>{type.name}</div>
                   </>
                 )}
                 required

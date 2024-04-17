@@ -1,5 +1,5 @@
 include:
-  - docker-compose.common.yaml
+  - docker-compose.prod.yaml
 services:
   adminer:
     image: adminer

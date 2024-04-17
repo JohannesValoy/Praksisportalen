@@ -11,6 +11,7 @@ const ListOfUsers = ({ role }: { role: string }) => {
   const headers = { Name: "name", Email: "email" };
   const [sortedBy, setSortedBy] = useState<string>("name");
   const url = `/api/${role}s`;
+  const [page, setPage] = useState(0);
   useEffect(() => {
     fetch(`${url}?sort=${sortedBy}`) // Adjusted the fetch URL to match backend routing.
       .then((res) => res.json())
@@ -47,6 +48,8 @@ const ListOfUsers = ({ role }: { role: string }) => {
         clickableColumns={clickableColumns}
         setSortedBy={setSortedBy}
         url={url + "/"}
+        page={page}
+        setPage={setPage}
       />
     </div>
   );

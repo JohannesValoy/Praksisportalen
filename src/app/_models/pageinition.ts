@@ -127,4 +127,13 @@ export class UserPageRequest extends PageRequest {
       "student",
     ]);
   }
+
+  toJSON() {
+    return {
+      page: this.page,
+      size: this.size,
+      sort: this.sort,
+      roles: this.roles,
+    };
+  }
 }

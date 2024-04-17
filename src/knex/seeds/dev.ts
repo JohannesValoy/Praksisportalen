@@ -2,7 +2,7 @@
 
 import { Knex } from "knex";
 import { createEmployees } from "@/services/Employees";
-import { createCoordinators } from "@/services/Coordinators";
+import { createCoordinators } from "@/services/Coordinator";
 import { createStudents } from "@/services/Student";
 /**
  * @param { import("knex").Knex } knex

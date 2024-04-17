@@ -13,6 +13,7 @@ import { paginateInternships } from "./action";
 const ListOfInternships = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("section_id");
+  const [totalElements, setTotalElements] = useState<number>(0);
   const [internships, setInternships] = useState<InternshipPositionObject[]>(
     []
   );
@@ -38,6 +39,7 @@ const ListOfInternships = () => {
       // If data.elements is present, map over it to create a new array
       // where each element is a flattened version of the original element.
       // If data.elements is not present, use data directly.
+      const totalElements = data.totalElements;
       const rows = data.elements
         ? data.elements.map((element) => ({
             ...element,
@@ -47,7 +49,7 @@ const ListOfInternships = () => {
               ...data,
             },
           ];
-
+      setTotalElements(totalElements);
       setInternships(rows);
     });
   }, [id, page, sortedBy]);
@@ -76,6 +78,7 @@ const ListOfInternships = () => {
         setRows={setInternships}
         page={page}
         setPage={setPage}
+        totalElements={totalElements}
       />
     </div>
   );

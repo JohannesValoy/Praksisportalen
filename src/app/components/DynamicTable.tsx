@@ -21,6 +21,7 @@ function DynamicTable({
   url = "",
   page,
   setPage,
+  totalElements,
 }) {
   // Ensure rows is always an array
   const normalizedRows = Array.isArray(rows) ? rows : [rows];
@@ -202,7 +203,11 @@ function DynamicTable({
             «
           </button>
           <button className="join-item btn">{page + 1}</button>
-          <button className="join-item btn" onClick={() => setPage(page + 1)}>
+          <button
+            className="join-item btn"
+            onClick={() => setPage(page + 1)}
+            disabled={page >= totalElements}
+          >
             »
           </button>
         </div>

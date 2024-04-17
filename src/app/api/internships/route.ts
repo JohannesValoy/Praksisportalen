@@ -5,10 +5,18 @@ import DBclient from "@/knex/config/DBClient";
 import { NextRequest } from "next/server";
 
 import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
-import { getInternshipPositionObjectByPageRequest } from "@/services/InternshipPosition";
+import { getInternshipPositionObjectByPageRequest } from "@/services/InternshipPositionService";
 
 export async function GET(request: NextRequest) {
-  const pageRequest = InternshipPaginationRequest.fromRequest(request);
+  const pageRequest: InternshipPaginationRequest = {
+    page: request.nextUrl.searchParams.get("page")
+      ? parseInt(request.nextUrl.searchParams.get("page"))
+      : 0,
+    size: request.nextUrl.searchParams.get("size")
+      ? parseInt(request.nextUrl.searchParams.get("size"))
+      : 10,
+    sort: request.nextUrl.searchParams.get("sort") as "id" | "name" | undefined,
+  };
   return Response.json(
     await getInternshipPositionObjectByPageRequest(pageRequest),
   );

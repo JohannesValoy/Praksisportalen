@@ -1,7 +1,8 @@
 /** @format */
 import { InternshipTable } from "knex/types/tables.js";
 import DBclient from "@/knex/config/DBClient";
-import InternshipPositionObject, {
+import {
+  Internship,
   InternshipPaginationRequest,
 } from "@/app/_models/InternshipPosition";
 import "server-only";
@@ -14,8 +15,8 @@ import { PageResponse } from "@/app/_models/pageinition";
  * @throws Error if the InternshipPositionObject is not found.
  */
 async function getInternshipPositionObjectByID(
-  id: number,
-): Promise<InternshipPositionObject> {
+  id: number
+): Promise<Internship> {
   const internship = await getInternshipPositionObjectByIDList([id]);
   if (internship.get(id) == undefined) {
     throw new Error("Internship Position not found");
@@ -28,14 +29,14 @@ async function getInternshipPositionObjectByID(
  * @returns  A Map object that contains the list of InternshipPositionObject objects.
  */
 async function getInternshipPositionObjectByIDList(
-  idList: number[],
-): Promise<Map<number, InternshipPositionObject>> {
+  idList: number[]
+): Promise<Map<number, Internship>> {
   const query = await DBclient.select()
     .from<InternshipTable>("internships")
     .whereIn("id", idList);
-  const internships: Map<number, InternshipPositionObject> = new Map();
+  const internships: Map<number, Internship> = new Map();
   query.forEach((internship) => {
-    internships.set(internship.id, new InternshipPositionObject(internship));
+    internships.set(internship.id, internship);
   });
   return internships;
 }
@@ -46,13 +47,13 @@ async function getInternshipPositionObjectByIDList(
  */
 
 async function getInternshipPositionObjectBySectionID(
-  sections: number[],
-): Promise<Map<number, InternshipPositionObject[]>> {
+  sections: number[]
+): Promise<Map<number, Internship[]>> {
   const query = await DBclient.from<InternshipTable>("internships")
     .select("id", "section_id")
     .whereIn("section_id", sections);
   const internships = await getInternshipPositionObjectByIDList(
-    query.map((internship) => internship.id),
+    query.map((internship) => internship.id)
   );
   const internshipsMap = new Map();
   query.forEach((internship) => {
@@ -75,8 +76,8 @@ async function getInternshipPositionObjectBySectionID(
  * @returns  A PageResponse object that contains the list of InternshipPositionObject objects.
  */
 async function getInternshipPositionObjectByPageRequest(
-  pageRequest: InternshipPaginationRequest,
-): Promise<PageResponse<InternshipPositionObject>> {
+  pageRequest: InternshipPaginationRequest
+): Promise<PageResponse<Internship>> {
   const query = await DBclient.select()
     .from<InternshipTable>("internships")
     .where((builder) => {
@@ -94,17 +95,22 @@ async function getInternshipPositionObjectByPageRequest(
       }
     })
     .orderBy(pageRequest.sort);
-  const internships: InternshipPositionObject[] = [];
+  const internships: Internship[] = [];
   console.log("Query length: ", query.length);
   query
     .slice(
       pageRequest.size * pageRequest.page,
-      pageRequest.size * pageRequest.page + pageRequest.size,
+      pageRequest.size * pageRequest.page + pageRequest.size
     )
     .forEach((internship) => {
-      internships.push(new InternshipPositionObject(internship));
+      internships.push(internship);
     });
-  return new PageResponse(pageRequest, internships, query.length);
+  return {
+    ...pageRequest,
+    elements: internships,
+    totalElements: query.length,
+    totalPages: Math.ceil(query.length / pageRequest.size),
+  };
 }
 
 export {

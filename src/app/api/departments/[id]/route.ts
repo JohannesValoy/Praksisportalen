@@ -2,11 +2,11 @@
 
 import DBclient from "@/knex/config/DBClient";
 import { NextRequest } from "next/server";
-import { getDepartmentObjectByID } from "@/services/Department";
+import { getDepartmentObjectByID } from "@/services/DepartmentService";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: number } },
+  { params }: { params: { id: number } }
 ) {
   try {
     const department = await getDepartmentObjectByID(params.id);
@@ -18,7 +18,7 @@ export async function GET(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: number } },
+  { params }: { params: { id: number } }
 ) {
   const department = await DBclient("departments")
     .where({ id: params.id })

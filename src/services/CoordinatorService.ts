@@ -20,31 +20,34 @@ async function createCoordinators(coordinators: CoordinatorTable[]) {
 }
 
 async function getCoordinatorsByPageRequest(
-  pageRequest: CoordinatorPageRequest,
+  pageRequest: CoordinatorPageRequest
 ) {
   const baseQuery = await DBclient.select("")
     .from("coordinators")
     .where((builder) => {
-      if (pageRequest.name) {
-        builder.where("name", "like", `%${pageRequest.name}%`);
+      if (pageRequest.containsName) {
+        builder.where("name", "like", `%${pageRequest.containsName}%`);
       }
     })
     .orderBy(pageRequest.sort);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
-  return new PageResponse<Coordinator>(
-    pageRequest,
-    await createCoordinatorObjects(pageQuery),
-    baseQuery.length,
-  );
+  return {
+    ...pageRequest,
+    elements: await createCoordinatorObjects(pageQuery),
+    totalElements: baseQuery.length,
+    totalPages: Math.ceil(baseQuery.length / pageRequest.size),
+  } as PageResponse<Coordinator>;
 }
 
 async function createCoordinatorObjects(query: CoordinatorTable[]) {
   const coordinators: Coordinator[] = [];
   query.forEach((coordinator) => {
-    coordinators.push(new Coordinator(coordinator));
+    coordinators.push({
+      ...coordinator,
+    });
   });
   return coordinators;
 }

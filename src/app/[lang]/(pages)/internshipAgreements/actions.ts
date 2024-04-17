@@ -2,7 +2,7 @@
 
 "use server";
 import { InternshipAgreementPageRequest } from "@/app/_models/Agreement";
-import { getInternshipAgreementsByPageRequest } from "@/services/Agreement";
+import { getInternshipAgreementsByPageRequest } from "@/services/AgreementService";
 
 import "server-only";
 

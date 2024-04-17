@@ -1,18 +1,10 @@
 import { EmployeePaginationRequest } from "@/app/_models/Employee";
-import {
-  deleteEmployee,
-  getEmployeeObjectsByPagination,
-} from "@/services/Employees";
+import { deleteEmployee } from "@/services/EmployeeService";
 import { NextRequest } from "next/server";
-
-export async function GET(request: NextRequest) {
-  const pageRequest = EmployeePaginationRequest.fromRequest(request);
-  return Response.json(await getEmployeeObjectsByPagination(pageRequest));
-}
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { id: string } }
 ) {
   try {
     await deleteEmployee(params.id);

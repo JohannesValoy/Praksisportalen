@@ -1,17 +1,14 @@
 /** @format */
 
 import DBclient from "@/knex/config/DBClient";
-import DepartmentObject, {
-  DepartmentPageRequest,
-} from "@/app/_models/Department";
-import { EmployeeObject } from "@/app/_models/Employee";
-import { DepartmentTable } from "knex/types/tables.js";
-import { getEmployeeObjectByIDList } from "./Employees";
+import { Department, DepartmentPageRequest } from "@/app/_models/Department";
+import { DepartmentTable, EmployeeTable } from "knex/types/tables.js";
+import { getEmployeeObjectByIDList } from "./EmployeeService";
 
 import "server-only";
 import { PageResponse } from "@/app/_models/pageinition";
 
-async function getDepartmentObjectByID(id: number): Promise<DepartmentObject> {
+async function getDepartmentObjectByID(id: number): Promise<Department> {
   const department = await getDepartmentObjectByIDList([id]);
   if (department.get(id) == undefined) {
     throw new Error("Department not found");
@@ -20,28 +17,23 @@ async function getDepartmentObjectByID(id: number): Promise<DepartmentObject> {
 }
 
 async function getDepartmentObjectByIDList(
-  idList: number[],
-): Promise<Map<number, DepartmentObject>> {
+  idList: number[]
+): Promise<Map<number, Department>> {
   const query = await DBclient.select()
     .from<DepartmentTable>("departments")
     .whereIn("id", idList);
-  const departments: Map<number, DepartmentObject> = new Map();
-  const employees: Map<string, EmployeeObject> =
-    await getEmployeeObjectByIDList(
-      query.map((department) => department.employee_id),
-    );
-  query.forEach((department) => {
-    departments.set(
-      department.id,
-      new DepartmentObject(department, employees.get(department.employee_id)),
-    );
+  const departments: Map<number, Department> = new Map();
+  await createDepartmentObject(query).then((departmentObjects) => {
+    departmentObjects.forEach((department) => {
+      departments.set(department.id, department);
+    });
   });
   return departments;
 }
 
 async function getDepartmentPageByPageRequest(
-  pageRequest: DepartmentPageRequest,
-): Promise<PageResponse<DepartmentObject>> {
+  pageRequest: DepartmentPageRequest
+): Promise<PageResponse<Department>> {
   const baseQuery = await DBclient.from("employees")
     .innerJoin("departments", "employees.id", "departments.employee_id")
     .where((builder) => {
@@ -64,27 +56,28 @@ async function getDepartmentPageByPageRequest(
   console.log(baseQuery);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
-  return new PageResponse<DepartmentObject>(
-    pageRequest,
-    await createDepartmentObject(pageQuery),
-    baseQuery.length,
-  );
+  return {
+    ...pageRequest,
+    elements: await createDepartmentObject(pageQuery),
+    totalElements: baseQuery.length,
+    totalPages: Math.ceil(baseQuery.length / pageRequest.size),
+  };
 }
 
 async function createDepartmentObject(
-  query: DepartmentTable[],
-): Promise<DepartmentObject[]> {
-  const departments: DepartmentObject[] = [];
-  const employees: Map<string, EmployeeObject> =
-    await getEmployeeObjectByIDList(
-      query.map((department) => department.employee_id),
-    );
+  query: DepartmentTable[]
+): Promise<Department[]> {
+  const departments: Department[] = [];
+  const employees: Map<string, EmployeeTable> = await getEmployeeObjectByIDList(
+    query.map((department) => department.employee_id)
+  );
   query.forEach((department) => {
-    departments.push(
-      new DepartmentObject(department, employees.get(department.employee_id)),
-    );
+    departments.push({
+      ...department,
+      employee: employees.get(department.employee_id),
+    });
   });
   return departments;
 }

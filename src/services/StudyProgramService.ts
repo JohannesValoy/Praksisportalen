@@ -1,15 +1,13 @@
 /** @format */
 
 import { StudyProgramTable } from "knex/types/tables.js";
-import { getEducationInstitutionByIDList } from "./EducationInstitute";
+import { getEducationInstitutionByIDList } from "./EducationInstituteService";
 import DBclient from "@/knex/config/DBClient";
-import StudyProgramObject from "@/app/_models/StudyProgram";
+import { StudyProgram } from "@/app/_models/StudyProgram";
 import "server-only";
 import { PageResponse } from "@/app/_models/pageinition";
 
-async function getStudyProgramObjectByID(
-  id: number,
-): Promise<StudyProgramObject> {
+async function getStudyProgramObjectByID(id: number): Promise<StudyProgram> {
   const studyProgram = (await getStudyProgramObjectByIDList([id])).get(id);
   if (studyProgram == undefined) {
     throw new Error("Study Program not found");
@@ -18,26 +16,25 @@ async function getStudyProgramObjectByID(
 }
 
 async function getStudyProgramObjectByIDList(
-  idList: number[],
-): Promise<Map<number, StudyProgramObject>> {
+  idList: number[]
+): Promise<Map<number, StudyProgram>> {
   const query = await DBclient.select()
     .from<StudyProgramTable>("study_program")
     .whereIn("id", idList);
-  const studyPrograms: Map<number, StudyProgramObject> = new Map();
+  const studyPrograms: Map<number, StudyProgram> = new Map();
   const educationInstitutionIDs = new Set(
-    query.map((studyProgram) => studyProgram.educationInstitution_id),
+    query.map((studyProgram) => studyProgram.educationInstitution_id)
   );
   const educationInstitutions = await getEducationInstitutionByIDList(
-    educationInstitutionIDs,
+    educationInstitutionIDs
   );
   for (const studyProgram of query) {
-    studyPrograms.set(
-      studyProgram.id,
-      new StudyProgramObject(
-        studyProgram,
-        educationInstitutions.get(studyProgram.educationInstitution_id),
+    studyPrograms.set(studyProgram.id, {
+      ...studyProgram,
+      educationInstitution: educationInstitutions.get(
+        studyProgram.educationInstitution_id
       ),
-    );
+    });
   }
   return studyPrograms;
 }

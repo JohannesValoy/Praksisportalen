@@ -1,0 +1,22 @@
+services:
+  web:
+    build:
+      context: .
+      target: dev
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+        - action: sync
+          path: ./public
+          target: /app/public
+        - action: rebuild
+          path: package.json
+
+  db:
+    environment:
+      - MYSQL_DATABASE=praksislista
+      - MYSQL_ROOT_PASSWORD=changeme
+    ports:
+      - 3306:3306

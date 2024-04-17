@@ -10,12 +10,14 @@ const ThemeChanger = () => {
     if (typeof localStorage !== "undefined") {
       theme = localStorage.getItem("theme") || "dark";
     }
-    document.body.setAttribute("data-theme", theme);
+    if (typeof window !== "undefined") {
+      document?.body.setAttribute("data-theme", theme);
+    }
     return theme;
   });
 
   useEffect(() => {
-    document.body.setAttribute("data-theme", theme);
+    document?.body.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
 

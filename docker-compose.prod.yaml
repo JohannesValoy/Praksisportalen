@@ -1,5 +1,58 @@
 version: "3.7"
-include:
-  - docker-compose.common.yaml
-services:
 
+services:
+  web:
+    build:
+      context: .
+      target: prod
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - praksislista_network
+    environment:
+      DATABASE_URL: mysql://root:${MYSQL_ROOT_PASSWORD}@db/praksislista
+      FEIDE_CLIENT_ID: ${FEIDE_CLIENT_ID}
+      FEIDE_CLIENT_SECRET: ${FEIDE_CLIENT_SECRET}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+
+  db:
+    image: mysql
+    #Taken from https://stackoverflow.com/questions/42567475/docker-compose-check-if-mysql-connection-is-ready
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    environment:
+      MYSQL_DATABASE: praksislista
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+      - praksislista_network
+
+  proxy:
+    image: caddy:2.7
+    restart: unless-stopped
+    environment:
+      WEBPORT: 3000
+      DOMAIN: ${DOMAIN:-localhost}
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+      - "2019:2019"
+    networks:
+      - praksislista_network
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  praksislista_network:

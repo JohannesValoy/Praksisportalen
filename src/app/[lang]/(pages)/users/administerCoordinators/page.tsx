@@ -7,13 +7,14 @@ import DynamicTable from "@/app/components/DynamicTable";
 import { UserPageRequest } from "@/app/_models/pageinition";
 import { paginateCoordinators } from "./actions";
 
-const ListOfUsers = ({ role }: { role: string }) => {
+const ListOfUsers = () => {
   const [users, setUsers] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const headers = { Name: "name", Email: "email" };
   const [sortedBy, setSortedBy] = useState<string>("name");
   const [totalElements, setTotalElements] = useState(0);
-  const url = `/api/${role}s`;
+  //TODO make server action for this
+  const url = `/api/s`;
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   useEffect(() => {

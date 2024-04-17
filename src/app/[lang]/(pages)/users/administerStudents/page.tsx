@@ -33,7 +33,7 @@ const ListOfUsers = () => {
       setTotalElements(totalElements);
       setUsers(rows);
     });
-  }, [page, sortedBy]);
+  }, [page, sortedBy, pageSize]);
 
   const handleEmailClick = (row) => {
     window.location.href = `/profile?id=${row.id}`;

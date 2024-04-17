@@ -5,21 +5,18 @@
 import DynamicTable from "@/app/components/DynamicTable";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import InternshipPositionObject, {
+import {
+  Internship,
   InternshipPaginationRequest,
-} from "../../../_models/InternshipPosition";
+} from "@/app/_models/InternshipPosition";
 import { paginateInternships } from "./action";
 
 const ListOfInternships = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("section_id");
   const [totalElements, setTotalElements] = useState<number>(0);
-  const [internships, setInternships] = useState<InternshipPositionObject[]>(
-    [],
-  );
-  const [selectedRows, setSelectedRows] = useState<InternshipPositionObject[]>(
-    [],
-  );
+  const [internships, setInternships] = useState<Internship[]>([]);
+  const [selectedRows, setSelectedRows] = useState<Internship[]>([]);
   const headers = {
     Name: "name",
     "Max Capacity": "maxCapacity",
@@ -34,23 +31,15 @@ const ListOfInternships = () => {
   };
 
   useEffect(() => {
-    const request = { page } as InternshipPaginationRequest;
+    //TODO: Fix from static to dynamic size maybe :)
+    const request = { page, size: 10 } as InternshipPaginationRequest;
     paginateInternships(request).then((data) => {
       // If data.elements is present, map over it to create a new array
       // where each element is a flattened version of the original element.
       // If data.elements is not present, use data directly.
       const totalElements = data.totalElements;
-      const rows = data.elements
-        ? data.elements.map((element) => ({
-            ...element,
-          }))
-        : [
-            {
-              ...data,
-            },
-          ];
       setTotalElements(totalElements);
-      setInternships(rows);
+      setInternships(data.elements);
     });
   }, [id, page, sortedBy]);
 
@@ -77,6 +66,7 @@ const ListOfInternships = () => {
         url={"/api/internships/"}
         setRows={setInternships}
         page={page}
+        pageSize={10}
         setPage={setPage}
         totalElements={totalElements}
       />

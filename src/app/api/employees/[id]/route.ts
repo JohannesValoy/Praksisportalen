@@ -4,7 +4,7 @@ import { NextRequest } from "next/server";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     await deleteEmployee(params.id);

@@ -161,7 +161,7 @@ export default function Page() {
             options={departments}
             selectedOption={
               departments.find(
-                (department) => department.id === department_id
+                (department) => department.id === department_id,
               ) || null
             }
             setSelectedOption={(department) => setDepartment_id(department.id)}

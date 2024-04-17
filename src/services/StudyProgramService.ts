@@ -19,23 +19,23 @@ async function getStudyProgramObjectByID(id: number): Promise<StudyProgram> {
 }
 
 async function getStudyProgramObjectByIDList(
-  idList: number[]
+  idList: number[],
 ): Promise<Map<number, StudyProgram>> {
   const query = await DBclient.select()
     .from<StudyProgramTable>("studyPrograms")
     .whereIn("id", idList);
   const studyPrograms: Map<number, StudyProgram> = new Map();
   const educationInstitutionIDs = new Set(
-    query.map((studyProgram) => studyProgram.educationInstitution_id)
+    query.map((studyProgram) => studyProgram.educationInstitution_id),
   );
   const educationInstitutions = await getEducationInstitutionByIDList(
-    educationInstitutionIDs
+    educationInstitutionIDs,
   );
   for (const studyProgram of query) {
     studyPrograms.set(studyProgram.id, {
       ...studyProgram,
       educationInstitution: educationInstitutions.get(
-        studyProgram.educationInstitution_id
+        studyProgram.educationInstitution_id,
       ),
     });
   }
@@ -43,7 +43,7 @@ async function getStudyProgramObjectByIDList(
 }
 
 async function getStudyProgramsByPageRequest(
-  pageRequest: StudyProgramPageRequest //to be changed
+  pageRequest: StudyProgramPageRequest, //to be changed
 ): Promise<PageResponse<StudyProgram>> {
   const baseQuery = await DBclient.select()
     .from<StudyProgramTable>("studyPrograms")
@@ -55,10 +55,10 @@ async function getStudyProgramsByPageRequest(
     .orderBy(pageRequest.sort);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size
+    (pageRequest.page + 1) * pageRequest.size,
   );
   const studyPrograms = await getStudyProgramObjectByIDList(
-    pageQuery.map((studyProgram) => studyProgram.id)
+    pageQuery.map((studyProgram) => studyProgram.id),
   );
   return {
     ...pageRequest,

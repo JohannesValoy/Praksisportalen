@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     ...pageRequest,
     elements: users.slice(
       pageRequest.size * pageRequest.page,
-      pageRequest.size
+      pageRequest.size,
     ),
     totalElements: users.length,
     totalPages: Math.ceil(users.length / pageRequest.size),

@@ -16,7 +16,7 @@ async function getEmployeeObjectByID(id: string): Promise<Employee> {
 }
 
 async function getEmployeeObjectByIDList(
-  idList: string[]
+  idList: string[],
 ): Promise<Map<string, Employee>> {
   const query = await DBclient.select()
     .from<EmployeeTable>("employees")
@@ -45,7 +45,7 @@ async function createEmployees(employee: EmployeeTable[]) {
 }
 
 async function getEmployeeObjectsByPagination(
-  request: EmployeePaginationRequest
+  request: EmployeePaginationRequest,
 ): Promise<PageResponse<Employee>> {
   const query = await DBclient.select()
     .from<EmployeeTable>("employees")

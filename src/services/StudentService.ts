@@ -30,7 +30,7 @@ async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
     .orderBy(pageRequest.sort);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size
+    (pageRequest.page + 1) * pageRequest.size,
   );
   return {
     ...pageRequest,

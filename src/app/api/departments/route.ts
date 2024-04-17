@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
       JSON.stringify(await getDepartmentPageByPageRequest(pageRequest)),
       {
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
   } catch (error) {
     console.error("Error fetching department data:", error);
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
       {
         status: 500,
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
   }
 }

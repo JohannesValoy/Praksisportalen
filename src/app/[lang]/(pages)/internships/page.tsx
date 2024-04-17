@@ -15,10 +15,10 @@ const ListOfInternships = () => {
   const id = searchParams.get("section_id");
   const [totalElements, setTotalElements] = useState<number>(0);
   const [internships, setInternships] = useState<InternshipPositionObject[]>(
-    []
+    [],
   );
   const [selectedRows, setSelectedRows] = useState<InternshipPositionObject[]>(
-    []
+    [],
   );
   const headers = {
     Name: "name",

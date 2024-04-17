@@ -22,6 +22,7 @@ function DynamicTable({
   page,
   setPage,
   totalElements,
+  pageSize,
 }) {
   // Ensure rows is always an array
   const normalizedRows = Array.isArray(rows) ? rows : [rows];
@@ -31,7 +32,7 @@ function DynamicTable({
     const isSelected = selectedRows.includes(row);
     if (isSelected) {
       setSelectedRows(
-        selectedRows.filter((selectedRow) => selectedRow !== row),
+        selectedRows.filter((selectedRow) => selectedRow !== row)
       );
     } else {
       setSelectedRows([...selectedRows, row]);
@@ -56,21 +57,21 @@ function DynamicTable({
           .catch((error) => {
             console.error(error);
             return { success: false, id: row.id };
-          }),
-      ),
+          })
+      )
     ).then((results) => {
       const failedDeletes = results.filter((result) => !result.success);
       if (failedDeletes.length > 0) {
         alert(
           `Failed to delete rows with ids ${failedDeletes
             .map((result) => result.id)
-            .join(", ")}`,
+            .join(", ")}`
         );
       } else {
         setRows(
           normalizedRows.filter(
-            (currRow) => !selectedRows.find((row) => row.id === currRow.id),
-          ),
+            (currRow) => !selectedRows.find((row) => row.id === currRow.id)
+          )
         );
       }
     });
@@ -206,7 +207,7 @@ function DynamicTable({
           <button
             className="join-item btn"
             onClick={() => setPage(page + 1)}
-            disabled={page >= totalElements}
+            disabled={page * pageSize >= totalElements}
           >
             »
           </button>

@@ -13,6 +13,8 @@ const ListOfInternshipAgreements = () => {
   const [sortedBy, setSortedBy] = useState<string>("name");
   const [selectedRows, setSelectedRows] = useState<InternshipAgreement[]>([]);
   const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalElements, setTotalElements] = useState(0);
   const headers = {
     Status: "status",
     " Start Date": "startDate",
@@ -28,9 +30,11 @@ const ListOfInternshipAgreements = () => {
       -1,
       "",
       -1,
-      "",
+      ""
     );
     paginateInternshipAgreements(request.toJSON()).then((data) => {
+      setTotalElements(data.totalElements);
+      setPageSize(data.size);
       const rows = data.elements.map((element) => ({
         ...element,
       }));
@@ -77,6 +81,7 @@ const ListOfInternshipAgreements = () => {
         page={page}
         setPage={setPage}
         totalElements={internshipAgreements.length}
+        pageSize={pageSize}
       />
     </div>
   );

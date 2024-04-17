@@ -12,6 +12,7 @@ const ListOfEducationInstitutions = () => {
   const headers = { Name: "name" };
   const [sortedBy, setSortedBy] = useState<string>("name");
 
+  //TODO make pagination
   useEffect(() => {
     fetch(`/api/educationInstitutions`)
       .then((res) => res.json())

@@ -15,6 +15,7 @@ const ListOfUsers = ({ role }: { role: string }) => {
   const [totalElements, setTotalElements] = useState(0);
   const url = `/api/${role}s`;
   const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   useEffect(() => {
     const request = new UserPageRequest(page, 10, sortedBy, ["name", "email"]);
 
@@ -23,6 +24,7 @@ const ListOfUsers = ({ role }: { role: string }) => {
       const rows = data.elements.map((element) => ({
         ...element,
       }));
+      setPageSize(data.size);
       setUsers(rows);
     });
   }, [page, sortedBy]);
@@ -40,7 +42,7 @@ const ListOfUsers = ({ role }: { role: string }) => {
       <DynamicTable
         rows={users}
         setRows={setUsers}
-        tableName={role + "s"}
+        tableName={"Coordinators"}
         headers={headers}
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
@@ -50,7 +52,7 @@ const ListOfUsers = ({ role }: { role: string }) => {
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {
-          window.location.href = `/admin/addUser?role=${role}`;
+          window.location.href = `/users/addUser?role=coordinator"`;
         }}
         clickableColumns={clickableColumns}
         setSortedBy={setSortedBy}
@@ -58,6 +60,7 @@ const ListOfUsers = ({ role }: { role: string }) => {
         page={page}
         setPage={setPage}
         totalElements={totalElements}
+        pageSize={pageSize}
       />
     </div>
   );

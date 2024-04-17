@@ -13,6 +13,7 @@ const ListOfStudies = () => {
   const [sortedBy, setSortedBy] = useState<string>("name");
   const [totalElements, setTotalElements] = useState<number>(0);
   const [page, setPage] = useState<number>(0);
+  const [pageSize, setPageSize] = useState<number>(10);
 
   type Study = {
     name: string;
@@ -28,6 +29,7 @@ const ListOfStudies = () => {
       const rows = data.elements.map((element) => ({
         ...element,
       }));
+      setPageSize(data.size);
       setTotalElements(totalElements);
       setStudies(rows);
     });
@@ -55,6 +57,7 @@ const ListOfStudies = () => {
         page={page}
         setPage={setPage}
         totalElements={totalElements}
+        pageSize={pageSize}
       />
     </div>
   );

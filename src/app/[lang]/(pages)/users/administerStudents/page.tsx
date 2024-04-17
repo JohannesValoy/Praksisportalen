@@ -14,12 +14,18 @@ const ListOfUsers = ({ role }: { role: string }) => {
   const [sortedBy, setSortedBy] = useState<string>("name");
   const url = `/api/${role}s`;
   const [page, setPage] = useState(0);
+  const [totalElements, setTotalElements] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   useEffect(() => {
     const request = new UserPageRequest(page, 10, sortedBy, ["name", "email"]);
     paginateStudents(request.toJSON()).then((data) => {
+      const totalElements = data.totalElements;
+
       const rows = data.elements.map((element) => ({
         ...element,
       }));
+      setPageSize(data.size);
+      setTotalElements(totalElements);
       setUsers(rows);
     });
   }, [page, sortedBy]);
@@ -47,13 +53,15 @@ const ListOfUsers = ({ role }: { role: string }) => {
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {
-          window.location.href = `/admin/addUser?role=${role}`;
+          window.location.href = `/users/addUser?role=student`;
         }}
         clickableColumns={clickableColumns}
         setSortedBy={setSortedBy}
         url={url + "/"}
         page={page}
         setPage={setPage}
+        totalElements={totalElements}
+        pageSize={pageSize}
       />
     </div>
   );

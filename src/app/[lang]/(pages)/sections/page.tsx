@@ -15,6 +15,8 @@ const ListOfSections = () => {
   const headers = { Name: "name", Email: "email" };
   const [sortedBy, setSortedBy] = useState<string>("name");
   const [page, setPage] = useState(0);
+  const [totalElements, setTotalElements] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
 
   const clickableColumns = {
     email: (row) => {
@@ -24,12 +26,13 @@ const ListOfSections = () => {
   useEffect(() => {
     const request = new SectionPageRequest(page, 10, sortedBy, -1, -1, "");
     paginateSections(request.toJSON()).then((data) => {
+      setTotalElements(data.totalElements);
+      setPageSize(data.size);
       const rows = data.elements.map((element) => ({
         ...element,
         email: element.employee.email,
         employee_id: element.employee.id,
       }));
-
       setSections(rows);
     });
   }, [page, sortedBy]);
@@ -55,6 +58,8 @@ const ListOfSections = () => {
         clickableColumns={clickableColumns}
         setPage={setPage}
         page={page}
+        totalElements={totalElements}
+        pageSize={pageSize}
       />
     </div>
   );

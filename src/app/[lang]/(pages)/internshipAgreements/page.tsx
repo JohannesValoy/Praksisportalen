@@ -30,7 +30,7 @@ const ListOfInternshipAgreements = () => {
       -1,
       "",
       -1,
-      ""
+      "",
     );
     paginateInternshipAgreements(request.toJSON()).then((data) => {
       setTotalElements(data.totalElements);

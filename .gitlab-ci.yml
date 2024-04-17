@@ -31,11 +31,10 @@ default:
       - public/
     policy: pull-push
   image: node:latest
-
 install:
   stage: install
   script:
-    - npm install
+    - npm install --also=dev
     - npm install --save next
 build:
   stage: build

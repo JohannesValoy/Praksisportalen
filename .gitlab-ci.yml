@@ -36,7 +36,7 @@ install:
   stage: install
   script:
     - npm install
-
+    - npm install --save next
 build:
   stage: build
   script:

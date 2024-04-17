@@ -14,40 +14,6 @@ type DataItem = {
   startDate: Date;
   endDate: Date;
 };
-
-// Assuming datalist is used elsewhere in your component for a Gantt chart
-
-const datalist: DataItem[] = [
-  {
-    id: 1,
-    row_id: 1,
-    name: "Section 1",
-    startDate: new Date(2024, 2, 20),
-    endDate: new Date(2024, 4, 28),
-  },
-  {
-    id: 2,
-    row_id: 2,
-    name: "Section 2",
-    startDate: new Date(2024, 0, 25),
-    endDate: new Date(2024, 2, 20),
-  },
-  {
-    id: 3,
-    row_id: 2,
-    name: "Section 2",
-    startDate: new Date(2024, 4, 28),
-    endDate: new Date(2024, 8, 1),
-  },
-  {
-    id: 4,
-    row_id: 6,
-    name: "Section 6",
-    startDate: new Date(2024, 8, 1),
-    endDate: new Date(2024, 10, 31),
-  },
-];
-
 // Redefined Internship type to include leader information
 type Internship = {
   id: number;
@@ -73,20 +39,33 @@ type Internship = {
 
 const InternshipComponent = () => {
   const searchParams = useSearchParams();
+  const [datalist, setDatalist] = useState<DataItem[]>(null);
+
   const internship_id = searchParams.get("internship_id");
   const [internship, setInternship] = useState<Internship | null>(null);
-
   useEffect(() => {
     if (internship_id !== null) {
       fetch(`/api/internships/${internship_id}`)
         .then((res) => res.json())
-        .then((data) => setInternship(data))
+        .then((data) => {
+          setInternship(data);
+          const dataList: DataItem[] = data.timeIntervals.map(
+            (interval: any, index: number) => ({
+              id: index + 1,
+              row_id: interval.id,
+              name: `Interval ${index + 1}`,
+              startDate: new Date(interval.startDate),
+              endDate: new Date(interval.endDate),
+            }),
+          );
+          setDatalist(dataList);
+        })
         .catch((error) =>
           console.error("Failed to fetch internship details:", error),
         );
     }
   }, [internship_id]);
-
+  console.log(internship);
   return (
     <div className=" w-full h-full">
       {internship ? (

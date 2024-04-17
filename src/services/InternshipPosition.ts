@@ -1,3 +1,5 @@
+/** @format */
+
 import { InternshipTable } from "knex/types/tables.js";
 import DBclient from "@/knex/config/DBClient";
 import InternshipPositionObject, {
@@ -5,11 +7,14 @@ import InternshipPositionObject, {
 } from "@/app/_models/InternshipPosition";
 import "server-only";
 import { PageResponse } from "@/app/_models/pageinition";
+import TimeIntervalObject from "@/app/_models/TimeInterval";
+import { time } from "console";
+import { fetchTimeIntervalsByInternshipID } from "./TimeInterval";
 
 /**
  * getInternshipPositionObjectByID returns an InternshipPositionObject object by id.
  * @param id The id of the InternshipPositionObject.
- * @returns A InternshipPositionObject object.
+ * @returns An InternshipPositionObject object.
  * @throws Error if the InternshipPositionObject is not found.
  */
 async function getInternshipPositionObjectByID(
@@ -33,9 +38,9 @@ async function getInternshipPositionObjectByIDList(
     .from<InternshipTable>("internships")
     .whereIn("id", idList);
   const internships: Map<number, InternshipPositionObject> = new Map();
-  query.forEach((internship) => {
-    internships.set(internship.id, new InternshipPositionObject(internship));
-  });
+  (await createInternshipPosition(query)).forEach((internship) =>
+    internships.set(internship.id, internship),
+  );
   return internships;
 }
 /**
@@ -93,17 +98,33 @@ async function getInternshipPositionObjectByPageRequest(
       }
     })
     .orderBy(pageRequest.sort);
-  const internships: InternshipPositionObject[] = [];
   console.log("Query length: ", query.length);
-  query
-    .slice(
+  const internships = await createInternshipPosition(
+    query.slice(
       pageRequest.size * pageRequest.page,
       pageRequest.size * pageRequest.page + pageRequest.size,
-    )
-    .forEach((internship) => {
-      internships.push(new InternshipPositionObject(internship));
-    });
+    ),
+  );
   return new PageResponse(pageRequest, internships, query.length);
+}
+
+async function createInternshipPosition(
+  query: InternshipTable[],
+): Promise<InternshipPositionObject[]> {
+  const internships: InternshipPositionObject[] = [];
+  const timeIntervals: Map<number, TimeIntervalObject[]> =
+    await fetchTimeIntervalsByInternshipID(
+      query.map((internship) => internship.id),
+    );
+  query.forEach((internship) => {
+    internships.push(
+      new InternshipPositionObject(
+        internship,
+        timeIntervals.get(internship.id),
+      ),
+    );
+  });
+  return internships;
 }
 
 export {

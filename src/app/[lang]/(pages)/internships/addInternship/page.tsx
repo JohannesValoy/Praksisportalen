@@ -9,8 +9,9 @@ import { getInternshipTypes } from "../Actions";
 import { InternshipFieldTable } from "knex/types/tables.js";
 
 export default function Page() {
-  const [name, setname] = useState("");
-  const [sections, setSections] = useState([]);
+  const [name, setName] = useState("");
+  const [sections, setSections] = useState<Section[]>([]);
+
   const [section_id, setSections_id] = useState(0);
   const [field, setField] = useState("");
   const [newField, setNewField] = useState("");
@@ -102,7 +103,7 @@ export default function Page() {
           type="text"
           placeholder="Section Name"
           className="input input-bordered w-full"
-          onChange={(e) => setname(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
         />
       </label>
       <label className="form-control w-full">

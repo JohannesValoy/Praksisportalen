@@ -1,10 +1,9 @@
 /** @format */
 
 "use server";
-import { CoordinatorPageRequest } from "@/app/_models/Coordinator";
-import { getCoordinatorsByPageRequest } from "@/services/Coordinator";
+import { getStudyProgramsByPageRequest } from "@/services/StudyProgram";
 import "server-only";
 
 export async function paginateStudyPrograms(request: StudyProgramPageRequest) {
-  return (await getStudyProgramsByPagerequest(request)).toJSON();
+  return (await getStudyProgramsByPageRequest(request)).toJSON();
 }

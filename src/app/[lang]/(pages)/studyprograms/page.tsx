@@ -4,12 +4,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
+import { paginateStudyPrograms } from "./actions";
 
 const ListOfStudies = () => {
   const [studies, setStudies] = useState<Study[]>([]);
   const [selectedRows, setSelectedRows] = useState<Study[]>([]);
   const headers = { Name: "name", id: "id" };
   const [sortedBy, setSortedBy] = useState<string>("name");
+  const [totalElements, setTotalElements] = useState<number>(0);
+  const [page, setPage] = useState<number>(0);
 
   type Study = {
     name: string;
@@ -19,17 +22,16 @@ const ListOfStudies = () => {
     };
   };
   useEffect(() => {
-    fetch(`/api/studyPrograms?sort=${sortedBy}`) // Adjusted the fetch URL to include sorting.
-      .then((res) => res.json())
-      .then((data) => {
-        const modifiedData = data.map((study: Study) => ({
-          name: study.name,
-          id: study.id,
-        }));
-        setStudies(modifiedData);
-      }) // Ensure proper data handling.
-      .catch((error) => console.error("Failed to fetch studies", error)); // Error handling.
-  }, [sortedBy]); // Added sortedBy to the dependency array.
+    const request = new StudyProgramPageRequest(0, 10, sortedBy, "", "");
+    paginateStudyPrograms(request.toJSON()).then((data) => {
+      const totalElements = data.totalElements;
+      const rows = data.elements.map((element) => ({
+        ...element,
+      }));
+      setTotalElements(totalElements);
+      setStudies(rows);
+    });
+  }, [sortedBy]);
 
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
@@ -50,6 +52,9 @@ const ListOfStudies = () => {
         setSortedBy={setSortedBy}
         url="/api/studyPrograms/"
         setRows={setStudies}
+        page={page}
+        setPage={setPage}
+        totalElements={totalElements}
       />
     </div>
   );

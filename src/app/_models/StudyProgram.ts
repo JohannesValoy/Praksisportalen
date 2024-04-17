@@ -19,7 +19,7 @@ class StudyProgramObject implements StudyProgramTable {
    */
   constructor(
     query: StudyProgramTable,
-    educationInstitution: EducationInstitutionObject,
+    educationInstitution: EducationInstitutionObject
   ) {
     this.id = query.id;
     this.name = query.name;
@@ -39,5 +39,4 @@ class StudyProgramObject implements StudyProgramTable {
     };
   }
 }
-
 export default StudyProgramObject;

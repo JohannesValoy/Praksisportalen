@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "format": "prettier . --check",
+    "format": "npx prettier . --check",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

@@ -36,6 +36,7 @@ install:
   script:
     - npm install --also=dev
     - npm install --save next
+    - npm install --save-dev prettier
 build:
   stage: build
   script:

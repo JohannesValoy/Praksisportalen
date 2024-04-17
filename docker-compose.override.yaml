@@ -1,3 +1,5 @@
+# @format
+
 services:
   web:
     build:
@@ -21,6 +23,6 @@ services:
 
   db:
     environment:
-      - MYSQL_ROOT_PASSWORD=changeme
+      MYSQL_ROOT_PASSWORD: changeme
     ports:
       - 3306:3306

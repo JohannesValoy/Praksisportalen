@@ -33,7 +33,7 @@ class InternshipAgreementObject implements InternshipAgreementTable {
   constructor(
     agreement: InternshipAgreementTable,
     studyProgram: StudyProgramObject,
-    internship: InternshipPositionObject
+    internship: InternshipPositionObject,
   ) {
     this.id = agreement.id;
     this.status = agreement.status;
@@ -101,7 +101,7 @@ export class InternshipAgreementPageRequest extends PageRequest {
     hasInternshipID: number,
     containsComment: string,
     containsStudyProgramID: number,
-    containsStatus: string
+    containsStatus: string,
   ) {
     super(page, size);
     if (
@@ -145,7 +145,7 @@ export class InternshipAgreementPageRequest extends PageRequest {
       Number(params.get("hasInternshipID")) || -1,
       params.get("containsComment") || "",
       Number(params.get("containsStudyProgramID")) || -1,
-      params.get("containsStatus") || ""
+      params.get("containsStatus") || "",
     );
   }
 

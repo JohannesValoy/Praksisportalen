@@ -95,7 +95,7 @@ export class UserPageRequest extends PageRequest {
       roles.length === 0 &&
       roles.every(
         (role) =>
-          ["admin", "employee", "coordinator", "student"].indexOf(role) === -1
+          ["admin", "employee", "coordinator", "student"].indexOf(role) === -1,
       )
     ) {
       roles = ["admin", "employee", "coordinator", "student"];

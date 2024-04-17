@@ -6,7 +6,7 @@ import { getInternshipPositionObjectByPageRequest } from "@/services/InternshipP
 import "server-only";
 
 export async function paginateInternships(
-  request: InternshipPaginationRequest
+  request: InternshipPaginationRequest,
 ) {
   return (await getInternshipPositionObjectByPageRequest(request)).toJSON();
 }

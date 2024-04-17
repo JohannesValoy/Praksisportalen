@@ -28,7 +28,7 @@ const ListOfInternshipAgreements = () => {
       -1,
       "",
       -1,
-      ""
+      "",
     );
     paginateInternshipAgreements(request.toJSON()).then((data) => {
       const rows = data.elements.map((element) => ({
@@ -76,6 +76,7 @@ const ListOfInternshipAgreements = () => {
         setRows={setInternshipAgreements}
         page={page}
         setPage={setPage}
+        totalElements={internshipAgreements.length}
       />
     </div>
   );

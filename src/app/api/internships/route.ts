@@ -10,7 +10,7 @@ import { getInternshipPositionObjectByPageRequest } from "@/services/InternshipP
 export async function GET(request: NextRequest) {
   const pageRequest = InternshipPaginationRequest.fromRequest(request);
   return Response.json(
-    await getInternshipPositionObjectByPageRequest(pageRequest)
+    await getInternshipPositionObjectByPageRequest(pageRequest),
   );
 }
 

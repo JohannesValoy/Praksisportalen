@@ -79,7 +79,7 @@ export default function Page() {
 
   // Initialize internshipFields as an array of InternshipField
   const [internshipFields, setInternshipFields] = useState<InternshipField[]>(
-    []
+    [],
   );
   const [newType, setNewType] = useState("");
 
@@ -140,7 +140,7 @@ export default function Page() {
             options={studyPrograms}
             selectedOption={
               studyPrograms.find(
-                (studyProgram) => studyProgram.id === studyProgram_id
+                (studyProgram) => studyProgram.id === studyProgram_id,
               ) || null
             }
             setSelectedOption={(studyProgram) =>
@@ -185,7 +185,7 @@ export default function Page() {
                 options={internshipFields}
                 selectedOption={
                   internshipFields.find(
-                    (type) => type.name === internshipField
+                    (type) => type.name === internshipField,
                   ) || null
                 }
                 setSelectedOption={(type) => setInternshipField(type.name)}

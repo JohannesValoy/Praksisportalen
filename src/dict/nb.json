@@ -1,10 +1,10 @@
 {
-    "login":{
-        "pageName": "Login",
-        "header": "Logg inn",
-        "loginButton": "Logg inn",
-        "feideLoginButton": "Logg inn med Feide",
-        "username": "Brukernavn",
-        "password": "Passord"
-    }
+  "login": {
+    "pageName": "Login",
+    "header": "Logg inn",
+    "loginButton": "Logg inn",
+    "feideLoginButton": "Logg inn med Feide",
+    "username": "Brukernavn",
+    "password": "Passord"
+  }
 }

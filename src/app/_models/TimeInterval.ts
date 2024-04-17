@@ -59,7 +59,7 @@ export class TimeIntervalPageRequest extends PageRequest {
     size: number,
     internshipAgreement_id: number[],
     startDate: Date,
-    end: Date
+    end: Date,
   ) {
     super(page, size);
     this.internshipAgreement_id = internshipAgreement_id;
@@ -85,7 +85,7 @@ export class TimeIntervalPageRequest extends PageRequest {
       page.size,
       internshipAgreement_id,
       startDate,
-      endDate
+      endDate,
     );
   }
 }

@@ -18,7 +18,7 @@ import { fetchTimeIntervalsByInternshipID } from "./TimeInterval";
  * @throws Error if the InternshipPositionObject is not found.
  */
 async function getInternshipPositionObjectByID(
-  id: number
+  id: number,
 ): Promise<InternshipPositionObject> {
   const internship = await getInternshipPositionObjectByIDList([id]);
   if (internship.get(id) == undefined) {
@@ -32,14 +32,14 @@ async function getInternshipPositionObjectByID(
  * @returns  A Map object that contains the list of InternshipPositionObject objects.
  */
 async function getInternshipPositionObjectByIDList(
-  idList: number[]
+  idList: number[],
 ): Promise<Map<number, InternshipPositionObject>> {
   const query = await DBclient.select()
     .from<InternshipTable>("internships")
     .whereIn("id", idList);
   const internships: Map<number, InternshipPositionObject> = new Map();
   (await createInternshipPosition(query)).forEach((internship) =>
-    internships.set(internship.id, internship)
+    internships.set(internship.id, internship),
   );
   return internships;
 }
@@ -50,13 +50,13 @@ async function getInternshipPositionObjectByIDList(
  */
 
 async function getInternshipPositionObjectBySectionID(
-  sections: number[]
+  sections: number[],
 ): Promise<Map<number, InternshipPositionObject[]>> {
   const query = await DBclient.from<InternshipTable>("internships")
     .select("id", "section_id")
     .whereIn("section_id", sections);
   const internships = await getInternshipPositionObjectByIDList(
-    query.map((internship) => internship.id)
+    query.map((internship) => internship.id),
   );
   const internshipsMap = new Map();
   query.forEach((internship) => {
@@ -79,7 +79,7 @@ async function getInternshipPositionObjectBySectionID(
  * @returns  A PageResponse object that contains the list of InternshipPositionObject objects.
  */
 async function getInternshipPositionObjectByPageRequest(
-  pageRequest: InternshipPaginationRequest
+  pageRequest: InternshipPaginationRequest,
 ): Promise<PageResponse<InternshipPositionObject>> {
   const query = await DBclient.select()
     .from<InternshipTable>("internships")
@@ -102,23 +102,26 @@ async function getInternshipPositionObjectByPageRequest(
   const internships = await createInternshipPosition(
     query.slice(
       pageRequest.size * pageRequest.page,
-      pageRequest.size * pageRequest.page + pageRequest.size
-    )
+      pageRequest.size * pageRequest.page + pageRequest.size,
+    ),
   );
   return new PageResponse(pageRequest, internships, query.length);
 }
 
 async function createInternshipPosition(
-  query: InternshipTable[]
+  query: InternshipTable[],
 ): Promise<InternshipPositionObject[]> {
   const internships: InternshipPositionObject[] = [];
   const timeIntervals: Map<number, TimeIntervalObject[]> =
     await fetchTimeIntervalsByInternshipID(
-      query.map((internship) => internship.id)
+      query.map((internship) => internship.id),
     );
   query.forEach((internship) => {
     internships.push(
-      new InternshipPositionObject(internship, timeIntervals.get(internship.id))
+      new InternshipPositionObject(
+        internship,
+        timeIntervals.get(internship.id),
+      ),
     );
   });
   return internships;

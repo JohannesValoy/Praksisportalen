@@ -4,7 +4,7 @@ import DBclient from "@/knex/config/DBClient";
 import DepartmentObject, {
   DepartmentPageRequest,
 } from "@/app/_models/Department";
-import {EmployeeObject} from "@/app/_models/Employee";
+import { EmployeeObject } from "@/app/_models/Employee";
 import { DepartmentTable } from "knex/types/tables.js";
 import { getEmployeeObjectByIDList } from "./Employees";
 
@@ -27,9 +27,9 @@ async function getDepartmentObjectByIDList(
     .whereIn("id", idList);
   const departments: Map<number, DepartmentObject> = new Map();
   (await createDepartmentObject(query)).forEach((department) =>
-    departments.set(department.id, department)
+    departments.set(department.id, department),
   );
-   return departments;
+  return departments;
 }
 
 async function getDepartmentPageByPageRequest(

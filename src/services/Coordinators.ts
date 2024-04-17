@@ -32,12 +32,12 @@ async function getCoordinatorsByPageRequest(
     .orderBy(pageRequest.sort);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size
+    (pageRequest.page + 1) * pageRequest.size,
   );
   return new PageResponse<Coordinator>(
     pageRequest,
     await createCoordinatorObjects(pageQuery),
-    baseQuery.length
+    baseQuery.length,
   );
 }
 

@@ -14,7 +14,7 @@ async function fetchTimeIntervalByID(id: number): Promise<TimeIntervalObject> {
 }
 
 async function fetchTimeIntervalByIDList(
-  idList: Set<number>
+  idList: Set<number>,
 ): Promise<Map<number, TimeIntervalObject>> {
   const query = await DBclient.select()
     .from("timeIntervals")
@@ -27,7 +27,7 @@ async function fetchTimeIntervalByIDList(
 }
 
 async function fetchTimeIntervalsByInternshipID(
-  internShipID: number[]
+  internShipID: number[],
 ): Promise<Map<number, TimeIntervalObject[]>> {
   debugger;
   console.log("internShipID", internShipID);
@@ -37,7 +37,7 @@ async function fetchTimeIntervalsByInternshipID(
     .join(
       "internshipAgreements",
       "timeIntervals.internshipAgreement_id",
-      "internshipAgreements.internship_id"
+      "internshipAgreements.internship_id",
     )
     .whereIn("internship_id", internShipID)
     .orderBy("timeIntervals.startDate", "asc");

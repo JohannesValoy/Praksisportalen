@@ -64,14 +64,14 @@ async function getInternshipAgreementsByPageRequest(
   const baseQuery = await DBclient.select()
     .from<InternshipAgreementTable>("internshipAgreements")
     .where((builder) => {
-      if (pageRequest.hasInternshipID !== -1) {
+      if (pageRequest.hasInternshipID) {
         builder.where("internship_id", pageRequest.hasInternshipID);
       }
-      if (pageRequest.containsStatus !== "") {
+      if (pageRequest.containsStatus) {
         builder.where("status", "like", `%${pageRequest.containsStatus}%`);
       }
     })
-    .orderBy(pageRequest.sort);
+    .orderBy(pageRequest.sort || "id");
 
   // Fetch the paginated results
   const paginatedResults = baseQuery.slice(offset, offset + pageSize);
@@ -79,7 +79,6 @@ async function getInternshipAgreementsByPageRequest(
   // Create Internship Agreement objects from the query results
   const internshipAgreements =
     await createInternshipAgreementObject(paginatedResults);
-
   return {
     page: pageRequest.page,
     size: pageSize,

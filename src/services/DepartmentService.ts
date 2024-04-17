@@ -37,10 +37,10 @@ async function getDepartmentPageByPageRequest(
   const baseQuery = await DBclient.from("employees")
     .innerJoin("departments", "employees.id", "departments.employee_id")
     .where((builder) => {
-      if (pageRequest.hasEmployeeID != -1) {
+      if (pageRequest.hasEmployeeID) {
         builder.where("employee_id", pageRequest.hasEmployeeID);
       }
-      if (pageRequest.hasSectionID != -1) {
+      if (pageRequest.hasSectionID) {
         builder.whereIn("id", (builder) => {
           builder
             .select("department_id")
@@ -48,11 +48,11 @@ async function getDepartmentPageByPageRequest(
             .where("id", pageRequest.hasSectionID);
         });
       }
-      if (pageRequest.containsName != "" && pageRequest.containsName) {
+      if (pageRequest.containsName) {
         builder.where("name", "like", `%${pageRequest.containsName}%`);
       }
     })
-    .orderBy(pageRequest.sort);
+    .orderBy(pageRequest.sort || "id");
   console.log(baseQuery);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,

@@ -81,20 +81,17 @@ async function getInternshipPositionObjectByPageRequest(
   const query = await DBclient.select()
     .from<InternshipTable>("internships")
     .where((builder) => {
-      if (pageRequest.section_id != null && pageRequest.section_id.length > 0) {
+      if (pageRequest.section_id && pageRequest.section_id.length > 0) {
         builder.whereIn("section_id", pageRequest.section_id);
       }
-      if (
-        pageRequest.yearOfStudy != null &&
-        pageRequest.yearOfStudy.length > 0
-      ) {
+      if (pageRequest.yearOfStudy && pageRequest.yearOfStudy.length > 0) {
         builder.whereIn("yearOfStudy", pageRequest.yearOfStudy);
       }
-      if (pageRequest.field != null && pageRequest.field.length > 0) {
+      if (pageRequest.field) {
         builder.where("field", pageRequest.field);
       }
     })
-    .orderBy(pageRequest.sort);
+    .orderBy(pageRequest.sort || "name");
   const internships: Internship[] = [];
   console.log("Query length: ", query.length);
   query

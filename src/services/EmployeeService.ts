@@ -60,7 +60,7 @@ async function getEmployeeObjectsByPagination(
         builder.whereIn("role", request.hasRole);
       }
     })
-    .orderBy(request.sort);
+    .orderBy(request.sort || "name");
   const employees: Employee[] = [];
   const offset = request.page * request.size;
   query.slice(offset, request.size + offset).forEach((employee) => {

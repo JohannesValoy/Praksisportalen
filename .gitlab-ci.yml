@@ -17,7 +17,6 @@
 # https://docs.gitlab.com/ee/development/cicd/templates.html
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
-
 stages:
   - install
   - lint
@@ -31,24 +30,24 @@ default:
       - node_modules/
       - public/
     policy: pull-push
-  image: imbios/bun-node:latest-18-debian
-
+  image: node:latest
 install:
   stage: install
   script:
-    - bun install
-
+    - npm install --also=dev
+    - npm install --save next
+    - npm install --save-dev typescript @types/react @types/node prettier
 build:
   stage: build
   script:
-    - bun run build
+    - npm run build
 
 lint:
   stage: lint
   script:
-    - bun run lint
+    - npm run lint
 
 format:
   stage: format
   script:
-    - bun run format
+    - npm run format

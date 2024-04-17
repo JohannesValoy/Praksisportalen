@@ -141,14 +141,14 @@ export async function up(knex: Knex): Promise<void> {
           .from("employees")
           .union(
             knex.raw(
-              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators'
-            )
+              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators',
+            ),
           )
           .union(
             knex.raw(
-              'select id, name, email, "student" as role, created_at, updated_at from students'
-            )
-          )
+              'select id, name, email, "student" as role, created_at, updated_at from students',
+            ),
+          ),
       );
     })
     .then(() => {
@@ -164,7 +164,7 @@ export async function up(knex: Knex): Promise<void> {
               while exists (select 1 from users where id = NEW.id) do
                 set NEW.id = uuid();
               end while;
-            END`
+            END`,
       );
     });
 }

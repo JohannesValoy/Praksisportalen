@@ -2,7 +2,6 @@
 
 import DBclient from "@/knex/config/DBClient";
 import { Knex } from "knex";
-import { UserAttributes } from "@/knex/config/tables";
 import {
   EmployeeTable,
   StudentTable,

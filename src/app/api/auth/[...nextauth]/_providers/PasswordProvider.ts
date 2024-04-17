@@ -6,6 +6,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { fromUserToUserAdapter } from "../_adapter/dbadapter";
 import bcrypt from "bcrypt";
 import { User } from "next-auth";
+import { Role } from "../nextauth";
 
 const passwordProvider = CredentialsProvider({
   // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -25,20 +26,33 @@ const passwordProvider = CredentialsProvider({
       return null;
     }
     // We are going to say it as a CoordinatorTable as it contains only the password field
-    let user = await DBclient.from<CoordinatorTable>("employees")
-      .where("email", username)
-      .first();
-
+    const user = await DBclient.from("users").where("email", username).first();
+    let password = undefined;
     if (user == undefined) {
-      user = await DBclient.from<CoordinatorTable>("coordinators")
+      throw new Error("User not found");
+    }
+    if (user?.role == Role.coordinator) {
+      password = await DBclient.from("coordinators")
+        .select("password")
+        .where("email", username)
+        .first();
+    } else if (user?.role == Role.student) {
+      return null;
+    } else {
+      password = await DBclient.from("employees")
+        .select("password")
         .where("email", username)
         .first();
     }
-    const password = credentials?.password;
+    console.log(user);
+    console.log(password.password, credentials.password);
     if (user == undefined || password == undefined) {
       throw new Error("User not found");
     }
-    return (await bcrypt.compareSync(String(password), user.password))
+    return (await bcrypt.compareSync(
+      String(credentials.password),
+      password.password
+    ))
       ? fromUserToUserAdapter(user)
       : null;
   },

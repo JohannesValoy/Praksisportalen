@@ -63,6 +63,11 @@ const AdminLayout = () => {
         </ContainerBox>
       </div>
       <div className="flex flex-col w-full h-full">
+        <ContainerBox title={"Import Data"}>
+          <Link href="/bulkImport" className="btn">
+            Import Data from Excel
+          </Link>
+        </ContainerBox>
         <ContainerBox title={"Education Institution"}>
           <Link href="/users/administerCoordinators" className="btn">
             Koordinatorer

@@ -23,7 +23,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} flex flex-col`}>
+      <body className={`${inter.className} flex flex-col bg-base `}>
         <header className="flex justify-between bg-base-200 p-4 items-center ">
           <Link href={"/"}>
             <div className="h-10">
@@ -33,10 +33,6 @@ export default async function RootLayout({
           <div className="flex space-x-6 items-center">
             <Link href="/" className="btn  rounded-btn h-full">
               Home
-            </Link>
-
-            <Link href="/bulkImport" className="btn  rounded-btn h-full">
-              Import Data from Excel
             </Link>
 
             <div className="dropdown dropdown-end">
@@ -52,10 +48,8 @@ export default async function RootLayout({
             </div>
           </div>
         </header>
-        <main className="flex p-4 overflow-y-auto w-full h-full bg-base-300 p-15">
-          <div className="bg-base-200 rounded-3xl h-full w-full">
-            {children}
-          </div>
+        <main className="flex flex-col py-4 h-full bg-base overflow-y-scroll scrollbar-hide">
+          {children}
         </main>
       </body>
     </html>

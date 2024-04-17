@@ -16,7 +16,7 @@ export async function fetchInternhipFields() {
 }
 
 export async function addInternshipField(data) {
-  const response = await DBclient.table("internshipFields").insert({
+  await DBclient.table("internshipFields").insert({
     name: data,
   });
   return null;

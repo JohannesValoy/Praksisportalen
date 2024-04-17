@@ -113,25 +113,18 @@ export default function Page() {
       comment,
       fieldGroups,
     };
-    // Send POST request
-    const response = await fetch("/api/form-endpoint", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
 
-    if (!response.ok) {
-      throw new Error(response.statusText);
+    console.log(formData);
+    try {
+      const response = await placeOrder(formData);
+      return { status: 200 };
+    } catch (error) {
+      return {
+        status: error.response?.status || 500,
+        statusText: error.response?.statusText || "Server Error",
+      };
     }
-
-    // Handle response
-    const data = await response.json();
-    console.log(data);
-
-    // Clear form or redirect user
-    router.back();
+    //router.back();
   };
 
   const handleAddType = async () => {

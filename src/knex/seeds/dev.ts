@@ -4,6 +4,9 @@ import { Knex } from "knex";
 import { createEmployees } from "@/services/EmployeeService";
 import { createCoordinators } from "@/services/CoordinatorService";
 import { createStudents } from "@/services/StudentService";
+import JSONEmployees from "./employees-finished.json";
+import JSONCoordinators from "./coordinators-finished.json";
+import JSONStudents from "./students-finished.json";
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
@@ -24,7 +27,8 @@ export const seed = async function (knex: Knex) {
   await knex("students").del();
   await knex("coordinators").del();
   // Inserts seed entries
-  await createEmployees([
+  const employees = await createEmployees([
+    ...JSONEmployees,
     // Admins
     {
       id: "d4af0574-bee3-4436-b25c-6f452da4faa0",
@@ -81,6 +85,7 @@ export const seed = async function (knex: Knex) {
 
   await createCoordinators([
     // Coordinators
+    ...JSONCoordinators,
     {
       id: "7ac24c1b-956e-4daa-97b3-8d876080969d",
       name: "Clark Kent",
@@ -114,6 +119,7 @@ export const seed = async function (knex: Knex) {
   ]);
 
   await createStudents([
+    ...JSONStudents,
     // Students
     {
       id: "ad4efb91-9f9a-4ede-9423-a4522ea329cd",

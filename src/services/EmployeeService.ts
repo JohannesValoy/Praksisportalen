@@ -39,9 +39,19 @@ async function createEmployee(employee: EmployeeTable) {
 }
 
 async function createEmployees(employee: EmployeeTable[]) {
-  for (const emp of employee) {
-    await createEmployee(emp);
-  }
+  const missingUUID = employee.filter((employee) => !employee.id);
+  missingUUID.forEach((employee) => {
+    employee.id = randomUUID();
+  });
+  const encryptions: Promise<void>[] = [];
+  employee.forEach((employee) => {
+    const promise = async () => {
+      employee.password = await encryptPassword(employee.password);
+    };
+    encryptions.push(promise());
+  });
+  await Promise.all(encryptions);
+  await DBclient.insert(employee).into("employees");
 }
 
 async function getEmployeeObjectsByPagination(

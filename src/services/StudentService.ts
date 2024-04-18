@@ -14,9 +14,11 @@ async function createStudent(student: StudentTable) {
 }
 
 async function createStudents(students: StudentTable[]) {
-  for (const student of students) {
-    await createStudent(student);
-  }
+  const missingUUID = students.filter((student) => !student.id);
+  missingUUID.forEach((student) => {
+    student.id = randomUUID();
+  });
+  await DBclient.insert(students).into("students");
 }
 
 async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {

@@ -26,16 +26,9 @@ async function getDepartmentObjectByIDList(
     .from<DepartmentTable>("departments")
     .whereIn("id", idList);
   const departments: Map<number, DepartmentObject> = new Map();
-  const employees: Map<string, EmployeeObject> =
-    await getEmployeeObjectByIDList(
-      query.map((department) => department.employee_id),
-    );
-  query.forEach((department) => {
-    departments.set(
-      department.id,
-      new DepartmentObject(department, employees.get(department.employee_id)),
-    );
-  });
+  (await createDepartmentObject(query)).forEach((department) =>
+    departments.set(department.id, department),
+  );
   return departments;
 }
 

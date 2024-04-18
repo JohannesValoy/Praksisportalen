@@ -1,59 +1,9 @@
-version: "3.7"
+include:
+  - docker-compose.prod.yaml
 services:
-  dev_server:
-    build:
-      context: .
-      target: dev
-    profiles:
-      - dev
-    develop:
-      watch:
-        - action: sync
-          path: ./src
-          target: /app/src
-        - action: sync
-          path: ./public
-          target: /app/public
-        - action: rebuild
-          path: package.json
-    depends_on:
-      db:
-        condition: service_healthy
-    ports:
-      - 3000:3000
-
   adminer:
     image: adminer
-    profiles:
-      - dev
-    depends_on:
-      db:
-        condition: service_healthy
     ports:
       - 8080:8080
-
-  prod_server:
-    build:
-      context: .
-      target: release
-    profiles:
-      - prod
-    depends_on:
-      - db
-    ports:
-      - 3000:8080
-
-  db:
-    image: mysql
-    environment:
-      - MYSQL_DATABASE=praksislista
-      - MYSQL_ROOT_PASSWORD=changeme
-    profiles: ["dev", "prod", "db"]
-    #Taken from https://stackoverflow.com/questions/42567475/docker-compose-check-if-mysql-connection-is-ready
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 5s
-      retries: 10
-      start_period: 10s
-    ports:
-      - 3306:3306
+    networks:
+      - praksislista_network

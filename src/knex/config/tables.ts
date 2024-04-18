@@ -112,6 +112,14 @@ declare module "knex/types/tables.js" {
     fieldGroup_id: number;
   }
 
+  interface TimeIntervalTable {
+    id: number;
+    startDate: Date;
+    endDate: Date;
+    internshipAgreement_id: number;
+    created_at: Date;
+    updated_at: Date;
+  }
   interface Tables {
     employees: EmployeeTable;
     coordinators: CoordinatorTable;
@@ -124,6 +132,7 @@ declare module "knex/types/tables.js" {
     educationInstitutions: EducationInstitutionTable;
     studyPrograms: StudyProgramTable;
     internshipAgreements: InternshipAgreementTable;
+    timeIntervals: TimeIntervalTable;
     users: UserAttributes;
     subFieldGroups: SubFieldGroupTable;
     fieldGroups: FieldGroupTable;

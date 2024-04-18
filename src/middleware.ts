@@ -5,8 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "next-auth/middleware";
 import { JWT } from "next-auth/jwt";
 import Negotiator from "negotiator";
-import { notFound } from "next/navigation";
-import { MiddlewareConfig } from "next/dist/build/analysis/get-page-static-info";
 
 /**
  * This is a class that represents a route in the application.
@@ -104,7 +102,6 @@ let locales = ["en-US", "nb-NO"];
 
 export default withAuth(
   function middleware(request) {
-    console.log("Middleware");
     // Gotten from https://nextjs.org/docs/app/building-your-application/routing/internationalization#routing-overview
     const { pathname } = request.nextUrl;
     const pathnameHasLocale = locales.some(
@@ -124,13 +121,11 @@ export default withAuth(
       /GET/.exec(request.method) &&
       request.nextauth.token?.role
     ) {
-      console.log("Redirecting to /");
       const url = request.nextUrl.clone();
       url.pathname = "/";
       return NextResponse.redirect(url);
     }
     if (!compareIfAccess(request, request.nextauth.token)) {
-      console.log("Unauthorized access");
       return NextResponse.error();
     }
   },
@@ -158,14 +153,12 @@ function compareIfAccess(request: NextRequest, token: JWT | null) {
     (route) => route.pathregex.exec(url) && route.methods.includes(method)
   );
 
-  console.log(routes);
   //If no routes are found, refuse access
   if (routes.length === 0) {
     return false;
   }
 
   const role = token ? token?.role || Role.none : Role.none;
-  console.log(role);
   //If any routes are found, check if the user has access to any of them
   for (const route of routes) {
     if (route.hasAccess(role)) {

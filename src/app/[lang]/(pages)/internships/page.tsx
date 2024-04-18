@@ -5,7 +5,6 @@
 import DynamicTable from "@/app/components/DynamicTable";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import Internship from "@/app/_models/InternshipPosition";
 
 const ListOfInternships = () => {
   const searchParams = useSearchParams();

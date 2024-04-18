@@ -11,11 +11,11 @@ export async function GET(request: NextRequest) {
     const pageRequest = InternshipPaginationRequest.fromRequest(request);
     return new Response(
       JSON.stringify(
-        await getInternshipPositionObjectByPageRequest(pageRequest)
+        await getInternshipPositionObjectByPageRequest(pageRequest),
       ),
       {
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
   } catch (error) {
     console.error("Error fetching internship data:", error);
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
       {
         status: 500,
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
   }
 }

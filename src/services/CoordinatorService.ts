@@ -14,13 +14,23 @@ async function createCoordinator(coordinator: CoordinatorTable) {
 }
 
 async function createCoordinators(coordinators: CoordinatorTable[]) {
-  for (const coord of coordinators) {
-    await createCoordinator(coord);
-  }
+  const missingUUID = coordinators.filter((coordinator) => !coordinator.id);
+  missingUUID.forEach((coordinator) => {
+    coordinator.id = randomUUID();
+  });
+  const encryptions: Promise<void>[] = [];
+  coordinators.forEach((coordinator) => {
+    const promise = async () => {
+      coordinator.password = await encryptPassword(coordinator.password);
+    };
+    encryptions.push(promise());
+  });
+  await Promise.all(encryptions);
+  await DBclient.insert(coordinators).into("coordinators");
 }
 
 async function getCoordinatorsByPageRequest(
-  pageRequest: CoordinatorPageRequest,
+  pageRequest: CoordinatorPageRequest
 ) {
   const baseQuery = await DBclient.select("")
     .from("coordinators")
@@ -32,7 +42,7 @@ async function getCoordinatorsByPageRequest(
     .orderBy(pageRequest.sort);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   return {
     ...pageRequest,

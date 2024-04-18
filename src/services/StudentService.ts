@@ -14,9 +14,11 @@ async function createStudent(student: StudentTable) {
 }
 
 async function createStudents(students: StudentTable[]) {
-  for (const student of students) {
-    await createStudent(student);
-  }
+  const missingUUID = students.filter((student) => !student.id);
+  missingUUID.forEach((student) => {
+    student.id = randomUUID();
+  });
+  await DBclient.insert(students).into("students");
 }
 
 async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
@@ -30,7 +32,7 @@ async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
     .orderBy(pageRequest.sort);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   return {
     ...pageRequest,

@@ -16,7 +16,7 @@ async function getEmployeeObjectByID(id: string): Promise<Employee> {
 }
 
 async function getEmployeeObjectByIDList(
-  idList: string[],
+  idList: string[]
 ): Promise<Map<string, Employee>> {
   const query = await DBclient.select()
     .from<EmployeeTable>("employees")
@@ -39,13 +39,23 @@ async function createEmployee(employee: EmployeeTable) {
 }
 
 async function createEmployees(employee: EmployeeTable[]) {
-  for (const emp of employee) {
-    await createEmployee(emp);
-  }
+  const missingUUID = employee.filter((employee) => !employee.id);
+  missingUUID.forEach((employee) => {
+    employee.id = randomUUID();
+  });
+  const encryptions: Promise<void>[] = [];
+  employee.forEach((employee) => {
+    const promise = async () => {
+      employee.password = await encryptPassword(employee.password);
+    };
+    encryptions.push(promise());
+  });
+  await Promise.all(encryptions);
+  await DBclient.insert(employee).into("employees");
 }
 
 async function getEmployeeObjectsByPagination(
-  request: EmployeePaginationRequest,
+  request: EmployeePaginationRequest
 ): Promise<PageResponse<Employee>> {
   const query = await DBclient.select()
     .from<EmployeeTable>("employees")

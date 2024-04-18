@@ -40,10 +40,9 @@ const passwordProvider = CredentialsProvider({
       };
     }
     const password = credentials?.password;
-    if (user == undefined || password == undefined) {
+    if (!user || !password) {
       throw new Error("User not found");
     }
-
     return (await bcrypt.compareSync(String(password), user.password))
       ? fromUserToUserAdapter({
           email: user.email,

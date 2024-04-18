@@ -2,11 +2,11 @@
 
 "use client";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
+import { navigate } from "./action";
 
 export const LoginComponent = () => {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [formValues, setFormValues] = useState({
     username: "",
@@ -31,7 +31,7 @@ export const LoginComponent = () => {
       setLoading(false);
       if (!res?.error) {
         document.getElementById("logout")?.classList.remove("hidden");
-        router.push(callbackUrl);
+        navigate(callbackUrl);
       } else {
         setError("Invalid username or password");
       }

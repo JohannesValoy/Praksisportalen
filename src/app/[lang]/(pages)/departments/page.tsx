@@ -3,14 +3,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
-import { Department } from "@/app/_models/Department";
-import ContainerBox from "@/app/components/ContainerBox";
+import { DepartmentPageRequest } from "@/app/_models/Department";
+import { paginateDepartments } from "./actions";
 const ListOfDepartments = () => {
-  const [departments, setDepartments] = useState<Department[]>([]);
-  const [selectedRows, setSelectedRows] = useState<Department[]>([]);
+  const [departments, setDepartments] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
   const headers = { Name: "name", Email: "email" };
   const [sortedBy, setSortedBy] = useState<string>("departments.name");
   const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPages, setTotalPages] = useState(0);
   const clickableColumns = {
     //TODO update this once the api is finished
     email: (row) => {
@@ -19,21 +21,22 @@ const ListOfDepartments = () => {
   };
 
   useEffect(() => {
-    const url = `/api/departments?sort=${sortedBy}&page=${page}`;
-    console.log(`Fetching by link  ${url}`);
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        const modifiedData = data.elements.map((department: any) => ({
-          name: department.name,
-          email: department.employee.email, // Assuming employee object has an email property
-          id: department.id,
-          employee_id: department.employee.id,
-        }));
-        setDepartments(modifiedData);
-      })
-      .catch((error) => console.error("Failed to fetch departments", error));
-  }, [page, sortedBy]);
+    const request = {
+      page,
+      size: pageSize,
+      sort: sortedBy,
+    } as DepartmentPageRequest;
+    paginateDepartments(request).then((data) => {
+      const totalPages = data.totalPages;
+      const rows = data.elements.map((element) => ({
+        name: element.name,
+        email: element.employee.email,
+        id: element.id,
+      }));
+      setTotalPages(totalPages);
+      setDepartments(rows);
+    });
+  }, [sortedBy, pageSize, page]);
 
   console.log(departments);
   return (
@@ -59,9 +62,7 @@ const ListOfDepartments = () => {
           clickableColumns={clickableColumns}
           setPage={setPage}
           page={page}
-          pageSize={10}
-          //TODO: Johannes fix this
-          totalElements={departments.length}
+          totalPages={totalPages}
         />
       </div>
     </div>

@@ -15,7 +15,7 @@ const ListOfSections = () => {
   const headers = { Name: "name", Email: "email" };
   const [sortedBy, setSortedBy] = useState<string>("name");
   const [page, setPage] = useState(0);
-  const [totalElements, setTotalElements] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const [pageSize, setPageSize] = useState(10);
 
   const clickableColumns = {
@@ -24,10 +24,15 @@ const ListOfSections = () => {
     },
   };
   useEffect(() => {
-    const request = { page } as SectionPageRequest;
+    const request = {
+      page,
+      size: pageSize,
+      sort: sortedBy,
+      department_id: id,
+    } as SectionPageRequest;
     paginateSections(request).then((data) => {
       console.log(data);
-      setTotalElements(data.totalElements);
+      setTotalPages(data.totalPages);
       setPageSize(data.size);
       const rows = data.elements.map((element) => ({
         ...element,
@@ -36,7 +41,7 @@ const ListOfSections = () => {
       }));
       setSections(rows);
     });
-  }, [page, sortedBy]);
+  }, [page, sortedBy, pageSize]);
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4 ">
       <DynamicTable
@@ -59,8 +64,9 @@ const ListOfSections = () => {
         clickableColumns={clickableColumns}
         setPage={setPage}
         page={page}
-        totalElements={totalElements}
+        totalPages={totalPages}
         pageSize={pageSize}
+        setPageSize={setPageSize}
       />
     </div>
   );

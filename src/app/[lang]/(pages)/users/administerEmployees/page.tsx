@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import { UserPageRequest } from "@/app/_models/pageinition";
 import { paginateEmployees } from "./actions";
+import { deleteEmployee } from "@/services/EmployeeService";
 
 const ListOfUsers = () => {
   const [users, setUsers] = useState([]);
@@ -15,7 +16,7 @@ const ListOfUsers = () => {
   //TODO make server action for this
   const url = `/api/---s`;
   const [page, setPage] = useState(0);
-  const [totalElements, setTotalElements] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   useEffect(() => {
     const request = {
@@ -25,7 +26,7 @@ const ListOfUsers = () => {
     } as UserPageRequest;
     paginateEmployees(request).then((data) => {
       console.log(data);
-      setTotalElements(data.totalElements);
+      setTotalPages(data.totalPages);
       const rows = data.elements.map((element) => ({
         ...element,
       }));
@@ -61,11 +62,16 @@ const ListOfUsers = () => {
         }}
         clickableColumns={clickableColumns}
         setSortedBy={setSortedBy}
-        url={url + "/"}
+        onDeleteButtonClicked={() => {
+          selectedRows.forEach((row) => {
+            deleteEmployee(row.id);
+          }, setSelectedRows([]));
+        }}
         page={page}
         setPage={setPage}
-        totalElements={totalElements}
+        totalPages={totalPages}
         pageSize={pageSize}
+        setPageSize={setPageSize}
       />
     </div>
   );

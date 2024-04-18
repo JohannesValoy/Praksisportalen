@@ -20,7 +20,7 @@ async function getSectionObjectByID(id: number): Promise<Section> {
 }
 
 async function getSectionObjectByIDList(
-  idList: number[],
+  idList: number[]
 ): Promise<Map<number, Section>> {
   const query = await DBclient.select()
     .from<SectionTable>("sections")
@@ -35,7 +35,7 @@ async function getSectionObjectByIDList(
 }
 
 async function getSectionsByPageRequest(
-  pageRequest: SectionPageRequest,
+  pageRequest: SectionPageRequest
 ): Promise<PageResponse<Section>> {
   const baseQuery = await DBclient.select("")
     .from<SectionTable>("sections")
@@ -50,11 +50,16 @@ async function getSectionsByPageRequest(
         builder.where("name", "like", `%${pageRequest.containsName}%`);
       }
     })
-    .orderBy(pageRequest.sort || "id");
+    .orderBy(
+      ["id", "name"].includes(pageRequest.sort) ? pageRequest.sort : "id"
+    );
+
+  pageRequest.page = pageRequest.page || 0;
+  pageRequest.size = pageRequest.size || 10;
   console.log(baseQuery, pageRequest);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   return {
     ...pageRequest,
@@ -86,8 +91,13 @@ async function createSectionObject(query: SectionTable[]): Promise<Section[]> {
   return sections;
 }
 
+async function deleteSections(id: number) {
+  return await DBclient.delete().from("sections").where("id", id);
+}
+
 export {
   getSectionObjectByID,
   getSectionObjectByIDList,
   getSectionsByPageRequest,
+  deleteSections,
 };

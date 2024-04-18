@@ -12,7 +12,7 @@ const ListOfStudies = () => {
   const [selectedRows, setSelectedRows] = useState<Study[]>([]);
   const headers = { Name: "name", id: "id" };
   const [sortedBy, setSortedBy] = useState<string>("name");
-  const [totalElements, setTotalElements] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
 
@@ -30,7 +30,7 @@ const ListOfStudies = () => {
       sort: sortedBy,
     } as StudyProgramPageRequest;
     paginateStudyPrograms(request).then((data) => {
-      const totalElements = data.totalElements;
+      const totalPages = data.totalPages;
       const rows = data.elements.map((element) => ({
         name: element.name,
         id: element.id,
@@ -38,8 +38,7 @@ const ListOfStudies = () => {
           email: element.educationInstitution.name,
         },
       }));
-      setPageSize(data.size);
-      setTotalElements(totalElements);
+      setTotalPages(totalPages);
       setStudies(rows);
     });
   }, [sortedBy, pageSize, page]);
@@ -65,8 +64,9 @@ const ListOfStudies = () => {
         setRows={setStudies}
         page={page}
         setPage={setPage}
-        totalElements={totalElements}
+        totalPages={totalPages}
         pageSize={pageSize}
+        setPageSize={setPageSize}
       />
     </div>
   );

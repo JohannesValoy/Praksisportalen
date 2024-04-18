@@ -30,7 +30,7 @@ async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
     .orderBy(pageRequest.sort);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   return {
     ...pageRequest,
@@ -40,4 +40,13 @@ async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
   } as PageResponse<Student>;
 }
 
-export { createStudent, createStudents, getStudentsByPageRequest };
+async function deleteStudentByID(id: string) {
+  await DBclient.delete().from("students").where("id", id);
+}
+
+export {
+  createStudent,
+  createStudents,
+  getStudentsByPageRequest,
+  deleteStudentByID,
+};

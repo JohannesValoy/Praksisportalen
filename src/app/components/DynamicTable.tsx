@@ -18,11 +18,12 @@ function DynamicTable({
   onAddButtonClick,
   clickableColumns = {},
   setSortedBy,
-  url = "",
   page,
   setPage,
-  totalElements,
+  totalPages,
   pageSize,
+  setPageSize,
+  onDeleteButtonClicked,
 }) {
   // Ensure rows is always an array
   const normalizedRows = Array.isArray(rows) ? rows : [rows];
@@ -32,7 +33,7 @@ function DynamicTable({
     const isSelected = selectedRows.includes(row);
     if (isSelected) {
       setSelectedRows(
-        selectedRows.filter((selectedRow) => selectedRow !== row),
+        selectedRows.filter((selectedRow) => selectedRow !== row)
       );
     } else {
       setSelectedRows([...selectedRows, row]);
@@ -41,41 +42,6 @@ function DynamicTable({
 
   const headerTitles = Object.keys(headers);
   const rowDataKeys = Object.values(headers);
-
-  const onDeleteButtonClicked = () => {
-    Promise.all(
-      selectedRows.map((row) =>
-        fetch(`${url + row.id}`, {
-          method: "DELETE",
-        })
-          .then((res) => {
-            if (!res.ok) {
-              throw new Error(`Failed to delete row with id ${row.id}`);
-            }
-            return res.json();
-          })
-          .catch((error) => {
-            console.error(error);
-            return { success: false, id: row.id };
-          }),
-      ),
-    ).then((results) => {
-      const failedDeletes = results.filter((result) => !result.success);
-      if (failedDeletes.length > 0) {
-        alert(
-          `Failed to delete rows with ids ${failedDeletes
-            .map((result) => result.id)
-            .join(", ")}`,
-        );
-      } else {
-        setRows(
-          normalizedRows.filter(
-            (currRow) => !selectedRows.find((row) => row.id === currRow.id),
-          ),
-        );
-      }
-    });
-  };
 
   return (
     <div className="flex flex-col w-full h-full justify-center mt-4 overflow-x-auto p-4">
@@ -207,10 +173,20 @@ function DynamicTable({
           <button
             className="join-item btn"
             onClick={() => setPage(page + 1)}
-            disabled={page * pageSize >= totalElements}
+            disabled={page + 1 >= totalPages}
           >
             »
           </button>
+          <select
+            className="join-item btn"
+            value={pageSize}
+            onChange={(e) => setPageSize(parseInt(e.target.value))}
+          >
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={30}>30</option>
+            <option value={40}>40</option>
+          </select>
         </div>
       </div>
     </div>

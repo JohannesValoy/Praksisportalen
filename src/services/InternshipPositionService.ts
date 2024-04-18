@@ -15,7 +15,7 @@ import { PageResponse } from "@/app/_models/pageinition";
  * @throws Error if the InternshipPositionObject is not found.
  */
 async function getInternshipPositionObjectByID(
-  id: number,
+  id: number
 ): Promise<Internship> {
   const internship = await getInternshipPositionObjectByIDList([id]);
   if (internship.get(id) == undefined) {
@@ -29,7 +29,7 @@ async function getInternshipPositionObjectByID(
  * @returns  A Map object that contains the list of InternshipPositionObject objects.
  */
 async function getInternshipPositionObjectByIDList(
-  idList: number[],
+  idList: number[]
 ): Promise<Map<number, Internship>> {
   const query = await DBclient.select()
     .from<InternshipTable>("internships")
@@ -47,13 +47,13 @@ async function getInternshipPositionObjectByIDList(
  */
 
 async function getInternshipPositionObjectBySectionID(
-  sections: number[],
+  sections: number[]
 ): Promise<Map<number, Internship[]>> {
   const query = await DBclient.from<InternshipTable>("internships")
     .select("id", "section_id")
     .whereIn("section_id", sections);
   const internships = await getInternshipPositionObjectByIDList(
-    query.map((internship) => internship.id),
+    query.map((internship) => internship.id)
   );
   const internshipsMap = new Map();
   query.forEach((internship) => {
@@ -76,7 +76,7 @@ async function getInternshipPositionObjectBySectionID(
  * @returns  A PageResponse object that contains the list of InternshipPositionObject objects.
  */
 async function getInternshipPositionObjectByPageRequest(
-  pageRequest: InternshipPaginationRequest,
+  pageRequest: InternshipPaginationRequest
 ): Promise<PageResponse<Internship>> {
   const query = await DBclient.select()
     .from<InternshipTable>("internships")
@@ -97,7 +97,7 @@ async function getInternshipPositionObjectByPageRequest(
   query
     .slice(
       pageRequest.size * pageRequest.page,
-      pageRequest.size * pageRequest.page + pageRequest.size,
+      pageRequest.size * pageRequest.page + pageRequest.size
     )
     .forEach((internship) => {
       internships.push(internship);
@@ -110,9 +110,14 @@ async function getInternshipPositionObjectByPageRequest(
   };
 }
 
+async function deleteInternshipPositionObjectByID(id: number): Promise<void> {
+  await DBclient<InternshipTable>("internships").where("id", id).del();
+}
+
 export {
   getInternshipPositionObjectByID,
   getInternshipPositionObjectByIDList,
   getInternshipPositionObjectBySectionID,
   getInternshipPositionObjectByPageRequest,
+  deleteInternshipPositionObjectByID,
 };

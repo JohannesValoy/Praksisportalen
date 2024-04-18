@@ -4,10 +4,10 @@
 "use client";
 import React, { useState, useEffect, use } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
-import { paginateStudents } from "./actions";
+import { deleteStudent, paginateStudents } from "./actions";
 import { StudentPageRequest } from "@/app/_models/Student";
 
-const ListOfUsers = () => {
+const ListOfStudents = () => {
   const [users, setUsers] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const headers = { Name: "name", Email: "email" };
@@ -15,7 +15,7 @@ const ListOfUsers = () => {
   //TODO make server action for this
   const url = `/api/students`;
   const [page, setPage] = useState(0);
-  const [totalElements, setTotalElements] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   useEffect(() => {
     const request = {
@@ -24,13 +24,12 @@ const ListOfUsers = () => {
       sort: sortedBy,
     } as StudentPageRequest;
     paginateStudents(request).then((data) => {
-      const totalElements = data.totalElements;
+      const totalPages = data.totalPages;
 
       const rows = data.elements.map((element) => ({
         ...element,
       }));
-      setPageSize(data.size);
-      setTotalElements(totalElements);
+      setTotalPages(totalPages);
       setUsers(rows);
     });
   }, [page, sortedBy, pageSize]);
@@ -62,14 +61,21 @@ const ListOfUsers = () => {
         }}
         clickableColumns={clickableColumns}
         setSortedBy={setSortedBy}
-        url={url + "/"}
         page={page}
         setPage={setPage}
-        totalElements={totalElements}
+        totalPages={totalPages}
         pageSize={pageSize}
+        setPageSize={setPageSize}
+        onDeleteButtonClicked={() => {
+          selectedRows.forEach((row) => {
+            //Deletes selected rows
+            deleteStudent(row.id);
+          });
+          setSelectedRows([]);
+        }}
       />
     </div>
   );
 };
 
-export default ListOfUsers;
+export default ListOfStudents;

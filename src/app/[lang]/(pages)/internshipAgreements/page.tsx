@@ -1,7 +1,6 @@
 /** @format */
 
 "use client";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import { InternshipAgreementPageRequest } from "@/app/_models/Agreement";
@@ -14,9 +13,10 @@ const ListOfInternshipAgreements = () => {
   const [selectedRows, setSelectedRows] = useState<InternshipAgreement[]>([]);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const [totalElements, setTotalElements] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const headers = {
     Status: "status",
+    Name: "name",
     " Start Date": "startDate",
     "End Date": "endDate",
   };
@@ -27,11 +27,13 @@ const ListOfInternshipAgreements = () => {
       sort: sortedBy,
     } as InternshipAgreementPageRequest;
     paginateInternshipAgreements(request).then((data) => {
-      setTotalElements(data.totalElements);
-      setPageSize(data.size);
+      setTotalPages(data.totalPages);
       const rows = data.elements.map((element) => ({
         name: element.internship.name,
         id: element.id,
+        status: element.status,
+        startDate: element.startDate.toLocaleDateString(),
+        endDate: element.endDate.toLocaleDateString(),
       }));
       setInternshipAgreements(rows);
     });
@@ -75,8 +77,7 @@ const ListOfInternshipAgreements = () => {
         setRows={setInternshipAgreements}
         page={page}
         setPage={setPage}
-        totalElements={internshipAgreements.length}
-        pageSize={pageSize}
+        totalPages={totalPages}
       />
     </div>
   );

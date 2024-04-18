@@ -14,7 +14,7 @@ import { paginateInternships } from "./action";
 const ListOfInternships = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("section_id");
-  const [totalElements, setTotalElements] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
   const [internships, setInternships] = useState<Internship[]>([]);
   const [selectedRows, setSelectedRows] = useState<Internship[]>([]);
   const headers = {
@@ -37,8 +37,7 @@ const ListOfInternships = () => {
       // If data.elements is present, map over it to create a new array
       // where each element is a flattened version of the original element.
       // If data.elements is not present, use data directly.
-      const totalElements = data.totalElements;
-      setTotalElements(totalElements);
+      setTotalPages(data.totalPages);
       setInternships(data.elements);
     });
   }, [id, page, sortedBy]);
@@ -66,9 +65,8 @@ const ListOfInternships = () => {
         url={"/api/internships/"}
         setRows={setInternships}
         page={page}
-        pageSize={10}
         setPage={setPage}
-        totalElements={totalElements}
+        totalPages={totalPages}
       />
     </div>
   );

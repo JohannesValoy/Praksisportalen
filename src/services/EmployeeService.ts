@@ -1,5 +1,5 @@
 /** @format */
-
+"use server";
 import { Employee, EmployeePaginationRequest } from "@/app/_models/Employee";
 import DBclient from "@/knex/config/DBClient";
 import { EmployeeTable } from "knex/types/tables.js";
@@ -16,7 +16,7 @@ async function getEmployeeObjectByID(id: string): Promise<Employee> {
 }
 
 async function getEmployeeObjectByIDList(
-  idList: string[],
+  idList: string[]
 ): Promise<Map<string, Employee>> {
   const query = await DBclient.select()
     .from<EmployeeTable>("employees")
@@ -45,7 +45,7 @@ async function createEmployees(employee: EmployeeTable[]) {
 }
 
 async function getEmployeeObjectsByPagination(
-  request: EmployeePaginationRequest,
+  request: EmployeePaginationRequest
 ): Promise<PageResponse<Employee>> {
   const query = await DBclient.select()
     .from<EmployeeTable>("employees")
@@ -74,7 +74,7 @@ async function getEmployeeObjectsByPagination(
   };
 }
 
-async function deleteEmployee(id: string) {
+async function deleteEmployee(id: number) {
   return await DBclient.delete().from("employees").where("id", id);
 }
 

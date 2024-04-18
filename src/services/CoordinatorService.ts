@@ -52,4 +52,8 @@ async function createCoordinatorObjects(query: CoordinatorTable[]) {
   return coordinators;
 }
 
-export { createCoordinator, createCoordinators, getCoordinatorsByPageRequest };
+async function deleteCoordinatorByID(id: string) {
+  await DBclient.delete().from("coordinators").where("id", id);
+}
+
+export { createCoordinator, createCoordinators, getCoordinatorsByPageRequest, deleteCoordinatorByID };

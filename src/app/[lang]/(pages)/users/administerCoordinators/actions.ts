@@ -8,3 +8,7 @@ import "server-only";
 export async function paginateCoordinators(request: CoordinatorPageRequest) {
   return await getCoordinatorsByPageRequest(request);
 }
+
+export async function deleteCoordinator(id: number) {
+  return await deleteCoordinatorByID(id);
+}

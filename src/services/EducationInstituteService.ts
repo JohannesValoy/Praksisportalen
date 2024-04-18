@@ -10,10 +10,10 @@ import { EducationInstitutionTable } from "knex/types/tables.js";
 import "server-only";
 
 async function getEducationInstitutionByID(
-  id: number,
+  id: number
 ): Promise<EducationInstitutionTable> {
   const institute = (await getEducationInstitutionByIDList(new Set([id]))).get(
-    id,
+    id
   );
   if (institute == undefined) {
     throw new Error("Education Institution not found");
@@ -22,7 +22,7 @@ async function getEducationInstitutionByID(
 }
 
 async function getEducationInstitutionByIDList(
-  idList: Set<number>,
+  idList: Set<number>
 ): Promise<Map<number, EducationInstitutionTable>> {
   const query = await DBclient.select()
     .from<EducationInstitutionTable>("educationInstitutions")
@@ -38,7 +38,7 @@ async function getEducationInstitutionByIDList(
 }
 
 async function getEducationInstitutionsByPageRequest(
-  pageRequest: EducationInstitutionPageRequest,
+  pageRequest: EducationInstitutionPageRequest
 ): Promise<PageResponse<EducationInstitution>> {
   const baseQuery = await DBclient.select("")
     .from<EducationInstitutionTable>("educationInstitutions")
@@ -50,7 +50,7 @@ async function getEducationInstitutionsByPageRequest(
     .orderBy(pageRequest.sort);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   return {
     ...pageRequest,
@@ -61,7 +61,7 @@ async function getEducationInstitutionsByPageRequest(
 }
 
 async function createEducationInstitutionObject(
-  query: EducationInstitution[],
+  query: EducationInstitution[]
 ): Promise<EducationInstitution[]> {
   const educationInstitutions = [];
   query.forEach((educationInstitution) => {
@@ -72,8 +72,14 @@ async function createEducationInstitutionObject(
   return educationInstitutions;
 }
 
+async function deleteEducationInstitution(id: number) {
+  await DBclient.delete().from("educationInstitutions").where("id", id);
+}
+
 export {
   getEducationInstitutionByID,
   getEducationInstitutionByIDList,
   getEducationInstitutionsByPageRequest,
+  createEducationInstitutionObject,
+  deleteEducationInstitution,
 };

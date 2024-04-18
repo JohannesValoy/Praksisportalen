@@ -3,6 +3,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
+import { paginateEducationInstitutions } from "./actions";
+import {
+  EducationInstitution,
+  EducationInstitutionPageRequest,
+} from "@/app/_models/EducationInstitution";
 
 const ListOfEducationInstitutions = () => {
   const [educationInstitutions, setEducationInstitutions] = useState<
@@ -11,18 +16,25 @@ const ListOfEducationInstitutions = () => {
   const [selectedRows, setSelectedRows] = useState<EducationInstitution[]>([]);
   const headers = { Name: "name" };
   const [sortedBy, setSortedBy] = useState<string>("name");
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(0);
 
   //TODO make pagination
   useEffect(() => {
-    fetch(`/api/educationInstitutions`)
-      .then((res) => res.json())
-      .then((data) => setEducationInstitutions(data.elements));
-  }, [sortedBy]);
+    const request = {
+      page,
+      size: pageSize,
+      sort: sortedBy,
+    } as EducationInstitutionPageRequest;
+    paginateEducationInstitutions(request).then((data) => {
+      setTotalPages(data.totalPages);
+      const rows = data.elements.map((element) => ({
+        ...element,
+      }));
+      setEducationInstitutions(rows);
+    });
+  }, [sortedBy, page]);
 
-  type EducationInstitution = {
-    name: string;
-    id: string;
-  };
   console.log(educationInstitutions);
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
@@ -43,11 +55,9 @@ const ListOfEducationInstitutions = () => {
         setSortedBy={setSortedBy}
         url="/api/educationInstitutions/"
         setRows={setEducationInstitutions}
-        //FIXME: This is quick fix to make it work
-        page={0}
-        pageSize={10}
-        setPage={() => {}}
-        totalElements={educationInstitutions.length}
+        page={page}
+        setPage={setPage}
+        totalPages={totalPages}
       />
     </div>
   );

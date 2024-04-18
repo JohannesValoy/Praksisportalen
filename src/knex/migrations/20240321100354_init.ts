@@ -142,8 +142,36 @@ export async function up(knex: Knex): Promise<void> {
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
       table.text("comment").nullable();
-      table.text("fieldGroups").notNullable();
       table.timestamp("created_at").defaultTo(knex.fn.now());
+    })
+    .createTable("fieldGroups", (table) => {
+      table.increments("id").primary();
+      table.string("internshipField").notNullable();
+      table
+        .foreign("internshipField")
+        .references("name")
+        .inTable("internshipFields");
+      table.integer("internshipOrder_id").unsigned().notNullable();
+      table
+        .foreign("internshipOrder_id")
+        .references("id")
+        .inTable("internshipOrders")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
+    })
+    .createTable("subFieldGroups", (table) => {
+      table.increments("id").primary();
+      table.string("studyYear").notNullable();
+      table.integer("numStudents").notNullable();
+      table.string("startWeek").notNullable();
+      table.string("endWeek").notNullable();
+      table.integer("fieldGroup_id").unsigned().notNullable();
+      table
+        .foreign("fieldGroup_id")
+        .references("id")
+        .inTable("fieldGroups")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
     })
     .createTable("timeIntervals", (table) => {
       table.increments("id").primary();
@@ -199,5 +227,9 @@ export async function down(knex: Knex): Promise<void> {
     .dropTableIfExists("educationInstitutions")
     .dropTableIfExists("studyPrograms")
     .dropTableIfExists("internshipAgreements")
-    .dropTableIfExists("timeIntervals");
+    .dropTableIfExists("timeIntervals")
+    .dropTableIfExists("fieldGroups")
+    .dropTableIfExists("subFieldGroups")
+    .dropTableIfExists("internshipOrders")
+    .dropViewIfExists("users");
 }

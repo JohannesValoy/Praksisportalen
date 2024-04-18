@@ -90,13 +90,26 @@ declare module "knex/types/tables.js" {
     created_at: Date;
     updated_at: Date;
   }
-
   interface internshipOrdersTable {
     id: number;
     studyProgram_id: number;
     comment: Text;
-    fieldGroups: Text;
     created_at: Date;
+  }
+
+  interface FieldGroupTable {
+    id: number;
+    internshipField: string;
+    internshipOrder_id: number;
+  }
+
+  interface SubFieldGroupTable {
+    id: number;
+    studyYear: number;
+    numStudents: number;
+    startWeek: number;
+    endWeek: number;
+    fieldGroup_id: number;
   }
 
   interface Tables {
@@ -112,6 +125,8 @@ declare module "knex/types/tables.js" {
     studyPrograms: StudyProgramTable;
     internshipAgreements: InternshipAgreementTable;
     users: UserAttributes;
+    subFieldGroups: SubFieldGroupTable;
+    fieldGroups: FieldGroupTable;
     internshipOrders: internshipOrdersTable;
   }
 }

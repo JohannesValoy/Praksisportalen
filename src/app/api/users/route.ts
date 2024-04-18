@@ -3,6 +3,7 @@ import { PageResponse, UserPageRequest } from "@/app/_models/pageinition";
 import DBclient from "@/knex/config/DBClient";
 import { UserAttributes } from "knex/types/tables.js";
 import { NextRequest } from "next/server";
+import { Role } from "../auth/[...nextauth]/nextauth";
 
 //TODO: Move over to a service / Server Action
 export async function GET(request: NextRequest) {
@@ -15,7 +16,10 @@ export async function GET(request: NextRequest) {
       : 10,
     sort: request.nextUrl.searchParams.get("sort") as "id" | "name" | undefined,
     roles: request.nextUrl.searchParams.get("roles")
-      ? request.nextUrl.searchParams.get("roles").split(",")
+      ? request.nextUrl.searchParams
+          .get("roles")
+          .split(",")
+          .map((role) => role as Role)
       : [],
   };
   const users = await DBclient.from("users")

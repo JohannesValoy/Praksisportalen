@@ -42,7 +42,7 @@ const ListOfStudies = () => {
       setTotalElements(totalElements);
       setStudies(rows);
     });
-  }, [sortedBy]);
+  }, [sortedBy, pageSize, page]);
 
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">

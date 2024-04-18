@@ -32,7 +32,7 @@ const ListOfUsers = () => {
       setPageSize(data.size);
       setUsers(rows);
     });
-  }, [page, sortedBy]);
+  }, [page, sortedBy, pageSize]);
   console.log(users);
   const handleEmailClick = (row) => {
     window.location.href = `/profile?id=${row.id}`;

@@ -3,7 +3,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
-import Department from "@/app/_models/Department";
+import { Department } from "@/app/_models/Department";
 import ContainerBox from "@/app/components/ContainerBox";
 const ListOfDepartments = () => {
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -59,6 +59,9 @@ const ListOfDepartments = () => {
           clickableColumns={clickableColumns}
           setPage={setPage}
           page={page}
+          pageSize={10}
+          //TODO: Johannes fix this
+          totalElements={departments.length}
         />
       </div>
     </div>

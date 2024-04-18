@@ -35,7 +35,7 @@ const ListOfInternshipAgreements = () => {
       }));
       setInternshipAgreements(rows);
     });
-  }, [page, sortedBy]);
+  }, [page, sortedBy, pageSize]);
 
   type InternshipAgreement = {
     name: string;

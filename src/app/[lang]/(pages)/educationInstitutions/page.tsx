@@ -43,6 +43,11 @@ const ListOfEducationInstitutions = () => {
         setSortedBy={setSortedBy}
         url="/api/educationInstitutions/"
         setRows={setEducationInstitutions}
+        //FIXME: This is quick fix to make it work
+        page={0}
+        pageSize={10}
+        setPage={() => {}}
+        totalElements={educationInstitutions.length}
       />
     </div>
   );

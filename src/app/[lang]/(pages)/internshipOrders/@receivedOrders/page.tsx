@@ -21,7 +21,7 @@ export default function Page() {
                 {order.studyProgram.educationInstitute.name} /{" "}
                 {order.studyProgram.name} / {order.internshipField} /{" "}
                 {order.studyYear} / {order.created_at.toLocaleDateString()}{" "}
-                Click to open
+                (Click to open/close)
               </div>
               <div className="collapse-content">
                 <p>Number of students: {order.numStudents}</p>

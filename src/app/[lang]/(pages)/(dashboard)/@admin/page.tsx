@@ -91,6 +91,9 @@ const AdminLayout = () => {
           </Link>
         </ContainerBox>
         <ContainerBox title={"Internships"}>
+          <Link href="./internshipOrders" className="btn">
+            Received Orders
+          </Link>
           <Link href="/internships" className="btn">
             Internships
           </Link>

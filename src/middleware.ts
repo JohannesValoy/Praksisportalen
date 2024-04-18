@@ -54,10 +54,14 @@ const routeRestrictions: Route[] = [
   new Route(
     /^(\/(\w{2}|\w{2}-\w{2}))$/,
     ["GET"],
-    [Role.admin, Role.employee, Role.student]
+    [Role.admin, Role.employee, Role.student, Role.coordinator]
   ),
   new Route(/(employees)/, ["GET"], [Role.admin, Role.employee]),
-  new Route(/(students)/, ["GET"], [Role.admin, Role.student]),
+  new Route(
+    /(students)/,
+    ["GET"],
+    [Role.admin, Role.coordinator, Role.student]
+  ),
   new Route(/(studyprograms)/, ["GET"], [Role.admin, Role.coordinator]),
 ];
 

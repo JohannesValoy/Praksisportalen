@@ -27,7 +27,7 @@ const InternshipUploader = () => {
   const sendData = async (data) => {
     try {
       const { table, ...recordData } = data;
-      const response = await createRecord(table, recordData);
+      await createRecord(table, recordData);
       return { status: 200, statusText: "Record successfully created" };
     } catch (error) {
       return {

@@ -1,3 +1,5 @@
+/** @format */
+
 import { Role } from "./app/api/auth/[...nextauth]/nextauth";
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "next-auth/middleware";
@@ -62,9 +64,28 @@ const routeRestrictions: Route[] = [
     ["GET"],
     [Role.admin, Role.employee, Role.student, Role.coordinator]
   ),
-  new Route(/(employees)/, ["GET"], [Role.admin, Role.employee]),
-  new Route(/(students)/, ["GET"], [Role.admin, Role.student]),
-  new Route(/(studyprograms)/, ["GET"], [Role.admin, Role.coordinator]),
+  new Route(/(employees)/, ["GET", "POST"], [Role.admin, Role.employee]),
+  new Route(/(students)/, ["GET", "POST"], [Role.admin, Role.student]),
+  new Route(/(studyprograms)/, ["GET", "POST"], [Role.admin, Role.coordinator]),
+  new Route(/(departments)/, ["GET", "POST"], [Role.admin, Role.employee]),
+  new Route(/(sections)/, ["GET", "POST"], [Role.admin, Role.employee]),
+  new Route(/(internships)/, ["GET", "POST"], [Role.admin, Role.coordinator]),
+  new Route(
+    /(educationInstitutions)/,
+    ["GET", "POST"],
+    [Role.admin, Role.coordinator]
+  ),
+  new Route(
+    /(profile)/,
+    ["GET"],
+    [Role.admin, Role.employee, Role.student, Role.coordinator]
+  ),
+
+  new Route(
+    /(profile)/,
+    ["GET"],
+    [Role.admin, Role.employee, Role.student, Role.coordinator]
+  ),
   new Route(
     /(login)/,
     ["GET", "POST"],

@@ -51,7 +51,7 @@ const passwordProvider = CredentialsProvider({
     }
     return (await bcrypt.compareSync(
       String(credentials.password),
-      password.password
+      password.password,
     ))
       ? fromUserToUserAdapter(user)
       : null;

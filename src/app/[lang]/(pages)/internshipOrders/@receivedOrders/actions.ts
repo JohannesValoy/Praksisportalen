@@ -27,30 +27,30 @@ export async function fetchOrders(): Promise<Order[]> {
     .innerJoin(
       "fieldGroups",
       "internshipOrders.id",
-      "fieldGroups.internshipOrder_id"
+      "fieldGroups.internshipOrder_id",
     )
     .innerJoin(
       "subFieldGroups",
       "fieldGroups.id",
-      "subFieldGroups.fieldGroup_id"
+      "subFieldGroups.fieldGroup_id",
     )
     .select("*");
   const studyprograms = await DBclient.table("studyPrograms")
     .whereIn(
       "studyPrograms.id",
-      orders.map((order) => order.studyProgram_id)
+      orders.map((order) => order.studyProgram_id),
     )
     .select();
   const educationInstitutes = await DBclient.table("educationInstitutions")
     .select()
     .whereIn(
       "id",
-      studyprograms.map((studyprogram) => studyprogram.educationInstitution_id)
+      studyprograms.map((studyprogram) => studyprogram.educationInstitution_id),
     );
   console.log(studyprograms);
   const response = orders.map((order) => {
     const studyprogram = studyprograms.find(
-      (studyprogram) => studyprogram.id === order.studyProgram_id
+      (studyprogram) => studyprogram.id === order.studyProgram_id,
     );
     return {
       ...order,
@@ -58,7 +58,7 @@ export async function fetchOrders(): Promise<Order[]> {
         ...studyprogram,
         educationInstitute: {
           ...educationInstitutes.find(
-            (institue) => institue.id === studyprogram.educationInstitution_id
+            (institue) => institue.id === studyprogram.educationInstitution_id,
           ),
         },
       },

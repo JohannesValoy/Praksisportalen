@@ -20,7 +20,7 @@ class Route {
   constructor(
     path: RegExp,
     methods: string[] = ["GET", "OPTIONS", "POST", "DELETE"],
-    roles: Role[] = [Role.admin, Role.employee, Role.student, Role.none]
+    roles: Role[] = [Role.admin, Role.employee, Role.student, Role.none],
   ) {
     this.methods = methods;
     if (!methods.includes("OPTIONS")) {
@@ -54,13 +54,13 @@ const routeRestrictions: Route[] = [
   new Route(
     /^(\/(\w{2}|\w{2}-\w{2}))$/,
     ["GET"],
-    [Role.admin, Role.employee, Role.student, Role.coordinator]
+    [Role.admin, Role.employee, Role.student, Role.coordinator],
   ),
   new Route(/(employees)/, ["GET"], [Role.admin, Role.employee]),
   new Route(
     /(students)/,
     ["GET"],
-    [Role.admin, Role.coordinator, Role.student]
+    [Role.admin, Role.coordinator, Role.student],
   ),
   new Route(/(studyprograms)/, ["GET"], [Role.admin, Role.coordinator]),
 ];
@@ -77,7 +77,7 @@ export default withAuth(
     const { pathname } = request.nextUrl;
     const pathnameHasLocale = locales.some(
       (locale) =>
-        pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+        pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
     );
     if (pathnameHasLocale) {
       return;
@@ -95,7 +95,7 @@ export default withAuth(
         return compareIfAccess(req, token);
       },
     },
-  }
+  },
 );
 
 function getLocale(request: NextRequest) {
@@ -110,7 +110,7 @@ function compareIfAccess(request: NextRequest, token: JWT | null) {
   const url = request.nextUrl.pathname;
   const method = request.method;
   const routes = routeRestrictions.filter(
-    (route) => route.pathregex.exec(url) && route.methods.includes(method)
+    (route) => route.pathregex.exec(url) && route.methods.includes(method),
   );
 
   //If no routes are found, return true

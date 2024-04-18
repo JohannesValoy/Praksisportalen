@@ -57,7 +57,7 @@ const ListOfUsers = () => {
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {
-          window.location.href = `/users/addUser?role=coordinator"`;
+          window.location.href = `/users/addUser?role=coordinator`;
         }}
         clickableColumns={clickableColumns}
         setSortedBy={setSortedBy}

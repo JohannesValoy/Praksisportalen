@@ -107,8 +107,8 @@ declare module "knex/types/tables.js" {
     id: number;
     studyYear: number;
     numStudents: number;
-    startWeek: number;
-    endWeek: number;
+    startWeek: string;
+    endWeek: string;
     fieldGroup_id: number;
   }
 

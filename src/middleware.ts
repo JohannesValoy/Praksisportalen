@@ -5,6 +5,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "next-auth/middleware";
 import { JWT } from "next-auth/jwt";
 import Negotiator from "negotiator";
+import { notFound } from "next/navigation";
+import { MiddlewareConfig } from "next/dist/build/analysis/get-page-static-info";
 
 /**
  * This is a class that represents a route in the application.
@@ -22,7 +24,13 @@ class Route {
   constructor(
     path: RegExp,
     methods: METHODS[] = ["GET", "OPTIONS", "POST", "DELETE"],
-    roles: Role[] = [Role.admin, Role.employee, Role.student, Role.none]
+    roles: Role[] = [
+      Role.admin,
+      Role.employee,
+      Role.student,
+      Role.coordinator,
+      Role.none,
+    ]
   ) {
     this.methods = methods;
     if (!methods.includes("OPTIONS")) {
@@ -48,14 +56,12 @@ type METHODS = "GET" | "POST" | "DELETE" | "OPTIONS" | "HEAD";
  */
 const routeRestrictions: Route[] = [
   //API Routes
-  new Route(/(api)/, ["GET", "POST", "DELETE"], [Role.admin]),
   new Route(/(api\/employees)/, ["GET"], [Role.admin, Role.employee]),
   new Route(/(api\/students)/, ["GET"], [Role.admin, Role.student]),
   new Route(/(api\/employees)/, ["POST"], [Role.admin]),
   new Route(/(api\/students)/, ["POST"], [Role.admin, Role.coordinator]),
   new Route(/(api\/employees)/, ["DELETE"], [Role.admin]),
   new Route(/(api\/students)/, ["DELETE"], [Role.admin, Role.coordinator]),
-  new Route(/(api\/auth)/, ["POST"], [Role.none]),
 
   //PAGE Routes
   //A route that matches the root URL + language code
@@ -64,6 +70,7 @@ const routeRestrictions: Route[] = [
     ["GET"],
     [Role.admin, Role.employee, Role.student, Role.coordinator]
   ),
+  new Route(/(login)/, ["GET", "POST"]),
   new Route(/(employees)/, ["GET", "POST"], [Role.admin, Role.employee]),
   new Route(/(students)/, ["GET", "POST"], [Role.admin, Role.student]),
   new Route(/(studyprograms)/, ["GET", "POST"], [Role.admin, Role.coordinator]),
@@ -97,13 +104,24 @@ let locales = ["en-US", "nb-NO"];
 
 export default withAuth(
   function middleware(request) {
-    const localization = request.nextUrl.pathname.split("/")[1];
-    if (localization === "api") {
-      return;
+    console.log("Middleware");
+    // Gotten from https://nextjs.org/docs/app/building-your-application/routing/internationalization#routing-overview
+    const { pathname } = request.nextUrl;
+    const pathnameHasLocale = locales.some(
+      (locale) =>
+        pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+    );
+    if (!pathnameHasLocale && !pathname.startsWith("/api")) {
+      const locale = getLocale(request);
+      // The new URL is now /en-US/products
+      const newUrl = `/${locale}${pathname}`;
+      const url = request.nextUrl.clone();
+      url.pathname = newUrl;
+      return NextResponse.redirect(url);
     }
     if (
       request.nextUrl.pathname.includes("login") &&
-      request.method.match("GET") &&
+      /GET/.exec(request.method) &&
       request.nextauth.token?.role
     ) {
       console.log("Redirecting to /");
@@ -111,26 +129,15 @@ export default withAuth(
       url.pathname = "/";
       return NextResponse.redirect(url);
     }
-    // Gotten from https://nextjs.org/docs/app/building-your-application/routing/internationalization#routing-overview
-    const { pathname } = request.nextUrl;
-    const pathnameHasLocale = locales.some(
-      (locale) =>
-        pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-    );
-    if (pathnameHasLocale) {
-      return;
+    if (!compareIfAccess(request, request.nextauth.token)) {
+      console.log("Unauthorized access");
+      return NextResponse.error();
     }
-    const locale = getLocale(request);
-    // The new URL is now /en-US/products
-    const newUrl = `/${locale}${pathname}`;
-    const url = request.nextUrl.clone();
-    url.pathname = newUrl;
-    return NextResponse.redirect(url);
   },
   {
     callbacks: {
       authorized({ req, token }) {
-        return compareIfAccess(req, token);
+        return !!token?.role || req.nextUrl.pathname.includes("login");
       },
     },
   }
@@ -167,3 +174,7 @@ function compareIfAccess(request: NextRequest, token: JWT | null) {
   }
   return false;
 }
+
+export const config = {
+  matchers: [/^\/(?!api\/auth)/],
+};

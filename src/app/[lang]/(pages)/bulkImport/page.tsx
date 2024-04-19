@@ -6,6 +6,7 @@ import ContainerBox from "@/app/components/ContainerBox";
 const InternshipUploader = () => {
   const [file, setFile] = useState(null);
   const [responses, setResponses] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -41,6 +42,7 @@ const InternshipUploader = () => {
   // Handle file upload
   const handleUpload = async () => {
     if (file) {
+      setLoading(true);
       setResponses([]);
       const reader = new FileReader();
       reader.onload = async (e) => {
@@ -48,6 +50,7 @@ const InternshipUploader = () => {
         const data = await parseCSV(text);
         const responses = await Promise.all(data.map((item) => sendData(item)));
         setResponses(responses);
+        setLoading(false);
       };
       reader.readAsText(file);
     }
@@ -58,6 +61,7 @@ const InternshipUploader = () => {
       <div className="flex flex-col justify-center items-center h-full">
         <div className="flex flex-row justify-center mx-auto p-4">
           <input
+            aria-label="file input"
             id="fileInput"
             type="file"
             className="file-input file-input-bordered w-full max-w-xs"
@@ -68,17 +72,21 @@ const InternshipUploader = () => {
             Upload
           </button>
         </div>
-        <div className="flex flex-col items-center">
-          {responses.map((response, index) => (
-            <p key={index}>
-              {response.status === 200 ? (
-                <span className="text-success">{response.statusText}</span>
-              ) : (
-                <span className="text-error">{response.statusText}</span>
-              )}
-            </p>
-          ))}
-        </div>
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className="flex flex-col items-center">
+            {responses.map((response, index) => (
+              <p key={index}>
+                {response.status === 200 ? (
+                  <span className="text-success">{response.statusText}</span>
+                ) : (
+                  <span className="text-error">{response.statusText}</span>
+                )}
+              </p>
+            ))}
+          </div>
+        )}
       </div>
     </ContainerBox>
   );

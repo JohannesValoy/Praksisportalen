@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { createRecord } from "./actions";
+import ContainerBox from "@/app/components/ContainerBox";
 
 const InternshipUploader = () => {
   const [file, setFile] = useState(null);
@@ -53,31 +54,33 @@ const InternshipUploader = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-full">
-      <div className="flex flex-row justify-center mx-auto p-4">
-        <input
-          id="fileInput"
-          type="file"
-          className="file-input file-input-bordered w-full max-w-xs"
-          onChange={handleFileChange}
-          accept=".csv"
-        />
-        <button onClick={handleUpload} className="btn btn-primary">
-          Upload
-        </button>
+    <ContainerBox>
+      <div className="flex flex-col justify-center items-center h-full">
+        <div className="flex flex-row justify-center mx-auto p-4">
+          <input
+            id="fileInput"
+            type="file"
+            className="file-input file-input-bordered w-full max-w-xs"
+            onChange={handleFileChange}
+            accept=".csv"
+          />
+          <button onClick={handleUpload} className="btn btn-primary">
+            Upload
+          </button>
+        </div>
+        <div className="flex flex-col items-center">
+          {responses.map((response, index) => (
+            <p key={index}>
+              {response.status === 200 ? (
+                <span className="text-success">{response.statusText}</span>
+              ) : (
+                <span className="text-error">{response.statusText}</span>
+              )}
+            </p>
+          ))}
+        </div>
       </div>
-      <div className="flex flex-col items-center">
-        {responses.map((response, index) => (
-          <p key={index}>
-            {response.status === 200 ? (
-              <span className="text-success">{response.statusText}</span>
-            ) : (
-              <span className="text-error">{response.statusText}</span>
-            )}
-          </p>
-        ))}
-      </div>
-    </div>
+    </ContainerBox>
   );
 };
 

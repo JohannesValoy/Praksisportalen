@@ -80,6 +80,7 @@ const routeRestrictions: Route[] = [
     ["GET", "POST"],
     [Role.admin, Role.coordinator]
   ),
+  new Route(/(bulkImport)/, ["GET", "POST"], [Role.admin]),
   new Route(
     /(educationInstitutions)/,
     ["GET", "POST"],

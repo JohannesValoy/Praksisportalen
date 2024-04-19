@@ -17,15 +17,13 @@ export async function paginateInternshipAgreements(
   // If data.elements is present, map over it to create a new array
   // where each element is a flattened version of the original element.
   // If data.elements is not present, use data directly.
-  const elements = data.elements
-    ? data.elements.map((element) => ({
-        name: element.internship.name,
-        id: element.id,
-        status: element.status,
-        startDate: element.startDate.toLocaleDateString(),
-        endDate: element.endDate.toLocaleDateString(),
-      }))
-    : data;
+  const elements = data.elements.map((element) => ({
+    name: element.internship.name,
+    id: element.id,
+    status: element.status,
+    startDate: element.startDate.toLocaleDateString(),
+    endDate: element.endDate.toLocaleDateString(),
+  }));
 
   return {
     ...data,

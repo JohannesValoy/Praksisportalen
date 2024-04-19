@@ -9,7 +9,7 @@ import {
   Internship,
   InternshipPaginationRequest,
 } from "@/app/_models/InternshipPosition";
-import { paginateInternships } from "./action";
+import { deleteInternship, paginateInternships } from "./action";
 
 const ListOfInternships = () => {
   const searchParams = useSearchParams();
@@ -17,6 +17,7 @@ const ListOfInternships = () => {
   const [totalPages, setTotalPages] = useState<number>(0);
   const [internships, setInternships] = useState<Internship[]>([]);
   const [selectedRows, setSelectedRows] = useState<Internship[]>([]);
+
   const headers = {
     Name: "name",
     "Max Capacity": "maxCapacity",
@@ -24,6 +25,7 @@ const ListOfInternships = () => {
   };
   const [page, setPage] = useState(0);
   const [sortedBy, setSortedBy] = useState<string>("name");
+  const [pageSize, setPageSize] = useState(10);
   const clickableColumns = {
     employee_email: (row) => {
       window.location.href = `/profile/?id=${row.employee_id}`;
@@ -32,15 +34,16 @@ const ListOfInternships = () => {
 
   useEffect(() => {
     //TODO: Fix from static to dynamic size maybe :)
-    const request = { page, size: 10 } as InternshipPaginationRequest;
+    const request = { page, size: pageSize } as InternshipPaginationRequest;
     paginateInternships(request).then((data) => {
       // If data.elements is present, map over it to create a new array
       // where each element is a flattened version of the original element.
       // If data.elements is not present, use data directly.
       setTotalPages(data.totalPages);
+
       setInternships(data.elements);
     });
-  }, [id, page, sortedBy]);
+  }, [id, page, pageSize, sortedBy]);
 
   console.log(page);
 
@@ -62,11 +65,13 @@ const ListOfInternships = () => {
         }}
         clickableColumns={clickableColumns}
         setSortedBy={setSortedBy}
-        url={"/api/internships/"}
         setRows={setInternships}
         page={page}
         setPage={setPage}
         totalPages={totalPages}
+        pageSize={10}
+        setPageSize={setPageSize}
+        deleteFunction={deleteInternship}
       />
     </div>
   );

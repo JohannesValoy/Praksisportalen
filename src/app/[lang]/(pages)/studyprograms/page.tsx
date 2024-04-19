@@ -4,7 +4,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
-import { paginateStudyPrograms } from "./actions";
+import { deleteStudyProgram, paginateStudyPrograms } from "./actions";
 import { StudyProgramPageRequest } from "@/app/_models/StudyProgram";
 
 const ListOfStudies = () => {
@@ -60,13 +60,13 @@ const ListOfStudies = () => {
         }}
         buttonName={"Details"}
         setSortedBy={setSortedBy}
-        url="/api/studyPrograms/"
         setRows={setStudies}
         page={page}
         setPage={setPage}
         totalPages={totalPages}
         pageSize={pageSize}
         setPageSize={setPageSize}
+        deleteFunction={deleteStudyProgram}
       />
     </div>
   );

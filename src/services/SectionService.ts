@@ -91,7 +91,7 @@ async function createSectionObject(query: SectionTable[]): Promise<Section[]> {
   return sections;
 }
 
-async function deleteSections(id: number) {
+async function deleteSectionByID(id: number) {
   return await DBclient.delete().from("sections").where("id", id);
 }
 
@@ -99,5 +99,5 @@ export {
   getSectionObjectByID,
   getSectionObjectByIDList,
   getSectionsByPageRequest,
-  deleteSections,
+  deleteSectionByID,
 };

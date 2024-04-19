@@ -68,13 +68,30 @@ async function getStudyProgramsByPageRequest(
   } as PageResponse<StudyProgram>;
 }
 
-async function deleteStudyProgram(id: number) {
-  await DBclient.delete().from("studyPrograms").where("id", id);
+async function deleteStudyProgramByID(id: number) {
+  try {
+    const deletedCount = await DBclient.delete()
+      .from("studyPrograms")
+      .where("id", id);
+    if (deletedCount === 0) {
+      throw new Error(`Study program with id ${id} not found`);
+    }
+  } catch (error) {
+    if (error.message.includes("foreign key constraint")) {
+      const referencingObjects = await DBclient.select()
+        .from("internshipAgreements")
+        .where("studyProgram_id", id);
+      throw new Error(
+        `Cannot delete study program because it is referenced by these internship Agreements: ${JSON.stringify(referencingObjects)}`
+      );
+    }
+    throw new Error("An error occurred while deleting the study program");
+  }
 }
 
 export {
   getStudyProgramObjectByID,
   getStudyProgramObjectByIDList,
   getStudyProgramsByPageRequest,
-  deleteStudyProgram,
+  deleteStudyProgramByID,
 };

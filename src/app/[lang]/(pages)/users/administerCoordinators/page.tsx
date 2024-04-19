@@ -13,8 +13,6 @@ const ListOfUsers = () => {
   const headers = { Name: "name", Email: "email" };
   const [sortedBy, setSortedBy] = useState<string>("name");
   const [totalPages, setTotalPages] = useState(0);
-  //TODO make server action for this
-  const url = `/api/s`;
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   useEffect(() => {
@@ -66,12 +64,7 @@ const ListOfUsers = () => {
         totalPages={totalPages}
         pageSize={pageSize}
         setPageSize={setPageSize}
-        onDeleteButtonClicked={() => {
-          //Deletes selected rows
-          selectedRows.forEach((row) => {
-            deleteCoordinator(row.id);
-          }, setSelectedRows([]));
-        }}
+        deleteFunction={deleteCoordinator}
       />
     </div>
   );

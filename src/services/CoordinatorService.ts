@@ -1,3 +1,5 @@
+/** @format */
+
 import DBclient from "@/knex/config/DBClient";
 import { CoordinatorTable } from "knex/types/tables.js";
 import { encryptPassword } from "@/lib/auth";
@@ -62,8 +64,13 @@ async function createCoordinatorObjects(query: CoordinatorTable[]) {
   return coordinators;
 }
 
-async function deleteCoordinatorByID(id: string) {
+async function deleteCoordinatorByID(id: number) {
   await DBclient.delete().from("coordinators").where("id", id);
 }
 
-export { createCoordinator, createCoordinators, getCoordinatorsByPageRequest, deleteCoordinatorByID };
+export {
+  createCoordinator,
+  createCoordinators,
+  getCoordinatorsByPageRequest,
+  deleteCoordinatorByID,
+};

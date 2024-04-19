@@ -3,7 +3,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
-import { paginateEducationInstitutions } from "./actions";
+import {
+  deleteEducationInstitution,
+  paginateEducationInstitutions,
+} from "./actions";
 import {
   EducationInstitution,
   EducationInstitutionPageRequest,
@@ -18,8 +21,8 @@ const ListOfEducationInstitutions = () => {
   const [sortedBy, setSortedBy] = useState<string>("name");
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
 
-  //TODO make pagination
   useEffect(() => {
     const request = {
       page,
@@ -33,7 +36,7 @@ const ListOfEducationInstitutions = () => {
       }));
       setEducationInstitutions(rows);
     });
-  }, [sortedBy, page]);
+  }, [sortedBy, page, pageSize]);
 
   console.log(educationInstitutions);
   return (
@@ -53,11 +56,13 @@ const ListOfEducationInstitutions = () => {
           window.location.href = `/educationInstitutions/add`;
         }}
         setSortedBy={setSortedBy}
-        url="/api/educationInstitutions/"
         setRows={setEducationInstitutions}
         page={page}
         setPage={setPage}
         totalPages={totalPages}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        deleteFunction={deleteEducationInstitution}
       />
     </div>
   );

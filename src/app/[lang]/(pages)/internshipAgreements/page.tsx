@@ -4,7 +4,10 @@
 import React, { useEffect, useState } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import { InternshipAgreementPageRequest } from "@/app/_models/Agreement";
-import { paginateInternshipAgreements } from "./actions";
+import {
+  deleteInternshipAgreement,
+  paginateInternshipAgreements,
+} from "./actions";
 const ListOfInternshipAgreements = () => {
   const [internshipAgreements, setInternshipAgreements] = useState<
     InternshipAgreement[]
@@ -73,11 +76,13 @@ const ListOfInternshipAgreements = () => {
           window.location.href = `./internships/addInternship`;
         }}
         setSortedBy={setSortedBy}
-        url="/api/internships/"
         setRows={setInternshipAgreements}
         page={page}
         setPage={setPage}
         totalPages={totalPages}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        deleteFunction={deleteInternshipAgreement}
       />
     </div>
   );

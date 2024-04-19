@@ -12,8 +12,6 @@ const ListOfStudents = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const headers = { Name: "name", Email: "email" };
   const [sortedBy, setSortedBy] = useState<string>("name");
-  //TODO make server action for this
-  const url = `/api/students`;
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -66,13 +64,7 @@ const ListOfStudents = () => {
         totalPages={totalPages}
         pageSize={pageSize}
         setPageSize={setPageSize}
-        onDeleteButtonClicked={() => {
-          selectedRows.forEach((row) => {
-            //Deletes selected rows
-            deleteStudent(row.id);
-          });
-          setSelectedRows([]);
-        }}
+        deleteFunction={deleteStudent}
       />
     </div>
   );

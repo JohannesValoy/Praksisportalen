@@ -146,7 +146,7 @@ async function createInternshipAgreementObject(
   return objects;
 }
 
-async function deleteInternshipAgreement(id: number) {
+async function deleteInternshipAgreementByID(id: number) {
   await DBclient.delete().from("internshipAgreements").where("id", id);
 }
 
@@ -155,5 +155,5 @@ export {
   getInternshipAgreementObjectByIDList,
   getInternshipAgreementsByPageRequest,
   getInternshipAgreementsByInternshipRequest,
-  deleteInternshipAgreement,
+  deleteInternshipAgreementByID,
 };

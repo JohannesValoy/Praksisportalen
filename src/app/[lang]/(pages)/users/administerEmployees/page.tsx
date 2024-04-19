@@ -62,16 +62,12 @@ const ListOfUsers = () => {
         }}
         clickableColumns={clickableColumns}
         setSortedBy={setSortedBy}
-        onDeleteButtonClicked={() => {
-          selectedRows.forEach((row) => {
-            deleteEmployee(row.id);
-          }, setSelectedRows([]));
-        }}
         page={page}
         setPage={setPage}
         totalPages={totalPages}
         pageSize={pageSize}
         setPageSize={setPageSize}
+        deleteFunction={deleteEmployee}
       />
     </div>
   );

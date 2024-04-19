@@ -72,8 +72,27 @@ async function createEducationInstitutionObject(
   return educationInstitutions;
 }
 
-async function deleteEducationInstitution(id: number) {
-  await DBclient.delete().from("educationInstitutions").where("id", id);
+async function deleteEducationInstitutionByID(id: number) {
+  try {
+    const deletedCount = await DBclient.delete()
+      .from("educationInstitutions")
+      .where("id", id);
+    if (deletedCount === 0) {
+      throw new Error(`Education institution with id ${id} not found`);
+    }
+  } catch (error) {
+    if (error.message.includes("foreign key constraint")) {
+      const referencingObjects = await DBclient.select()
+        .from("studyPrograms")
+        .where("educationInstitution_id", id);
+      throw new Error(
+        `Cannot delete education institution because it is referenced by these internship Agreements: ${referencingObjects}`
+      );
+    }
+    throw new Error(
+      "An error occurred while deleting the education institution"
+    );
+  }
 }
 
 export {
@@ -81,5 +100,5 @@ export {
   getEducationInstitutionByIDList,
   getEducationInstitutionsByPageRequest,
   createEducationInstitutionObject,
-  deleteEducationInstitution,
+  deleteEducationInstitutionByID,
 };

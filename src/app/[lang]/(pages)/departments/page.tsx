@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import { DepartmentPageRequest } from "@/app/_models/Department";
-import { paginateDepartments } from "./actions";
+import { deleteDepartment, paginateDepartments } from "./actions";
 const ListOfDepartments = () => {
   const [departments, setDepartments] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -57,12 +57,14 @@ const ListOfDepartments = () => {
             window.location.href = `/departments/addDepartment`;
           }}
           setSortedBy={setSortedBy}
-          url="/api/departments"
           setRows={setDepartments}
           clickableColumns={clickableColumns}
           setPage={setPage}
           page={page}
           totalPages={totalPages}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          deleteFunction={deleteDepartment}
         />
       </div>
     </div>

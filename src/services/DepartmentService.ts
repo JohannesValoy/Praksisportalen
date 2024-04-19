@@ -82,7 +82,7 @@ async function createDepartmentObject(
   return departments;
 }
 
-async function deleteDepartment(id: number) {
+async function deleteDepartmentByID(id: number) {
   await DBclient.delete().from("departments").where("id", id);
 }
 
@@ -90,5 +90,5 @@ export {
   getDepartmentObjectByID,
   getDepartmentObjectByIDList,
   getDepartmentPageByPageRequest,
-  deleteDepartment,
+  deleteDepartmentByID,
 };

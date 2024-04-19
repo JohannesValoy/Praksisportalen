@@ -110,7 +110,7 @@ async function getInternshipPositionObjectByPageRequest(
   };
 }
 
-async function deleteInternshipPositionObjectByID(id: number): Promise<void> {
+async function deleteInternshipByID(id: number): Promise<void> {
   await DBclient<InternshipTable>("internships").where("id", id).del();
 }
 
@@ -119,5 +119,5 @@ export {
   getInternshipPositionObjectByIDList,
   getInternshipPositionObjectBySectionID,
   getInternshipPositionObjectByPageRequest,
-  deleteInternshipPositionObjectByID,
+  deleteInternshipByID,
 };

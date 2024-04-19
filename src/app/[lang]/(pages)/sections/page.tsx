@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { SectionPageRequest, Section } from "@/app/_models/Section";
 import DynamicTable from "@/app/components/DynamicTable";
-import { paginateSections } from "./action";
+import { deleteSection, paginateSections } from "./action";
 
 const ListOfSections = () => {
   const searchParams = useSearchParams();
@@ -41,7 +41,7 @@ const ListOfSections = () => {
       }));
       setSections(rows);
     });
-  }, [page, sortedBy, pageSize]);
+  }, [page, sortedBy, pageSize, id]);
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4 ">
       <DynamicTable
@@ -59,7 +59,6 @@ const ListOfSections = () => {
           window.location.href = `/sections/addSection`;
         }}
         setSortedBy={setSortedBy}
-        url="/api/sections/"
         setRows={setSections}
         clickableColumns={clickableColumns}
         setPage={setPage}
@@ -67,6 +66,7 @@ const ListOfSections = () => {
         totalPages={totalPages}
         pageSize={pageSize}
         setPageSize={setPageSize}
+        deleteFunction={deleteSection}
       />
     </div>
   );

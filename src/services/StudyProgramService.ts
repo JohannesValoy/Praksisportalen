@@ -82,7 +82,7 @@ async function deleteStudyProgramByID(id: number) {
         .from("internshipAgreements")
         .where("studyProgram_id", id);
       throw new Error(
-        `Cannot delete study program because it is referenced by these internship Agreements: ${JSON.stringify(referencingObjects)}`
+        `Cannot delete study program because it is referenced by these internship`
       );
     }
     throw new Error("An error occurred while deleting the study program");

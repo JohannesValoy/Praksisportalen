@@ -1,13 +1,26 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Trash from "@/../public/Icons/trash";
 import Add from "@/../public/Icons/add";
+import { PageRequest, PageResponse } from "../_models/pageinition";
 
-function DynamicTable({
-  rows = [],
-  setRows,
+type DynamicTableProps = {
+  tableName: string;
+  headers: Record<string, string>;
+  selectedRows: any[];
+  setSelectedRows: React.Dispatch<React.SetStateAction<any[]>>;
+  onRowClick: (row: any) => void;
+  onRowButtonClick: (row: any) => void;
+  buttonName: string;
+  onAddButtonClick: () => void;
+  clickableColumns?: Record<string, (row: any) => void>;
+  deleteFunction: (id: string | number) => Promise<any>; // Replace 'any' with the type of the response
+  paginateFunction: (request: any) => Promise<PageResponse<any>>; // Replace 'any' with the type of the request
+};
+
+const DynamicTable: React.FC<DynamicTableProps> = ({
   tableName = "",
   headers = {},
   selectedRows = [],
@@ -17,16 +30,10 @@ function DynamicTable({
   buttonName,
   onAddButtonClick,
   clickableColumns = {},
-  setSortedBy,
-  page,
-  setPage,
-  totalPages,
-  pageSize,
-  setPageSize,
   deleteFunction,
-}) {
+  paginateFunction,
+}) => {
   // Ensure rows is always an array
-  const normalizedRows = Array.isArray(rows) ? rows : [rows];
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -42,14 +49,41 @@ function DynamicTable({
     }
   };
 
+  const [rows, setRows] = useState([]);
+  const [sortedBy, setSortedBy] = useState<string>("name");
+  const [totalPages, setTotalPages] = useState(0);
+
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+
+  const fetch = useCallback(() => {
+    const request = {
+      page,
+      size: pageSize,
+      sort: sortedBy,
+    };
+
+    paginateFunction(request).then((data) => {
+      setTotalPages(data.totalPages);
+      const rows = data.elements.map((element) => ({
+        ...element,
+      }));
+      setPageSize(data.size);
+      setRows(rows);
+    });
+  }, [page, pageSize, sortedBy, paginateFunction]);
+
+  useEffect(() => {
+    fetch();
+  }, [page, sortedBy, pageSize, fetch]);
+
+  const normalizedRows = Array.isArray(rows) ? rows : [rows];
   const onDelete = async () => {
     try {
       for (const row of selectedRows) {
         await deleteFunction(row.id);
       }
-      setRows((prevRows) =>
-        prevRows.filter((row) => !selectedRows.includes(row))
-      );
+      fetch();
       setSelectedRows([]);
     } catch (err) {
       let errorMessage = "Delete failed: ";
@@ -253,6 +287,6 @@ function DynamicTable({
       )}
     </div>
   );
-}
+};
 
 export default DynamicTable;

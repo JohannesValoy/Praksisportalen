@@ -52,7 +52,7 @@ async function getDepartmentPageByPageRequest(
         builder.where("name", "like", `%${pageRequest.containsName}%`);
       }
     })
-    .orderBy(pageRequest.sort || "id");
+    .orderBy("departments." + pageRequest.sort || "departments.id");
   console.log(baseQuery);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,

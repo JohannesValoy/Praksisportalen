@@ -1,57 +1,23 @@
 /** @format */
 
 "use client";
-
+import React, { useState } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
-import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import {
-  Internship,
-  InternshipPaginationRequest,
-} from "@/app/_models/InternshipPosition";
 import { deleteInternship, paginateInternships } from "./action";
+import { Internship } from "@/app/_models/InternshipPosition";
 
 const ListOfInternships = () => {
-  const searchParams = useSearchParams();
-  const id = searchParams.get("section_id");
-  const [totalPages, setTotalPages] = useState<number>(0);
-  const [internships, setInternships] = useState<Internship[]>([]);
   const [selectedRows, setSelectedRows] = useState<Internship[]>([]);
-
   const headers = {
     Name: "name",
     "Max Capacity": "maxCapacity",
     "Current Capacity": "currentCapacity",
   };
-  const [page, setPage] = useState(0);
-  const [sortedBy, setSortedBy] = useState<string>("name");
-  const [pageSize, setPageSize] = useState(10);
-  const clickableColumns = {
-    employee_email: (row) => {
-      window.location.href = `/profile/?id=${row.employee_id}`;
-    },
-  };
-
-  useEffect(() => {
-    //TODO: Fix from static to dynamic size maybe :)
-    const request = { page, size: pageSize } as InternshipPaginationRequest;
-    paginateInternships(request).then((data) => {
-      // If data.elements is present, map over it to create a new array
-      // where each element is a flattened version of the original element.
-      // If data.elements is not present, use data directly.
-      setTotalPages(data.totalPages);
-
-      setInternships(data.elements);
-    });
-  }, [id, page, pageSize, sortedBy]);
-
-  console.log(page);
 
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <DynamicTable
-        rows={internships}
-        tableName="Internships"
+        tableName={"Internships"}
         headers={headers}
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
@@ -63,15 +29,8 @@ const ListOfInternships = () => {
         onAddButtonClick={() => {
           window.location.href = `/internships/addInternship`;
         }}
-        clickableColumns={clickableColumns}
-        setSortedBy={setSortedBy}
-        setRows={setInternships}
-        page={page}
-        setPage={setPage}
-        totalPages={totalPages}
-        pageSize={10}
-        setPageSize={setPageSize}
         deleteFunction={deleteInternship}
+        paginateFunction={paginateInternships}
       />
     </div>
   );

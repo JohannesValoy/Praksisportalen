@@ -53,6 +53,7 @@ async function getSectionsByPageRequest(
     .orderBy(
       ["id", "name"].includes(pageRequest.sort) ? pageRequest.sort : "id"
     );
+  //TODO: ^above add email from employees table
 
   pageRequest.page = pageRequest.page || 0;
   pageRequest.size = pageRequest.size || 10;

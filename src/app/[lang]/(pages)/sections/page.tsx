@@ -19,7 +19,7 @@ const ListOfSections = () => {
         setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
-          window.location.href = `/profile/?id=${row.employee_id}`;
+          window.location.href = `/internships/?section_id=${row.id}`;
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {

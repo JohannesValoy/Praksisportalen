@@ -81,7 +81,12 @@ async function getInternshipPositionObjectByPageRequest(
   const query = await DBclient.select()
     .from<InternshipTable>("internships")
     .where((builder) => {
-      if (pageRequest.section_id && pageRequest.section_id.length > 0) {
+      console.log(
+        pageRequest.section_id,
+        pageRequest.yearOfStudy,
+        pageRequest.field
+      );
+      if (pageRequest.section_id && pageRequest.section_id) {
         builder.whereIn("section_id", pageRequest.section_id);
       }
       if (pageRequest.yearOfStudy && pageRequest.yearOfStudy.length > 0) {

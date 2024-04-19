@@ -6,6 +6,8 @@ import Trash from "@/../public/Icons/trash";
 import Add from "@/../public/Icons/add";
 import { PageRequest, PageResponse } from "../_models/pageinition";
 
+import { useSearchParams } from "next/navigation";
+
 type DynamicTableProps = {
   tableName: string;
   headers: Record<string, string>;
@@ -33,6 +35,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   deleteFunction,
   paginateFunction,
 }) => {
+  const searchParams = useSearchParams();
   // Ensure rows is always an array
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,12 +60,21 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   const [pageSize, setPageSize] = useState(10);
 
   const fetch = useCallback(() => {
+    const filter = searchParams.keys();
     const request = {
       page,
       size: pageSize,
       sort: sortedBy,
     };
-
+    let key = filter.next();
+    let i = 0;
+    while (key && i < 100) {
+      console.log(key.value);
+      request[key.value] = searchParams.get(key.value);
+      key = filter.next();
+      i++;
+    }
+    console.log(request);
     paginateFunction(request).then((data) => {
       setTotalPages(data.totalPages);
       if (totalPages < page) {
@@ -71,12 +83,20 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
       const rows = data.elements.map((element) => ({
         ...element,
       }));
-
+      console.log(data);
       setPageSize(data.size);
       setRows(rows);
       setSelectedRows([]);
     });
-  }, [page, pageSize, sortedBy, paginateFunction, totalPages, setSelectedRows]);
+  }, [
+    page,
+    pageSize,
+    sortedBy,
+    paginateFunction,
+    searchParams,
+    totalPages,
+    setSelectedRows,
+  ]);
 
   useEffect(() => {
     fetch();
@@ -107,12 +127,8 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
     }
   };
 
-  console.log("sor by: ", sortedBy);
-
   const headerTitles = Object.keys(headers);
   const rowDataKeys = Object.values(headers);
-  console.log("rowDataKeys: ", rowDataKeys);
-  console.log("headerTitles: ", headerTitles);
 
   return (
     <div className="flex flex-col w-full h-full justify-center mt-4 overflow-x-auto p-4">

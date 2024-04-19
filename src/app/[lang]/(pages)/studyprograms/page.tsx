@@ -14,13 +14,13 @@ const ListOfStudies = () => {
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <DynamicTable
-        tableName={"Students"}
+        tableName={"Study Programs"}
         headers={headers}
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
-          window.location.href = `/profile?id=${row.id}`;
+          throw new Error("Not implemented");
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {

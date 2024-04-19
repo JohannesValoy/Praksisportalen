@@ -23,7 +23,7 @@ const ListOfEducationInstitutions = () => {
         setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
-          window.location.href = `/profile?id=${row.id}`;
+          throw new Error("Not implemented");
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {

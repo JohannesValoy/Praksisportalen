@@ -55,32 +55,36 @@ async function createEmployees(employee: EmployeeTable[]) {
 }
 
 async function getEmployeeObjectsByPagination(
-  request: EmployeePaginationRequest
+  pageRequest: EmployeePaginationRequest
 ): Promise<PageResponse<Employee>> {
   const query = await DBclient.select()
     .from<EmployeeTable>("employees")
     .where((builder) => {
-      if (request.containsName) {
-        builder.where("name", "like", request.containsName);
+      if (pageRequest.containsName) {
+        builder.where("name", "like", pageRequest.containsName);
       }
-      if (request.containsEmail) {
-        builder.where("email", "like", request.containsEmail);
+      if (pageRequest.containsEmail) {
+        builder.where("email", "like", pageRequest.containsEmail);
       }
-      if (request.hasRole) {
-        builder.whereIn("role", request.hasRole);
+      if (pageRequest.hasRole) {
+        builder.whereIn("role", pageRequest.hasRole);
       }
     })
-    .orderBy(request.sort || "name");
+    .orderBy(
+      ["id", "name", "email"].includes(pageRequest.sort)
+        ? pageRequest.sort
+        : "id"
+    );
   const employees: Employee[] = [];
-  const offset = request.page * request.size;
-  query.slice(offset, request.size + offset).forEach((employee) => {
+  const offset = pageRequest.page * pageRequest.size;
+  query.slice(offset, pageRequest.size + offset).forEach((employee) => {
     employees.push({ ...employee });
   });
   return {
-    ...request,
+    ...pageRequest,
     elements: employees,
     totalElements: query.length,
-    totalPages: Math.ceil(query.length / request.size),
+    totalPages: Math.ceil(query.length / pageRequest.size),
   };
 }
 

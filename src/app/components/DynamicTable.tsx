@@ -65,13 +65,17 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
 
     paginateFunction(request).then((data) => {
       setTotalPages(data.totalPages);
+      if (totalPages < page) {
+        setPage(totalPages - 1);
+      }
       const rows = data.elements.map((element) => ({
         ...element,
       }));
+
       setPageSize(data.size);
       setRows(rows);
     });
-  }, [page, pageSize, sortedBy, paginateFunction]);
+  }, [page, pageSize, sortedBy, paginateFunction, totalPages]);
 
   useEffect(() => {
     fetch();
@@ -79,24 +83,26 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
 
   const normalizedRows = Array.isArray(rows) ? rows : [rows];
   const onDelete = async () => {
-    try {
-      for (const row of selectedRows) {
-        await deleteFunction(row.id);
+    if (window.confirm("Are you sure you want to delete these rows?")) {
+      try {
+        for (const row of selectedRows) {
+          await deleteFunction(row.id);
+        }
+        fetch();
+        setSelectedRows([]);
+      } catch (err) {
+        let errorMessage = "Delete failed: ";
+        if (err.message.includes("foreign key constraint")) {
+          errorMessage +=
+            "Cannot delete because it is referenced by other entities.";
+        } else if (Array.isArray(err.message)) {
+          errorMessage += err.message.join(", ");
+        } else {
+          errorMessage += err.message;
+        }
+        setError(errorMessage);
+        setIsModalOpen(true);
       }
-      fetch();
-      setSelectedRows([]);
-    } catch (err) {
-      let errorMessage = "Delete failed: ";
-      if (err.message.includes("foreign key constraint")) {
-        errorMessage +=
-          "Cannot delete because it is referenced by other entities.";
-      } else if (Array.isArray(err.message)) {
-        errorMessage += err.message.join(", ");
-      } else {
-        errorMessage += err.message;
-      }
-      setError(errorMessage);
-      setIsModalOpen(true);
     }
   };
 

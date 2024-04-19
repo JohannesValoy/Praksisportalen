@@ -91,9 +91,19 @@ async function getInternshipPositionObjectByPageRequest(
         builder.where("field", pageRequest.field);
       }
     })
-    .orderBy(pageRequest.sort || "name");
+    .orderBy(
+      [
+        "id",
+        "name",
+        "maxCapacity",
+        "currentCapacity",
+        "numberOfBeds",
+        "yearOfStudy",
+      ].includes(pageRequest.sort)
+        ? pageRequest.sort
+        : "id" || "name"
+    );
   const internships: Internship[] = [];
-  console.log("Query length: ", query.length);
   query
     .slice(
       pageRequest.size * pageRequest.page,

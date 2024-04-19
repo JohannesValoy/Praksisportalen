@@ -66,4 +66,8 @@ async function deleteTimeIntervalByID(id: number): Promise<void> {
   await DBclient("time_intervals").where("id", id).del();
 }
 
-export { fetchTimeIntervalByID, fetchTimeIntervalByIDList, deleteTimeIntervalByID};
+export {
+  fetchTimeIntervalByID,
+  fetchTimeIntervalByIDList,
+  deleteTimeIntervalByID,
+};

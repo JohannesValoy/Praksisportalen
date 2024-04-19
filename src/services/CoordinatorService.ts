@@ -41,7 +41,11 @@ async function getCoordinatorsByPageRequest(
         builder.where("name", "like", `%${pageRequest.containsName}%`);
       }
     })
-    .orderBy(pageRequest.sort);
+    .orderBy(
+      ["id", "name", "email"].includes(pageRequest.sort)
+        ? pageRequest.sort
+        : "id"
+    );
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
     (pageRequest.page + 1) * pageRequest.size

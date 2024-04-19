@@ -3,6 +3,7 @@
 import { NextRequest } from "next/server";
 import { PageRequest } from "./pageinition";
 import { InternshipTable } from "knex/types/tables.js";
+import TimeIntervalObject from "./TimeInterval";
 /**
  * InternshipPositionObject is a class that represents an Internship object.
  */
@@ -14,11 +15,12 @@ class InternshipPositionObject implements InternshipTable {
   currentCapacity: number;
   numberOfBeds: number;
   yearOfStudy: number;
+  timeIntervals: TimeIntervalObject[];
   section_id: number;
   created_at: Date;
   updated_at: Date;
 
-  constructor(query: InternshipTable) {
+  constructor(query: InternshipTable, timeIntervals: TimeIntervalObject[]) {
     this.id = query.id;
     this.name = query.name;
     this.internship_field = query.internship_field;
@@ -29,6 +31,7 @@ class InternshipPositionObject implements InternshipTable {
     this.section_id = query.section_id;
     this.created_at = query.created_at;
     this.updated_at = query.updated_at;
+    this.timeIntervals = timeIntervals;
   }
 
   toJSON() {
@@ -40,9 +43,9 @@ class InternshipPositionObject implements InternshipTable {
       currentCapacity: this.currentCapacity,
       numberOfBeds: this.numberOfBeds,
       yearOfStudy: this.yearOfStudy,
+
+      timeIntervals: this.timeIntervals,
       section_id: this.section_id,
-      created_at: this.created_at,
-      updated_at: this.updated_at,
     };
   }
 }

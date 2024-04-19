@@ -82,9 +82,6 @@ async function deleteEducationInstitutionByID(id: number) {
     }
   } catch (error) {
     if (error.message.includes("foreign key constraint")) {
-      const referencingObjects = await DBclient.select()
-        .from("studyPrograms")
-        .where("educationInstitution_id", id);
       throw new Error(
         `Cannot delete education institution because it is referenced by internship Agreements`
       );

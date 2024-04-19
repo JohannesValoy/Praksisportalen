@@ -106,8 +106,12 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
     }
   };
 
+  console.log("sor by: ", sortedBy);
+
   const headerTitles = Object.keys(headers);
   const rowDataKeys = Object.values(headers);
+  console.log("rowDataKeys: ", rowDataKeys);
+  console.log("headerTitles: ", headerTitles);
 
   return (
     <div className="flex flex-col w-full h-full justify-center mt-4 overflow-x-auto p-4">
@@ -158,7 +162,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
               {headerTitles.map((title, index) => (
                 <th key={index}>
                   <div
-                    onClick={() => setSortedBy(headerTitles[title])}
+                    onClick={() => setSortedBy(rowDataKeys[index])}
                     className="btn btn-ghost btn-xs"
                   >
                     {title}

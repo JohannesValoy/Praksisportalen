@@ -86,7 +86,7 @@ async function deleteEducationInstitutionByID(id: number) {
         .from("studyPrograms")
         .where("educationInstitution_id", id);
       throw new Error(
-        `Cannot delete education institution because it is referenced by internship Agreements: `
+        `Cannot delete education institution because it is referenced by internship Agreements`
       );
     }
     throw new Error(

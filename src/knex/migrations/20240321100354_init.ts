@@ -1,11 +1,12 @@
 /** @format */
 
+import { randomUUID } from "crypto";
 import type { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema
     .createTable("employees", (table) => {
-      table.uuid("id").primary();
+      table.uuid("id").primary().defaultTo(knex.fn.uuid());
       table.string("name").notNullable();
       table.string("email").notNullable().unique();
       table.string("password").notNullable();
@@ -14,7 +15,7 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
     .createTable("students", (table) => {
-      table.uuid("id").primary();
+      table.uuid("id").primary().defaultTo(knex.fn.uuid());
       table.string("name").notNullable();
       table.string("email").notNullable().unique();
       table.timestamp("created_at").defaultTo(knex.fn.now());
@@ -80,7 +81,7 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
     .createTable("coordinators", (table) => {
-      table.uuid("id").primary();
+      table.uuid("id").primary().defaultTo(knex.fn.uuid());
       table.string("name").notNullable();
       table.string("email").notNullable().unique();
       table.string("password").notNullable();
@@ -192,14 +193,14 @@ export async function up(knex: Knex): Promise<void> {
           .from("employees")
           .union(
             knex.raw(
-              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators',
-            ),
+              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators'
+            )
           )
           .union(
             knex.raw(
-              'select id, name, email, "student" as role, created_at, updated_at from students',
-            ),
-          ),
+              'select id, name, email, "student" as role, created_at, updated_at from students'
+            )
+          )
       );
     })
     .then(() => {
@@ -215,7 +216,7 @@ export async function up(knex: Knex): Promise<void> {
               while exists (select 1 from users where id = NEW.id) do
                 set NEW.id = uuid();
               end while;
-            END`,
+            END`
       );
     });
 }

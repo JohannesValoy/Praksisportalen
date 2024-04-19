@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createRecord } from "./actions";
 import ContainerBox from "@/app/components/ContainerBox";
 
@@ -25,6 +25,7 @@ const InternshipUploader = () => {
       }, {});
     });
   };
+  useEffect(() => {}, [responses]);
 
   const sendData = async (data) => {
     try {
@@ -41,15 +42,19 @@ const InternshipUploader = () => {
 
   // Handle file upload
   const handleUpload = async () => {
-    if (file) {
+    if (file && !loading) {
       setLoading(true);
       setResponses([]);
       const reader = new FileReader();
       reader.onload = async (e) => {
         const text = e.target.result;
         const data = await parseCSV(text);
-        const responses = await Promise.all(data.map((item) => sendData(item)));
-        setResponses(responses);
+        await Promise.all(
+          data.map(async (item) => {
+            const response = await sendData(item);
+            setResponses((responses) => [...responses, response]);
+          })
+        );
         setLoading(false);
       };
       reader.readAsText(file);
@@ -68,12 +73,16 @@ const InternshipUploader = () => {
             onChange={handleFileChange}
             accept=".csv"
           />
-          <button onClick={handleUpload} className="btn btn-primary">
+          <button
+            onClick={handleUpload}
+            className="btn btn-primary"
+            disabled={loading}
+          >
             Upload
           </button>
         </div>
         {loading ? (
-          <p>Loading...</p>
+          <span className="loading loading-dots loading-md"></span>
         ) : (
           <div className="flex flex-col items-center">
             {responses.map((response, index) => (

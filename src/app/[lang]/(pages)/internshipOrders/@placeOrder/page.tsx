@@ -86,7 +86,7 @@ export default function Page() {
 
   // Initialize internshipFields as an array of InternshipField
   const [internshipFields, setInternshipFields] = useState<InternshipField[]>(
-    [],
+    []
   );
   const [newType, setNewType] = useState("");
 
@@ -102,7 +102,7 @@ export default function Page() {
         setInternshipFields(data);
       }) // Ensure proper data handling.
       .catch((error) =>
-        console.error("Failed to fetch internship field", error),
+        console.error("Failed to fetch internship field", error)
       ); // Error handling.
   }, []);
 
@@ -147,7 +147,14 @@ export default function Page() {
   function refreshPage() {
     window.location.reload();
   }
+
   const handleAddType = async () => {
+    if (
+      newType.trim() === "" ||
+      internshipFields.some((field) => field.name === newType)
+    ) {
+      return;
+    }
     addInternshipField(newType); // Add the new type to the database
 
     fetchInternhipFields().then((data) => {
@@ -193,7 +200,7 @@ export default function Page() {
               options={studyPrograms}
               selectedOption={
                 studyPrograms.find(
-                  (studyProgram) => studyProgram.id === studyProgram_id,
+                  (studyProgram) => studyProgram.id === studyProgram_id
                 ) || null
               }
               setSelectedOption={(studyProgram) => {
@@ -242,7 +249,7 @@ export default function Page() {
                   options={internshipFields}
                   selectedOption={
                     internshipFields.find(
-                      (type) => type.name === internshipField,
+                      (type) => type.name === internshipField
                     ) || null
                   }
                   setSelectedOption={(type) => {
@@ -279,6 +286,10 @@ export default function Page() {
                     type="button"
                     className="btn btn-secondary h-full"
                     onClick={handleAddType}
+                    disabled={
+                      newType.trim() === "" ||
+                      internshipFields.some((field) => field.name === newType)
+                    }
                   >
                     Legg til
                   </button>
@@ -381,6 +392,7 @@ export default function Page() {
               onChange={(e) => setComment(e.target.value)}
               className="textarea textarea-bordered h-32 w-full"
               aria-label="Kommentarfelt"
+              maxLength={65000}
             />
           </div>
           <div className="flex flex-row"></div>

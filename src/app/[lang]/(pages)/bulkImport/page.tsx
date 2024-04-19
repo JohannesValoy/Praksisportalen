@@ -5,8 +5,11 @@ import ContainerBox from "@/app/components/ContainerBox";
 
 const InternshipUploader = () => {
   const [file, setFile] = useState(null);
+  const [progress, setProgress] = useState(0);
   const [responses, setResponses] = useState([]);
+  const [lastupdate, setLastupdate] = useState(new Date().getTime());
   const [loading, setLoading] = useState(false);
+  const [uploaded, setUploaded] = useState(false);
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -25,7 +28,6 @@ const InternshipUploader = () => {
       }, {});
     });
   };
-  useEffect(() => {}, [responses]);
 
   const sendData = async (data) => {
     try {
@@ -44,18 +46,28 @@ const InternshipUploader = () => {
   const handleUpload = async () => {
     if (file && !loading) {
       setLoading(true);
-      setResponses([]);
+      setUploaded(false);
+      setProgress(0);
+      const responses = [];
       const reader = new FileReader();
       reader.onload = async (e) => {
         const text = e.target.result;
         const data = await parseCSV(text);
-        await Promise.all(
+        Promise.all(
           data.map(async (item) => {
             const response = await sendData(item);
-            setResponses((responses) => [...responses, response]);
+            responses.push(response);
+            if (lastupdate < new Date().getTime() - 1000) {
+              setLastupdate(new Date().getTime());
+              setResponses([...responses]);
+              setProgress((progress) => (responses.length * 100) / data.length);
+            }
           })
-        );
-        setLoading(false);
+        ).finally(() => {
+          setLoading(false);
+          setUploaded(true);
+          setResponses(responses);
+        });
       };
       reader.readAsText(file);
     }
@@ -63,7 +75,7 @@ const InternshipUploader = () => {
 
   return (
     <ContainerBox>
-      <div className="flex flex-col justify-center items-center h-full">
+      <div className="flex flex-col justify-center gap-4 items-center h-full">
         <div className="flex flex-row justify-center mx-auto p-4">
           <input
             aria-label="file input"
@@ -82,20 +94,25 @@ const InternshipUploader = () => {
           </button>
         </div>
         {loading ? (
-          <span className="loading loading-dots loading-md"></span>
-        ) : (
-          <div className="flex flex-col items-center">
-            {responses.map((response, index) => (
-              <p key={index}>
-                {response.status === 200 ? (
-                  <span className="text-success">{response.statusText}</span>
-                ) : (
-                  <span className="text-error">{response.statusText}</span>
-                )}
-              </p>
-            ))}
-          </div>
-        )}
+          <progress
+            className="progress w-56"
+            value={progress}
+            max="100"
+          ></progress>
+        ) : uploaded ? (
+          <p className="text-success text-xl">
+            {"File uploaded: " + file.name}
+          </p>
+        ) : null}
+        <div className="flex flex-col items-center">
+          {responses.map((response, index) => (
+            <p key={index}>
+              {response.status === 500 ? (
+                <span className="text-error">{response.statusText}</span>
+              ) : null}
+            </p>
+          ))}
+        </div>
       </div>
     </ContainerBox>
   );

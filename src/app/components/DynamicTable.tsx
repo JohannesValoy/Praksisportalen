@@ -74,8 +74,9 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
 
       setPageSize(data.size);
       setRows(rows);
+      setSelectedRows([]);
     });
-  }, [page, pageSize, sortedBy, paginateFunction, totalPages]);
+  }, [page, pageSize, sortedBy, paginateFunction, totalPages, setSelectedRows]);
 
   useEffect(() => {
     fetch();

@@ -53,9 +53,8 @@ async function getDepartmentPageByPageRequest(
       }
     })
     .orderBy(
-      "departments." + ["id", "startDate", "endDate"].includes(pageRequest.sort)
-        ? pageRequest.sort
-        : "id" || "departments.id"
+      "departments." +
+        (["id", "name"].includes(pageRequest.sort) ? pageRequest.sort : "id")
     );
   console.log(baseQuery);
   const pageQuery = baseQuery.slice(

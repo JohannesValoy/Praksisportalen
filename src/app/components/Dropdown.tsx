@@ -32,15 +32,16 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const filteredOptions = Array.isArray(options)
     ? options.filter((option) =>
-        option.name.toLowerCase().includes(searchTerm.toLowerCase())
+        option.name.toLowerCase().includes((searchTerm || "").toLowerCase())
       )
     : [];
+
   return (
     <div className="dropdown dropdown-end w-full">
       <input
         type="text"
-        placeholder={selectedOption ? selectedOption.name : dropdownName}
-        value={searchTerm}
+        placeholder={dropdownName}
+        value={selectedOption ? selectedOption.name : searchTerm || ""}
         onChange={(e) => {
           setSearchTerm(e.target.value);
           if (onSearchChange) {

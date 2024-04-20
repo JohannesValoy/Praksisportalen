@@ -43,8 +43,8 @@ async function getSectionsByPageRequest(
       if (pageRequest.hasEmployeeID) {
         builder.where("employee_id", pageRequest.hasEmployeeID);
       }
-      if (pageRequest.hasDepartmentID) {
-        builder.where("department_id", pageRequest.hasDepartmentID);
+      if (pageRequest.department_id) {
+        builder.where("department_id", pageRequest.department_id);
       }
       if (pageRequest.containsName) {
         builder.where("name", "like", `%${pageRequest.containsName}%`);

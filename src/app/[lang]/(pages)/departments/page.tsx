@@ -19,11 +19,11 @@ const ListOfDepartments = () => {
         setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
-          window.location.href = `/profile?id=${row.employee_id}`;
+          window.location.href = `/sections?department_id=${row.id}`;
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {
-          window.location.href = `/departments/addDepartment`;
+          window.location.href = `/sections/addSection`;
         }}
         deleteFunction={deleteDepartment}
         paginateFunction={paginateDepartments}

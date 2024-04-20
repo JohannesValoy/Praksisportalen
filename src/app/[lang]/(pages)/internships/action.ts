@@ -5,7 +5,6 @@ import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
 import {
   deleteInternshipByID,
   getInternshipPositionObjectByPageRequest,
-  getInternshipPositionObjectBySectionID,
 } from "@/services/InternshipPositionService";
 import "server-only";
 

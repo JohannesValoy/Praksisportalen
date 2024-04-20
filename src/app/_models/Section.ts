@@ -6,11 +6,13 @@ import {
   SectionTable,
 } from "knex/types/tables.js";
 import { PageRequest } from "./pageinition";
+import { Department } from './Department';
 
 /**
  * A class representing a Section
  */
 export interface Section extends SectionTable {
+  department_id: number;
   employee: EmployeeTable;
   internships: InternshipTable[];
 }
@@ -20,6 +22,7 @@ export interface Section extends SectionTable {
  */
 export interface SectionPageRequest extends PageRequest {
   hasEmployeeID?: number;
-  hasDepartmentID?: number;
+  Department?: number;
   containsName?: string;
+  department_id?: number;
 }

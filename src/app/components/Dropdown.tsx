@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Option {
   id?: string;
@@ -16,6 +16,7 @@ interface DropdownProps {
   customClassName?: string;
   required?: boolean;
   onSearchChange?: (searchTerm: string) => void;
+  resetSearchTerm?: () => void;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -35,6 +36,14 @@ const Dropdown: React.FC<DropdownProps> = ({
         option.name.toLowerCase().includes((searchTerm || "").toLowerCase())
       )
     : [];
+
+  const resetSearchTerm = () => {
+    setSearchTerm("");
+  };
+
+  useEffect(() => {
+    resetSearchTerm && resetSearchTerm();
+  }, [resetSearchTerm]);
 
   return (
     <div className="dropdown dropdown-end w-full">

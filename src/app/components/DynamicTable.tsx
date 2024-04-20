@@ -131,9 +131,9 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   const rowDataKeys = Object.values(headers);
 
   return (
-    <div className="flex flex-col w-full h-full justify-center mt-4 overflow-x-auto p-4">
+    <>
       <div>
-        <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-row  items-center">
           <h1 className="text-3xl font-semibold">List of {tableName}</h1>
           <div>
             <button onClick={onAddButtonClick} className="btn btn-xs btn-ghost">
@@ -312,7 +312,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
           </div>
         </dialog>
       )}
-    </div>
+    </>
   );
 };
 

@@ -1,18 +1,16 @@
 /** @format */
 
-import React, { useCallback, useEffect, useState } from "react";
-import Image from "next/image";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Trash from "@/../public/Icons/trash";
 import Add from "@/../public/Icons/add";
-import { PageRequest, PageResponse } from "../_models/pageinition";
+import { PageResponse } from "../_models/pageinition";
+import { throttle, debounce } from "lodash";
 
 import { useSearchParams } from "next/navigation";
 
 type DynamicTableProps = {
   tableName: string;
   headers: Record<string, string>;
-  selectedRows: any[];
-  setSelectedRows: React.Dispatch<React.SetStateAction<any[]>>;
   onRowClick: (row: any) => void;
   onRowButtonClick: (row: any) => void;
   buttonName: string;
@@ -25,8 +23,6 @@ type DynamicTableProps = {
 const DynamicTable: React.FC<DynamicTableProps> = ({
   tableName = "",
   headers = {},
-  selectedRows = [],
-  setSelectedRows,
   onRowClick,
   onRowButtonClick,
   buttonName,
@@ -39,6 +35,8 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   // Ensure rows is always an array
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const totalPages = useRef(0);
+  const [selectedRows, setSelectedRows] = useState<any[]>([]);
 
   const toggleSelection = (row, event) => {
     event.stopPropagation();
@@ -54,7 +52,6 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
 
   const [rows, setRows] = useState([]);
   const [sortedBy, setSortedBy] = useState<string>("name");
-  const [totalPages, setTotalPages] = useState(0);
 
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -69,38 +66,27 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
     let key = filter.next();
     let i = 0;
     while (key && i < 100) {
-      console.log(key.value);
       request[key.value] = searchParams.get(key.value);
       key = filter.next();
       i++;
     }
-    console.log(request);
+    console.log("Fetching data");
     paginateFunction(request).then((data) => {
-      setTotalPages(data.totalPages);
-      if (totalPages < page) {
-        setPage(totalPages - 1);
+      totalPages.current = data.totalPages;
+      if (totalPages.current < page) {
+        setPage(totalPages.current - 1);
       }
       const rows = data.elements.map((element) => ({
         ...element,
       }));
-      console.log(data);
-      setPageSize(data.size);
       setRows(rows);
       setSelectedRows([]);
     });
-  }, [
-    page,
-    pageSize,
-    sortedBy,
-    paginateFunction,
-    searchParams,
-    totalPages,
-    setSelectedRows,
-  ]);
+  }, [page, pageSize, sortedBy, paginateFunction, searchParams]);
 
   useEffect(() => {
     fetch();
-  }, [page, sortedBy, pageSize, fetch]);
+  }, [fetch]); // fetch is a dependency
 
   const normalizedRows = Array.isArray(rows) ? rows : [rows];
   const onDelete = async () => {
@@ -133,7 +119,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   return (
     <>
       <div>
-        <div className="flex flex-row  items-center">
+        <div className="flex flex-row justify-between items-center">
           <h1 className="text-3xl font-semibold">List of {tableName}</h1>
           <div>
             <button onClick={onAddButtonClick} className="btn btn-xs btn-ghost">
@@ -260,7 +246,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
           <button
             className="join-item btn"
             onClick={() => setPage(page + 1)}
-            disabled={page + 1 >= totalPages}
+            disabled={page + 1 >= totalPages.current}
           >
             »
           </button>

@@ -24,8 +24,6 @@ const ListOfInternshipAgreements = () => {
       <DynamicTable
         tableName={"Internship Agreements"}
         headers={headers}
-        selectedRows={selectedRows}
-        setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
           window.location.href = `./internships/?department_id=${row.id}`;

@@ -16,8 +16,6 @@ const ListOfStudies = () => {
       <DynamicTable
         tableName={"Study Programs"}
         headers={headers}
-        selectedRows={selectedRows}
-        setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
           throw new Error("Not implemented");

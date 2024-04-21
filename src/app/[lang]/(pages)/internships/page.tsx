@@ -7,7 +7,6 @@ import { deleteInternship, paginateInternships } from "./action";
 import { Internship } from "@/app/_models/InternshipPosition";
 
 const ListOfInternships = () => {
-  const [selectedRows, setSelectedRows] = useState<Internship[]>([]);
   const headers = {
     Name: "name",
     "Max Capacity": "maxCapacity",
@@ -19,8 +18,6 @@ const ListOfInternships = () => {
       <DynamicTable
         tableName={"Internships"}
         headers={headers}
-        selectedRows={selectedRows}
-        setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
           window.location.href = `/internships/individualInternship?internship_id=${row.id}`;

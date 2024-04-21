@@ -7,7 +7,6 @@ import { deleteDepartment, paginateDepartments } from "./actions";
 import { Department } from "@/app/_models/Department";
 
 const ListOfDepartments = () => {
-  const [selectedRows, setSelectedRows] = useState<Department[]>([]);
   const headers = { Name: "name", Email: "email" };
 
   return (
@@ -15,8 +14,6 @@ const ListOfDepartments = () => {
       <DynamicTable
         tableName={"Departments"}
         headers={headers}
-        selectedRows={selectedRows}
-        setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
           window.location.href = `/sections?department_id=${row.id}`;

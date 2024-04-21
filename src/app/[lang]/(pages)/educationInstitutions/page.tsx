@@ -11,7 +11,6 @@ import {
 import { EducationInstitution } from "@/app/_models/EducationInstitution";
 
 const ListOfEducationInstitutions = () => {
-  const [selectedRows, setSelectedRows] = useState<EducationInstitution[]>([]);
   const headers = { Name: "name", id: "id" };
 
   return (
@@ -19,8 +18,6 @@ const ListOfEducationInstitutions = () => {
       <DynamicTable
         tableName={"Education Institutions"}
         headers={headers}
-        selectedRows={selectedRows}
-        setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
           throw new Error("Not implemented");

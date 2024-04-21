@@ -23,8 +23,6 @@ const ListOfUsers = () => {
       <DynamicTable
         tableName={"Coordinators"}
         headers={headers}
-        selectedRows={selectedRows}
-        setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
           window.location.href = `/profile?id=${row.id}`;

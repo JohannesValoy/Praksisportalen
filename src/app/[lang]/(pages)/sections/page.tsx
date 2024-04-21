@@ -15,8 +15,6 @@ const ListOfSections = () => {
       <DynamicTable
         tableName={"Sections"}
         headers={headers}
-        selectedRows={selectedRows}
-        setSelectedRows={setSelectedRows}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
           window.location.href = `/internships/?section_id=${row.id}`;

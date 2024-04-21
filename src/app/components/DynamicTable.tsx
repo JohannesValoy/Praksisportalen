@@ -1,11 +1,10 @@
 /** @format */
+"use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Trash from "@/../public/Icons/trash";
 import Add from "@/../public/Icons/add";
 import { PageResponse } from "../_models/pageinition";
-import { throttle, debounce } from "lodash";
-
 import { useSearchParams } from "next/navigation";
 
 type DynamicTableProps = {
@@ -112,7 +111,9 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
       }
     }
   };
-
+  useEffect(() => {
+    console.log("Component re-rendered");
+  });
   const headerTitles = Object.keys(headers);
   const rowDataKeys = Object.values(headers);
 

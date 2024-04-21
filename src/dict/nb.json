@@ -6,5 +6,12 @@
     "feideLoginButton": "Logg inn med Feide",
     "username": "Brukernavn",
     "password": "Passord"
+  },
+
+  "administerEmployees": {
+    "pageName": "Administrer Ansatte",
+    "header": "Ansatte",
+    "addEmployeeButton": "Legg til ansatt",
+    "search": "Søk"
   }
 }

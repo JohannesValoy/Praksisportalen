@@ -1,16 +1,20 @@
 /** @format */
 /** @format */
-
 "use client";
-import React, { useState, useEffect } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import { paginateEmployees } from "./actions";
 import { deleteEmployee } from "@/services/EmployeeService";
+import { getDictionary } from "@/app/[lang]/dictionaries";
+import { useState } from "react";
 
-const ListOfUsers = () => {
-  const [selectedRows, setSelectedRows] = useState([]);
+const ListOfUsers = ({ params }) => {
+  const [words, setWords] = useState();
+  getDictionary(params.lang).then((words) =>
+    setWords(words?.administerEmployees)
+  );
   const headers = { Name: "name", Email: "email" };
-
+  console.log(params.lang);
+  console.log("words", words);
   const handleEmailClick = (row) => {
     window.location.href = `/profile?id=${row.id}`;
   };
@@ -21,7 +25,7 @@ const ListOfUsers = () => {
   return (
     <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
       <DynamicTable
-        tableName={"Employees"}
+        tableName={words?.header || "Employees"}
         headers={headers}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {

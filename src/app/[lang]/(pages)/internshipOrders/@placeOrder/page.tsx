@@ -170,7 +170,6 @@ export default function Page() {
   return (
     <div>
       <dialog
-        id="my_modal_5"
         open={isModalVisible}
         className="modal  modal-bottom sm:modal-middle"
       >

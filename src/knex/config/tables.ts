@@ -94,13 +94,13 @@ declare module "knex/types/tables.js" {
     id: number;
     studyProgram_id: number;
     comment: Text;
-    created_at: Date;
+    createdAt: Date;
   }
 
   interface FieldGroupTable {
     id: number;
     internshipField: string;
-    internshipOrder_id: number;
+    internshipOrderID: number;
   }
 
   interface SubFieldGroupTable {
@@ -109,7 +109,7 @@ declare module "knex/types/tables.js" {
     numStudents: number;
     startWeek: string;
     endWeek: string;
-    fieldGroup_id: number;
+    fieldGroupID: number;
   }
 
   interface TimeIntervalTable {

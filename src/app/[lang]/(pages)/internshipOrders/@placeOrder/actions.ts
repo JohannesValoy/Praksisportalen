@@ -45,14 +45,14 @@ export async function sendOrder(data) {
       const [internshipOrderId] = await DBclient.table(
         "internshipOrders",
       ).insert({
-        studyProgram_id: data.studyProgram_id,
+        studyProgram_id: data.studyProgramID,
         comment: data.comment,
       });
       // For each fieldGroup in data, insert into fieldGroups table
       for (const fieldGroup of data.fieldGroups) {
         const [fieldGroupId] = await DBclient.table("fieldGroups").insert({
           internshipField: fieldGroup.internshipField,
-          internshipOrder_id: internshipOrderId,
+          internshipOrderID: internshipOrderId,
         });
         // For each subFieldGroup in fieldGroup, insert into subFieldGroups table
         for (const subFieldGroup of fieldGroup.subFieldGroups) {
@@ -62,7 +62,7 @@ export async function sendOrder(data) {
               numStudents: subFieldGroup.numStudents,
               startWeek: subFieldGroup.startWeek,
               endWeek: subFieldGroup.endWeek,
-              fieldGroup_id: fieldGroupId,
+              fieldGroupID: fieldGroupId,
             });
           }
         }

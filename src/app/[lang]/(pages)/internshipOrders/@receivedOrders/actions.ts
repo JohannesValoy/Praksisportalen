@@ -47,7 +47,6 @@ export async function fetchOrders(): Promise<Order[]> {
       "id",
       studyprograms.map((studyprogram) => studyprogram.educationInstitution_id),
     );
-  console.log(studyprograms);
   const response = orders.map((order) => {
     const studyprogram = studyprograms.find(
       (studyprogram) => studyprogram.id === order.studyProgram_id,
@@ -64,6 +63,5 @@ export async function fetchOrders(): Promise<Order[]> {
       },
     };
   });
-  console.log(response);
   return response;
 }

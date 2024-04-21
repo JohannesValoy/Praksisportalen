@@ -20,7 +20,6 @@ export default function Page() {
   const [comment, setComment] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const [studentsAboveZero, setStudentsAboveZero] = useState({});
 
   const initialSubFieldGroups = [
@@ -49,6 +48,43 @@ export default function Page() {
       subFieldGroups: initialSubFieldGroups,
     },
   ]);
+  
+  const [studyPrograms, setStudyPrograms] = useState<StudyProgram[]>([]);
+ 
+   // Initialize internshipFields as an array of InternshipField
+   const [internshipFields, setInternshipFields] = useState<InternshipField[]>(
+    []
+  );
+  const [newType, setNewType] = useState("");
+
+   // Add a new type for InternshipField
+   type InternshipField = {
+    name: string;
+  };
+  
+  type StudyProgram = {
+    id: string;
+    name: string;
+  };
+
+  useEffect(() => {
+    fetchStudyPrograms()
+      .then((data) => {
+        setStudyPrograms(data);
+      })
+      .catch((error) => console.error("Failed to fetch Study Programs", error));
+  }, []);
+  
+  // Fetch internship field from the API
+  useEffect(() => {
+    fetchInternhipFields()
+      .then((data) => {
+        setInternshipFields(data);
+      }) // Ensure proper data handling.
+      .catch((error) =>
+        console.error("Failed to fetch internship field", error)
+      ); 
+  }, []);
 
   const addGroup = () => {
     setFieldGroups((prevFieldGroups) => [
@@ -73,49 +109,21 @@ export default function Page() {
       return newFieldGroups;
     });
   };
+  
+  const handleAddType = async () => {
+    if (
+      newType.trim() === "" ||
+      internshipFields.some((field) => field.name === newType)
+    ) {
+      return;
+    }
+    addInternshipField(newType); // Add the new type to the database
 
-  const [studyPrograms, setStudyPrograms] = useState<StudyProgram[]>([]);
-  type StudyProgram = {
-    id: string;
-    name: string;
+    fetchInternhipFields().then((data) => {
+      setInternshipFields(data);
+    }); // Fetch the updated list of types
+    setNewType(""); // Clear the input field
   };
-
-  useEffect(() => {
-    fetchStudyPrograms()
-      .then((data) => {
-        setStudyPrograms(data);
-      })
-      .catch((error) => console.error("Failed to fetch Study Programs", error));
-  }, []);
-
-  // Initialize internshipFields as an array of InternshipField
-  const [internshipFields, setInternshipFields] = useState<InternshipField[]>(
-    []
-  );
-  const [newType, setNewType] = useState("");
-
-  // Add a new type for InternshipField
-  type InternshipField = {
-    name: string;
-  };
-
-  // Fetch internship field from the API
-  useEffect(() => {
-    fetchInternhipFields()
-      .then((data) => {
-        setInternshipFields(data);
-      }) // Ensure proper data handling.
-      .catch((error) =>
-        console.error("Failed to fetch internship field", error)
-      ); // Error handling.
-  }, []);
-
-  function weekStringToDate(weekString) {
-    const [year, week] = weekString.split("-W");
-    const date = new Date(year);
-    date.setDate(date.getDate() + (week - 1) * 7);
-    return date;
-  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -135,7 +143,6 @@ export default function Page() {
       fieldGroups,
     };
 
-    console.log(formData);
     try {
       await sendOrder(formData);
 
@@ -151,21 +158,13 @@ export default function Page() {
   function refreshPage() {
     window.location.reload();
   }
-
-  const handleAddType = async () => {
-    if (
-      newType.trim() === "" ||
-      internshipFields.some((field) => field.name === newType)
-    ) {
-      return;
-    }
-    addInternshipField(newType); // Add the new type to the database
-
-    fetchInternhipFields().then((data) => {
-      setInternshipFields(data);
-    }); // Fetch the updated list of types
-    setNewType(""); // Clear the input field
-  };
+  
+  function weekStringToDate(weekString) {
+    const [year, week] = weekString.split("-W");
+    const date = new Date(year);
+    date.setDate(date.getDate() + (week - 1) * 7);
+    return date;
+  }
 
   return (
     <div>

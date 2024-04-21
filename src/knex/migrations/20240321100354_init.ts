@@ -135,15 +135,15 @@ export async function up(knex: Knex): Promise<void> {
     })
     .createTable("internshipOrders", (table) => {
       table.increments("id").primary();
-      table.integer("studyProgram_id").unsigned().notNullable();
+      table.integer("studyProgramID").unsigned().notNullable();
       table
-        .foreign("studyProgram_id")
+        .foreign("studyProgramID")
         .references("id")
         .inTable("studyPrograms")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
       table.text("comment").nullable();
-      table.timestamp("created_at").defaultTo(knex.fn.now());
+      table.timestamp("createdAt").defaultTo(knex.fn.now());
     })
     .createTable("fieldGroups", (table) => {
       table.increments("id").primary();
@@ -152,9 +152,9 @@ export async function up(knex: Knex): Promise<void> {
         .foreign("internshipField")
         .references("name")
         .inTable("internshipFields");
-      table.integer("internshipOrder_id").unsigned().notNullable();
+      table.integer("internshipOrderID").unsigned().notNullable();
       table
-        .foreign("internshipOrder_id")
+        .foreign("internshipOrderID")
         .references("id")
         .inTable("internshipOrders")
         .onUpdate("CASCADE")
@@ -166,9 +166,9 @@ export async function up(knex: Knex): Promise<void> {
       table.integer("numStudents").notNullable();
       table.string("startWeek").notNullable();
       table.string("endWeek").notNullable();
-      table.integer("fieldGroup_id").unsigned().notNullable();
+      table.integer("fieldGroupID").unsigned().notNullable();
       table
-        .foreign("fieldGroup_id")
+        .foreign("fieldGroupID")
         .references("id")
         .inTable("fieldGroups")
         .onUpdate("CASCADE")

@@ -16,7 +16,6 @@ interface DropdownProps {
   customClassName?: string;
   required?: boolean;
   onSearchChange?: (searchTerm: string) => void;
-  resetSearchTerm?: () => void;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -36,14 +35,6 @@ const Dropdown: React.FC<DropdownProps> = ({
         option.name.toLowerCase().includes((searchTerm || "").toLowerCase())
       )
     : [];
-
-  const resetSearchTerm = () => {
-    setSearchTerm("");
-  };
-
-  useEffect(() => {
-    resetSearchTerm && resetSearchTerm();
-  }, [resetSearchTerm]);
 
   return (
     <div className="dropdown dropdown-end w-full">
@@ -71,7 +62,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               <div
                 onClick={() => {
                   setSelectedOption(option);
-                  setSearchTerm(option.name);
+                  setSearchTerm("");
                   setIsDropdownOpen(false);
                 }}
                 className="btn w-full flex flex-row justify-start items-center p-2 h-fit"

@@ -17,7 +17,6 @@ export default function Page() {
   const router = useRouter();
 
   const [studyProgram_id, setStudyProgram_id] = useState("");
-  const [internshipField, setInternshipField] = useState("");
   const [comment, setComment] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -232,9 +231,6 @@ export default function Page() {
           <div className="flex flex-wrap justify-center gap-4">
             {Object.entries(fieldGroups).map(([groupId, group]) => {
               const numericGroupId = Number(groupId);
-              function resetSearchTerm(): void {
-                throw new Error("Function not implemented.");
-              }
 
               return (
                 <div
@@ -275,7 +271,6 @@ export default function Page() {
                       newFieldGroups[numericGroupId].internshipField = "";
                       setFieldGroups(newFieldGroups);
                     }}
-                    resetSearchTerm={resetSearchTerm}
                     renderOption={(type) => (
                       <>
                         <div className="mask mask-squircle w-12 h-12 overflow-hidden "></div>

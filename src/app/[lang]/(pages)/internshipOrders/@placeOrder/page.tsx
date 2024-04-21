@@ -293,6 +293,7 @@ export default function Page() {
                       placeholder="Legg til nytt praksisfelt"
                       className="input input-bordered w-full"
                       aria-label="Add new type"
+                      maxLength={200}
                     />
                     <button
                       type="button"

@@ -237,6 +237,13 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
         <div className="join">
           <button
             className="join-item btn"
+            onClick={() => setPage(0)}
+            disabled={page <= 0}
+          >
+            ««
+          </button>
+          <button
+            className="join-item btn"
             onClick={() => setPage(page - 1)}
             disabled={page <= 0}
           >
@@ -249,6 +256,13 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
             disabled={page + 1 >= totalPages.current}
           >
             »
+          </button>
+          <button
+            className="join-item btn"
+            onClick={() => setPage(totalPages.current - 1)}
+            disabled={page + 1 >= totalPages.current}
+          >
+            »»
           </button>
           <select
             className="join-item btn"

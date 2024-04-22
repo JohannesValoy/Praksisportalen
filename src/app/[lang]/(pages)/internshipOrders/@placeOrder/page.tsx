@@ -48,20 +48,20 @@ export default function Page() {
       subFieldGroups: initialSubFieldGroups,
     },
   ]);
-  
+
   const [studyPrograms, setStudyPrograms] = useState<StudyProgram[]>([]);
- 
-   // Initialize internshipFields as an array of InternshipField
-   const [internshipFields, setInternshipFields] = useState<InternshipField[]>(
-    []
+
+  // Initialize internshipFields as an array of InternshipField
+  const [internshipFields, setInternshipFields] = useState<InternshipField[]>(
+    [],
   );
   const [newType, setNewType] = useState("");
 
-   // Add a new type for InternshipField
-   type InternshipField = {
+  // Add a new type for InternshipField
+  type InternshipField = {
     name: string;
   };
-  
+
   type StudyProgram = {
     id: string;
     name: string;
@@ -74,7 +74,7 @@ export default function Page() {
       })
       .catch((error) => console.error("Failed to fetch Study Programs", error));
   }, []);
-  
+
   // Fetch internship field from the API
   useEffect(() => {
     fetchInternhipFields()
@@ -82,8 +82,8 @@ export default function Page() {
         setInternshipFields(data);
       }) // Ensure proper data handling.
       .catch((error) =>
-        console.error("Failed to fetch internship field", error)
-      ); 
+        console.error("Failed to fetch internship field", error),
+      );
   }, []);
 
   const addGroup = () => {
@@ -109,7 +109,7 @@ export default function Page() {
       return newFieldGroups;
     });
   };
-  
+
   const handleAddType = async () => {
     if (
       newType.trim() === "" ||
@@ -158,7 +158,7 @@ export default function Page() {
   function refreshPage() {
     window.location.reload();
   }
-  
+
   function weekStringToDate(weekString) {
     const [year, week] = weekString.split("-W");
     const date = new Date(year);
@@ -202,7 +202,7 @@ export default function Page() {
               options={studyPrograms}
               selectedOption={
                 studyPrograms.find(
-                  (studyProgram) => studyProgram.id === studyProgram_id
+                  (studyProgram) => studyProgram.id === studyProgram_id,
                 ) || null
               }
               setSelectedOption={(studyProgram) => {
@@ -255,7 +255,7 @@ export default function Page() {
                     options={internshipFields}
                     selectedOption={
                       internshipFields.find(
-                        (type) => type.name === group.internshipField
+                        (type) => type.name === group.internshipField,
                       ) || null
                     }
                     setSelectedOption={(type) => {

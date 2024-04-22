@@ -62,7 +62,7 @@ const InternshipUploader = () => {
               setResponses([...responses]);
               setProgress((progress) => (responses.length * 100) / data.length);
             }
-          })
+          }),
         ).finally(() => {
           setLoading(false);
           setUploaded(true);

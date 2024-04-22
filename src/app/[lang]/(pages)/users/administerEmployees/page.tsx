@@ -22,7 +22,7 @@ const ListOfEmployees = ({ params }) => {
     email: handleEmailClick,
   };
   return (
-    <div>
+    <>
       <DynamicTable
         tableName={words?.header || "Employees"}
         headers={headers}
@@ -38,7 +38,7 @@ const ListOfEmployees = ({ params }) => {
         deleteFunction={deleteEmployee}
         paginateFunction={paginateEmployees}
       />
-    </div>
+    </>
   );
 };
 

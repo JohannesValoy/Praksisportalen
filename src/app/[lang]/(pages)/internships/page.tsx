@@ -1,10 +1,9 @@
 /** @format */
 
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import { deleteInternship, paginateInternships } from "./action";
-import { Internship } from "@/app/_models/InternshipPosition";
 
 const ListOfInternships = () => {
   const headers = {
@@ -14,7 +13,7 @@ const ListOfInternships = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+    <>
       <DynamicTable
         tableName={"Internships"}
         headers={headers}
@@ -29,7 +28,7 @@ const ListOfInternships = () => {
         deleteFunction={deleteInternship}
         paginateFunction={paginateInternships}
       />
-    </div>
+    </>
   );
 };
 

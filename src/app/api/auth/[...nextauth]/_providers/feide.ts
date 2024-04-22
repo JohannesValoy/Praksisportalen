@@ -1,6 +1,7 @@
 import DBclient from "@/knex/config/DBClient";
 import { AuthOptions, Profile } from "next-auth";
 import { OAuthConfig } from "next-auth/providers/oauth";
+import { RealUserTable } from "../_adapter/dbadapter";
 
 interface FeideUser {
   sub: string;
@@ -21,7 +22,7 @@ const feideProvider: OAuthConfig<FeideUser> = {
     url: "https://auth.dataporten.no/oauth/token",
   },
   profile: async (profile: FeideUser) => {
-    const user = await DBclient.from("users")
+    const user = await DBclient.from<RealUserTable>("users")
       .where("email", profile.email)
       .first();
     return {

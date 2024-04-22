@@ -35,6 +35,10 @@ export default async function RootLayout({
               Home
             </Link>
 
+            <Link href="/bulkImport" className="btn  rounded-btn h-full">
+              Import Data from Excel
+            </Link>
+
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn m-1">
                 Settings
@@ -49,9 +53,7 @@ export default async function RootLayout({
           </div>
         </header>
         <main className="flex p-4 overflow-y-auto w-full h-full bg-base-300 p-15">
-          <div className="bg-base-200 rounded-3xl h-full w-full">
-            {children}
-          </div>
+          <div className="bg-base-200 rounded-3xl h-fit w-full">{children}</div>
         </main>
       </body>
     </html>

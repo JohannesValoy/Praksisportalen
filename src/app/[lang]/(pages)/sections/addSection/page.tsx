@@ -99,7 +99,10 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col items-center justify-center w-full h-full"
+    >
       <div style={{ width: "50rem" }}>
         <h1 className="flex justify-center text-4xl font-bold mb-4">
           Add Section
@@ -113,6 +116,7 @@ export default function Page() {
             placeholder="Section Name"
             className="input input-bordered w-full"
             onChange={(e) => setname(e.target.value)}
+            required
           />
         </label>
         <div className="flex flex-row   mb-2">
@@ -140,6 +144,7 @@ export default function Page() {
                 <div>{user.email}</div>
               </>
             )}
+            required
           />
           <button>
             <a
@@ -168,6 +173,7 @@ export default function Page() {
                 <td>{department.name}</td>
               </>
             )}
+            required
           />
           <button>
             <a
@@ -198,6 +204,7 @@ export default function Page() {
               <td>{type.name}</td>
             </>
           )}
+          required
         />
         <div className="flex flex-row mt-2">
           <input
@@ -211,16 +218,19 @@ export default function Page() {
             Add new type
           </button>
         </div>
-        <div className="flex flex-row"></div>
         <div className="flex w-full justify-center p-10 gap-5">
-          <button className="btn w-20" onClick={() => router.back()}>
+          <button
+            type="button"
+            className="btn w-20"
+            onClick={() => router.back()}
+          >
             Cancel
           </button>
-          <button className="btn btn-primary w-20" onClick={handleSubmit}>
+          <button type="submit" className="btn btn-primary w-20">
             Save
           </button>
         </div>
       </div>
-    </div>
+    </form>
   );
 }

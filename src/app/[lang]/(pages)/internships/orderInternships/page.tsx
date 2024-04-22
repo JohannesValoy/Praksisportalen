@@ -125,7 +125,7 @@ export default function Page() {
   };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="flex flex-col items-center w-full h-full">
         <h1 className="flex justify-center text-4xl font-bold mb-4">
           Behov for praksisplasser
@@ -156,7 +156,7 @@ export default function Page() {
             )}
             required
           />
-          <button>
+          <button type="button">
             <a href={`/studyPrograms`} className="btn btn-secondary">
               Nytt studieprogram
             </a>
@@ -173,6 +173,7 @@ export default function Page() {
                   <span className="label-text text-2xl">Praksisfelt</span>
                 </div>
                 <button
+                  type="button"
                   onClick={() => handleDeleteButtonClick(groupId)}
                   className="btn btn-error rounded-full m-2"
                 >
@@ -208,6 +209,7 @@ export default function Page() {
                   aria-label="Add new type"
                 />
                 <button
+                  type="button"
                   className="btn btn-secondary h-full"
                   onClick={handleAddType}
                 >
@@ -293,7 +295,7 @@ export default function Page() {
             </div>
           ))}
         </div>
-        <button className="btn" onClick={addGroup}>
+        <button type="button" className="btn" onClick={addGroup}>
           Legg til praksisfelt
         </button>
 
@@ -310,10 +312,14 @@ export default function Page() {
         </div>
         <div className="flex flex-row"></div>
         <div className="flex w-full justify-center p-10 gap-5">
-          <button className="btn w-20" onClick={() => router.back()}>
+          <button
+            type="button"
+            className="btn w-20"
+            onClick={() => router.back()}
+          >
             Cancel
           </button>
-          <button className="btn btn-primary w-20" onClick={handleSubmit}>
+          <button type="submit" className="btn btn-primary w-20">
             Send
           </button>
         </div>

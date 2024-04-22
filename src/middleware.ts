@@ -1,3 +1,5 @@
+/** @format */
+
 import { Role } from "./app/api/auth/[...nextauth]/nextauth";
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "next-auth/middleware";
@@ -19,12 +21,21 @@ class Route {
   roles: Role[];
   constructor(
     path: RegExp,
-    methods: string[] = ["GET", "OPTIONS", "POST", "DELETE"],
-    roles: Role[] = [Role.admin, Role.employee, Role.student, Role.none],
+    methods: METHODS[] = ["GET", "OPTIONS", "POST", "DELETE"],
+    roles: Role[] = [
+      Role.admin,
+      Role.employee,
+      Role.student,
+      Role.coordinator,
+      Role.none,
+    ],
   ) {
     this.methods = methods;
     if (!methods.includes("OPTIONS")) {
       this.methods.push("OPTIONS");
+    }
+    if (!methods.includes("HEAD")) {
+      this.methods.push("HEAD");
     }
     this.pathregex = path;
     this.roles = roles;
@@ -35,13 +46,14 @@ class Route {
   }
 }
 
+type METHODS = "GET" | "POST" | "DELETE" | "OPTIONS" | "HEAD";
+
 /**
  * This is a list of routes that are restricted to certain roles.
  * The routes are defined as regular expressions that are used to match the URL.
  */
 const routeRestrictions: Route[] = [
   //API Routes
-  new Route(/(api)/, ["GET", "POST", "DELETE"], [Role.admin]),
   new Route(/(api\/employees)/, ["GET"], [Role.admin, Role.employee]),
   new Route(/(api\/students)/, ["GET"], [Role.admin, Role.student]),
   new Route(/(api\/employees)/, ["POST"], [Role.admin]),
@@ -52,43 +64,76 @@ const routeRestrictions: Route[] = [
   //PAGE Routes
   //A route that matches the root URL + language code
   new Route(
-    /^(\/(\w{2}|\w{2}-\w{2}))$/,
-    ["GET"],
-    [Role.admin, Role.employee, Role.student],
+    /^(\/(\w{2}|\w{2}-\w{2}|))$/,
+    ["GET", "POST"],
+    [Role.admin, Role.employee, Role.student, Role.coordinator],
   ),
-  new Route(/(employees)/, ["GET"], [Role.admin, Role.employee]),
-  new Route(/(students)/, ["GET"], [Role.admin, Role.student]),
-  new Route(/(studyprograms)/, ["GET"], [Role.admin, Role.coordinator]),
+  new Route(/(login)/, ["GET", "POST"]),
+  new Route(/(employees)/, ["GET", "POST"], [Role.admin, Role.employee]),
+  new Route(/(students)/, ["GET", "POST"], [Role.admin, Role.student]),
+  new Route(/(studyprograms)/, ["GET", "POST"], [Role.admin, Role.coordinator]),
+  new Route(/(departments)/, ["GET", "POST"], [Role.admin, Role.employee]),
+  new Route(/(sections)/, ["GET", "POST"], [Role.admin, Role.employee]),
+  new Route(/(internships)/, ["GET", "POST"], [Role.admin, Role.coordinator]),
+  new Route(/(users)/, ["GET", "POST"], [Role.admin, Role.coordinator]),
+  new Route(/(bulkImport)/, ["GET", "POST"], [Role.admin]),
+  new Route(
+    /(internshipAgreements)/,
+    ["GET", "POST"],
+    [Role.admin, Role.coordinator],
+  ),
+  new Route(
+    /(educationInstitutions)/,
+    ["GET", "POST"],
+    [Role.admin, Role.coordinator],
+  ),
+  new Route(
+    /(profile)/,
+    ["GET"],
+    [Role.admin, Role.employee, Role.student, Role.coordinator],
+  ),
+  new Route(
+    /(login)/,
+    ["GET", "POST"],
+    [Role.none, Role.admin, Role.employee, Role.student, Role.coordinator],
+  ),
 ];
 
 let locales = ["en-US", "nb-NO"];
 
 export default withAuth(
   function middleware(request) {
-    const localization = request.nextUrl.pathname.split("/")[1];
-    if (localization === "api") {
-      return;
-    }
     // Gotten from https://nextjs.org/docs/app/building-your-application/routing/internationalization#routing-overview
     const { pathname } = request.nextUrl;
     const pathnameHasLocale = locales.some(
       (locale) =>
         pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
     );
-    if (pathnameHasLocale) {
-      return;
+    if (!pathnameHasLocale && !pathname.startsWith("/api")) {
+      const locale = getLocale(request);
+      // The new URL is now /en-US/products
+      const newUrl = `/${locale}${pathname}`;
+      const url = request.nextUrl.clone();
+      url.pathname = newUrl;
+      return NextResponse.redirect(url);
     }
-    const locale = getLocale(request);
-    // The new URL is now /en-US/products
-    const newUrl = `/${locale}${pathname}`;
-    const url = request.nextUrl.clone();
-    url.pathname = newUrl;
-    return NextResponse.redirect(url);
+    if (
+      request.nextUrl.pathname.includes("login") &&
+      /GET/.exec(request.method) &&
+      request.nextauth.token?.role
+    ) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/";
+      return NextResponse.redirect(url);
+    }
+    if (!compareIfAccess(request, request.nextauth.token)) {
+      return NextResponse.error();
+    }
   },
   {
     callbacks: {
       authorized({ req, token }) {
-        return compareIfAccess(req, token);
+        return !!token?.role || req.nextUrl.pathname.includes("login");
       },
     },
   },
@@ -96,9 +141,9 @@ export default withAuth(
 
 function getLocale(request: NextRequest) {
   const headers = { "accept-language": request.headers.get("accept-language") };
-  let languages = new Negotiator({ headers }).languages();
-  let defaultLocale = "en-US";
-  let locale = languages.find((l) => locales.includes(l)) || defaultLocale;
+  const languages = new Negotiator({ headers }).languages();
+  const defaultLocale = "en-US";
+  const locale = languages.find((l) => locales.includes(l)) || defaultLocale;
   return locale;
 }
 
@@ -109,13 +154,12 @@ function compareIfAccess(request: NextRequest, token: JWT | null) {
     (route) => route.pathregex.exec(url) && route.methods.includes(method),
   );
 
-  //If no routes are found, return true
+  //If no routes are found, refuse access
   if (routes.length === 0) {
-    return true;
+    return false;
   }
 
   const role = token ? token?.role || Role.none : Role.none;
-
   //If any routes are found, check if the user has access to any of them
   for (const route of routes) {
     if (route.hasAccess(role)) {
@@ -124,3 +168,7 @@ function compareIfAccess(request: NextRequest, token: JWT | null) {
   }
   return false;
 }
+
+export const config = {
+  matchers: [/^\/(?!api\/auth)/],
+};

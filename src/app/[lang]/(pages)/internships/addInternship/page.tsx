@@ -1,11 +1,11 @@
 /** @format */
 "use client";
 
-import Section from "@/app/_models/Section";
+import { Section } from "@/app/_models/Section";
 import Dropdown from "@/app/components/Dropdown";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getInternshipTypes } from "../Actions";
+import { getInternshipTypes } from "../action";
 import { InternshipFieldTable } from "knex/types/tables.js";
 
 export default function Page() {
@@ -77,7 +77,7 @@ export default function Page() {
       },
       body: JSON.stringify({
         name,
-        field,
+        internship_field: field,
         maxCapacity,
         currentCapacity,
         numberOfBeds,
@@ -92,8 +92,20 @@ export default function Page() {
     router.back();
   };
 
+  const convert = (data) => {
+    return data.map((item) => {
+      return {
+        id: item.id.toString(),
+        name: item.name,
+      };
+    });
+  };
+
   return (
-    <div className="w-full h-full max-w-[50rem] mx-auto m-10 flex flex-col items-center">
+    <form
+      onSubmit={handleSubmit}
+      className="w-full h-full max-w-[50rem] mx-auto m-10 flex flex-col items-center"
+    >
       Add Internship
       <label className="form-control w-full mb-2">
         <div className="label">
@@ -101,9 +113,10 @@ export default function Page() {
         </div>
         <input
           type="text"
-          placeholder="Section Name"
+          placeholder="Internship Name"
           className="input input-bordered w-full"
           onChange={(e) => setName(e.target.value)}
+          required
         />
       </label>
       <label className="form-control w-full">
@@ -113,15 +126,22 @@ export default function Page() {
       </label>
       <Dropdown
         dropdownName="Section"
-        options={sections}
+        options={sections.map((section) => ({
+          id: section.id.toString(),
+          name: section.name,
+        }))}
         selectedOption={
-          sections.find((currSections) => currSections.id === section_id)
-            .toString || null
+          Array.isArray(sections)
+            ? convert(
+                sections.find((currSections) => currSections.id === section_id),
+              )
+            : null
         }
         setSelectedOption={(currSections) =>
           setSections_id(Number(currSections.id))
         }
         renderOption={(currSections) => <div>{currSections.name}</div>}
+        required
       />
       <label className="form-control w-full">
         <div className="label">
@@ -136,6 +156,7 @@ export default function Page() {
         }
         setSelectedOption={(currField) => setField(currField.name)}
         renderOption={(currField) => <div>{currField.name}</div>}
+        required
       />
       <div className="flex flex-row mt-2">
         <input
@@ -158,7 +179,8 @@ export default function Page() {
           placeholder="Number of intern Spots"
           className="input input-bordered w-full"
           onChange={(e) => setCurrentCapacity(Number(e.target.value))}
-          max={50}
+          min={0}
+          required
         />
       </label>
       <label className="form-control w-full mb-2">
@@ -170,7 +192,8 @@ export default function Page() {
           placeholder="Max Capacity"
           className="input input-bordered w-full"
           onChange={(e) => setMaxCapacity(Number(e.target.value))}
-          max={50}
+          min={0}
+          required
         />
       </label>
       <label className="form-control w-full mb-2">
@@ -182,7 +205,8 @@ export default function Page() {
           placeholder="Number of Beds"
           className="input input-bordered w-full"
           onChange={(e) => setNumberOfBeds(Number(e.target.value))}
-          max={50}
+          defaultValue={0}
+          min={0}
         />
       </label>
       <label className="form-control w-full mb-2">
@@ -194,7 +218,8 @@ export default function Page() {
           placeholder="Year of Study"
           className="input input-bordered w-full"
           onChange={(e) => setYearOfStudy(Number(e.target.value))}
-          max={50}
+          min={0}
+          required
         />
       </label>
       <div className="flex flex-row"></div>
@@ -202,10 +227,10 @@ export default function Page() {
         <button className="btn w-20" onClick={() => router.back()}>
           Cancel
         </button>
-        <button className="btn btn-primary w-20" onClick={handleSubmit}>
+        <button type="submit" className="btn btn-primary w-20">
           Save
         </button>
       </div>
-    </div>
+    </form>
   );
 }

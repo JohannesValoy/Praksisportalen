@@ -1,5 +1,6 @@
 /** @format */
-import { getInternshipPositionObjectByID } from "@/services/InternshipPosition";
+import DBclient from "@/knex/config/DBClient";
+import { getInternshipPositionObjectByID } from "@/services/InternshipPositionService";
 
 export async function GET(
   request: Request,

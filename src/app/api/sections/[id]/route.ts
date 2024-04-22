@@ -1,7 +1,7 @@
 /** @format */
 
 import DBclient from "@/knex/config/DBClient";
-import { getSectionObjectByID } from "@/services/Section";
+import { getSectionObjectByID } from "@/services/SectionService";
 
 export async function GET(
   request: Request,

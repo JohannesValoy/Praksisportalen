@@ -315,4 +315,60 @@ export const seed = async function (knex: Knex) {
       endDate: new Date("2024-06-01"),
     },
   ]);
+  await knex("timeIntervals").insert([
+    {
+      id: 1,
+      startDate: new Date("2024-03-21"),
+      endDate: new Date("2024-04-21"),
+      internshipAgreement_id: 1,
+    },
+    {
+      id: 2,
+      startDate: new Date("2024-04-21"),
+      endDate: new Date("2024-04-28"),
+      internshipAgreement_id: 1,
+    },
+    {
+      id: 3,
+      startDate: new Date("2024-05-01"),
+      endDate: new Date("2024-06-01"),
+      internshipAgreement_id: 2,
+    },
+    {
+      id: 4,
+      startDate: new Date("2024-03-21"),
+      endDate: new Date("2024-04-21"),
+      internshipAgreement_id: 3,
+    },
+    {
+      id: 5,
+      startDate: new Date("2024-04-21"),
+      endDate: new Date("2024-04-28"),
+      internshipAgreement_id: 3,
+    },
+    {
+      id: 6,
+      startDate: new Date("2024-05-01"),
+      endDate: new Date("2024-06-01"),
+      internshipAgreement_id: 3,
+    },
+    {
+      id: 7,
+      startDate: new Date("2024-03-21"),
+      endDate: new Date("2024-04-21"),
+      internshipAgreement_id: 3,
+    },
+    {
+      id: 8,
+      startDate: new Date("2024-04-21"),
+      endDate: new Date("2024-04-28"),
+      internshipAgreement_id: 3,
+    },
+    {
+      id: 9,
+      startDate: new Date("2024-05-01"),
+      endDate: new Date("2024-06-01"),
+      internshipAgreement_id: 3,
+    },
+  ]);
 };

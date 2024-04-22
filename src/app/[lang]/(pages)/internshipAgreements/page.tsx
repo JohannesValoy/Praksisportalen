@@ -26,7 +26,7 @@ const ListOfInternshipAgreements = () => {
         headers={headers}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
-          window.location.href = `./internships/?department_id=${row.id}`;
+          window.location.href = `/internshipAgreements/individualInternshipAgreement?internshipAgreement_id=${row.id}`;
         }}
         buttonName={"Details"}
         onAddButtonClick={() => {

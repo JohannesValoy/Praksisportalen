@@ -18,30 +18,14 @@ export async function GET(request: NextRequest) {
     sort: request.nextUrl.searchParams.get("sort") as "id" | "name" | undefined,
   };
   return Response.json(
-    await getInternshipPositionObjectByPageRequest(pageRequest),
+    await getInternshipPositionObjectByPageRequest(pageRequest)
   );
 }
 
 export async function POST(request: Request) {
-  const {
+  const { name, employee_id } = await request.json();
+  const newInternship = await DBclient.table("internships").insert({
     name,
-    internship_field,
-    maxCapacity,
-    currentCapacity,
-    numberOfBeds,
-    yearOfStudy,
-    section_id,
-    page,
-  } = await request.json();
-  console.log(page);
-  const internship = await DBclient("internships").insert({
-    name,
-    internship_field,
-    maxCapacity,
-    currentCapacity,
-    numberOfBeds,
-    yearOfStudy,
-    section_id,
   });
-  return Response.json(internship);
+  return Response.json(newInternship);
 }

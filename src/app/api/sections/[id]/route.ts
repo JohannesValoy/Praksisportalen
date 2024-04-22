@@ -12,7 +12,7 @@ export async function GET(
   if (section) {
     return Response.json(section);
   }
-  return Response.json({ message: "Internship not found" }, { status: 404 });
+  return Response.json({ message: "Section not found" }, { status: 404 });
 }
 
 export async function DELETE(

@@ -6,8 +6,8 @@ import "./globals.css";
 import Link from "next/link";
 import ThemeChanger from "./components/ThemeChanger";
 import LogoutButton from "./components/LogoutButton";
+import Logo from "../../public/Icons/logo-helse-mr";
 import { getServerSession } from "next-auth";
-import Logo from "@/../public/Icons/logo-helse-mr";
 
 const inter = Inter({ subsets: ["latin"] });
 

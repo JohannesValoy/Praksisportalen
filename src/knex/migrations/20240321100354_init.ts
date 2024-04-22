@@ -31,7 +31,7 @@ export async function up(knex: Knex): Promise<void> {
     .createTable("departments", (table) => {
       table.increments("id").primary();
       table.string("name").notNullable();
-      table.string("employee_id");
+      table.string("employee_id").nullable();
       table.foreign("employee_id").references("id").inTable("employees");
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
@@ -44,7 +44,7 @@ export async function up(knex: Knex): Promise<void> {
       table.string("name").notNullable();
       table.string("section_type").notNullable();
       table.foreign("section_type").references("name").inTable("sectionTypes");
-      table.string("employee_id").notNullable();
+      table.string("employee_id").nullable();
       table.foreign("employee_id").references("id").inTable("employees");
       table.integer("department_id").unsigned().notNullable();
       table
@@ -129,8 +129,13 @@ export async function up(knex: Knex): Promise<void> {
     })
     .createTable("timeIntervals", (table) => {
       table.increments("id").primary();
-      table.time("startTime").notNullable();
-      table.time("endTime").notNullable();
+      table.timestamp("startDate").notNullable();
+      table.timestamp("endDate").notNullable();
+      table.integer("internshipAgreement_id").unsigned().notNullable();
+      table
+        .foreign("internshipAgreement_id")
+        .references("id")
+        .inTable("internshipAgreements");
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })

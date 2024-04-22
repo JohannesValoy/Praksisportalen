@@ -92,6 +92,15 @@ export default function Page() {
     router.back();
   };
 
+  const convert = (data) => {
+    return data.map((item) => {
+      return {
+        id: item.id.toString(),
+        name: item.name,
+      };
+    });
+  }
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -117,10 +126,14 @@ export default function Page() {
       </label>
       <Dropdown
         dropdownName="Section"
-        options={sections}
+        options={sections.map((section) => ({
+          id: section.id.toString(),
+          name: section.name,
+        }))
+        }
         selectedOption={
           Array.isArray(sections)
-            ? sections.find((currSections) => currSections.id === section_id)
+            ? convert(sections.find((currSections) => currSections.id === section_id))
             : null
         }
         setSelectedOption={(currSections) =>

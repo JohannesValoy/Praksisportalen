@@ -12,6 +12,6 @@ export async function paginateEmployees(request: EmployeePaginationRequest) {
   return await getEmployeeObjectsByPagination(request);
 }
 
-export async function deleteEmployeeByID(id: number) {
+export async function deleteEmployeeByID(id: string) {
   return await deleteEmployee(id);
 }

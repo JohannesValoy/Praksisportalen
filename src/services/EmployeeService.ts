@@ -88,7 +88,7 @@ async function getEmployeeObjectsByPagination(
   };
 }
 
-async function deleteEmployee(id: number) {
+async function deleteEmployee(id: string) {
   return await DBclient.delete().from("employees").where("id", id);
 }
 

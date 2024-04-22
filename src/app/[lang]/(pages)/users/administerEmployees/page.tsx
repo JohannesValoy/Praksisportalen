@@ -1,5 +1,4 @@
 /** @format */
-/** @format */
 "use client";
 import DynamicTable from "@/app/components/DynamicTable";
 import { paginateEmployees } from "./actions";
@@ -7,10 +6,10 @@ import { deleteEmployee } from "@/services/EmployeeService";
 import { getDictionary } from "@/app/[lang]/dictionaries";
 import { useState } from "react";
 
-const ListOfUsers = ({ params }) => {
+const ListOfEmployees = ({ params }) => {
   const [words, setWords] = useState<any>({});
   getDictionary(params.lang).then((words) =>
-    setWords(words?.administerEmployees),
+    setWords(words?.administerEmployees)
   );
   const headers = { Name: "name", Email: "email" };
   console.log(params.lang);
@@ -43,4 +42,4 @@ const ListOfUsers = ({ params }) => {
   );
 };
 
-export default ListOfUsers;
+export default ListOfEmployees;

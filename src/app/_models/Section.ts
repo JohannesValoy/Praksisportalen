@@ -6,7 +6,6 @@ import {
   SectionTable,
 } from "knex/types/tables.js";
 import { PageRequest } from "./pageinition";
-import { Department } from "./Department";
 
 /**
  * A class representing a Section

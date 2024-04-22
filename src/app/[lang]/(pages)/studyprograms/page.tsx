@@ -2,13 +2,11 @@
 /** @format */
 
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import { deleteStudyProgram, paginateStudyPrograms } from "./actions";
-import { StudyProgram } from "@/app/_models/StudyProgram";
 
 const ListOfStudies = () => {
-  const [selectedRows, setSelectedRows] = useState<StudyProgram[]>([]);
   const headers = { Name: "name", id: "id" };
 
   return (

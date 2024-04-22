@@ -2,13 +2,12 @@
 /** @format */
 
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import {
   deleteInternshipAgreement,
   paginateInternshipAgreements,
 } from "./actions";
-import { InternshipAgreement } from "@/app/_models/Agreement";
 
 const ListOfInternshipAgreements = () => {
   const headers = {

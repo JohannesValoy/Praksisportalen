@@ -2,12 +2,11 @@
 /** @format */
 
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import { deleteStudent, paginateStudents } from "./actions";
 
 const ListOfStudents = () => {
-  const [selectedRows, setSelectedRows] = useState([]);
   const headers = { Name: "name", Email: "email" };
 
   const handleEmailClick = (row) => {
@@ -19,7 +18,7 @@ const ListOfStudents = () => {
   };
 
   return (
-    <div >
+    <div>
       <DynamicTable
         tableName={"Students"}
         headers={headers}

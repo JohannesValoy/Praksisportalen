@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { createRecord } from "./actions";
 import ContainerBox from "@/app/components/ContainerBox";
 

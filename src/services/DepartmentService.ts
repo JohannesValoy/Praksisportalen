@@ -57,7 +57,6 @@ async function getDepartmentPageByPageRequest(
         (["id", "name"].includes(pageRequest.sort) ? pageRequest.sort : "id")
     );
   //TODO: ^above add email from employees table
-  console.log(baseQuery);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
     (pageRequest.page + 1) * pageRequest.size

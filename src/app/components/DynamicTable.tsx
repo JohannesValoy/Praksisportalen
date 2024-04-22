@@ -69,7 +69,6 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
       key = filter.next();
       i++;
     }
-    console.log("Fetching data");
     paginateFunction(request).then((data) => {
       totalPages.current = data.totalPages;
       if (totalPages.current < page) {
@@ -111,9 +110,6 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
       }
     }
   };
-  useEffect(() => {
-    console.log("Component re-rendered");
-  });
   const headerTitles = Object.keys(headers);
   const rowDataKeys = Object.values(headers);
 

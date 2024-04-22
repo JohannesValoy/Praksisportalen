@@ -21,8 +21,14 @@ class Route {
   roles: Role[];
   constructor(
     path: RegExp,
-    methods: string[] = ["GET", "OPTIONS", "POST", "DELETE"],
-    roles: Role[] = [Role.admin, Role.employee, Role.student, Role.none]
+    methods: METHODS[] = ["GET", "OPTIONS", "POST", "DELETE"],
+    roles: Role[] = [
+      Role.admin,
+      Role.employee,
+      Role.student,
+      Role.coordinator,
+      Role.none,
+    ]
   ) {
     this.methods = methods;
     if (!methods.includes("OPTIONS")) {
@@ -97,30 +103,37 @@ let locales = ["en-US", "nb-NO"];
 
 export default withAuth(
   function middleware(request) {
-    const localization = request.nextUrl.pathname.split("/")[1];
-    if (localization === "api") {
-      return;
-    }
     // Gotten from https://nextjs.org/docs/app/building-your-application/routing/internationalization#routing-overview
     const { pathname } = request.nextUrl;
     const pathnameHasLocale = locales.some(
       (locale) =>
         pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
     );
-    if (pathnameHasLocale) {
-      return;
+    if (!pathnameHasLocale && !pathname.startsWith("/api")) {
+      const locale = getLocale(request);
+      // The new URL is now /en-US/products
+      const newUrl = `/${locale}${pathname}`;
+      const url = request.nextUrl.clone();
+      url.pathname = newUrl;
+      return NextResponse.redirect(url);
     }
-    const locale = getLocale(request);
-    // The new URL is now /en-US/products
-    const newUrl = `/${locale}${pathname}`;
-    const url = request.nextUrl.clone();
-    url.pathname = newUrl;
-    return NextResponse.redirect(url);
+    if (
+      request.nextUrl.pathname.includes("login") &&
+      /GET/.exec(request.method) &&
+      request.nextauth.token?.role
+    ) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/";
+      return NextResponse.redirect(url);
+    }
+    if (!compareIfAccess(request, request.nextauth.token)) {
+      return NextResponse.error();
+    }
   },
   {
     callbacks: {
       authorized({ req, token }) {
-        return compareIfAccess(req, token);
+        return !!token?.role || req.nextUrl.pathname.includes("login");
       },
     },
   }
@@ -128,9 +141,9 @@ export default withAuth(
 
 function getLocale(request: NextRequest) {
   const headers = { "accept-language": request.headers.get("accept-language") };
-  let languages = new Negotiator({ headers }).languages();
-  let defaultLocale = "en-US";
-  let locale = languages.find((l) => locales.includes(l)) || defaultLocale;
+  const languages = new Negotiator({ headers }).languages();
+  const defaultLocale = "en-US";
+  const locale = languages.find((l) => locales.includes(l)) || defaultLocale;
   return locale;
 }
 
@@ -141,13 +154,12 @@ function compareIfAccess(request: NextRequest, token: JWT | null) {
     (route) => route.pathregex.exec(url) && route.methods.includes(method)
   );
 
-  //If no routes are found, return true
+  //If no routes are found, refuse access
   if (routes.length === 0) {
-    return true;
+    return false;
   }
 
   const role = token ? token?.role || Role.none : Role.none;
-
   //If any routes are found, check if the user has access to any of them
   for (const route of routes) {
     if (route.hasAccess(role)) {
@@ -156,3 +168,7 @@ function compareIfAccess(request: NextRequest, token: JWT | null) {
   }
   return false;
 }
+
+export const config = {
+  matchers: [/^\/(?!api\/auth)/],
+};

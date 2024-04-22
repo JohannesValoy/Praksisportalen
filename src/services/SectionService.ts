@@ -57,7 +57,6 @@ async function getSectionsByPageRequest(
 
   pageRequest.page = pageRequest.page || 0;
   pageRequest.size = pageRequest.size || 10;
-  console.log(baseQuery, pageRequest);
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
     (pageRequest.page + 1) * pageRequest.size

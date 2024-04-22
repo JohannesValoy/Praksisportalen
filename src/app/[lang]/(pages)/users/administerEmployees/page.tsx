@@ -8,7 +8,7 @@ import { getDictionary } from "@/app/[lang]/dictionaries";
 import { useState } from "react";
 
 const ListOfUsers = ({ params }) => {
-  const [words, setWords] = useState();
+  const [words, setWords] = useState<any>({});
   getDictionary(params.lang).then((words) =>
     setWords(words?.administerEmployees),
   );

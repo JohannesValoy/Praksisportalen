@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 interface Option {
-  id?: string | number;
+  id?: string;
   name: string;
   email?: string;
   image?: string;
@@ -28,9 +28,6 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const filteredOptions = options.filter((option) =>
-    option.name.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
   const filteredOptions = Array.isArray(options)
     ? options.filter((option) =>
         option.name.toLowerCase().includes(searchTerm.toLowerCase()),

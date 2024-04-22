@@ -41,6 +41,9 @@ next-env.d.ts
 # Webstorm IDE
 .idea
 
+#qodana
+qodana.yaml
+
 # bun and npm
 npm-debug.log
 package-lock.json

@@ -1,7 +1,7 @@
 /** @format */
 
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import { deleteSection, paginateSections } from "./action";
 
@@ -9,7 +9,7 @@ const ListOfSections = () => {
   const headers = { Name: "name", Email: "email" };
 
   return (
-    <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+    <>
       <DynamicTable
         tableName={"Sections"}
         headers={headers}
@@ -24,7 +24,7 @@ const ListOfSections = () => {
         deleteFunction={deleteSection}
         paginateFunction={paginateSections}
       />
-    </div>
+    </>
   );
 };
 

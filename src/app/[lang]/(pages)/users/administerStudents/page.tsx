@@ -19,7 +19,7 @@ const ListOfStudents = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+    <div >
       <DynamicTable
         tableName={"Students"}
         headers={headers}

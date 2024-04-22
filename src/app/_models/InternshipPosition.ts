@@ -11,6 +11,7 @@ export interface InternshipPaginationRequest extends PageRequest {
   section_id?: number[];
   yearOfStudy?: number[];
   field?: string;
+  id?: number;
 }
 
 export interface Internship extends InternshipTable {}

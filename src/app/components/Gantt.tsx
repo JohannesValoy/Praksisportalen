@@ -58,13 +58,13 @@ const Gantt: React.FC<GanttProps> = ({ datalist, onClickUrl }) => {
       acc[name].push([new Date(startDate), new Date(endDate), row_id]); // Include row_id here
       return acc;
     },
-    {},
+    {}
   );
   return (
     <div
       className="bg-base-200  p-5 rounded-lg flex flex-col items-center justify-center"
       style={{
-        height: "70%",
+        height: "40rem",
         width: "70%",
         border: "1px solid rgba(100,100,100,0.2)",
       }}

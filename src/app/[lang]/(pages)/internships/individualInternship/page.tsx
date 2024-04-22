@@ -5,7 +5,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Gantt from "@/app/components/Gantt";
-import { on } from "events";
+import { getIndividualInternship } from "./actions";
 
 type DataItem = {
   id: number;
@@ -41,14 +41,14 @@ const InternshipComponent = () => {
   const searchParams = useSearchParams();
   const [datalist, setDatalist] = useState<DataItem[]>(null);
 
-  const internship_id = searchParams.get("internship_id");
-  const [internship, setInternship] = useState<Internship | null>(null);
+  const internship_id = Number(searchParams.get("internship_id"));
+  const [internship, setInternship] = useState<any>(null);
   useEffect(() => {
     if (internship_id !== null) {
-      fetch(`/api/internships/${internship_id}`)
-        .then((res) => res.json())
+      getIndividualInternship(internship_id)
         .then((data) => {
           setInternship(data);
+          console.log(data);
           const dataList: DataItem[] = data.timeIntervals.map(
             (interval: any, index: number) => ({
               id: index + 1,
@@ -56,12 +56,12 @@ const InternshipComponent = () => {
               name: `Interval ${index + 1}`,
               startDate: new Date(interval.startDate),
               endDate: new Date(interval.endDate),
-            }),
+            })
           );
           setDatalist(dataList);
         })
         .catch((error) =>
-          console.error("Failed to fetch internship details:", error),
+          console.error("Failed to fetch internship details:", error)
         );
     }
   }, [internship_id]);

@@ -1,6 +1,6 @@
 /** @format */
 
-import { fetchTimeIntervalsByInternshipID } from "@/services/TimeInterval";
+import { fetchTimeIntervalsByInternshipID } from "@/services/TimeIntervalService";
 import { TimeIntervalPageRequest } from "@/app/_models/TimeInterval";
 import { NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
       JSON.stringify(await fetchTimeIntervalsByInternshipID(pageRequest)),
       {
         headers: { "Content-Type": "application/json" },
-      },
+      }
     );
   } catch (error) {
     console.error("Error fetching time interval data:", error);
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       {
         status: 500,
         headers: { "Content-Type": "application/json" },
-      },
+      }
     );
   }
 }

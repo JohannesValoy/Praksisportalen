@@ -72,7 +72,6 @@ export class TimeIntervalPageRequest implements PageRequest {
     this.endDate = end;
   }
 
-
   /**
    * Creates a new TimeIntervalPageRequest object from a NextRequest object.
    * @param request the NextRequest object
@@ -88,7 +87,9 @@ export class TimeIntervalPageRequest implements PageRequest {
     const page = request.nextUrl.searchParams.get("page")
       ? Number(request.nextUrl.searchParams.get("page"))
       : 1;
-    const size = request.nextUrl.searchParams.get("size") ? Number(request.nextUrl.searchParams.get("size")) : 10;
+    const size = request.nextUrl.searchParams.get("size")
+      ? Number(request.nextUrl.searchParams.get("size"))
+      : 10;
     return new TimeIntervalPageRequest(
       page,
       size,

@@ -27,7 +27,7 @@ export default function Page() {
     const fetchAllData = async () => {
       try {
         const sectionsResponse = await fetch(`/api/sections`).then((res) =>
-          res.json()
+          res.json(),
         );
         setSections(sectionsResponse || []);
       } catch (error) {
@@ -99,7 +99,7 @@ export default function Page() {
         name: item.name,
       };
     });
-  }
+  };
 
   return (
     <form
@@ -129,11 +129,12 @@ export default function Page() {
         options={sections.map((section) => ({
           id: section.id.toString(),
           name: section.name,
-        }))
-        }
+        }))}
         selectedOption={
           Array.isArray(sections)
-            ? convert(sections.find((currSections) => currSections.id === section_id))
+            ? convert(
+                sections.find((currSections) => currSections.id === section_id),
+              )
             : null
         }
         setSelectedOption={(currSections) =>

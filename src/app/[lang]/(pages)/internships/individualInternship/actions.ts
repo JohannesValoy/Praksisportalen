@@ -12,11 +12,11 @@ export async function getIndividualInternship(id: number) {
     .first();
   const agreements = await DBClient.from("internshipAgreements").where(
     "internship_id",
-    id
+    id,
   );
   const timeIntervals = await DBClient.table("timeIntervals").whereIn(
     "internshipAgreement_id",
-    agreements.map((agreement) => agreement.id)
+    agreements.map((agreement) => agreement.id),
   );
 
   return {

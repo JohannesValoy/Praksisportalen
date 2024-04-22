@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
       JSON.stringify(await fetchTimeIntervalsByInternshipID(pageRequest)),
       {
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
   } catch (error) {
     console.error("Error fetching time interval data:", error);
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       {
         status: 500,
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
   }
 }

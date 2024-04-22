@@ -15,6 +15,7 @@ services:
       FEIDE_CLIENT_ID: ${FEIDE_CLIENT_ID}
       FEIDE_CLIENT_SECRET: ${FEIDE_CLIENT_SECRET}
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      NEXTAUTH_URL: https://${DOMAIN:-localhost}
 
   db:
     image: mysql

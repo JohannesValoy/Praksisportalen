@@ -41,10 +41,13 @@ class TimeIntervalObject implements TimeIntervalTable {
  * TimeIntervalPageRequest is a class that represents a request for a paginated list of TimeInterval objects.
  * It should be used when you want to get a list of TimeInterval objects from the server.
  */
-export class TimeIntervalPageRequest extends PageRequest {
+export class TimeIntervalPageRequest implements PageRequest {
   internshipAgreement_id: number[];
   startDate: Date;
   endDate: Date;
+  page: number;
+  size?: number;
+  sort?: "name" | "id";
 
   /**
    * Creates a new TimeIntervalPageRequest object.
@@ -61,7 +64,9 @@ export class TimeIntervalPageRequest extends PageRequest {
     startDate: Date,
     end: Date,
   ) {
-    super(page, size);
+    this.page = page > 1 ? page : 1;
+    this.size = size > 0 ? size : 10;
+    this.sort = "name";
     this.internshipAgreement_id = internshipAgreement_id;
     this.startDate = startDate;
     this.endDate = end;
@@ -72,7 +77,6 @@ export class TimeIntervalPageRequest extends PageRequest {
    * @param request the NextRequest object
    */
   static fromRequest(request: NextRequest): TimeIntervalPageRequest {
-    const page = super.fromRequest(request);
     const internshipAgreement_id = request.nextUrl.searchParams
       .getAll("internshipAgreement_id")
       .map(Number);
@@ -80,9 +84,15 @@ export class TimeIntervalPageRequest extends PageRequest {
     const startDate = start ? new Date(start) : null;
     const end = request.nextUrl.searchParams.get("endDate");
     const endDate = end ? new Date(end) : null;
+    const page = request.nextUrl.searchParams.get("page")
+      ? Number(request.nextUrl.searchParams.get("page"))
+      : 1;
+    const size = request.nextUrl.searchParams.get("size")
+      ? Number(request.nextUrl.searchParams.get("size"))
+      : 10;
     return new TimeIntervalPageRequest(
-      page.page,
-      page.size,
+      page,
+      size,
       internshipAgreement_id,
       startDate,
       endDate,

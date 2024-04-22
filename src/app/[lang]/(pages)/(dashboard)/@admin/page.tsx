@@ -6,11 +6,11 @@ import ContainerBox from "@/app/components/ContainerBox";
 import { PieChart } from "@mui/x-charts/PieChart";
 import Link from "next/link";
 
-const pieParams = { margin: { right: 5 } };
+const pieParams = { margin: { right: 5 }, height: 400, width: 400 };
 
 const AdminLayout = () => {
   return (
-    <div className="  flex flex-row items-center justify-center rounded-lg w-full h-full container mx-auto">
+    <div className=" flex flex-row items-center justify-center rounded-lg w-full h-full container mx-auto">
       <div className="flex flex-col h-full w-full">
         <ContainerBox title={"Statistics"}>
           <PieChart

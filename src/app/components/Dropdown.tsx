@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+/** @format */
+
+import { useState } from "react";
 
 interface Option {
   id?: string;
@@ -35,7 +37,6 @@ const Dropdown: React.FC<DropdownProps> = ({
         option.name.toLowerCase().includes((searchTerm || "").toLowerCase())
       )
     : [];
-
   return (
     <div className="dropdown dropdown-end w-full">
       <input

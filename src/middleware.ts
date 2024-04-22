@@ -28,7 +28,7 @@ class Route {
       Role.student,
       Role.coordinator,
       Role.none,
-    ]
+    ],
   ) {
     this.methods = methods;
     if (!methods.includes("OPTIONS")) {
@@ -65,12 +65,12 @@ const routeRestrictions: Route[] = [
   //A route that matches the root URL + language code
   new Route(
     /^(\/(\w{2}|\w{2}-\w{2}|))$/,
-    ["GET"],
-    [Role.admin, Role.employee, Role.student, Role.coordinator]
+    ["GET", "POST"],
+    [Role.admin, Role.employee, Role.student, Role.coordinator],
   ),
   new Route(/(login)/, ["GET", "POST"]),
   new Route(/(employees)/, ["GET", "POST"], [Role.admin, Role.employee]),
-  new Route(/(students)/, ["GET", "POST"], [Role.admin, Role.coordinator]),
+  new Route(/(students)/, ["GET", "POST"], [Role.admin, Role.student]),
   new Route(/(studyprograms)/, ["GET", "POST"], [Role.admin, Role.coordinator]),
   new Route(/(departments)/, ["GET", "POST"], [Role.admin, Role.employee]),
   new Route(/(sections)/, ["GET", "POST"], [Role.admin, Role.employee]),
@@ -81,20 +81,26 @@ const routeRestrictions: Route[] = [
     [Role.admin, Role.coordinator]
   ),
   new Route(/(bulkImport)/, ["GET", "POST"], [Role.admin]),
+  new Route(/(users)/, ["GET", "POST"], [Role.admin, Role.coordinator]),
+  new Route(
+    /(internshipAgreements)/,
+    ["GET", "POST"],
+    [Role.admin, Role.coordinator],
+  ),
   new Route(
     /(educationInstitutions)/,
     ["GET", "POST"],
-    [Role.admin, Role.coordinator]
+    [Role.admin, Role.coordinator],
   ),
   new Route(
     /(profile)/,
     ["GET"],
-    [Role.admin, Role.employee, Role.student, Role.coordinator]
+    [Role.admin, Role.employee, Role.student, Role.coordinator],
   ),
   new Route(
     /(login)/,
     ["GET", "POST"],
-    [Role.none, Role.admin, Role.employee, Role.student, Role.coordinator]
+    [Role.none, Role.admin, Role.employee, Role.student, Role.coordinator],
   ),
 ];
 

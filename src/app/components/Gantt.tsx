@@ -64,7 +64,7 @@ const Gantt: React.FC<GanttProps> = ({ datalist, onClickUrl }) => {
     <div
       className="bg-base-200  p-5 rounded-lg flex flex-col items-center justify-center"
       style={{
-        height: "70%",
+        height: "40rem",
         width: "70%",
         border: "1px solid rgba(100,100,100,0.2)",
       }}

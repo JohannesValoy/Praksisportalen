@@ -2,6 +2,7 @@
 
 import DBclient from "@/knex/config/DBClient";
 
+//FIXME: Actually use pageRequest
 export async function GET(request: Request) {
   const studyPrograms = await DBclient.from("educationInstitutions").select(
     "*",

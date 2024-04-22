@@ -7,6 +7,7 @@ import { fromUserToUserAdapter } from "../_adapter/dbadapter";
 import bcrypt from "bcrypt";
 import { User } from "next-auth";
 import { Role } from "../nextauth";
+import { Employee } from "@/app/_models/Employee";
 
 const passwordProvider = CredentialsProvider({
   // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -22,38 +23,36 @@ const passwordProvider = CredentialsProvider({
   id: "cred",
   async authorize(credentials, req): Promise<User> {
     const username = credentials?.username;
+    let role = undefined;
     if (username == undefined) {
       return null;
     }
     // We are going to say it as a CoordinatorTable as it contains only the password field
-    const user = await DBclient.from("users").where("email", username).first();
-    let password = undefined;
+    let user = await DBclient.from<Employee>("employees")
+      .where("email", username)
+      .first();
     if (user == undefined) {
+      user = {
+        ...(await DBclient.from<CoordinatorTable>("coordinators")
+          .where("email", username)
+          .first()),
+        role: Role.coordinator,
+      };
+    }
+    const password = credentials?.password;
+    if (!user || !password) {
       throw new Error("User not found");
     }
-    if (user?.role == Role.coordinator) {
-      password = await DBclient.from("coordinators")
-        .select("password")
-        .where("email", username)
-        .first();
-    } else if (user?.role == Role.student) {
-      return null;
-    } else {
-      password = await DBclient.from("employees")
-        .select("password")
-        .where("email", username)
-        .first();
-    }
-    console.log(user);
-    console.log(password.password, credentials.password);
-    if (user == undefined || password == undefined) {
-      throw new Error("User not found");
-    }
-    return (await bcrypt.compareSync(
-      String(credentials.password),
-      password.password,
-    ))
-      ? fromUserToUserAdapter(user)
+    return (await bcrypt.compareSync(String(password), user.password))
+      ? fromUserToUserAdapter({
+          email: user.email,
+          name: user.name,
+          role: Object.hasOwn(user, "role")
+            ? (user.role as Role)
+            : Role.coordinator,
+          created_at: user.created_at,
+          updated_at: user.updated_at,
+        })
       : null;
   },
 });

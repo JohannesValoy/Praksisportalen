@@ -1,11 +1,11 @@
 /** @format */
 "use client";
 
-import Section from "@/app/_models/Section";
+import { Section } from "@/app/_models/Section";
 import Dropdown from "@/app/components/Dropdown";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getInternshipTypes } from "../Actions";
+import { getInternshipTypes } from "../action";
 import { InternshipFieldTable } from "knex/types/tables.js";
 
 export default function Page() {
@@ -24,10 +24,17 @@ export default function Page() {
   const router = useRouter();
 
   useEffect(() => {
-    fetch(`/api/sections`) // Adjusted the fetch URL to match backend routing.
-      .then((res) => res.json())
-      .then((data) => setSections(data.elements)) // Ensure proper data handling.
-      .catch((error) => console.error("Failed to fetch users", error)); // Error handling.
+    const fetchAllData = async () => {
+      try {
+        const sectionsResponse = await fetch(`/api/sections`).then((res) =>
+          res.json(),
+        );
+        setSections(sectionsResponse || []);
+      } catch (error) {
+        console.error("Failed to fetch data", error);
+      }
+    };
+    fetchAllData();
   }, []);
 
   useEffect(() => {
@@ -85,6 +92,15 @@ export default function Page() {
     router.back();
   };
 
+  const convert = (data) => {
+    return data.map((item) => {
+      return {
+        id: item.id.toString(),
+        name: item.name,
+      };
+    });
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -110,10 +126,15 @@ export default function Page() {
       </label>
       <Dropdown
         dropdownName="Section"
-        options={sections}
+        options={sections.map((section) => ({
+          id: section.id.toString(),
+          name: section.name,
+        }))}
         selectedOption={
           Array.isArray(sections)
-            ? sections.find((currSections) => currSections.id === section_id)
+            ? convert(
+                sections.find((currSections) => currSections.id === section_id),
+              )
             : null
         }
         setSelectedOption={(currSections) =>

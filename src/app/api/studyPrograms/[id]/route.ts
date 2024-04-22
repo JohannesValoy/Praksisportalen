@@ -1,7 +1,6 @@
 /** @format */
 
 import DBclient from "@/knex/config/DBClient";
-import StudyProgramJson from "../StudyProgramView";
 import { NextRequest } from "next/server";
 
 export async function GET(
@@ -12,7 +11,7 @@ export async function GET(
     .where({ id: params.id })
     .first();
   if (studyProgram) {
-    return Response.json(new StudyProgramJson(studyProgram));
+    return Response.json(studyProgram);
   }
   return Response.json({ message: "Study Program not found" }, { status: 404 });
 }

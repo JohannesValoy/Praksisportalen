@@ -2,7 +2,7 @@
 
 import DBclient from "@/knex/config/DBClient";
 import { NextRequest } from "next/server";
-import { getDepartmentObjectByID } from "@/services/Department";
+import { getDepartmentObjectByID } from "@/services/DepartmentService";
 
 export async function GET(
   request: NextRequest,

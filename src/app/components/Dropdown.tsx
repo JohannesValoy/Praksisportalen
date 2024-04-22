@@ -29,11 +29,11 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const filteredOptions = options.filter((option) =>
-    option.name.toLowerCase().includes(searchTerm.toLowerCase())
+    option.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
   const filteredOptions = Array.isArray(options)
     ? options.filter((option) =>
-        option.name.toLowerCase().includes(searchTerm.toLowerCase())
+        option.name.toLowerCase().includes(searchTerm.toLowerCase()),
       )
     : [];
   return (

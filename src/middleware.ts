@@ -28,7 +28,7 @@ class Route {
       Role.student,
       Role.coordinator,
       Role.none,
-    ]
+    ],
   ) {
     this.methods = methods;
     if (!methods.includes("OPTIONS")) {
@@ -66,7 +66,7 @@ const routeRestrictions: Route[] = [
   new Route(
     /^(\/(\w{2}|\w{2}-\w{2}|))$/,
     ["GET"],
-    [Role.admin, Role.employee, Role.student, Role.coordinator]
+    [Role.admin, Role.employee, Role.student, Role.coordinator],
   ),
   new Route(/(login)/, ["GET", "POST"]),
   new Route(/(employees)/, ["GET", "POST"], [Role.admin, Role.employee]),
@@ -80,22 +80,22 @@ const routeRestrictions: Route[] = [
   new Route(
     /(internshipAgreements)/,
     ["GET", "POST"],
-    [Role.admin, Role.coordinator]
+    [Role.admin, Role.coordinator],
   ),
   new Route(
     /(educationInstitutions)/,
     ["GET", "POST"],
-    [Role.admin, Role.coordinator]
+    [Role.admin, Role.coordinator],
   ),
   new Route(
     /(profile)/,
     ["GET"],
-    [Role.admin, Role.employee, Role.student, Role.coordinator]
+    [Role.admin, Role.employee, Role.student, Role.coordinator],
   ),
   new Route(
     /(login)/,
     ["GET", "POST"],
-    [Role.none, Role.admin, Role.employee, Role.student, Role.coordinator]
+    [Role.none, Role.admin, Role.employee, Role.student, Role.coordinator],
   ),
 ];
 
@@ -107,7 +107,7 @@ export default withAuth(
     const { pathname } = request.nextUrl;
     const pathnameHasLocale = locales.some(
       (locale) =>
-        pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+        pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
     );
     if (!pathnameHasLocale && !pathname.startsWith("/api")) {
       const locale = getLocale(request);
@@ -136,7 +136,7 @@ export default withAuth(
         return !!token?.role || req.nextUrl.pathname.includes("login");
       },
     },
-  }
+  },
 );
 
 function getLocale(request: NextRequest) {
@@ -151,7 +151,7 @@ function compareIfAccess(request: NextRequest, token: JWT | null) {
   const url = request.nextUrl.pathname;
   const method = request.method;
   const routes = routeRestrictions.filter(
-    (route) => route.pathregex.exec(url) && route.methods.includes(method)
+    (route) => route.pathregex.exec(url) && route.methods.includes(method),
   );
 
   //If no routes are found, refuse access

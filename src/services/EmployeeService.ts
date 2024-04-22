@@ -16,7 +16,7 @@ async function getEmployeeObjectByID(id: string): Promise<Employee> {
 }
 
 async function getEmployeeObjectByIDList(
-  idList: string[]
+  idList: string[],
 ): Promise<Map<string, Employee>> {
   const query = await DBclient.select()
     .from<EmployeeTable>("employees")
@@ -55,7 +55,7 @@ async function createEmployees(employee: EmployeeTable[]) {
 }
 
 async function getEmployeeObjectsByPagination(
-  pageRequest: EmployeePaginationRequest
+  pageRequest: EmployeePaginationRequest,
 ): Promise<PageResponse<Employee>> {
   const query = await DBclient.select()
     .from<EmployeeTable>("employees")
@@ -73,7 +73,7 @@ async function getEmployeeObjectsByPagination(
     .orderBy(
       ["id", "name", "email"].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id"
+        : "id",
     );
   const employees: Employee[] = [];
   const offset = pageRequest.page * pageRequest.size;

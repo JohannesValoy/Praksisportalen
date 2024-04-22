@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     sort: request.nextUrl.searchParams.get("sort") as "id" | "name" | undefined,
   };
   return Response.json(
-    await getInternshipPositionObjectByPageRequest(pageRequest)
+    await getInternshipPositionObjectByPageRequest(pageRequest),
   );
 }
 

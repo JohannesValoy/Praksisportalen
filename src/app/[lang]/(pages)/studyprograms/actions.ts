@@ -10,7 +10,6 @@ export async function paginateStudyPrograms(request: StudyProgramPageRequest) {
   return await getStudyProgramsByPageRequest(request);
 }
 
-
 export async function deleteStudyProgram(id: number) {
   return await deleteStudyProgramByID(id);
 }

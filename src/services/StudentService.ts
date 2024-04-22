@@ -32,11 +32,11 @@ async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
     .orderBy(
       ["id", "name", "email"].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id"
+        : "id",
     );
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size
+    (pageRequest.page + 1) * pageRequest.size,
   );
   return {
     ...pageRequest,

@@ -47,7 +47,7 @@ async function fetchTimeIntervalByID(id: number): Promise<TimeInterval> {
 }
 
 async function fetchTimeIntervalByIDList(
-  idList: Set<number>
+  idList: Set<number>,
 ): Promise<Map<number, TimeInterval>> {
   const query = await DBclient.select()
     .from("time_intervals")
@@ -56,7 +56,7 @@ async function fetchTimeIntervalByIDList(
   for (const timeInterval of query) {
     timeIntervals.set(
       timeInterval.id,
-      new TimeInterval(timeInterval.id, timeInterval.start, timeInterval.end)
+      new TimeInterval(timeInterval.id, timeInterval.start, timeInterval.end),
     );
   }
   return timeIntervals;

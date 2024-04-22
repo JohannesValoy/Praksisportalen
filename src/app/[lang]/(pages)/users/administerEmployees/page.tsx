@@ -10,7 +10,7 @@ import { useState } from "react";
 const ListOfUsers = ({ params }) => {
   const [words, setWords] = useState();
   getDictionary(params.lang).then((words) =>
-    setWords(words?.administerEmployees)
+    setWords(words?.administerEmployees),
   );
   const headers = { Name: "name", Email: "email" };
   console.log(params.lang);

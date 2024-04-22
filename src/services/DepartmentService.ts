@@ -17,7 +17,7 @@ async function getDepartmentObjectByID(id: number): Promise<Department> {
 }
 
 async function getDepartmentObjectByIDList(
-  idList: number[]
+  idList: number[],
 ): Promise<Map<number, Department>> {
   const query = await DBclient.select()
     .from<DepartmentTable>("departments")
@@ -32,7 +32,7 @@ async function getDepartmentObjectByIDList(
 }
 
 async function getDepartmentPageByPageRequest(
-  pageRequest: DepartmentPageRequest
+  pageRequest: DepartmentPageRequest,
 ): Promise<PageResponse<Department>> {
   const baseQuery = await DBclient.from("employees")
     .innerJoin("departments", "employees.id", "departments.employee_id")
@@ -54,12 +54,12 @@ async function getDepartmentPageByPageRequest(
     })
     .orderBy(
       "departments." +
-        (["id", "name"].includes(pageRequest.sort) ? pageRequest.sort : "id")
+        (["id", "name"].includes(pageRequest.sort) ? pageRequest.sort : "id"),
     );
   //TODO: ^above add email from employees table
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size
+    (pageRequest.page + 1) * pageRequest.size,
   );
   return {
     ...pageRequest,
@@ -70,11 +70,11 @@ async function getDepartmentPageByPageRequest(
 }
 
 async function createDepartmentObject(
-  query: DepartmentTable[]
+  query: DepartmentTable[],
 ): Promise<Department[]> {
   const departments: Department[] = [];
   const employees: Map<string, EmployeeTable> = await getEmployeeObjectByIDList(
-    query.map((department) => department.employee_id)
+    query.map((department) => department.employee_id),
   );
   query.forEach((department) => {
     departments.push({

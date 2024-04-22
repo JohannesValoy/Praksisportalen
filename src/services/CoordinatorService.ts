@@ -32,7 +32,7 @@ async function createCoordinators(coordinators: CoordinatorTable[]) {
 }
 
 async function getCoordinatorsByPageRequest(
-  pageRequest: CoordinatorPageRequest
+  pageRequest: CoordinatorPageRequest,
 ) {
   const baseQuery = await DBclient.select("")
     .from("coordinators")
@@ -44,11 +44,11 @@ async function getCoordinatorsByPageRequest(
     .orderBy(
       ["id", "name", "email"].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id"
+        : "id",
     );
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size
+    (pageRequest.page + 1) * pageRequest.size,
   );
   return {
     ...pageRequest,

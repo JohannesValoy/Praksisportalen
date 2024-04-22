@@ -18,7 +18,7 @@ export default function KnexAdapter(client: Knex): Adapter {
         const users = results
           .filter((result) => result.status === "fulfilled")
           .map(
-            (result) => (result as PromiseFulfilledResult<RealUserTable>).value
+            (result) => (result as PromiseFulfilledResult<RealUserTable>).value,
           )
           .filter((user) => user != null);
         const user = results.length > 0 ? users[0] || null : null;
@@ -32,7 +32,7 @@ export default function KnexAdapter(client: Knex): Adapter {
         const users = results
           .filter((result) => result.status === "fulfilled")
           .map(
-            (result) => (result as PromiseFulfilledResult<RealUserTable>).value
+            (result) => (result as PromiseFulfilledResult<RealUserTable>).value,
           )
           .filter((user) => user != null);
         const user = results.length > 0 ? users[0] || null : null;
@@ -58,7 +58,7 @@ export default function KnexAdapter(client: Knex): Adapter {
         const users = results
           .filter((result) => result.status === "fulfilled")
           .map(
-            (result) => (result as PromiseFulfilledResult<RealUserTable>).value
+            (result) => (result as PromiseFulfilledResult<RealUserTable>).value,
           )
           .filter((user) => user != null);
         const user = results == null ? null : users[0] || null;

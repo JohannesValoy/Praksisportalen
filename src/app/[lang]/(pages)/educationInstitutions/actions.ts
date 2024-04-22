@@ -8,7 +8,7 @@ import {
 } from "@/services/EducationInstituteService";
 import "server-only";
 export async function paginateEducationInstitutions(
-  request: EducationInstitutionPageRequest
+  request: EducationInstitutionPageRequest,
 ) {
   return await getEducationInstitutionsByPageRequest(request);
 }

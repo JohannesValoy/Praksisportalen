@@ -5,7 +5,7 @@ import { Section } from "@/app/_models/Section";
 import Dropdown from "@/app/components/Dropdown";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getInternshipTypes } from "../Actions";
+import { getInternshipTypes } from "../action";
 import { InternshipFieldTable } from "knex/types/tables.js";
 
 export default function Page() {
@@ -27,7 +27,7 @@ export default function Page() {
     const fetchAllData = async () => {
       try {
         const sectionsResponse = await fetch(`/api/sections`).then((res) =>
-          res.json(),
+          res.json()
         );
         setSections(sectionsResponse || []);
       } catch (error) {

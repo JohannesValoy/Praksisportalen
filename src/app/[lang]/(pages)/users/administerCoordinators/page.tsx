@@ -6,8 +6,7 @@ import React, { useState } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import { deleteCoordinator, paginateCoordinators } from "./actions";
 
-const ListOfUsers = () => {
-  const [selectedRows, setSelectedRows] = useState([]);
+const ListOfCoordinators = () => {
   const headers = { Name: "name", Email: "email" };
 
   const handleEmailClick = (row) => {
@@ -39,4 +38,4 @@ const ListOfUsers = () => {
   );
 };
 
-export default ListOfUsers;
+export default ListOfCoordinators;

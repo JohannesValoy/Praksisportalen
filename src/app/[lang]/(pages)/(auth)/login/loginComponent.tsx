@@ -2,7 +2,6 @@
 
 "use client";
 import { signIn } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 import { navigate } from "./action";
 

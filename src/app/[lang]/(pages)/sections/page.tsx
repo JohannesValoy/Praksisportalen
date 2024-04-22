@@ -4,10 +4,8 @@
 import React, { useState } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import { deleteSection, paginateSections } from "./action";
-import { Section } from "@/app/_models/Section";
 
 const ListOfSections = () => {
-  const [selectedRows, setSelectedRows] = useState<Section[]>([]);
   const headers = { Name: "name", Email: "email" };
 
   return (

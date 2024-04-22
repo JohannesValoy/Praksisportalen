@@ -6,13 +6,6 @@ import { StudentTable } from "knex/types/tables.js";
 import { PageResponse } from "../app/_models/pageinition";
 import { Student, StudentPageRequest } from "@/app/_models/Student";
 
-async function createStudent(student: StudentTable) {
-  if (!student.id) {
-    student.id = randomUUID();
-  }
-  await DBclient.insert(student).into("students");
-}
-
 async function createStudents(students: StudentTable[]) {
   const missingUUID = students.filter((student) => !student.id);
   missingUUID.forEach((student) => {
@@ -32,11 +25,11 @@ async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
     .orderBy(
       ["id", "name", "email"].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id",
+        : "id"
     );
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   return {
     ...pageRequest,
@@ -50,9 +43,4 @@ async function deleteStudentByID(id: string) {
   await DBclient.delete().from("students").where("id", id);
 }
 
-export {
-  createStudent,
-  createStudents,
-  getStudentsByPageRequest,
-  deleteStudentByID,
-};
+export { createStudents, getStudentsByPageRequest, deleteStudentByID };

@@ -5,7 +5,6 @@ import { CoordinatorTable } from "knex/types/tables.js";
 import { encryptPassword } from "@/lib/auth";
 import { Coordinator, CoordinatorPageRequest } from "@/app/_models/Coordinator";
 import { PageResponse } from "@/app/_models/pageinition";
-import { randomUUID } from "crypto";
 
 async function createCoordinators(coordinators: CoordinatorTable[]) {
   const encryptions: Promise<void>[] = [];
@@ -20,7 +19,7 @@ async function createCoordinators(coordinators: CoordinatorTable[]) {
 }
 
 async function getCoordinatorsByPageRequest(
-  pageRequest: CoordinatorPageRequest,
+  pageRequest: CoordinatorPageRequest
 ) {
   const baseQuery = await DBclient.select("")
     .from("coordinators")
@@ -32,11 +31,11 @@ async function getCoordinatorsByPageRequest(
     .orderBy(
       ["id", "name", "email"].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id",
+        : "id"
     );
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   return {
     ...pageRequest,

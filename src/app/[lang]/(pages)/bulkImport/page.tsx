@@ -7,7 +7,6 @@ const InternshipUploader = () => {
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
   const [responses, setResponses] = useState([]);
-  const [lastupdate, setLastupdate] = useState(new Date().getTime());
   const [loading, setLoading] = useState(false);
   const [uploaded, setUploaded] = useState(false);
 
@@ -32,8 +31,12 @@ const InternshipUploader = () => {
   const sendData = async (data) => {
     try {
       const { table, ...recordData } = data;
-      await createRecord(table, recordData);
-      return { status: 200, statusText: "Record successfully created" };
+      const newRecord = await createRecord(table, recordData);
+      return {
+        status: 200,
+        statusText: "Record successfully created",
+        record: newRecord[0],
+      };
     } catch (error) {
       return {
         status: error.response?.status || 500,
@@ -48,7 +51,10 @@ const InternshipUploader = () => {
       setLoading(true);
       setUploaded(false);
       setProgress(0);
-      const responses = [];
+      setResponses([]);
+      let successCount = 0;
+      let failureCount = 0;
+      const failedRecords = [];
       const reader = new FileReader();
       reader.onload = async (e) => {
         const text = e.target.result;
@@ -56,17 +62,24 @@ const InternshipUploader = () => {
         Promise.all(
           data.map(async (item) => {
             const response = await sendData(item);
-            responses.push(response);
-            if (lastupdate < new Date().getTime() - 1000) {
-              setLastupdate(new Date().getTime());
-              setResponses([...responses]);
-              setProgress((progress) => (responses.length * 100) / data.length);
+            if (response.status === 200) {
+              successCount++;
+            } else {
+              failureCount++;
+              failedRecords.push({ record: item, error: response.statusText });
             }
-          }),
+            setProgress(((successCount + failureCount) / data.length) * 100);
+          })
         ).finally(() => {
           setLoading(false);
           setUploaded(true);
-          setResponses(responses);
+          setResponses([
+            {
+              status: 200,
+              message: `${successCount} records added successfully, ${failureCount} records failed.`,
+              failedRecords,
+            },
+          ]);
         });
       };
       reader.readAsText(file);
@@ -101,16 +114,28 @@ const InternshipUploader = () => {
           ></progress>
         ) : uploaded ? (
           <p className="text-success text-xl">
-            {"File uploaded: " + file.name}
+            {"File uploaded: " + file?.name}
           </p>
         ) : null}
         <div className="flex flex-col items-center">
           {responses.map((response, index) => (
-            <p key={index}>
-              {response.status === 500 ? (
-                <span className="text-error">{response.statusText}</span>
-              ) : null}
-            </p>
+            <div key={index}>
+              <p>{response.message}</p>
+              {response.failedRecords.length > 0 && (
+                <div>
+                  <p className="font-bold">Failed Records:</p>
+                  <ul>
+                    {response.failedRecords.map((failedRecord, i) => (
+                      <li key={i}>
+                        <p className="text-error">
+                          Record: {JSON.stringify(failedRecord.record)}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           ))}
         </div>
       </div>

@@ -5,7 +5,6 @@ import DBclient from "@/knex/config/DBClient";
 import { EmployeeTable } from "knex/types/tables.js";
 import { encryptPassword } from "@/lib/auth";
 import { PageResponse } from "@/app/_models/pageinition";
-import { randomUUID } from "crypto";
 
 async function getEmployeeObjectByID(id: string): Promise<Employee> {
   const employee = await getEmployeeObjectByIDList([id]);
@@ -31,18 +30,10 @@ async function getEmployeeObjectByIDList(
 }
 
 async function createEmployee(employee: EmployeeTable) {
-  if (!employee.id) {
-    employee.id = randomUUID();
-  }
-  employee.password = await encryptPassword(employee.password);
-  await DBclient.insert(employee).into("employees");
+  await createEmployees([employee]);
 }
 
 async function createEmployees(employee: EmployeeTable[]) {
-  const missingUUID = employee.filter((employee) => !employee.id);
-  missingUUID.forEach((employee) => {
-    employee.id = randomUUID();
-  });
   const encryptions: Promise<void>[] = [];
   employee.forEach((employee) => {
     const promise = async () => {

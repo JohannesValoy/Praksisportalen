@@ -5,13 +5,8 @@ import { CoordinatorTable } from "knex/types/tables.js";
 import { encryptPassword } from "@/lib/auth";
 import { Coordinator, CoordinatorPageRequest } from "@/app/_models/Coordinator";
 import { PageResponse } from "@/app/_models/pageinition";
-import { randomUUID } from "crypto";
 
 async function createCoordinators(coordinators: CoordinatorTable[]) {
-  const missingUUID = coordinators.filter((coordinator) => !coordinator.id);
-  missingUUID.forEach((coordinator) => {
-    coordinator.id = randomUUID();
-  });
   const encryptions: Promise<void>[] = [];
   coordinators.forEach((coordinator) => {
     const promise = async () => {

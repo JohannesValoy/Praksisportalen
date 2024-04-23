@@ -12,7 +12,7 @@ export async function getUser(): Promise<User | null> {
 }
 
 export async function encryptPassword(password: string): Promise<string> {
-  if (Bun === undefined) {
+  if (globalThis.Bun === undefined) {
     return await bcrypt.hash(password, 11);
   }
   return await Bun.password.hash(password, { algorithm: "bcrypt", cost: 11 });

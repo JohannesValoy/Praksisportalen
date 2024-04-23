@@ -1,5 +1,8 @@
 "use server";
 import DBclient from "@/knex/config/DBClient";
+import { createCoordinators } from "@/services/CoordinatorService";
+import { createEmployees } from "@/services/EmployeeService";
+import { CoordinatorTable, EmployeeTable } from "knex/types/tables.js";
 import "server-only";
 
 export async function createRecord(tableName, data) {
@@ -14,6 +17,16 @@ export async function createRecord(tableName, data) {
       return obj;
     }, {});
 
-  const newRecord = await DBclient.table(tableName).insert(validData);
-  return newRecord;
+  switch (tableName) {
+    case "coordinators":
+      await createCoordinators([validData as CoordinatorTable]);
+      break;
+    case "employees":
+      await createEmployees([validData as EmployeeTable]);
+      break;
+    default:
+      DBclient(tableName).insert(validData);
+      break;
+  }
+  return validData;
 }

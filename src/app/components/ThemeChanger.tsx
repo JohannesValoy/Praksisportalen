@@ -36,6 +36,9 @@ export default function ThemeSwap({
   return (
     <>
       <select className="select select-ghost" onChange={handleOnClick}>
+        <option disabled selected value="" className="bg-base-100">
+          Select theme
+        </option>
         {themes.map((theme, index) => (
           <option className="bg-base-300" key={index} value={theme}>
             {theme}

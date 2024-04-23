@@ -64,5 +64,3 @@ deploy:
     - echo "129.241.153.29 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDmYnPnO0W6eDSP/bwybKo4I1O2YIK4Udpq4dNPgR35m" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
     - git push ssh://git@129.241.153.29:/path/to/repo.git
-  only:
-    - master

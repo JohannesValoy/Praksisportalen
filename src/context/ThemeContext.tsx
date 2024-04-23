@@ -9,7 +9,7 @@ export const ThemeContext = createContext<ThemeContextType>({});
 
 export const ThemeProvider = ({ children }: any) => {
   const [theme, setTheme] = useState<string>(
-    () => localStorage.getItem("theme") || "light"
+    () => localStorage.getItem("theme") || "HMR"
   );
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export const ThemeProvider = ({ children }: any) => {
     if (nextTheme) {
       setTheme(nextTheme);
     } else {
-      setTheme((prev) => (prev === "light" ? "dark" : "light"));
+      setTheme((prev) => (prev === "HMR" ? "dark" : "HMR"));
     }
   };
   return (

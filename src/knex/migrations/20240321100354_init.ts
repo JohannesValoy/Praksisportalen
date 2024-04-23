@@ -1,6 +1,5 @@
 /** @format */
 
-import { randomUUID } from "crypto";
 import type { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
@@ -35,7 +34,7 @@ export async function up(knex: Knex): Promise<void> {
     .createTable("sections", (table) => {
       table.increments("id").primary();
       table.string("name").notNullable();
-      table.string("section_type").notNullable();
+      table.string("section_type").nullable();
       table.foreign("section_type").references("name").inTable("sectionTypes");
       table.string("employee_id").nullable();
       table.foreign("employee_id").references("id").inTable("employees");
@@ -193,14 +192,14 @@ export async function up(knex: Knex): Promise<void> {
           .from("employees")
           .union(
             knex.raw(
-              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators',
-            ),
+              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators'
+            )
           )
           .union(
             knex.raw(
-              'select id, name, email, "student" as role, created_at, updated_at from students',
-            ),
-          ),
+              'select id, name, email, "student" as role, created_at, updated_at from students'
+            )
+          )
       );
     })
     .then(() => {
@@ -211,13 +210,23 @@ export async function up(knex: Knex): Promise<void> {
             FOR EACH ROW 
             BEGIN
               if exists (select 1 from users where email = NEW.email) then
-                signal sqlstate '45999' set message_text = 'Email Already exist in user tables' ;
+                signal sqlstate '45999' set message_text = 'Email Already already exists' ;
               end if
               while exists (select 1 from users where id = NEW.id) do
                 set NEW.id = uuid();
               end while;
-            END`,
+            END`
       );
+      knex.raw(`
+      CREATE TRIGGER Update_maxCapacity
+      AFTER UPDATE ON internships
+      FOR EACH ROW
+      BEGIN
+        IF OLD.maxCapacity < NEW.currentCapacity THEN
+          NEW.maxCapacity = NEW.currentCapacity;
+        END IF;
+      END
+      `);
     });
 }
 export async function down(knex: Knex): Promise<void> {

@@ -7,6 +7,12 @@ import { createStudents } from "@/services/StudentService";
 import JSONEmployees from "./employees-finished.json";
 import JSONCoordinators from "./coordinators-finished.json";
 import JSONStudents from "./students-finished.json";
+import JSONStudies from "./studies-finished.json";
+import JSONInstitutes from "./institutes-finished.json";
+import JSONInternships from "./internships-finished.json";
+import JSONSections from "./sections-finished.json";
+import JSONDepartment from "./departments-finished.json";
+
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
@@ -27,7 +33,8 @@ export const seed = async function (knex: Knex) {
   await knex("employees").del();
   await knex("students").del();
   // Inserts seed entries
-  const employees = await createEmployees([
+
+  await createEmployees([
     ...JSONEmployees,
     // Admins
     {
@@ -83,16 +90,7 @@ export const seed = async function (knex: Knex) {
     },
   ]);
 
-  await knex("educationInstitutions").insert([
-    {
-      id: 1,
-      name: "NTNU",
-    },
-    {
-      id: 2,
-      name: "HIMOLDE",
-    },
-  ]);
+  await knex("educationInstitutions").insert([...JSONInstitutes]);
   await createCoordinators([
     // Coordinators
     ...JSONCoordinators,
@@ -168,18 +166,7 @@ export const seed = async function (knex: Knex) {
     },
   ]);
 
-  await knex("departments").insert([
-    {
-      id: 1,
-      name: "Avdeling kirugi, Ålesund",
-      employee_id: "d4af0574-bee3-4436-b25c-6f452da4faa0",
-    },
-    {
-      id: 2,
-      name: "Volda sjukehus",
-      employee_id: "ea03f5d4-0bfe-422c-8e84-eec99e8f7ec0",
-    },
-  ]);
+  await knex("departments").insert([...JSONDepartment]);
   await knex("sectionTypes").insert([
     {
       name: "Sengepost",
@@ -191,29 +178,7 @@ export const seed = async function (knex: Knex) {
       name: "Spesialseksjon",
     },
   ]);
-  await knex("sections").insert([
-    {
-      id: 1,
-      name: "Kirugisk sengepost",
-      section_type: "Sengepost",
-      employee_id: "d4926208-8285-4bcd-91a3-f1ccab075e65",
-      department_id: 1,
-    },
-    {
-      id: 2,
-      name: "Kirugisk poliklinikk",
-      section_type: "Poliklinikk og dagbehandling",
-      employee_id: "fb55fd09-6cb4-4189-a711-28412ed9749a",
-      department_id: 1,
-    },
-    {
-      id: 3,
-      name: "Akuttmottak",
-      section_type: "Spesialseksjon",
-      employee_id: "499e26d4-be1a-4f05-b35d-90fe3035c6be",
-      department_id: 2,
-    },
-  ]);
+  await knex("sections").insert(JSONSections);
   await knex("internshipFields").insert([
     {
       name: "Kirurgi",
@@ -224,55 +189,10 @@ export const seed = async function (knex: Knex) {
     {
       name: "Psykologi",
     },
+    { name: "Fysioterapi" },
   ]);
-  await knex("internships").insert([
-    {
-      id: 1,
-      name: "Sjukepleiepraksis",
-      internship_field: "kirurgi",
-      maxCapacity: 10,
-      currentCapacity: 0,
-      numberOfBeds: 10,
-      yearOfStudy: 1,
-      section_id: 1,
-    },
-    {
-      id: 2,
-      name: "Sjukepleiepraksis",
-      internship_field: "Kirurgi",
-      maxCapacity: 10,
-      currentCapacity: 0,
-      numberOfBeds: 10,
-      yearOfStudy: 2,
-      section_id: 2,
-    },
-    {
-      id: 3,
-      name: "Sjukepleiepraksis",
-      internship_field: "Kirurgi",
-      maxCapacity: 15,
-      currentCapacity: 0,
-      yearOfStudy: 3,
-      section_id: 3,
-    },
-  ]);
-  await knex("studyPrograms").insert([
-    {
-      id: 1,
-      name: "BA - Sykepleie",
-      educationInstitution_id: 1,
-    },
-    {
-      id: 2,
-      name: "BA - Sykepleie",
-      educationInstitution_id: 2,
-    },
-    {
-      id: 45,
-      name: "BA - Sykepleie",
-      educationInstitution_id: 2,
-    },
-  ]);
+  await knex("internships").insert(JSONInternships);
+  await knex("studyPrograms").insert(JSONStudies);
   await knex("internshipAgreements").insert([
     {
       id: 1,

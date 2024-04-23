@@ -23,7 +23,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} flex flex-col bg-base `}>
+      <body className={`${inter.className} flex flex-col bg-base `} suppressHydrationWarning={true}>
         <header className="flex justify-between bg-base-200 p-4 items-center ">
           <Link href={"/"}>
             <div className="h-10">
@@ -31,10 +31,6 @@ export default async function RootLayout({
             </div>
           </Link>
           <div className="flex space-x-6 items-center">
-            <Link href="/" className="btn  rounded-btn h-full">
-              Home
-            </Link>
-
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn m-1">
                 Settings

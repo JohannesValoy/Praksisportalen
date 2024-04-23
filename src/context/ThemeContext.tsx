@@ -8,22 +8,33 @@ interface ThemeContextType {
 export const ThemeContext = createContext<ThemeContextType>({});
 
 export const ThemeProvider = ({ children }: any) => {
-  const [theme, setTheme] = useState<string>(
-    () => localStorage.getItem("theme") || "HMR"
-  );
+  const [theme, setTheme] = useState<string | null>(null);
+  const [themeLoaded, setThemeLoaded] = useState<boolean>(false);
 
   useEffect(() => {
-    localStorage.setItem("theme", theme);
+    const localTheme = window.localStorage.getItem("theme");
+    if (localTheme) {
+      setTheme(localTheme);
+    } else {
+      setTheme("light");
+    }
+    setThemeLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (theme !== null) {
+      window.localStorage.setItem("theme", theme);
+    }
   }, [theme]);
 
-  const changeTheme = (event?: any) => {
-    const nextTheme: string | null = event.target.value || null;
-    if (nextTheme) {
-      setTheme(nextTheme);
-    } else {
-      setTheme((prev) => (prev === "HMR" ? "dark" : "HMR"));
-    }
+  const changeTheme = (theme: string) => {
+    setTheme(theme);
   };
+
+  if (!themeLoaded) {
+    return null;
+  }
+
   return (
     <ThemeContext.Provider value={{ theme, changeTheme }}>
       {children}

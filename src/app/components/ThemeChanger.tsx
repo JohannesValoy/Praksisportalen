@@ -1,29 +1,12 @@
-/** @format */
-
-"use client";
-
-import React, { useEffect, useState } from "react";
-
-const ThemeChanger = () => {
-  const [theme, setTheme] = useState(() => {
-    let theme = "dark";
-    if (typeof localStorage !== "undefined") {
-      theme = localStorage.getItem("theme") || "dark";
-    }
-    if (typeof window !== "undefined") {
-      document?.body.setAttribute("data-theme", theme);
-    }
-    return theme;
-  });
-
-  useEffect(() => {
-    document?.body.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
+export default function ThemeChanger({
+  handleOnClick,
+}: {
+  handleOnClick?: (e?: any) => void;
+}) {
   const themes = [
-    "dark",
+    "HMR",
     "light",
+    "dark",
     "cupcake",
     "bumblebee",
     "emerald",
@@ -54,21 +37,16 @@ const ThemeChanger = () => {
     "dim",
     "nord",
     "sunset",
-    "myTheme",
   ];
   return (
-    <select
-      className="select select-ghost"
-      value={theme}
-      onChange={(e) => setTheme(e.target.value)}
-    >
-      {themes.map((theme, index) => (
-        <option className="bg-base-300" key={index} value={theme}>
-          {theme}
-        </option>
-      ))}
-    </select>
+    <>
+      <select className="select select-ghost" onChange={handleOnClick}>
+        {themes.map((theme, index) => (
+          <option className="bg-base-300" key={index} value={theme}>
+            {theme}
+          </option>
+        ))}
+      </select>
+    </>
   );
-};
-
-export default ThemeChanger;
+}

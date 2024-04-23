@@ -53,11 +53,11 @@ const config: Config = {
       "nord",
       "sunset",
       {
-        myTheme: {
+        HMR: {
           "primary": "#ff0000",
           "secondary": "#00ff00",
           "accent": "#0000ff",
-          "base-100": "#000000",
+          "base-100": "#003283",
           "neutral": "#f5f6f7",
           "success": "#a3f7bf",
           "info": "#29b6f6",

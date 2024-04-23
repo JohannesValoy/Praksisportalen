@@ -31,10 +31,6 @@ export default async function RootLayout({
             </div>
           </Link>
           <div className="flex space-x-6 items-center">
-            <Link href="/" className="btn  rounded-btn h-full">
-              Home
-            </Link>
-
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn m-1">
                 Settings

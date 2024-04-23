@@ -2,6 +2,20 @@
 
 import type { Knex } from "knex";
 
+const check_email_and_idTrigger = (table) => {
+  return `CREATE TRIGGER check_email_and_id_${table} 
+            BEFORE INSERT ON ${table} 
+            FOR EACH ROW 
+            BEGIN
+              if exists(select 1 from users where email = NEW.email) then
+                signal sqlstate '45999' set message_text = 'Email Already already exists' ;
+              end if;
+              while exists (select 1 from users where id = NEW.id) do
+                set NEW.id = uuid();
+              end while;
+            END`;
+};
+
 export async function up(knex: Knex): Promise<void> {
   return knex.schema
     .createTable("employees", (table) => {
@@ -202,32 +216,18 @@ export async function up(knex: Knex): Promise<void> {
           )
       );
     })
-    .then(() => {
-      //TODO: It works, but will cause a infinitely big loop whenever the database has 1B users. Very unlikely to happen, but still a problem.
-      knex.raw(
-        ` CREATE TRIGGER check_email_and_id 
-            BEFORE INSERT ON employees, coordinators, students 
-            FOR EACH ROW 
-            BEGIN
-              if exists (select 1 from users where email = NEW.email) then
-                signal sqlstate '45999' set message_text = 'Email Already already exists' ;
-              end if
-              while exists (select 1 from users where id = NEW.id) do
-                set NEW.id = uuid();
-              end while;
-            END`
-      );
-      knex.raw(`
+    .raw(check_email_and_idTrigger("employees"))
+    .raw(check_email_and_idTrigger("students"))
+    .raw(check_email_and_idTrigger("coordinators")).raw(`
       CREATE TRIGGER Update_maxCapacity
-      AFTER UPDATE ON internships
+      BEFORE UPDATE ON internships
       FOR EACH ROW
       BEGIN
         IF OLD.maxCapacity < NEW.currentCapacity THEN
-          NEW.maxCapacity = NEW.currentCapacity;
+          SET NEW.maxCapacity = NEW.currentCapacity;
         END IF;
       END
       `);
-    });
 }
 export async function down(knex: Knex): Promise<void> {
   return knex.schema

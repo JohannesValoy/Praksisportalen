@@ -20,7 +20,6 @@ export default function ThemeChanger({
     "forest",
     "aqua",
     "lofi",
-    "pastel",
     "fantasy",
     "wireframe",
     "black",
@@ -29,13 +28,11 @@ export default function ThemeChanger({
     "cmyk",
     "autumn",
     "business",
-    "acid",
     "lemonade",
     "night",
     "coffee",
     "winter",
     "dim",
-    "nord",
     "sunset",
   ];
   return (

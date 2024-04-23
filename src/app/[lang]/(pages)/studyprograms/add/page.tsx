@@ -24,7 +24,7 @@ export default function Page() {
       .then((res) => res.json())
       .then((data) => setEducationInstitutions(data)) // Ensure proper data handling.
       .catch((error) =>
-        console.error("Failed to fetch educationInstitutions", error),
+        console.error("Failed to fetch educationInstitutions", error)
       ); // Error handling.
   }, []);
 
@@ -46,7 +46,7 @@ export default function Page() {
   };
   const selectedEI = educationInstitutions.find(
     (educationInstitution) =>
-      educationInstitution.id === educationInstitution_id,
+      educationInstitution.id === educationInstitution_id
   );
 
   return (
@@ -118,7 +118,7 @@ export default function Page() {
           >
             Cancel
           </button>
-          <button type="submit" className="btn btn-primary w-20">
+          <button type="submit" className="btn btn-accent w-20">
             Save
           </button>
         </div>

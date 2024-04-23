@@ -42,8 +42,8 @@ export default async function RootLayout({
                   <div tabIndex={0} role="button" className="btn m-1">
                     Settings
                   </div>
-                  <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-300 rounded-box w-52">
-                    <li>
+                  <ul className="dropdown-content z-[1] menu p-4 shadow bg-base-300 rounded-box w-52">
+                    <li className="gap-4">
                       <Theme />
                       <LogoutButton hide={!(await getServerSession())?.user} />
                     </li>

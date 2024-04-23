@@ -145,7 +145,7 @@ export default function Page() {
           >
             Cancel
           </button>
-          <button className="btn btn-primary w-20" type="submit">
+          <button className="btn btn-accent w-20" type="submit">
             Save
           </button>
         </div>

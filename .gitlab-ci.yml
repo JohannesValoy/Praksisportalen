@@ -17,11 +17,13 @@
 # https://docs.gitlab.com/ee/development/cicd/templates.html
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
+# Inspired by https://www.digitalocean.com/community/tutorials/how-to-set-up-a-continuous-deployment-pipeline-with-gitlab-on-ubuntu
 stages:
-  - install
-  - lint
-  - format
-  - build
+  # - install
+  # - lint
+  # - format
+  # - build
+  - publish
   - deploy
 
 default:
@@ -53,14 +55,35 @@ format:
   script:
     - npm run format
 
-deploy:
-  stage: deploy
+variables:
+  TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest
+  TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
+
+publish:
+  image: docker:latest
+  stage: publish
+  services:
+    - docker:dind
   script:
-    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - echo "129.241.153.29 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDmYnPnO0W6eDSP/bwybKo4I1O2YIK4Udpq4dNPgR35m" >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
-    - git push ssh://git@129.241.153.29:/path/to/repo.git
+    - docker build -t $TAG_COMMIT -t $TAG_LATEST .
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker push $TAG_COMMIT
+    - docker push $TAG_LATEST
+
+deploy:
+  image: alpine:latest
+  stage: deploy
+  tags:
+    - deployment
+  script:
+    - chmod og= $ID_RSA
+    - apk update && apk add openssh-client
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $johakv@$129.241.153.29 "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $johakv@$129.241.153.29 "docker pull $TAG_COMMIT"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $johakv@$129.241.153.29 "docker compose rm -f my-app || true"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $johakv@$129.241.153.29 "docker run -d -p 80:80 --name my-app $TAG_COMMIT"
+  environment:
+    name: production
+    url: http://your_server_IP
+  only:
+    - master

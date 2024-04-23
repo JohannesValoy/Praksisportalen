@@ -2,8 +2,8 @@
 
 import type { Knex } from "knex";
 
-const check_email_and_idTrigger = (table) => {
-  return `CREATE TRIGGER check_email_and_id_${table} 
+const check_email_and_idTrigger = (table: string) => {
+  return `CREATE TRIGGER checkEmailAndId${table.toUpperCase()} 
             BEFORE INSERT ON ${table} 
             FOR EACH ROW 
             BEGIN
@@ -86,6 +86,7 @@ export async function up(knex: Knex): Promise<void> {
         .onDelete("CASCADE");
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
+      table.check("?? =< ??", ["currentCapacity", "maxCapacity"]);
     })
     .createTable("educationInstitutions", (table) => {
       table.increments("id").primary();
@@ -145,6 +146,7 @@ export async function up(knex: Knex): Promise<void> {
       table.string("comment").nullable();
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
+      table.check("?? < ??", ["startDate", "endDate"]);
     })
     .createTable("internshipOrders", (table) => {
       table.increments("id").primary();
@@ -176,7 +178,7 @@ export async function up(knex: Knex): Promise<void> {
     .createTable("subFieldGroups", (table) => {
       table.increments("id").primary();
       table.string("studyYear").notNullable();
-      table.integer("numStudents").notNullable();
+      table.integer("numStudents").notNullable().checkPositive();
       table.string("startWeek").notNullable();
       table.string("endWeek").notNullable();
       table.integer("fieldGroupID").unsigned().notNullable();
@@ -186,6 +188,7 @@ export async function up(knex: Knex): Promise<void> {
         .inTable("fieldGroups")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
+      table.check("?? < ??", ["startWeek", "endWeek"]);
     })
     .createTable("timeIntervals", (table) => {
       table.increments("id").primary();
@@ -206,25 +209,41 @@ export async function up(knex: Knex): Promise<void> {
           .from("employees")
           .union(
             knex.raw(
-              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators'
-            )
+              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators',
+            ),
           )
           .union(
             knex.raw(
-              'select id, name, email, "student" as role, created_at, updated_at from students'
-            )
-          )
+              'select id, name, email, "student" as role, created_at, updated_at from students',
+            ),
+          ),
       );
     })
     .raw(check_email_and_idTrigger("employees"))
     .raw(check_email_and_idTrigger("students"))
-    .raw(check_email_and_idTrigger("coordinators")).raw(`
-      CREATE TRIGGER Update_maxCapacity
-      BEFORE UPDATE ON internships
+    .raw(check_email_and_idTrigger("coordinators"))
+    .raw(
+      `
+      CREATE TRIGGER updateMaxCapacity
+      AFTER BEFORE ON internships
       FOR EACH ROW
       BEGIN
         IF OLD.maxCapacity < NEW.currentCapacity THEN
           SET NEW.maxCapacity = NEW.currentCapacity;
+        END IF;
+      END
+      `,
+    ).raw(`CREATE TRIGGER hinderOverCapacity
+      BEFORE INSERT, UPDATE ON internshipAgreements
+      FOR EACH ROW
+      BEGIN
+        DECLARE currentCapacity INT;
+        DECLARE internshipAgreementCount INT;
+        SELECT currentCapacity INTO currentCapacity FROM internships WHERE id = NEW.internship_id;
+        SELECT COUNT(*) INTO internshipAgreementCount FROM internshipAgreements WHERE internship_id = NEW.internship_id AND New.startDate BETWEEN startDate AND endDate;
+        IF currentCapacity <= internshipAgreementCount THEN
+          SIGNAL SQLSTATE '45000'
+          SET MESSAGE_TEXT = 'Internship is full';
         END IF;
       END
       `);

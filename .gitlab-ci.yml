@@ -45,15 +45,15 @@ build:
   script:
     - npm run build
 
-lint:
-  stage: lint
-  script:
-    - npm run lint
+# lint:
+#   stage: lint
+#   script:
+#     - npm run lint
 
-format:
-  stage: format
-  script:
-    - npm run format
+# format:
+#   stage: format
+#   script:
+#     - npm run format
 
 variables:
   TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest

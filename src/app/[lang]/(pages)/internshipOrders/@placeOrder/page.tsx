@@ -53,7 +53,7 @@ export default function Page() {
 
   // Initialize internshipFields as an array of InternshipField
   const [internshipFields, setInternshipFields] = useState<InternshipField[]>(
-    [],
+    []
   );
   const [newType, setNewType] = useState("");
 
@@ -82,7 +82,7 @@ export default function Page() {
         setInternshipFields(data);
       }) // Ensure proper data handling.
       .catch((error) =>
-        console.error("Failed to fetch internship field", error),
+        console.error("Failed to fetch internship field", error)
       );
   }, []);
 
@@ -181,7 +181,10 @@ export default function Page() {
             <Link href="/" className="btn  rounded-btn h-full">
               Home
             </Link>
-            <button onClick={refreshPage} className="btn  rounded-btn h-full">
+            <button
+              onClick={refreshPage}
+              className="btn btn-accent rounded-btn h-full"
+            >
               Send another order
             </button>
           </div>
@@ -202,7 +205,7 @@ export default function Page() {
               options={studyPrograms}
               selectedOption={
                 studyPrograms.find(
-                  (studyProgram) => studyProgram.id === studyProgram_id,
+                  (studyProgram) => studyProgram.id === studyProgram_id
                 ) || null
               }
               setSelectedOption={(studyProgram) => {
@@ -221,7 +224,7 @@ export default function Page() {
               customClassName={` ${isSubmitted && studyProgram_id === "" ? "input-error" : ""}`}
             />
             <button type="button">
-              <a href={`/studyprograms/add`} className="btn btn-secondary">
+              <a href={`/studyprograms/add`} className="btn btn-primary">
                 Nytt studieprogram
               </a>
             </button>
@@ -255,7 +258,7 @@ export default function Page() {
                     options={internshipFields}
                     selectedOption={
                       internshipFields.find(
-                        (type) => type.name === group.internshipField,
+                        (type) => type.name === group.internshipField
                       ) || null
                     }
                     setSelectedOption={(type) => {
@@ -390,7 +393,11 @@ export default function Page() {
               );
             })}
           </div>
-          <button type="button" className="btn" onClick={addGroup}>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={addGroup}
+          >
             Legg til praksisfelt
           </button>
 
@@ -415,7 +422,7 @@ export default function Page() {
             >
               Cancel
             </button>
-            <button type="submit" className="btn btn-primary w-20">
+            <button type="submit" className="btn btn-accent w-20">
               Send
             </button>
           </div>

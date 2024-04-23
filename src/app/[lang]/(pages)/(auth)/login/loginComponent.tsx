@@ -94,7 +94,7 @@ export const LoginComponent = () => {
           {loading ? "loading..." : "Sign In"}
         </button>
       </form>
-      <button className="btn btn-success " onClick={handleFeideLogin}>
+      <button className="btn btn-accent " onClick={handleFeideLogin}>
         Login with Feide
       </button>
     </div>

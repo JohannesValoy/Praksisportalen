@@ -54,17 +54,26 @@ const config: Config = {
       "sunset",
       {
         HMR: {
-          "primary": "#ff0000",
-          "secondary": "#00ff00",
-          "accent": "#0000ff",
-          "base-100": "#003283",
-          "neutral": "#f5f6f7",
-          "success": "#a3f7bf",
-          "info": "#29b6f6",
-          "warning": "#fdd835",
-          "error": "#ff4842",
-        },
+          
+          "primary": "#003283",
+                   
+          "secondary": "#81a9e1",
+                   
+          "accent": "#1cbcb8",
+                   
+          "neutral": "#e0ebe5",
+                   
+          "base-100": "#ffffff",
+                   
+          "info": "#38bdf8",
+                   
+          "success": "#a7cd3a",
+                   
+          "warning": "#fbba11",
+                   
+          "error": "#e51834",
       },
+    },
     ],
   },
   plugins: [daisyui],

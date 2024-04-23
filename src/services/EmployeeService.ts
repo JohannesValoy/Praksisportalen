@@ -31,18 +31,10 @@ async function getEmployeeObjectByIDList(
 }
 
 async function createEmployee(employee: EmployeeTable) {
-  if (!employee.id) {
-    employee.id = randomUUID();
-  }
-  employee.password = await encryptPassword(employee.password);
-  await DBclient.insert(employee).into("employees");
+  await createEmployees([employee]);
 }
 
 async function createEmployees(employee: EmployeeTable[]) {
-  const missingUUID = employee.filter((employee) => !employee.id);
-  missingUUID.forEach((employee) => {
-    employee.id = randomUUID();
-  });
   const encryptions: Promise<void>[] = [];
   employee.forEach((employee) => {
     const promise = async () => {

@@ -8,10 +8,6 @@ import { PageResponse } from "@/app/_models/pageinition";
 import { randomUUID } from "crypto";
 
 async function createCoordinators(coordinators: CoordinatorTable[]) {
-  const missingUUID = coordinators.filter((coordinator) => !coordinator.id);
-  missingUUID.forEach((coordinator) => {
-    coordinator.id = randomUUID();
-  });
   const encryptions: Promise<void>[] = [];
   coordinators.forEach((coordinator) => {
     const promise = async () => {

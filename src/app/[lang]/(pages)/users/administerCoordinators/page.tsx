@@ -2,7 +2,7 @@
 /** @format */
 
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import { deleteCoordinator, paginateCoordinators } from "./actions";
 
@@ -18,7 +18,7 @@ const ListOfCoordinators = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+    <>
       <DynamicTable
         tableName={"Coordinators"}
         headers={headers}
@@ -34,7 +34,7 @@ const ListOfCoordinators = () => {
         deleteFunction={deleteCoordinator}
         paginateFunction={paginateCoordinators}
       />
-    </div>
+    </>
   );
 };
 

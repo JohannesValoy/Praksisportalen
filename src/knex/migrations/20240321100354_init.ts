@@ -1,11 +1,12 @@
 /** @format */
 
+import { randomUUID } from "crypto";
 import type { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema
     .createTable("employees", (table) => {
-      table.uuid("id").primary();
+      table.uuid("id").primary().defaultTo(knex.fn.uuid());
       table.string("name").notNullable();
       table.string("email").notNullable().unique();
       table.string("password").notNullable();
@@ -14,17 +15,9 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
     .createTable("students", (table) => {
-      table.uuid("id").primary();
+      table.uuid("id").primary().defaultTo(knex.fn.uuid());
       table.string("name").notNullable();
       table.string("email").notNullable().unique();
-      table.timestamp("created_at").defaultTo(knex.fn.now());
-      table.timestamp("updated_at").defaultTo(knex.fn.now());
-    })
-    .createTable("coordinators", (table) => {
-      table.uuid("id").primary();
-      table.string("name").notNullable();
-      table.string("email").notNullable().unique();
-      table.string("password").notNullable();
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
@@ -87,6 +80,19 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
+    .createTable("coordinators", (table) => {
+      table.uuid("id").primary().defaultTo(knex.fn.uuid());
+      table.string("name").notNullable();
+      table.string("email").notNullable().unique();
+      table.string("password").notNullable();
+      table.integer("educationInstitution_id").unsigned().notNullable();
+      table
+        .foreign("educationInstitution_id")
+        .references("id")
+        .inTable("educationInstitutions");
+      table.timestamp("created_at").defaultTo(knex.fn.now());
+      table.timestamp("updated_at").defaultTo(knex.fn.now());
+    })
     .createTable("studyPrograms", (table) => {
       table.increments("id").primary();
       table.string("name").notNullable();
@@ -126,6 +132,47 @@ export async function up(knex: Knex): Promise<void> {
       table.string("comment").nullable();
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
+    })
+    .createTable("internshipOrders", (table) => {
+      table.increments("id").primary();
+      table.integer("studyProgramID").unsigned().notNullable();
+      table
+        .foreign("studyProgramID")
+        .references("id")
+        .inTable("studyPrograms")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
+      table.text("comment").nullable();
+      table.timestamp("createdAt").defaultTo(knex.fn.now());
+    })
+    .createTable("fieldGroups", (table) => {
+      table.increments("id").primary();
+      table.string("internshipField").notNullable();
+      table
+        .foreign("internshipField")
+        .references("name")
+        .inTable("internshipFields");
+      table.integer("internshipOrderID").unsigned().notNullable();
+      table
+        .foreign("internshipOrderID")
+        .references("id")
+        .inTable("internshipOrders")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
+    })
+    .createTable("subFieldGroups", (table) => {
+      table.increments("id").primary();
+      table.string("studyYear").notNullable();
+      table.integer("numStudents").notNullable();
+      table.string("startWeek").notNullable();
+      table.string("endWeek").notNullable();
+      table.integer("fieldGroupID").unsigned().notNullable();
+      table
+        .foreign("fieldGroupID")
+        .references("id")
+        .inTable("fieldGroups")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
     })
     .createTable("timeIntervals", (table) => {
       table.increments("id").primary();
@@ -186,5 +233,9 @@ export async function down(knex: Knex): Promise<void> {
     .dropTableIfExists("educationInstitutions")
     .dropTableIfExists("studyPrograms")
     .dropTableIfExists("internshipAgreements")
-    .dropTableIfExists("timeIntervals");
+    .dropTableIfExists("timeIntervals")
+    .dropTableIfExists("fieldGroups")
+    .dropTableIfExists("subFieldGroups")
+    .dropTableIfExists("internshipOrders")
+    .dropViewIfExists("users");
 }

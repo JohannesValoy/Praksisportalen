@@ -6,6 +6,7 @@ import Trash from "@/../public/Icons/trash";
 import Add from "@/../public/Icons/add";
 import { PageResponse } from "../_models/pageinition";
 import { useSearchParams } from "next/navigation";
+import ContainerBox from "./ContainerBox";
 
 type DynamicTableProps = {
   tableName: string;
@@ -115,8 +116,8 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
 
   return (
     <>
-      <div>
-        <div className="flex flex-row justify-between items-center">
+      <ContainerBox>
+        <div className="flex flex-row justify-between items-center w-full p-4">
           <h1 className="text-3xl font-semibold">List of {tableName}</h1>
           <div>
             <button onClick={onAddButtonClick} className="btn btn-xs btn-ghost">
@@ -137,7 +138,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
             </button>
           </div>
         </div>
-        <table className="table my-4">
+        <table className="table ">
           <thead>
             <tr>
               <th>
@@ -272,15 +273,15 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
             <option value={40}>40</option>
           </select>
         </div>
-      </div>
+      </ContainerBox>
       {/**Delete Error modal */}
       {isModalOpen && (
         <dialog
-          className="fixed inset-0 z-10 overflow-y-auto bg-base-100  border-base-50 rounded-lg text-left sm:align-middle sm:max-w-lg sm:w-full"
+          className="fixed inset-0 z-10 overflow-y-auto bg-base-100 rounded-lg"
           open
-          aria-labelledby="modal-title"
+          aria-labelledby="Delete Error"
         >
-          <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div className="px-4 pt-5 pb-4 ">
             <div className="sm:flex sm:items-start">
               <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-error sm:mx-0 sm:h-10 sm:w-10">
                 {/* Icon or image can be added here */}
@@ -288,7 +289,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <h3
                   className="text-lg leading-6 font-medium text-base-content"
-                  id="modal-title"
+                  id="Delete Error"
                 >
                   Error
                 </h3>
@@ -301,7 +302,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
           <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <button
               type="button"
-              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-base-content hover:bg-accent-focus focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent sm:ml-3 sm:w-auto sm:text-sm"
+              className="btn btn-info"
               onClick={() => setIsModalOpen(false)}
             >
               Close

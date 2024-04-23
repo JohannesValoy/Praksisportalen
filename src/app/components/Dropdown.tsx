@@ -15,7 +15,9 @@ interface DropdownProps {
   selectedOption: Option | null;
   setSelectedOption: (option: Option) => void;
   renderOption: (option: Option) => JSX.Element;
+  customClassName?: string;
   required?: boolean;
+  onSearchChange?: (searchTerm: string) => void;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -24,24 +26,31 @@ const Dropdown: React.FC<DropdownProps> = ({
   setSelectedOption,
   renderOption,
   dropdownName,
+  customClassName,
+  onSearchChange,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const filteredOptions = Array.isArray(options)
     ? options.filter((option) =>
-        option.name.toLowerCase().includes(searchTerm.toLowerCase()),
+        option.name.toLowerCase().includes((searchTerm || "").toLowerCase()),
       )
     : [];
   return (
     <div className="dropdown dropdown-end w-full">
       <input
         type="text"
-        placeholder={selectedOption ? selectedOption.name : dropdownName}
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder={dropdownName}
+        value={selectedOption ? selectedOption.name : searchTerm || ""}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+          if (onSearchChange) {
+            onSearchChange(e.target.value);
+          }
+        }}
         onClick={() => setIsDropdownOpen(true)}
-        className="input input-bordered w-full"
+        className={"input input-bordered w-full " + customClassName}
         aria-label={dropdownName}
       />
       {isDropdownOpen && (
@@ -54,7 +63,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               <div
                 onClick={() => {
                   setSelectedOption(option);
-                  setSearchTerm(option.name);
+                  setSearchTerm("");
                   setIsDropdownOpen(false);
                 }}
                 className="btn w-full flex flex-row justify-start items-center p-2 h-fit"

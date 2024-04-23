@@ -22,7 +22,7 @@ const ListOfEmployees = ({ params }) => {
     email: handleEmailClick,
   };
   return (
-    <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+    <>
       <DynamicTable
         tableName={words?.header || "Employees"}
         headers={headers}
@@ -38,7 +38,7 @@ const ListOfEmployees = ({ params }) => {
         deleteFunction={deleteEmployee}
         paginateFunction={paginateEmployees}
       />
-    </div>
+    </>
   );
 };
 

@@ -1,20 +1,18 @@
 /** @format */
-/** @format */
 
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import {
   deleteEducationInstitution,
   paginateEducationInstitutions,
 } from "./actions";
-import { EducationInstitution } from "@/app/_models/EducationInstitution";
 
 const ListOfEducationInstitutions = () => {
   const headers = { Name: "name", id: "id" };
 
   return (
-    <div className="flex flex-col justify-center mt-4 overflow-x-auto p-4">
+    <>
       <DynamicTable
         tableName={"Education Institutions"}
         headers={headers}
@@ -29,7 +27,7 @@ const ListOfEducationInstitutions = () => {
         deleteFunction={deleteEducationInstitution}
         paginateFunction={paginateEducationInstitutions}
       />
-    </div>
+    </>
   );
 };
 

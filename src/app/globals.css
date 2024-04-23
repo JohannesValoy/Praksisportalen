@@ -1,6 +1,17 @@
 /** @format */
 
 @tailwind base;
+
+/* Firefox */
+* {
+  scrollbar-width: none;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  display: none;
+}
+
 @tailwind components;
 @tailwind utilities;
 
@@ -8,6 +19,32 @@ body {
   overflow: hidden;
   height: 100vh;
   width: 100vw;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(var(--n)) oklch(var(--b1));
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 15px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: oklch(var(--n));
+  border-radius: 5px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: oklch(var(--n));
+  border-radius: 14px;
+  border: 3px solid oklch(var(--b1));
+}
+
+/* Prevent div from going below its parent size */
+.max-h-full {
+  max-height: 100%;
+  overflow: auto;
 }
 
 @layer utilities {

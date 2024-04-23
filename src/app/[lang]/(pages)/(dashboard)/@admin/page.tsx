@@ -63,33 +63,41 @@ const AdminLayout = () => {
         </ContainerBox>
       </div>
       <div className="flex flex-col w-full h-full">
+        <ContainerBox title={"Import Data"}>
+          <Link href="bulkImport" className="btn">
+            Import Data from Excel
+          </Link>
+        </ContainerBox>
         <ContainerBox title={"Education Institution"}>
-          <Link href="/users/administerCoordinators" className="btn">
+          <Link href="users/administerCoordinators" className="btn">
             Koordinatorer
           </Link>
-          <Link href="./studyprograms" className="btn">
+          <Link href="studyprograms" className="btn">
             Studies
           </Link>
-          <Link href="/educationInstitutions" className="btn">
+          <Link href="educationInstitutions" className="btn">
             Education Institutions
           </Link>
         </ContainerBox>
         <ContainerBox title={"Hospital"}>
-          <Link href="users//administerEmployees" className="btn">
+          <Link href="users/administerEmployees" className="btn">
             Ansatte
           </Link>
-          <Link href="./departments" className="btn">
+          <Link href="departments" className="btn">
             Avdelinger
           </Link>
-          <Link href="./sections" className="btn">
+          <Link href="sections" className="btn">
             Seksjoner
           </Link>
         </ContainerBox>
         <ContainerBox title={"Internships"}>
-          <Link href="/internships" className="btn">
+          <Link href="internshipOrders" className="btn">
+            Received Orders
+          </Link>
+          <Link href="internships" className="btn">
             Internships
           </Link>
-          <Link href="/internshipAgreements" className="btn">
+          <Link href="internshipAgreements" className="btn">
             Internship Agreements
           </Link>
         </ContainerBox>

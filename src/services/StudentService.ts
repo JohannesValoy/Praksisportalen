@@ -1,16 +1,11 @@
 /** @format */
 
 import DBclient from "@/knex/config/DBClient";
-import { randomUUID } from "crypto";
 import { StudentTable } from "knex/types/tables.js";
 import { PageResponse } from "../app/_models/pageinition";
 import { Student, StudentPageRequest } from "@/app/_models/Student";
 
 async function createStudents(students: StudentTable[]) {
-  const missingUUID = students.filter((student) => !student.id);
-  missingUUID.forEach((student) => {
-    student.id = randomUUID();
-  });
   await DBclient.insert(students).into("students");
 }
 

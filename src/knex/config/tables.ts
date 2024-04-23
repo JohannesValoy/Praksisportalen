@@ -11,14 +11,16 @@ declare module "knex/types/tables.js" {
     updated_at?: Date;
   }
 
-  interface EmployeeTable extends CoordinatorTable {
+  interface EmployeeTable extends UserAttributes {
     role: string;
+    password: string;
   }
 
   interface StudentTable extends UserAttributes {}
 
   interface CoordinatorTable extends UserAttributes {
     password: string;
+    educationInstitution_id: number;
   }
 
   interface DepartmentTable {
@@ -88,6 +90,27 @@ declare module "knex/types/tables.js" {
     created_at: Date;
     updated_at: Date;
   }
+  interface internshipOrdersTable {
+    id: number;
+    studyProgram_id: number;
+    comment: Text;
+    createdAt: Date;
+  }
+
+  interface FieldGroupTable {
+    id: number;
+    internshipField: string;
+    internshipOrderID: number;
+  }
+
+  interface SubFieldGroupTable {
+    id: number;
+    studyYear: number;
+    numStudents: number;
+    startWeek: string;
+    endWeek: string;
+    fieldGroupID: number;
+  }
 
   interface TimeIntervalTable {
     id: number;
@@ -111,5 +134,8 @@ declare module "knex/types/tables.js" {
     internshipAgreements: InternshipAgreementTable;
     timeIntervals: TimeIntervalTable;
     users: UserAttributes;
+    subFieldGroups: SubFieldGroupTable;
+    fieldGroups: FieldGroupTable;
+    internshipOrders: internshipOrdersTable;
   }
 }

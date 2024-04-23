@@ -5,9 +5,9 @@ import { getSectionObjectByID } from "@/services/SectionService";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: { id: number } },
 ) {
-  const section = await getSectionObjectByID(parseInt(params.id));
+  const section = await getSectionObjectByID(params.id);
 
   if (section) {
     return Response.json(section);

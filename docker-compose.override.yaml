@@ -20,6 +20,9 @@ services:
           target: /app/public
         - action: rebuild
           path: package.json
+        - action: sync
+          path: ./tailwind.config.ts
+          target: /app/tailwind.config.ts
 
   db:
     environment:

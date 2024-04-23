@@ -1,2 +1,2 @@
 # Contains regular expressions, that prettier will destroy
-src/middleware.tsx
+tailwind.config.ts

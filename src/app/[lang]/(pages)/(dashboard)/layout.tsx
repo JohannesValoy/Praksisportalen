@@ -1,5 +1,5 @@
-import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
 import { checkUserRole } from "@/lib/auth";
+import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
 
 export default async function Layout({
   children,

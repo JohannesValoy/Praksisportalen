@@ -34,16 +34,17 @@ default:
       - public/
     policy: pull-push
   image: node:latest
-install:
-  stage: install
-  script:
-    - npm install --also=dev
-    - npm install --save next
-    - npm install --save-dev typescript @types/react @types/node prettier
-build:
-  stage: build
-  script:
-    - npm run build
+
+# install:
+#   stage: install
+#   script:
+#     - npm install --also=dev
+#     - npm install --save next
+#     - npm install --save-dev typescript @types/react @types/node prettier
+# build:
+#   stage: build
+#   script:
+#     - npm run build
 
 # lint:
 #   stage: lint

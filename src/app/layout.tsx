@@ -23,7 +23,10 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} flex flex-col bg-base `} suppressHydrationWarning={true}>
+      <body
+        className={`${inter.className} flex flex-col bg-base `}
+        suppressHydrationWarning={true}
+      >
         <header className="flex justify-between bg-base-200 p-4 items-center ">
           <Link href={"/"}>
             <div className="h-10">

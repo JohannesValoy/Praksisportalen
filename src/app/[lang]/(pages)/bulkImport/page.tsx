@@ -69,7 +69,7 @@ const InternshipUploader = () => {
               failedRecords.push({ record: item, error: response.statusText });
             }
             setProgress(((successCount + failureCount) / data.length) * 100);
-          })
+          }),
         ).finally(() => {
           setLoading(false);
           setUploaded(true);

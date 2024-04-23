@@ -14,31 +14,35 @@ export default function ThemeSwap({
   };
   const themes = [
     "HMR",
-    "light",
-    "dark",
-    "cupcake",
-    "bumblebee",
-    "emerald",
-    "corporate",
-    "synthwave",
-    "retro",
-    "cyberpunk",
-    "valentine",
-    "halloween",
-    "garden",
-    "forest",
     "aqua",
     "autumn",
     "business",
     "coffee",
-    "winter",
-    "dim",
-    "sunset",
+    "corporate",
+    "cmyk",
+    "cupcake",
+    "cyberpunk",
+    "dark",
+    "dracula",
+    "fantasy",
+    "forest",
+    "garden",
+    "halloween",
+    "light",
+    "lemonade",
+    "lofi",
+    "luxury",
+    "night",
+    "retro",
+    "synthwave",
+    "valentine",
+    "wireframe",
   ];
+
   return (
     <>
-      <select className="select select-ghost" onChange={handleChange}>
-        <option disabled selected value="" className="bg-base-100">
+      <select className="select bg-base-200" onChange={handleChange}>
+        <option disabled selected value="" className="bg-base-200">
           Select theme
         </option>
         {themes.map((theme, index) => (

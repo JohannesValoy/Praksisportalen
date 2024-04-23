@@ -42,7 +42,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
     const isSelected = selectedRows.includes(row);
     if (isSelected) {
       setSelectedRows(
-        selectedRows.filter((selectedRow) => selectedRow !== row),
+        selectedRows.filter((selectedRow) => selectedRow !== row)
       );
     } else {
       setSelectedRows([...selectedRows, row]);
@@ -233,41 +233,41 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
         </table>
         <div className="join">
           <button
-            className="join-item btn btn-neutral"
+            className="join-item btn btn-base"
             onClick={() => setPage(0)}
             disabled={page <= 0}
           >
             ««
           </button>
           <button
-            className="join-item btn btn-neutral"
+            className="join-item btn btn-base"
             onClick={() => setPage(page - 1)}
             disabled={page <= 0}
           >
             «
           </button>
           <button
-            className="join-item btn btn-neutral"
+            className="join-item btn btn-base"
             style={{ pointerEvents: "none" }}
           >
             {page + 1}
           </button>
           <button
-            className="join-item btn btn-neutral"
+            className="join-item btn btn-base"
             onClick={() => setPage(page + 1)}
             disabled={page + 1 >= totalPages.current}
           >
             »
           </button>
           <button
-            className="join-item btn btn-neutral"
+            className="join-item btn btn-base"
             onClick={() => setPage(totalPages.current - 1)}
             disabled={page + 1 >= totalPages.current}
           >
             »»
           </button>
           <select
-            className="join-item btn btn-neutral"
+            className="join-item btn btn-base"
             value={pageSize}
             onChange={(e) => setPageSize(parseInt(e.target.value))}
           >

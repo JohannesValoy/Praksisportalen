@@ -29,7 +29,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} flex flex-col bg-base-100 text-base-content`}
+        className={`${inter.className} flex flex-col bg-base-100`}
         suppressHydrationWarning={true}
       >
         <ThemeProvider>
@@ -54,7 +54,7 @@ export default async function RootLayout({
                 </div>
               </div>
             </header>
-            <main className="flex flex-col py-4 h-full bg-base overflow-y-scroll scrollbar-hide">
+            <main className="flex flex-col py-4 h-full bg-base-100 overflow-y-scroll scrollbar-hide">
               {children}
             </main>
           </ClientThemeWrapper>

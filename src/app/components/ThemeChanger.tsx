@@ -30,7 +30,6 @@ export default function ThemeSwap({
     "coffee",
     "winter",
     "dim",
-    "nord",
     "sunset",
   ];
   return (

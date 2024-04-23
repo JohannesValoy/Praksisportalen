@@ -60,5 +60,3 @@ deploy:
     - apt-get install -y sshpass
     - export SSHPASS=$DEPLOY_PASSWORD
     - sshpass -e scp -o stricthostkeychecking=no -r ./dist/* $DEPLOY_USER@129.241.153.29:/path/to/deploy/directory
-  only:
-    - master

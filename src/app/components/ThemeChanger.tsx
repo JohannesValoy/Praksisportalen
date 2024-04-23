@@ -9,6 +9,9 @@ export default function ThemeSwap({
 }: {
   handleOnClick?: (e?: any) => void;
 }) {
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    handleOnClick && handleOnClick(e.target.value);
+  };
   const themes = [
     "HMR",
     "light",
@@ -34,7 +37,7 @@ export default function ThemeSwap({
   ];
   return (
     <>
-      <select className="select select-ghost" onChange={handleOnClick}>
+      <select className="select select-ghost" onChange={handleChange}>
         <option disabled selected value="" className="bg-base-100">
           Select theme
         </option>

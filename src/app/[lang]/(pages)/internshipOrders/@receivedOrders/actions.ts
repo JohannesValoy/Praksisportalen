@@ -1,3 +1,5 @@
+/** @format */
+
 "use server";
 
 import DBclient from "@/knex/config/DBClient";
@@ -27,37 +29,37 @@ export async function fetchOrders(): Promise<Order[]> {
     .innerJoin(
       "fieldGroups",
       "internshipOrders.id",
-      "fieldGroups.internshipOrder_id",
+      "fieldGroups.internshipOrderID"
     )
     .innerJoin(
       "subFieldGroups",
       "fieldGroups.id",
-      "subFieldGroups.fieldGroup_id",
+      "subFieldGroups.fieldGroupID"
     )
     .select("*");
-  const studyprograms = await DBclient.table("studyPrograms")
+  const studyPrograms = await DBclient.table("studyPrograms")
     .whereIn(
       "studyPrograms.id",
-      orders.map((order) => order.studyProgram_id),
+      orders.map((order) => order.studyProgram_id)
     )
     .select();
   const educationInstitutes = await DBclient.table("educationInstitutions")
     .select()
     .whereIn(
       "id",
-      studyprograms.map((studyprogram) => studyprogram.educationInstitution_id),
+      studyPrograms.map((studyProgram) => studyProgram.educationInstitution_id)
     );
   const response = orders.map((order) => {
-    const studyprogram = studyprograms.find(
-      (studyprogram) => studyprogram.id === order.studyProgram_id,
+    const studyProgram = studyPrograms.find(
+      (studyProgram) => studyProgram.id === order.studyProgram_id
     );
     return {
       ...order,
       studyProgram: {
-        ...studyprogram,
+        ...studyProgram,
         educationInstitute: {
           ...educationInstitutes.find(
-            (institue) => institue.id === studyprogram.educationInstitution_id,
+            (institute) => institute.id === studyProgram.educationInstitution_id
           ),
         },
       },

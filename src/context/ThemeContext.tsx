@@ -16,7 +16,7 @@ export const ThemeProvider = ({ children }: any) => {
     if (localTheme) {
       setTheme(localTheme);
     } else {
-      setTheme("light");
+      setTheme("HMR");
     }
     setThemeLoaded(true);
   }, []);

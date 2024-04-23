@@ -5,7 +5,6 @@ import { CoordinatorTable } from "knex/types/tables.js";
 import { encryptPassword } from "@/lib/auth";
 import { Coordinator, CoordinatorPageRequest } from "@/app/_models/Coordinator";
 import { PageResponse } from "@/app/_models/pageinition";
-import { randomUUID } from "crypto";
 
 async function createCoordinators(coordinators: CoordinatorTable[]) {
   const encryptions: Promise<void>[] = [];

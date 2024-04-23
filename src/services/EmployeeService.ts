@@ -5,7 +5,6 @@ import DBclient from "@/knex/config/DBClient";
 import { EmployeeTable } from "knex/types/tables.js";
 import { encryptPassword } from "@/lib/auth";
 import { PageResponse } from "@/app/_models/pageinition";
-import { randomUUID } from "crypto";
 
 async function getEmployeeObjectByID(id: string): Promise<Employee> {
   const employee = await getEmployeeObjectByIDList([id]);

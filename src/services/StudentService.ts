@@ -1,7 +1,6 @@
 /** @format */
 
 import DBclient from "@/knex/config/DBClient";
-import { randomUUID } from "crypto";
 import { StudentTable } from "knex/types/tables.js";
 import { PageResponse } from "../app/_models/pageinition";
 import { Student, StudentPageRequest } from "@/app/_models/Student";

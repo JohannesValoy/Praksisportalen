@@ -28,7 +28,7 @@ export async function fetchStudyPrograms() {
     .innerJoin(
       "studyPrograms",
       "studyPrograms.educationInstitution_id",
-      "coordinators.educationInstitution_id",
+      "coordinators.educationInstitution_id"
     )
     .select("studyPrograms.name", "studyPrograms.id");
   const response = [];
@@ -38,14 +38,28 @@ export async function fetchStudyPrograms() {
   return response;
 }
 
-export async function sendOrder(data) {
+interface formData {
+  studyProgram_id: number;
+  comment: string;
+  fieldGroups: {
+    internshipField: string;
+    subFieldGroups: {
+      studyYear: number;
+      numStudents: number;
+      startWeek: Date;
+      endWeek: Date;
+    }[];
+  }[];
+}
+
+export async function sendOrder(data: formData) {
   try {
     await DBclient.transaction(async () => {
       // Insert into internshipOrders table
       const [internshipOrderId] = await DBclient.table(
-        "internshipOrders",
+        "internshipOrders"
       ).insert({
-        studyProgram_id: data.studyProgramID,
+        studyProgramID: data.studyProgram_id,
         comment: data.comment,
       });
       // For each fieldGroup in data, insert into fieldGroups table

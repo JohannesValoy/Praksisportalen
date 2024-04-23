@@ -118,7 +118,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   return (
     <>
       <ContainerBox>
-        <div className="flex flex-row justify-between items-center w-full p-4">
+        <div className="flex bg-neutral flex-row justify-between items-center w-full p-4">
           <h1 className="text-3xl font-semibold">List of {tableName}</h1>
           <div>
             <button onClick={onAddButtonClick} className="btn btn-xs btn-ghost">

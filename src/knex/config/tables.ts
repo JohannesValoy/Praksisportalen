@@ -92,8 +92,8 @@ declare module "knex/types/tables.js" {
   }
   interface internshipOrdersTable {
     id: number;
-    studyProgram_id: number;
-    comment: Text;
+    studyProgramID: number;
+    comment: string;
     createdAt: Date;
   }
 
@@ -107,8 +107,8 @@ declare module "knex/types/tables.js" {
     id: number;
     studyYear: number;
     numStudents: number;
-    startWeek: string;
-    endWeek: string;
+    startWeek: Date;
+    endWeek: Date;
     fieldGroupID: number;
   }
 

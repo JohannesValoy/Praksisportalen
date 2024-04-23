@@ -1,3 +1,4 @@
+import { Inter } from "next/font/google";
 /** @format */
 
 import { randomUUID } from "crypto";
@@ -162,10 +163,10 @@ export async function up(knex: Knex): Promise<void> {
     })
     .createTable("subFieldGroups", (table) => {
       table.increments("id").primary();
-      table.string("studyYear").notNullable();
+      table.integer("studyYear").notNullable();
       table.integer("numStudents").notNullable();
-      table.string("startWeek").notNullable();
-      table.string("endWeek").notNullable();
+      table.timestamp("startWeek").notNullable();
+      table.timestamp("endWeek").notNullable();
       table.integer("fieldGroupID").unsigned().notNullable();
       table
         .foreign("fieldGroupID")
@@ -193,14 +194,14 @@ export async function up(knex: Knex): Promise<void> {
           .from("employees")
           .union(
             knex.raw(
-              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators',
-            ),
+              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators'
+            )
           )
           .union(
             knex.raw(
-              'select id, name, email, "student" as role, created_at, updated_at from students',
-            ),
-          ),
+              'select id, name, email, "student" as role, created_at, updated_at from students'
+            )
+          )
       );
     })
     .then(() => {
@@ -216,7 +217,7 @@ export async function up(knex: Knex): Promise<void> {
               while exists (select 1 from users where id = NEW.id) do
                 set NEW.id = uuid();
               end while;
-            END`,
+            END`
       );
     });
 }

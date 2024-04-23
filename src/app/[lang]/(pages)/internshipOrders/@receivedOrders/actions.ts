@@ -6,14 +6,14 @@ import DBclient from "@/knex/config/DBClient";
 import "server-only";
 export interface Order {
   id: number;
-  studyProgram_id: number;
+  studyProgramID: number;
   internshipField: string;
   studyYear: number;
-  comment: Text;
+  comment: string;
   numStudents: number;
-  startWeek: string;
-  endWeek: string;
-  created_at: Date;
+  startWeek: Date;
+  endWeek: Date;
+  createdAt: Date;
   studyProgram: {
     id: number;
     name: string;
@@ -40,18 +40,18 @@ export async function fetchOrders(): Promise<Order[]> {
   const studyPrograms = await DBclient.table("studyPrograms")
     .whereIn(
       "studyPrograms.id",
-      orders.map((order) => order.studyProgram_id)
+      orders.map((order) => order.studyProgramID)
     )
     .select();
   const educationInstitutes = await DBclient.table("educationInstitutions")
     .select()
     .whereIn(
       "id",
-      studyPrograms.map((studyProgram) => studyProgram.educationInstitution_id)
+      studyPrograms.map((studyprogram) => studyprogram.educationInstitution_id)
     );
   const response = orders.map((order) => {
     const studyProgram = studyPrograms.find(
-      (studyProgram) => studyProgram.id === order.studyProgram_id
+      (studyprogram) => studyprogram.id === order.studyProgramID
     );
     return {
       ...order,
@@ -59,7 +59,7 @@ export async function fetchOrders(): Promise<Order[]> {
         ...studyProgram,
         educationInstitute: {
           ...educationInstitutes.find(
-            (institute) => institute.id === studyProgram.educationInstitution_id
+            (institue) => institue.id === studyProgram.educationInstitution_id
           ),
         },
       },

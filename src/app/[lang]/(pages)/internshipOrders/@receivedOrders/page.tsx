@@ -19,43 +19,43 @@ export default function Page() {
   }, []);
 
   return (
-    <>
-      <ContainerBox title={"Received Orders"}>
-        <div className="flex flex-col gap-5 overflow-hidden ">
-          {orders ? (
-            orders.length > 0 ? (
-              [...orders].reverse().map((order) => (
-                <div key={order.id} className="collapse bg-base-200">
-                  <input type="checkbox" />
-                  <div className="collapse-title text-xl font-medium">
-                    {order.studyProgram.educationInstitute.name} /{" "}
-                    {order.studyProgram.name} / {order.internshipField} /{" "}
-                    {order.studyYear} / {order.created_at.toLocaleDateString()}{" "}
-                    (Click to open/close)
-                  </div>
-                  <div className="collapse-content">
-                    <p>Number of students: {order.numStudents}</p>
-                    <p>Start week: {order.startWeek}</p>
-                    <p>End week: {order.endWeek}</p>
-                    <p>Comment: {order.comment.toString()}</p>
-                  </div>
+    <ContainerBox title={"Received Orders"}>
+      <div className="flex flex-col gap-5 overflow-hidden ">
+        {orders ? (
+          orders.length > 0 ? (
+            [...orders].reverse().map((order) => (
+              <div key={order.id} className="collapse bg-base-200">
+                <input type="checkbox" />
+                <div className="collapse-title text-xl font-medium">
+                  {order.studyProgram.educationInstitute.name} /{" "}
+                  {order.studyProgram.name} / {order.internshipField} /{" "}
+                  {order.studyYear}. år studenter /{" "}
+                  {order.createdAt.toLocaleDateString()} (Click to open/close)
                 </div>
-              ))
-            ) : (
-              <p>No orders found.</p>
-            )
-          ) : error ? (
-            isModalOpen && (
-              <ErrorModal
-                message={error}
-                setIsModalOpen={setIsModalOpen}
-              ></ErrorModal>
-            )
+                <div className="collapse-content">
+                  <p>Number of students: {order.numStudents}</p>
+                  <p>
+                    Start Date: {order.startWeek.toISOString().split("T")[0]}
+                  </p>
+                  <p>End Date: {order.endWeek.toISOString().split("T")[0]}</p>
+                  <p>Comment: {order.comment}</p>
+                </div>
+              </div>
+            ))
           ) : (
-            <p>Loading...</p>
-          )}
-        </div>
-      </ContainerBox>
-    </>
+            <p>No orders found.</p>
+          )
+        ) : error ? (
+          isModalOpen && (
+            <ErrorModal
+              message={error}
+              setIsModalOpen={setIsModalOpen}
+            ></ErrorModal>
+          )
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
+    </ContainerBox>
   );
 }

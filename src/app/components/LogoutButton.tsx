@@ -9,7 +9,7 @@ export function LogoutButton({ hide = true }): React.ReactNode {
   return (
     <button
       id="logout"
-      className={`btn m-1 ${hide ? "hidden" : ""}`}
+      className={`btn btn-error ${hide ? "hidden" : ""}`}
       onClick={async () => {
         await signOut({ redirect: false });
         document.getElementById("logout")?.classList.add("hidden");

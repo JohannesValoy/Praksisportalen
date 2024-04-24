@@ -10,17 +10,24 @@ export async function getIndividualInternship(id: number) {
     .where({ id: id })
     .select()
     .first();
+
+  const section = await DBClient.from("sections")
+    .where({ id: intern.section_id })
+    .select("name")
+    .first();
+
   const agreements = await DBClient.from("internshipAgreements").where(
     "internship_id",
-    id,
+    id
   );
   const timeIntervals = await DBClient.table("timeIntervals").whereIn(
     "internshipAgreement_id",
-    agreements.map((agreement) => agreement.id),
+    agreements.map((agreement) => agreement.id)
   );
 
   return {
     ...intern,
+    sectionName: section.name,
     agreements,
     timeIntervals,
   };

@@ -35,9 +35,9 @@ export default async function RootLayout({
           </Link>
           <div className="flex space-x-6 items-center">
             <div className="dropdown dropdown-end">
-              <div tabIndex={0} role="button" className="btn m-1">
+              <button type="button" className="btn m-1">
                 Settings
-              </div>
+              </button>
               <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-300 rounded-box w-52">
                 <li>
                   <ThemeChanger />

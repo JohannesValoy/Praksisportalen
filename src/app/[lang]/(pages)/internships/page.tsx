@@ -13,22 +13,20 @@ const ListOfInternships = () => {
   };
 
   return (
-    <>
-      <DynamicTable
-        tableName={"Internships"}
-        headers={headers}
-        onRowClick={() => {}}
-        onRowButtonClick={(row) => {
-          window.location.href = `/internships/individualInternship?internship_id=${row.id}`;
-        }}
-        buttonName={"Details"}
-        onAddButtonClick={() => {
-          window.location.href = `/internships/addInternship`;
-        }}
-        deleteFunction={deleteInternship}
-        paginateFunction={paginateInternships}
-      />
-    </>
+    <DynamicTable
+      tableName={"Internships"}
+      headers={headers}
+      onRowClick={() => {}}
+      onRowButtonClick={(row) => {
+        window.location.href = `/internships/${row.id}`;
+      }}
+      buttonName={"Details"}
+      onAddButtonClick={() => {
+        window.location.href = `/internships/addInternship`;
+      }}
+      deleteFunction={deleteInternship}
+      paginateFunction={paginateInternships}
+    />
   );
 };
 

@@ -10,22 +10,20 @@ const ListOfStudies = () => {
   const headers = { Name: "name", id: "id" };
 
   return (
-    <>
-      <DynamicTable
-        tableName={"Study Programs"}
-        headers={headers}
-        onRowClick={() => {}}
-        onRowButtonClick={(row) => {
-          throw new Error("Not implemented");
-        }}
-        buttonName={"Details"}
-        onAddButtonClick={() => {
-          window.location.href = `/users/addUser?role=student`;
-        }}
-        deleteFunction={deleteStudyProgram}
-        paginateFunction={paginateStudyPrograms}
-      />
-    </>
+    <DynamicTable
+      tableName={"Study Programs"}
+      headers={headers}
+      onRowClick={() => {}}
+      onRowButtonClick={(row) => {
+        throw new Error("Not implemented");
+      }}
+      buttonName={"Details"}
+      onAddButtonClick={() => {
+        window.location.href = `/users/addUser?role=student`;
+      }}
+      deleteFunction={deleteStudyProgram}
+      paginateFunction={paginateStudyPrograms}
+    />
   );
 };
 

@@ -52,7 +52,7 @@ declare module "knex/types/tables.js" {
   interface InternshipTable {
     id: number;
     name: string;
-    internship_field: string;
+    internshipField: string;
     maxCapacity: number;
     currentCapacity: number;
     numberOfBeds: number;

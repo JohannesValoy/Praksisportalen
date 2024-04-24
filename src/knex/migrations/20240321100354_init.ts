@@ -55,9 +55,9 @@ export async function up(knex: Knex): Promise<void> {
     .createTable("internships", (table) => {
       table.increments("id").primary();
       table.string("name").notNullable();
-      table.string("internship_field").notNullable();
+      table.string("internshipField").notNullable();
       table
-        .foreign("internship_field")
+        .foreign("internshipField")
         .references("name")
         .inTable("internshipFields");
       table.integer("maxCapacity").notNullable();
@@ -193,14 +193,14 @@ export async function up(knex: Knex): Promise<void> {
           .from("employees")
           .union(
             knex.raw(
-              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators',
-            ),
+              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators'
+            )
           )
           .union(
             knex.raw(
-              'select id, name, email, "student" as role, created_at, updated_at from students',
-            ),
-          ),
+              'select id, name, email, "student" as role, created_at, updated_at from students'
+            )
+          )
       );
     })
     .then(() => {
@@ -216,7 +216,7 @@ export async function up(knex: Knex): Promise<void> {
               while exists (select 1 from users where id = NEW.id) do
                 set NEW.id = uuid();
               end while;
-            END`,
+            END`
       );
     });
 }

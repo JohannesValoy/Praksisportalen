@@ -229,7 +229,7 @@ export const seed = async function (knex: Knex) {
     {
       id: 1,
       name: "Sjukepleiepraksis",
-      internship_field: "kirurgi",
+      internshipField: "kirurgi",
       maxCapacity: 10,
       currentCapacity: 0,
       numberOfBeds: 10,
@@ -239,7 +239,7 @@ export const seed = async function (knex: Knex) {
     {
       id: 2,
       name: "Sjukepleiepraksis",
-      internship_field: "Kirurgi",
+      internshipField: "Kirurgi",
       maxCapacity: 10,
       currentCapacity: 0,
       numberOfBeds: 10,
@@ -249,7 +249,7 @@ export const seed = async function (knex: Knex) {
     {
       id: 3,
       name: "Sjukepleiepraksis",
-      internship_field: "Kirurgi",
+      internshipField: "Kirurgi",
       maxCapacity: 15,
       currentCapacity: 0,
       yearOfStudy: 3,

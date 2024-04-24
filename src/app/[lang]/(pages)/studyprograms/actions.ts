@@ -2,8 +2,10 @@
 
 "use server";
 import { StudyProgramPageRequest } from "@/app/_models/StudyProgram";
-import { getStudyProgramsByPageRequest } from "@/services/StudyProgramService";
-import { deleteStudyProgramByID } from "@/services/StudyProgramService";
+import {
+  getStudyProgramsByPageRequest,
+  deleteStudyProgramByID,
+} from "@/services/StudyProgramService";
 import "server-only";
 
 export async function paginateStudyPrograms(request: StudyProgramPageRequest) {

@@ -82,9 +82,10 @@ publish:
 #ping test
 ping_test:
   stage: ping_test
+  image: alpine:latest
   script:
+    - apk add --no-cache iputils
     - ping -c 4 129.241.153.29
-
 deploy:
   image: alpine:latest
   stage: deploy

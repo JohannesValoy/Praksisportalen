@@ -26,7 +26,7 @@ export default function Page() {
       .then((res) => res.json())
       .then((data) => setEducationInstitutions(data)) // Ensure proper data handling.
       .catch((error) =>
-        console.error("Failed to fetch educationInstitutions", error)
+        console.error("Failed to fetch educationInstitutions", error),
       ); // Error handling.
   }, []);
 
@@ -48,7 +48,7 @@ export default function Page() {
   };
   const selectedEI = educationInstitutions.find(
     (educationInstitution) =>
-      educationInstitution.id === educationInstitution_id
+      educationInstitution.id === educationInstitution_id,
   );
 
   return (

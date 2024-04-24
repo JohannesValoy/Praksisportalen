@@ -2,17 +2,17 @@ import React from "react";
 
 const Page = () => {
   const colors = [
-    "bg-primary",
-    "bg-secondary",
-    "bg-accent",
-    "bg-neutral",
-    "bg-success",
-    "bg-info",
-    "bg-warning",
-    "bg-error",
-    "bg-base-100",
-    "bg-base-200",
-    "bg-base-300",
+    "primary",
+    "secondary",
+    "accent",
+    "neutral",
+    "success",
+    "info",
+    "warning",
+    "error",
+    "base-100",
+    "base-200",
+    "base-300",
   ];
   const ColorDescription = ({ name, description }) => (
     <p>
@@ -24,7 +24,10 @@ const Page = () => {
       <h1>DaisyUI Theme Colors</h1>
       <div className="grid grid-cols-4 gap-4">
         {colors.map((color) => (
-          <div key={color} className={`h-16 shadow ${color} border`}>
+          <div
+            key={color}
+            className={`h-16 shadow bg-${color} text-${color}-content border `}
+          >
             {color}
           </div>
         ))}

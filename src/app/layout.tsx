@@ -29,12 +29,12 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} flex flex-col bg-base-100`}
+        className={`${inter.className} flex flex-col bg-base-100 text-base-content`}
         suppressHydrationWarning={true}
       >
         <ThemeProvider>
           <ClientThemeWrapper>
-            <header className="flex justify-between bg-base-200 p-4 items-center ">
+            <header className="flex justify-between bg-base-200 text-base-content p-4 items-center ">
               <Link href={"/"}>
                 <div className="h-10">
                   <Logo currentColor="currentColor" />
@@ -45,7 +45,7 @@ export default async function RootLayout({
                   <div tabIndex={0} role="button" className="btn m-1">
                     Settings
                   </div>
-                  <ul className="dropdown-content z-[1] menu p-4 shadow bg-base-300 rounded-box w-52">
+                  <ul className="dropdown-content z-[1] menu p-4 shadow bg-base-300 text-base-content rounded-box w-52">
                     <li className="gap-4">
                       <Theme />
                       <LogoutButton hide={!(await getServerSession())?.user} />
@@ -54,7 +54,7 @@ export default async function RootLayout({
                 </div>
               </div>
             </header>
-            <main className="flex flex-col py-4 h-full bg-base-100 overflow-y-scroll scrollbar-hide">
+            <main className="flex flex-col py-4 h-full bg-base-100 text-base-content overflow-y-scroll scrollbar-hide">
               {children}
             </main>
           </ClientThemeWrapper>

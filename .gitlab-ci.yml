@@ -81,6 +81,7 @@ publish:
 
 #ping test
 ping_test:
+  stage: ping_test
   script:
     - ping -c 4 129.241.153.29
 

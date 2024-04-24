@@ -6,7 +6,7 @@ import { PageRequest } from "./pageinition";
  * A class representing a Department
  */
 export interface Department extends DepartmentTable {
-  employee: EmployeeTable;
+  employee?: EmployeeTable;
 }
 
 /**

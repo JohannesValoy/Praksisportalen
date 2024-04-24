@@ -12,7 +12,7 @@ import { PageRequest } from "./pageinition";
  */
 export interface Section extends SectionTable {
   department_id: number;
-  employee: EmployeeTable;
+  employee?: EmployeeTable;
   internships: InternshipTable[];
 }
 /**

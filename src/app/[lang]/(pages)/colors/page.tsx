@@ -1,4 +1,8 @@
-import React from "react";
+const ColorDescription = ({ name, description }) => (
+  <p>
+    <strong>{name}:</strong> {description}
+  </p>
+);
 
 const Page = () => {
   const colors = [
@@ -14,11 +18,7 @@ const Page = () => {
     "bg-base-200",
     "bg-base-300",
   ];
-  const ColorDescription = ({ name, description }) => (
-    <p>
-      <strong>{name}:</strong> {description}
-    </p>
-  );
+
   return (
     <div className="p-6">
       <h1>DaisyUI Theme Colors</h1>

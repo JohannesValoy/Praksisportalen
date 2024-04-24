@@ -7,7 +7,7 @@ import { deleteInternship, paginateInternships } from "./action";
 
 const ListOfInternships = () => {
   const headers = {
-    Name: "name",
+    "Internship name": "name",
     "Max Capacity": "maxCapacity",
     "Current Capacity": "currentCapacity",
   };

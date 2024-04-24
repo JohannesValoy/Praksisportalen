@@ -58,46 +58,46 @@ const AdminLayout = () => {
               <h3 className="font-bold">New message!</h3>
               <div className="text-xs">You have 1 unread message</div>
             </div>
-            <button className="btn btn-sm">See</button>
+            <button className="btn  btn-sm">See</button>
           </div>
         </ContainerBox>
       </div>
       <div className="flex flex-col w-full h-full">
         <ContainerBox title={"Import Data"}>
-          <Link href="bulkImport" className="btn">
+          <Link href="bulkImport" className="btn btn-primary">
             Import Data from Excel
           </Link>
         </ContainerBox>
         <ContainerBox title={"Education Institution"}>
-          <Link href="users/administerCoordinators" className="btn">
+          <Link href="users/administerCoordinators" className="btn btn-primary">
             Koordinatorer
           </Link>
-          <Link href="studyprograms" className="btn">
+          <Link href="studyprograms" className="btn btn-primary">
             Studies
           </Link>
-          <Link href="educationInstitutions" className="btn">
+          <Link href="educationInstitutions" className="btn btn-primary">
             Education Institutions
           </Link>
         </ContainerBox>
         <ContainerBox title={"Hospital"}>
-          <Link href="users/administerEmployees" className="btn">
+          <Link href="users/administerEmployees" className="btn btn-primary">
             Ansatte
           </Link>
-          <Link href="departments" className="btn">
+          <Link href="departments" className="btn btn-primary">
             Avdelinger
           </Link>
-          <Link href="sections" className="btn">
+          <Link href="sections" className="btn btn-primary">
             Seksjoner
           </Link>
         </ContainerBox>
         <ContainerBox title={"Internships"}>
-          <Link href="internshipOrders" className="btn">
+          <Link href="internshipOrders" className="btn btn-primary">
             Received Orders
           </Link>
-          <Link href="internships" className="btn">
+          <Link href="internships" className="btn btn-primary">
             Internships
           </Link>
-          <Link href="internshipAgreements" className="btn">
+          <Link href="internshipAgreements" className="btn btn-primary">
             Internship Agreements
           </Link>
         </ContainerBox>

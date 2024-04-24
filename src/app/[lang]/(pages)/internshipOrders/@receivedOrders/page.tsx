@@ -15,7 +15,10 @@ export default function Page() {
       <div className="flex flex-col gap-5 overflow-hidden ">
         {orders ? (
           [...orders].reverse().map((order) => (
-            <div key={order.id} className="collapse bg-base-200">
+            <div
+              key={order.id}
+              className="collapse bg-base-200 text-base-content"
+            >
               <input type="checkbox" />
               <div className="collapse-title text-xl font-medium">
                 {order.studyProgram.educationInstitute.name} /{" "}

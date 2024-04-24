@@ -177,7 +177,7 @@ export default function Page() {
           />
           <button>
             <a
-              href={`/admin/administerDepartments/addDepartment`}
+              href={`/departments/addDepartment`}
               className="btn btn-primary h-full"
             >
               Add Department
@@ -214,7 +214,7 @@ export default function Page() {
             placeholder="Enter new section type"
             className="input input-bordered w-full"
           />
-          <button className="btn btn-primary h-full" onClick={handleAddType}>
+          <button className="btn btn-secondary h-full" onClick={handleAddType}>
             Add new type
           </button>
         </div>
@@ -226,7 +226,7 @@ export default function Page() {
           >
             Cancel
           </button>
-          <button type="submit" className="btn btn-primary w-20">
+          <button type="submit" className="btn btn-accent w-20">
             Save
           </button>
         </div>

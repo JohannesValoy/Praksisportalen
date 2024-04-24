@@ -72,7 +72,7 @@ publish:
     - docker push $TAG_COMMIT
     - docker push $TAG_LATEST
   variables:
-    DOCKER_HOST: tcp://docker:2375 # Ensure the correct Docker host
+    DOCKER_HOST: tcp://129.241.153.29# Ensure the correct Docker host
     DOCKER_TLS_CERTDIR: "" # Disable TLS to avoid cert issues
   tags:
     - docker # Ensure the runner has Docker capabilities
@@ -93,5 +93,3 @@ deploy:
   environment:
     name: production
     url: http://129.241.153.29
-  only:
-    - master

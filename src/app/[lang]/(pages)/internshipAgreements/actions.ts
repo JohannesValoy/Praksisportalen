@@ -10,7 +10,7 @@ import {
 import "server-only";
 
 export async function paginateInternshipAgreements(
-  request: InternshipAgreementPageRequest,
+  request: InternshipAgreementPageRequest
 ) {
   const data = await getInternshipAgreementsByPageRequest(request);
 
@@ -20,7 +20,6 @@ export async function paginateInternshipAgreements(
   const elements = data.elements.map((element) => ({
     name: element.internship.name,
     id: element.id,
-    status: element.status,
     startDate: element.startDate.toLocaleDateString(),
     endDate: element.endDate.toLocaleDateString(),
   }));

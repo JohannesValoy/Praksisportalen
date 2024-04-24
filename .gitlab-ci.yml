@@ -85,12 +85,12 @@ deploy:
     - deployment
   script:
     - echo "Deploying to production server"
-      - chmod og= $ID_RSA
-      - apk update && apk add openssh-client
-      - ssh -i $ID_RSA -o StrictHostKeyChecking=no $johakv@$129.241.153.29 "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
-      - ssh -i $ID_RSA -o StrictHostKeyChecking=no $johakv@$129.241.153.29 "docker pull $TAG_COMMIT"
-      - ssh -i $ID_RSA -o StrictHostKeyChecking=no $johakv@$129.241.153.29 "docker compose rm -f praksisplasslista|| true"
-      - ssh -i $ID_RSA -o StrictHostKeyChecking=no $johakv@$129.241.153.29 "docker run -d --name praksisplasslista$TAG_COMMIT"
+    - chmod og= $ID_RSA
+    - apk update && apk add openssh-client
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $johakv@$129.241.153.29 "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $johakv@$129.241.153.29 "docker pull $TAG_COMMIT"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $johakv@$129.241.153.29 "docker compose rm -f praksisplasslista|| true"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $johakv@$129.241.153.29 "docker run -d --name praksisplasslista$TAG_COMMIT"
   environment:
     name: production
     url: http://129.241.153.29

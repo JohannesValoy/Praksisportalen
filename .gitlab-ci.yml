@@ -76,8 +76,7 @@ publish:
     DOCKER_HOST: tcp://129.241.153.29:3000
     DOCKER_TLS_CERTDIR: "" # Disable TLS to avoid cert issues
   tags:
-    - docker # Ensure the runner has Docker capabilities
-  # Additional configuration if needed
+    - docker
 
 deploy:
   image: alpine:latest

@@ -6,7 +6,7 @@ export default function ClientThemeWrapper({ children }: any) {
   const { theme } = useContext(ThemeContext);
   return (
     <div
-      className="flex flex-col overflow-hidden h-screen bg-base-100"
+      className="flex flex-col overflow-hidden h-screen bg-base-100 text-base-content"
       data-theme={theme}
     >
       {children}

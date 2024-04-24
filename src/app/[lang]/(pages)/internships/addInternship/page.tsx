@@ -27,7 +27,7 @@ export default function Page() {
     const fetchAllData = async () => {
       try {
         const sectionsResponse = await fetch(`/api/sections`).then((res) =>
-          res.json()
+          res.json(),
         );
         setSections(sectionsResponse || []);
       } catch (error) {
@@ -133,7 +133,7 @@ export default function Page() {
         selectedOption={
           Array.isArray(sections)
             ? convert(
-                sections.find((currSections) => currSections.id === section_id)
+                sections.find((currSections) => currSections.id === section_id),
               )
             : null
         }

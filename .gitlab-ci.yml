@@ -88,6 +88,7 @@ deploy:
     - echo "$SSH_PRIVATE_KEY" > id_rsa
     - chmod 600 id_rsa
     - apk update && apk add openssh-client
+    - echo "johakv: $johakv"
     - ssh -i id_rsa -o StrictHostKeyChecking=no $johakv@$129.241.153.29 "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
     - ssh -i id_rsa -o StrictHostKeyChecking=no $johakv@$129.241.153.29 "docker pull $TAG_COMMIT"
     - ssh -i id_rsa -o StrictHostKeyChecking=no $johakv@$129.241.153.29 "docker compose rm -f praksisplasslista|| true"

@@ -92,6 +92,6 @@ deploy:
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $johakv@$129.241.153.29 "docker run -d --name praksisplasslista$TAG_COMMIT"
   environment:
     name: production
-    url: http://129.241.0.200:53
+    url: http://129.241.153.29
   only:
     - master

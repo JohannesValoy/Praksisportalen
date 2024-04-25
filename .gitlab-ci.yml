@@ -87,8 +87,7 @@ deploy:
     - apk update && apk add openssh-client
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $deployer@129.241.153.29 "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $deployer@129.241.153.29 "docker-compose-pull $TAG_COMMIT"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $deployer@129.241.153.29 "docker container rm -f praksisplasslista|| true"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $deployer@129.241.153.29 "docker run -d -p 80:80 --name praksisplasslista$TAG_COMMIT"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $deployer@129.241.153.29 "docker-compose up praksisplasslista"
   environment:
     name: production
     url: http://129.241.153.29

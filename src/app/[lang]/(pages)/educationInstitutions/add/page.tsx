@@ -31,7 +31,6 @@ export default function Page() {
     event.preventDefault();
     const data = name.trim();
     addEducationInstitution(data);
-    console.log(data);
     setIsModalVisible(true);
   };
 

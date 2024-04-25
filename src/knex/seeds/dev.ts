@@ -12,6 +12,8 @@ import JSONInstitutes from "./institutes-finished.json";
 import JSONInternships from "./internships-finished.json";
 import JSONSections from "./sections-finished.json";
 import JSONDepartment from "./departments-finished.json";
+import JSONInternshipAgreements from "./internshipAgreements-finished.json";
+import { time } from "console";
 
 /**
  * @param { import("knex").Knex } knex
@@ -193,106 +195,101 @@ export const seed = async function (knex: Knex) {
   ]);
   await knex("internships").insert(JSONInternships);
   await knex("studyPrograms").insert(JSONStudies);
-  const hour = 60 * 60 * 1000;
-  const day = 24 * hour;
-  const week = 7 * day;
-  await knex("internshipAgreements").insert([
-    {
-      id: 1,
-      student_id: "ad4efb91-9f9a-4ede-9423-a4522ea329cd",
-      internship_id: 1,
-      studyProgram_id: 1,
-      startDate: new Date(Date.now()),
-      endDate: new Date(Date.now() + week * 2),
-    },
-    {
-      id: 2,
-      student_id: "eaf3851e-6bf3-433f-bdd5-dfc891852edd",
-      internship_id: 1,
-      studyProgram_id: 1,
-      startDate: new Date(Date.now()),
-      endDate: new Date(Date.now() + week * 2),
-    },
-    {
-      id: 3,
-      student_id: "8daff6c7-fb9b-4bfa-b4f1-76f92d5ad857",
-      internship_id: 2,
-      studyProgram_id: 1,
-      startDate: new Date(Date.now()),
-      endDate: new Date(Date.now() + week * 2),
-    },
-    {
-      id: 4,
-      student_id: "8daff6c7-fb9b-4bfa-b4f1-76f92d5ad857",
-      internship_id: 2,
-      studyProgram_id: 1,
-      startDate: new Date(Date.now()),
-      endDate: new Date(Date.now() + week * 2),
-    },
-    {
-      id: 5,
-      student_id: "83040eee-f982-4b22-b9d9-63644a122dcf",
-      internship_id: 3,
-      studyProgram_id: 1,
-      startDate: new Date(Date.now()),
-      endDate: new Date(Date.now() + week * 2),
-    },
-  ]);
 
-  await knex("timeIntervals").insert([
-    {
-      id: 1,
-      startDate: new Date(Date.now() + hour * 8),
-      endDate: new Date(Date.now() + hour * 16),
-      internshipAgreement_id: 1,
-    },
-    {
-      id: 2,
-      startDate: new Date(Date.now() + hour * 8 + day * 1),
-      endDate: new Date(Date.now() + hour * 16 + day * 1),
-      internshipAgreement_id: 1,
-    },
-    {
-      id: 3,
-      startDate: new Date(Date.now() + hour * 8 + day * 2),
-      endDate: new Date(Date.now() + hour * 16 + day * 2),
-      internshipAgreement_id: 2,
-    },
-    {
-      id: 4,
-      startDate: new Date(Date.now() + hour * 8 + day * 2),
-      endDate: new Date(Date.now() + hour * 16 + day * 2),
-      internshipAgreement_id: 3,
-    },
-    {
-      id: 5,
-      startDate: new Date(Date.now() + hour * 8 + day * 3),
-      endDate: new Date(Date.now() + hour * 16 + day * 3),
-      internshipAgreement_id: 3,
-    },
-    {
-      id: 6,
-      startDate: new Date(Date.now() + hour * 8 + day * 4),
-      endDate: new Date(Date.now() + hour * 16 + day * 4),
-      internshipAgreement_id: 3,
-    },
-    {
-      id: 7,
-      startDate: new Date(Date.now() + hour * 8 + day * 5),
-      endDate: new Date(Date.now() + hour * 16 + day * 5),
-      internshipAgreement_id: 3,
-    },
-    {
-      id: 8,
-      startDate: new Date(Date.now() + hour * 8 + day * 7),
-      endDate: new Date(Date.now() + hour * 16 + day * 7),
-      internshipAgreement_id: 3,
-    },
-    {
-      id: 9,
-      startDate: new Date(Date.now() + hour * 8 + day * 8),
-      endDate: new Date(Date.now() + hour * 16 + day * 8),
-      internshipAgreement_id: 3,
-    },
-  ]);
+  const internships = [];
+
+  JSONInternshipAgreements.forEach((agreement) => {
+    const direction = Math.random() > 0.5 ? 1 : -1;
+    const offset = Math.floor(Math.random() * 6);
+
+    const offset2 = agreement.student_id
+      ? internships.filter(
+          (i) =>
+            i.student_id === agreement.student_id &&
+            (direction === 1
+              ? i.startDate >= Date.now()
+              : i.startDate <= Date.now())
+        ).length * 2
+      : 0;
+    const dates = [new Date(), new Date()];
+    dates[0].setDate(dates[0].getDate() + direction * offset);
+    dates[1].setDate(
+      dates[1].getDate() + direction * (offset + (offset2 + 1) * 14)
+    );
+    dates.sort((a, b) => a.getTime() - b.getTime());
+    internships.push({
+      ...agreement,
+      startDate: new Date(dates[0]),
+      endDate: new Date(dates[1]),
+    });
+  });
+
+  await knex("internshipAgreements").insert(internships);
+
+  const timeIntervals = [];
+  internships.forEach((internship) => {
+    const startDate = internship.startDate;
+    const endDate = internship.endDate;
+
+    const diff = endDate.getTime() - startDate.getTime();
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const weeks = [];
+    let workDays = [];
+    for (let i = 0; i < days; i++) {
+      const date = new Date();
+      date.setDate(startDate.getDate() + i);
+      if (date.getDay() != 0 && date.getDay() != 6) {
+        workDays.push(date);
+      }
+      if (date.getDay() == 0) {
+        weeks.push(workDays);
+        workDays = [];
+      }
+    }
+
+    weeks.push(workDays);
+
+    for (const week of weeks) {
+      if (week.length > 0) {
+        const days = week
+          .sort(
+            (a, b) =>
+              totalAmountOfInternshipOnDay(a, internships, timeIntervals) -
+              totalAmountOfInternshipOnDay(b, internships, timeIntervals)
+          )
+          .slice(0, 2);
+        for (const day of days) {
+          console.log("Creating time interval for day: ", day);
+          day.setHours(8);
+          const endIntervalDate = new Date(day);
+          endIntervalDate.setHours(16);
+          timeIntervals.push({
+            startDate: day,
+            endDate: endIntervalDate,
+            internshipAgreement_id: internship.id,
+          });
+          knex("timeIntervals").insert([
+            timeIntervals[timeIntervals.length - 1],
+          ]);
+        }
+      }
+    }
+  });
 };
+
+function totalAmountOfInternshipOnDay(
+  a: any,
+  internships: any[],
+  timeIntervals: any[]
+) {
+  return timeIntervals.filter(
+    (ti) =>
+      internships
+        //Find all agreements that are in the same section
+        .filter((i) => a.section_id == i.section_id)
+        .includes(ti.internship_id) &&
+      //Check if the time interval is in the same week
+      ((ti.startDate >= a.endDate && ti.startDate <= a.endDate) ||
+        (ti.endDate >= a.startDate && ti.endDate <= a.endDate))
+  ).length;
+}

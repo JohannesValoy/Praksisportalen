@@ -143,7 +143,7 @@ export async function up(knex: Knex): Promise<void> {
           .inTable("students")
           .onUpdate("CASCADE")
           .onDelete("CASCADE");
-        table.string("coordinator_id");
+        table.string("coordinator_id").notNullable();
         table
           .foreign("coordinator_id")
           .references("id")
@@ -248,6 +248,7 @@ export async function up(knex: Knex): Promise<void> {
       .raw(check_email_and_idTrigger("employees"))
       .raw(check_email_and_idTrigger("students"))
       .raw(check_email_and_idTrigger("coordinators"))
+      //TODO: Duplicate code for triggers, need to create a function or procedure
       .raw(
         `
       CREATE TRIGGER updateMaxCapacity
@@ -272,6 +273,7 @@ export async function up(knex: Knex): Promise<void> {
       END;
       `
       )
+      //TODO: Also need triggers for update
       .raw(
         `CREATE TRIGGER hinderOverCapacity
       BEFORE INSERT ON internshipAgreements
@@ -287,6 +289,19 @@ export async function up(knex: Knex): Promise<void> {
         END IF;
       END
       `
+      )
+      .raw(
+        `
+        CREATE TRIGGER hinderMultipleInternshipsAtTheSameTime
+        BEFORE INSERT ON internshipAgreements
+        FOR EACH ROW
+        BEGIN
+          IF NEW.student_id IS NOT NULL AND EXISTS (SELECT * FROM internshipAgreements WHERE student_id = NEW.student_id AND (NEW.startDate BETWEEN startDate AND endDate OR NEW.endDate BETWEEN startDate AND endDate)) THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Student already has an internship at this time';
+          END IF;
+        END;
+        `
       )
       //TODO: Create a procedure or function to not need to copy the same code
       .raw(
@@ -304,6 +319,19 @@ export async function up(knex: Knex): Promise<void> {
         END IF;
       END;  
       `
+      )
+      .raw(
+        `
+      CREATE TRIGGER checkNoOverlappingTimeIntervals
+      BEFORE INSERT ON timeIntervals
+      FOR EACH ROW
+      BEGIN
+        IF EXISTS (SELECT * FROM timeIntervals WHERE internshipAgreement_id = NEW.internshipAgreement_id AND (NEW.startDate BETWEEN startDate AND endDate OR NEW.endDate BETWEEN startDate AND endDate)) THEN
+          SIGNAL SQLSTATE '45000'
+          SET MESSAGE_TEXT = 'Time interval overlaps with another';
+        END IF;
+      END;
+        `
       )
       .raw(
         `      

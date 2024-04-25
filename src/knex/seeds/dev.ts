@@ -212,7 +212,7 @@ export const seed = async function (knex: Knex) {
         ).length * 2
       : 0;
     const dates = [new Date(), new Date()];
-    dates[0].setDate(dates[0].getDate() + direction * offset);
+    dates[0].setDate(dates[0].getDate() + direction * (offset + offset2 * 14));
     dates[1].setDate(
       dates[1].getDate() + direction * (offset + (offset2 + 1) * 14)
     );

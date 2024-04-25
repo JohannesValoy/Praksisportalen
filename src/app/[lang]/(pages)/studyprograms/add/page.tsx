@@ -114,7 +114,7 @@ export default function Page() {
             }}
             renderOption={(edu) => (
               <>
-                <div className="mask mask-squircle w-12 h-12 overflow-hidden"></div>
+                <div className="w-12 h-12 overflow-hidden"></div>
 
                 <div>{edu.name}</div>
               </>

@@ -73,14 +73,11 @@ export default function Page() {
         setStudyPrograms(data);
       })
       .catch((error) => console.error("Failed to fetch Study Programs", error));
-  }, []);
 
-  // Fetch internship field from the API
-  useEffect(() => {
     fetchInternhipFields()
       .then((data) => {
         setInternshipFields(data);
-      }) // Ensure proper data handling.
+      })
       .catch((error) =>
         console.error("Failed to fetch internship field", error)
       );
@@ -207,7 +204,7 @@ export default function Page() {
               }}
               renderOption={(studyProgram) => (
                 <>
-                  <div className="mask mask-squircle w-12 h-12 overflow-hidden"></div>
+                  <div className=" w-12 h-12 overflow-hidden"></div>
 
                   <div>{studyProgram.name}</div>
                 </>
@@ -265,7 +262,7 @@ export default function Page() {
                     }}
                     renderOption={(type) => (
                       <>
-                        <div className="mask mask-squircle w-12 h-12 overflow-hidden "></div>
+                        <div className=" w-12 h-12 overflow-hidden "></div>
 
                         <div>{type.name}</div>
                       </>

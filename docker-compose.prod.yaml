@@ -7,7 +7,7 @@ services:
     build:
       context: .
       target: prod
-    image: praksislista:latest
+    image: localhost:5000/praksislista:latest
     depends_on:
       db:
         condition: service_healthy

@@ -16,8 +16,8 @@ type DynamicTableProps = {
   buttonName: string;
   onAddButtonClick: () => void;
   clickableColumns?: Record<string, (row: any) => void>;
-  deleteFunction: (id: string | number) => Promise<any>; // Replace 'any' with the type of the response
-  paginateFunction: (request: any) => Promise<PageResponse<any>>; // Replace 'any' with the type of the request
+  deleteFunction: (id: string | number) => Promise<any>;
+  paginateFunction: (request: any) => Promise<PageResponse<any>>;
 };
 
 const DynamicTable: React.FC<DynamicTableProps> = ({
@@ -43,7 +43,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
     const isSelected = selectedRows.includes(row);
     if (isSelected) {
       setSelectedRows(
-        selectedRows.filter((selectedRow) => selectedRow !== row),
+        selectedRows.filter((selectedRow) => selectedRow !== row)
       );
     } else {
       setSelectedRows([...selectedRows, row]);

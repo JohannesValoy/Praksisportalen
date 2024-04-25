@@ -9,7 +9,7 @@ import { useState } from "react";
 const ListOfEmployees = ({ params }) => {
   const [words, setWords] = useState<any>({});
   getDictionary(params.lang).then((words) =>
-    setWords(words?.administerEmployees),
+    setWords(words?.administerEmployees)
   );
   const headers = { Name: "name", Email: "email" };
   console.log(params.lang);
@@ -22,23 +22,21 @@ const ListOfEmployees = ({ params }) => {
     email: handleEmailClick,
   };
   return (
-    <>
-      <DynamicTable
-        tableName={words?.header || "Employees"}
-        headers={headers}
-        onRowClick={() => {}}
-        onRowButtonClick={(row) => {
-          window.location.href = `/profile?id=${row.id}`;
-        }}
-        buttonName={"Details"}
-        onAddButtonClick={() => {
-          window.location.href = `/users/addUser?role=employee`;
-        }}
-        clickableColumns={clickableColumns}
-        deleteFunction={deleteEmployee}
-        paginateFunction={paginateEmployees}
-      />
-    </>
+    <DynamicTable
+      tableName={words?.header || "Employees"}
+      headers={headers}
+      onRowClick={() => {}}
+      onRowButtonClick={(row) => {
+        window.location.href = `/profile?id=${row.id}`;
+      }}
+      buttonName={"Details"}
+      onAddButtonClick={() => {
+        window.location.href = `/users/addUser?role=employee`;
+      }}
+      clickableColumns={clickableColumns}
+      deleteFunction={deleteEmployee}
+      paginateFunction={paginateEmployees}
+    />
   );
 };
 

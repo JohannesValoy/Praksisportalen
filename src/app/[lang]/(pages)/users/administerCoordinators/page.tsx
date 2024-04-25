@@ -18,23 +18,21 @@ const ListOfCoordinators = () => {
   };
 
   return (
-    <>
-      <DynamicTable
-        tableName={"Coordinators"}
-        headers={headers}
-        onRowClick={() => {}}
-        onRowButtonClick={(row) => {
-          window.location.href = `/profile?id=${row.id}`;
-        }}
-        buttonName={"Details"}
-        onAddButtonClick={() => {
-          window.location.href = `/users/addUser?role=coordinator`;
-        }}
-        clickableColumns={clickableColumns}
-        deleteFunction={deleteCoordinator}
-        paginateFunction={paginateCoordinators}
-      />
-    </>
+    <DynamicTable
+      tableName={"Coordinators"}
+      headers={headers}
+      onRowClick={() => {}}
+      onRowButtonClick={(row) => {
+        window.location.href = `/profile?id=${row.id}`;
+      }}
+      buttonName={"Details"}
+      onAddButtonClick={() => {
+        window.location.href = `/users/addUser?role=coordinator`;
+      }}
+      clickableColumns={clickableColumns}
+      deleteFunction={deleteCoordinator}
+      paginateFunction={paginateCoordinators}
+    />
   );
 };
 

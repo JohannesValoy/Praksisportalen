@@ -18,7 +18,7 @@ const ListOfStudents = () => {
   };
 
   return (
-    <>
+    
       <DynamicTable
         tableName={"Students"}
         headers={headers}
@@ -34,7 +34,7 @@ const ListOfStudents = () => {
         deleteFunction={deleteStudent}
         paginateFunction={paginateStudents}
       />
-    </>
+    
   );
 };
 

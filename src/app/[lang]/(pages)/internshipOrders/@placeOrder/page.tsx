@@ -53,7 +53,7 @@ export default function Page() {
 
   // Initialize internshipFields as an array of InternshipField
   const [internshipFields, setInternshipFields] = useState<InternshipField[]>(
-    [],
+    []
   );
   const [newType, setNewType] = useState("");
 
@@ -82,7 +82,7 @@ export default function Page() {
         setInternshipFields(data);
       }) // Ensure proper data handling.
       .catch((error) =>
-        console.error("Failed to fetch internship field", error),
+        console.error("Failed to fetch internship field", error)
       );
   }, []);
 
@@ -173,10 +173,8 @@ export default function Page() {
         className="modal  modal-bottom sm:modal-middle"
       >
         <div className="bg-base-300 text-base-content modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Success! Your order has been placed successfully.
-          </p>
+          <h3 className="font-bold text-lg">Success!</h3>
+          <p className="py-4">Your order has been placed successfully.</p>
           <div className="modal-action">
             <Link href="/" className="btn  rounded-btn h-full">
               Home
@@ -205,7 +203,7 @@ export default function Page() {
               options={studyPrograms}
               selectedOption={
                 studyPrograms.find(
-                  (studyProgram) => studyProgram.id === studyProgram_id,
+                  (studyProgram) => studyProgram.id === studyProgram_id
                 ) || null
               }
               setSelectedOption={(studyProgram) => {
@@ -258,7 +256,7 @@ export default function Page() {
                     options={internshipFields}
                     selectedOption={
                       internshipFields.find(
-                        (type) => type.name === group.internshipField,
+                        (type) => type.name === group.internshipField
                       ) || null
                     }
                     setSelectedOption={(type) => {

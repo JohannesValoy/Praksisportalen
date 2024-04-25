@@ -38,7 +38,7 @@ export async function fetchStudyPrograms() {
   return response;
 }
 
-interface formData {
+interface FormData {
   studyProgram_id: number;
   comment: string;
   fieldGroups: {
@@ -52,7 +52,7 @@ interface formData {
   }[];
 }
 
-export async function sendOrder(data: formData) {
+export async function sendOrder(data: FormData) {
   try {
     await DBclient.transaction(async () => {
       // Insert into internshipOrders table

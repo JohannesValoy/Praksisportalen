@@ -295,20 +295,20 @@ export default function Page() {
                     </button>
                   </div>
                   <div className="flex flex-row mt-2">
-                    {group.subFieldGroups.map((subFieldGroup, index) => (
-                      <div key={index} className="mr-4">
+                    {group.subFieldGroups.map((subFieldGroup, groupIndex) => (
+                      <div key={groupIndex} className="mr-4">
                         <div className="label  w-full">
                           <span className="label-text text-xl">
                             {subFieldGroup.studyYear}. år studenter
                           </span>
                         </div>
 
-                        <label className="form-control w-full">
-                          <div className="label">
+                        <div className="form-control w-full">
+                          <label className="label" htmlFor="numStudents">
                             <span className="label-text text-xl">
                               Antall Studenter
                             </span>
-                          </div>
+                          </label>
                           <input
                             type="number"
                             min="0"
@@ -316,27 +316,27 @@ export default function Page() {
                             onChange={(e) => {
                               const newFieldGroups = [...fieldGroups];
                               newFieldGroups[groupId].subFieldGroups[
-                                index
+                                groupIndex
                               ].numStudents = e.target.value;
                               setFieldGroups(newFieldGroups);
 
                               // Set studentsAboveZero for this groupId
                               setStudentsAboveZero({
                                 ...studentsAboveZero,
-                                [`${groupId}_${index}`]:
+                                [`${groupId}_${groupIndex}`]:
                                   Number(e.target.value) > 0,
                               });
                             }}
                             className="input input-bordered"
                           />
-                        </label>
+                        </div>
 
-                        <label className="form-control w-full">
-                          <div className="label">
+                        <div className="form-control w-full">
+                          <label className="label" htmlFor="startDate">
                             <span className="label-text text-xl">
                               Start Dato
                             </span>
-                          </div>
+                          </label>
                           <input
                             type="date"
                             value={
@@ -348,22 +348,24 @@ export default function Page() {
                             onChange={(e) => {
                               const newFieldGroups = [...fieldGroups];
                               newFieldGroups[groupId].subFieldGroups[
-                                index
+                                groupIndex
                               ].startWeek = new Date(
                                 Date.parse(e.target.value)
                               );
                               setFieldGroups(newFieldGroups);
                             }}
-                            required={studentsAboveZero[`${groupId}_${index}`]}
+                            required={
+                              studentsAboveZero[`${groupId}_${groupIndex}`]
+                            }
                           />
-                        </label>
+                        </div>
 
-                        <label className="form-control w-full">
-                          <div className="label">
+                        <div className="form-control w-full">
+                          <label className="label" htmlFor="endDate">
                             <span className="label-text text-xl">
                               Slutt Dato
                             </span>
-                          </div>
+                          </label>
                           <input
                             type="date"
                             value={
@@ -377,13 +379,15 @@ export default function Page() {
                             onChange={(e) => {
                               const newFieldGroups = [...fieldGroups];
                               newFieldGroups[groupId].subFieldGroups[
-                                index
+                                groupIndex
                               ].endWeek = new Date(Date.parse(e.target.value));
                               setFieldGroups(newFieldGroups);
                             }}
-                            required={studentsAboveZero[`${groupId}_${index}`]}
+                            required={
+                              studentsAboveZero[`${groupId}_${groupIndex}`]
+                            }
                           />
-                        </label>
+                        </div>
                       </div>
                     ))}
                   </div>

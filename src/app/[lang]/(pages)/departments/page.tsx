@@ -9,22 +9,20 @@ const ListOfDepartments = () => {
   const headers = { Name: "name", Email: "email" };
 
   return (
-    <>
-      <DynamicTable
-        tableName={"Departments"}
-        headers={headers}
-        onRowClick={() => {}}
-        onRowButtonClick={(row) => {
-          window.location.href = `/sections?department_id=${row.id}`;
-        }}
-        buttonName={"Details"}
-        onAddButtonClick={() => {
-          window.location.href = `/sections/addSection`;
-        }}
-        deleteFunction={deleteDepartment}
-        paginateFunction={paginateDepartments}
-      />
-    </>
+    <DynamicTable
+      tableName={"Departments"}
+      headers={headers}
+      onRowClick={() => {}}
+      onRowButtonClick={(row) => {
+        window.location.href = `/departments/${row.id}`;
+      }}
+      buttonName={"Details"}
+      onAddButtonClick={() => {
+        window.location.href = `/departments/add`;
+      }}
+      deleteFunction={deleteDepartment}
+      paginateFunction={paginateDepartments}
+    />
   );
 };
 

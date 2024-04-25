@@ -117,7 +117,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
 
   return (
     <>
-      <ContainerBox>
+      <ContainerBox className="w-full">
         <div className="flex bg-neutral flex-row justify-between items-center w-full p-4">
           <h1 className="text-3xl font-semibold">List of {tableName}</h1>
           <div>

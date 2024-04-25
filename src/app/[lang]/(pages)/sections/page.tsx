@@ -18,7 +18,7 @@ const ListOfSections = () => {
       }}
       buttonName={"Details"}
       onAddButtonClick={() => {
-        window.location.href = `/sections/addSection`;
+        window.location.href = `/sections/add`;
       }}
       deleteFunction={deleteSection}
       paginateFunction={paginateSections}

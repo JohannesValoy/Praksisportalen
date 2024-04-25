@@ -65,7 +65,7 @@ export default function Page() {
   };
 
   return (
-    <div className="h-full">
+    <div className="flex flex-col justify-center items-center h-full w-full">
       <SuccessDialog isModalVisible={isModalVisible} />
       <ContainerBox className="items-center">
         <form

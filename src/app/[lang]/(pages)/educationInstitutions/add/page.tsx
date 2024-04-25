@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { addEducationInstitution, fetchEducationInstitution } from "./action";
 import SuccessDialog from "@/app/components/SuccessDialog";
+import ContainerBox from "@/app/components/ContainerBox";
 
 export default function Page() {
   const router = useRouter();
@@ -35,43 +36,44 @@ export default function Page() {
   };
 
   return (
-    <div className="h-full">
+    <div className="flex flex-col justify-center items-center h-full w-full">
       <SuccessDialog isModalVisible={isModalVisible} />
-
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-5 h-full items-center justify-center"
-      >
-        <h1 className="flex justify-center text-4xl font-bold">
-          Add Education Institution
-        </h1>
-        <input
-          type="text"
-          placeholder="Education Institution Name"
-          className="input input-bordered "
-          aria-label="Education Institution Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          maxLength={255}
-          required
-        />
-        <div className="flex flex-row gap-5">
-          <button
-            type="button"
-            className="btn w-20"
-            onClick={() => router.back()}
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="btn btn-accent w-20"
-            disabled={isSubmitDisabled}
-          >
-            Save
-          </button>
-        </div>
-      </form>
+      <ContainerBox className="items-center">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-5 h-full items-center justify-center"
+        >
+          <h1 className="flex justify-center text-4xl font-bold">
+            Add Education Institution
+          </h1>
+          <input
+            type="text"
+            placeholder="Education Institution Name"
+            className="input input-bordered "
+            aria-label="Education Institution Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            maxLength={255}
+            required
+          />
+          <div className="flex flex-row gap-5">
+            <button
+              type="button"
+              className="btn w-20"
+              onClick={() => router.back()}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="btn btn-accent w-20"
+              disabled={isSubmitDisabled}
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </ContainerBox>
     </div>
   );
 }

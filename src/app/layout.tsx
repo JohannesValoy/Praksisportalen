@@ -51,7 +51,7 @@ export default async function RootLayout({
                 </div>
               </div>
             </header>
-            <main className="flex flex-col py-4 h-full bg-base-100 text-base-content overflow-y-scroll scrollbar-hide">
+            <main className="flex flex-col items-center py-4 h-full bg-base-100 text-base-content overflow-y-scroll scrollbar-hide">
               {children}
             </main>
           </ClientThemeWrapper>

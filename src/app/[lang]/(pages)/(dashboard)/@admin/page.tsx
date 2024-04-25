@@ -10,15 +10,15 @@ const pieParams = { margin: { right: 5 }, height: 400, width: 400 };
 
 const AdminLayout = () => {
   return (
-    <div className=" flex flex-row items-center justify-center rounded-lg w-full h-full container mx-auto">
-      <div className="flex flex-col h-full w-full">
-        <ContainerBox title={"Statistics"}>
+    <div className="flex flex-row  rounded-lg w-full h-full mx-auto">
+      <div className="flex flex-col items-center h-full w-full">
+        <ContainerBox title={"Statistics"} className="w-fit">
           <PieChart
             series={[{ data: [{ value: 10 }, { value: 15 }, { value: 20 }] }]}
             {...pieParams}
           />
         </ContainerBox>
-        <ContainerBox title={"Notifications"}>
+        <ContainerBox title={"Notifications"} className="w-fit">
           <div role="alert" className="alert shadow-lg">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -62,13 +62,13 @@ const AdminLayout = () => {
           </div>
         </ContainerBox>
       </div>
-      <div className="flex flex-col w-full h-full">
-        <ContainerBox title={"Import Data"}>
+      <div className="flex flex-col items-center w-full h-full">
+        <ContainerBox title={"Import Data"} className="w-fit">
           <Link href="bulkImport" className="btn btn-primary">
             Import Data from Excel
           </Link>
         </ContainerBox>
-        <ContainerBox title={"Education Institution"}>
+        <ContainerBox title={"Education Institution"} className="w-fit">
           <Link href="users/administerCoordinators" className="btn btn-primary">
             Koordinatorer
           </Link>
@@ -79,7 +79,7 @@ const AdminLayout = () => {
             Education Institutions
           </Link>
         </ContainerBox>
-        <ContainerBox title={"Hospital"}>
+        <ContainerBox title={"Hospital"} className="w-fit">
           <Link href="users/administerEmployees" className="btn btn-primary">
             Ansatte
           </Link>
@@ -90,7 +90,7 @@ const AdminLayout = () => {
             Seksjoner
           </Link>
         </ContainerBox>
-        <ContainerBox title={"Internships"}>
+        <ContainerBox title={"Internships"} className="w-fit">
           <Link href="internshipOrders" className="btn btn-primary">
             Received Orders
           </Link>

@@ -38,7 +38,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       )
     : [];
   return (
-    <div className="dropdown dropdown-end w-full">
+    <div className="dropdown dropdown-end w-full ">
       <input
         type="text"
         placeholder={dropdownName}
@@ -54,10 +54,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         aria-label={dropdownName}
       />
       {isDropdownOpen && (
-        <ul
-          tabIndex={0}
-          className="dropdown-content z-[1] menu shadow bg-base-100 text-base-content rounded-box w-full"
-        >
+        <ul className="dropdown-content z-[1] menu block shadow bg-base-100 text-base-content rounded-box w-full overflow-y-auto max-h-60">
           {filteredOptions.map((option, index) => (
             <li key={index} className="p-1">
               <div
@@ -66,7 +63,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                   setSearchTerm("");
                   setIsDropdownOpen(false);
                 }}
-                className="btn w-full flex flex-row justify-start items-center p-2 h-fit"
+                className="btn flex flex-row justify-start items-center p-2 h-fit"
               >
                 {renderOption(option)}
               </div>

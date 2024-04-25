@@ -19,7 +19,7 @@ const ListOfStudies = () => {
       }}
       buttonName={"Details"}
       onAddButtonClick={() => {
-        window.location.href = `/users/addUser?role=student`;
+        window.location.href = `/studyprograms/add`;
       }}
       deleteFunction={deleteStudyProgram}
       paginateFunction={paginateStudyPrograms}

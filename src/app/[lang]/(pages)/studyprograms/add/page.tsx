@@ -1,128 +1,144 @@
 /** @format */
 
 "use client";
+import SuccessDialog from "@/app/components/SuccessDialog";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import {
+  addStudyProgram,
+  fetchEducationInstitutions,
+  fetchStudyPrograms,
+} from "./action";
+import Dropdown from "@/app/components/Dropdown";
+import ContainerBox from "@/app/components/ContainerBox";
 
 export default function Page() {
   const router = useRouter();
-
   const [name, setName] = useState("");
-  const [educationInstitution_id, setEducationInstitution_id] = useState("");
-
+  const [studyPrograms, setStudyPrograms] = useState([]);
   const [educationInstitutions, setEducationInstitutions] = useState<
     EducationInstitution[]
   >([]);
+  const [educationInstitutionID, setEducationInstitutionID] =
+    useState<number>(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+
   type EducationInstitution = {
     name: string;
-    email: string;
-    id: string;
+    id: number;
   };
 
   useEffect(() => {
-    fetch(`/api/educationInstitutions`) // Adjusted the fetch URL to match backend routing.
-      .then((res) => res.json())
-      .then((data) => setEducationInstitutions(data)) // Ensure proper data handling.
+    if (
+      name.trim() === "" ||
+      educationInstitutionID === null ||
+      studyPrograms.some(
+        (sp) => sp.name === name.trim() && sp.eduID === educationInstitutionID
+      )
+    ) {
+      setIsSubmitDisabled(true);
+    } else {
+      setIsSubmitDisabled(false);
+    }
+  }, [name, studyPrograms, educationInstitutionID]);
+
+  useEffect(() => {
+    fetchStudyPrograms()
+      .then((data) => {
+        setStudyPrograms(data);
+      })
+      .catch((error) => console.error("Failed to fetch Study Programs", error));
+  }, []);
+
+  useEffect(() => {
+    fetchEducationInstitutions()
+      .then((data) => {
+        setEducationInstitutions(data);
+      })
       .catch((error) =>
-        console.error("Failed to fetch educationInstitutions", error),
-      ); // Error handling.
+        console.error("Failed to fetch Education Institutions", error)
+      );
   }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const response = await fetch("/api/studyPrograms", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, educationInstitution_id }),
-    });
-
-    if (!response.ok) {
-      throw new Error(response.statusText);
+    if (educationInstitutionID === null) {
+      return;
     }
-    router.back();
+    const data = {
+      name: name.trim(),
+      educationInstitution_id: educationInstitutionID,
+    };
+
+    addStudyProgram(data);
+    setIsModalVisible(true);
   };
-  const selectedEI = educationInstitutions.find(
-    (educationInstitution) =>
-      educationInstitution.id === educationInstitution_id,
-  );
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col items-center justify-center w-full h-full"
-    >
-      <div className=" justify-center items-center" style={{ width: "50rem" }}>
-        <h1 className="text-3xl flex justify-center">Add Study Program</h1>
-        <label className="form-control w-full ">
-          <div className="label">
-            <span className="label-text">Study Program Name</span>
-          </div>
+    <div className="h-full">
+      <SuccessDialog isModalVisible={isModalVisible} />
+      <ContainerBox className="items-center">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-5  items-center justify-center"
+        >
+          <h1 className="flex justify-center text-4xl font-bold">
+            Add Study Program
+          </h1>
+
           <input
             type="text"
             placeholder="Study Program Name"
-            className="input input-bordered w-full"
+            className="input input-bordered"
             onChange={(e) => setName(e.target.value)}
+            value={name}
+            maxLength={255}
+            aria-label="Study Program Name"
             required
           />
-        </label>
 
-        {/** Button to activate dropdown */}
-        <div className="flex flex-row m-1 gap-2">
-          <div className="dropdown dropdown-end w-full">
-            <div tabIndex={0} role="button" className="btn w-full h-full">
-              {selectedEI ? (
-                <div className="flex flex-row justify-start items-center gap-5 w-full p-3">
-                  <div>{selectedEI.name}</div>
-                  <div>{selectedEI.email}</div>
-                </div>
-              ) : (
-                "Education Institution"
-              )}
-            </div>
-            {/** List inside dropdown */}
-            <ul
-              tabIndex={0}
-              className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-full"
+          <Dropdown
+            dropdownName="Education Institution"
+            options={educationInstitutions}
+            selectedOption={
+              educationInstitutions.find(
+                (edu) => edu.id === educationInstitutionID
+              ) || null
+            }
+            setSelectedOption={(edu) =>
+              setEducationInstitutionID(edu.id as number)
+            }
+            onSearchChange={() => {
+              setEducationInstitutionID(null);
+            }}
+            renderOption={(edu) => (
+              <>
+                <div className="mask mask-squircle w-12 h-12 overflow-hidden"></div>
+
+                <div>{edu.name}</div>
+              </>
+            )}
+          />
+
+          <div className="flex flex-row gap-5">
+            <button
+              type="button"
+              className="btn w-20"
+              onClick={() => router.back()}
             >
-              {educationInstitutions.map((educationInstitution, index) => (
-                <div key={index} className="m-2 p-1">
-                  <div
-                    onClick={() =>
-                      setEducationInstitution_id(educationInstitution?.id)
-                    }
-                    className="btn w-full flex flex-row justify-start items-center p-2 h-fit"
-                  >
-                    <div>{educationInstitution.name}</div>
-                  </div>
-                </div>
-              ))}
-            </ul>
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="btn btn-accent w-20"
+              disabled={isSubmitDisabled}
+            >
+              Save
+            </button>
           </div>
-          <button>
-            <a
-              href={`/educationInstitutions/add`}
-              className="btn btn-primary h-full p-5"
-            >
-              Add Education Institution
-            </a>
-          </button>
-        </div>
-        <div className="flex w-full justify-center p-10 gap-5">
-          <button
-            type="button"
-            className="btn w-20"
-            onClick={() => router.back()}
-          >
-            Cancel
-          </button>
-          <button type="submit" className="btn btn-accent w-20">
-            Save
-          </button>
-        </div>
-      </div>
-    </form>
+        </form>
+      </ContainerBox>
+    </div>
   );
 }

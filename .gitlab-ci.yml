@@ -71,6 +71,8 @@ publish:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker push $TAG_COMMIT
     - docker push $TAG_LATEST
+  variables:
+    DOCKER_HOST: tcp://129.241.153.29:3000
 
 #ping test
 ping_test:

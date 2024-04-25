@@ -68,7 +68,6 @@ publish:
     - docker:dind
   script:
     - echo "Publishing to GitLab Container Registry"
-    - docker run --tls=false # add your command here
     - docker build -t $TAG_COMMIT -t $TAG_LATEST .
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker push $TAG_COMMIT

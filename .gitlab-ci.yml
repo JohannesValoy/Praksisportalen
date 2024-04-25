@@ -72,7 +72,7 @@ publish:
     - docker push $TAG_COMMIT
     - docker push $TAG_LATEST
   variables:
-    DOCKER_HOST: tcp://129.241.153.29
+    DOCKER_HOST: tcp://129.241.153.29.2376
 
 #ping test
 ping_test:

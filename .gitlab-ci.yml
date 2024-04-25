@@ -68,6 +68,8 @@ publish:
   variables:
     DOCKER_TLS_CERTDIR: ""
   script:
+    - TAG_COMMIT=$(echo $TAG_COMMIT | tr '[:upper:]' '[:lower:]')
+    - TAG_LATEST=$(echo $TAG_LATEST | tr '[:upper:]' '[:lower:]')
     - docker build -t $TAG_COMMIT -t $TAG_LATEST .
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker push $TAG_COMMIT

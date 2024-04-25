@@ -93,7 +93,7 @@ deploy:
   tags:
     - deployment
   script:
-    - chmod og= $ID_RSA
+    - chmod og= "$ID_RSA"
     - apk update && apk add openssh-client
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@129.241.153.29 "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@129.241.153.29 "docker pull $TAG_COMMIT"

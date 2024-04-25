@@ -54,7 +54,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         aria-label={dropdownName}
       />
       {isDropdownOpen && (
-        <ul className="dropdown-content z-[1] menu block shadow bg-base-100 text-base-content rounded-box w-full overflow-y-auto max-h-60">
+        <ul className="dropdown-content z-[1] menu block shadow bg-base-300 text-base-content rounded-box w-full scrollbar-thin overflow-y-auto max-h-60">
           {filteredOptions.map((option, index) => (
             <li key={index} className="p-1">
               <div

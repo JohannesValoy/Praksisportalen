@@ -94,7 +94,7 @@ export default function Page() {
             onChange={(e) => setName(e.target.value)}
             value={name}
             maxLength={255}
-            aria-label="Study Program Name"
+            aria-label="Set study Program Name"
             required
           />
 

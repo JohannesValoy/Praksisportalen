@@ -22,7 +22,7 @@ stages:
   # - install
   # - lint
   # - format
-  # - build
+  - build
   - publish
   - deploy
 
@@ -70,10 +70,10 @@ publish:
   script:
     - TAG_COMMIT=$(echo $TAG_COMMIT | tr '[:upper:]' '[:lower:]')
     - TAG_LATEST=$(echo $TAG_LATEST | tr '[:upper:]' '[:lower:]')
-    - docker build -t $TAG_COMMIT -t $TAG_LATEST .
+    - docker-compose-build -t $TAG_COMMIT -t $TAG_LATEST .
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker push $TAG_COMMIT
-    - docker push $TAG_LATEST
+    - docker-compose-push $TAG_COMMIT
+    - docker-compose-push $TAG_LATEST
 
 deploy:
   image: alpine:latest
@@ -86,7 +86,7 @@ deploy:
     - chmod 600 $ID_RSA
     - apk update && apk add openssh-client
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $deployer@129.241.153.29 "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $deployer@129.241.153.29 "docker pull $TAG_COMMIT"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $deployer@129.241.153.29 "docker-compose-pull $TAG_COMMIT"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $deployer@129.241.153.29 "docker container rm -f praksisplasslista|| true"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $deployer@129.241.153.29 "docker run -d -p 80:80 --name praksisplasslista$TAG_COMMIT"
   environment:

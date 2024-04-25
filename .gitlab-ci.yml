@@ -94,7 +94,6 @@ deploy:
     - deployment
   script:
     - chmod 600 $ID_RSA
-    - echo "SSH key path: $ID_RSA"
     - apk update && apk add openssh-client
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $deployer@129.241.153.29 "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $deployer@129.241.153.29 "docker pull $TAG_COMMIT"

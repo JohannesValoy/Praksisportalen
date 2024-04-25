@@ -1,17 +1,19 @@
+/** @format */
+
 "use server";
 
 import DBclient from "@/knex/config/DBClient";
 import "server-only";
 export interface Order {
   id: number;
-  studyProgram_id: number;
+  studyProgramID: number;
   internshipField: string;
   studyYear: number;
-  comment: Text;
+  comment: string;
   numStudents: number;
-  startWeek: string;
-  endWeek: string;
-  created_at: Date;
+  startWeek: Date;
+  endWeek: Date;
+  createdAt: Date;
   studyProgram: {
     id: number;
     name: string;
@@ -27,37 +29,37 @@ export async function fetchOrders(): Promise<Order[]> {
     .innerJoin(
       "fieldGroups",
       "internshipOrders.id",
-      "fieldGroups.internshipOrder_id",
+      "fieldGroups.internshipOrderID"
     )
     .innerJoin(
       "subFieldGroups",
       "fieldGroups.id",
-      "subFieldGroups.fieldGroup_id",
+      "subFieldGroups.fieldGroupID"
     )
     .select("*");
-  const studyprograms = await DBclient.table("studyPrograms")
+  const studyPrograms = await DBclient.table("studyPrograms")
     .whereIn(
       "studyPrograms.id",
-      orders.map((order) => order.studyProgram_id),
+      orders.map((order) => order.studyProgramID)
     )
     .select();
   const educationInstitutes = await DBclient.table("educationInstitutions")
     .select()
     .whereIn(
       "id",
-      studyprograms.map((studyprogram) => studyprogram.educationInstitution_id),
+      studyPrograms.map((studyprogram) => studyprogram.educationInstitution_id)
     );
   const response = orders.map((order) => {
-    const studyprogram = studyprograms.find(
-      (studyprogram) => studyprogram.id === order.studyProgram_id,
+    const studyProgram = studyPrograms.find(
+      (studyprogram) => studyprogram.id === order.studyProgramID
     );
     return {
       ...order,
       studyProgram: {
-        ...studyprogram,
+        ...studyProgram,
         educationInstitute: {
           ...educationInstitutes.find(
-            (institue) => institue.id === studyprogram.educationInstitution_id,
+            (institue) => institue.id === studyProgram.educationInstitution_id
           ),
         },
       },

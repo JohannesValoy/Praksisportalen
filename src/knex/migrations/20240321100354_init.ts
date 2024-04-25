@@ -1,3 +1,4 @@
+import { Inter } from "next/font/google";
 /** @format */
 
 import { randomUUID } from "crypto";
@@ -162,10 +163,10 @@ export async function up(knex: Knex): Promise<void> {
     })
     .createTable("subFieldGroups", (table) => {
       table.increments("id").primary();
-      table.string("studyYear").notNullable();
+      table.integer("studyYear").notNullable();
       table.integer("numStudents").notNullable();
-      table.string("startWeek").notNullable();
-      table.string("endWeek").notNullable();
+      table.timestamp("startWeek").notNullable();
+      table.timestamp("endWeek").notNullable();
       table.integer("fieldGroupID").unsigned().notNullable();
       table
         .foreign("fieldGroupID")

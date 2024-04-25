@@ -16,7 +16,7 @@ import Link from "next/link";
 export default function Page() {
   const router = useRouter();
 
-  const [studyProgram_id, setStudyProgram_id] = useState("");
+  const [studyProgramID, setStudyProgramID] = useState<number>();
   const [comment, setComment] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -24,22 +24,22 @@ export default function Page() {
 
   const initialSubFieldGroups = [
     {
-      studyYear: "1. års studenter",
+      studyYear: 1,
       numStudents: 0,
-      startWeek: "",
-      endWeek: "",
+      startWeek: null,
+      endWeek: null,
     },
     {
-      studyYear: "2. års studenter",
+      studyYear: 2,
       numStudents: 0,
-      startWeek: "",
-      endWeek: "",
+      startWeek: null,
+      endWeek: null,
     },
     {
-      studyYear: "3. års studenter",
+      studyYear: 3,
       numStudents: 0,
-      startWeek: "",
-      endWeek: "",
+      startWeek: null,
+      endWeek: null,
     },
   ];
   const [fieldGroups, setFieldGroups] = useState([
@@ -63,7 +63,7 @@ export default function Page() {
   };
 
   type StudyProgram = {
-    id: string;
+    id: number;
     name: string;
   };
 
@@ -131,14 +131,14 @@ export default function Page() {
 
     if (
       fieldGroups.some((fieldGroup) => fieldGroup.internshipField === "") ||
-      studyProgram_id === ""
+      studyProgramID === null
     ) {
       return;
     }
 
     // Gather form data
     const formData = {
-      studyProgram_id,
+      studyProgram_id: studyProgramID,
       comment,
       fieldGroups,
     };
@@ -157,13 +157,6 @@ export default function Page() {
 
   function refreshPage() {
     window.location.reload();
-  }
-
-  function weekStringToDate(weekString) {
-    const [year, week] = weekString.split("-W");
-    const date = new Date(year);
-    date.setDate(date.getDate() + (week - 1) * 7);
-    return date;
   }
 
   return (
@@ -203,14 +196,14 @@ export default function Page() {
               options={studyPrograms}
               selectedOption={
                 studyPrograms.find(
-                  (studyProgram) => studyProgram.id === studyProgram_id
+                  (studyProgram) => studyProgram.id === studyProgramID
                 ) || null
               }
               setSelectedOption={(studyProgram) => {
-                setStudyProgram_id(studyProgram.id);
+                setStudyProgramID(studyProgram.id as number);
               }}
               onSearchChange={() => {
-                setStudyProgram_id("");
+                setStudyProgramID(null);
               }}
               renderOption={(studyProgram) => (
                 <>
@@ -219,7 +212,7 @@ export default function Page() {
                   <div>{studyProgram.name}</div>
                 </>
               )}
-              customClassName={` ${isSubmitted && studyProgram_id === "" ? "input-error" : ""}`}
+              customClassName={` ${isSubmitted && studyProgramID === null ? "input-error" : ""}`}
             />
             <button type="button">
               <a href={`/studyprograms/add`} className="btn btn-primary">
@@ -306,7 +299,7 @@ export default function Page() {
                       <div key={index} className="mr-4">
                         <div className="label  w-full">
                           <span className="label-text text-xl">
-                            {subFieldGroup.studyYear}
+                            {subFieldGroup.studyYear}. år studenter
                           </span>
                         </div>
 
@@ -341,18 +334,24 @@ export default function Page() {
                         <label className="form-control w-full">
                           <div className="label">
                             <span className="label-text text-xl">
-                              Start Uke
+                              Start Dato
                             </span>
                           </div>
                           <input
-                            type="week"
-                            value={subFieldGroup.startWeek}
+                            type="date"
+                            value={
+                              subFieldGroup.startWeek
+                                ?.toISOString()
+                                .split("T")[0]
+                            }
                             className={`input input-bordered`}
                             onChange={(e) => {
                               const newFieldGroups = [...fieldGroups];
                               newFieldGroups[groupId].subFieldGroups[
                                 index
-                              ].startWeek = e.target.value;
+                              ].startWeek = new Date(
+                                Date.parse(e.target.value)
+                              );
                               setFieldGroups(newFieldGroups);
                             }}
                             required={studentsAboveZero[`${groupId}_${index}`]}
@@ -362,15 +361,16 @@ export default function Page() {
                         <label className="form-control w-full">
                           <div className="label">
                             <span className="label-text text-xl">
-                              Slutt Uke
+                              Slutt Dato
                             </span>
                           </div>
                           <input
-                            type="week"
-                            value={subFieldGroup.endWeek}
+                            type="date"
+                            value={
+                              subFieldGroup.endWeek?.toISOString().split("T")[0]
+                            }
                             className={`input input-bordered ${
-                              weekStringToDate(subFieldGroup.endWeek) <
-                              weekStringToDate(subFieldGroup.startWeek)
+                              subFieldGroup.endWeek < subFieldGroup.startWeek
                                 ? "input-error"
                                 : ""
                             }`}
@@ -378,7 +378,7 @@ export default function Page() {
                               const newFieldGroups = [...fieldGroups];
                               newFieldGroups[groupId].subFieldGroups[
                                 index
-                              ].endWeek = e.target.value;
+                              ].endWeek = new Date(Date.parse(e.target.value));
                               setFieldGroups(newFieldGroups);
                             }}
                             required={studentsAboveZero[`${groupId}_${index}`]}

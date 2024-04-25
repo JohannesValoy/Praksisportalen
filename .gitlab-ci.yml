@@ -23,7 +23,6 @@ stages:
   # - lint
   # - format
   # - build
-  - ping_test
   - publish
   - deploy
 
@@ -66,19 +65,13 @@ publish:
   stage: publish
   services:
     - docker:dind
+  variables:
+    DOCKER_TLS_CERTDIR: ""
   script:
     - docker build -t $TAG_COMMIT -t $TAG_LATEST .
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker push $TAG_COMMIT
     - docker push $TAG_LATEST
-
-#ping test
-ping_test:
-  stage: ping_test
-  image: alpine:latest
-  script:
-    - apk add --no-cache iputils
-    - ping -c 4 129.241.153.29
 
 deploy:
   image: alpine:latest

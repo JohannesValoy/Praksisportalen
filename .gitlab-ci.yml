@@ -65,14 +65,14 @@ publish:
   image: docker:latest
   stage: publish
   services:
-    - name: docker:dind
-      command: ["--tls=false"] # disable TLS for simplicity
+    - docker:dind
   script:
     - echo "Publishing to GitLab Container Registry"
-      - docker build -t $TAG_COMMIT -t $TAG_LATEST .
-      - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-      - docker push $TAG_COMMIT
-      - docker push $TAG_LATEST
+    - docker run --tls=false # add your command here
+    - docker build -t $TAG_COMMIT -t $TAG_LATEST .
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker push $TAG_COMMIT
+    - docker push $TAG_LATEST
   variables:
     DOCKER_HOST: tcp://129.241.153.29:3000
     DOCKER_TLS_CERTDIR: "" # Disable TLS to avoid cert issues
@@ -97,7 +97,7 @@ deploy:
   script:
     - chmod 600 $ID_RSA
     - apk update && apk add openssh-client
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@129.241.153.29 "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $deployer@129.241.153.29 "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $deployer@129.241.153.29 "docker pull $TAG_COMMIT"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $deployer@129.241.153.29 "docker container rm -f praksisplasslista|| true"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $deployer@129.241.153.29 "docker run -d -p 80:80 --name praksisplasslista$TAG_COMMIT"

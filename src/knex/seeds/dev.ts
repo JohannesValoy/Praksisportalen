@@ -14,6 +14,7 @@ import JSONSections from "./sections-finished.json";
 import JSONDepartment from "./departments-finished.json";
 import JSONInternshipAgreements from "./internshipAgreements-finished.json";
 import { time } from "console";
+import { start } from "repl";
 
 /**
  * @param { import("knex").Knex } knex
@@ -228,68 +229,69 @@ export const seed = async function (knex: Knex) {
 
   const timeIntervals = [];
   internships.forEach((internship) => {
-    const startDate = internship.startDate;
-    const endDate = internship.endDate;
-
-    const diff = endDate.getTime() - startDate.getTime();
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const weeks = [];
-    let workDays = [];
-    for (let i = 0; i < days; i++) {
-      const date = new Date();
-      date.setDate(startDate.getDate() + i);
-      if (date.getDay() != 0 && date.getDay() != 6) {
-        workDays.push(date);
-      }
-      if (date.getDay() == 0) {
-        weeks.push(workDays);
-        workDays = [];
-      }
-    }
-
-    weeks.push(workDays);
-
-    for (const week of weeks) {
-      if (week.length > 0) {
-        const days = week
-          .sort(
-            (a, b) =>
-              totalAmountOfInternshipOnDay(a, internships, timeIntervals) -
-              totalAmountOfInternshipOnDay(b, internships, timeIntervals)
-          )
-          .slice(0, 2);
-        for (const day of days) {
-          console.log("Creating time interval for day: ", day);
-          day.setHours(8);
-          const endIntervalDate = new Date(day);
-          endIntervalDate.setHours(16);
-          timeIntervals.push({
-            startDate: day,
-            endDate: endIntervalDate,
-            internshipAgreement_id: internship.id,
-          });
-          knex("timeIntervals").insert([
-            timeIntervals[timeIntervals.length - 1],
-          ]);
+    const startDate: Date = internship.startDate;
+    const endDate: Date = internship.endDate;
+    const weeklyPracticeDays = 2;
+    const sameSectionInternships = internships.filter(
+      (inter) => inter.section_id === internship.section_id
+    );
+    while (startDate.getTime() < endDate.getTime()) {
+      const daysInTheWeek = [];
+      while (
+        startDate.getDay() !== 6 &&
+        startDate.getTime() < endDate.getTime()
+      ) {
+        //Ignore saturdays
+        if (startDate.getDay() !== 5) {
+          daysInTheWeek.push(new Date(startDate));
         }
+        startDate.setDate(startDate.getDate() + 1);
+      }
+      startDate.setDate(startDate.getDate() + 1);
+      const days: Date[] = daysInTheWeek
+        .toSorted((a, b) =>
+          differenceInBusyness(a, b, sameSectionInternships, timeIntervals)
+        )
+        .slice(0, weeklyPracticeDays);
+      for (const day of days) {
+        day.setHours(8);
+        day.setMinutes(0);
+        day.setSeconds(0);
+        const endIntervalDate = new Date(day);
+        endIntervalDate.setHours(16);
+        timeIntervals.push({
+          startDate: day,
+          endDate: endIntervalDate,
+          internshipAgreement_id: internship.id,
+        });
       }
     }
   });
+  await knex("timeIntervals").insert(timeIntervals);
 };
 
-function totalAmountOfInternshipOnDay(
+function differenceInBusyness(
   a: any,
-  internships: any[],
+  b: any,
+  sameSectionInternships: any[],
   timeIntervals: any[]
 ) {
-  return timeIntervals.filter(
-    (ti) =>
-      internships
-        //Find all agreements that are in the same section
-        .filter((i) => a.section_id == i.section_id)
-        .includes(ti.internship_id) &&
-      //Check if the time interval is in the same week
-      ((ti.startDate >= a.endDate && ti.startDate <= a.endDate) ||
-        (ti.endDate >= a.startDate && ti.endDate <= a.endDate))
-  ).length;
+  return (
+    timeIntervals.filter((ti) => {
+      return (
+        (sameSectionInternships.includes(ti.internshipAgreement_id) &&
+          ti.startDate > a &&
+          ti.startDate < a) ||
+        (ti.endDate > a && ti.endDate < a)
+      );
+    }).length -
+    timeIntervals.filter((ti) => {
+      return (
+        (sameSectionInternships.includes(ti.internshipAgreement_id) &&
+          ti.startDate < b &&
+          ti.endDate > b) ||
+        (ti.startDate < b && ti.endDate > b)
+      );
+    }).length
+  );
 }

@@ -27,7 +27,7 @@ const ListOfCoordinators = () => {
       }}
       buttonName={"Details"}
       onAddButtonClick={() => {
-        window.location.href = `/users/addUser?role=coordinator`;
+        window.location.href = `/users/add`;
       }}
       clickableColumns={clickableColumns}
       deleteFunction={deleteCoordinator}

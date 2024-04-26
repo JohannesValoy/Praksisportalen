@@ -31,7 +31,7 @@ const ListOfEmployees = ({ params }) => {
       }}
       buttonName={"Details"}
       onAddButtonClick={() => {
-        window.location.href = `/users/addUser?role=employee`;
+        window.location.href = `/users/add`;
       }}
       clickableColumns={clickableColumns}
       deleteFunction={deleteEmployee}

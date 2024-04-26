@@ -5,7 +5,6 @@
 import ContainerBox from "@/app/components/ContainerBox";
 import Dropdown from "@/app/components/Dropdown";
 import SuccessDialog from "@/app/components/SuccessDialog";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { createDepartment, fetchDepartments, fetchEmployees } from "./action";
@@ -60,7 +59,7 @@ export default function Page() {
       employeeID: employeeID,
     };
 
-    createDepartment(data);
+    await createDepartment(data);
     setIsModalVisible(true);
   };
 

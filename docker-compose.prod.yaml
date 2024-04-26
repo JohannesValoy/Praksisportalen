@@ -1,13 +1,10 @@
 # @format
-
-version: "3.7"
-
 services:
   web:
     build:
       context: .
       target: release
-    image: ${CI_REGISTRY_IMAGE}/praksislista:${CI_COMMIT_SHORT_SHA}
+    image: ${CI_REGISTRY_IMAGE}/praksislista
     depends_on:
       db:
         condition: service_healthy

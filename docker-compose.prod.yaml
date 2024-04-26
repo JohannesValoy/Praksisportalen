@@ -7,7 +7,7 @@ services:
     build:
       context: .
       target: release
-    image: gitlab.stud.idi.ntnu.no/bachelorgruppe-12-bidata-2024/praksisplasslista/praksislista:latest
+    image: registry.stud.idi.ntnu.no:5050/bachelorgruppe-12-bidata-2024/praksisplasslista/praksislista
     depends_on:
       db:
         condition: service_healthy

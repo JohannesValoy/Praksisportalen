@@ -7,7 +7,7 @@ services:
     build:
       context: .
       target: release
-    image: registry.stud.idi.ntnu.no:5050/bachelorgruppe-12-bidata-2024/praksisplasslista/praksislista
+    image: ${CI_REGISTRY_IMAGE}/praksislista:${CI_COMMIT_SHORT_SHA}
     depends_on:
       db:
         condition: service_healthy

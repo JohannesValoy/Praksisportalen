@@ -43,16 +43,11 @@ RUN bun --target=node run build
 # Following: https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
 FROM base AS release
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
 RUN mkdir .next
-RUN chown nextjs:nodejs .next
-
-COPY --from=prerelease --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=prerelease --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=prerelease /app/.next/standalone ./
+COPY --from=prerelease /app/.next/static ./.next/static
 
 # run the app
-USER nextjs     
+USER bun     
 EXPOSE 3000
 ENTRYPOINT [ "bun", "server.js" ]

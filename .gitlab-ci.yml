@@ -18,14 +18,14 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 # Inspired by https://www.digitalocean.com/community/tutorials/how-to-set-up-a-continuous-deployment-pipeline-with-gitlab-on-ubuntu
+
 stages:
-  - printDetails
-  # - install
-  # - lint
-  # - format
-  - build
   - publish
   - deploy
+  - build
+  - install
+  - lint
+  - format
 
 default:
   cache:
@@ -36,30 +36,26 @@ default:
     policy: pull-push
   image: node:latest
 
-# install:
-#   stage: install
-#   script:
-#     - npm install --also=dev
-#     - npm install --save next
-#     - npm install --save-dev typescript @types/react @types/node prettier
-# build:
-#   stage: build
-#   script:
-#     - npm run build
-
-# lint:
-#   stage: lint
-#   script:
-#     - npm run lint
-
-# format:
-#   stage: format
-#   script:
-#     - npm run format
-
-print_ci_registry:
-  stage: printDetails
+install:
+  stage: install
   script:
+    - npm install --also=dev
+    - npm install --save next
+    - npm install --save-dev typescript @types/react @types/node prettier
+build:
+  stage: build
+  script:
+    - npm run build
+
+lint:
+  stage: lint
+  script:
+    - npm run lint
+
+format:
+  stage: format
+  script:
+    - npm run format
     - echo "$CI_REGISTRY"
 
 variables:

@@ -6,7 +6,7 @@ services:
   web:
     build:
       context: .
-      target: prod
+      target: release
     image: 129.241.153.29:5000/praksislista:latest
     depends_on:
       db:

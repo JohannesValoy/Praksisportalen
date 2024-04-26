@@ -4,7 +4,7 @@ services:
     build:
       context: .
       target: release
-    image: ${CI_REGISTRY_IMAGE}
+    image: registry.stud.idi.ntnu.no:5050/bachelorgruppe-12-bidata-2024/praksisplasslista/praksisLista:latest
     depends_on:
       db:
         condition: service_healthy

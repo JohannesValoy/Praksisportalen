@@ -20,9 +20,6 @@ export async function fetchSections() {
   return response.map((section) => {
     return {
       name: section.name,
-      type: section.section_type,
-      employeeID: section.employee_id,
-      departmentID: section.department_id,
     };
   }, {});
 }

@@ -202,13 +202,7 @@ export default function Page() {
               onSearchChange={() => {
                 setStudyProgramID(null);
               }}
-              renderOption={(studyProgram) => (
-                <>
-                  <div className=" w-12 h-12 overflow-hidden"></div>
-
-                  <div>{studyProgram.name}</div>
-                </>
-              )}
+              renderOption={(studyProgram) => <div>{studyProgram.name}</div>}
               customClassName={` ${isSubmitted && studyProgramID === null ? "input-error" : ""}`}
             />
             <button type="button">
@@ -260,13 +254,7 @@ export default function Page() {
                       newFieldGroups[numericGroupId].internshipField = "";
                       setFieldGroups(newFieldGroups);
                     }}
-                    renderOption={(type) => (
-                      <>
-                        <div className=" w-12 h-12 overflow-hidden "></div>
-
-                        <div>{type.name}</div>
-                      </>
-                    )}
+                    renderOption={(type) => <div>{type.name}</div>}
                     customClassName={` ${isSubmitted && fieldGroups[groupId].internshipField === "" ? "input-error" : ""}`}
                   />
                   <div className="flex flex-row mt-2 gap-2">

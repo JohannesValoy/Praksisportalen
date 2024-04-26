@@ -76,7 +76,7 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-full w-full">
+    <div className="flex flex-col justify-center items-center h-fit w-full">
       <SuccessDialog isModalVisible={isModalVisible} />
       <ContainerBox className="items-center">
         <form
@@ -112,13 +112,7 @@ export default function Page() {
             onSearchChange={() => {
               setEducationInstitutionID(null);
             }}
-            renderOption={(edu) => (
-              <>
-                <div className="w-12 h-12 overflow-hidden"></div>
-
-                <div>{edu.name}</div>
-              </>
-            )}
+            renderOption={(edu) => <>{edu.name}</>}
           />
 
           <div className="flex flex-row gap-5">

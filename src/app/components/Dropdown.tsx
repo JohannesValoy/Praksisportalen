@@ -55,18 +55,18 @@ const Dropdown: React.FC<DropdownProps> = ({
       />
       {isDropdownOpen && (
         <ul className="dropdown-content z-[1] menu block shadow bg-base-300 text-base-content rounded-box w-full scrollbar-thin overflow-y-auto max-h-60">
-          {filteredOptions.map((option, index) => (
-            <li key={index} className="p-1">
-              <div
+          {filteredOptions.map((option) => (
+            <li key={option.id || option.name}>
+              <button
                 onClick={() => {
                   setSelectedOption(option);
                   setSearchTerm("");
                   setIsDropdownOpen(false);
                 }}
-                className="btn flex flex-row justify-start items-center p-2 h-fit"
+                className="btn btn-ghost w-full flex justify-start"
               >
                 {renderOption(option)}
-              </div>
+              </button>
             </li>
           ))}
         </ul>

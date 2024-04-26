@@ -105,7 +105,7 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-full w-full">
+    <div className="flex flex-col justify-center items-center h-fit w-full">
       <SuccessDialog isModalVisible={isModalVisible} />
       <ContainerBox className="items-center">
         <form
@@ -137,14 +137,7 @@ export default function Page() {
                 }
                 setSelectedOption={(dp) => setDepartmentID(dp.id)}
                 onSearchChange={() => setDepartmentID(null)}
-                renderOption={(department) => (
-                  <>
-                    <th>
-                      <div className="  w-full h-12 overflow-hidden"></div>
-                    </th>
-                    <td>{department.name}</td>
-                  </>
-                )}
+                renderOption={(department) => <>{department.name}</>}
               />
               <button type="button" className="btn btn-primary ">
                 Add Department
@@ -184,14 +177,7 @@ export default function Page() {
               }
               setSelectedOption={(type) => setSectionType(type.name)}
               onSearchChange={() => setSectionType(null)}
-              renderOption={(type) => (
-                <>
-                  <th>
-                    <div className=" w-12 h-12 overflow-hidden "></div>
-                  </th>
-                  <td>{type.name}</td>
-                </>
-              )}
+              renderOption={(type) => <>{type.name}</>}
             />
             <div className="flex flex-row mt-2">
               <input

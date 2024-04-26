@@ -22,7 +22,7 @@ const ListOfInternships = () => {
       }}
       buttonName={"Details"}
       onAddButtonClick={() => {
-        window.location.href = `/internships/addInternship`;
+        window.location.href = `/internships/add`;
       }}
       deleteFunction={deleteInternship}
       paginateFunction={paginateInternships}

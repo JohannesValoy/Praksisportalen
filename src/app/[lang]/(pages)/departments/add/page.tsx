@@ -65,7 +65,7 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-full w-full">
+    <div className="flex flex-col justify-center items-center h-fit w-full">
       <SuccessDialog isModalVisible={isModalVisible} />
       <ContainerBox className="items-center">
         <form
@@ -99,15 +99,6 @@ export default function Page() {
                 onSearchChange={() => setEmployeeID(null)}
                 renderOption={(user) => (
                   <>
-                    <div className="mask mask-squircle w-12 h-12 overflow-hidden">
-                      <Image
-                        src="/example-profile-picture.jpg"
-                        alt="Description"
-                        className=" bg-neutral-300 h-full object-cover"
-                        width={100}
-                        height={100}
-                      />
-                    </div>
                     <div>{user.name}</div>
                     <div>{user.email}</div>
                   </>

@@ -71,8 +71,6 @@ const routeRestrictions: Route[] = [
   new Route(/(colors)/, ["GET"]),
   new Route(/(login)/, ["GET", "POST"]),
   new Route(/(colors)/, ["GET"]),
-  new Route(/(employees)/, ["GET", "POST"], [Role.admin, Role.employee]),
-  new Route(/(students)/, ["GET", "POST"], [Role.admin, Role.student]),
   new Route(/(studyprograms)/, ["GET", "POST"], [Role.admin, Role.coordinator]),
   new Route(/(departments)/, ["GET", "POST"], [Role.admin, Role.employee]),
   new Route(/(sections)/, ["GET", "POST"], [Role.admin, Role.employee]),
@@ -83,7 +81,8 @@ const routeRestrictions: Route[] = [
     [Role.admin, Role.coordinator]
   ),
   new Route(/(bulkImport)/, ["GET", "POST"], [Role.admin]),
-  new Route(/(users)/, ["GET", "POST"], [Role.admin, Role.coordinator]),
+  new Route(/(users)/, ["GET", "POST"], [Role.admin]),
+  new Route(/(users\/students)/, ["GET", "POST"], [Role.coordinator]),
   new Route(
     /(internshipAgreements)/,
     ["GET", "POST"],

@@ -7,7 +7,7 @@ services:
     build:
       context: .
       target: prod
-    image: http://129.241.153.29:5000/praksislista:latest
+    image: 129.241.153.29:5000/praksislista:latest
     depends_on:
       db:
         condition: service_healthy

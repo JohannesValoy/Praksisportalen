@@ -82,7 +82,7 @@ deploy:
     - apk update && apk add openssh-client
     - scp -i $ID_RSA -o StrictHostKeyChecking=no docker-compose.prod.yaml deployer@129.241.153.29:/home/deployer  
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@129.241.153.29 "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@129.241.153.29 "docker compose -f docker-compose.prod.yaml up --env-file .env -e CI_REGISTRY_IMAGE=$CI_REGISTRY_IMAGE -e CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@129.241.153.29 'docker compose -f docker-compose.prod.yaml --env-file .env -e CI_REGISTRY_IMAGE=$CI_REGISTRY_IMAGE -e CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA" up' 
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@129.241.153.29 "docker logout"
 
   environment:

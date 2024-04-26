@@ -4,7 +4,7 @@ services:
     build:
       context: .
       target: release
-    image: ${CI_REGISTRY_IMAGE}/praksislista
+    image: ${CI_REGISTRY_IMAGE}
     depends_on:
       db:
         condition: service_healthy

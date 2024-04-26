@@ -60,7 +60,7 @@ default:
 print_ci_registry:
   stage: printDetails
   script:
-    - echo $CI_REGISTRY
+    - echo "$CI_REGISTRY"
 
 variables:
   TAG_LATEST: $CI_COMMIT_REF_NAME:latest

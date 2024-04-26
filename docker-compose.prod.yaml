@@ -56,3 +56,7 @@ volumes:
 
 networks:
   praksislista_network:
+
+env_file:
+  - path: .env
+    required: false

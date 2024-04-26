@@ -1,5 +1,6 @@
 FROM imbios/bun-node:21-debian AS base
 #For healthcheck
+ENV NEXT_TELEMETRY_DISABLED 1
 RUN apt-get update && apt-get install -y wget && apt-get clean
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=10 CMD wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
 WORKDIR /app
@@ -39,12 +40,19 @@ RUN bun test
 RUN bun --target=node run build 
 
 # copy production dependencies and source code into final image
+# Following: https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
 FROM base AS release
-COPY --from=install /temp/prod/node_modules node_modules
-COPY --from=prerelease index.ts .
-COPY --from=prerelease package.json .
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+COPY --from=prerelease --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=prerelease --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # run the app
-USER bun
-EXPOSE 3000/tcp
-ENTRYPOINT [ "bun", "start" ]
+USER nextjs     
+EXPOSE 3000
+ENTRYPOINT [ "bun", "server.js" ]

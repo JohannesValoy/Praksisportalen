@@ -20,7 +20,6 @@ CMD ["/bin/bash","-c", "bun --bun knex migrate:latest && bun --bun knex seed:run
 # copy node_modules from temp directoryb
 # then copy all (non-ignored) project files into the image
 FROM base AS prerelease
-COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
 RUN bun install --frozen-lockfile 
 

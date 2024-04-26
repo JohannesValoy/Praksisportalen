@@ -15,6 +15,7 @@ import JSONDepartment from "./departments-finished.json";
 import JSONInternshipAgreements from "./internshipAgreements-finished.json";
 import { time } from "console";
 import { start } from "repl";
+import { randomInt } from "crypto";
 
 /**
  * @param { import("knex").Knex } knex
@@ -248,11 +249,12 @@ export const seed = async function (knex: Knex) {
         startDate.setDate(startDate.getDate() + 1);
       }
       startDate.setDate(startDate.getDate() + 1);
-      const days: Date[] = daysInTheWeek
-        .toSorted((a, b) =>
-          differenceInBusyness(a, b, sameSectionInternships, timeIntervals)
-        )
-        .slice(0, weeklyPracticeDays);
+      let days: Date[] = daysInTheWeek.toSorted((a, b) =>
+        differenceInBusyness(a, b, sameSectionInternships, timeIntervals)
+      );
+      if (days.length > weeklyPracticeDays) {
+        days = [days[0], days[randomInt(1, days.length - 1)]];
+      }
       for (const day of days) {
         day.setHours(8);
         day.setMinutes(0);
@@ -268,6 +270,8 @@ export const seed = async function (knex: Knex) {
     }
   });
   await knex("timeIntervals").insert(timeIntervals);
+
+  
 };
 
 function differenceInBusyness(

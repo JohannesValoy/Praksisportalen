@@ -19,6 +19,7 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 # Inspired by https://www.digitalocean.com/community/tutorials/how-to-set-up-a-continuous-deployment-pipeline-with-gitlab-on-ubuntu
 stages:
+  - printDetails
   # - install
   # - lint
   # - format
@@ -55,6 +56,11 @@ default:
 #   stage: format
 #   script:
 #     - npm run format
+
+print_ci_registry:
+  stage: printDetails
+  script:
+    - echo $CI_REGISTRY
 
 variables:
   TAG_LATEST: $CI_COMMIT_REF_NAME:latest

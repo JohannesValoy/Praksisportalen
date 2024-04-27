@@ -10,7 +10,7 @@ RUN apt-get install -y tar && apt-get clean
 COPY package.json .
 RUN bun install
 COPY --chown=app:app . .
-CMD ["/bin/bash","-c", "bun --bun knex migrate:latest && bun --bun knex seed:run && bun next dev"]
+CMD /bin/bash -c "bun --bun knex migrate:latest --knexfile src/knex/knexfile.ts && bun --bun knex seed:run --knexfile src/knex/knexfile.ts && bun next dev"
 
 # Taken from https://bun.sh/guides/ecosystem/docker
 
@@ -27,6 +27,8 @@ RUN bun install --frozen-lockfile
 ENV NODE_ENV=production
 RUN bun test
 RUN bun --target=node run build 
+COPY src/knex .next/standalone/src
+COPY src/services .next/standalone/src
 
 # copy production dependencies and source code into final image
 # Following: https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
@@ -39,4 +41,5 @@ COPY --from=prerelease /app/.next/static ./.next/static
 # run the app
 USER bun     
 EXPOSE 3000
-ENTRYPOINT [ "bun", "server.js" ]
+CMD /bin/bash -c "bun --bun knex migrate:latest --knexfile src/knex/knexfile.ts && bun server.js"
+

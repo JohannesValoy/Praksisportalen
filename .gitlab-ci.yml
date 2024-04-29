@@ -81,7 +81,9 @@ deploy:
     - chmod 600 $ID_RSA
     - apk update && apk add openssh-client
     - scp -i $ID_RSA -o StrictHostKeyChecking=no ./docker-compose.prod.yaml deployer@129.241.153.29:/home/deployer
-    - scp -i $ID_RSA -o StrictHostKeyChecking=no ./Caddyfile deployer@129.241.153.29:/home/deployer
+    - mv ./Caddyfile ./Caddyfile.tmp
+    - scp -i $ID_RSA -o StrictHostKeyChecking=no ./Caddyfile.tmp deployer@129.241.153.29:/home/deployer
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@129.241.153.29 "mv Caddyfile.tmp Caddyfile"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@129.241.153.29 "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@129.241.153.29 'docker compose -f docker-compose.prod.yaml --env-file .env up -d' 
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@129.241.153.29 "docker logout"

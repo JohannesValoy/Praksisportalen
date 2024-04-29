@@ -199,7 +199,7 @@ export default function Page({
                           <button
                             type="submit"
                             className="btn btn-accent"
-                            disabled={!name && !sectionType}
+                            disabled={!name && !sectionType && !employeeID}
                           >
                             Save
                           </button>

@@ -47,17 +47,22 @@ export const config: { [key: string]: Knex.Config } = {
   production: {
     client: "mysql2",
     connection: {
-      database: "my_db",
-      user: "username",
-      password: "password",
+      uri: env.DATABASE_URL,
     },
     pool: {
       min: 2,
       max: 10,
     },
     migrations: {
-      directory: "migrations",
+      directory: path.join(__dirname, "migrations"),
+      extension: extension,
       tableName: "knex_migrations",
+      loadExtensions: [`.${extension}`],
+    },
+    //TODO: Should be removed in production
+    seeds: {
+      directory: path.join(__dirname, "seeds"),
+      loadExtensions: [`.${extension}`],
     },
   },
 };

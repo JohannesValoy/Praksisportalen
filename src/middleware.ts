@@ -95,7 +95,7 @@ const routeRestrictions: Route[] = [
   ),
   new Route(
     /(profile)/,
-    ["GET"],
+    ["GET", "POST"],
     [Role.admin, Role.employee, Role.student, Role.coordinator]
   ),
   new Route(

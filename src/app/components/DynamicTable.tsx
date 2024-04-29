@@ -17,8 +17,9 @@ type DynamicTableProps = {
   buttonName: string;
   onAddButtonClick: () => void;
   clickableColumns?: Record<string, (row: any) => void>;
-  deleteFunction: (id: string | number) => Promise<any>; // Replace 'any' with the type of the response
-  paginateFunction: (request: any) => Promise<PageResponse<any>>; // Replace 'any' with the type of the request
+  deleteFunction: (id: string | number) => Promise<any>;
+  paginateFunction: (request: any) => Promise<PageResponse<any>>;
+  params?: any;
 };
 
 const DynamicTable: React.FC<DynamicTableProps> = ({
@@ -31,6 +32,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   clickableColumns = {},
   deleteFunction,
   paginateFunction,
+  params,
 }) => {
   const searchParams = useSearchParams();
   // Ensure rows is always an array
@@ -58,19 +60,37 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   const [pageSize, setPageSize] = useState(10);
 
   const fetch = useCallback(() => {
-    const filter = searchParams.keys();
+    console.log({ params }.toString());
+
     const request = {
       page,
       size: pageSize,
       sort: sortedBy,
     };
-    let key = filter.next();
-    let i = 0;
-    while (key && i < 100) {
-      request[key.value] = searchParams.get(key.value);
-      key = filter.next();
-      i++;
+
+    if (!params || params.length === 0) {
+      const filter = searchParams.keys();
+
+      console.log("filter: " + filter);
+      let key = filter.next();
+      let i = 0;
+      while (key && i < 100) {
+        request[key.value] = searchParams.get(key.value);
+        key = filter.next();
+        i++;
+      }
+    } else {
+      const currParams = params.keys();
+      let key = currParams.next();
+      let i = 0;
+      while (key && i < 100) {
+        request[key.value] = searchParams.get(key.value);
+        key = currParams.next();
+        i++;
+      }
     }
+    console.log(request);
+
     paginateFunction(request).then((data) => {
       totalPages.current = data.totalPages;
       if (totalPages.current < page) {

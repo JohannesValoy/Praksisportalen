@@ -78,6 +78,7 @@ export async function paginateInternships(
   request: InternshipPaginationRequest
 ) {
   request.section_id = [Number(request.section_id)] || [];
+  request.yearOfStudy = [Number(request.yearOfStudy)] || [];
   const data = await getInternshipPositionObjectByPageRequest(request);
 
   const elementsPromises = data.elements.map(async (element) => {

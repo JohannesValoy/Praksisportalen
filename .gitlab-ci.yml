@@ -51,3 +51,4 @@ format:
   stage: format
   script:
     - npm run format
+

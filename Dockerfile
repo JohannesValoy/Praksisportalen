@@ -19,7 +19,7 @@ CMD /bin/bash -c "bun --bun knex migrate:latest --knexfile src/knex/knexfile.ts 
 
 # copy node_modules from temp directoryb
 # then copy all (non-ignored) project files into the image
-FROM base AS prerelease
+FROM base AS release
 COPY . .
 RUN bun install --frozen-lockfile 
 
@@ -27,19 +27,8 @@ RUN bun install --frozen-lockfile
 ENV NODE_ENV=production
 RUN bun test
 RUN bun --target=node run build 
-COPY src/knex .next/standalone/src
-COPY src/services .next/standalone/src
 
-# copy production dependencies and source code into final image
-# Following: https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
-FROM base AS release
-
-RUN mkdir .next
-COPY --from=prerelease /app/.next/standalone ./
-COPY --from=prerelease /app/.next/static ./.next/static
-
-# run the app
-USER bun     
+# run the app     
 EXPOSE 3000
-CMD /bin/bash -c "bun --bun knex migrate:latest --knexfile src/knex/knexfile.ts && node server.js"
+CMD /bin/bash -c "bun knex migrate:latest --knexfile src/knex/knexfile.ts && bun run start"
 

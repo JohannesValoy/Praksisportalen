@@ -69,7 +69,7 @@ const AdminLayout = () => {
           </Link>
         </ContainerBox>
         <ContainerBox title={"Education Institution"} className="w-fit">
-          <Link href="users/administerCoordinators" className="btn btn-primary">
+          <Link href="users/coordinators" className="btn btn-primary">
             Koordinatorer
           </Link>
           <Link href="studyprograms" className="btn btn-primary">
@@ -80,7 +80,7 @@ const AdminLayout = () => {
           </Link>
         </ContainerBox>
         <ContainerBox title={"Hospital"} className="w-fit">
-          <Link href="users/administerEmployees" className="btn btn-primary">
+          <Link href="users/employees" className="btn btn-primary">
             Ansatte
           </Link>
           <Link href="departments" className="btn btn-primary">

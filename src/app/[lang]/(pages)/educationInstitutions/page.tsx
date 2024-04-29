@@ -17,7 +17,7 @@ const ListOfEducationInstitutions = () => {
       headers={headers}
       onRowClick={() => {}}
       onRowButtonClick={(row) => {
-        throw new Error("Not implemented");
+        window.location.href = `/educationInstitutions/${row.id}`;
       }}
       buttonName={"Details"}
       onAddButtonClick={() => {

@@ -4,6 +4,7 @@
 import React from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import { deleteSection, paginateSections } from "./action";
+import ContainerBox from "@/app/components/ContainerBox";
 
 const ListOfSections = () => {
   const headers = { Name: "name", Email: "email" };

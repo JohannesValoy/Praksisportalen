@@ -20,11 +20,11 @@ async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
     .orderBy(
       ["id", "name", "email"].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id",
+        : "id"
     );
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   return {
     ...pageRequest,
@@ -34,8 +34,26 @@ async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
   } as PageResponse<Student>;
 }
 
+async function getStudentsByInternshipId(id: number) {
+  const students = await DBclient.select("students.*")
+    .from("students")
+    .join(
+      "internshipAgreements",
+      "students.id",
+      "internshipAgreements.student_id"
+    )
+    .where("internshipAgreements.internship_id", id);
+
+  return { students } as { students: Student[] };
+}
+
 async function deleteStudentByID(id: string) {
   await DBclient.delete().from("students").where("id", id);
 }
 
-export { createStudents, getStudentsByPageRequest, deleteStudentByID };
+export {
+  createStudents,
+  getStudentsByPageRequest,
+  deleteStudentByID,
+  getStudentsByInternshipId,
+};

@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { Order, fetchOrders } from "./actions";
 import ContainerBox from "@/app/components/ContainerBox";
 import ErrorModal from "@/app/components/ErrorModal";
+import DynamicTable from "@/app/components/DynamicTable";
+import { deleteInternship, paginateInternships } from "./actions";
 
 export default function Page() {
   const [orders, setOrders] = useState<Order[]>(null);
@@ -56,6 +58,26 @@ export default function Page() {
           <p>Loading...</p>
         )}
       </div>
+
+      <DynamicTable
+        tableName={"Internship Spots"}
+        headers={{
+          Name: "name",
+          Field: "field",
+          "Study Year": "yearOfStudy",
+          "Free Spots": "freeSpots",
+        }}
+        onRowClick={() => {}}
+        onRowButtonClick={(row) => {
+          window.location.href = `/internships/individualInternship?internship_id=${row.id}`;
+        }}
+        buttonName={"+"}
+        onAddButtonClick={() => {
+          window.location.href = `/internships/addInternship`;
+        }}
+        deleteFunction={deleteInternship}
+        paginateFunction={paginateInternships}
+      />
     </ContainerBox>
   );
 }

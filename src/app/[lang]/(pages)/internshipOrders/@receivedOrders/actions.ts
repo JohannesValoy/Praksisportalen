@@ -2,8 +2,14 @@
 
 "use server";
 
+import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
+import {
+  deleteInternshipByID,
+  getInternshipPositionObjectByPageRequest,
+} from "@/services/InternshipPositionService";
 import DBclient from "@/knex/config/DBClient";
 import "server-only";
+import { getStudentsByInternshipId } from "@/services/StudentService";
 export interface Order {
   id: number;
   studyProgramID: number;
@@ -66,4 +72,36 @@ export async function fetchOrders(): Promise<Order[]> {
     };
   });
   return response;
+}
+
+export async function paginateInternships(
+  request: InternshipPaginationRequest
+) {
+  request.section_id = [Number(request.section_id)] || [];
+  const data = await getInternshipPositionObjectByPageRequest(request);
+
+  const elementsPromises = data.elements.map(async (element) => {
+    const result = await getStudentsByInternshipId(element.id);
+    const students = result.students;
+    return {
+      name: element.name,
+      field: element.internship_field,
+      yearOfStudy: element.yearOfStudy,
+      freeSpots: element.maxCapacity - students.length,
+      id: element.id,
+    };
+  });
+
+  const elements = await Promise.all(elementsPromises);
+
+  return {
+    ...data,
+    elements,
+  };
+}
+export async function deleteInternship(id: number) {
+  return await deleteInternshipByID(id);
+}
+export async function getInternshipTypes() {
+  return await DBclient.select().from("internshipFields");
 }

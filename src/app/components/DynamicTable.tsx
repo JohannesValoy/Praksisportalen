@@ -116,9 +116,9 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   const rowDataKeys = Object.values(headers);
 
   return (
-    <>
-      <ContainerBox>
-        <div className="flex bg-neutral flex-row justify-between items-center w-full p-4">
+    <div className="flex flex-col justify-center items-center bg-base-300 p-5 rounded-2xl gap-5 w-full">
+      <div className="w-full">
+        <div className="flex rounded-lg bg-base-200 flex-row justify-between items-center w-full p-4">
           <h1 className="text-3xl font-semibold">List of {tableName}</h1>
           <div>
             <button onClick={onAddButtonClick} className="btn btn-xs btn-ghost">
@@ -274,7 +274,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
             <option value={40}>40</option>
           </select>
         </div>
-      </ContainerBox>
+      </div>
       {/**Delete Error modal */}
       {isModalOpen && (
         <ErrorModal
@@ -282,7 +282,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
           setIsModalOpen={setIsModalOpen}
         ></ErrorModal>
       )}
-    </>
+    </div>
   );
 };
 

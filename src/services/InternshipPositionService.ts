@@ -84,7 +84,11 @@ async function getInternshipPositionObjectByPageRequest(
       if (pageRequest.section_id && typeof pageRequest.section_id == "number") {
         builder.whereIn("section_id", pageRequest.section_id);
       }
-      if (pageRequest.yearOfStudy && pageRequest.yearOfStudy.length > 0) {
+      if (
+        Array.isArray(pageRequest.yearOfStudy) &&
+        pageRequest.yearOfStudy.every(Number.isFinite) &&
+        pageRequest.yearOfStudy.length > 0
+      ) {
         builder.whereIn("yearOfStudy", pageRequest.yearOfStudy);
       }
       if (pageRequest.field) {

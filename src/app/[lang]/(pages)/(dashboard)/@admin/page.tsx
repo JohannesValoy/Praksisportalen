@@ -5,10 +5,21 @@
 import ContainerBox from "@/app/components/ContainerBox";
 import { PieChart } from "@mui/x-charts/PieChart";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { fetchOrders } from "../../internshipOrders/@receivedOrders/actions";
+import ErrorModal from "@/app/components/ErrorModal";
 
 const pieParams = { margin: { right: 5 }, height: 400, width: 400 };
 
 const AdminLayout = () => {
+  const [error, setError] = useState(null);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [orders, setOrders] = useState([]);
+  useEffect(() => {
+    fetchOrders()
+      .then(setOrders)
+      .catch((error) => setError(error.message));
+  }, []);
   return (
     <div className=" flex flex-row items-center justify-center rounded-lg w-full h-full container mx-auto">
       <div className="flex flex-col h-full w-full">
@@ -18,47 +29,39 @@ const AdminLayout = () => {
             {...pieParams}
           />
         </ContainerBox>
-        <ContainerBox title={"Notifications"}>
-          <div role="alert" className="alert shadow-lg">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="stroke-info shrink-0 w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
-            </svg>
-
-            <div>
-              <h3 className="font-bold">New Internship Request!</h3>
-              <div className="text-xs">You have 1 unread message</div>
-            </div>
-            <button className="btn btn-sm">See</button>
-          </div>
-          <div role="alert" className="alert shadow-lg">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="stroke-info shrink-0 w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
-            </svg>
-            <div>
-              <h3 className="font-bold">New message!</h3>
-              <div className="text-xs">You have 1 unread message</div>
-            </div>
-            <button className="btn btn-sm">See</button>
+        <ContainerBox title="Received Orders">
+          <div
+            className="stack w-full h-fit"
+            onClick={() => (window.location.href = "/internshipOrders")}
+          >
+            {orders.map((order, index) => (
+              <div key={order.id} className="card bg-info shadow-xl">
+                <div className="card-body flex gap-5">
+                  <div className="flex flex-row items-center">
+                    <div className="flex flex-col flex-grow ml-4">
+                      <div className="text-lg font-bold text-white">
+                        {order.studyProgram.educationInstitute.name} -{" "}
+                        {order.studyProgram.name}
+                      </div>
+                      <div className="text-white text-opacity-80">
+                        {order.numStudents} students
+                      </div>
+                      <div className="text-white text-opacity-80">
+                        {order.internshipField}, {order.studyYear} år studenter
+                      </div>
+                      <div className="text-sm text-white text-opacity-80">
+                        {order.createdAt.toLocaleDateString()}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {index === 0 && orders.length > 1 && (
+                  <div className="badge badge-accent">
+                    + {orders.length - 1}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </ContainerBox>
       </div>
@@ -102,8 +105,13 @@ const AdminLayout = () => {
           </Link>
         </ContainerBox>
       </div>
+      {isErrorModalOpen && (
+        <ErrorModal
+          message={error}
+          setIsModalOpen={setIsErrorModalOpen}
+        ></ErrorModal>
+      )}
     </div>
   );
 };
-
 export default AdminLayout;

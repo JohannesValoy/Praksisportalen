@@ -12,3 +12,7 @@ export async function fetchDepartmentDetails(id: string) {
 
   return await getDepartmentObjectByID(response.id);
 }
+
+export async function editDepartmentDetails(id: string, update: any) {
+  await DBclient("departments").where("id", id).update(update);
+}

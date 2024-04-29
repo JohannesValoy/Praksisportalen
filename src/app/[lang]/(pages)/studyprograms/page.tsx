@@ -14,10 +14,6 @@ const ListOfStudies = () => {
       tableName={"Study Programs"}
       headers={headers}
       onRowClick={() => {}}
-      onRowButtonClick={(row) => {
-        throw new Error("Not implemented");
-      }}
-      buttonName={"Details"}
       onAddButtonClick={() => {
         window.location.href = `/studyprograms/add`;
       }}

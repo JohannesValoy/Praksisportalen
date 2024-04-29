@@ -5,16 +5,22 @@
 import React from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import { deleteCoordinator, paginateCoordinators } from "./actions";
+import { useRouter } from "next/navigation";
 
 const ListOfCoordinators = () => {
   const headers = { Name: "name", Email: "email" };
+  const router = useRouter();
 
-  const handleEmailClick = (row) => {
-    window.location.href = `/profile?id=${row.id}`;
+  const handleEmailClick = (user) => {
+    handleClick(user.id);
   };
 
   const clickableColumns = {
     email: handleEmailClick,
+  };
+
+  const handleClick = (id: string) => {
+    router.push(`/profile/${id}`);
   };
 
   return (
@@ -22,8 +28,8 @@ const ListOfCoordinators = () => {
       tableName={"Coordinators"}
       headers={headers}
       onRowClick={() => {}}
-      onRowButtonClick={(row) => {
-        window.location.href = `/profile?id=${row.id}`;
+      onRowButtonClick={(user) => {
+        handleClick(user.id);
       }}
       buttonName={"Details"}
       onAddButtonClick={() => {

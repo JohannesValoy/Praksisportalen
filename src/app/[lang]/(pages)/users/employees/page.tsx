@@ -5,17 +5,23 @@ import { paginateEmployees } from "./actions";
 import { deleteEmployee } from "@/services/EmployeeService";
 import { getDictionary } from "@/app/[lang]/dictionaries";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const ListOfEmployees = ({ params }) => {
   const [words, setWords] = useState<any>({});
+  const headers = { Name: "name", Email: "email" };
+  const router = useRouter();
+
   getDictionary(params.lang).then((words) =>
     setWords(words?.administerEmployees)
   );
-  const headers = { Name: "name", Email: "email" };
-  console.log(params.lang);
-  console.log("words", words);
-  const handleEmailClick = (row) => {
-    window.location.href = `/profile?id=${row.id}`;
+
+  const handleEmailClick = (user) => {
+    handleClick(user.id);
+  };
+
+  const handleClick = (id: string) => {
+    router.push(`/profile/${id}`);
   };
 
   const clickableColumns = {
@@ -26,8 +32,8 @@ const ListOfEmployees = ({ params }) => {
       tableName={words?.header || "Employees"}
       headers={headers}
       onRowClick={() => {}}
-      onRowButtonClick={(row) => {
-        window.location.href = `/profile?id=${row.id}`;
+      onRowButtonClick={(user) => {
+        handleClick(user.id);
       }}
       buttonName={"Details"}
       onAddButtonClick={() => {

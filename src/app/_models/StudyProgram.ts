@@ -14,4 +14,5 @@ export interface StudyProgram extends StudyProgramTable {
 
 export interface StudyProgramPageRequest extends PageRequest {
   containsName: string;
+  hasEducationInstitutionID: number;
 }

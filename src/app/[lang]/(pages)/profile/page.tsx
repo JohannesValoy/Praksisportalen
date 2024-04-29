@@ -3,36 +3,13 @@
 "use client";
 import Image from "next/image";
 
-import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import DynamicTable from "@/app/components/DynamicTable";
+import { paginateSections } from "../sections/action";
 
-type Employee = {
-  name: string;
-  id: string;
-  email: string;
-};
-
-export default function Page() {
-  const searchParams = useSearchParams();
-  const employee_id = searchParams.get("id");
-  const [employee, setEmployee] = useState<Employee>();
-
-  useEffect(() => {
-    fetch(`/api/users/${employee_id}`) // Adjusted the fetch URL to match backend routing.
-      .then((res) => res.json())
-      .then((data) => setEmployee(data)) // Ensure proper data handling.
-      .catch((error) => {
-        console.error("Failed to fetch one employee", error); // Error handling.
-        fetch(`/api/users/employee`)
-          .then((res) => res.json())
-          .then((data) => setEmployee(data))
-          .catch((error) => console.error("Failed to fetch employee", error));
-      });
-  }, [employee_id]);
-
+export default function Page({ user }) {
   return (
     <div className="flex flex-row w-full h-full items-center justify-center">
-      {employee ? (
+      {user ? (
         <div className="flex flex-row gap-20 w-full h-full items-center justify-center p-10 ">
           <div className="flex flex-col gap-5 items-center justify-center">
             <div
@@ -54,13 +31,28 @@ export default function Page() {
                 />
               </div>
             </div>
-            <h1>{employee.name}</h1>
-            <p>ID: {employee.id}</p>
-            <p>Email: {employee.email}</p>
-            <ul className="text-center">
-              List of sections
-              <li>Not yet implemented</li>
-            </ul>
+            <h1>{user.name}</h1>
+            <p>Email: {user.email}</p>
+            {user.role === "user" ? (
+              <DynamicTable
+                tableName={"sections"}
+                headers={{
+                  Name: "name",
+                  Type: "section_type",
+                  Department: "department_id",
+                }}
+                filter={{ hasEmployeeID: user.id }}
+                onRowClick={() => {}}
+                onRowButtonClick={(row) => {
+                  window.location.href = `/sections/${row.id}`;
+                }}
+                buttonName={"Details"}
+                readonly={true}
+                paginateFunction={paginateSections}
+              />
+            ) : (
+              <> </>
+            )}
           </div>
         </div>
       ) : (

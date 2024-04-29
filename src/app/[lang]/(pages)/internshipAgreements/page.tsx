@@ -11,7 +11,7 @@ import {
 
 const ListOfInternshipAgreements = () => {
   const headers = {
-    Name: "name",
+    status: "status",
     "Start Date": "startDate",
     "End Date": "endDate",
   };
@@ -22,12 +22,9 @@ const ListOfInternshipAgreements = () => {
       headers={headers}
       onRowClick={() => {}}
       onRowButtonClick={(row) => {
-        window.location.href = `/internshipAgreements/individualInternshipAgreement?internshipAgreement_id=${row.id}`;
+        window.location.href = `/internshipAgreements/${row.id}`;
       }}
       buttonName={"Details"}
-      onAddButtonClick={() => {
-        window.location.href = `./internships/addInternship`;
-      }}
       deleteFunction={deleteInternshipAgreement}
       paginateFunction={paginateInternshipAgreements}
     />

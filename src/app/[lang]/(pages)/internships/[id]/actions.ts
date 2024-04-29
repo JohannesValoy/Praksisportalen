@@ -32,3 +32,7 @@ export async function getIndividualInternship(id: number) {
     timeIntervals,
   };
 }
+
+export async function editDetails(id: number, update: any) {
+  await DBClient.from("internships").where({ id }).update(update);
+}

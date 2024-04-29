@@ -60,81 +60,89 @@ export default function Page({
 
   return (
     <>
-      <div className="flex flex-col items-center">
-        <div className="flex flex-row">
-          <h1>{educationInstitution?.name}</h1>
-          <button className="btn btn-sm" onClick={() => setShowModal(true)}>
-            edit
-          </button>
-          <dialog open={showModal === true} className="modal">
-            <div className="modal-box">
-              <div className="flex flex-row justify-between w-full">
-                <h2 className="font-bold text-lg">
-                  Edit {educationInstitution?.name}
-                </h2>
-                <button
-                  onClick={() => setShowModal(false)}
-                  type="button"
-                  className="btn btn-error btn-sm btn-circle"
-                >
-                  x
-                </button>
-              </div>
-
-              <div className="modal-action">
-                <form
-                  className="w-full"
-                  method="dialog"
-                  onSubmit={handleSubmit}
-                >
-                  <div className="flex flex-col items-center w-full gap-6">
-                    <label className="form-control w-full ">
-                      <div className="label">
-                        <span className="label-text">Name</span>
-                      </div>
-                      <input
-                        type="name"
-                        placeholder="name"
-                        className="input input-bordered "
-                        onChange={(e) => setName(e.target.value.trim())}
-                        maxLength={255}
-                        aria-label="Set first name"
-                      />
-                    </label>
-
-                    <div className="flex flex-row justify-end w-full">
-                      <button
-                        type="submit"
-                        className="btn btn-accent"
-                        disabled={!name}
-                      >
-                        Save
-                      </button>
-                    </div>
+      {educationInstitution ? (
+        <>
+          <div className="flex flex-col items-center">
+            <div className="flex flex-row">
+              <h1>{educationInstitution?.name}</h1>
+              <button className="btn btn-sm" onClick={() => setShowModal(true)}>
+                edit
+              </button>
+              <dialog open={showModal === true} className="modal">
+                <div className="modal-box">
+                  <div className="flex flex-row justify-between w-full">
+                    <h2 className="font-bold text-lg">
+                      Edit {educationInstitution?.name}
+                    </h2>
+                    <button
+                      onClick={() => setShowModal(false)}
+                      type="button"
+                      className="btn btn-error btn-sm btn-circle"
+                    >
+                      x
+                    </button>
                   </div>
-                </form>
-              </div>
+
+                  <div className="modal-action">
+                    <form
+                      className="w-full"
+                      method="dialog"
+                      onSubmit={handleSubmit}
+                    >
+                      <div className="flex flex-col items-center w-full gap-6">
+                        <label className="form-control w-full ">
+                          <div className="label">
+                            <span className="label-text">Name</span>
+                          </div>
+                          <input
+                            type="name"
+                            placeholder="name"
+                            className="input input-bordered "
+                            onChange={(e) => setName(e.target.value.trim())}
+                            maxLength={255}
+                            aria-label="Set first name"
+                          />
+                        </label>
+
+                        <div className="flex flex-row justify-end w-full">
+                          <button
+                            type="submit"
+                            className="btn btn-accent"
+                            disabled={!name}
+                          >
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </dialog>
             </div>
-          </dialog>
-        </div>
-        <p>
-          Created At: {educationInstitution?.created_at.toLocaleDateString()}
-        </p>
-        <p>
-          Updated At: {educationInstitution?.updated_at.toLocaleDateString()}
-        </p>
-      </div>
-      <DynamicTable
-        tableName={"Study Programs"}
-        headers={{ Name: "name" }}
-        onRowClick={() => {}}
-        filter={{ hasEducationInstitutionID: params.id }}
-        onAddButtonClick={() => {
-          window.location.href = `/studyprograms/add`;
-        }}
-        deleteFunction={deleteStudyProgram}
-        paginateFunction={paginateStudyPrograms}
-      />
+            <p>
+              Created At:{" "}
+              {educationInstitution?.created_at.toLocaleDateString()}
+            </p>
+            <p>
+              Updated At:{" "}
+              {educationInstitution?.updated_at.toLocaleDateString()}
+            </p>
+          </div>
+          <DynamicTable
+            tableName={"Study Programs"}
+            headers={{ Name: "name" }}
+            onRowClick={() => {}}
+            filter={{ hasEducationInstitutionID: params.id }}
+            onAddButtonClick={() => {
+              window.location.href = `/studyprograms/add`;
+            }}
+            deleteFunction={deleteStudyProgram}
+            paginateFunction={paginateStudyPrograms}
+          />
+        </>
+      ) : (
+        <p>Loading Education Institution details...</p>
+      )}
     </>
   );
 }

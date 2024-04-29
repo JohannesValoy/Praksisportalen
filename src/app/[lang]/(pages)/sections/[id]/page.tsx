@@ -10,7 +10,7 @@ import {
   deleteInternship,
   paginateInternships,
 } from "../../internships/action";
-import { fetchSectionTypes } from "../add/action";
+import { fetchEmployees, fetchSectionTypes } from "../add/action";
 import Dropdown from "@/app/components/Dropdown";
 
 export default function Page({
@@ -25,6 +25,9 @@ export default function Page({
   const [name, setName] = useState("");
   const [sectionTypes, setSectionTypes] = useState([]);
   const [sectionType, setSectionType] = useState("");
+
+  const [employees, setEmployees] = useState([]);
+  const [employeeID, setEmployeeID] = useState("");
 
   type Section = {
     name: string;
@@ -48,6 +51,12 @@ export default function Page({
           console.error("Failed to fetch internship details:", error);
           setNotFound(true);
         });
+      fetchEmployees()
+        .then((data) => {
+          setEmployees(data);
+        })
+        .catch((error) => console.error("Failed to fetch Employees", error));
+
       fetchSectionTypes()
         .then((data) => {
           setSectionTypes(data);
@@ -67,10 +76,18 @@ export default function Page({
 
     const updateName = name.trim();
     const updateSectionType = sectionType.trim();
+    const updateEmployeeID = employeeID.trim();
 
     // Declare the type of the update object
-    const update: { name?: string; section_type?: string } = {};
+    const update: {
+      name?: string;
+      section_type?: string;
+      employee_id?: string;
+    } = {};
 
+    if (updateEmployeeID) {
+      update.employee_id = updateEmployeeID;
+    }
     if (updateName) {
       update.name = updateName;
     }
@@ -98,7 +115,7 @@ export default function Page({
                 edit
               </button>
               <dialog open={showModal === true} className="modal">
-                <div className="modal-box w-fit h-fit">
+                <div className="modal-box">
                   <div className="flex flex-row justify-between w-full">
                     <h2 className="font-bold text-lg">Edit {section.name}</h2>
                     <button
@@ -111,43 +128,73 @@ export default function Page({
                   </div>
 
                   <div className="modal-action">
-                    <form method="dialog" onSubmit={handleSubmit}>
-                      <div className="flex flex-col items-center gap-4">
-                        <div className="flex flex-row gap-4">
-                          <label className="form-control w-full ">
-                            <div className="label">
-                              <span className="label-text">Name</span>
-                            </div>
-                            <input
-                              type="name"
-                              placeholder="name"
-                              className="input input-bordered "
-                              onChange={(e) => setName(e.target.value.trim())}
-                              maxLength={255}
-                              aria-label="Set first name"
-                            />
-                          </label>
-                          <div className="w-full">
-                            <div className="label">
-                              <span className="label-text">Section Type</span>
-                            </div>
-                            <Dropdown
-                              dropdownName="Choose section Type"
-                              options={sectionTypes}
-                              selectedOption={
-                                sectionTypes.find(
-                                  (type) => type.name === sectionType
-                                ) || null
-                              }
-                              setSelectedOption={(type) =>
-                                setSectionType(type.name)
-                              }
-                              onSearchChange={() => setSectionType(null)}
-                              renderOption={(type) => <>{type.name}</>}
-                              customSubClassName="max-h-20"
-                            />
+                    <form
+                      className="w-full"
+                      method="dialog"
+                      onSubmit={handleSubmit}
+                    >
+                      <div className="flex flex-col items-center w-full gap-6">
+                        <label className="form-control w-full ">
+                          <div className="label">
+                            <span className="label-text">Name</span>
                           </div>
+                          <input
+                            type="name"
+                            placeholder="name"
+                            className="input input-bordered "
+                            onChange={(e) => setName(e.target.value.trim())}
+                            maxLength={255}
+                            aria-label="Set first name"
+                          />
+                        </label>
+
+                        <div className="w-full">
+                          <div className="label">
+                            <span className="label-text">Leader</span>
+                          </div>
+                          <Dropdown
+                            dropdownName="Leader"
+                            options={employees}
+                            selectedOption={
+                              employees.find(
+                                (user) => user.id === employeeID
+                              ) || null
+                            }
+                            setSelectedOption={(user) =>
+                              setEmployeeID(user.id as string)
+                            }
+                            onSearchChange={() => setEmployeeID(null)}
+                            customSubClassName="h-30"
+                            renderOption={(user) => (
+                              <>
+                                <div>{user.name}</div>
+                                <div>{user.email}</div>
+                              </>
+                            )}
+                          />
                         </div>
+
+                        <div className="w-full">
+                          <div className="label">
+                            <span className="label-text">Section Type</span>
+                          </div>
+                          <Dropdown
+                            dropdownName="Choose section Type"
+                            options={sectionTypes}
+                            selectedOption={
+                              sectionTypes.find(
+                                (type) => type.name === sectionType
+                              ) || null
+                            }
+                            setSelectedOption={(type) =>
+                              setSectionType(type.name)
+                            }
+                            onSearchChange={() => setSectionType(null)}
+                            renderOption={(type) => <>{type.name}</>}
+                            customSubClassName="h-20"
+                          />
+                        </div>
+
                         <div className="flex flex-row justify-end w-full">
                           <button
                             type="submit"

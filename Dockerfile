@@ -41,5 +41,5 @@ COPY --from=prerelease /app/.next/static ./.next/static
 # run the app
 USER bun     
 EXPOSE 3000
-CMD /bin/bash -c "bun --bun knex migrate:latest --knexfile src/knex/knexfile.ts && bun server.js"
+CMD /bin/bash -c "bun --bun knex migrate:latest --knexfile src/knex/knexfile.ts && node server.js"
 

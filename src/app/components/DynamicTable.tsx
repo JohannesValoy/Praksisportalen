@@ -164,7 +164,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
             </div>
           )}
         </div>
-        <table className="table">
+        <table className="table text-center">
           <thead>
             <tr>
               {!readonly && (

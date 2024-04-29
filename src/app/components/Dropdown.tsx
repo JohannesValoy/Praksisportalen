@@ -16,6 +16,7 @@ interface DropdownProps {
   setSelectedOption: (option: Option) => void;
   renderOption: (option: Option) => JSX.Element;
   customClassName?: string;
+  customSubClassName?: string;
   required?: boolean;
   onSearchChange?: (searchTerm: string) => void;
 }
@@ -27,6 +28,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   renderOption,
   dropdownName,
   customClassName,
+  customSubClassName,
   onSearchChange,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -54,7 +56,12 @@ const Dropdown: React.FC<DropdownProps> = ({
         aria-label={dropdownName}
       />
       {isDropdownOpen && (
-        <ul className="dropdown-content z-[1] menu block shadow bg-base-300 text-base-content rounded-box w-full scrollbar-thin overflow-y-auto max-h-60">
+        <ul
+          className={
+            customSubClassName +
+            " dropdown-content z-[1] menu block shadow bg-base-300 text-base-content rounded-box w-full scrollbar-thin overflow-y-auto max-h-60 "
+          }
+        >
           {filteredOptions.map((option) => (
             <li key={option.id || option.name}>
               <button

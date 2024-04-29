@@ -34,7 +34,7 @@ export default function Page() {
       name.trim() === "" ||
       educationInstitutionID === null ||
       studyPrograms.some(
-        (sp) => sp.name === name.trim() && sp.eduID === educationInstitutionID
+        (sp) => sp.name === name.trim() && sp.eduID === educationInstitutionID,
       )
     ) {
       setIsSubmitDisabled(true);
@@ -57,7 +57,7 @@ export default function Page() {
         setEducationInstitutions(data);
       })
       .catch((error) =>
-        console.error("Failed to fetch Education Institutions", error)
+        console.error("Failed to fetch Education Institutions", error),
       );
   }, []);
 
@@ -103,7 +103,7 @@ export default function Page() {
             options={educationInstitutions}
             selectedOption={
               educationInstitutions.find(
-                (edu) => edu.id === educationInstitutionID
+                (edu) => edu.id === educationInstitutionID,
               ) || null
             }
             setSelectedOption={(edu) =>

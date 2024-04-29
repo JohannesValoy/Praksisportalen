@@ -58,7 +58,7 @@ const Gantt: React.FC<GanttProps> = ({ datalist, onClickUrl }) => {
       acc[name].push([new Date(startDate), new Date(endDate), row_id]); // Include row_id here
       return acc;
     },
-    {}
+    {},
   );
   return (
     <div

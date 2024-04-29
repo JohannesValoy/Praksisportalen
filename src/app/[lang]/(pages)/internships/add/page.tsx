@@ -68,7 +68,7 @@ export default function Page() {
         setInternshipFields(data);
       })
       .catch((error) =>
-        console.error("Failed to fetch Internship Fields", error)
+        console.error("Failed to fetch Internship Fields", error),
       );
 
     fetchInternships()
@@ -150,7 +150,7 @@ export default function Page() {
               options={internshipFields}
               selectedOption={
                 internshipFields.find(
-                  (field) => field.name === internshipField
+                  (field) => field.name === internshipField,
                 ) || null
               }
               setSelectedOption={(field) => setInternshipField(field.name)}

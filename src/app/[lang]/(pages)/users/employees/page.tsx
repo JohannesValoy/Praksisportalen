@@ -13,7 +13,7 @@ const ListOfEmployees = ({ params }) => {
   const router = useRouter();
 
   getDictionary(params.lang).then((words) =>
-    setWords(words?.administerEmployees)
+    setWords(words?.administerEmployees),
   );
 
   const handleEmailClick = (user) => {

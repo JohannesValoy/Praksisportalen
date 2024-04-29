@@ -62,7 +62,7 @@ export default function Page({
           setSectionTypes(data);
         })
         .catch((error) =>
-          console.error("Failed to fetch Section Types", error)
+          console.error("Failed to fetch Section Types", error),
         );
     }
   }, [params]);
@@ -157,7 +157,7 @@ export default function Page({
                             options={employees}
                             selectedOption={
                               employees.find(
-                                (user) => user.id === employeeID
+                                (user) => user.id === employeeID,
                               ) || null
                             }
                             setSelectedOption={(user) =>
@@ -183,7 +183,7 @@ export default function Page({
                             options={sectionTypes}
                             selectedOption={
                               sectionTypes.find(
-                                (type) => type.name === sectionType
+                                (type) => type.name === sectionType,
                               ) || null
                             }
                             setSelectedOption={(type) =>

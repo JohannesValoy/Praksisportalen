@@ -10,7 +10,7 @@ import {
 import "server-only";
 
 export async function paginateInternshipAgreements(
-  request: InternshipAgreementPageRequest
+  request: InternshipAgreementPageRequest,
 ) {
   const data = await getInternshipAgreementsByPageRequest(request);
 

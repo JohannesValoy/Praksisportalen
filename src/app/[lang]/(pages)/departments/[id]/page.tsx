@@ -139,7 +139,7 @@ export default function Page({
                             options={employees}
                             selectedOption={
                               employees.find(
-                                (user) => user.id === employeeID
+                                (user) => user.id === employeeID,
                               ) || null
                             }
                             setSelectedOption={(user) =>

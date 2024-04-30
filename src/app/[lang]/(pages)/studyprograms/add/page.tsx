@@ -1,9 +1,11 @@
-/** @format */
-
 "use client";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
+/**
+ * Creates a page that allows for adding a study program.
+ * @returns A page to add a study program.
+ */
 export default function Page() {
   const router = useRouter();
 

@@ -1,5 +1,3 @@
-/** @format */
-
 import DBclient from "@/knex/config/DBClient";
 import type { CoordinatorTable } from "knex/types/tables.js";
 import CredentialsProvider from "next-auth/providers/credentials";

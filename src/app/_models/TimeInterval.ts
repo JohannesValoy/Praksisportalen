@@ -1,5 +1,3 @@
-/** @format */
-
 import { NextRequest } from "next/server";
 import { PageRequest } from "./pageinition";
 import { TimeIntervalTable } from "knex/types/tables.js";
@@ -73,8 +71,9 @@ export class TimeIntervalPageRequest implements PageRequest {
   }
 
   /**
-   * Creates a new TimeIntervalPageRequest object from a NextRequest object.
+   * Creates a new {@link TimeIntervalPageRequest} object from a NextRequest object.
    * @param request the NextRequest object
+   * @returns a {@link TimeIntervalPageRequest} object
    */
   static fromRequest(request: NextRequest): TimeIntervalPageRequest {
     const internshipAgreement_id = request.nextUrl.searchParams

@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 import Image from "next/image";
 
@@ -11,7 +9,10 @@ type Employee = {
   id: string;
   email: string;
 };
-
+/**
+ * Creates a page to display a persons profile.
+ * @returns  A page to display an persons profile.
+ */
 export default function Page() {
   const searchParams = useSearchParams();
   const employee_id = searchParams.get("id");

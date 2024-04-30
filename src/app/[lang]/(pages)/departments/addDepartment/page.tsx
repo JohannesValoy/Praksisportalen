@@ -1,12 +1,13 @@
-/** @format */
-
 "use client";
 
 import Dropdown from "@/app/components/Dropdown";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-
+/**
+ * Creates a page to add a department.
+ * @returns A page to add a department.
+ */
 export default function Page() {
   const router = useRouter();
 

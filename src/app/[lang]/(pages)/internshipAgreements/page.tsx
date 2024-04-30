@@ -1,6 +1,3 @@
-/** @format */
-/** @format */
-
 "use client";
 import React from "react";
 import DynamicTable from "@/app/components/DynamicTable";

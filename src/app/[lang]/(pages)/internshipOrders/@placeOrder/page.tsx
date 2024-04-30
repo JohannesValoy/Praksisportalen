@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -12,7 +10,11 @@ import {
   sendOrder,
 } from "./actions";
 import Link from "next/link";
-
+/**
+ * Creates a page to place an order for internships.
+ * Should only be accessible for coordinators.
+ * @returns A page to place an order for internships.
+ */
 export default function Page() {
   const router = useRouter();
 
@@ -155,10 +157,18 @@ export default function Page() {
     }
   };
 
+  /**
+   * Refreshes the page.
+   */
   function refreshPage() {
     window.location.reload();
   }
 
+  /**
+   * Converts a week string to a date.
+   * @param weekString The week string to convert.
+   * @returns @class Date The date of the week string.
+   */
   function weekStringToDate(weekString) {
     const [year, week] = weekString.split("-W");
     const date = new Date(year);

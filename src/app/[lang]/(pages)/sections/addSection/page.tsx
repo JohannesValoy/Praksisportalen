@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 
 import Image from "next/image";
@@ -7,6 +5,10 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Dropdown from "@/app/components/Dropdown";
 
+/**
+ * Creates a page to add a section.
+ * @returns  A page to add a section.
+ */
 export default function Page() {
   const router = useRouter();
 

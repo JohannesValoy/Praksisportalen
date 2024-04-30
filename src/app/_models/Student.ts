@@ -1,5 +1,3 @@
-/** @format */
-
 import { StudentTable } from "knex/types/tables.js";
 import { PageRequest } from "./pageinition";
 

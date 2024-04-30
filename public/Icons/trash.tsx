@@ -1,5 +1,3 @@
-/** @format */
-
 //from heroicons
 
 export default function trash({ currentColor }) {

@@ -1,3 +1,9 @@
+/**
+ * The ThemeSwap component is a dropdown menu that allows the user to select a theme.
+ * @param root The root element of the application
+ * @param root.handleOnClick The function that is called when the user selects a theme.
+ * @returns A dropdown menu that allows the user to select a theme.
+ */
 export default function ThemeSwap({
   handleOnClick,
 }: {

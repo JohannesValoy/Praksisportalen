@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 
 import Gantt from "@/app/components/Gantt";

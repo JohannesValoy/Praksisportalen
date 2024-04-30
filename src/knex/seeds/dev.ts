@@ -1,5 +1,3 @@
-/** @format */
-
 import { Knex } from "knex";
 import { createEmployees } from "@/services/EmployeeService";
 import { createCoordinators } from "@/services/CoordinatorService";

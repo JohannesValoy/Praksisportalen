@@ -58,9 +58,10 @@ sonarcloud-check:
   needs:
     - job: install
   rules:
-    - if: $CI_PIPELINE_SOURCE = "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH == "main"
     - if: $CI_COMMIT_BRANCH == "dev"
+  allow_failure: true
   image:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]

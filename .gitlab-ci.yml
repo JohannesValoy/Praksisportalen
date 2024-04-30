@@ -20,12 +20,12 @@
 # Inspired by https://www.digitalocean.com/community/tutorials/how-to-set-up-a-continuous-deployment-pipeline-with-gitlab-on-ubuntu
 
 stages:
-  - publish
-  - deploy
-  - build
   - install
+  - build
   - lint
   - format
+  - publish
+  - deploy
 
 default:
   cache:
@@ -60,6 +60,8 @@ format:
 
 publish:
   image: docker:latest
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
   tags:
     - dind
   stage: publish

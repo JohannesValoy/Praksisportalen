@@ -45,16 +45,22 @@ install:
 
 build:
   stage: build
+  needs:
+    - job: install
   script:
     - npm run build
 
 lint:
   stage: lint
+  needs:
+    - job: install
   script:
     - npm run lint
 
 format:
   stage: format
+  needs: 
+    - job: install 
   script:
     - npm run format
 
@@ -81,7 +87,7 @@ deploy:
   stage: deploy
   rules: 
     - needs:
-        - publish
+        - job: publish
   tags:
     - deployment
   script:

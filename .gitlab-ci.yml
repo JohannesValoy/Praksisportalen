@@ -59,8 +59,8 @@ lint:
 
 format:
   stage: format
-  needs: 
-    - job: install 
+  needs:
+    - job: install
   script:
     - npm run format
 
@@ -85,7 +85,7 @@ publish:
 deploy:
   image: alpine:latest
   stage: deploy
-  rules: 
+  rules:
     - if: $CI_COMMIT_BRANCH == "main"
   tags:
     - deployment
@@ -97,5 +97,5 @@ deploy:
     - scp -i $ID_RSA -o StrictHostKeyChecking=no ./Caddyfile.tmp deployer@129.241.153.29:/home/deployer
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@129.241.153.29 "mv Caddyfile.tmp Caddyfile"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@129.241.153.29 "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@129.241.153.29 'docker compose -f docker-compose.prod.yaml --env-file .env up -d' 
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@129.241.153.29 'docker compose -f docker-compose.prod.yaml --env-file .env up -d'
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@129.241.153.29 "docker logout"

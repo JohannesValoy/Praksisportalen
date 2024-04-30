@@ -3,6 +3,7 @@ import type { Knex } from "knex";
 const check_email_and_idTrigger = (table: string) => {
   return `CREATE TRIGGER checkEmailAndId${table.toUpperCase()} 
             BEFORE INSERT ON ${table} 
+
             FOR EACH ROW 
             BEGIN
               if exists(select 1 from users where email = NEW.email) then

@@ -164,12 +164,14 @@ async function saveInternshipAgreementObject(
   console.log("in service: agreement: " + JSON.stringify(agreement));
   try {
     const validatedAgreement = InternshipAgreementSchema.parse(agreement);
+    if (validatedAgreement.startDate > validatedAgreement.endDate) {
+      throw new Error("Start date must be before end date");
+    }
+    let insertedAgreement;
     await DBclient.transaction(async () => {
-      await DBClient.table("internshipAgreements").insert(validatedAgreement);
-
-      const insertedAgreement = await DBClient.table("internshipAgreements")
-        .where(validatedAgreement)
-        .first();
+      [insertedAgreement] = await DBClient.table("internshipAgreements")
+        .insert(validatedAgreement)
+        .returning("*");
 
       if (!insertedAgreement) {
         throw new Error("Failed to insert Internship Agreement");

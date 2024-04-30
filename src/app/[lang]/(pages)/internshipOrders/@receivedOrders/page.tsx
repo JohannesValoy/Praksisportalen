@@ -84,13 +84,14 @@ function Page() {
     setStudentsLeft(Math.max(0, selectedOrder.numStudents - vacanciesSelected)); // Ensure it never goes negative
   };
 
-  function saveDistribution(subFieldGroupID, id, amount) {
-    saveOrderDistribution(subFieldGroupID, id, amount)
+  function saveDistribution(subFieldGroupID, InternshipID, amount) {
+    saveOrderDistribution(subFieldGroupID, InternshipID, amount)
       .then(() => {
         setIsModalOpen(false); // Show success modal
       })
       .catch((error) => {
         console.error(error);
+        setError("Failed to save distribution: " + error.message);
         setIsErrorModalOpen(true); // Show error modal
       });
     fetchOrders()
@@ -316,6 +317,18 @@ function Page() {
                     className="btn btn-success"
                     onClick={() => {
                       selectedRows.forEach((selectedRow) => {
+                        console.log(
+                          "selectedOrder: " +
+                            JSON.stringify(selectedOrder) +
+                            " the given id from this is " +
+                            selectedOrder.id
+                        );
+                        console.log(
+                          "selectedRow: " + JSON.stringify(selectedRow)
+                        );
+                        console.log(
+                          "selectedRow.freeSpots: " + selectedRow.freeSpots
+                        );
                         //TODO FIX THIS LOGIC
                         saveDistribution(
                           selectedOrder.id,

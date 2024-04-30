@@ -164,11 +164,15 @@ export async function saveOrderDistribution(
     .where("id", fieldGroup.id)
     .first();
 
+  if (amount <= 0 || !amount) {
+    throw new Error("Amount must be greater than 0");
+  }
+
   if (subFieldGroup.numStudents >= amount) {
     subFieldGroup.numStudents -= amount;
     await DBclient("subFieldGroups")
       .where("id", subFieldGroupID)
-      .update(subFieldGroup);
+      .update({ numStudents: subFieldGroup.numStudents });
     const agreements = Array(amount).fill({
       status: "pending",
       startDate: subFieldGroup.startWeek,
@@ -177,12 +181,12 @@ export async function saveOrderDistribution(
       internship_id: InternshipID,
       comment: order.comment,
     });
-
+    //TODO maybe this should be done in one go
     agreements.forEach((agreement) => saveInternshipAgreementObject(agreement));
   }
 
-  if (subFieldGroup.numStudents == amount) {
+  if (subFieldGroup.numStudents <= amount) {
     //removes subFieldGroup
-    await DBclient("subFieldGroups").where("id", subFieldGroup).del();
+    await DBclient("subFieldGroups").where("id", subFieldGroupID).del();
   }
 }

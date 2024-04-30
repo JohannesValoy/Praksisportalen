@@ -15,3 +15,5 @@ helm-charts
 .next
 .trunk
 coverage*
+gitlab-ci.yml
+.prettierignore

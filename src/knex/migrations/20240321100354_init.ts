@@ -1,3 +1,5 @@
+/** @format */
+
 import { Inter } from "next/font/google";
 /** @format */
 

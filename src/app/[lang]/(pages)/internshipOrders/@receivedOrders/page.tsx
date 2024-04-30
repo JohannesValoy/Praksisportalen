@@ -3,7 +3,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import ReactModal from "react-modal";
-import { fetchOrders, paginateInternships } from "./actions";
+import {
+  fetchOrders,
+  paginateInternships,
+  saveOrderDistribution,
+} from "./actions";
 import ContainerBox from "@/app/components/ContainerBox";
 import ErrorModal from "@/app/components/ErrorModal";
 
@@ -20,19 +24,15 @@ function Page() {
   const [pageSize, setPageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
   const [studentsLeft, setStudentsLeft] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     ReactModal.setAppElement("#root");
   }, []);
 
   useEffect(() => {
-    setIsLoading(true);
     fetchOrders()
       .then(setOrders)
       .catch((error) => setError(error.message));
-
-    setIsLoading(false);
   }, []);
 
   const fetchInternships = useCallback(() => {
@@ -83,13 +83,25 @@ function Page() {
     setSelectedRows(newSelectedRows);
     setStudentsLeft(Math.max(0, selectedOrder.numStudents - vacanciesSelected)); // Ensure it never goes negative
   };
+
+  function saveDistribution(subFieldGroupID, id, amount) {
+    saveOrderDistribution(subFieldGroupID, id, amount)
+      .then(() => {
+        setIsModalOpen(false); // Show success modal
+      })
+      .catch((error) => {
+        console.error(error);
+        setIsErrorModalOpen(true); // Show error modal
+      });
+    fetchOrders()
+      .then(setOrders)
+      .catch((error) => setError(error.message));
+  }
   return (
     <>
       <ContainerBox title="Received Orders">
-        {isLoading ? (
-          <span className="loading loading-spinner loading-lg"></span>
-        ) : (
-          <div className="flex flex-col gap-5 justify-center">
+        {orders ? (
+          <div className="flex flex-wrap gap-5 justify-center">
             {orders.map((order) => (
               <div key={order.id} className="card bg-base-100 shadow-xl">
                 <div className="card-body flex gap-5">
@@ -116,141 +128,211 @@ function Page() {
                         setIsModalOpen(true);
                       }}
                     >
-                      Open Modal
+                      Distribuer
                     </button>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+        ) : (
+          <span className="loading loading-spinner loading-lg"></span>
         )}
       </ContainerBox>
-      <ReactModal
-        appElement={document.getElementById("root")}
-        isOpen={isModalOpen}
-        onRequestClose={() => setIsModalOpen(false)}
-        className="fixed inset-0 flex items-center justify-center z-50"
-        overlayClassName="fixed inset-0 bg-base-200 bg-opacity-90 transition-opacity"
-        contentLabel="Internship Distribution Modal"
-      >
-        <div className="flex flex-col bg-base-100 rounded-xl shadow-lg max-w-4xl w-full mx-auto p-5 gap-5">
-          <h1 className="text-3xl font-bold text-center title">
-            Praksisplassdistribuering for {selectedOrder?.studyProgram.name}
-          </h1>
-          <div className="flex flex-wrap gap-5 text-center justify-between text-base-content w-full">
-            <div>
-              <p>
-                Start Date:{" "}
-                {selectedOrder?.startWeek.toISOString().split("T")[0]}
-              </p>
-              <p>
-                End Date: {selectedOrder?.endWeek.toISOString().split("T")[0]}
-              </p>
-            </div>
-            <div>
-              <p className="text-lg font-bold text-secondary">
-                Students left to assign: {studentsLeft}
-              </p>
-              <p className="text-lg">
-                Number of students: {selectedOrder?.numStudents}
-              </p>
-            </div>
-          </div>
-
-          <p>Comment: {selectedOrder?.comment}</p>
-
-          <div className="overflow-x-auto">
-            <table className="table w-full text-sm rounded-xl overflow-hidden">
-              <thead>
-                <tr className="text-xs uppercase bg-base-200">
-                  <th></th>
-                  <th>Name</th>
-                  <th>Field</th>
-                  <th>Study Year</th>
-                  <th>Free Spots</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((row, index) => (
-                  <tr
-                    key={index}
-                    className={`${selectedRows.includes(row) ? "bg-accent" : "hover:bg-base-300"} cursor-pointer, rounded-lg`}
-                    onClick={() => toggleSelection(row)}
+      {isModalOpen && (
+        <>
+          <button
+            className="fixed inset-0 bg-black opacity-50 z-40"
+            onClick={() => setIsModalOpen(false)}
+          ></button>
+          <div
+            onSubmit={() => setIsModalOpen(false)}
+            className="fixed inset-0 flex items-center justify-center z-50 h-fit w-fit mx-auto my-auto"
+            aria-label="Internship Distribution Modal"
+          >
+            <div className="flex flex-col bg-base-100 rounded-xl shadow-lg max-w-4xl w-full mx-auto p-8 gap-5">
+              <h1 className="text-3xl font-bold text-center text-primary">
+                {selectedOrder?.studyProgram.name}
+              </h1>
+              <div className="flex flex-col gap-5 text-center justify-center  text-base-content w-full">
+                <div className="mx-auto">
+                  <div className="flex gap-2">
+                    Date:{" "}
+                    <div className="text-primary font-bold">
+                      {selectedOrder?.startWeek.toISOString().split("T")[0]}
+                    </div>
+                    {"     /     "}
+                    <div className="text-primary font-bold">
+                      {selectedOrder?.endWeek.toISOString().split("T")[0]}
+                    </div>
+                  </div>
+                </div>
+                <div className="mx-auto">
+                  <div className="flex gap-2">
+                    Students left to assign:{" "}
+                    <div className="font-bold text-secondary">
+                      {studentsLeft}/{selectedOrder?.numStudents}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="chat chat-start">
+                <div className="chat-bubble">{selectedOrder?.comment}</div>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="table w-full text-sm rounded-xl overflow-hidden">
+                  <thead>
+                    <tr className="text-xs uppercase bg-base-200">
+                      <th></th>
+                      <th>Navn</th>
+                      <th>Felt</th>
+                      <th>Ledig</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rows.map((row, index) => (
+                      <tr
+                        key={index}
+                        className={`${selectedRows.includes(row) ? "bg-accent" : "hover:bg-base-300"} cursor-pointer, rounded-lg`}
+                        onClick={() => toggleSelection(row)}
+                      >
+                        <td>
+                          <input
+                            type="checkbox"
+                            className="checkbox checkbox-primary"
+                            checked={selectedRows.includes(row)}
+                            onChange={() => toggleSelection(row)}
+                          />
+                        </td>
+                        <td>{row.name}</td>
+                        <td>{row.field}</td>
+                        <td>{row.freeSpots}</td>
+                      </tr>
+                    ))}
+                    {rows.length === 0 && (
+                      <tr>
+                        <td className="text-center text-base-content">
+                          No available spots found.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              <div className="pagination flex flex-wrap justify-between items-center my-4">
+                <div className="join ">
+                  <button
+                    className="btn btn-ghost join-item"
+                    onClick={() => setPage(0)}
+                    disabled={page === 0}
                   >
-                    <td>
-                      <input
-                        type="checkbox"
-                        className="checkbox checkbox-primary"
-                        checked={selectedRows.includes(row)}
-                        onChange={() => toggleSelection(row)}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5"
                       />
-                    </td>
-                    <td>{row.name}</td>
-                    <td>{row.field}</td>
-                    <td>{row.studyYear}</td>
-                    <td>{row.freeSpots}</td>
-                  </tr>
-                ))}
-                {rows.length === 0 && (
-                  <tr>
-                    <td className="text-center text-base-content">
-                      No available spots found.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-
-          <div className="pagination flex items-center my-4">
-            <div className="join ">
-              <button
-                className="btn btn-ghost join-item"
-                onClick={() => setPage(0)}
-                disabled={page === 0}
-              >
-                First
-              </button>
-              <button
-                className="btn btn-ghost join-item"
-                onClick={() => setPage(page - 1)}
-                disabled={page === 0}
-              >
-                Previous
-              </button>
-              <span className="font-semibold join-item p-2">
-                Page {page + 1} of {totalPages}
-              </span>
-              <button
-                className="btn btn-ghost join-item"
-                onClick={() => setPage(page + 1)}
-                disabled={page + 1 >= totalPages}
-              >
-                Next
-              </button>
-              <button
-                className="btn btn-ghost join-item"
-                onClick={() => setPage(totalPages - 1)}
-                disabled={page + 1 >= totalPages}
-              >
-                Last
-              </button>
+                    </svg>
+                  </button>
+                  <button
+                    className="btn btn-ghost join-item"
+                    onClick={() => setPage(page - 1)}
+                    disabled={page === 0}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.75 19.5 8.25 12l7.5-7.5"
+                      />
+                    </svg>
+                  </button>
+                  <span className="font-semibold join-item p-2 bg-neutral">
+                    {page + 1} / {totalPages}
+                  </span>
+                  <button
+                    className="flex flex-nowrap btn btn-ghost join-item w-fit"
+                    onClick={() => setPage(page + 1)}
+                    disabled={page + 1 >= totalPages}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    className="btn btn-ghost join-item"
+                    onClick={() => setPage(totalPages - 1)}
+                    disabled={page + 1 >= totalPages}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div>
+                  <button
+                    className="btn btn-neutral mr-2"
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    Close
+                  </button>
+                  <button
+                    className="btn btn-success"
+                    onClick={() => {
+                      selectedRows.forEach((selectedRow) => {
+                        //TODO FIX THIS LOGIC
+                        saveDistribution(
+                          selectedOrder.id,
+                          selectedRow.id,
+                          selectedRow.freeSpots
+                        );
+                      });
+                    }}
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
             </div>
-            <button
-              className="btn btn-error ml-auto mr-2"
-              onClick={() => setIsModalOpen(false)}
-            >
-              Close
-            </button>
-            <button
-              className="btn btn-success"
-              onClick={() => alert("Save functionality to be implemented.")}
-            >
-              Save
-            </button>
           </div>
-        </div>
-      </ReactModal>
+        </>
+      )}
 
       {isErrorModalOpen && (
         <ErrorModal message={error} setIsModalOpen={setIsErrorModalOpen} />

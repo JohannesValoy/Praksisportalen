@@ -8,7 +8,7 @@ import { Role } from "../api/auth/[...nextauth]/nextauth";
  * It should be used when you want to get a list of objects from the server.
  */
 export interface PageRequest {
-  page: number;
+  page?: number;
   size?: number;
   sort?: baseSort;
 }

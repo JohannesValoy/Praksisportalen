@@ -8,10 +8,12 @@ import { InternshipAgreementTable } from "knex/types/tables.js";
 import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
 import DBclient from "@/knex/config/DBClient";
 import { PageResponse } from "@/app/_models/pageinition";
+import { z } from "zod";
 
 import "server-only";
 import { getInternshipPositionObjectByIDList } from "./InternshipPositionService";
 import { getStudyProgramObjectByIDList } from "./StudyProgramService";
+import DBClient from "@/knex/config/DBClient";
 
 /**
  * Fetches an Internship Agreement object by its ID.
@@ -20,7 +22,7 @@ import { getStudyProgramObjectByIDList } from "./StudyProgramService";
  * @returns A promise resolving to the Internship Agreement object.
  */
 async function getInternshipAgreementObjectByID(
-  id: number,
+  id: number
 ): Promise<InternshipAgreement> {
   const agreementMap = await getInternshipAgreementObjectByIDList([id]);
   if (!agreementMap.has(id)) {
@@ -35,7 +37,7 @@ async function getInternshipAgreementObjectByID(
  * @returns A map of Internship Agreement IDs to their corresponding objects.
  */
 async function getInternshipAgreementObjectByIDList(
-  idList: number[],
+  idList: number[]
 ): Promise<Map<number, InternshipAgreement>> {
   const query = await DBclient.select()
     .from<InternshipAgreementTable>("internshipAgreements")
@@ -56,7 +58,7 @@ async function getInternshipAgreementObjectByIDList(
  * @returns A PageResponse containing the requested page of Internship Agreements.
  */
 async function getInternshipAgreementsByPageRequest(
-  pageRequest: InternshipAgreementPageRequest,
+  pageRequest: InternshipAgreementPageRequest
 ): Promise<PageResponse<InternshipAgreement>> {
   const pageSize = pageRequest.size; // Number of items per page
   const offset = pageRequest.page * pageSize; // Calculate the offset
@@ -74,7 +76,7 @@ async function getInternshipAgreementsByPageRequest(
     .orderBy(
       ["id", "startDate", "endDate"].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id",
+        : "id"
     );
 
   pageRequest.page = pageRequest.page || 0;
@@ -96,14 +98,14 @@ async function getInternshipAgreementsByPageRequest(
   };
 }
 async function getInternshipAgreementsByInternshipRequest(
-  internshipRequest: InternshipPaginationRequest,
+  internshipRequest: InternshipPaginationRequest
 ) {
   console.log("internshipRequest: " + JSON.stringify(internshipRequest));
   const internships = await DBclient("internships")
     .leftJoin(
       "internshipAgreements",
       "internships.id",
-      "internshipAgreements.internship_id",
+      "internshipAgreements.internship_id"
     )
     .select("internships.*")
     .count("internshipAgreements.id as internshipAgreementCount")
@@ -123,13 +125,13 @@ async function getInternshipAgreementsByInternshipRequest(
  * @returns An array of Internship Agreement objects.
  */
 async function createInternshipAgreementObject(
-  query: InternshipAgreementTable[],
+  query: InternshipAgreementTable[]
 ): Promise<InternshipAgreement[]> {
   const studyProgramsPromise = getStudyProgramObjectByIDList(
-    query.map((agreement) => agreement.studyProgram_id),
+    query.map((agreement) => agreement.studyProgram_id)
   );
   const internshipsPromise = getInternshipPositionObjectByIDList(
-    query.map((agreement) => agreement.internship_id),
+    query.map((agreement) => agreement.internship_id)
   );
   const [studyPrograms, internships] = await Promise.all([
     studyProgramsPromise,
@@ -146,6 +148,40 @@ async function createInternshipAgreementObject(
   return objects;
 }
 
+const InternshipAgreementSchema = z.object({
+  status: z.string(),
+  startDate: z.date(),
+  endDate: z.date(),
+  student_id: z.string().optional(),
+  coordinator_id: z.string().optional(),
+  studyProgram_id: z.number(),
+  internship_id: z.number(),
+  comment: z.string().optional(),
+});
+async function saveInternshipAgreementObject(
+  agreement: InternshipAgreement
+): Promise<string> {
+  console.log("in service: agreement: " + JSON.stringify(agreement));
+  try {
+    const validatedAgreement = InternshipAgreementSchema.parse(agreement);
+    await DBclient.transaction(async () => {
+      await DBClient.table("internshipAgreements").insert(validatedAgreement);
+
+      const insertedAgreement = await DBClient.table("internshipAgreements")
+        .where(validatedAgreement)
+        .first();
+
+      if (!insertedAgreement) {
+        throw new Error("Failed to insert Internship Agreement");
+      }
+    });
+
+    return "Internship Agreement successfully inserted";
+  } catch (error) {
+    console.error(error);
+    return "Failed to insert Internship Agreement";
+  }
+}
 async function deleteInternshipAgreementByID(id: number) {
   await DBclient.delete().from("internshipAgreements").where("id", id);
 }
@@ -156,4 +192,5 @@ export {
   getInternshipAgreementsByPageRequest,
   getInternshipAgreementsByInternshipRequest,
   deleteInternshipAgreementByID,
+  saveInternshipAgreementObject,
 };

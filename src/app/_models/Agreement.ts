@@ -21,16 +21,16 @@ export interface InternshipAgreement extends InternshipAgreementTable {
  * It should be used when you want to get a list of Internship Agreements from the server.
  */
 export interface InternshipAgreementPageRequest extends PageRequest {
-  hasCoordinatorID: number;
-  hasStudentID: number;
-  hasInternshipID: number;
-  containsComment: string;
-  containsStudyProgramID: number;
-  containsStatus: string;
+  hasCoordinatorID?: number;
+  hasStudentID?: number;
+  hasInternshipID?: number;
+  containsComment?: string;
+  containsStudyProgramID?: number;
+  containsStatus?: string;
 }
 
 export function fromRequestToInternshipAgreementPageRequest(
-  request: NextRequest,
+  request: NextRequest
 ): InternshipAgreementPageRequest {
   const baseRequest = fromRequestToPage(request);
   return {
@@ -47,7 +47,7 @@ export function fromRequestToInternshipAgreementPageRequest(
       ? parseInt(request.nextUrl.searchParams.get("hasInternshipID"))
       : 0,
     containsStudyProgramID: request.nextUrl.searchParams.get(
-      "containsStudyProgramID",
+      "containsStudyProgramID"
     )
       ? parseInt(request.nextUrl.searchParams.get("containsStudyProgramID"))
       : 0,

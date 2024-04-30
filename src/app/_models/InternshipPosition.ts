@@ -8,7 +8,7 @@ import { PageRequest } from "./pageinition";
  * It should be used when you want to get a list of Internship objects from the server.
  */
 export interface InternshipPaginationRequest extends PageRequest {
-  section_id?: number[];
+  sectionID?: number[];
   yearOfStudy?: number[];
   field?: string;
   id?: number;

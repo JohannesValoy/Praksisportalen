@@ -19,8 +19,8 @@ export async function paginateSections(request: SectionPageRequest) {
     email: element.employee.email,
     section_type: element.section_type,
     id: element.id,
-    created_at: element.created_at,
-    updated_at: element.updated_at,
+    createdAt: element.createdAt,
+    updatedAt: element.updatedAt,
   }));
   return {
     ...data,

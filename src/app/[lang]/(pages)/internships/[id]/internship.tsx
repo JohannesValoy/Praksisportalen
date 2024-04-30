@@ -27,7 +27,7 @@ export default function InternshipPage({
 
   const [sections, setSections] = useState([]);
   const [sectionID, setSectionID] = useState(null);
-  const sectionName = getSectionName(internship.section_id || "", sections);
+  const sectionName = getSectionName(internship.sectionID || "", sections);
 
   const [internshipFields, setInternshipFields] = useState([]);
   const [internshipField, setInternshipField] = useState(null);
@@ -55,10 +55,10 @@ export default function InternshipPage({
   }, [internship]);
 
   function getSectionName(
-    section_id: string,
+    sectionID: string,
     sections: Array<{ id: string; name: string }>
   ) {
-    const section = sections.find((section) => section.id === section_id);
+    const section = sections.find((section) => section.id === sectionID);
     return section ? section.name : "Unknown section";
   }
 
@@ -68,7 +68,7 @@ export default function InternshipPage({
     const update: { [key: string]: any } = {};
 
     if (name) update.name = name;
-    if (sectionID) update.section_id = sectionID;
+    if (sectionID) update.sectionID = sectionID;
     if (internshipField) update.internshipField = internshipField;
     if (maxCapacity) update.maxCapacity = maxCapacity;
     if (currentCapacity) update.currentCapacity = currentCapacity;

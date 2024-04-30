@@ -50,8 +50,8 @@ const passwordProvider = CredentialsProvider({
           role: Object.hasOwn(user, "role")
             ? (user.role as Role)
             : Role.coordinator,
-          created_at: user.created_at,
-          updated_at: user.updated_at,
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt,
         })
       : null;
   },

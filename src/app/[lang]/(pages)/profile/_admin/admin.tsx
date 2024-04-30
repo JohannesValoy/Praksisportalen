@@ -13,7 +13,7 @@ export default function AdminPage({ user }) {
       headers={{
         Name: "name",
         Type: "section_type",
-        Department: "department_id",
+        Department: "departmentID",
       }}
       filter={{ hasEmployeeID: user.id }}
       onRowClick={() => {}}

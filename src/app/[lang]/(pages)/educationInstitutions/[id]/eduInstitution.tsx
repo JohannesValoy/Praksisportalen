@@ -97,8 +97,8 @@ export default function InstitutionPage({
             </div>
           </dialog>
         </div>
-        <p>Created At: {eduInstitution?.created_at.toLocaleDateString()}</p>
-        <p>Updated At: {eduInstitution?.updated_at.toLocaleDateString()}</p>
+        <p>Created At: {eduInstitution?.createdAt.toLocaleDateString()}</p>
+        <p>Updated At: {eduInstitution?.updatedAt.toLocaleDateString()}</p>
       </div>
       <DynamicTable
         tableName={"Study Programs"}

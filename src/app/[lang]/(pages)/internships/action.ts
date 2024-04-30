@@ -10,9 +10,9 @@ import {
 import "server-only";
 
 export async function paginateInternships(
-  request: InternshipPaginationRequest,
+  request: InternshipPaginationRequest
 ) {
-  request.section_id = [Number(request.section_id)];
+  request.sectionID = [Number(request.sectionID)];
   return await getInternshipPositionObjectByPageRequest(request);
 }
 export async function deleteInternship(id: number) {

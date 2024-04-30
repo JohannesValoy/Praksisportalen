@@ -12,8 +12,8 @@ export async function up(knex: Knex): Promise<void> {
       table.string("email").notNullable().unique();
       table.string("password").notNullable();
       table.enum("role", ["admin", "user"]).defaultTo("user").notNullable();
-      table.timestamp("created_at").defaultTo(knex.fn.now());
-      table.timestamp("updated_at").defaultTo(knex.fn.now());
+      table.timestamp("createdAt").defaultTo(knex.fn.now());
+      table.timestamp("updatedAt").defaultTo(knex.fn.now());
     })
     .createTable("students", (table) => {
       table.uuid("id").primary().defaultTo(knex.fn.uuid());
@@ -24,16 +24,16 @@ export async function up(knex: Knex): Promise<void> {
         .foreign("educationInstitutionID")
         .references("id")
         .inTable("educationInstitutions");
-      table.timestamp("created_at").defaultTo(knex.fn.now());
-      table.timestamp("updated_at").defaultTo(knex.fn.now());
+      table.timestamp("createdAt").defaultTo(knex.fn.now());
+      table.timestamp("updatedAt").defaultTo(knex.fn.now());
     })
     .createTable("departments", (table) => {
       table.increments("id").primary();
       table.string("name").notNullable();
-      table.string("employee_id").nullable();
-      table.foreign("employee_id").references("id").inTable("employees");
-      table.timestamp("created_at").defaultTo(knex.fn.now());
-      table.timestamp("updated_at").defaultTo(knex.fn.now());
+      table.string("employeeID").nullable();
+      table.foreign("employeeID").references("id").inTable("employees");
+      table.timestamp("createdAt").defaultTo(knex.fn.now());
+      table.timestamp("updatedAt").defaultTo(knex.fn.now());
     })
     .createTable("sectionTypes", (table) => {
       table.string("name").primary();
@@ -43,17 +43,17 @@ export async function up(knex: Knex): Promise<void> {
       table.string("name").notNullable();
       table.string("section_type").notNullable();
       table.foreign("section_type").references("name").inTable("sectionTypes");
-      table.string("employee_id").nullable();
-      table.foreign("employee_id").references("id").inTable("employees");
-      table.integer("department_id").unsigned().notNullable();
+      table.string("employeeID").nullable();
+      table.foreign("employeeID").references("id").inTable("employees");
+      table.integer("departmentID").unsigned().notNullable();
       table
-        .foreign("department_id")
+        .foreign("departmentID")
         .references("id")
         .inTable("departments")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.timestamp("created_at").defaultTo(knex.fn.now());
-      table.timestamp("updated_at").defaultTo(knex.fn.now());
+      table.timestamp("createdAt").defaultTo(knex.fn.now());
+      table.timestamp("updatedAt").defaultTo(knex.fn.now());
     })
     .createTable("internshipFields", (table) => {
       table.string("name").primary();
@@ -70,74 +70,71 @@ export async function up(knex: Knex): Promise<void> {
       table.integer("currentCapacity").defaultTo(0);
       table.integer("numberOfBeds").nullable();
       table.integer("yearOfStudy").notNullable();
-      table.integer("section_id").unsigned().notNullable();
+      table.integer("sectionID").unsigned().notNullable();
       table
-        .foreign("section_id")
+        .foreign("sectionID")
         .references("id")
         .inTable("sections")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.timestamp("created_at").defaultTo(knex.fn.now());
-      table.timestamp("updated_at").defaultTo(knex.fn.now());
+      table.timestamp("createdAt").defaultTo(knex.fn.now());
+      table.timestamp("updatedAt").defaultTo(knex.fn.now());
     })
     .createTable("educationInstitutions", (table) => {
       table.increments("id").primary();
       table.string("name").notNullable();
-      table.timestamp("created_at").defaultTo(knex.fn.now());
-      table.timestamp("updated_at").defaultTo(knex.fn.now());
+      table.timestamp("createdAt").defaultTo(knex.fn.now());
+      table.timestamp("updatedAt").defaultTo(knex.fn.now());
     })
     .createTable("coordinators", (table) => {
       table.uuid("id").primary().defaultTo(knex.fn.uuid());
       table.string("name").notNullable();
       table.string("email").notNullable().unique();
       table.string("password").notNullable();
-      table.integer("educationInstitution_id").unsigned().notNullable();
+      table.integer("educationInstitutionID").unsigned().notNullable();
       table
-        .foreign("educationInstitution_id")
+        .foreign("educationInstitutionID")
         .references("id")
         .inTable("educationInstitutions");
-      table.timestamp("created_at").defaultTo(knex.fn.now());
-      table.timestamp("updated_at").defaultTo(knex.fn.now());
+      table.timestamp("createdAt").defaultTo(knex.fn.now());
+      table.timestamp("updatedAt").defaultTo(knex.fn.now());
     })
     .createTable("studyPrograms", (table) => {
       table.increments("id").primary();
       table.string("name").notNullable();
-      table.integer("educationInstitution_id").unsigned().notNullable();
+      table.integer("educationInstitutionID").unsigned().notNullable();
       table
-        .foreign("educationInstitution_id")
+        .foreign("educationInstitutionID")
         .references("id")
         .inTable("educationInstitutions");
-      table.timestamp("created_at").defaultTo(knex.fn.now());
-      table.timestamp("updated_at").defaultTo(knex.fn.now());
+      table.timestamp("createdAt").defaultTo(knex.fn.now());
+      table.timestamp("updatedAt").defaultTo(knex.fn.now());
     })
     .createTable("internshipAgreements", (table) => {
       table.increments("id").primary();
       table.string("status").notNullable();
       table.date("startDate").notNullable();
       table.date("endDate").notNullable();
-      table.string("student_id");
+      table.string("studentID");
       table
-        .foreign("student_id")
+        .foreign("studentID")
         .references("id")
         .inTable("students")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.string("coordinator_id");
-      table.foreign("coordinator_id").references("id").inTable("coordinators");
-      table.integer("studyProgram_id").unsigned().notNullable();
+      table.string("coordinatorID");
+      table.foreign("coordinatorID").references("id").inTable("coordinators");
+      table.integer("studyProgramID").unsigned().notNullable();
+      table.foreign("studyProgramID").references("id").inTable("studyPrograms");
+      table.integer("internshipID").unsigned().notNullable();
       table
-        .foreign("studyProgram_id")
-        .references("id")
-        .inTable("studyPrograms");
-      table.integer("internship_id").unsigned().notNullable();
-      table
-        .foreign("internship_id")
+        .foreign("internshipID")
         .references("id")
         .inTable("internships")
         .onDelete("CASCADE");
       table.string("comment").nullable();
-      table.timestamp("created_at").defaultTo(knex.fn.now());
-      table.timestamp("updated_at").defaultTo(knex.fn.now());
+      table.timestamp("createdAt").defaultTo(knex.fn.now());
+      table.timestamp("updatedAt").defaultTo(knex.fn.now());
     })
     .createTable("internshipOrders", (table) => {
       table.increments("id").primary();
@@ -184,27 +181,27 @@ export async function up(knex: Knex): Promise<void> {
       table.increments("id").primary();
       table.timestamp("startDate").notNullable();
       table.timestamp("endDate").notNullable();
-      table.integer("internshipAgreement_id").unsigned().notNullable();
+      table.integer("internshipAgreementID").unsigned().notNullable();
       table
-        .foreign("internshipAgreement_id")
+        .foreign("internshipAgreementID")
         .references("id")
         .inTable("internshipAgreements");
-      table.timestamp("created_at").defaultTo(knex.fn.now());
-      table.timestamp("updated_at").defaultTo(knex.fn.now());
+      table.timestamp("createdAt").defaultTo(knex.fn.now());
+      table.timestamp("updatedAt").defaultTo(knex.fn.now());
     })
     .createView("users", (view) => {
       view.as(
         knex
-          .select("id", "name", "email", "role", "created_at", "updated_at")
+          .select("id", "name", "email", "role", "createdAt", "updatedAt")
           .from("employees")
           .union(
             knex.raw(
-              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators'
+              'select id, name, email, "coordinator" as role, createdAt, updatedAt from coordinators'
             )
           )
           .union(
             knex.raw(
-              'select id, name, email, "student" as role, created_at, updated_at from students'
+              'select id, name, email, "student" as role, createdAt, updatedAt from students'
             )
           )
       );

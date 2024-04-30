@@ -36,15 +36,15 @@ async function getDepartmentPageByPageRequest(
   pageRequest: DepartmentPageRequest
 ): Promise<PageResponse<Department>> {
   const baseQuery = await DBclient.from("employees")
-    .innerJoin("departments", "employees.id", "departments.employee_id")
+    .innerJoin("departments", "employees.id", "departments.employeeID")
     .where((builder) => {
       if (pageRequest.hasEmployeeID) {
-        builder.where("employee_id", pageRequest.hasEmployeeID);
+        builder.where("employeeID", pageRequest.hasEmployeeID);
       }
       if (pageRequest.hasSectionID) {
         builder.whereIn("id", (builder) => {
           builder
-            .select("department_id")
+            .select("departmentID")
             .from("sections")
             .where("id", pageRequest.hasSectionID);
         });
@@ -75,12 +75,12 @@ async function createDepartmentObject(
 ): Promise<Department[]> {
   const departments: Department[] = [];
   const employees: Map<string, EmployeeTable> = await getEmployeeObjectByIDList(
-    query.map((department) => department.employee_id)
+    query.map((department) => department.employeeID)
   );
   query.forEach((department) => {
     departments.push({
       ...department,
-      employee: employees.get(department.employee_id),
+      employee: employees.get(department.employeeID),
     });
   });
   return departments;

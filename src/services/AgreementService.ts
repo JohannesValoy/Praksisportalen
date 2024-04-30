@@ -20,7 +20,7 @@ import { getStudyProgramObjectByIDList } from "./StudyProgramService";
  * @returns A promise resolving to the Internship Agreement object.
  */
 async function getInternshipAgreementObjectByID(
-  id: number,
+  id: number
 ): Promise<InternshipAgreement> {
   const agreementMap = await getInternshipAgreementObjectByIDList([id]);
   if (!agreementMap.has(id)) {
@@ -35,7 +35,7 @@ async function getInternshipAgreementObjectByID(
  * @returns A map of Internship Agreement IDs to their corresponding objects.
  */
 async function getInternshipAgreementObjectByIDList(
-  idList: number[],
+  idList: number[]
 ): Promise<Map<number, InternshipAgreement>> {
   const query = await DBclient.select()
     .from<InternshipAgreementTable>("internshipAgreements")
@@ -56,7 +56,7 @@ async function getInternshipAgreementObjectByIDList(
  * @returns A PageResponse containing the requested page of Internship Agreements.
  */
 async function getInternshipAgreementsByPageRequest(
-  pageRequest: InternshipAgreementPageRequest,
+  pageRequest: InternshipAgreementPageRequest
 ): Promise<PageResponse<InternshipAgreement>> {
   const pageSize = pageRequest.size; // Number of items per page
   const offset = pageRequest.page * pageSize; // Calculate the offset
@@ -65,7 +65,7 @@ async function getInternshipAgreementsByPageRequest(
     .from<InternshipAgreementTable>("internshipAgreements")
     .where((builder) => {
       if (pageRequest.hasInternshipID) {
-        builder.where("internship_id", pageRequest.hasInternshipID);
+        builder.where("internshipID", pageRequest.hasInternshipID);
       }
       if (pageRequest.containsStatus) {
         builder.where("status", "like", `%${pageRequest.containsStatus}%`);
@@ -74,7 +74,7 @@ async function getInternshipAgreementsByPageRequest(
     .orderBy(
       ["id", "startDate", "endDate"].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id",
+        : "id"
     );
 
   pageRequest.page = pageRequest.page || 0;
@@ -96,14 +96,14 @@ async function getInternshipAgreementsByPageRequest(
   };
 }
 async function getInternshipAgreementsByInternshipRequest(
-  internshipRequest: InternshipPaginationRequest,
+  internshipRequest: InternshipPaginationRequest
 ) {
   console.log("internshipRequest: " + JSON.stringify(internshipRequest));
   const internships = await DBclient("internships")
     .leftJoin(
       "internshipAgreements",
       "internships.id",
-      "internshipAgreements.internship_id",
+      "internshipAgreements.internshipID"
     )
     .select("internships.*")
     .count("internshipAgreements.id as internshipAgreementCount")
@@ -123,13 +123,13 @@ async function getInternshipAgreementsByInternshipRequest(
  * @returns An array of Internship Agreement objects.
  */
 async function createInternshipAgreementObject(
-  query: InternshipAgreementTable[],
+  query: InternshipAgreementTable[]
 ): Promise<InternshipAgreement[]> {
   const studyProgramsPromise = getStudyProgramObjectByIDList(
-    query.map((agreement) => agreement.studyProgram_id),
+    query.map((agreement) => agreement.studyProgramID)
   );
   const internshipsPromise = getInternshipPositionObjectByIDList(
-    query.map((agreement) => agreement.internship_id),
+    query.map((agreement) => agreement.internshipID)
   );
   const [studyPrograms, internships] = await Promise.all([
     studyProgramsPromise,
@@ -139,8 +139,8 @@ async function createInternshipAgreementObject(
   for (const element of query) {
     objects.push({
       ...element,
-      studyProgram: studyPrograms.get(element.studyProgram_id),
-      internship: internships.get(element.internship_id),
+      studyProgram: studyPrograms.get(element.studyProgramID),
+      internship: internships.get(element.internshipID),
     });
   }
   return objects;

@@ -11,7 +11,7 @@ import { PageRequest } from "./pageinition";
  * A class representing a Section
  */
 export interface Section extends SectionTable {
-  department_id: number;
+  departmentID: number;
   employee?: EmployeeTable;
   internships: InternshipTable[];
 }
@@ -23,5 +23,5 @@ export interface SectionPageRequest extends PageRequest {
   hasEmployeeID?: number;
   Department?: number;
   containsName?: string;
-  department_id?: number;
+  departmentID?: number;
 }

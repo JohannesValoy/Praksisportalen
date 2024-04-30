@@ -44,7 +44,7 @@ export async function createInternshipField(data) {
 export async function createInternship(data) {
   await DBclient("internships").insert({
     name: data.name,
-    section_id: data.sectionID,
+    sectionID: data.sectionID,
     internshipField: data.internshipField,
     maxCapacity: data.maxCapacity,
     currentCapacity: data.currentCapacity,

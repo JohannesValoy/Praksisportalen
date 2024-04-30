@@ -56,8 +56,8 @@ export async function createSectionType(data) {
 export async function createSection(data) {
   await DBclient("sections").insert({
     name: data.name,
-    employee_id: data.employeeID,
-    department_id: data.departmentID,
+    employeeID: data.employeeID,
+    departmentID: data.departmentID,
   });
   return null;
 }

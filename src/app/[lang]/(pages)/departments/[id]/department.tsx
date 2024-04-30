@@ -44,11 +44,11 @@ export default function DepartmentPage({
 
     const update: {
       name?: string;
-      employee_id?: string;
+      employeeID?: string;
     } = {};
 
     if (updateEmployeeID) {
-      update.employee_id = updateEmployeeID;
+      update.employeeID = updateEmployeeID;
     }
     if (updateName) {
       update.name = updateName;
@@ -149,8 +149,8 @@ export default function DepartmentPage({
         </div>
         <p>Leader name: {department.employee.name}</p>
         <p>Leader email: {department.employee.email}</p>
-        <p>Created At: {department.created_at.toLocaleDateString()}</p>
-        <p>Updated At: {department.updated_at.toLocaleDateString()}</p>
+        <p>Created At: {department.createdAt.toLocaleDateString()}</p>
+        <p>Updated At: {department.updatedAt.toLocaleDateString()}</p>
       </div>
       <DynamicTable
         tableName={"sections"}
@@ -158,10 +158,10 @@ export default function DepartmentPage({
           Name: "name",
           "Section Type": "section_type",
           "Leader Email": "email",
-          "Created At": "created_at",
-          "Updated At": "updated_at",
+          "Created At": "createdAt",
+          "Updated At": "updatedAt",
         }}
-        filter={{ department_id: department.id.toString() }}
+        filter={{ departmentID: department.id.toString() }}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {
           window.location.href = `/sections/${row.id}`;

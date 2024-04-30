@@ -60,11 +60,11 @@ export default function SectionPage({
     const update: {
       name?: string;
       section_type?: string;
-      employee_id?: string;
+      employeeID?: string;
     } = {};
 
     if (updateEmployeeID) {
-      update.employee_id = updateEmployeeID;
+      update.employeeID = updateEmployeeID;
     }
     if (updateName) {
       update.name = updateName;
@@ -191,8 +191,8 @@ export default function SectionPage({
             <p>{section.section_type}</p>
             <p>Leader name: {section.employee.name}</p>
             <p>Leader email: {section.employee.email}</p>
-            <p>Created At: {section.created_at.toLocaleDateString()}</p>
-            <p>Updated At: {section.updated_at.toLocaleDateString()}</p>
+            <p>Created At: {section.createdAt.toLocaleDateString()}</p>
+            <p>Updated At: {section.updatedAt.toLocaleDateString()}</p>
           </div>
           <DynamicTable
             tableName={"internships"}
@@ -202,10 +202,10 @@ export default function SectionPage({
               "Max Capacity": "maxCapacity",
               "Current Capacity": "currentCapacity",
               "Number of Beds": "numberOfBeds",
-              "Created At": "created_at",
-              "Updated At": "updated_at",
+              "Created At": "createdAt",
+              "Updated At": "updatedAt",
             }}
-            filter={{ department_id: section.id.toString() }}
+            filter={{ departmentID: section.id.toString() }}
             onRowClick={() => {}}
             onRowButtonClick={(row) => {
               window.location.href = `/internships/${row.id}`;

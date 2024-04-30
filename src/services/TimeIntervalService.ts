@@ -3,12 +3,12 @@
 import DBclient from "@/knex/config/DBClient";
 
 class TimeInterval {
-  private _id: number;
+  private ID: number;
   private _start: Date;
   private _end: Date;
 
   constructor(id: number, start: Date, end: Date) {
-    this._id = id;
+    this.ID = id;
     this._start = start;
     this._end = end;
   }
@@ -22,16 +22,16 @@ class TimeInterval {
   }
 
   public get id(): number {
-    return this._id;
+    return this.ID;
   }
 
   public set id(value: number) {
-    this._id = value;
+    this.ID = value;
   }
 
   toJSON() {
     return {
-      id: this._id,
+      id: this.ID,
       start: this._start,
       end: this._end,
     };
@@ -47,7 +47,7 @@ async function fetchTimeIntervalByID(id: number): Promise<TimeInterval> {
 }
 
 async function fetchTimeIntervalByIDList(
-  idList: Set<number>,
+  idList: Set<number>
 ): Promise<Map<number, TimeInterval>> {
   const query = await DBclient.select()
     .from("time_intervals")
@@ -56,7 +56,7 @@ async function fetchTimeIntervalByIDList(
   for (const timeInterval of query) {
     timeIntervals.set(
       timeInterval.id,
-      new TimeInterval(timeInterval.id, timeInterval.start, timeInterval.end),
+      new TimeInterval(timeInterval.id, timeInterval.start, timeInterval.end)
     );
   }
   return timeIntervals;

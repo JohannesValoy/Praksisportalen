@@ -12,17 +12,17 @@ class TimeIntervalObject implements TimeIntervalTable {
   id: number;
   startDate: Date;
   endDate: Date;
-  internshipAgreement_id: number;
-  created_at: Date;
-  updated_at: Date;
+  internshipAgreementID: number;
+  createdAt: Date;
+  updatedAt: Date;
 
   constructor(query: TimeIntervalTable) {
     this.id = query.id;
     this.startDate = query.startDate;
     this.endDate = query.endDate;
-    this.internshipAgreement_id = query.internshipAgreement_id;
-    this.created_at = query.created_at;
-    this.updated_at = query.updated_at;
+    this.internshipAgreementID = query.internshipAgreementID;
+    this.createdAt = query.createdAt;
+    this.updatedAt = query.updatedAt;
   }
 
   toJSON() {
@@ -30,9 +30,9 @@ class TimeIntervalObject implements TimeIntervalTable {
       id: this.id,
       startDate: this.startDate,
       endDate: this.endDate,
-      internshipAgreement_id: this.internshipAgreement_id,
-      created_at: this.created_at,
-      updated_at: this.updated_at,
+      internshipAgreementID: this.internshipAgreementID,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
     };
   }
 }
@@ -42,7 +42,7 @@ class TimeIntervalObject implements TimeIntervalTable {
  * It should be used when you want to get a list of TimeInterval objects from the server.
  */
 export class TimeIntervalPageRequest implements PageRequest {
-  internshipAgreement_id: number[];
+  internshipAgreementID: number[];
   startDate: Date;
   endDate: Date;
   page: number;
@@ -53,21 +53,21 @@ export class TimeIntervalPageRequest implements PageRequest {
    * Creates a new TimeIntervalPageRequest object.
    * @param page the page number
    * @param size the size of the page
-   * @param internshipAgreement_id the id of the internship
+   * @param internshipAgreementID the id of the internship
    * @param startDate the start time of the interval
    * @param end the end time of the interval
    */
   constructor(
     page: number,
     size: number,
-    internshipAgreement_id: number[],
+    internshipAgreementID: number[],
     startDate: Date,
-    end: Date,
+    end: Date
   ) {
     this.page = page > 1 ? page : 1;
     this.size = size > 0 ? size : 10;
     this.sort = "name";
-    this.internshipAgreement_id = internshipAgreement_id;
+    this.internshipAgreementID = internshipAgreementID;
     this.startDate = startDate;
     this.endDate = end;
   }
@@ -77,8 +77,8 @@ export class TimeIntervalPageRequest implements PageRequest {
    * @param request the NextRequest object
    */
   static fromRequest(request: NextRequest): TimeIntervalPageRequest {
-    const internshipAgreement_id = request.nextUrl.searchParams
-      .getAll("internshipAgreement_id")
+    const internshipAgreementID = request.nextUrl.searchParams
+      .getAll("internshipAgreementID")
       .map(Number);
     const start = request.nextUrl.searchParams.get("startDate");
     const startDate = start ? new Date(start) : null;
@@ -93,9 +93,9 @@ export class TimeIntervalPageRequest implements PageRequest {
     return new TimeIntervalPageRequest(
       page,
       size,
-      internshipAgreement_id,
+      internshipAgreementID,
       startDate,
-      endDate,
+      endDate
     );
   }
 }

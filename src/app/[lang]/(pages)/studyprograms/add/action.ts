@@ -9,7 +9,7 @@ export async function fetchStudyPrograms() {
   return response.map((study) => {
     return {
       name: study.name,
-      eduID: study.educationInstitution_id,
+      eduID: study.educationInstitutionID,
     };
   }, {});
 }
@@ -28,7 +28,7 @@ export async function fetchEducationInstitutions() {
 export async function addStudyProgram(data) {
   await DBclient("studyPrograms").insert({
     name: data.name,
-    educationInstitution_id: data.educationInstitution_id,
+    educationInstitutionID: data.educationInstitutionID,
   });
   return null;
 }

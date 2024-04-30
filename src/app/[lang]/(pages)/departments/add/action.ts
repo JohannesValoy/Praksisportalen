@@ -9,7 +9,7 @@ export async function fetchDepartments() {
   return response.map((department) => {
     return {
       name: department.name,
-      employeeID: department.employee_id,
+      employeeID: department.employeeID,
     };
   }, {});
 }
@@ -29,7 +29,7 @@ export async function fetchEmployees() {
 export async function createDepartment(data) {
   await DBclient("departments").insert({
     name: data.name,
-    employee_id: data.employeeID,
+    employeeID: data.employeeID,
   });
   return null;
 }

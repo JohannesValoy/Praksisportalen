@@ -45,7 +45,7 @@ async function getStudyProgramObjectByIDList(
 async function getStudyProgramsByPageRequest(
   pageRequest: StudyProgramPageRequest //to be changed
 ): Promise<PageResponse<StudyProgram>> {
-  const baseQuery = await DBclient.select()
+  const baseQuery = await DBclient.select("id")
     .from<StudyProgramTable>("studyPrograms")
     .where((builder) => {
       if (pageRequest.containsName) {

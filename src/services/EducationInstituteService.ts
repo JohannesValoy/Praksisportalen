@@ -10,19 +10,17 @@ import { EducationInstitutionTable } from "knex/types/tables.js";
 import "server-only";
 
 async function getEducationInstitutionByID(
-  id: number,
+  id: number
 ): Promise<EducationInstitutionTable> {
-  const institute = (await getEducationInstitutionByIDList(new Set([id]))).get(
-    id,
-  );
-  if (institute == undefined) {
+  const institutes = await getEducationInstitutionByIDList(new Set([id]));
+  if (!institutes.get(id)) {
     throw new Error("Education Institution not found");
   }
-  return institute[0];
+  return institutes.get(id);
 }
 
 async function getEducationInstitutionByIDList(
-  idList: Set<number>,
+  idList: Set<number>
 ): Promise<Map<number, EducationInstitutionTable>> {
   const query = await DBclient.select()
     .from<EducationInstitutionTable>("educationInstitutions")
@@ -38,7 +36,7 @@ async function getEducationInstitutionByIDList(
 }
 
 async function getEducationInstitutionsByPageRequest(
-  pageRequest: EducationInstitutionPageRequest,
+  pageRequest: EducationInstitutionPageRequest
 ): Promise<PageResponse<EducationInstitution>> {
   const baseQuery = await DBclient.select("")
     .from<EducationInstitutionTable>("educationInstitutions")
@@ -48,11 +46,11 @@ async function getEducationInstitutionsByPageRequest(
       }
     })
     .orderBy(
-      ["id", "name"].includes(pageRequest.sort) ? pageRequest.sort : "id",
+      ["id", "name"].includes(pageRequest.sort) ? pageRequest.sort : "id"
     );
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   return {
     ...pageRequest,
@@ -63,7 +61,7 @@ async function getEducationInstitutionsByPageRequest(
 }
 
 async function createEducationInstitutionObject(
-  query: EducationInstitution[],
+  query: EducationInstitution[]
 ): Promise<EducationInstitution[]> {
   const educationInstitutions = [];
   query.forEach((educationInstitution) => {
@@ -85,11 +83,11 @@ async function deleteEducationInstitutionByID(id: number) {
   } catch (error) {
     if (error.message.includes("foreign key constraint")) {
       throw new Error(
-        `Cannot delete education institution because it is referenced by internship Agreements`,
+        `Cannot delete education institution because it is referenced by internship Agreements`
       );
     }
     throw new Error(
-      "An error occurred while deleting the education institution",
+      "An error occurred while deleting the education institution"
     );
   }
 }

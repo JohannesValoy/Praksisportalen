@@ -16,15 +16,21 @@ async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
       if (pageRequest.hasEmail) {
         builder.where("name", "like", `%${pageRequest.hasName}%`);
       }
+      if (pageRequest.educationInstitutionID) {
+        builder.where(
+          "educationInstitutionID",
+          pageRequest.educationInstitutionID
+        );
+      }
     })
     .orderBy(
       ["id", "name", "email"].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id",
+        : "id"
     );
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   return {
     ...pageRequest,

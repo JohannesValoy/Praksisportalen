@@ -24,14 +24,14 @@ const passwordProvider = CredentialsProvider({
   async authorize(credentials, req): Promise<User> {
     const username = credentials?.username;
     let role = undefined;
-    if (username == undefined) {
+    if (!username) {
       return null;
     }
     // We are going to say it as a CoordinatorTable as it contains only the password field
     let user = await DBclient.from<Employee>("employees")
       .where("email", username)
       .first();
-    if (user == undefined) {
+    if (!user) {
       user = {
         ...(await DBclient.from<CoordinatorTable>("coordinators")
           .where("email", username)
@@ -45,6 +45,7 @@ const passwordProvider = CredentialsProvider({
     }
     return (await bcrypt.compareSync(String(password), user.password))
       ? fromUserToUserAdapter({
+          id: user.id,
           email: user.email,
           name: user.name,
           role: Object.hasOwn(user, "role")

@@ -18,6 +18,7 @@ export const seed = async function (knex: Knex) {
   await knex("internshipAgreements").del();
   await knex("studyPrograms").del();
   await knex("coordinators").del();
+  await knex("students").del();
   await knex("educationInstitutions").del();
   await knex("internships").del();
   await knex("internshipFields").del();
@@ -25,7 +26,6 @@ export const seed = async function (knex: Knex) {
   await knex("sectionTypes").del();
   await knex("departments").del();
   await knex("employees").del();
-  await knex("students").del();
   // Inserts seed entries
   const employees = await createEmployees([
     ...JSONEmployees,
@@ -140,31 +140,37 @@ export const seed = async function (knex: Knex) {
       id: "ad4efb91-9f9a-4ede-9423-a4522ea329cd",
       name: "Peter Parker",
       email: "peterParker@dummy",
+      educationInstitutionID: 1,
     },
     {
       id: "eaf3851e-6bf3-433f-bdd5-dfc891852edd",
       name: "Tony Stark",
       email: "tonyStark@dummy",
+      educationInstitutionID: 1,
     },
     {
       id: "8daff6c7-fb9b-4bfa-b4f1-76f92d5ad857",
       name: "Wanda Maximoff",
       email: "wandaMaximoff@dummy",
+      educationInstitutionID: 1,
     },
     {
       id: "83040eee-f982-4b22-b9d9-63644a122dcf",
       name: "Steve Rogers",
       email: "steveRogers@dummy",
+      educationInstitutionID: 1,
     },
     {
       id: "4657c035-9949-4b5d-8a5a-6e1720b9ecf6",
       name: "Carol Danvers",
       email: "carolDanvers@dummy",
+      educationInstitutionID: 1,
     },
     {
       id: "ca8917c8-406b-4f53-a4a9-92082865ea9a",
       email: "ann.berntsen@test.feide.no",
       name: "Ann Elg",
+      educationInstitutionID: 1,
     },
   ]);
 

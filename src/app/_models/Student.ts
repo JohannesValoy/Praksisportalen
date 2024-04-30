@@ -8,4 +8,5 @@ export interface Student extends StudentTable {}
 export interface StudentPageRequest extends PageRequest {
   hasName: string;
   hasEmail: string;
+  educationInstitutionID: string;
 }

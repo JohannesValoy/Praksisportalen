@@ -1,4 +1,7 @@
-import { CoordinatorTable } from "knex/types/tables.js";
+import {
+  CoordinatorTable,
+  EducationInstitutionTable,
+} from "knex/types/tables.js";
 import { PageRequest } from "./pageinition";
 
 export interface CoordinatorPageRequest extends PageRequest {
@@ -6,4 +9,6 @@ export interface CoordinatorPageRequest extends PageRequest {
   containsEmail?: string;
 }
 
-export interface Coordinator extends CoordinatorTable {}
+export interface Coordinator extends CoordinatorTable {
+  educationInstitution: EducationInstitutionTable;
+}

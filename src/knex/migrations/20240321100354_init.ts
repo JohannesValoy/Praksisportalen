@@ -15,18 +15,6 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp("createdAt").defaultTo(knex.fn.now());
       table.timestamp("updatedAt").defaultTo(knex.fn.now());
     })
-    .createTable("students", (table) => {
-      table.uuid("id").primary().defaultTo(knex.fn.uuid());
-      table.string("name").notNullable();
-      table.string("email").notNullable().unique();
-      table.integer("educationInstitutionID").unsigned().nullable();
-      table
-        .foreign("educationInstitutionID")
-        .references("id")
-        .inTable("educationInstitutions");
-      table.timestamp("createdAt").defaultTo(knex.fn.now());
-      table.timestamp("updatedAt").defaultTo(knex.fn.now());
-    })
     .createTable("departments", (table) => {
       table.increments("id").primary();
       table.string("name").notNullable();
@@ -92,6 +80,18 @@ export async function up(knex: Knex): Promise<void> {
       table.string("email").notNullable().unique();
       table.string("password").notNullable();
       table.integer("educationInstitutionID").unsigned().notNullable();
+      table
+        .foreign("educationInstitutionID")
+        .references("id")
+        .inTable("educationInstitutions");
+      table.timestamp("createdAt").defaultTo(knex.fn.now());
+      table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    })
+    .createTable("students", (table) => {
+      table.uuid("id").primary().defaultTo(knex.fn.uuid());
+      table.string("name").notNullable();
+      table.string("email").notNullable().unique();
+      table.integer("educationInstitutionID").unsigned().nullable();
       table
         .foreign("educationInstitutionID")
         .references("id")

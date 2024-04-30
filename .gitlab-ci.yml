@@ -55,6 +55,7 @@ build:
     - npm run build
 
 sonarcloud-check:
+  stage: sonarcloud-check
   needs:
     - job: install
   rules:

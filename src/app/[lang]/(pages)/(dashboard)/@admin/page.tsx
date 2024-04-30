@@ -35,28 +35,27 @@ const AdminLayout = () => {
             onClick={() => (window.location.href = "/internshipOrders")}
           >
             {orders.map((order, index) => (
-              <div key={order.id} className="card bg-info shadow-xl">
-                <div className="card-body flex gap-5">
-                  <div className="flex flex-row items-center">
-                    <div className="flex flex-col flex-grow ml-4">
-                      <div className="text-lg font-bold text-white">
-                        {order.studyProgram.educationInstitute.name} -{" "}
-                        {order.studyProgram.name}
-                      </div>
-                      <div className="text-white text-opacity-80">
-                        {order.numStudents} students
-                      </div>
-                      <div className="text-white text-opacity-80">
-                        {order.internshipField}, {order.studyYear} år studenter
-                      </div>
-                      <div className="text-sm text-white text-opacity-80">
-                        {order.createdAt.toLocaleDateString()}
-                      </div>
-                    </div>
-                  </div>
+              <div
+                key={order.id}
+                className={`card shadow-${index} bg-primary text-primary-content`}
+              >
+                <div className="card-body">
+                  <h2 className="card-title">
+                    {order.studyProgram.educationInstitute.name} -{" "}
+                    {order.studyProgram.name}
+                  </h2>
+                  <p className="text-opacity-80">
+                    {order.numStudents} students
+                  </p>
+                  <p className="text-opacity-80">
+                    {order.internshipField}, {order.studyYear} år studenter
+                  </p>
+                  <p className="text-sm text-opacity-80">
+                    {order.createdAt.toLocaleDateString()}
+                  </p>
                 </div>
                 {index === 0 && orders.length > 1 && (
-                  <div className="badge badge-accent">
+                  <div className="badge badge-secondary p-3 rounded-full">
                     + {orders.length - 1}
                   </div>
                 )}

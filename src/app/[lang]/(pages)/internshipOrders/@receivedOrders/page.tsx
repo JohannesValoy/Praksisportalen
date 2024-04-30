@@ -20,15 +20,19 @@ function Page() {
   const [pageSize, setPageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
   const [studentsLeft, setStudentsLeft] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     ReactModal.setAppElement("#root");
   }, []);
 
   useEffect(() => {
+    setIsLoading(true);
     fetchOrders()
       .then(setOrders)
       .catch((error) => setError(error.message));
+
+    setIsLoading(false);
   }, []);
 
   const fetchInternships = useCallback(() => {
@@ -82,40 +86,44 @@ function Page() {
   return (
     <>
       <ContainerBox title="Received Orders">
-        <div className="flex flex-wrap gap-5 justify-center">
-          {orders.map((order) => (
-            <div key={order.id} className="card bg-base-100 shadow-xl">
-              <div className="card-body flex gap-5">
-                <div className="flex flex-row items-center">
-                  <div className="flex items-center flex-wrap flex-grow ml-4 gap-5">
-                    <div className="text-lg font-bold">
-                      {order.studyProgram.educationInstitute.name} -{" "}
-                      {order.studyProgram.name}
+        {isLoading ? (
+          <span className="loading loading-spinner loading-lg"></span>
+        ) : (
+          <div className="flex flex-col gap-5 justify-center">
+            {orders.map((order) => (
+              <div key={order.id} className="card bg-base-100 shadow-xl">
+                <div className="card-body flex gap-5">
+                  <div className="flex flex-row items-center">
+                    <div className="flex items-center flex-wrap flex-grow ml-4 gap-5">
+                      <div className="text-lg font-bold">
+                        {order.studyProgram.educationInstitute.name} -{" "}
+                        {order.studyProgram.name}
+                      </div>
+                      <div className="text-opacity-50">
+                        {order.numStudents} students
+                      </div>
+                      <div className="text-opacity-50">
+                        {order.internshipField}, {order.studyYear} år studenter
+                      </div>
+                      <div className="text-sm text-opacity-50">
+                        {order.createdAt.toLocaleDateString()}
+                      </div>
                     </div>
-                    <div className="text-opacity-50">
-                      {order.numStudents} students
-                    </div>
-                    <div className="text-opacity-50">
-                      {order.internshipField}, {order.studyYear} år studenter
-                    </div>
-                    <div className="text-sm text-opacity-50">
-                      {order.createdAt.toLocaleDateString()}
-                    </div>
+                    <button
+                      className="btn btn-primary ml-5"
+                      onClick={() => {
+                        setSelectedOrder(order);
+                        setIsModalOpen(true);
+                      }}
+                    >
+                      Open Modal
+                    </button>
                   </div>
-                  <button
-                    className="btn btn-primary ml-5"
-                    onClick={() => {
-                      setSelectedOrder(order);
-                      setIsModalOpen(true);
-                    }}
-                  >
-                    Open Modal
-                  </button>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </ContainerBox>
       <ReactModal
         appElement={document.getElementById("root")}
@@ -126,7 +134,7 @@ function Page() {
         contentLabel="Internship Distribution Modal"
       >
         <div className="flex flex-col bg-base-100 rounded-xl shadow-lg max-w-4xl w-full mx-auto p-5 gap-5">
-          <h1 className="text-3xl font-bold text-center text-primary">
+          <h1 className="text-3xl font-bold text-center title">
             Praksisplassdistribuering for {selectedOrder?.studyProgram.name}
           </h1>
           <div className="flex flex-wrap gap-5 text-center justify-between text-base-content w-full">

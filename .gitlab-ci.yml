@@ -21,9 +21,7 @@
 
 stages:
   - install
-  - build
-  - sonarcloud-check
-  - format
+  - checks
   - publish
   - deploy
 
@@ -48,14 +46,14 @@ install:
     - npm install --save-dev typescript @types/react @types/node prettier
 
 build:
-  stage: build
+  stage: checks
   needs:
     - job: install
   script:
     - npm run build
 
 sonarcloud-check:
-  stage: sonarcloud-check
+  stage: checks
   needs:
     - job: install
   rules:
@@ -74,7 +72,7 @@ sonarcloud-check:
     - sonar-scanner
 
 format:
-  stage: format
+  stage: checks
   needs:
     - job: install
   script:

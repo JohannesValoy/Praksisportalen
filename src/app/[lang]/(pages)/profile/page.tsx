@@ -1,6 +1,17 @@
 import { getUser } from "@/lib/auth";
-import ProfilePage from "./profile";
 
-export default async function Page() {
-  return <ProfilePage user={await getUser()} />;
+import Profile from "./Profile";
+
+export default async function Page({
+  params,
+}: Readonly<{
+  params: { id: string };
+  children: React.ReactNode;
+  admin: React.ReactNode;
+  coordinator: React.ReactNode;
+  employee: React.ReactNode;
+  student: React.ReactNode;
+}>) {
+  const user = await getUser();
+  return <Profile user={user} />;
 }

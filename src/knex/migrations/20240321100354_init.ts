@@ -19,6 +19,11 @@ export async function up(knex: Knex): Promise<void> {
       table.uuid("id").primary().defaultTo(knex.fn.uuid());
       table.string("name").notNullable();
       table.string("email").notNullable().unique();
+      table.integer("educationInstitutionID").unsigned().nullable();
+      table
+        .foreign("educationInstitutionID")
+        .references("id")
+        .inTable("educationInstitutions");
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
@@ -194,14 +199,14 @@ export async function up(knex: Knex): Promise<void> {
           .from("employees")
           .union(
             knex.raw(
-              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators',
-            ),
+              'select id, name, email, "coordinator" as role, created_at, updated_at from coordinators'
+            )
           )
           .union(
             knex.raw(
-              'select id, name, email, "student" as role, created_at, updated_at from students',
-            ),
-          ),
+              'select id, name, email, "student" as role, created_at, updated_at from students'
+            )
+          )
       );
     })
     .then(() => {
@@ -217,7 +222,7 @@ export async function up(knex: Knex): Promise<void> {
               while exists (select 1 from users where id = NEW.id) do
                 set NEW.id = uuid();
               end while;
-            END`,
+            END`
       );
     });
 }

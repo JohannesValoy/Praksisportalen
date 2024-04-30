@@ -1,11 +1,24 @@
-/** @format */
+import EmployeePage from "./_employee/employee";
+import StudentPage from "./_student/student";
+import AdminPage from "./_admin/admin";
+import CoordinatorPage from "./_coordinator/coordinator";
+import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
 
-import Image from "next/image";
+export default async function Profile({ user }: Readonly<{ user }>) {
+  let page = null;
+  if (user.role === Role.employee) {
+    page = <EmployeePage user={user} />;
+  }
+  if (user.role === Role.student) {
+    page = <StudentPage user={user} />;
+  }
+  if (user.role === Role.admin) {
+    page = <AdminPage user={user} />;
+  }
+  if (user.role === Role.coordinator) {
+    page = <CoordinatorPage user={user} />;
+  }
 
-import DynamicTable from "@/app/components/DynamicTable";
-import { paginateSections } from "../sections/action";
-
-export default function ProfilePage({ user }) {
   return (
     <div className="flex flex-row w-full h-full items-center justify-center">
       <div className="flex flex-row gap-20 w-full h-full items-center justify-center p-10 ">
@@ -17,40 +30,10 @@ export default function ProfilePage({ user }) {
               overflow: "hidden",
               borderRadius: "50%",
             }}
-          >
-            <div className="mask mask-squircle w-full h-full overflow-hidden">
-              <Image
-                src="/example-profile-picture.jpg"
-                alt="Description"
-                className=" bg-neutral-300 h-full object-cover"
-                width={400}
-                height={400}
-                priority={true} // {false} | {true}
-              />
-            </div>
-          </div>
+          ></div>
           <h1>{user.name}</h1>
           <p>Email: {user.email}</p>
-          {user.role === "user" ? (
-            <DynamicTable
-              tableName={"sections"}
-              headers={{
-                Name: "name",
-                Type: "section_type",
-                Department: "department_id",
-              }}
-              filter={{ hasEmployeeID: user.id }}
-              onRowClick={() => {}}
-              onRowButtonClick={(row) => {
-                window.location.href = `/sections/${row.id}`;
-              }}
-              buttonName={"Details"}
-              readonly={true}
-              paginateFunction={paginateSections}
-            />
-          ) : (
-            <> </>
-          )}
+          {page}
         </div>
       </div>
     </div>

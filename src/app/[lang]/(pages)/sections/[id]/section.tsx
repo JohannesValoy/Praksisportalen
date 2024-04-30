@@ -211,7 +211,6 @@ export default function SectionPage({
               window.location.href = `/internships/${row.id}`;
             }}
             buttonName={"Details"}
-            readonly={user.role !== "admin"}
             deleteFunction={deleteInternship}
             onAddButtonClick={() => {
               window.location.href = `/internships/add`;

@@ -16,13 +16,18 @@ declare module "knex/types/tables.js" {
     password: string;
   }
 
-  interface StudentTable extends UserAttributes {}
-
-  interface CoordinatorTable extends UserAttributes {
-    password: string;
+  interface StudentTable extends UserAttributes {
     educationInstitution_id: number;
   }
 
+  interface CoordinatorTable extends UserAttributes {
+    password: string;
+    educationInstitutionID: number;
+  }
+
+  interface UsersView extends UserAttributes {
+    role: string;
+  }
   interface DepartmentTable {
     id: number;
     name: string;
@@ -133,7 +138,7 @@ declare module "knex/types/tables.js" {
     studyPrograms: StudyProgramTable;
     internshipAgreements: InternshipAgreementTable;
     timeIntervals: TimeIntervalTable;
-    users: UserAttributes;
+    users: UsersView;
     subFieldGroups: SubFieldGroupTable;
     fieldGroups: FieldGroupTable;
     internshipOrders: InternshipOrdersTable;

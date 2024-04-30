@@ -88,6 +88,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
     paginateFunction(request).then((data) => {
       totalPages.current = data?.totalPages;
       if (totalPages.current < page) {
+        console.log("Setting page to", totalPages.current - 1);
         setPage(totalPages.current - 1);
       }
       const rows = data.elements.map((element) => {
@@ -106,7 +107,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
 
   useEffect(() => {
     fetch();
-  }, [fetch]); // fetch is a dependency
+  }, [page]); // fetch is a dependency
 
   const normalizedRows = Array.isArray(rows) ? rows : [rows];
   const onDelete = async () => {

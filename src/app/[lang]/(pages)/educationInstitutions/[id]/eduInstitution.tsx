@@ -10,6 +10,8 @@ import {
   deleteStudyProgram,
   paginateStudyPrograms,
 } from "../../studyprograms/actions";
+import { deleteStudent, paginateStudents } from "../../users/students/actions";
+import router from "next/router";
 
 export default function InstitutionPage({
   eduInstitution,
@@ -18,6 +20,7 @@ export default function InstitutionPage({
   readonly eduInstitution: EducationInstitution;
   readonly wordbook: { readonly [key: string]: string };
 }) {
+  console.log(eduInstitution);
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [name, setName] = useState("");
@@ -32,6 +35,18 @@ export default function InstitutionPage({
     await editDetails(eduInstitution.id, update);
 
     refreashPage();
+  };
+
+  const handleEmailClick = (user) => {
+    handleClick(user.id);
+  };
+
+  const clickableColumns = {
+    email: handleEmailClick,
+  };
+
+  const handleClick = (id: string) => {
+    router.push(`/profile/${id}`);
   };
 
   const refreashPage = () => {
@@ -50,7 +65,7 @@ export default function InstitutionPage({
             <div className="modal-box">
               <div className="flex flex-row justify-between w-full">
                 <h2 className="font-bold text-lg">
-                  Edit {eduInstitution?.name}
+                  Edit {eduInstitution.name}
                 </h2>
                 <button
                   onClick={() => setShowModal(false)}
@@ -110,6 +125,19 @@ export default function InstitutionPage({
         }}
         deleteFunction={deleteStudyProgram}
         paginateFunction={paginateStudyPrograms}
+      />
+      <DynamicTable
+        tableName={"Students"}
+        headers={{ Name: "name", Email: "email" }}
+        onRowClick={() => {}}
+        buttonName={"Details"}
+        onAddButtonClick={() => {
+          window.location.href = `/users/students/add`;
+        }}
+        filter={{ educationInstitutionID: eduInstitution.id.toString() }}
+        clickableColumns={clickableColumns}
+        deleteFunction={deleteStudent}
+        paginateFunction={paginateStudents}
       />
     </>
   );

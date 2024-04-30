@@ -10,7 +10,7 @@ const pieParams = { margin: { right: 5 }, height: 400, width: 400 };
 
 const AdminLayout = () => {
   return (
-    <div className="flex flex-row  rounded-lg w-full h-full mx-auto">
+    <div className="flex flex-row items-center rounded-lg gap-20 ">
       <div className="flex flex-col items-center h-full w-full">
         <ContainerBox title={"Statistics"}>
           <PieChart

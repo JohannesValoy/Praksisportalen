@@ -86,8 +86,7 @@ deploy:
   image: alpine:latest
   stage: deploy
   rules: 
-    - needs:
-        - job: publish
+    - if: $CI_COMMIT_BRANCH == "main"
   tags:
     - deployment
   script:

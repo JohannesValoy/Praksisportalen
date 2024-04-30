@@ -1,5 +1,3 @@
-/** @format */
-
 import { StudyProgramTable } from "knex/types/tables.js";
 import { getEducationInstitutionByIDList } from "./EducationInstituteService";
 import DBclient from "@/knex/config/DBClient";
@@ -9,15 +7,26 @@ import {
 } from "@/app/_models/StudyProgram";
 import "server-only";
 import { PageResponse } from "@/app/_models/pageinition";
-
+/**
+ * Get a study program by its id
+ * @param id the id of the study program
+ * @returns A {@link StudyProgram} object
+ * @throws an error if no study program is found with the given id
+ */
 async function getStudyProgramObjectByID(id: number): Promise<StudyProgram> {
   const studyProgram = (await getStudyProgramObjectByIDList([id])).get(id);
-  if (studyProgram == undefined) {
+  if (!studyProgram) {
     throw new Error("Study Program not found");
   }
   return studyProgram;
 }
 
+/**
+ * This function fetches a list of study programs by their ids
+ * @param idList a list of ids to fetch
+ * @returns a map of study programs with the id as key.
+ * The map will only contain the {@link StudyProgram} that were found
+ */
 async function getStudyProgramObjectByIDList(
   idList: number[],
 ): Promise<Map<number, StudyProgram>> {
@@ -41,7 +50,11 @@ async function getStudyProgramObjectByIDList(
   }
   return studyPrograms;
 }
-
+/**
+ * Creates a page of study programs based on the page request
+ * @param pageRequest A {@link StudyProgramPageRequest}
+ * @returns a {@link PageResponse} of study programs
+ */
 async function getStudyProgramsByPageRequest(
   pageRequest: StudyProgramPageRequest, //to be changed
 ): Promise<PageResponse<StudyProgram>> {
@@ -69,7 +82,10 @@ async function getStudyProgramsByPageRequest(
     totalPages: Math.ceil(baseQuery.length / pageRequest.size),
   } as PageResponse<StudyProgram>;
 }
-
+/**
+ * Deletes a study program by its id
+ * @param id the id of the study program
+ */
 async function deleteStudyProgramByID(id: number) {
   try {
     const deletedCount = await DBclient.delete()

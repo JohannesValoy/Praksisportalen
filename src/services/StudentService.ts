@@ -1,14 +1,19 @@
-/** @format */
-
 import DBclient from "@/knex/config/DBClient";
 import { StudentTable } from "knex/types/tables.js";
 import { PageResponse } from "../app/_models/pageinition";
 import { Student, StudentPageRequest } from "@/app/_models/Student";
-
+/**
+ * Inserts a list of students into the database
+ * @param students a list of {@link StudentTable} students to insert
+ */
 async function createStudents(students: StudentTable[]) {
   await DBclient.insert(students).into("students");
 }
-
+/**
+ * Fetches a page of students based on the page request
+ * @param pageRequest A {@link StudentPageRequest}
+ * @returns a {@link PageResponse} of {@link Student}
+ */
 async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
   const baseQuery = await DBclient.select("*")
     .from("students")
@@ -34,6 +39,10 @@ async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
   } as PageResponse<Student>;
 }
 
+/**
+ * Deletes a student by its id
+ * @param id the id of the student
+ */
 async function deleteStudentByID(id: string) {
   await DBclient.delete().from("students").where("id", id);
 }

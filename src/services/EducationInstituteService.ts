@@ -1,5 +1,4 @@
-/** @format */
-
+"use server";
 import {
   EducationInstitutionPageRequest,
   EducationInstitution,
@@ -9,6 +8,12 @@ import DBclient from "@/knex/config/DBClient";
 import { EducationInstitutionTable } from "knex/types/tables.js";
 import "server-only";
 
+/**
+ * Gets an {@link EducationInstitution} object by its id.
+ * @param id The id of the {@link EducationInstitution}.
+ * @returns The {@link EducationInstitution} object.
+ * @throws An error if no {@link EducationInstitution} is found with the given id.
+ */
 async function getEducationInstitutionByID(
   id: number,
 ): Promise<EducationInstitutionTable> {
@@ -21,6 +26,11 @@ async function getEducationInstitutionByID(
   return institute[0];
 }
 
+/**
+ * A list of {@link EducationInstitution} objects by their ids.
+ * @param idList A list of ids to fetch.
+ * @returns A map of {@link EducationInstitution} objects with the id as key.
+ */
 async function getEducationInstitutionByIDList(
   idList: Set<number>,
 ): Promise<Map<number, EducationInstitutionTable>> {
@@ -36,7 +46,11 @@ async function getEducationInstitutionByIDList(
   }
   return educationInstitutions;
 }
-
+/**
+ * Gets a list of {@link EducationInstitution} objects by a {@link EducationInstitutionPageRequest}
+ * @param pageRequest a {@link EducationInstitutionPageRequest}
+ * @returns a {@link PageResponse} of {@link EducationInstitution}
+ */
 async function getEducationInstitutionsByPageRequest(
   pageRequest: EducationInstitutionPageRequest,
 ): Promise<PageResponse<EducationInstitution>> {
@@ -62,6 +76,11 @@ async function getEducationInstitutionsByPageRequest(
   };
 }
 
+/**
+ * Converts from a list of {@link EducationInstitutionTable} to a list of {@link EducationInstitution}
+ * @param query a list of {@link EducationInstitutionTable}
+ * @returns a list of {@link EducationInstitution}
+ */
 async function createEducationInstitutionObject(
   query: EducationInstitution[],
 ): Promise<EducationInstitution[]> {
@@ -74,12 +93,18 @@ async function createEducationInstitutionObject(
   return educationInstitutions;
 }
 
+/**
+ * Deletes an education institution by its id
+ * @param id the id of the education institution
+ * @throws An error if the education institution is referenced by an internship agreement or if an error occurs while deleting the education institution
+ */
 async function deleteEducationInstitutionByID(id: number) {
   try {
     const deletedCount = await DBclient.delete()
       .from("educationInstitutions")
       .where("id", id);
     if (deletedCount === 0) {
+      //TODO: The text in this error message is gonna be overwritten by the error message in the catch block. Either fix or ensure that the catch block is never reached
       throw new Error(`Education institution with id ${id} not found`);
     }
   } catch (error) {

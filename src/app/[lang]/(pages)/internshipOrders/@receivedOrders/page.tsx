@@ -2,8 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { Order, fetchOrders } from "./actions";
 import ContainerBox from "@/app/components/ContainerBox";
-
+/**
+ * The page to display received orders.
+ * @returns The page to display received orders.
+ */
 export default function Page() {
+  //TODO: I see no reason to use a state here. The orders are fetched once and then displayed.
+  //Instead we can convert it into a server component and just fetch it the first time.
   const [orders, setOrders] = useState<Order[]>(null);
 
   useEffect(() => {

@@ -1,4 +1,3 @@
-/** @format */
 "use client";
 import DynamicTable from "@/app/components/DynamicTable";
 import { paginateEmployees } from "./actions";

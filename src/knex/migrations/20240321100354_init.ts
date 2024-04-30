@@ -1,8 +1,10 @@
-/** @format */
-
 import { randomUUID } from "crypto";
 import type { Knex } from "knex";
-
+/**
+ * Creates the initial database schema.
+ * @param knex  The Knex instance.
+ * @returns A promise that resolves when the schema is created.
+ */
 export async function up(knex: Knex): Promise<void> {
   return knex.schema
     .createTable("employees", (table) => {
@@ -220,6 +222,11 @@ export async function up(knex: Knex): Promise<void> {
       );
     });
 }
+/**
+ * Removes the initial database schema.
+ * @param knex The Knex instance.
+ * @returns A promise that resolves when the schema is removed.
+ */
 export async function down(knex: Knex): Promise<void> {
   return knex.schema
     .dropTableIfExists("employees")

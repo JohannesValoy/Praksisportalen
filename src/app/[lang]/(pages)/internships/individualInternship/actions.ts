@@ -1,10 +1,13 @@
-/** @format */
-
 "use server";
 
 import "server-only";
 import DBClient from "@/knex/config/DBClient";
-
+/**
+ * Gets The intenship with the given id, the different agreements within it and the timeIntervals for it.
+ * @param id The id of the internship.
+ * @returns The internship with the given id, the different agreements within it
+ * and all the timeIntervals within the internship.
+ */
 export async function getIndividualInternship(id: number) {
   const intern = await DBClient.from("internships")
     .where({ id: id })
@@ -21,6 +24,7 @@ export async function getIndividualInternship(id: number) {
 
   return {
     ...intern,
+    //TODO; TimeIntervals has no meaning within internship, it should be a part of the agreement
     agreements,
     timeIntervals,
   };

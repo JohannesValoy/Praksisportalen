@@ -1,5 +1,3 @@
-/** @format */
-
 import {
   InternshipAgreementTable,
   InternshipFieldTable,
@@ -28,7 +26,11 @@ export interface InternshipAgreementPageRequest extends PageRequest {
   containsStudyProgramID: number;
   containsStatus: string;
 }
-
+/**
+ * Creates a new {@link InternshipAgreementPageRequest} based upon a {@link NextRequest}.
+ * @param request The {@link NextRequest} to convert.
+ * @returns A new {@link InternshipAgreementPageRequest} object.
+ */
 export function fromRequestToInternshipAgreementPageRequest(
   request: NextRequest,
 ): InternshipAgreementPageRequest {

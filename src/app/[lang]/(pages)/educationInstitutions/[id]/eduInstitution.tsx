@@ -13,8 +13,10 @@ import {
 
 export default function InstitutionPage({
   eduInstitution,
+  wordbook,
 }: {
   readonly eduInstitution: EducationInstitution;
+  readonly wordbook: { readonly [key: string]: string };
 }) {
   const [showModal, setShowModal] = useState<boolean>(false);
 

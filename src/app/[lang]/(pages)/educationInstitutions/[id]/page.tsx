@@ -1,5 +1,4 @@
-import { getUser } from "@/lib/auth";
-import InstitutionPage from "./educationInstitution";
+import InstitutionPage from "./eduInstitution";
 import { EducationInstitution } from "@/app/_models/EducationInstitution";
 import { getEducationInstitutionByID } from "@/services/EducationInstituteService";
 import { notFound } from "next/navigation";
@@ -14,5 +13,5 @@ export default async function Page({
     console.error("Failed to fetch Department", error);
     notFound();
   }
-  return <InstitutionPage eduInstitution={eduInstitution} />;
+  return <InstitutionPage eduInstitution={eduInstitution} wordbook={null} />;
 }

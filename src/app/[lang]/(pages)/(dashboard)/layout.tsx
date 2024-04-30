@@ -1,6 +1,15 @@
 import { checkUserRole } from "@/lib/auth";
 import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
-
+/**
+ * Decides the layout based on the user's role.
+ * @param root The root element.
+ * @param root.children The page.tsx within the URL.
+ * @param root.admin The layout for the admin.
+ * @param root.coordinator The layout for the coordinator.
+ * @param root.employee The layout for the employee.
+ * @param root.student The layout for the student.
+ * @returns The layout based on the user's role.
+ */
 export default async function Layout({
   children,
   admin,

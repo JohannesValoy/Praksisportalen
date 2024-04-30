@@ -1,5 +1,3 @@
-/** @format */
-
 import { Role } from "./app/api/auth/[...nextauth]/nextauth";
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "next-auth/middleware";
@@ -9,16 +7,18 @@ import Negotiator from "negotiator";
 /**
  * This is a class that represents a route in the application.
  * It has a path, methods, and roles that are allowed to access it.
- * The path is a regular expression that is used to match the URL.
- * The methods are the HTTP methods that are allowed to access the route.
- * The roles are the roles that are allowed to access the route.
- *
- * It automatically adds the OPTIONS method to the list of methods.
  */
 class Route {
   methods: string[];
   pathregex: RegExp;
   roles: Role[];
+  /**
+   * Constructs a new Route object.
+   * Automatically adds OPTIONS and HEAD methods to the methods array if not taken into account.
+   * @param path A regular expression that is used to match the URL.
+   * @param methods The HTTP methods that are allowed to access the route.
+   * @param roles  The roles that are allowed to access the route.
+   */
   constructor(
     path: RegExp,
     methods: METHODS[] = ["GET", "OPTIONS", "POST", "DELETE"],
@@ -46,6 +46,9 @@ class Route {
   }
 }
 
+/**
+ * The HTTP methods that are allowed in the application.
+ */
 type METHODS = "GET" | "POST" | "DELETE" | "OPTIONS" | "HEAD";
 
 /**
@@ -105,7 +108,7 @@ const routeRestrictions: Route[] = [
   ),
 ];
 
-let locales = ["en-US", "nb-NO"];
+const locales = ["en-US", "nb-NO"];
 
 export default withAuth(
   function middleware(request) {
@@ -145,6 +148,11 @@ export default withAuth(
   },
 );
 
+/**
+ * Negotiates the locale based on the Accept-Language header
+ * @param request The request to get the locale from
+ * @returns The locale
+ */
 function getLocale(request: NextRequest) {
   const headers = { "accept-language": request.headers.get("accept-language") };
   const languages = new Negotiator({ headers }).languages();
@@ -153,6 +161,12 @@ function getLocale(request: NextRequest) {
   return locale;
 }
 
+/**
+ * Compares the access of a request to the by the global list {@link routeRestrictions}. Defaults to false if no routes are found.
+ * @param request  The request to compare
+ * @param token The token to compare
+ * @returns True if the user has access, false otherwise
+ */
 function compareIfAccess(request: NextRequest, token: JWT | null) {
   const url = request.nextUrl.pathname;
   const method = request.method;

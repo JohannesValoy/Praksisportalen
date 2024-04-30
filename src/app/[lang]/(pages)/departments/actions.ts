@@ -1,5 +1,3 @@
-/** @format */
-
 "use server";
 
 import { DepartmentPageRequest } from "@/app/_models/Department";
@@ -9,6 +7,11 @@ import {
 } from "@/services/DepartmentService";
 import "server-only";
 
+/**
+ * Paginates the Departments and returns a {@link PageResponse} with a modified {@link Department}s
+ * @param request The page request.
+ * @returns A page response with departments.
+ */
 export async function paginateDepartments(request: DepartmentPageRequest) {
   const data = await getDepartmentPageByPageRequest(request);
 
@@ -25,7 +28,11 @@ export async function paginateDepartments(request: DepartmentPageRequest) {
     elements,
   };
 }
-
+/**
+ * Deletes a department by its id.
+ * @param id The id of the department.
+ * @returns The deleted department.
+ */
 export async function deleteDepartment(id: number) {
   return await deleteDepartmentByID(id);
 }

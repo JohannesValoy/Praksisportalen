@@ -68,6 +68,7 @@ const routeRestrictions: Route[] = [
     ["GET", "POST"],
     [Role.admin, Role.employee, Role.student, Role.coordinator]
   ),
+  new Route(/(colors)/, ["GET"]),
   new Route(/(login)/, ["GET", "POST"]),
   new Route(/(colors)/, ["GET"]),
   new Route(/(employees)/, ["GET", "POST"], [Role.admin, Role.employee]),

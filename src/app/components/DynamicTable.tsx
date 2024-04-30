@@ -164,7 +164,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
             </div>
           )}
         </div>
-        <table className="table ">
+        <table className="table">
           <thead>
             <tr>
               {!readonly && (
@@ -193,7 +193,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                 <th key={index}>
                   <div
                     onClick={() => setSortedBy(rowDataKeys[index])}
-                    className="btn btn-ghost btn-xs"
+                    className="btn btn-neutral btn-xs"
                   >
                     {title}
                   </div>
@@ -241,7 +241,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                     >
                       <div
                         className={
-                          clickableColumns[key] ? "btn btn-ghost btn-xs" : ""
+                          clickableColumns[key] ? "btn btn-neutral btn-xs" : ""
                         }
                       >
                         {row[key]}
@@ -254,7 +254,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                         event.stopPropagation();
                         onRowButtonClick(row);
                       }}
-                      className="btn btn-ghost btn-xs"
+                      className="btn btn-neutral btn-xs"
                     >
                       {buttonName}
                     </button>
@@ -266,36 +266,41 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
         </table>
         <div className="join">
           <button
-            className="join-item btn"
+            className="join-item btn btn-neutral"
             onClick={() => setPage(0)}
             disabled={page <= 0}
           >
             ««
           </button>
           <button
-            className="join-item btn"
+            className="join-item btn btn-neutral"
             onClick={() => setPage(page - 1)}
             disabled={page <= 0}
           >
             «
           </button>
-          <button className="join-item btn">{page + 1}</button>
           <button
-            className="join-item btn"
+            className="join-item btn btn-neutral"
+            style={{ pointerEvents: "none" }}
+          >
+            {page + 1}
+          </button>
+          <button
+            className="join-item btn btn-neutral"
             onClick={() => setPage(page + 1)}
             disabled={page + 1 >= totalPages.current}
           >
             »
           </button>
           <button
-            className="join-item btn"
+            className="join-item btn btn-neutral"
             onClick={() => setPage(totalPages.current - 1)}
             disabled={page + 1 >= totalPages.current}
           >
             »»
           </button>
           <select
-            className="join-item btn"
+            className="join-item btn btn-neutral"
             value={pageSize}
             onChange={(e) => setPageSize(parseInt(e.target.value))}
           >

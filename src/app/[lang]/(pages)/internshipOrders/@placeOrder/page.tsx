@@ -165,7 +165,7 @@ export default function Page() {
         open={isModalVisible}
         className="modal  modal-bottom sm:modal-middle"
       >
-        <div className="bg-base-300 modal-box">
+        <div className="bg-base-300 text-base-content modal-box">
           <h3 className="font-bold text-lg">Hello!</h3>
           <p className="py-4">
             Success! Your order has been placed successfully.
@@ -174,7 +174,10 @@ export default function Page() {
             <Link href="/" className="btn  rounded-btn h-full">
               Home
             </Link>
-            <button onClick={refreshPage} className="btn  rounded-btn h-full">
+            <button
+              onClick={refreshPage}
+              className="btn btn-accent rounded-btn h-full"
+            >
               Send another order
             </button>
           </div>
@@ -214,7 +217,7 @@ export default function Page() {
               customClassName={` ${isSubmitted && studyProgramID === null ? "input-error" : ""}`}
             />
             <button type="button">
-              <a href={`/studyprograms/add`} className="btn btn-secondary">
+              <a href={`/studyprograms/add`} className="btn btn-primary">
                 Nytt studieprogram
               </a>
             </button>
@@ -226,7 +229,7 @@ export default function Page() {
               return (
                 <div
                   key={groupId}
-                  className="group relative justify-centers rounded-3xl bg-base-200 mb-2 p-8"
+                  className="group relative justify-centers rounded-3xl bg-base-200 text-base-content mb-2 p-8"
                 >
                   <div className="flex flex-row items-center">
                     <div className=" w-full">
@@ -390,7 +393,11 @@ export default function Page() {
               );
             })}
           </div>
-          <button type="button" className="btn" onClick={addGroup}>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={addGroup}
+          >
             Legg til praksisfelt
           </button>
 
@@ -415,7 +422,7 @@ export default function Page() {
             >
               Cancel
             </button>
-            <button type="submit" className="btn btn-primary w-20">
+            <button type="submit" className="btn btn-accent w-20">
               Send
             </button>
           </div>

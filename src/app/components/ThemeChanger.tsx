@@ -1,74 +1,48 @@
-/** @format */
-
-"use client";
-
-import React, { useEffect, useState } from "react";
-
-const ThemeChanger = () => {
-  const [theme, setTheme] = useState(() => {
-    let theme = "dark";
-    if (typeof localStorage !== "undefined") {
-      theme = localStorage.getItem("theme") || "dark";
-    }
-    if (typeof window !== "undefined") {
-      document?.body.setAttribute("data-theme", theme);
-    }
-    return theme;
-  });
-
-  useEffect(() => {
-    document?.body.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
+export default function ThemeSwap({
+  handleOnClick,
+}: {
+  handleOnClick?: (e?: any) => void;
+}) {
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    handleOnClick && handleOnClick(e.target.value);
+  };
   const themes = [
-    "dark",
-    "light",
-    "cupcake",
-    "bumblebee",
-    "emerald",
-    "corporate",
-    "synthwave",
-    "retro",
-    "cyberpunk",
-    "valentine",
-    "halloween",
-    "garden",
-    "forest",
+    "HMR",
     "aqua",
-    "lofi",
-    "pastel",
-    "fantasy",
-    "wireframe",
-    "black",
-    "luxury",
-    "dracula",
-    "cmyk",
     "autumn",
     "business",
-    "acid",
-    "lemonade",
-    "night",
     "coffee",
-    "winter",
-    "dim",
-    "nord",
-    "sunset",
-    "myTheme",
+    "corporate",
+    "cmyk",
+    "cupcake",
+    "cyberpunk",
+    "dark",
+    "dracula",
+    "fantasy",
+    "forest",
+    "garden",
+    "halloween",
+    "lemonade",
+    "luxury",
+    "night",
+    "retro",
+    "synthwave",
+    "valentine",
+    "wireframe",
   ];
-  return (
-    <select
-      className="select select-ghost"
-      value={theme}
-      onChange={(e) => setTheme(e.target.value)}
-    >
-      {themes.map((theme, index) => (
-        <option className="bg-base-300" key={index} value={theme}>
-          {theme}
-        </option>
-      ))}
-    </select>
-  );
-};
 
-export default ThemeChanger;
+  return (
+    <>
+      <select className="select bg-base-200" onChange={handleChange}>
+        <option disabled selected value="" className="bg-base-200">
+          Select theme
+        </option>
+        {themes.map((theme, index) => (
+          <option className="bg-base-300" key={index} value={theme}>
+            {theme}
+          </option>
+        ))}
+      </select>
+    </>
+  );
+}

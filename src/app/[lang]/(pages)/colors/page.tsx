@@ -19,13 +19,12 @@ const Page = () => {
       <strong>{name}:</strong> {description}
     </p>
   );
-
   return (
     <div className="p-6">
       <h1>DaisyUI Theme Colors</h1>
       <div className="grid grid-cols-4 gap-4">
         {colors.map((color) => (
-          <div key={color} className={`h-16 shadow ${color} border `}>
+          <div key={color} className={`h-16 shadow ${color} border`}>
             {color}
           </div>
         ))}

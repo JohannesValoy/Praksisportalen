@@ -30,5 +30,5 @@ RUN bun --target=node run build
 
 # run the app     
 EXPOSE 3000
-CMD /bin/bash -c "bun knex migrate:latest --knexfile src/knex/knexfile.ts && bun run start"
+CMD /bin/bash -c "bun --bun knex migrate:latest --knexfile src/knex/knexfile.ts && bun --bun knex seed:run --knexfile src/knex/knexfile.ts && bun run start"
 

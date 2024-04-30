@@ -8,7 +8,8 @@ export default async function Page() {
   const user = await getUser();
   let educationInstitutionID = null;
   if (user.role === Role.coordinator) {
-    await getCoordinatorsByID(user.id);
+    const coordinator = await getCoordinatorsByID(user.id);
+    educationInstitutionID = coordinator.educationInstitution.id;
   }
   return (
     <ListOfStudents

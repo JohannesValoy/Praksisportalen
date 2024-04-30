@@ -3,9 +3,11 @@ import StudentPage from "./_student/student";
 import AdminPage from "./_admin/admin";
 import CoordinatorPage from "./_coordinator/coordinator";
 import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
+import { getCoordinatorsByID } from "@/services/CoordinatorService";
 
 export default async function Profile({ user }: Readonly<{ user }>) {
   let page = null;
+
   if (user.role === Role.employee) {
     page = <EmployeePage user={user} />;
   }
@@ -16,7 +18,15 @@ export default async function Profile({ user }: Readonly<{ user }>) {
     page = <AdminPage user={user} />;
   }
   if (user.role === Role.coordinator) {
-    page = <CoordinatorPage user={user} />;
+    let educationInstitutionID = null;
+    const coordinator = await getCoordinatorsByID(user.id);
+    educationInstitutionID = coordinator.educationInstitution.id;
+    page = (
+      <CoordinatorPage
+        user={user}
+        educationInstitutionID={educationInstitutionID}
+      />
+    );
   }
 
   return (

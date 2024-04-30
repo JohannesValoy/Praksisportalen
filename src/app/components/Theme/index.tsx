@@ -5,9 +5,5 @@ import ThemeSwap from "../ThemeChanger";
 
 export default function Theme() {
   const { changeTheme } = useContext(ThemeContext);
-  return (
-    <>
-      <ThemeSwap handleOnClick={changeTheme} />
-    </>
-  );
+  return <ThemeSwap handleOnClick={changeTheme} />;
 }

@@ -4,84 +4,46 @@
 
 import { useEffect, useState } from "react";
 import DynamicTable from "@/app/components/DynamicTable";
-import { editSectionDetails, fetchSectionDetails } from "./action";
-import NotFound from "@/app/not-found";
-import {
-  deleteInternship,
-  paginateInternships,
-} from "../../internships/action";
-import { fetchEmployees, fetchSectionTypes } from "../add/action";
+import { deleteSection, paginateSections } from "../../sections/action";
+import { editDepartmentDetails } from "./action";
+import { fetchEmployees } from "../add/action";
 import Dropdown from "@/app/components/Dropdown";
+import { Department } from "@/app/_models/Department";
 
-export default function Page({
-  params,
+export default function DepartmentPage({
+  user,
+  wordbook,
+  department,
 }: {
-  readonly params: { readonly id: string };
+  readonly user: { readonly id: string; readonly role?: string };
+  readonly wordbook: { readonly [key: string]: string };
+  readonly department: Department;
 }) {
-  const [section, setSection] = useState<Section>();
-  const [notFound, setNotFound] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [name, setName] = useState("");
-  const [sectionTypes, setSectionTypes] = useState([]);
-  const [sectionType, setSectionType] = useState("");
 
   const [employees, setEmployees] = useState([]);
   const [employeeID, setEmployeeID] = useState("");
 
-  type Section = {
-    name: string;
-    employee_id?: string;
-    section_type?: string;
-    created_at?: Date;
-    updated_at?: Date;
-    employee?: {
-      email: string;
-      name: string;
-    };
-  };
-
   useEffect(() => {
-    if (params.id !== null) {
-      fetchSectionDetails(params.id)
-        .then((data) => {
-          setSection(data);
-        })
-        .catch((error) => {
-          console.error("Failed to fetch internship details:", error);
-          setNotFound(true);
-        });
+    if (department?.id !== null) {
       fetchEmployees()
         .then((data) => {
           setEmployees(data);
         })
         .catch((error) => console.error("Failed to fetch Employees", error));
-
-      fetchSectionTypes()
-        .then((data) => {
-          setSectionTypes(data);
-        })
-        .catch((error) =>
-          console.error("Failed to fetch Section Types", error)
-        );
     }
-  }, [params]);
-
-  if (notFound) {
-    return <NotFound />;
-  }
+  }, [department]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const updateName = name.trim();
-    const updateSectionType = sectionType.trim();
     const updateEmployeeID = employeeID.trim();
 
-    // Declare the type of the update object
     const update: {
       name?: string;
-      section_type?: string;
       employee_id?: string;
     } = {};
 
@@ -91,11 +53,8 @@ export default function Page({
     if (updateName) {
       update.name = updateName;
     }
-    if (updateSectionType) {
-      update.section_type = updateSectionType;
-    }
 
-    await editSectionDetails(params.id, update);
+    await editDepartmentDetails(department.id, update);
 
     refreashPage();
   };
@@ -106,18 +65,25 @@ export default function Page({
 
   return (
     <>
-      {section ? (
+      {department ? (
         <>
           <div className="flex flex-col items-center">
             <div className="flex flex-row">
-              <h1>Section: {section.name}</h1>
-              <button className="btn btn-sm" onClick={() => setShowModal(true)}>
-                edit
-              </button>
+              <h1>Department: {department.name}</h1>
+              {user.role === "admin" && (
+                <button
+                  className="btn btn-sm"
+                  onClick={() => setShowModal(true)}
+                >
+                  edit
+                </button>
+              )}
               <dialog open={showModal === true} className="modal">
                 <div className="modal-box">
                   <div className="flex flex-row justify-between w-full">
-                    <h2 className="font-bold text-lg">Edit {section.name}</h2>
+                    <h2 className="font-bold text-lg">
+                      Edit {department.name}
+                    </h2>
                     <button
                       onClick={() => setShowModal(false)}
                       type="button"
@@ -164,7 +130,7 @@ export default function Page({
                               setEmployeeID(user.id as string)
                             }
                             onSearchChange={() => setEmployeeID(null)}
-                            customSubClassName="h-30"
+                            customSubClassName="h-20"
                             renderOption={(user) => (
                               <>
                                 <div>{user.name}</div>
@@ -174,32 +140,11 @@ export default function Page({
                           />
                         </div>
 
-                        <div className="w-full">
-                          <div className="label">
-                            <span className="label-text">Section Type</span>
-                          </div>
-                          <Dropdown
-                            dropdownName="Choose section Type"
-                            options={sectionTypes}
-                            selectedOption={
-                              sectionTypes.find(
-                                (type) => type.name === sectionType
-                              ) || null
-                            }
-                            setSelectedOption={(type) =>
-                              setSectionType(type.name)
-                            }
-                            onSearchChange={() => setSectionType(null)}
-                            renderOption={(type) => <>{type.name}</>}
-                            customSubClassName="h-20"
-                          />
-                        </div>
-
                         <div className="flex flex-row justify-end w-full">
                           <button
                             type="submit"
                             className="btn btn-accent"
-                            disabled={!name && !sectionType && !employeeID}
+                            disabled={!name && !employeeID}
                           >
                             Save
                           </button>
@@ -210,35 +155,32 @@ export default function Page({
                 </div>
               </dialog>
             </div>
-            <p>{section.section_type}</p>
-            <p>Leader name: {section.employee.name}</p>
-            <p>Leader email: {section.employee.email}</p>
-            <p>Created At: {section.created_at.toLocaleDateString()}</p>
-            <p>Updated At: {section.updated_at.toLocaleDateString()}</p>
+            <p>Leader name: {department.employee.name}</p>
+            <p>Leader email: {department.employee.email}</p>
+            <p>Created At: {department.created_at.toLocaleDateString()}</p>
+            <p>Updated At: {department.updated_at.toLocaleDateString()}</p>
           </div>
           <DynamicTable
-            tableName={"internships"}
+            tableName={"sections"}
             headers={{
               Name: "name",
-              "Internship Field": "internshipField",
-              "Max Capacity": "maxCapacity",
-              "Current Capacity": "currentCapacity",
-              "Number of Beds": "numberOfBeds",
+              "Section Type": "section_type",
+              "Leader Email": "email",
               "Created At": "created_at",
               "Updated At": "updated_at",
             }}
-            filter={{ department_id: params.id }}
+            filter={{ department_id: department.id.toString() }}
             onRowClick={() => {}}
             onRowButtonClick={(row) => {
-              window.location.href = `/internships/${row.id}`;
+              window.location.href = `/sections/${row.id}`;
             }}
             buttonName={"Details"}
-            readonly={true}
-            deleteFunction={deleteInternship}
+            readonly={user.role !== "admin"}
+            deleteFunction={deleteSection}
             onAddButtonClick={() => {
-              window.location.href = `/internships/add`;
+              window.location.href = `/sections/add`;
             }}
-            paginateFunction={paginateInternships}
+            paginateFunction={paginateSections}
           />
         </>
       ) : (

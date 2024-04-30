@@ -12,13 +12,13 @@ const AdminLayout = () => {
   return (
     <div className="flex flex-row  rounded-lg w-full h-full mx-auto">
       <div className="flex flex-col items-center h-full w-full">
-        <ContainerBox title={"Statistics"} className="w-fit">
+        <ContainerBox title={"Statistics"}>
           <PieChart
             series={[{ data: [{ value: 10 }, { value: 15 }, { value: 20 }] }]}
             {...pieParams}
           />
         </ContainerBox>
-        <ContainerBox title={"Notifications"} className="w-fit">
+        <ContainerBox title={"Notifications"}>
           <div role="alert" className="alert shadow-lg">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -63,12 +63,12 @@ const AdminLayout = () => {
         </ContainerBox>
       </div>
       <div className="flex flex-col items-center w-full h-full">
-        <ContainerBox title={"Import Data"} className="w-fit">
+        <ContainerBox title={"Import Data"}>
           <Link href="bulkImport" className="btn btn-primary">
             Import Data from Excel
           </Link>
         </ContainerBox>
-        <ContainerBox title={"Education Institution"} className="w-fit">
+        <ContainerBox title={"Education Institution"}>
           <Link href="users/coordinators" className="btn btn-primary">
             Koordinatorer
           </Link>
@@ -79,7 +79,7 @@ const AdminLayout = () => {
             Education Institutions
           </Link>
         </ContainerBox>
-        <ContainerBox title={"Hospital"} className="w-fit">
+        <ContainerBox title={"Hospital"}>
           <Link href="users/employees" className="btn btn-primary">
             Ansatte
           </Link>
@@ -90,7 +90,7 @@ const AdminLayout = () => {
             Seksjoner
           </Link>
         </ContainerBox>
-        <ContainerBox title={"Internships"} className="w-fit">
+        <ContainerBox title={"Internships"}>
           <Link href="internshipOrders" className="btn btn-primary">
             Received Orders
           </Link>

@@ -1,5 +1,6 @@
 /** @format */
 
+"use client";
 import { useState } from "react";
 
 interface Option {
@@ -12,7 +13,7 @@ interface Option {
 interface DropdownProps {
   dropdownName?: string;
   options: Option[];
-  selectedOption: Option | null;
+  selectedOption: Option;
   setSelectedOption: (option: Option) => void;
   renderOption: (option: Option) => JSX.Element;
   customClassName?: string;
@@ -36,7 +37,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const filteredOptions = Array.isArray(options)
     ? options.filter((option) =>
-        option.name.toLowerCase().includes((searchTerm || "").toLowerCase()),
+        option.name.toLowerCase().includes((searchTerm || "").toLowerCase())
       )
     : [];
   return (

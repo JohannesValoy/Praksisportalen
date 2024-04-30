@@ -5,7 +5,7 @@
 import { useEffect, useState } from "react";
 import Gantt from "@/app/components/Gantt";
 import { editDetails, getIndividualInternship } from "./actions";
-import NotFound from "@/app/components/NotFound";
+import NotFound from "@/app/not-found";
 import Dropdown from "@/app/components/Dropdown";
 import { fetchInternshipFields, fetchSections } from "../add/action";
 import DynamicTable from "@/app/components/DynamicTable";
@@ -53,7 +53,7 @@ const InternshipComponent = ({ params }: { params: { id: number } }) => {
               name: `Interval ${index + 1}`,
               startDate: new Date(interval.startDate),
               endDate: new Date(interval.endDate),
-            }),
+            })
           );
           setDatalist(dataList);
         })
@@ -71,7 +71,7 @@ const InternshipComponent = ({ params }: { params: { id: number } }) => {
           setInternshipFields(data);
         })
         .catch((error) =>
-          console.error("Failed to fetch Internship Fields", error),
+          console.error("Failed to fetch Internship Fields", error)
         );
     }
   }, [params]);
@@ -171,7 +171,7 @@ const InternshipComponent = ({ params }: { params: { id: number } }) => {
                             options={internshipFields}
                             selectedOption={
                               internshipFields.find(
-                                (field) => field.name === internshipField,
+                                (field) => field.name === internshipField
                               ) || null
                             }
                             setSelectedOption={(field) =>

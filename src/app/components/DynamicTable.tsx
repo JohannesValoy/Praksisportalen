@@ -48,7 +48,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
     const isSelected = selectedRows.includes(row);
     if (isSelected) {
       setSelectedRows(
-        selectedRows.filter((selectedRow) => selectedRow !== row),
+        selectedRows.filter((selectedRow) => selectedRow !== row)
       );
     } else {
       setSelectedRows([...selectedRows, row]);
@@ -86,7 +86,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
     }
 
     paginateFunction(request).then((data) => {
-      totalPages.current = data.totalPages;
+      totalPages.current = data?.totalPages;
       if (totalPages.current < page) {
         setPage(totalPages.current - 1);
       }
@@ -137,7 +137,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
 
   return (
     <>
-      <ContainerBox className="w-full">
+      <ContainerBox>
         <div className="flex bg-neutral flex-row justify-between items-center w-full p-4">
           <h1 className="text-3xl font-semibold">List of {tableName}</h1>
           {!readonly && (

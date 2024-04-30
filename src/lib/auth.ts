@@ -1,3 +1,4 @@
+"use server";
 import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
 import { authoptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { User, getServerSession } from "next-auth";

@@ -12,6 +12,6 @@ export async function fetchEducationInstitutionDetails(id: string) {
   return response;
 }
 
-export async function editDetails(id: string, update: any) {
+export async function editDetails(id: number, update: any) {
   await DBclient("educationInstitutions").where("id", id).update(update);
 }

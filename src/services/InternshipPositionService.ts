@@ -15,7 +15,7 @@ import { PageResponse } from "@/app/_models/pageinition";
  * @throws Error if the InternshipPositionObject is not found.
  */
 async function getInternshipPositionObjectByID(
-  id: number,
+  id: number
 ): Promise<Internship> {
   const internship = await getInternshipPositionObjectByIDList([id]);
   if (internship.get(id) == undefined) {
@@ -29,7 +29,7 @@ async function getInternshipPositionObjectByID(
  * @returns  A Map object that contains the list of InternshipPositionObject objects.
  */
 async function getInternshipPositionObjectByIDList(
-  idList: number[],
+  idList: number[]
 ): Promise<Map<number, Internship>> {
   const query = await DBclient.select()
     .from<InternshipTable>("internships")
@@ -47,13 +47,13 @@ async function getInternshipPositionObjectByIDList(
  */
 
 async function getInternshipPositionObjectBySectionID(
-  sections: number[],
+  sections: number[]
 ): Promise<Map<number, Internship[]>> {
   const query = await DBclient.from<InternshipTable>("internships")
     .select("id", "section_id")
     .whereIn("section_id", sections);
   const internships = await getInternshipPositionObjectByIDList(
-    query.map((internship) => internship.id),
+    query.map((internship) => internship.id)
   );
   const internshipsMap = new Map();
   query.forEach((internship) => {
@@ -74,12 +74,18 @@ async function getInternshipPositionObjectBySectionID(
  * getInternshipPositionObjectByPage returns a paginated list of InternshipPositionObject objects.
  * @param pageRequest  The request object that contains the page, size, sort, section_id, yearOfStudy, and field.
  * @returns  A PageResponse object that contains the list of InternshipPositionObject objects.
- */
-async function getInternshipPositionObjectByPageRequest(
-  pageRequest: InternshipPaginationRequest,
+ */ async function getInternshipPositionObjectByPageRequest(
+  pageRequest: InternshipPaginationRequest
 ): Promise<PageResponse<Internship>> {
-  const query = await DBclient.select()
+  let query = DBclient.select("internships.*")
+    .count("internshipAgreements.id as agreementCount")
     .from<InternshipTable>("internships")
+    .leftJoin(
+      "internshipAgreements",
+      "internships.id",
+      "internshipAgreements.internship_id"
+    )
+    .groupBy("internships.id")
     .where((builder) => {
       if (pageRequest.section_id && typeof pageRequest.section_id == "number") {
         builder.whereIn("section_id", pageRequest.section_id);
@@ -94,8 +100,12 @@ async function getInternshipPositionObjectByPageRequest(
       if (pageRequest.field) {
         builder.where("internship_field", pageRequest.field);
       }
-    })
-    .orderBy(
+    });
+
+  if (pageRequest.sort === "agreementCount") {
+    query = query.orderBy("agreementCount", "desc");
+  } else {
+    query = query.orderBy(
       [
         "id",
         "name",
@@ -105,22 +115,25 @@ async function getInternshipPositionObjectByPageRequest(
         "yearOfStudy",
       ].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id" || "name",
+        : "id" || "name"
     );
+  }
+
   const internships: Internship[] = [];
-  query
+  const results = await query;
+  results
     .slice(
       pageRequest.size * pageRequest.page,
-      pageRequest.size * pageRequest.page + pageRequest.size,
+      pageRequest.size * pageRequest.page + pageRequest.size
     )
-    .forEach((internship) => {
-      internships.push(internship);
+    .forEach((result) => {
+      internships.push(result);
     });
   return {
     ...pageRequest,
     elements: internships,
-    totalElements: query.length,
-    totalPages: Math.ceil(query.length / pageRequest.size),
+    totalElements: results.length,
+    totalPages: Math.ceil(results.length / pageRequest.size),
   };
 }
 

@@ -173,17 +173,17 @@ function Page() {
             className="fixed inset-0 flex items-center justify-center z-50 h-fit w-fit mx-auto my-auto p-1 m-1"
             aria-label="Internship Distribution Modal"
           >
-            <div className="flex flex-col bg-base-100 rounded-xl shadow-lg max-w-4xl w-full mx-auto md:p-8 gap-5">
+            <div className="flex flex-col bg-base-100 rounded-xl shadow-lg max-w-4xl w-full mx-auto p-2 md:p-8 gap-5">
               <h1 className="text-3xl font-bold text-center text-primary">
                 {selectedOrder?.studyProgram.name}
               </h1>
               <div className="flex flex-col gap-5 text-center justify-center  text-base-content w-full">
                 <div className="flex gap-2 mx-auto">
-                  Date:{" "}
+                  Date:
                   <div className="text-primary font-bold">
                     {selectedOrder?.startWeek.toISOString().split("T")[0]}
                   </div>
-                  {"     /     "}
+                  /
                   <div className="text-primary font-bold">
                     {selectedOrder?.endWeek.toISOString().split("T")[0]}
                   </div>
@@ -192,7 +192,7 @@ function Page() {
                   <div className="flex gap-2">
                     Students left to assign:{" "}
                     <div className="font-bold text-primary">{studentsLeft}</div>
-                    {"     /     "}
+                    /
                     <div className="font-bold text-primary">
                       {selectedOrder?.numStudents}
                     </div>
@@ -251,7 +251,7 @@ function Page() {
                   </tbody>
                 </table>
               </div>
-              <div className="pagination flex flex-wrap justify-between items-center my-4">
+              <div className="pagination flex flex-wrap justify-between items-center my-4 gap-2">
                 <div className="join ">
                   <button
                     className="btn btn-ghost join-item"

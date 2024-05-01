@@ -121,7 +121,7 @@ export default function InternshipPage({
                       <input
                         type="text"
                         placeholder="Internship Name"
-                        className="input input-bordered"
+                        className="input input-bordered text-base-content"
                         onChange={(e) => setName(e.target.value)}
                         value={name}
                         maxLength={255}
@@ -169,7 +169,7 @@ export default function InternshipPage({
                       <input
                         type="number"
                         placeholder="Current max capacity"
-                        className="input input-bordered w-full"
+                        className="input input-bordered text-base-content w-full"
                         onChange={(e) =>
                           setCurrentCapacity(Number(e.target.value))
                         }
@@ -183,7 +183,7 @@ export default function InternshipPage({
                       <input
                         type="number"
                         placeholder="Max Capacity"
-                        className="input input-bordered w-full"
+                        className="input input-bordered text-base-content w-full"
                         onChange={(e) => setMaxCapacity(Number(e.target.value))}
                         aria-label="Set Max Capacity"
                       />
@@ -197,7 +197,7 @@ export default function InternshipPage({
                       <input
                         type="number"
                         placeholder="Number of Beds"
-                        className="input input-bordered w-full"
+                        className="input input-bordered text-base-content w-full"
                         onChange={(e) =>
                           setNumberOfBeds(Number(e.target.value))
                         }
@@ -213,7 +213,7 @@ export default function InternshipPage({
                       <input
                         type="number"
                         placeholder="Year of Study"
-                        className="input input-bordered w-full"
+                        className="input input-bordered text-base-content w-full"
                         onChange={(e) => setYearOfStudy(Number(e.target.value))}
                         aria-label="Set Year of Study"
                       />

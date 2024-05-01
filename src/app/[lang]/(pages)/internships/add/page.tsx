@@ -68,7 +68,7 @@ export default function Page() {
         setInternshipFields(data);
       })
       .catch((error) =>
-        console.error("Failed to fetch Internship Fields", error),
+        console.error("Failed to fetch Internship Fields", error)
       );
 
     fetchInternships()
@@ -118,7 +118,7 @@ export default function Page() {
           <input
             type="text"
             placeholder="Internship Name"
-            className="input input-bordered"
+            className="input input-bordered text-base-content"
             onChange={(e) => setName(e.target.value)}
             value={name}
             maxLength={255}
@@ -150,7 +150,7 @@ export default function Page() {
               options={internshipFields}
               selectedOption={
                 internshipFields.find(
-                  (field) => field.name === internshipField,
+                  (field) => field.name === internshipField
                 ) || null
               }
               setSelectedOption={(field) => setInternshipField(field.name)}
@@ -163,7 +163,7 @@ export default function Page() {
                 value={newField}
                 onChange={(e) => setNewField(e.target.value)}
                 placeholder="Enter new section type"
-                className="input input-bordered w-full"
+                className="input input-bordered text-base-content w-full"
               />
               <button
                 type="button"
@@ -182,7 +182,7 @@ export default function Page() {
             <input
               type="number"
               placeholder="Current max capacity"
-              className="input input-bordered w-full"
+              className="input input-bordered text-base-content w-full"
               onChange={(e) => setCurrentCapacity(Number(e.target.value))}
               aria-label="Set Current max capacity"
               min={0}
@@ -196,7 +196,7 @@ export default function Page() {
             <input
               type="number"
               placeholder="Max Capacity"
-              className="input input-bordered w-full"
+              className="input input-bordered text-base-content w-full"
               onChange={(e) => setMaxCapacity(Number(e.target.value))}
               aria-label="Set Max Capacity"
               min={0}
@@ -210,7 +210,7 @@ export default function Page() {
             <input
               type="number"
               placeholder="Number of Beds"
-              className="input input-bordered w-full"
+              className="input input-bordered text-base-content w-full"
               onChange={(e) => setNumberOfBeds(Number(e.target.value))}
               aria-label="Set Number of Beds"
               defaultValue={0}
@@ -224,7 +224,7 @@ export default function Page() {
             <input
               type="number"
               placeholder="Year of Study"
-              className="input input-bordered w-full"
+              className="input input-bordered text-base-content w-full"
               onChange={(e) => setYearOfStudy(Number(e.target.value))}
               aria-label="Set Year of Study"
               min={0}

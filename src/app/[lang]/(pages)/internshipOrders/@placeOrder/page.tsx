@@ -263,7 +263,7 @@ export default function Page() {
                       value={newType}
                       onChange={(e) => setNewType(e.target.value)}
                       placeholder="Legg til nytt praksisfelt"
-                      className="input input-bordered w-full"
+                      className="input input-bordered text-base-content w-full"
                       aria-label="Add new type"
                       maxLength={200}
                     />
@@ -312,7 +312,7 @@ export default function Page() {
                                   Number(e.target.value) > 0,
                               });
                             }}
-                            className="input input-bordered"
+                            className="input input-bordered text-base-content"
                           />
                         </div>
 
@@ -329,7 +329,7 @@ export default function Page() {
                                 ?.toISOString()
                                 .split("T")[0]
                             }
-                            className={`input input-bordered`}
+                            className={`input input-bordered text-base-content`}
                             onChange={(e) => {
                               const newFieldGroups = [...fieldGroups];
                               newFieldGroups[groupId].subFieldGroups[
@@ -356,7 +356,7 @@ export default function Page() {
                             value={
                               subFieldGroup.endWeek?.toISOString().split("T")[0]
                             }
-                            className={`input input-bordered ${
+                            className={`input input-bordered text-base-content ${
                               subFieldGroup.endWeek < subFieldGroup.startWeek
                                 ? "input-error"
                                 : ""

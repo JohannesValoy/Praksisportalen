@@ -49,7 +49,7 @@ export default function Page() {
           <input
             type="text"
             placeholder="Education Institution Name"
-            className="input input-bordered "
+            className="input input-bordered text-base-content "
             aria-label="Education Institution Name"
             value={name}
             onChange={(e) => setName(e.target.value)}

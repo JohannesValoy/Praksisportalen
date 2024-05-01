@@ -57,7 +57,7 @@ export const LoginComponent = () => {
     signIn("feide", { callbackUrl });
   };
 
-  const input_style = "input input-bordered w-full max-w-xs";
+  const input_style = "input input-bordered text-base-content w-full max-w-xs";
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 h-full">

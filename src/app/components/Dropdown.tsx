@@ -53,7 +53,9 @@ const Dropdown: React.FC<DropdownProps> = ({
           }
         }}
         onClick={() => setIsDropdownOpen(true)}
-        className={"input input-bordered w-full " + customClassName}
+        className={
+          "input input-bordered text-base-content w-full " + customClassName
+        }
         aria-label={dropdownName}
       />
       {isDropdownOpen && (

@@ -119,7 +119,7 @@ export default function Page() {
           <input
             type="text"
             placeholder="Section Name"
-            className="input input-bordered"
+            className="input input-bordered text-base-content"
             onChange={(e) => setName(e.target.value)}
             value={name}
             maxLength={255}
@@ -185,7 +185,7 @@ export default function Page() {
                 value={newType}
                 onChange={(e) => setNewType(e.target.value)}
                 placeholder="Enter new section type"
-                className="input input-bordered w-full"
+                className="input input-bordered w-full text-base-content"
               />
               <button
                 type="button"

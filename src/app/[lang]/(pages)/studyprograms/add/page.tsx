@@ -90,7 +90,7 @@ export default function Page() {
           <input
             type="text"
             placeholder="Study Program Name"
-            className="input input-bordered"
+            className="input input-bordered text-base-content"
             onChange={(e) => setName(e.target.value)}
             value={name}
             maxLength={255}

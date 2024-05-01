@@ -74,7 +74,7 @@ export default function Page() {
                 <input
                   type="name"
                   placeholder="First Name"
-                  className="input input-bordered w-full"
+                  className="input input-bordered text-base-content w-full"
                   onChange={(e) => setFirstName(e.target.value)}
                   maxLength={255}
                   aria-label="Set first name"
@@ -88,7 +88,7 @@ export default function Page() {
                 <input
                   type="name"
                   placeholder="Last Name"
-                  className="input input-bordered w-full"
+                  className="input input-bordered text-base-content w-full"
                   onChange={(e) => setLastName(e.target.value)}
                   maxLength={255}
                   aria-label="Set last name"
@@ -104,7 +104,7 @@ export default function Page() {
                 <input
                   type="email"
                   placeholder="Email"
-                  className="input input-bordered w-full"
+                  className="input input-bordered text-base-content w-full"
                   onChange={(e) => setEmail(e.target.value)}
                   aria-label="Set email"
                   required
@@ -117,7 +117,7 @@ export default function Page() {
                 <input
                   type="password"
                   placeholder="Password"
-                  className="input input-bordered w-full"
+                  className="input input-bordered text-base-content w-full"
                   onChange={(e) => setPassword(e.target.value)}
                   aria-label="Set password"
                   maxLength={255}

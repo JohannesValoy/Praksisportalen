@@ -100,7 +100,7 @@ export default function DepartmentPage({
                       <input
                         type="name"
                         placeholder="name"
-                        className="input input-bordered "
+                        className="input input-bordered text-base-content"
                         onChange={(e) => setName(e.target.value.trim())}
                         maxLength={255}
                         aria-label="Set first name"

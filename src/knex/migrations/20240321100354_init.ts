@@ -318,7 +318,7 @@ export async function up(knex: Knex): Promise<void> {
         DECLARE startDateAgreement DATE;
         DECLARE endDateAgreement DATE;
         SELECT startDate, endDate INTO startDateAgreement, endDateAgreement FROM internshipAgreements WHERE id = NEW.internshipAgreement_id;
-        IF NEW.startDate < startDateAgreement OR NEW.endDate > endDateAgreement THEN
+        IF CAST(NEW.startDate AS DATE) < startDateAgreement OR CAST(NEW.endDate AS DATE) > endDateAgreement THEN
           SIGNAL SQLSTATE '45000'
           SET MESSAGE_TEXT = 'Time interval is outside of agreement';
         END IF;
@@ -347,7 +347,7 @@ export async function up(knex: Knex): Promise<void> {
         DECLARE startDateAgreement DATE;
         DECLARE endDateAgreement DATE;
         SELECT startDate, endDate INTO startDateAgreement, endDateAgreement FROM internshipAgreements WHERE id = NEW.internshipAgreement_id;
-        IF NEW.startDate < startDateAgreement OR NEW.endDate > endDateAgreement THEN
+        IF CAST(NEW.startDate AS DATE) < startDateAgreement OR CAST(NEW.endDate AS DATE) > endDateAgreement THEN
           SIGNAL SQLSTATE '45000'
           SET MESSAGE_TEXT = 'Time interval is outside of agreement';
         END IF;

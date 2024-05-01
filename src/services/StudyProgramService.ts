@@ -1,4 +1,5 @@
 /** @format */
+"use server";
 
 import { StudyProgramTable } from "knex/types/tables.js";
 import { getEducationInstitutionByIDList } from "./EducationInstituteService";
@@ -7,7 +8,6 @@ import {
   StudyProgram,
   StudyProgramPageRequest,
 } from "@/app/_models/StudyProgram";
-import "server-only";
 import { PageResponse } from "@/app/_models/pageinition";
 
 async function getStudyProgramObjectByID(id: number): Promise<StudyProgram> {

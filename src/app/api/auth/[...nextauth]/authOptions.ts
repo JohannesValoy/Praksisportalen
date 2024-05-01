@@ -14,7 +14,6 @@ export const authoptions: NextAuthOptions = {
   adapter: KnexAdapter(DBclient),
   callbacks: {
     async jwt({ token, user }) {
-      token.email = undefined;
       if (user) {
         token.role = user.role;
         token.id = user.id;

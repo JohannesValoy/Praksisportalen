@@ -1,11 +1,12 @@
 /** @format */
+"use server";
+
 import { InternshipTable } from "knex/types/tables.js";
 import DBclient from "@/knex/config/DBClient";
 import {
   Internship,
   InternshipPaginationRequest,
 } from "@/app/_models/InternshipPosition";
-import "server-only";
 import { PageResponse } from "@/app/_models/pageinition";
 
 /**

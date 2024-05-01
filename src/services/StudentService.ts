@@ -1,4 +1,5 @@
 /** @format */
+"use server";
 
 import DBclient from "@/knex/config/DBClient";
 import { StudentTable } from "knex/types/tables.js";

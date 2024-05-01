@@ -1,4 +1,5 @@
 /** @format */
+"use server";
 
 import {
   InternshipAgreement,
@@ -9,7 +10,6 @@ import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
 import DBclient from "@/knex/config/DBClient";
 import { PageResponse } from "@/app/_models/pageinition";
 
-import "server-only";
 import { getInternshipPositionObjectByIDList } from "./InternshipPositionService";
 import { getStudyProgramObjectByIDList } from "./StudyProgramService";
 

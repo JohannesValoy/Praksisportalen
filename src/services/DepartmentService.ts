@@ -1,11 +1,11 @@
 /** @format */
+"use server";
 
 import DBclient from "@/knex/config/DBClient";
 import { Department, DepartmentPageRequest } from "@/app/_models/Department";
 import { DepartmentTable, EmployeeTable } from "knex/types/tables.js";
 import { getEmployeeObjectByIDList } from "./EmployeeService";
 
-import "server-only";
 import { PageResponse } from "@/app/_models/pageinition";
 
 async function getDepartmentObjectByID(id: number): Promise<Department> {

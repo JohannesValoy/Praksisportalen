@@ -1,4 +1,5 @@
 /** @format */
+"use server";
 
 import {
   EducationInstitutionPageRequest,
@@ -7,7 +8,6 @@ import {
 import { PageResponse } from "@/app/_models/pageinition";
 import DBclient from "@/knex/config/DBClient";
 import { EducationInstitutionTable } from "knex/types/tables.js";
-import "server-only";
 
 async function getEducationInstitutionByID(
   id: number

@@ -160,7 +160,7 @@ export default function SectionPage({
                           setEmployeeID(user.id as string)
                         }
                         onSearchChange={() => setEmployeeID(null)}
-                        customSubClassName="h-30"
+                        customSubClassName="h-20"
                         renderOption={(user) => (
                           <>
                             <div>{user.name}</div>

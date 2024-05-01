@@ -10,28 +10,22 @@ RUN chown -R app /app
 COPY --chown=root:root --chmod=755 ./src /app/src
 COPY --chown=root:root --chmod=755 ./public /app/public
 COPY --chown=root:root --chmod=755 ./package.json /app/package.json
-COPY --chown=root:root --chmod=755 ./next-env.d.ts /app
 COPY --chown=root:root --chmod=755 ./tsconfig.json /app
 COPY --chown=root:root --chmod=755 ./tailwind.config.ts /app/
-
+COPY --chown=root:root --chmod=755 ./postcss.config.js /app/
 
 FROM base AS dev
 
+USER app
+
 RUN bun install
 
-USER app
 EXPOSE 3000
 CMD /bin/bash -c "bun --bun knex migrate:latest --knexfile src/knex/knexfile.ts && bun --bun knex seed:run --knexfile src/knex/knexfile.ts && bun next dev"
 
-# Taken from https://bun.sh/guides/ecosystem/docker
-
-# install dependencies into temp directory
-# this will cache them and speed up future builds
-
-# copy node_modules from temp directoryb
-# then copy all (non-ignored) project files into the image
 FROM base AS release
 COPY --chown=root:root --chmod=755 ./bun.lockb /app/
+USER app
 RUN bun install --frozen-lockfile 
 
 # [optional] tests & build
@@ -40,7 +34,6 @@ RUN bun test
 RUN bun --target=node run build 
 
 # run the app     
-USER app
 EXPOSE 3000
 CMD /bin/bash -c "bun --bun knex migrate:latest --knexfile src/knex/knexfile.ts && bun --bun knex seed:run --knexfile src/knex/knexfile.ts && bun run start"
 

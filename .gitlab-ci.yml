@@ -29,8 +29,9 @@ default:
     paths:
       - node_modules/
       - public/
-    policy: pull-push
+    policy: pull
   image: oven/bun:1
+
 
 variables:
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" # Defines the location of the analysis task cache
@@ -43,6 +44,8 @@ workflow:
 
 install:
   stage: install
+  cache:
+    policy: push
   script:
     - bun install --also=dev
 
@@ -70,6 +73,8 @@ format:
 
 publish:
   image: docker:latest
+  inherit:
+    default: false
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
   tags:
@@ -89,6 +94,8 @@ publish:
 deploy:
   image: alpine:latest
   stage: deploy
+  inherit:
+    default: false
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
   tags:

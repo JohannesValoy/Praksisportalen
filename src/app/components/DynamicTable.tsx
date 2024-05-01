@@ -146,11 +146,9 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
               <button
                 onClick={onAddButtonClick}
                 className="btn btn-xs btn-ghost"
+                aria-label={`Add ${tableName}`}
               >
-                <Add
-                  currentColor="currentColor"
-                  aria-label={`Add ${tableName}`}
-                />
+                <Add currentColor="currentColor" />
               </button>
 
               <button
@@ -159,6 +157,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                   onDelete();
                 }}
                 className="btn btn-ghost btn-xs"
+                aria-label="Delete"
               >
                 <Trash currentColor="currentColor" />
               </button>
@@ -169,38 +168,36 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
           <thead>
             <tr>
               {!readonly && (
-                <th>
-                  <label>
-                    <input
-                      type="checkbox"
-                      className="checkbox"
-                      aria-label="Select all rows"
-                      checked={
-                        normalizedRows.length > 0 &&
-                        selectedRows.length === normalizedRows.length
+                <td>
+                  <input
+                    type="checkbox"
+                    className="checkbox"
+                    aria-label="Select all rows"
+                    checked={
+                      normalizedRows.length > 0 &&
+                      selectedRows.length === normalizedRows.length
+                    }
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRows(normalizedRows);
+                      } else {
+                        setSelectedRows([]);
                       }
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedRows(normalizedRows);
-                        } else {
-                          setSelectedRows([]);
-                        }
-                      }}
-                    />
-                  </label>
-                </th>
+                    }}
+                  />
+                </td>
               )}
               {headerTitles.map((title, index) => (
-                <th key={index}>
-                  <div
+                <th key={`${title}-${index}`}>
+                  <button
                     onClick={() => setSortedBy(rowDataKeys[index])}
                     className="btn btn-neutral btn-xs"
                   >
                     {title}
-                  </div>
+                  </button>
                 </th>
               ))}
-              <th></th>
+              <td></td>
             </tr>
           </thead>
           {normalizedRows.length === 0 ||
@@ -216,24 +213,22 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
             </tbody>
           ) : (
             normalizedRows.map((row, index) => (
-              <tbody key={index}>
+              <tbody key={row.id}>
                 <tr onClick={() => onRowClick(row)}>
                   {!readonly && (
-                    <th onClick={(e) => e.stopPropagation()}>
-                      <label>
-                        <input
-                          type="checkbox"
-                          className="checkbox"
-                          aria-label="Select this row"
-                          checked={selectedRows.includes(row)}
-                          onChange={(e) => toggleSelection(row, e)}
-                        />
-                      </label>
-                    </th>
+                    <td onClick={(e) => e.stopPropagation()}>
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        aria-label="Select this row"
+                        checked={selectedRows.includes(row)}
+                        onChange={(e) => toggleSelection(row, e)}
+                      />
+                    </td>
                   )}
                   {rowDataKeys.map((key: string, index: number) => (
                     <td
-                      key={index}
+                      key={row.id}
                       onClick={
                         clickableColumns[key]
                           ? () => clickableColumns[key](row)

@@ -47,7 +47,7 @@ export default function SectionPage({
           setSectionTypes(data);
         })
         .catch((error) =>
-          console.error("Failed to fetch Section Types", error)
+          console.error("Failed to fetch Section Types", error),
         );
     }
   }, [section]);
@@ -179,7 +179,7 @@ export default function SectionPage({
                         options={sectionTypes}
                         selectedOption={
                           sectionTypes.find(
-                            (type) => type.name === sectionType
+                            (type) => type.name === sectionType,
                           ) || null
                         }
                         setSelectedOption={(type) => setSectionType(type.name)}

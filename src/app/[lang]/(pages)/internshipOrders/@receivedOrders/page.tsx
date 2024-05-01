@@ -66,18 +66,19 @@ function Page() {
   const toggleSelection = (row) => {
     let currentIndex = selectedRows.indexOf(row);
     let newSelectedRows = [...selectedRows];
-    let vacanciesSelected = selectedRows.reduce(
+
+    if (currentIndex !== -1) {
+      newSelectedRows.splice(currentIndex, 1);
+    } else {
+      newSelectedRows.push(row);
+    }
+
+    // Recalculate vacanciesSelected with the updated newSelectedRows
+    let vacanciesSelected = newSelectedRows.reduce(
       (total, row) => total + row.freeSpots,
       0
     );
 
-    if (currentIndex !== -1) {
-      newSelectedRows.splice(currentIndex, 1);
-      vacanciesSelected -= row.freeSpots;
-    } else {
-      newSelectedRows.push(row);
-      vacanciesSelected += row.freeSpots;
-    }
     console.log("vacanciesSelected", vacanciesSelected);
 
     setSelectedRows(newSelectedRows);
@@ -104,7 +105,10 @@ function Page() {
         {orders ? (
           <div className="flex flex-wrap gap-5 justify-center">
             {orders.map((order) => (
-              <div key={order.id} className="card bg-base-100 shadow-xl">
+              <div
+                key={order.id}
+                className="card bg-base-100  text-base-content shadow-xl"
+              >
                 <div className="card-body flex gap-5">
                   <div className="flex flex-row items-center">
                     <div className="flex items-center flex-wrap flex-grow ml-4 gap-5">
@@ -171,19 +175,21 @@ function Page() {
                 <div className="mx-auto">
                   <div className="flex gap-2">
                     Students left to assign:{" "}
-                    <div className="font-bold text-secondary">
+                    <div className="font-bold text-primary">
                       {studentsLeft}/{selectedOrder?.numStudents}
                     </div>
                   </div>
                 </div>
               </div>
               <div className="chat chat-start">
-                <div className="chat-bubble">{selectedOrder?.comment}</div>
+                <div className="chat-bubble text-base-content bg-neutral">
+                  {selectedOrder?.comment}
+                </div>
               </div>
               <div className="overflow-x-auto">
                 <table className="table w-full text-sm rounded-xl overflow-hidden">
                   <thead>
-                    <tr className="text-xs uppercase bg-base-200">
+                    <tr className="text-xs uppercase bg-base-200 text-base-content">
                       <th></th>
                       <th>Navn</th>
                       <th>Felt</th>
@@ -194,7 +200,7 @@ function Page() {
                     {rows.map((row, index) => (
                       <tr
                         key={index}
-                        className={`${selectedRows.includes(row) ? "bg-accent" : "hover:bg-base-300"} cursor-pointer, rounded-lg`}
+                        className={`${selectedRows.includes(row) ? "bg-neutral" : "hover:bg-base-300"} cursor-pointer, rounded-lg`}
                         onClick={() => toggleSelection(row)}
                       >
                         <td>

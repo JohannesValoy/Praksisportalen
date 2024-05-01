@@ -141,52 +141,56 @@ export async function deleteInternship(id: number) {
 export async function getInternshipTypes() {
   return await DBclient.select().from("internshipFields");
 }
-
 export async function saveOrderDistribution(
   subFieldGroupID: number,
   InternshipID: number,
-  amount
+  amount: number
 ) {
-  console.log("in actions: subFieldGroupID: " + subFieldGroupID);
-  console.log("amount: " + amount);
-  // First, get the subFieldGroup
-  const subFieldGroup = await DBclient("subFieldGroups")
-    .where("id", subFieldGroupID)
-    .first();
+  return DBclient.transaction(async (trx) => {
+    const subFieldGroup = await trx("subFieldGroups")
+      .join("fieldGroups", "subFieldGroups.fieldGroupID", "fieldGroups.id")
+      .join(
+        "internshipOrders",
+        "fieldGroups.internshipOrderID",
+        "internshipOrders.id"
+      )
+      .select(
+        "subFieldGroups.numStudents",
+        "subFieldGroups.startWeek",
+        "subFieldGroups.endWeek",
+        "internshipOrders.studyProgramID",
+        "internshipOrders.comment"
+      )
+      .where("subFieldGroups.id", subFieldGroupID)
+      .first();
 
-  // Then, get the parent fieldGroup
-  const fieldGroup = await DBclient("fieldGroups")
-    .where("id", subFieldGroup.fieldGroupID)
-    .first();
+    if (!subFieldGroup) throw new Error("SubFieldGroup not found.");
+    if (amount <= 0) throw new Error("Amount must be greater than 0.");
+    if (subFieldGroup.numStudents < amount)
+      throw new Error(
+        "Not enough students in the subFieldGroup to distribute."
+      );
 
-  // Finally, get the parent order
-  const order = await DBclient("internshipOrders")
-    .where("id", fieldGroup.id)
-    .first();
-
-  if (amount <= 0 || !amount) {
-    throw new Error("Amount must be greater than 0");
-  }
-
-  if (subFieldGroup.numStudents >= amount) {
-    subFieldGroup.numStudents -= amount;
-    await DBclient("subFieldGroups")
+    const newNumStudents = subFieldGroup.numStudents - amount;
+    await trx("subFieldGroups")
       .where("id", subFieldGroupID)
-      .update({ numStudents: subFieldGroup.numStudents });
-    const agreements = Array(amount).fill({
+      .update({ numStudents: newNumStudents });
+
+    const agreements = Array.from({ length: amount }, () => ({
       status: "pending",
       startDate: subFieldGroup.startWeek,
       endDate: subFieldGroup.endWeek,
-      studyProgram_id: order.studyProgramID,
+      studyProgram_id: subFieldGroup.studyProgramID,
       internship_id: InternshipID,
-      comment: order.comment,
-    });
-    //TODO maybe this should be done in one go
-    agreements.forEach((agreement) => saveInternshipAgreementObject(agreement));
-  }
+      comment: subFieldGroup.comment,
+    }));
 
-  if (subFieldGroup.numStudents <= amount) {
-    //removes subFieldGroup
-    await DBclient("subFieldGroups").where("id", subFieldGroupID).del();
-  }
+    for (const agreement of agreements) {
+      await saveInternshipAgreementObject(agreement); // Called without transaction object
+    }
+
+    if (newNumStudents === 0) {
+      await trx("subFieldGroups").where("id", subFieldGroupID).del();
+    }
+  });
 }

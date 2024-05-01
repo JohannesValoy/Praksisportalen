@@ -65,9 +65,6 @@ async function getInternshipAgreementsByPageRequest(
       if (pageRequest.hasInternshipID) {
         builder.where("internship_id", pageRequest.hasInternshipID);
       }
-      if (pageRequest.containsStatus) {
-        builder.where("status", "like", `%${pageRequest.containsStatus}%`);
-      }
     })
     .orderBy(
       ["id", "startDate", "endDate"].includes(pageRequest.sort)

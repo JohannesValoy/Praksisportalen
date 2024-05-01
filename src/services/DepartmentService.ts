@@ -48,7 +48,7 @@ async function getDepartmentPageByPageRequest(
   pageRequest: DepartmentPageRequest,
 ): Promise<PageResponse<Department>> {
   const baseQuery = await DBclient.from("employees")
-    .innerJoin("departments", "employees.id", "departments.employee_id")
+    .rightJoin("departments", "employees.id", "departments.employee_id")
     .where((builder) => {
       if (pageRequest.hasEmployeeID) {
         builder.where("employee_id", pageRequest.hasEmployeeID);

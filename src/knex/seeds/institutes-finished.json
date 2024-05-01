@@ -1,0 +1,22 @@
+[
+  { "name": "VID vitenskapelige h\u00f8gskole", "id": 1 },
+  { "name": "Universitetet i S\u00f8r\u00f8st-Norge", "id": 2 },
+  { "name": "Universitetet i Stavanger", "id": 3 },
+  { "name": "Universitetet i Oslo", "id": 4 },
+  { "name": "Universitetet i Bergen", "id": 5 },
+  { "name": "Universitetet i Agder", "id": 6 },
+  { "name": "UiT Norges arktiske universitet", "id": 7 },
+  { "name": "OsloMet - storbyuniversitetet", "id": 8 },
+  { "name": "Norges teknisk-naturvitenskapelige universitet", "id": 9 },
+  { "name": "Norges milj\u00f8- og biovitenskapelige universitet", "id": 10 },
+  { "name": "Nord universitet", "id": 11 },
+  { "name": "Lovisenberg diakonale h\u00f8gskole", "id": 12 },
+  { "name": "H\u00f8gskulen p\u00e5 Vestlandet", "id": 13 },
+  { "name": "H\u00f8gskulen i Volda", "id": 14 },
+  { "name": "H\u00f8gskolen i \u00d8stfold", "id": 15 },
+  {
+    "name": "H\u00f8gskolen i Molde, Vitenskaplig h\u00f8gskole i logistikk",
+    "id": 16
+  },
+  { "name": "H\u00f8gskolen i Innlandet", "id": 17 }
+]

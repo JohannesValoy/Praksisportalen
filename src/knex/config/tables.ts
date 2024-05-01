@@ -25,7 +25,7 @@ declare module "knex/types/tables.js" {
   interface DepartmentTable {
     id: number;
     name: string;
-    employee_id: string;
+    employee_id?: string;
     created_at: Date;
     updated_at: Date;
   }
@@ -37,8 +37,8 @@ declare module "knex/types/tables.js" {
   interface SectionTable {
     id: number;
     name: string;
-    section_type: string;
-    employee_id: string;
+    section_type?: string;
+    employee_id?: string;
     department_id: number;
     created_at: Date;
     updated_at: Date;
@@ -78,7 +78,7 @@ declare module "knex/types/tables.js" {
 
   interface InternshipAgreementTable {
     id: number;
-    status: string;
+    status: "Agreed" | "Pending" | "Rejected";
     startDate: Date;
     endDate: Date;
     student_id: string;
@@ -89,7 +89,7 @@ declare module "knex/types/tables.js" {
     created_at: Date;
     updated_at: Date;
   }
-  interface internshipOrdersTable {
+  interface InternshipOrdersTable {
     id: number;
     studyProgram_id: number;
     comment: Text;
@@ -135,6 +135,6 @@ declare module "knex/types/tables.js" {
     users: UserAttributes;
     subFieldGroups: SubFieldGroupTable;
     fieldGroups: FieldGroupTable;
-    internshipOrders: internshipOrdersTable;
+    internshipOrders: InternshipOrdersTable;
   }
 }

@@ -20,7 +20,7 @@ export async function paginateDepartments(request: DepartmentPageRequest) {
   // If data.elements is not present, use data directly.
   const elements = data.elements.map((element) => ({
     name: element.name,
-    email: element.employee.email,
+    email: element.employee?.email || "",
     id: element.id,
   }));
   return {

@@ -23,7 +23,6 @@ export async function paginateInternshipAgreements(
   const elements = data.elements.map((element) => ({
     name: element.internship.name,
     id: element.id,
-    status: element.status,
     startDate: element.startDate.toLocaleDateString(),
     endDate: element.endDate.toLocaleDateString(),
   }));

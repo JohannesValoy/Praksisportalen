@@ -14,8 +14,8 @@ import JSONInternshipAgreements from "./internshipAgreements-finished.json";
 import { randomInt } from "crypto";
 
 /**
- * Seeds the database with dummy data
- * @param knex Knex instance
+ * Seeds the database with the data from the JSON files
+ * @param knex The knex object
  * @returns A promise that resolves when the seeding is done
  */
 export const seed = async function (knex: Knex) {
@@ -206,13 +206,13 @@ export const seed = async function (knex: Knex) {
             i.student_id === agreement.student_id &&
             (direction === 1
               ? i.startDate >= Date.now()
-              : i.startDate <= Date.now()),
+              : i.startDate <= Date.now())
         ).length * 2
       : 0;
     const dates = [new Date(), new Date()];
     dates[0].setDate(dates[0].getDate() + direction * (offset + offset2 * 14));
     dates[1].setDate(
-      dates[1].getDate() + direction * (offset + (offset2 + 1) * 14),
+      dates[1].getDate() + direction * (offset + (offset2 + 1) * 14)
     );
     dates.sort((a, b) => a.getTime() - b.getTime());
     internships.push({
@@ -230,7 +230,7 @@ export const seed = async function (knex: Knex) {
     const endDate: Date = internship.endDate;
     const weeklyPracticeDays = 2;
     const sameSectionInternships = internships.filter(
-      (inter) => inter.section_id === internship.section_id,
+      (inter) => inter.section_id === internship.section_id
     );
     while (startDate.getTime() < endDate.getTime()) {
       const daysInTheWeek = [];
@@ -246,7 +246,7 @@ export const seed = async function (knex: Knex) {
       }
       startDate.setDate(startDate.getDate() + 1);
       let days: Date[] = daysInTheWeek.toSorted((a, b) =>
-        differenceInBusyness(a, b, sameSectionInternships, timeIntervals),
+        differenceInBusyness(a, b, sameSectionInternships, timeIntervals)
       );
       if (days.length > weeklyPracticeDays) {
         days = [days[0], days[randomInt(1, days.length - 1)]];
@@ -267,12 +267,19 @@ export const seed = async function (knex: Knex) {
   });
   await knex("timeIntervals").insert(timeIntervals);
 };
-
+/**
+ * A function that calculates the different between two dates within a section of internship agreements
+ * @param a Date a
+ * @param b Date b
+ * @param sameSectionInternships The internships that are in the same section
+ * @param timeIntervals Time intervals that are already created
+ * @returns The difference in busyness
+ */
 function differenceInBusyness(
   a: any,
   b: any,
   sameSectionInternships: any[],
-  timeIntervals: any[],
+  timeIntervals: any[]
 ) {
   return (
     timeIntervals.filter((ti) => {

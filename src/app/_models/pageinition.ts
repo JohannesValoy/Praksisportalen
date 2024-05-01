@@ -1,3 +1,5 @@
+/** @format */
+
 import { NextRequest } from "next/server";
 import { Role } from "../api/auth/[...nextauth]/nextauth";
 
@@ -8,10 +10,8 @@ import { Role } from "../api/auth/[...nextauth]/nextauth";
 export interface PageRequest {
   page?: number;
   size?: number;
-  sort?: baseSort;
+  sort?: string;
 }
-
-type baseSort = "id" | "name";
 
 /**
  * PageResponse is a class that represents a response for a paginated list of objects.

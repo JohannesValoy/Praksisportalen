@@ -1,3 +1,5 @@
+/** @format */
+
 import { InternshipTable } from "knex/types/tables.js";
 import { PageRequest } from "./pageinition";
 
@@ -11,5 +13,4 @@ export interface InternshipPaginationRequest extends PageRequest {
   field?: string;
   id?: number;
 }
-
 export interface Internship extends InternshipTable {}

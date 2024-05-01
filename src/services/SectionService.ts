@@ -1,7 +1,5 @@
 "use server";
-import "server-only";
 
-("use server");
 import DBclient from "@/knex/config/DBClient";
 import { SectionTable } from "knex/types/tables.js";
 import { getEmployeeObjectByIDList } from "./EmployeeService";

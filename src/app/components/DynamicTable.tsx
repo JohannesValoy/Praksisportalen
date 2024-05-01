@@ -49,7 +49,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
     const isSelected = selectedRows.includes(row);
     if (isSelected) {
       setSelectedRows(
-        selectedRows.filter((selectedRow) => selectedRow !== row),
+        selectedRows.filter((selectedRow) => selectedRow !== row)
       );
     } else {
       setSelectedRows([...selectedRows, row]);
@@ -192,7 +192,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                 <th key={`${title}-${index}`}>
                   <button
                     onClick={() => setSortedBy(rowDataKeys[index])}
-                    className="btn btn-neutral btn-xs"
+                    className="btn btn-ghost text-neutral-content btn-xs"
                   >
                     {title}
                   </button>
@@ -238,7 +238,9 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                     >
                       <div
                         className={
-                          clickableColumns[key] ? "btn btn-neutral btn-xs" : ""
+                          clickableColumns[key]
+                            ? "btn btn-ghost text-neutral-content btn-xs"
+                            : ""
                         }
                       >
                         {row[key]}
@@ -251,7 +253,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                         event.stopPropagation();
                         onRowButtonClick(row);
                       }}
-                      className="btn btn-neutral btn-xs"
+                      className="btn btn-ghost text-neutral-content btn-xs"
                     >
                       {buttonName}
                     </button>

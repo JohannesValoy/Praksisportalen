@@ -6,10 +6,10 @@ import JSONEmployees from "./employees-finished.json";
 import JSONCoordinators from "./coordinators-finished.json";
 import JSONStudents from "./students-finished.json";
 /**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
+ * Seeds the database with dummy data
+ * @param knex Knex instance
+ * @returns A promise that resolves when the seeding is done
  */
-
 export const seed = async function (knex: Knex) {
   // Deletes ALL existing entries
   await knex("timeIntervals").del();

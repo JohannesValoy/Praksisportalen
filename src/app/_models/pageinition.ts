@@ -1,5 +1,3 @@
-/** @format */
-
 import { NextRequest } from "next/server";
 import { Role } from "../api/auth/[...nextauth]/nextauth";
 
@@ -32,6 +30,11 @@ export interface UserPageRequest extends PageRequest {
   roles?: Role[];
 }
 
+/**
+ * Converts from a {@link NextRequest} to a {@link PageRequest}
+ * @param request The {@link NextRequest} to convert.
+ * @returns A new {@link PageRequest} object.
+ */
 export function fromRequestToPage(request: NextRequest) {
   const pageRequest: PageRequest = {
     page: request.nextUrl.searchParams.get("page")

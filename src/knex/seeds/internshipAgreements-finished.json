@@ -1,0 +1,1136 @@
+[
+  {
+    "id": 1,
+    "student_id": "5e4f333d-b5fb-4eaa-b397-dbf928f169ca",
+    "internship_id": 1,
+    "studyProgram_id": 8,
+    "coordinator_id": "93406501-f8fb-4138-8ee1-155887d167a3"
+  },
+  {
+    "id": 2,
+    "student_id": null,
+    "internship_id": 4,
+    "studyProgram_id": 8,
+    "coordinator_id": "2358bc4a-710f-44f6-a7bb-ee3b94a20835"
+  },
+  {
+    "id": 3,
+    "student_id": null,
+    "internship_id": 4,
+    "studyProgram_id": 2,
+    "coordinator_id": "b7d4e2dd-ab3b-411a-ad17-45d2f0e39d36"
+  },
+  {
+    "id": 4,
+    "student_id": null,
+    "internship_id": 5,
+    "studyProgram_id": 2,
+    "coordinator_id": "57c7a77c-b154-46a0-a6cc-57aab07064a6"
+  },
+  {
+    "id": 5,
+    "student_id": null,
+    "internship_id": 5,
+    "studyProgram_id": 3,
+    "coordinator_id": "b212b846-c9c8-4af5-8490-cc3148542d0f"
+  },
+  {
+    "id": 6,
+    "student_id": null,
+    "internship_id": 6,
+    "studyProgram_id": 1,
+    "coordinator_id": "d748f9d6-41d3-4fcf-a051-cd77ca1a6f5b"
+  },
+  {
+    "id": 7,
+    "student_id": "4a918b75-68b3-4731-88cf-803d1d1ff9c9",
+    "internship_id": 6,
+    "studyProgram_id": 9,
+    "coordinator_id": "6a633c4d-b826-4c8a-bd76-be3f73570fa6"
+  },
+  {
+    "id": 8,
+    "student_id": "b3d88bd0-2674-4b2a-a45f-82c06bd0fbba",
+    "internship_id": 7,
+    "studyProgram_id": 9,
+    "coordinator_id": "e49a8409-6fa9-4219-a238-97e002a71e7f"
+  },
+  {
+    "id": 9,
+    "student_id": null,
+    "internship_id": 7,
+    "studyProgram_id": 7,
+    "coordinator_id": "3c128f85-81b2-4a29-ad59-51e2540357b6"
+  },
+  {
+    "id": 10,
+    "student_id": null,
+    "internship_id": 7,
+    "studyProgram_id": 9,
+    "coordinator_id": "5e0cba70-3f05-4a1d-acf7-2bd0b0b75dac"
+  },
+  {
+    "id": 11,
+    "student_id": "b60d10e3-b5b6-4eb8-93e7-fc93f9e92e1e",
+    "internship_id": 7,
+    "studyProgram_id": 3,
+    "coordinator_id": "550ce1eb-2ee5-40f9-9349-a2a53838cb68"
+  },
+  {
+    "id": 12,
+    "student_id": null,
+    "internship_id": 8,
+    "studyProgram_id": 9,
+    "coordinator_id": "4b3b5286-283b-4a76-a892-d36602fb9ab5"
+  },
+  {
+    "id": 13,
+    "student_id": "de4044ee-5cd5-4220-9a59-c53f74002277",
+    "internship_id": 8,
+    "studyProgram_id": 3,
+    "coordinator_id": "55f91837-9bdc-4f99-9b03-05e641a76943"
+  },
+  {
+    "id": 14,
+    "student_id": "883a9aa8-974e-4e02-bb82-18d38616dd1f",
+    "internship_id": 8,
+    "studyProgram_id": 8,
+    "coordinator_id": "0ce0cc17-9eb5-42ed-ad2c-d023b224bfb4"
+  },
+  {
+    "id": 15,
+    "student_id": "618ba582-e1e6-4ed1-827b-4cce2ff4fcf1",
+    "internship_id": 8,
+    "studyProgram_id": 8,
+    "coordinator_id": "5a855ebb-3018-4677-a8ac-c6f03a3b99da"
+  },
+  {
+    "id": 16,
+    "student_id": null,
+    "internship_id": 8,
+    "studyProgram_id": 4,
+    "coordinator_id": "7db38171-7131-4b4f-a4f2-da36ecfab0cd"
+  },
+  {
+    "id": 17,
+    "student_id": "efa12952-8cd3-4170-87fe-dcd44b168e61",
+    "internship_id": 9,
+    "studyProgram_id": 5,
+    "coordinator_id": "86849104-5943-4cb2-8afa-d8118388155b"
+  },
+  {
+    "id": 18,
+    "student_id": null,
+    "internship_id": 9,
+    "studyProgram_id": 5,
+    "coordinator_id": "2b85dd21-541f-4cd5-9891-5c48b156bc7d"
+  },
+  {
+    "id": 19,
+    "student_id": "400dcd9c-e3b1-4e64-b54d-487974f7bbcb",
+    "internship_id": 9,
+    "studyProgram_id": 4,
+    "coordinator_id": "e69ef025-77fa-4798-8794-0bd166fe7e8d"
+  },
+  {
+    "id": 20,
+    "student_id": "5069a4c0-4c09-4f8a-a809-4ea421c9ae5b",
+    "internship_id": 9,
+    "studyProgram_id": 8,
+    "coordinator_id": "6b3295f2-9403-4981-9e47-8ece7f7e66eb"
+  },
+  {
+    "id": 21,
+    "student_id": "d86d4364-1ea6-409b-9666-af4a3a4138cb",
+    "internship_id": 10,
+    "studyProgram_id": 6,
+    "coordinator_id": "fa2092e6-1e2b-4686-b623-ce4317cdcd0c"
+  },
+  {
+    "id": 22,
+    "student_id": "514fe87f-b0f4-4cef-9a87-4836c9e65bbc",
+    "internship_id": 10,
+    "studyProgram_id": 2,
+    "coordinator_id": "25170e9c-855c-470c-9aa2-bf50ee81dac3"
+  },
+  {
+    "id": 23,
+    "student_id": null,
+    "internship_id": 10,
+    "studyProgram_id": 6,
+    "coordinator_id": "01a65fb3-20b4-49b3-842d-c25f8c9f4367"
+  },
+  {
+    "id": 24,
+    "student_id": null,
+    "internship_id": 11,
+    "studyProgram_id": 8,
+    "coordinator_id": "40325e32-6379-4366-8341-9d89e09fea12"
+  },
+  {
+    "id": 25,
+    "student_id": "e07e1bd1-c6e6-4881-8fa0-04f13905136f",
+    "internship_id": 14,
+    "studyProgram_id": 4,
+    "coordinator_id": "1c2b05fc-486c-4de1-a50d-3111b53f1a07"
+  },
+  {
+    "id": 26,
+    "student_id": null,
+    "internship_id": 14,
+    "studyProgram_id": 8,
+    "coordinator_id": "734f0f02-e040-413e-9a72-713ceaa937cc"
+  },
+  {
+    "id": 27,
+    "student_id": null,
+    "internship_id": 14,
+    "studyProgram_id": 6,
+    "coordinator_id": "856106fc-0393-43bf-8e77-e3ee4c752164"
+  },
+  {
+    "id": 28,
+    "student_id": null,
+    "internship_id": 15,
+    "studyProgram_id": 8,
+    "coordinator_id": "5fc98a20-b4d9-40fe-a770-ba14645e7c29"
+  },
+  {
+    "id": 29,
+    "student_id": null,
+    "internship_id": 15,
+    "studyProgram_id": 9,
+    "coordinator_id": "569a28b4-4a61-41f4-92b8-50dc06e6f0d4"
+  },
+  {
+    "id": 30,
+    "student_id": null,
+    "internship_id": 17,
+    "studyProgram_id": 8,
+    "coordinator_id": "d9b4b026-82a4-4e39-a338-277b39a16ed6"
+  },
+  {
+    "id": 31,
+    "student_id": "618ba582-e1e6-4ed1-827b-4cce2ff4fcf1",
+    "internship_id": 17,
+    "studyProgram_id": 3,
+    "coordinator_id": "628041b8-8e23-4dd0-aee1-7edf0c2af883"
+  },
+  {
+    "id": 32,
+    "student_id": null,
+    "internship_id": 17,
+    "studyProgram_id": 2,
+    "coordinator_id": "2792e7a6-3745-4294-9cb6-a16a165eeb28"
+  },
+  {
+    "id": 33,
+    "student_id": "356fdaa5-f14c-410f-a6a1-28458c978776",
+    "internship_id": 18,
+    "studyProgram_id": 3,
+    "coordinator_id": "09184a43-c6e4-433c-aac8-3c9b622c4f72"
+  },
+  {
+    "id": 34,
+    "student_id": null,
+    "internship_id": 18,
+    "studyProgram_id": 7,
+    "coordinator_id": "2d6da537-ff89-4286-9923-4c314527df81"
+  },
+  {
+    "id": 35,
+    "student_id": "a2e1a9e7-877c-46b4-a7f9-f7b35d3f3943",
+    "internship_id": 18,
+    "studyProgram_id": 9,
+    "coordinator_id": "7acba531-7524-44db-8165-fc3a4c72d3a7"
+  },
+  {
+    "id": 36,
+    "student_id": null,
+    "internship_id": 18,
+    "studyProgram_id": 1,
+    "coordinator_id": "2ce9001c-5ec5-4d99-9b03-2c3e5e160241"
+  },
+  {
+    "id": 37,
+    "student_id": null,
+    "internship_id": 18,
+    "studyProgram_id": 1,
+    "coordinator_id": "7954d642-ac71-4592-90a9-9cdc038af140"
+  },
+  {
+    "id": 38,
+    "student_id": "d73797bc-9fd3-44c0-9007-c1c90ea6ee41",
+    "internship_id": 19,
+    "studyProgram_id": 1,
+    "coordinator_id": "36eba4a3-38a8-427c-bd31-eb0c2907b1d7"
+  },
+  {
+    "id": 39,
+    "student_id": "e30f5c7e-602e-4434-a7f5-62fb9328c7dc",
+    "internship_id": 19,
+    "studyProgram_id": 2,
+    "coordinator_id": "cf836094-b6c9-4318-9c1b-8164e0aad989"
+  },
+  {
+    "id": 40,
+    "student_id": "0976f791-7f16-4bcb-a0a5-e4cf46a8ffe8",
+    "internship_id": 19,
+    "studyProgram_id": 1,
+    "coordinator_id": "442ecae3-c154-46b7-a748-a77137600729"
+  },
+  {
+    "id": 41,
+    "student_id": null,
+    "internship_id": 19,
+    "studyProgram_id": 9,
+    "coordinator_id": "f04fa9fd-cf86-4b86-827a-cd323e1ebca1"
+  },
+  {
+    "id": 42,
+    "student_id": "780f410c-e78a-4a31-af9d-22b2152ed9a7",
+    "internship_id": 23,
+    "studyProgram_id": 1,
+    "coordinator_id": "df2896de-19be-4623-b47e-ea48501a56bc"
+  },
+  {
+    "id": 43,
+    "student_id": null,
+    "internship_id": 23,
+    "studyProgram_id": 6,
+    "coordinator_id": "44937ef4-2198-4953-990a-1333ecb9698b"
+  },
+  {
+    "id": 44,
+    "student_id": null,
+    "internship_id": 23,
+    "studyProgram_id": 9,
+    "coordinator_id": "1f2a7935-9929-4b7a-a78c-f4f74dbf8ad3"
+  },
+  {
+    "id": 45,
+    "student_id": "efa12952-8cd3-4170-87fe-dcd44b168e61",
+    "internship_id": 23,
+    "studyProgram_id": 1,
+    "coordinator_id": "0f422375-2be0-4f82-bfaf-244b24abb0e8"
+  },
+  {
+    "id": 46,
+    "student_id": "05412487-98a0-44d6-98a0-f9a150046281",
+    "internship_id": 24,
+    "studyProgram_id": 5,
+    "coordinator_id": "734f0f02-e040-413e-9a72-713ceaa937cc"
+  },
+  {
+    "id": 47,
+    "student_id": null,
+    "internship_id": 24,
+    "studyProgram_id": 6,
+    "coordinator_id": "a5a486c3-476b-4bba-9eb4-f5e8ce6c3f20"
+  },
+  {
+    "id": 48,
+    "student_id": "292aab99-84cd-4467-a108-2de42bc71cc2",
+    "internship_id": 24,
+    "studyProgram_id": 4,
+    "coordinator_id": "5926db3d-5de5-4dee-a353-df918d587b6b"
+  },
+  {
+    "id": 49,
+    "student_id": "7fef6aaf-82d1-4af2-8d89-bce83bcfb608",
+    "internship_id": 24,
+    "studyProgram_id": 1,
+    "coordinator_id": "334ee96d-9dd1-453f-8cfa-82c636cce785"
+  },
+  {
+    "id": 50,
+    "student_id": null,
+    "internship_id": 25,
+    "studyProgram_id": 5,
+    "coordinator_id": "38ee17b6-510a-4e28-8e25-a770955f911e"
+  },
+  {
+    "id": 51,
+    "student_id": "33de6ec3-3303-48d9-af23-44405495c05b",
+    "internship_id": 25,
+    "studyProgram_id": 8,
+    "coordinator_id": "26bbe2b1-37e7-4aad-8a80-e2b2882cb46f"
+  },
+  {
+    "id": 52,
+    "student_id": "effc6afb-61a7-4407-8463-f0d1ca14d132",
+    "internship_id": 25,
+    "studyProgram_id": 8,
+    "coordinator_id": "fb9364aa-20f9-42cf-975e-213823daefd7"
+  },
+  {
+    "id": 53,
+    "student_id": "4aaa66d8-ba5b-4616-b737-6d8cfb5f6ae9",
+    "internship_id": 25,
+    "studyProgram_id": 2,
+    "coordinator_id": "0439b818-098c-4c75-b7a6-5e2b8cc1c70e"
+  },
+  {
+    "id": 54,
+    "student_id": "a280d904-29bd-4a87-a287-3448a14ac971",
+    "internship_id": 25,
+    "studyProgram_id": 3,
+    "coordinator_id": "2dd164e5-1194-4e14-b6ec-5147b9dcc28e"
+  },
+  {
+    "id": 55,
+    "student_id": null,
+    "internship_id": 27,
+    "studyProgram_id": 2,
+    "coordinator_id": "57d00128-1383-4bc6-b6d9-35c61b1d2a39"
+  },
+  {
+    "id": 56,
+    "student_id": "2f07a973-1d36-409e-9969-e3b69ce5ff79",
+    "internship_id": 27,
+    "studyProgram_id": 1,
+    "coordinator_id": "b5e88549-b30e-47f6-bcf0-036a50c6d359"
+  },
+  {
+    "id": 57,
+    "student_id": null,
+    "internship_id": 27,
+    "studyProgram_id": 4,
+    "coordinator_id": "bcbcea52-0f59-4e00-9c46-9176500e31c8"
+  },
+  {
+    "id": 58,
+    "student_id": null,
+    "internship_id": 27,
+    "studyProgram_id": 1,
+    "coordinator_id": "f0ce2346-2dcf-4581-8a03-06a07b35bd2c"
+  },
+  {
+    "id": 59,
+    "student_id": null,
+    "internship_id": 27,
+    "studyProgram_id": 5,
+    "coordinator_id": "5fc98a20-b4d9-40fe-a770-ba14645e7c29"
+  },
+  {
+    "id": 60,
+    "student_id": "af697639-d947-45e1-accb-3808bb77c5e6",
+    "internship_id": 27,
+    "studyProgram_id": 8,
+    "coordinator_id": "efa258ac-70d9-48a3-81d6-9944e56a641a"
+  },
+  {
+    "id": 61,
+    "student_id": "e66d8410-336f-439f-9fb0-1aaa31e2e692",
+    "internship_id": 29,
+    "studyProgram_id": 8,
+    "coordinator_id": "e0dd6354-8c97-446a-bb21-590b2794102e"
+  },
+  {
+    "id": 62,
+    "student_id": "b1f84461-de28-4a99-ac5d-59fc8c86d9e0",
+    "internship_id": 29,
+    "studyProgram_id": 1,
+    "coordinator_id": "44a2894d-3066-4bfb-bc65-ed35701f0e87"
+  },
+  {
+    "id": 63,
+    "student_id": "0fb3ec62-f034-44f1-ab98-b32a21260275",
+    "internship_id": 29,
+    "studyProgram_id": 1,
+    "coordinator_id": "b209b7b0-c5bd-4fc9-978e-45bd16b9b1b7"
+  },
+  {
+    "id": 64,
+    "student_id": null,
+    "internship_id": 29,
+    "studyProgram_id": 6,
+    "coordinator_id": "fb9364aa-20f9-42cf-975e-213823daefd7"
+  },
+  {
+    "id": 65,
+    "student_id": "9144f09b-ce3c-41b6-855e-74af39639b14",
+    "internship_id": 30,
+    "studyProgram_id": 1,
+    "coordinator_id": "0040b244-bc70-4cdc-9f90-2724ebaab0bc"
+  },
+  {
+    "id": 66,
+    "student_id": "a3f720ae-c608-4d76-8503-181cfeb745f0",
+    "internship_id": 30,
+    "studyProgram_id": 2,
+    "coordinator_id": "92213568-fb10-4ef0-943f-8778251dc883"
+  },
+  {
+    "id": 67,
+    "student_id": null,
+    "internship_id": 30,
+    "studyProgram_id": 3,
+    "coordinator_id": "59442659-27d2-4538-988b-b325b5c4c4be"
+  },
+  {
+    "id": 68,
+    "student_id": "7bca9b71-460b-46d8-8618-050b9060b9c6",
+    "internship_id": 30,
+    "studyProgram_id": 1,
+    "coordinator_id": "8504652f-a46e-4fac-845b-2711374f48e6"
+  },
+  {
+    "id": 69,
+    "student_id": null,
+    "internship_id": 30,
+    "studyProgram_id": 9,
+    "coordinator_id": "734f0f02-e040-413e-9a72-713ceaa937cc"
+  },
+  {
+    "id": 70,
+    "student_id": null,
+    "internship_id": 31,
+    "studyProgram_id": 2,
+    "coordinator_id": "be35263c-4cfb-4253-91eb-fe1b3c198359"
+  },
+  {
+    "id": 71,
+    "student_id": null,
+    "internship_id": 31,
+    "studyProgram_id": 6,
+    "coordinator_id": "9b3d5a1f-f624-467c-b560-a60a4eda4364"
+  },
+  {
+    "id": 72,
+    "student_id": null,
+    "internship_id": 31,
+    "studyProgram_id": 8,
+    "coordinator_id": "82a71537-6876-472a-b1c4-3892957065a9"
+  },
+  {
+    "id": 73,
+    "student_id": null,
+    "internship_id": 31,
+    "studyProgram_id": 9,
+    "coordinator_id": "e49a8409-6fa9-4219-a238-97e002a71e7f"
+  },
+  {
+    "id": 74,
+    "student_id": "c548927f-71c1-4b07-b96b-b2ad85626ec3",
+    "internship_id": 31,
+    "studyProgram_id": 6,
+    "coordinator_id": "39fb5e00-49c7-4434-8f66-c6350b9446aa"
+  },
+  {
+    "id": 75,
+    "student_id": "dd8e0032-c0ae-4f06-90f3-0b6bb777f0e2",
+    "internship_id": 32,
+    "studyProgram_id": 6,
+    "coordinator_id": "9b3d5a1f-f624-467c-b560-a60a4eda4364"
+  },
+  {
+    "id": 76,
+    "student_id": "463bb111-e818-42f4-bc5d-226bf60eef41",
+    "internship_id": 32,
+    "studyProgram_id": 2,
+    "coordinator_id": "2f047337-9e56-4cee-9ae7-bfdd21bafb8e"
+  },
+  {
+    "id": 77,
+    "student_id": null,
+    "internship_id": 33,
+    "studyProgram_id": 2,
+    "coordinator_id": "7d4b0719-bf6a-4fcf-a15b-4c5591f1f746"
+  },
+  {
+    "id": 78,
+    "student_id": null,
+    "internship_id": 33,
+    "studyProgram_id": 7,
+    "coordinator_id": "569a28b4-4a61-41f4-92b8-50dc06e6f0d4"
+  },
+  {
+    "id": 79,
+    "student_id": "da01bc74-de9d-4385-a470-76bc7425374f",
+    "internship_id": 37,
+    "studyProgram_id": 9,
+    "coordinator_id": "e0dd6354-8c97-446a-bb21-590b2794102e"
+  },
+  {
+    "id": 80,
+    "student_id": null,
+    "internship_id": 37,
+    "studyProgram_id": 6,
+    "coordinator_id": "abb08e56-8069-4cd0-9b6f-297f82645ff0"
+  },
+  {
+    "id": 81,
+    "student_id": null,
+    "internship_id": 37,
+    "studyProgram_id": 1,
+    "coordinator_id": "431b206d-c0fd-44fb-9bed-4d7e1d1e99ff"
+  },
+  {
+    "id": 82,
+    "student_id": null,
+    "internship_id": 37,
+    "studyProgram_id": 4,
+    "coordinator_id": "42b54516-706c-44ac-8494-1a15380ef636"
+  },
+  {
+    "id": 83,
+    "student_id": null,
+    "internship_id": 37,
+    "studyProgram_id": 2,
+    "coordinator_id": "ff3bd561-7df2-40f7-90ba-d6f64ddaf541"
+  },
+  {
+    "id": 84,
+    "student_id": null,
+    "internship_id": 40,
+    "studyProgram_id": 5,
+    "coordinator_id": "611be11a-f472-4e6a-a9b2-e83f7a94adbf"
+  },
+  {
+    "id": 85,
+    "student_id": "ffa4b2c3-e8c2-499e-9b31-97bc978855a2",
+    "internship_id": 42,
+    "studyProgram_id": 4,
+    "coordinator_id": "36eba4a3-38a8-427c-bd31-eb0c2907b1d7"
+  },
+  {
+    "id": 86,
+    "student_id": null,
+    "internship_id": 43,
+    "studyProgram_id": 1,
+    "coordinator_id": "9a49374f-8865-471c-9970-6b95632428c9"
+  },
+  {
+    "id": 87,
+    "student_id": "62a53069-0ce5-4486-b4f5-2554d498b2dc",
+    "internship_id": 43,
+    "studyProgram_id": 7,
+    "coordinator_id": "138aa2ea-b7e4-4bb8-8b19-ecf210ac621c"
+  },
+  {
+    "id": 88,
+    "student_id": "5829fbd5-b7dc-488a-8979-0ddab35cca84",
+    "internship_id": 43,
+    "studyProgram_id": 5,
+    "coordinator_id": "5d53012f-aac4-4924-b0ca-961df4badd05"
+  },
+  {
+    "id": 89,
+    "student_id": "4580c74a-16b2-4d72-8d33-4d2db426e7d4",
+    "internship_id": 43,
+    "studyProgram_id": 1,
+    "coordinator_id": "e41e3e1c-9117-444d-8d59-b86a7bc38a6f"
+  },
+  {
+    "id": 90,
+    "student_id": null,
+    "internship_id": 43,
+    "studyProgram_id": 5,
+    "coordinator_id": "8716bb2b-e054-410d-b0c2-e98a798b2479"
+  },
+  {
+    "id": 91,
+    "student_id": null,
+    "internship_id": 43,
+    "studyProgram_id": 4,
+    "coordinator_id": "e2b65add-bba4-45cb-a2e5-2e98c7850c66"
+  },
+  {
+    "id": 92,
+    "student_id": "6429cc4a-7061-407a-90ba-49432f4ed16c",
+    "internship_id": 49,
+    "studyProgram_id": 4,
+    "coordinator_id": "ead05055-e38f-486f-ac6e-b2f5c6c8d63b"
+  },
+  {
+    "id": 93,
+    "student_id": null,
+    "internship_id": 49,
+    "studyProgram_id": 2,
+    "coordinator_id": "f3bb4735-c0d3-42a9-8958-a6b244979cfe"
+  },
+  {
+    "id": 94,
+    "student_id": "64d004ff-f949-4d56-82ac-919864a09357",
+    "internship_id": 49,
+    "studyProgram_id": 8,
+    "coordinator_id": "01a65fb3-20b4-49b3-842d-c25f8c9f4367"
+  },
+  {
+    "id": 95,
+    "student_id": "a82261b9-cad1-4d33-8271-e4ceffb2c7e4",
+    "internship_id": 49,
+    "studyProgram_id": 9,
+    "coordinator_id": "501d9a41-f977-4b48-8d38-b8050095f174"
+  },
+  {
+    "id": 96,
+    "student_id": null,
+    "internship_id": 49,
+    "studyProgram_id": 4,
+    "coordinator_id": "c908b8d6-c161-47b7-aeca-6a59e26d585e"
+  },
+  {
+    "id": 97,
+    "student_id": "2e7adf4d-4a4d-4a3c-8861-aa8af6ac7e3e",
+    "internship_id": 49,
+    "studyProgram_id": 8,
+    "coordinator_id": "ce77e2d4-43e9-4bbb-919d-7092da6df8a4"
+  },
+  {
+    "id": 98,
+    "student_id": null,
+    "internship_id": 50,
+    "studyProgram_id": 9,
+    "coordinator_id": "1b535d57-d152-46ae-835a-56cfc1b553ca"
+  },
+  {
+    "id": 99,
+    "student_id": "a60b0aff-e418-4b2b-88c0-c21fc72d2b49",
+    "internship_id": 50,
+    "studyProgram_id": 4,
+    "coordinator_id": "36eba4a3-38a8-427c-bd31-eb0c2907b1d7"
+  },
+  {
+    "id": 100,
+    "student_id": "883a9aa8-974e-4e02-bb82-18d38616dd1f",
+    "internship_id": 50,
+    "studyProgram_id": 1,
+    "coordinator_id": "09a5933a-2383-4aad-b95a-eaf5bee0b32c"
+  },
+  {
+    "id": 101,
+    "student_id": null,
+    "internship_id": 50,
+    "studyProgram_id": 3,
+    "coordinator_id": "cf836094-b6c9-4318-9c1b-8164e0aad989"
+  },
+  {
+    "id": 102,
+    "student_id": null,
+    "internship_id": 51,
+    "studyProgram_id": 2,
+    "coordinator_id": "87b333e0-52d9-41a4-bd7b-c2aa13115c1f"
+  },
+  {
+    "id": 103,
+    "student_id": null,
+    "internship_id": 51,
+    "studyProgram_id": 1,
+    "coordinator_id": "2cfc13b1-3cae-4120-bb63-4c0439a62a93"
+  },
+  {
+    "id": 104,
+    "student_id": "93b51b00-24a1-4186-88e0-c2b07d86ea29",
+    "internship_id": 51,
+    "studyProgram_id": 5,
+    "coordinator_id": "edf9958a-4727-4959-bca8-f86f4dc0d6c1"
+  },
+  {
+    "id": 105,
+    "student_id": null,
+    "internship_id": 51,
+    "studyProgram_id": 9,
+    "coordinator_id": "e674014c-e9b9-4b36-8129-50372d88b034"
+  },
+  {
+    "id": 106,
+    "student_id": null,
+    "internship_id": 51,
+    "studyProgram_id": 2,
+    "coordinator_id": "d4d8b62c-3dc8-4a06-b1b7-185844a5abb2"
+  },
+  {
+    "id": 107,
+    "student_id": null,
+    "internship_id": 52,
+    "studyProgram_id": 7,
+    "coordinator_id": "49a5efd0-cbad-452c-8b57-b0d2d1efed43"
+  },
+  {
+    "id": 108,
+    "student_id": "09c46319-7826-4a8a-b108-7e1a8d8eaf6b",
+    "internship_id": 52,
+    "studyProgram_id": 8,
+    "coordinator_id": "a1274fc0-ed90-46d2-b243-129ba303e482"
+  },
+  {
+    "id": 109,
+    "student_id": null,
+    "internship_id": 52,
+    "studyProgram_id": 9,
+    "coordinator_id": "9daf908d-5578-4639-83ef-04b80fe5988c"
+  },
+  {
+    "id": 110,
+    "student_id": "42ce6ca6-a77d-4505-b70d-98b29d69fa3a",
+    "internship_id": 52,
+    "studyProgram_id": 9,
+    "coordinator_id": "9b0e55e0-be49-42e6-99fc-6bb55e73dc7b"
+  },
+  {
+    "id": 111,
+    "student_id": "2e189f6e-0c62-4837-99e7-27e1963f6862",
+    "internship_id": 52,
+    "studyProgram_id": 5,
+    "coordinator_id": "1b535d57-d152-46ae-835a-56cfc1b553ca"
+  },
+  {
+    "id": 112,
+    "student_id": "d5417eae-d043-4521-9f81-51f20596a8f1",
+    "internship_id": 52,
+    "studyProgram_id": 2,
+    "coordinator_id": "2f047337-9e56-4cee-9ae7-bfdd21bafb8e"
+  },
+  {
+    "id": 113,
+    "student_id": "10c84b21-9068-4e87-9c81-09b58d89a6a7",
+    "internship_id": 53,
+    "studyProgram_id": 8,
+    "coordinator_id": "2358bc4a-710f-44f6-a7bb-ee3b94a20835"
+  },
+  {
+    "id": 114,
+    "student_id": "d2dd6825-965a-479e-a8c4-2194e80e2909",
+    "internship_id": 53,
+    "studyProgram_id": 2,
+    "coordinator_id": "87161e24-40f3-49b7-850a-3b90d9399719"
+  },
+  {
+    "id": 115,
+    "student_id": "87072584-d7b3-45be-b5ab-79574aecda18",
+    "internship_id": 55,
+    "studyProgram_id": 4,
+    "coordinator_id": "2bc8585e-02f7-4a65-8b65-2bf010cff2af"
+  },
+  {
+    "id": 116,
+    "student_id": "d0eb0bbc-6bf8-42d5-9991-593df88abc18",
+    "internship_id": 55,
+    "studyProgram_id": 9,
+    "coordinator_id": "e5a90c62-5cee-4d48-81a4-4121a2a21df1"
+  },
+  {
+    "id": 117,
+    "student_id": null,
+    "internship_id": 55,
+    "studyProgram_id": 6,
+    "coordinator_id": "85500788-ff72-45bf-b1c1-0b8384807854"
+  },
+  {
+    "id": 118,
+    "student_id": null,
+    "internship_id": 55,
+    "studyProgram_id": 4,
+    "coordinator_id": "ead05055-e38f-486f-ac6e-b2f5c6c8d63b"
+  },
+  {
+    "id": 119,
+    "student_id": "ecbaa69d-7f4f-4f3d-9fb5-a7a553adc64d",
+    "internship_id": 56,
+    "studyProgram_id": 3,
+    "coordinator_id": "0439b818-098c-4c75-b7a6-5e2b8cc1c70e"
+  },
+  {
+    "id": 120,
+    "student_id": "4f18d218-0291-4223-86e2-0edf2ec231f1",
+    "internship_id": 56,
+    "studyProgram_id": 3,
+    "coordinator_id": "225c49df-a695-428f-89ef-12440016ce53"
+  },
+  {
+    "id": 121,
+    "student_id": "2f3fe71a-0a21-4406-8f33-8a8e539ecff3",
+    "internship_id": 56,
+    "studyProgram_id": 6,
+    "coordinator_id": "2358bc4a-710f-44f6-a7bb-ee3b94a20835"
+  },
+  {
+    "id": 122,
+    "student_id": null,
+    "internship_id": 56,
+    "studyProgram_id": 2,
+    "coordinator_id": "929d0621-ee1a-43fd-8b2e-c33776f5e5c1"
+  },
+  {
+    "id": 123,
+    "student_id": null,
+    "internship_id": 56,
+    "studyProgram_id": 2,
+    "coordinator_id": "8a893e4b-1f55-4a38-a7ea-805b913787ec"
+  },
+  {
+    "id": 124,
+    "student_id": "4b84628f-796e-4788-967c-694502683135",
+    "internship_id": 56,
+    "studyProgram_id": 6,
+    "coordinator_id": "035bd68b-0780-4ee4-8688-118799bf065d"
+  },
+  {
+    "id": 125,
+    "student_id": "27feb819-0e16-49e3-83a6-10cd2ccf1c9b",
+    "internship_id": 57,
+    "studyProgram_id": 2,
+    "coordinator_id": "8504652f-a46e-4fac-845b-2711374f48e6"
+  },
+  {
+    "id": 126,
+    "student_id": "a555c76b-a760-427a-b617-03e511e32812",
+    "internship_id": 57,
+    "studyProgram_id": 2,
+    "coordinator_id": "d28aa7d7-9370-4976-ac0f-be62aac0f458"
+  },
+  {
+    "id": 127,
+    "student_id": null,
+    "internship_id": 57,
+    "studyProgram_id": 7,
+    "coordinator_id": "e3b0d78e-9ae7-46c0-91d9-2ce87fdc316d"
+  },
+  {
+    "id": 128,
+    "student_id": null,
+    "internship_id": 57,
+    "studyProgram_id": 3,
+    "coordinator_id": "d748f9d6-41d3-4fcf-a051-cd77ca1a6f5b"
+  },
+  {
+    "id": 129,
+    "student_id": "2aa59a13-6d51-4297-8341-2c58f8621067",
+    "internship_id": 57,
+    "studyProgram_id": 1,
+    "coordinator_id": "77247b5b-77c2-4f72-84ae-6a0d1b7caff7"
+  },
+  {
+    "id": 130,
+    "student_id": "8e836fec-66e3-43d6-b17c-9b8494f48603",
+    "internship_id": 57,
+    "studyProgram_id": 6,
+    "coordinator_id": "2b3de63f-6ee7-4a24-8d90-1dc12b311e14"
+  },
+  {
+    "id": 131,
+    "student_id": null,
+    "internship_id": 57,
+    "studyProgram_id": 8,
+    "coordinator_id": "8716bb2b-e054-410d-b0c2-e98a798b2479"
+  },
+  {
+    "id": 132,
+    "student_id": null,
+    "internship_id": 57,
+    "studyProgram_id": 4,
+    "coordinator_id": "65bba69f-c522-4d7a-9177-c953221573c7"
+  },
+  {
+    "id": 133,
+    "student_id": null,
+    "internship_id": 58,
+    "studyProgram_id": 6,
+    "coordinator_id": "638ce641-7165-4f9d-8374-cd86cd0e55c1"
+  },
+  {
+    "id": 134,
+    "student_id": null,
+    "internship_id": 58,
+    "studyProgram_id": 9,
+    "coordinator_id": "c3354318-4b94-4971-a804-ba06f9e6754c"
+  },
+  {
+    "id": 135,
+    "student_id": null,
+    "internship_id": 58,
+    "studyProgram_id": 8,
+    "coordinator_id": "e49a8409-6fa9-4219-a238-97e002a71e7f"
+  },
+  {
+    "id": 136,
+    "student_id": null,
+    "internship_id": 58,
+    "studyProgram_id": 4,
+    "coordinator_id": "7dbb08e7-9b2b-43cc-bf9c-6203f22b36ab"
+  },
+  {
+    "id": 137,
+    "student_id": null,
+    "internship_id": 58,
+    "studyProgram_id": 4,
+    "coordinator_id": "77247b5b-77c2-4f72-84ae-6a0d1b7caff7"
+  },
+  {
+    "id": 138,
+    "student_id": null,
+    "internship_id": 58,
+    "studyProgram_id": 6,
+    "coordinator_id": "d701e42f-40d9-44a1-b74e-10558d317167"
+  },
+  {
+    "id": 139,
+    "student_id": null,
+    "internship_id": 58,
+    "studyProgram_id": 4,
+    "coordinator_id": "43fe9016-aabe-49ef-aa4e-f642d9f35ef5"
+  },
+  {
+    "id": 140,
+    "student_id": "eadfd839-a440-4ba4-9e78-959505bb7ada",
+    "internship_id": 60,
+    "studyProgram_id": 1,
+    "coordinator_id": "8187dbf6-d66e-4c72-9593-a1de284c9744"
+  },
+  {
+    "id": 141,
+    "student_id": "60b7ee5a-2543-4578-94a2-fa7979839f23",
+    "internship_id": 60,
+    "studyProgram_id": 1,
+    "coordinator_id": "f7a2b17e-e9ee-4f70-be6c-deee3c7a06e3"
+  },
+  {
+    "id": 142,
+    "student_id": null,
+    "internship_id": 60,
+    "studyProgram_id": 6,
+    "coordinator_id": "4f27f328-768c-4a04-bbe1-b0c7a4553168"
+  },
+  {
+    "id": 143,
+    "student_id": null,
+    "internship_id": 60,
+    "studyProgram_id": 6,
+    "coordinator_id": "49e03092-2a44-4647-b923-7da05bbfd2ac"
+  },
+  {
+    "id": 144,
+    "student_id": "62e672cd-98a9-4f87-8067-c6e7bebea63c",
+    "internship_id": 60,
+    "studyProgram_id": 1,
+    "coordinator_id": "1b358170-ede6-4fbc-b7b2-d8f5ed78d9b1"
+  },
+  {
+    "id": 145,
+    "student_id": null,
+    "internship_id": 60,
+    "studyProgram_id": 4,
+    "coordinator_id": "6d626a38-8a01-41b9-8e9d-ba776aed184b"
+  },
+  {
+    "id": 146,
+    "student_id": "e3513b1d-9401-475f-abec-3814a047ba01",
+    "internship_id": 63,
+    "studyProgram_id": 5,
+    "coordinator_id": "d9df19b3-05de-446d-992c-de5a664b1e10"
+  },
+  {
+    "id": 147,
+    "student_id": "670d91f1-4781-4c6b-8b80-3ed63f39caf4",
+    "internship_id": 63,
+    "studyProgram_id": 3,
+    "coordinator_id": "a52a0b1f-4565-477b-8aba-8cf33d8addd0"
+  },
+  {
+    "id": 148,
+    "student_id": null,
+    "internship_id": 63,
+    "studyProgram_id": 4,
+    "coordinator_id": "df2896de-19be-4623-b47e-ea48501a56bc"
+  },
+  {
+    "id": 149,
+    "student_id": null,
+    "internship_id": 63,
+    "studyProgram_id": 9,
+    "coordinator_id": "9fca5a2f-74f1-4ede-abba-099509ba02b7"
+  },
+  {
+    "id": 150,
+    "student_id": null,
+    "internship_id": 63,
+    "studyProgram_id": 3,
+    "coordinator_id": "4aaeaa9b-fb42-4220-9259-2a013b4c662f"
+  },
+  {
+    "id": 151,
+    "student_id": "945c66a7-a249-4558-9849-5d400ac0cdf5",
+    "internship_id": 63,
+    "studyProgram_id": 3,
+    "coordinator_id": "628041b8-8e23-4dd0-aee1-7edf0c2af883"
+  },
+  {
+    "id": 152,
+    "student_id": null,
+    "internship_id": 63,
+    "studyProgram_id": 7,
+    "coordinator_id": "d3b44758-9f08-4e66-b59b-2860b9e1ed11"
+  },
+  {
+    "id": 153,
+    "student_id": null,
+    "internship_id": 63,
+    "studyProgram_id": 9,
+    "coordinator_id": "18ce2146-ddde-4292-b500-ecec49f5e51d"
+  },
+  {
+    "id": 154,
+    "student_id": "08cb8849-b4f1-40d9-836f-acacd142fab8",
+    "internship_id": 65,
+    "studyProgram_id": 4,
+    "coordinator_id": "6c49fbf0-d0dd-47a2-918e-cf4ea62760af"
+  },
+  {
+    "id": 155,
+    "student_id": "df87dcda-15c6-4019-a1e0-6479db46a472",
+    "internship_id": 66,
+    "studyProgram_id": 7,
+    "coordinator_id": "df904133-6c4e-4bbc-9b68-3705b3b4521d"
+  },
+  {
+    "id": 156,
+    "student_id": null,
+    "internship_id": 67,
+    "studyProgram_id": 5,
+    "coordinator_id": "ab2e9d7f-ec9e-4aad-a38a-51c11bb3d4ad"
+  },
+  {
+    "id": 157,
+    "student_id": null,
+    "internship_id": 67,
+    "studyProgram_id": 3,
+    "coordinator_id": "cf836094-b6c9-4318-9c1b-8164e0aad989"
+  },
+  {
+    "id": 158,
+    "student_id": "6811d61b-d851-4f02-825a-3f68ee5dfd2a",
+    "internship_id": 67,
+    "studyProgram_id": 1,
+    "coordinator_id": "55bf1606-a773-4aca-b5e7-0677da81b5d9"
+  },
+  {
+    "id": 159,
+    "student_id": null,
+    "internship_id": 68,
+    "studyProgram_id": 5,
+    "coordinator_id": "4e03fd6c-c36e-4dfb-a651-9ff63abdb4ae"
+  },
+  {
+    "id": 160,
+    "student_id": null,
+    "internship_id": 68,
+    "studyProgram_id": 6,
+    "coordinator_id": "63e30674-aca3-4064-92a1-a63bf965adfa"
+  },
+  {
+    "id": 161,
+    "student_id": null,
+    "internship_id": 71,
+    "studyProgram_id": 5,
+    "coordinator_id": "99352707-c2f4-4da7-8edf-c2908a6c7d4d"
+  },
+  {
+    "id": 162,
+    "student_id": "e051fd30-4727-413d-92da-89c62b8802ff",
+    "internship_id": 71,
+    "studyProgram_id": 7,
+    "coordinator_id": "c4817421-7b39-4e5f-9db1-274442fbf6b5"
+  }
+]

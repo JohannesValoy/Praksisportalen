@@ -1,6 +1,3 @@
-/** @format */
-/** @format */
-
 "use client";
 import React from "react";
 import DynamicTable from "@/app/components/DynamicTable";
@@ -11,15 +8,13 @@ import {
 
 const ListOfInternshipAgreements = () => {
   const headers = {
-    Status: "status",
     Name: "name",
     "Start Date": "startDate",
     "End Date": "endDate",
   };
 
   return (
-    <>
-      <DynamicTable
+    <DynamicTable
         tableName={"Internship Agreements"}
         headers={headers}
         onRowClick={() => {}}
@@ -33,7 +28,6 @@ const ListOfInternshipAgreements = () => {
         deleteFunction={deleteInternshipAgreement}
         paginateFunction={paginateInternshipAgreements}
       />
-    </>
   );
 };
 

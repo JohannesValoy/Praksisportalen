@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 
 import ContainerBox from "@/app/components/ContainerBox";
@@ -11,6 +9,10 @@ import ErrorModal from "@/app/components/ErrorModal";
 
 const pieParams = { margin: { right: 5 }, height: 400, width: 400 };
 
+/**
+ * The admin layout component contains the main dashboard for the admin
+ * @returns A react component with the admin dashboard
+ */
 const AdminLayout = () => {
   const [error, setError] = useState(null);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);

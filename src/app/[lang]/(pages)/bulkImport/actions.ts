@@ -5,6 +5,12 @@ import { createEmployees } from "@/services/EmployeeService";
 import { CoordinatorTable, EmployeeTable } from "knex/types/tables.js";
 import "server-only";
 
+/**
+ * Inserts a record in the database based upon the tableName and data. Filters the data based upon the columns in the table.
+ * @param tableName The name of the table to insert the record into.
+ * @param data The data to insert into the table.
+ * @returns The data that was inserted into the table.
+ */
 export async function createRecord(tableName, data) {
   // Get column names for the table
   const columns = await DBclient(tableName).columnInfo();

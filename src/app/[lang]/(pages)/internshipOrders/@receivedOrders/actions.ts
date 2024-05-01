@@ -39,7 +39,10 @@ export interface Order {
     };
   };
 }
-
+/**
+ * Fetches ****ALL**** the orders from the databases and creates a list of {@link Order}s.
+ * @returns A list of ****ALL**** the orders.
+ */
 export async function fetchOrders(): Promise<Order[]> {
   const orders = await DBclient.table("internshipOrders")
     .innerJoin(

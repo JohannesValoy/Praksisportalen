@@ -1,4 +1,3 @@
-/** @format */
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -191,12 +190,12 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
               )}
               {headerTitles.map((title, index) => (
                 <th key={index}>
-                  <div
+                  <input
+                    type="button"
                     onClick={() => setSortedBy(rowDataKeys[index])}
                     className="btn btn-neutral btn-xs"
-                  >
-                    {title}
-                  </div>
+                    value={title}
+                  />
                 </th>
               ))}
               <th></th>

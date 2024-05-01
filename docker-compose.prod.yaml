@@ -1,10 +1,10 @@
-version: "3.7"
-
+# @format
 services:
   web:
     build:
       context: .
-      target: prod
+      target: release
+    image: registry.stud.idi.ntnu.no:5050/bachelorgruppe-12-bidata-2024/praksisplasslista
     depends_on:
       db:
         condition: service_healthy

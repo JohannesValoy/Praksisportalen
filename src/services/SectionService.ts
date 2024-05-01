@@ -1,16 +1,20 @@
-/** @format */
+"use server";
+import "server-only";
 
 import DBclient from "@/knex/config/DBClient";
 import { SectionTable } from "knex/types/tables.js";
 import { getEmployeeObjectByIDList } from "./EmployeeService";
 import { getInternshipPositionObjectBySectionID } from "./InternshipPositionService";
 
-import "server-only";
 import { PageResponse } from "@/app/_models/pageinition";
 import { Section, SectionPageRequest } from "@/app/_models/Section";
 import { Employee } from "@/app/_models/Employee";
 import { Internship } from "@/app/_models/InternshipPosition";
-
+/**
+ * Fetches a {@link Section} by its id
+ * @param id the id of the {@link Section}
+ * @returns the {@link Section}
+ */
 async function getSectionObjectByID(id: number): Promise<Section> {
   const section = await getSectionObjectByIDList([id]);
   if (section.get(id) == undefined) {
@@ -18,7 +22,11 @@ async function getSectionObjectByID(id: number): Promise<Section> {
   }
   return section.get(id);
 }
-
+/**
+ * Gets a list of {@link Section} objects by their ids
+ * @param idList a list of ids to fetch
+ * @returns a map of {@link Section} objects with the id as key. The map will only contain the {@link Section} objects that were found
+ */
 async function getSectionObjectByIDList(
   idList: number[],
 ): Promise<Map<number, Section>> {
@@ -33,7 +41,11 @@ async function getSectionObjectByIDList(
   });
   return sections;
 }
-
+/**
+ * Gets a list of {@link Section} objects by a {@link SectionPageRequest}
+ * @param pageRequest a {@link SectionPageRequest}
+ * @returns a {@link PageResponse} of {@link Section}
+ */
 async function getSectionsByPageRequest(
   pageRequest: SectionPageRequest,
 ): Promise<PageResponse<Section>> {
@@ -68,7 +80,11 @@ async function getSectionsByPageRequest(
     totalPages: Math.ceil(baseQuery.length / pageRequest.size),
   };
 }
-
+/**
+ * Creates a list of {@link Section} objects from a list of {@link SectionTable} objects
+ * @param query a list of {@link SectionTable} objects
+ * @returns a list of {@link Section} objects
+ */
 async function createSectionObject(query: SectionTable[]): Promise<Section[]> {
   const employeesPromise: Promise<Map<string, Employee>> =
     getEmployeeObjectByIDList(query.map((section) => section.employee_id));
@@ -90,7 +106,11 @@ async function createSectionObject(query: SectionTable[]): Promise<Section[]> {
   });
   return sections;
 }
-
+/**
+ * Deletes a {@link Section} by its id
+ * @param id the id of the {@link Section}
+ * @returns the number of deleted sections
+ */
 async function deleteSectionByID(id: number) {
   return await DBclient.delete().from("sections").where("id", id);
 }

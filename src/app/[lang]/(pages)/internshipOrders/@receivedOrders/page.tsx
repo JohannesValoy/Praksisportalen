@@ -9,9 +9,14 @@ import {
   saveOrderDistribution,
 } from "./actions";
 import ContainerBox from "@/app/components/ContainerBox";
+/**
+ * The page to display received orders.
+ * @returns The page to display received orders.
+ */
 import ErrorModal from "@/app/components/ErrorModal";
 
 function Page() {
+  //TODO: I see no reason to use a state here. The orders are fetched once and then displayed.
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -1,7 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-
+/**
+ * Creates a page to add an education institution.
+ * @returns A page to add an education institution.
+ */
 export default function Page() {
   const router = useRouter();
   const [name, setName] = useState("");

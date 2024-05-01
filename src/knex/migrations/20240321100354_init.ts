@@ -1,6 +1,3 @@
-<<<<<<< src/knex/migrations/20240321100354_init.ts
-/** @format */
-
 import type { Knex } from "knex";
 
 const check_email_and_idTrigger = (table: string) => {
@@ -16,7 +13,11 @@ const check_email_and_idTrigger = (table: string) => {
               end while;
             END`;
 };
-
+/**
+ * Migration to create the initial database schema.
+ * @param knex The Knex instance.
+ * @returns A promise that resolves when the schema is created.
+ */
 export async function up(knex: Knex): Promise<void> {
   return (
     knex.schema

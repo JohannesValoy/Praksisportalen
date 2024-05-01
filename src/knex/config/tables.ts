@@ -82,7 +82,7 @@ declare module "knex/types/tables.js" {
     status: string;
     startDate: Date;
     endDate: Date;
-    student_id: string;
+    student_id?: string;
     coordinator_id: string;
     studyProgram_id: number;
     internship_id: number;

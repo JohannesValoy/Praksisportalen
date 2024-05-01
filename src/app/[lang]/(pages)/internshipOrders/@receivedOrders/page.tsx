@@ -62,22 +62,23 @@ function Page() {
       setStudentsLeft(selectedOrder.numStudents); // Reset students left to distribute when a new order is selected
     }
   }, [isModalOpen, selectedOrder, fetchInternships]);
-
   const toggleSelection = (row) => {
+    // Ignore selection if the internship has no free spots left
+    if (row.freeSpots <= 0) return;
+
     let currentIndex = selectedRows.indexOf(row);
     let newSelectedRows = [...selectedRows];
 
     if (currentIndex !== -1) {
-      newSelectedRows.splice(currentIndex, 1);
+      newSelectedRows.splice(currentIndex, 1); // Remove the row from selection
     } else {
-      newSelectedRows.push(row);
+      newSelectedRows.push(row); // Add the row to selection
     }
 
-    // Recalculate vacanciesSelected with the updated newSelectedRows
-    let vacanciesSelected = newSelectedRows.reduce(
-      (total, row) => total + row.freeSpots,
-      0
-    );
+    // Recalculate vacanciesSelected with the updated newSelectedRows, only counting rows with free spots
+    let vacanciesSelected = newSelectedRows.reduce((total, row) => {
+      return row.freeSpots > 0 ? total + row.freeSpots : total;
+    }, 0);
 
     console.log("vacanciesSelected", vacanciesSelected);
 
@@ -327,19 +328,29 @@ function Page() {
                           "selectedOrder: " +
                             JSON.stringify(selectedOrder) +
                             " the given id from this is " +
-                            selectedOrder.id
+                            selectedOrder.id,
                         );
                         console.log(
-                          "selectedRow: " + JSON.stringify(selectedRow)
+                          "selectedRow: " + JSON.stringify(selectedRow),
                         );
                         console.log(
-                          "selectedRow.freeSpots: " + selectedRow.freeSpots
+                          "selectedRow.freeSpots: " + selectedRow.freeSpots,
+                        );
+                        console.log("studentsLeft: " + studentsLeft);
+                        console.log(
+                          Math.min(
+                            selectedRow.freeSpots,
+                            selectedOrder?.numStudents,
+                          ),
                         );
                         //TODO FIX THIS LOGIC
                         saveDistribution(
                           selectedOrder.id,
                           selectedRow.id,
-                          selectedRow.freeSpots
+                          Math.min(
+                            selectedRow.freeSpots,
+                            selectedOrder?.numStudents,
+                          ),
                         );
                       });
                     }}

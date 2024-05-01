@@ -24,9 +24,8 @@ EXPOSE 3000
 CMD /bin/bash -c "bun --bun knex migrate:latest --knexfile src/knex/knexfile.ts && bun --bun knex seed:run --knexfile src/knex/knexfile.ts && bun next dev"
 
 FROM base AS release
-COPY --chown=root:root --chmod=755 ./bun.lockb /app/
 USER app
-RUN bun install --frozen-lockfile 
+RUN bun install --production
 
 # [optional] tests & build
 ENV NODE_ENV=production

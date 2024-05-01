@@ -8,6 +8,7 @@ import {
 } from "@/app/_models/InternshipPosition";
 import "server-only";
 import { PageResponse } from "@/app/_models/pageinition";
+import knex from "knex";
 
 /**
  * Gets an {@link InternshipPosition} object by its id.
@@ -82,30 +83,24 @@ async function getInternshipPositionObjectBySectionID(
 async function getInternshipPositionObjectByPageRequest(
   pageRequest: InternshipPaginationRequest
 ): Promise<PageResponse<Internship>> {
-  let query = DBclient.select("internships.*")
-    .count("internshipAgreements.id as agreementCount")
-    .from<InternshipTable>("internships")
-    .leftJoin(
-      "internshipAgreements",
-      "internships.id",
-      "internshipAgreements.internship_id"
-    )
-    .groupBy("internships.id")
-    .where((builder) => {
-      if (pageRequest.section_id && typeof pageRequest.section_id == "number") {
-        builder.whereIn("section_id", pageRequest.section_id);
-      }
-      if (
-        Array.isArray(pageRequest.yearOfStudy) &&
-        pageRequest.yearOfStudy.every(Number.isFinite) &&
-        pageRequest.yearOfStudy.length > 0
-      ) {
-        builder.whereIn("yearOfStudy", pageRequest.yearOfStudy);
-      }
-      if (pageRequest.field) {
-        builder.where("internship_field", pageRequest.field);
-      }
-    });
+  let query = DBclient.select(
+    "internships.*",
+    DBclient.raw("availableInternshipsSpots(internships.id) as agreementCount")
+  ).where((builder) => {
+    if (pageRequest.section_id && typeof pageRequest.section_id == "number") {
+      builder.whereIn("section_id", pageRequest.section_id);
+    }
+    if (
+      Array.isArray(pageRequest.yearOfStudy) &&
+      pageRequest.yearOfStudy.every(Number.isFinite) &&
+      pageRequest.yearOfStudy.length > 0
+    ) {
+      builder.whereIn("yearOfStudy", pageRequest.yearOfStudy);
+    }
+    if (pageRequest.field) {
+      builder.where("internship_field", pageRequest.field);
+    }
+  });
 
   if (pageRequest.sort === "agreementCount") {
     query = query.orderBy("agreementCount", "desc");
@@ -134,6 +129,7 @@ async function getInternshipPositionObjectByPageRequest(
     .forEach((result) => {
       internships.push(result);
     });
+  console.log(internships);
   return {
     ...pageRequest,
     elements: internships,

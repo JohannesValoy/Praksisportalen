@@ -204,8 +204,8 @@ export async function up(knex: Knex): Promise<void> {
         table.increments("id").primary();
         table.string("studyYear").notNullable();
         table.integer("numStudents").notNullable().checkPositive();
-        table.string("startWeek").notNullable();
-        table.string("endWeek").notNullable();
+        table.date("startWeek").notNullable();
+        table.date("endWeek").notNullable();
         table.integer("fieldGroupID").unsigned().notNullable();
         table
           .foreign("fieldGroupID")
@@ -358,11 +358,11 @@ export async function up(knex: Knex): Promise<void> {
       CREATE FUNCTION IF NOT EXISTS availableInternshipsSpots(internshipID INT) RETURNS INT
       DETERMINISTIC
       BEGIN
-        DECLARE currentCapacity INT;
+        DECLARE internCapacity INT;
         DECLARE internshipAgreementCount INT;
-        SELECT currentCapacity INTO currentCapacity FROM internships WHERE id = internshipID;
+        SELECT currentCapacity INTO internCapacity FROM internships WHERE id = internshipID;
         SELECT COUNT(*) INTO internshipAgreementCount FROM internshipAgreements WHERE internship_id = internshipID AND NOW() BETWEEN startDate AND endDate;
-        RETURN currentCapacity - internshipAgreementCount;
+        RETURN internCapacity - internshipAgreementCount;
       END; 
       `
       )

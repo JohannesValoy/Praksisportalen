@@ -122,6 +122,8 @@ function Page() {
     console.log("Component has re-rendered");
   });
 
+  console.log(orders);
+
   return (
     <>
       <ContainerBox title="Received Orders">

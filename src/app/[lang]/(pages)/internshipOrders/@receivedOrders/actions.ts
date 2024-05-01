@@ -66,11 +66,12 @@ export async function fetchOrders(): Promise<Order[]> {
     .select()
     .whereIn(
       "id",
-      studyPrograms.map((studyprogram) => studyprogram.educationInstitution_id)
+      studyPrograms.map((studyProgram) => studyProgram.educationInstitution_id)
     );
+
   const response = orders.map((order) => {
     const studyProgram = studyPrograms.find(
-      (studyprogram) => studyprogram.id === order.studyProgramID
+      (studyProgram) => studyProgram.id === order.studyProgramID
     );
     return {
       ...order,
@@ -171,7 +172,6 @@ export async function saveOrderDistribution(
       .update({ numStudents: newNumStudents });
 
     const agreements = Array.from({ length: amount }, () => ({
-      status: "pending",
       startDate: subFieldGroup.startWeek,
       endDate: subFieldGroup.endWeek,
       studyProgram_id: subFieldGroup.studyProgramID,

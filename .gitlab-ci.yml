@@ -30,7 +30,7 @@ default:
       - node_modules/
       - public/
     policy: pull-push
-  image: node:latest
+  image: oven/bun:1
 
 variables:
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" # Defines the location of the analysis task cache

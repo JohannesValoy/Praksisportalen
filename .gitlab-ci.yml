@@ -44,14 +44,12 @@ workflow:
 install:
   stage: install
   script:
-    - npm install --also=dev
-    - npm install --save next
-    - npm install --save-dev typescript @types/react @types/node prettier
+    - bun install --also=dev
 
 build:
   stage: checks
   script:
-    - npm run build
+    - bun run build
 
 sonarcloud-check:
   stage: checks
@@ -68,7 +66,7 @@ sonarcloud-check:
 format:
   stage: checks
   script:
-    - npm run format
+    - bun run format
 
 publish:
   image: docker:latest

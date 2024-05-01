@@ -1,11 +1,13 @@
-/** @format */
-
 "use client";
 
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
+/**
+ * Creates a page to add a user.
+ * @returns A page to add a user.
+ */
 export default function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -145,7 +147,7 @@ export default function Page() {
           >
             Cancel
           </button>
-          <button className="btn btn-primary w-20" type="submit">
+          <button className="btn btn-accent w-20" type="submit">
             Save
           </button>
         </div>

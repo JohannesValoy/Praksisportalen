@@ -1,4 +1,3 @@
-/** @format */
 "use client";
 
 import { Section } from "@/app/_models/Section";
@@ -8,6 +7,10 @@ import { useEffect, useState } from "react";
 import { getInternshipTypes } from "../action";
 import { InternshipFieldTable } from "knex/types/tables.js";
 
+/**
+ * Creates a page to add an internship.
+ * @returns A page to add an internship.
+ */
 export default function Page() {
   const [name, setName] = useState("");
   const [sections, setSections] = useState<Section[]>([]);
@@ -227,7 +230,7 @@ export default function Page() {
         <button className="btn w-20" onClick={() => router.back()}>
           Cancel
         </button>
-        <button type="submit" className="btn btn-primary w-20">
+        <button type="submit" className="btn btn-accent w-20">
           Save
         </button>
       </div>

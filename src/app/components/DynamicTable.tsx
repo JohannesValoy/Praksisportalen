@@ -1,4 +1,3 @@
-/** @format */
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -138,7 +137,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
             </button>
           </div>
         </div>
-        <table className="table ">
+        <table className="table">
           <thead>
             <tr>
               <th>
@@ -164,7 +163,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                 <th key={index}>
                   <div
                     onClick={() => setSortedBy(rowDataKeys[index])}
-                    className="btn btn-ghost btn-xs"
+                    className="btn btn-neutral btn-xs"
                   >
                     {title}
                   </div>
@@ -209,7 +208,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                     >
                       <div
                         className={
-                          clickableColumns[key] ? "btn btn-ghost btn-xs" : ""
+                          clickableColumns[key] ? "btn btn-neutral btn-xs" : ""
                         }
                       >
                         {row[key]}
@@ -222,7 +221,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                         event.stopPropagation();
                         onRowButtonClick(row);
                       }}
-                      className="btn btn-ghost btn-xs"
+                      className="btn btn-neutral btn-xs"
                     >
                       {buttonName}
                     </button>
@@ -234,36 +233,41 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
         </table>
         <div className="join">
           <button
-            className="join-item btn"
+            className="join-item btn btn-neutral"
             onClick={() => setPage(0)}
             disabled={page <= 0}
           >
             ««
           </button>
           <button
-            className="join-item btn"
+            className="join-item btn btn-neutral"
             onClick={() => setPage(page - 1)}
             disabled={page <= 0}
           >
             «
           </button>
-          <button className="join-item btn">{page + 1}</button>
           <button
-            className="join-item btn"
+            className="join-item btn btn-neutral"
+            style={{ pointerEvents: "none" }}
+          >
+            {page + 1}
+          </button>
+          <button
+            className="join-item btn btn-neutral"
             onClick={() => setPage(page + 1)}
             disabled={page + 1 >= totalPages.current}
           >
             »
           </button>
           <button
-            className="join-item btn"
+            className="join-item btn btn-neutral"
             onClick={() => setPage(totalPages.current - 1)}
             disabled={page + 1 >= totalPages.current}
           >
             »»
           </button>
           <select
-            className="join-item btn"
+            className="join-item btn btn-neutral"
             value={pageSize}
             onChange={(e) => setPageSize(parseInt(e.target.value))}
           >
@@ -277,24 +281,24 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
       {/**Delete Error modal */}
       {isModalOpen && (
         <dialog
-          className="fixed inset-0 z-10 overflow-y-auto bg-base-100 rounded-lg"
+          className="fixed inset-0 z-10 overflow-y-auto bg-base-100 text-base-content rounded-lg"
           open
           aria-labelledby="Delete Error"
         >
           <div className="px-4 pt-5 pb-4 ">
             <div className="sm:flex sm:items-start">
-              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-error sm:mx-0 sm:h-10 sm:w-10">
+              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-error text-error-content sm:mx-0 sm:h-10 sm:w-10">
                 {/* Icon or image can be added here */}
               </div>
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <h3
-                  className="text-lg leading-6 font-medium text-base-content"
+                  className="text-lg leading-6 font-medium "
                   id="Delete Error"
                 >
                   Error
                 </h3>
                 <div className="mt-2">
-                  <p className="text-sm text-base-content">{error}</p>
+                  <p className="text-sm ">{error}</p>
                 </div>
               </div>
             </div>

@@ -1,10 +1,12 @@
-/** @format */
-
 "use client";
 import { signIn } from "next-auth/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { navigate } from "./action";
-
+/**
+ * The login page component contains a form to login with username and password
+ * and a button to login with Feide
+ * @returns A react component
+ */
 export const LoginComponent = () => {
   const [loading, setLoading] = useState(false);
   const [formValues, setFormValues] = useState({
@@ -63,7 +65,11 @@ export const LoginComponent = () => {
     <div className="flex flex-col items-center justify-center gap-4 h-full">
       <h1 className="text-3xl mb-4">Login Page</h1>
       <form className="flex flex-col items-center" onSubmit={onSubmit}>
-        {error && <p className="text-xl bg-error p-4 mb-6 rounded">{error}</p>}
+        {error && (
+          <p className="text-xl bg-error text-error-content p-4 mb-6 rounded">
+            {error}
+          </p>
+        )}
         <div className="mb-6">
           <input
             required
@@ -94,7 +100,7 @@ export const LoginComponent = () => {
           {loading ? "loading..." : "Sign In"}
         </button>
       </form>
-      <button className="btn btn-success " onClick={handleFeideLogin}>
+      <button className="btn btn-accent " onClick={handleFeideLogin}>
         Login with Feide
       </button>
     </div>

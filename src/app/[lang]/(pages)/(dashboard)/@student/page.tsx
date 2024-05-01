@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 
 import Gantt from "@/app/components/Gantt";
@@ -77,7 +75,7 @@ const StudentLayout = () => {
                 <Image
                   src="/example-profile-picture.jpg"
                   alt="Description"
-                  className=" bg-neutral-300 h-full object-cover"
+                  className=" bg-neutral-300 text-neutral-content h-full object-cover"
                   width={400}
                   height={400}
                   priority={true} // {false} | {true}

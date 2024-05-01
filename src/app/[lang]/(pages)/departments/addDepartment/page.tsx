@@ -1,12 +1,13 @@
-/** @format */
-
 "use client";
 
 import Dropdown from "@/app/components/Dropdown";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-
+/**
+ * Creates a page to add a department.
+ * @returns A page to add a department.
+ */
 export default function Page() {
   const router = useRouter();
 
@@ -49,9 +50,9 @@ export default function Page() {
       className="flex flex-col items-center justify-center w-full h-full"
       onSubmit={handleSubmit}
     >
-      <div className="justify-center items-center" style={{ width: "50rem" }}>
+      <div className="justify-center items-center " style={{ width: "50rem" }}>
         <h1>Add Department</h1>
-        <label className="form-control ">
+        <label className="form-control pb-2 ">
           <div className="label">
             <span className="label-text">First Name</span>
           </div>
@@ -63,7 +64,7 @@ export default function Page() {
             required
           />
         </label>
-        <div className="flex flex-row   mb-2">
+        <div className="flex flex-row mb-2">
           <Dropdown
             dropdownName="Leader"
             options={users}
@@ -105,7 +106,7 @@ export default function Page() {
         <button className="btn w-20" onClick={() => router.back()}>
           Cancel
         </button>
-        <button className="btn btn-primary w-20" type="submit">
+        <button className="btn btn-accent w-20" type="submit">
           Save
         </button>
       </div>

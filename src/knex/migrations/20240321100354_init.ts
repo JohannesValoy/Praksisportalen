@@ -1,3 +1,4 @@
+<<<<<<< src/knex/migrations/20240321100354_init.ts
 /** @format */
 
 import type { Knex } from "knex";
@@ -363,6 +364,11 @@ export async function up(knex: Knex): Promise<void> {
       )
   );
 }
+/**
+ * Removes the initial database schema.
+ * @param knex The Knex instance.
+ * @returns A promise that resolves when the schema is removed.
+ */
 export async function down(knex: Knex): Promise<void> {
   return knex.schema
     .dropTableIfExists("employees")

@@ -1,5 +1,3 @@
-/** @format */
-
 import NextAuth from "next-auth";
 import authoptions from "./authOptions";
 const handler = NextAuth(authoptions);

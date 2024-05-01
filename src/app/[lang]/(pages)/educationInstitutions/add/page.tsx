@@ -1,7 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-
+/**
+ * Creates a page to add an education institution.
+ * @returns A page to add an education institution.
+ */
 export default function Page() {
   const router = useRouter();
   const [name, setName] = useState("");
@@ -53,7 +56,7 @@ export default function Page() {
         >
           Cancel
         </button>
-        <button type="submit" className="btn btn-primary w-20">
+        <button type="submit" className="btn btn-accent w-20">
           Save
         </button>
       </div>

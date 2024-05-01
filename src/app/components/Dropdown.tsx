@@ -1,5 +1,3 @@
-/** @format */
-
 import { useState } from "react";
 
 interface Option {
@@ -56,7 +54,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       {isDropdownOpen && (
         <ul
           tabIndex={0}
-          className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-full"
+          className="dropdown-content z-[1] menu shadow bg-base-100 text-base-content rounded-box w-full"
         >
           {filteredOptions.map((option, index) => (
             <li key={index} className="p-1">

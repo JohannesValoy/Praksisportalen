@@ -59,7 +59,9 @@ function Page() {
   useEffect(() => {
     if (isModalOpen && selectedOrder) {
       fetchInternships();
-      setStudentsLeft(selectedOrder.numStudents); // Reset students left to distribute when a new order is selected
+      setStudentsLeft(selectedOrder.numStudents);
+      setSelectedRows([]);
+      setError(null);
     }
   }, [isModalOpen, selectedOrder, fetchInternships]);
   const toggleSelection = (row) => {
@@ -100,6 +102,21 @@ function Page() {
       .then(setOrders)
       .catch((error) => setError(error.message));
   }
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedOrder(null);
+    setSelectedRows([]);
+    setRows([]);
+    setPage(0);
+    setTotalPages(0);
+    setStudentsLeft(0);
+  };
+
+  useEffect(() => {
+    console.log("Component has re-rendered");
+  });
+
   return (
     <>
       <ContainerBox title="Received Orders">
@@ -316,7 +333,7 @@ function Page() {
                 <div>
                   <button
                     className="btn btn-neutral mr-2"
-                    onClick={() => setIsModalOpen(false)}
+                    onClick={() => closeModal()}
                   >
                     Close
                   </button>

@@ -167,12 +167,6 @@ export async function saveOrderDistribution(
     if (!subFieldGroup) throw new Error("SubFieldGroup not found.");
     if (amount <= 0) throw new Error("Amount must be greater than 0.");
     if (subFieldGroup.numStudents < amount) {
-      console.log(
-        "subFieldGroup.numStudents: " +
-          subFieldGroup.numStudents +
-          "amount: " +
-          amount,
-      );
       throw new Error(
         "Not enough students in the subFieldGroup to distribute.",
       );
@@ -192,9 +186,7 @@ export async function saveOrderDistribution(
       comment: subFieldGroup.comment,
     }));
 
-    for (const agreement of agreements) {
-      await saveInternshipAgreementObject(agreement); // Called without transaction object
-    }
+    await trx("internshipAgreements").insert(agreements);
 
     if (newNumStudents === 0) {
       await trx("subFieldGroups").where("id", subFieldGroupID).del();

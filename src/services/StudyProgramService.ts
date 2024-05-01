@@ -1,4 +1,3 @@
-/** @format */
 "use server";
 
 import { StudyProgramTable } from "knex/types/tables.js";
@@ -11,40 +10,56 @@ import {
 import { PageResponse } from "@/app/_models/pageinition";
 import "server-only";
 
+/**
+ * Get a study program by its id
+ * @param id the id of the study program
+ * @returns A {@link StudyProgram} object
+ * @throws an error if no study program is found with the given id
+ */
 async function getStudyProgramObjectByID(id: number): Promise<StudyProgram> {
   const studyProgram = (await getStudyProgramObjectByIDList([id])).get(id);
-  if (studyProgram == undefined) {
+  if (!studyProgram) {
     throw new Error("Study Program not found");
   }
   return studyProgram;
 }
 
+/**
+ * This function fetches a list of study programs by their ids
+ * @param idList a list of ids to fetch
+ * @returns a map of study programs with the id as key.
+ * The map will only contain the {@link StudyProgram} that were found
+ */
 async function getStudyProgramObjectByIDList(
-  idList: number[],
+  idList: number[]
 ): Promise<Map<number, StudyProgram>> {
   const query = await DBclient.select()
     .from<StudyProgramTable>("studyPrograms")
     .whereIn("id", idList);
   const studyPrograms: Map<number, StudyProgram> = new Map();
   const educationInstitutionIDs = new Set(
-    query.map((studyProgram) => studyProgram.educationInstitutionID),
+    query.map((studyProgram) => studyProgram.educationInstitutionID)
   );
   const educationInstitutions = await getEducationInstitutionByIDList(
-    educationInstitutionIDs,
+    educationInstitutionIDs
   );
   for (const studyProgram of query) {
     studyPrograms.set(studyProgram.id, {
       ...studyProgram,
       educationInstitution: educationInstitutions.get(
-        studyProgram.educationInstitutionID,
+        studyProgram.educationInstitutionID
       ),
     });
   }
   return studyPrograms;
 }
-
+/**
+ * Creates a page of study programs based on the page request
+ * @param pageRequest A {@link StudyProgramPageRequest}
+ * @returns a {@link PageResponse} of study programs
+ */
 async function getStudyProgramsByPageRequest(
-  pageRequest: StudyProgramPageRequest, //to be changed
+  pageRequest: StudyProgramPageRequest //to be changed
 ): Promise<PageResponse<StudyProgram>> {
   const baseQuery = await DBclient.select("id")
     .from<StudyProgramTable>("studyPrograms")
@@ -55,19 +70,19 @@ async function getStudyProgramsByPageRequest(
       if (pageRequest.hasEducationInstitutionID) {
         builder.where(
           "educationInstitutionID",
-          pageRequest.hasEducationInstitutionID,
+          pageRequest.hasEducationInstitutionID
         );
       }
     })
     .orderBy(
-      ["id", "name"].includes(pageRequest.sort) ? pageRequest.sort : "id",
+      ["id", "name"].includes(pageRequest.sort) ? pageRequest.sort : "id"
     );
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   const studyPrograms = await getStudyProgramObjectByIDList(
-    pageQuery.map((studyProgram) => studyProgram.id),
+    pageQuery.map((studyProgram) => studyProgram.id)
   );
   return {
     ...pageRequest,
@@ -76,7 +91,10 @@ async function getStudyProgramsByPageRequest(
     totalPages: Math.ceil(baseQuery.length / pageRequest.size),
   } as PageResponse<StudyProgram>;
 }
-
+/**
+ * Deletes a study program by its id
+ * @param id the id of the study program
+ */
 async function deleteStudyProgramByID(id: number) {
   try {
     const deletedCount = await DBclient.delete()
@@ -88,7 +106,7 @@ async function deleteStudyProgramByID(id: number) {
   } catch (error) {
     if (error.message.includes("foreign key constraint")) {
       throw new Error(
-        `Cannot delete study program because it is referenced by these internship`,
+        `Cannot delete study program because it is referenced by these internship`
       );
     }
     throw new Error("An error occurred while deleting the study program");

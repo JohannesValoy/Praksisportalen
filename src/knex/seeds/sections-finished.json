@@ -1,0 +1,230 @@
+[
+  {
+    "name": "Akutt psykisk helse, Hjelset",
+    "id": 1,
+    "department_id": 1,
+    "section_type": "Sengepost"
+  },
+  {
+    "name": "Operasjon, Molde",
+    "id": 2,
+    "department_id": 2,
+    "section_type": "Spesialseksjon"
+  },
+  {
+    "name": "Akuttmottak, Volda",
+    "id": 3,
+    "department_id": 3,
+    "section_type": "Spesialseksjon"
+  },
+  {
+    "name": "Dagkirurgi \u00c5lesund",
+    "id": 4,
+    "department_id": 4,
+    "section_type": "Poliklinikk og dagbehandling"
+  },
+  {
+    "name": "Kirurgisk sengepost 2, \u00c5lesund",
+    "id": 5,
+    "department_id": 5,
+    "section_type": "Sengepost"
+  },
+  {
+    "name": "Kirurgisk sengepost 1, \u00c5lesund",
+    "id": 6,
+    "department_id": 5,
+    "section_type": "Sengepost"
+  },
+  {
+    "name": "Kirurgisk poliklinikk, \u00c5lesund",
+    "id": 7,
+    "department_id": 5,
+    "section_type": "Poliklinikk og dagbehandling"
+  },
+  {
+    "name": "Kirurgisk-, ortopedisk sengepost, Volda",
+    "id": 8,
+    "department_id": 3,
+    "section_type": "Sengepost"
+  },
+  {
+    "name": "Medisinsk sengepost 5, \u00c5lesund (ortogeriatri)",
+    "id": 9,
+    "department_id": 6,
+    "section_type": "Sengepost"
+  },
+  {
+    "name": "Sengepost barn og unge, \u00c5lesund",
+    "id": 10,
+    "department_id": 7,
+    "section_type": "Sengepost"
+  },
+  {
+    "name": "Dialyse Volda og \u00c5lesund",
+    "id": 11,
+    "department_id": 6,
+    "section_type": "Poliklinikk og dagbehandling"
+  },
+  {
+    "name": "Kreftbehandling og palliasjon \u00c5lesund - Sengepost",
+    "id": 12,
+    "department_id": 8,
+    "section_type": "Sengepost"
+  },
+  {
+    "name": "Sengepost for kreft og blodsjukdommar, \u00c5lesund",
+    "id": 13,
+    "department_id": 8,
+    "section_type": "Sengepost"
+  },
+  {
+    "name": "Medisinsk sengepost 1, \u00c5lesund",
+    "id": 14,
+    "department_id": 6,
+    "section_type": "Sengepost"
+  },
+  {
+    "name": "Medisinsk sengepost 2, \u00c5lesund",
+    "id": 15,
+    "department_id": 6,
+    "section_type": "Sengepost"
+  },
+  {
+    "name": "Medisinsk sengepost, Volda",
+    "id": 16,
+    "department_id": 3,
+    "section_type": "Sengepost"
+  },
+  {
+    "name": "Sengepost fys.med. og revmatologi, \u00c5lesund",
+    "id": 17,
+    "department_id": 8,
+    "section_type": "Sengepost"
+  },
+  {
+    "name": "Ortopedisk sengepost, \u00c5lesund",
+    "id": 18,
+    "department_id": 5,
+    "section_type": "Sengepost"
+  },
+  {
+    "name": "Ortopedisk sengepost, \u00c5lesund",
+    "id": 19,
+    "department_id": 4,
+    "section_type": "Sengepost"
+  },
+  {
+    "name": "Akuttmottak, \u00c5lesund",
+    "id": 20,
+    "department_id": 4,
+    "section_type": "Spesialseksjon"
+  },
+  {
+    "name": "Akuttmottak, \u00c5lesund",
+    "id": 21,
+    "department_id": 2,
+    "section_type": null
+  },
+  {
+    "name": "Akutt psykisk helse, \u00c5lesund - Team A Mottak",
+    "id": 22,
+    "department_id": 9,
+    "section_type": null
+  },
+  {
+    "name": "Akutt psykisk helse, \u00c5lesund - Team B Subakutt",
+    "id": 23,
+    "department_id": 9,
+    "section_type": "Poliklinikk og dagbehandling"
+  },
+  {
+    "name": "Alderspsykiatrisk sengepost, \u00c5lesund",
+    "id": 24,
+    "department_id": 9,
+    "section_type": "Sengepost"
+  },
+  {
+    "name": "Ambulante tenester psykisk helse DPS Volda (Akutt heimebehandling)",
+    "id": 25,
+    "department_id": 10,
+    "section_type": "Poliklinikk og dagbehandling"
+  },
+  {
+    "name": "Ambulante tenester akutt og ACT psykisk helse DPS, \u00c5lesund (ACT)",
+    "id": 26,
+    "department_id": 10,
+    "section_type": "Poliklinikk og dagbehandling"
+  },
+  {
+    "name": "Ambulante tenester akutt og ACT psykisk helse DPS, \u00c5lesund (AHT)",
+    "id": 27,
+    "department_id": 10,
+    "section_type": "Poliklinikk og dagbehandling"
+  },
+  {
+    "name": "Ambulante tenester allmenn psykisk helse DPS \u00c5lesund",
+    "id": 28,
+    "department_id": 10,
+    "section_type": null
+  },
+  {
+    "name": "Avrusing, rusbehandling, TSB \u00c5lesund",
+    "id": 29,
+    "department_id": 11,
+    "section_type": null
+  },
+  {
+    "name": "D\u00f8gnbehandling psykisk helse DPS, Vegsund",
+    "id": 30,
+    "department_id": 10,
+    "section_type": null
+  },
+  {
+    "name": "Utgreiing og behandling psykisk helse, \u00c5lesund",
+    "id": 31,
+    "department_id": 9,
+    "section_type": null
+  },
+  {
+    "name": "D\u00f8gnbehandling psykisk helse DPS, Volda",
+    "id": 32,
+    "department_id": 10,
+    "section_type": null
+  },
+  {
+    "name": "D\u00f8gnseksjon PHBU Molde og \u00c5lesund",
+    "id": 33,
+    "department_id": 12,
+    "section_type": null
+  },
+  {
+    "name": "Korttids d\u00f8gn rusbehandling TSB, \u00c5lesund",
+    "id": 34,
+    "department_id": 11,
+    "section_type": null
+  },
+  {
+    "name": "Lokal sikkerhetspsykiatri, \u00c5lesund",
+    "id": 35,
+    "department_id": 9,
+    "section_type": null
+  },
+  {
+    "name": "Ambulante tenester psykisk helse DPS Volda (AAT)",
+    "id": 36,
+    "department_id": 10,
+    "section_type": null
+  },
+  {
+    "name": "Ambulante tenester psykisk helse DPS Volda (AAT)",
+    "id": 37,
+    "department_id": 9,
+    "section_type": null
+  },
+  {
+    "name": "Ambulante tenester psykisk helse DPS Volda (ACT team)",
+    "id": 38,
+    "department_id": 9,
+    "section_type": null
+  }
+]

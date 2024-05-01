@@ -1,4 +1,3 @@
-/** @format */
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -50,7 +49,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
     const isSelected = selectedRows.includes(row);
     if (isSelected) {
       setSelectedRows(
-        selectedRows.filter((selectedRow) => selectedRow !== row),
+        selectedRows.filter((selectedRow) => selectedRow !== row)
       );
     } else {
       setSelectedRows([...selectedRows, row]);

@@ -5,6 +5,10 @@ import { addEducationInstitution, fetchEducationInstitution } from "./action";
 import SuccessDialog from "@/app/components/SuccessDialog";
 import ContainerBox from "@/app/components/ContainerBox";
 
+/**
+ * Creates a page to add an education institution.
+ * @returns A page to add an education institution.
+ */
 export default function Page() {
   const router = useRouter();
   const [name, setName] = useState("");

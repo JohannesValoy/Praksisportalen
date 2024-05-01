@@ -1,10 +1,13 @@
-/** @format */
-
 import DBclient from "@/knex/config/DBClient";
 import { Knex } from "knex";
 import { UserAttributes } from "knex/types/tables.js";
 import { Adapter, AdapterUser, AdapterSession } from "next-auth/adapters";
 import { Role } from "../nextauth";
+/**
+ * A adapter using Knex to interact with the database.
+ * @param client  The Knex client to use.
+ * @returns  An adapter object.
+ */
 export default function KnexAdapter(client: Knex): Adapter {
   return {
     async createUser(user): Promise<AdapterUser> {
@@ -106,7 +109,11 @@ export default function KnexAdapter(client: Knex): Adapter {
     },
   };
 }
-
+/**
+ * Converts a {@link RealUserTable} to a {@link AdapterUser}.
+ * @param user The user to convert.
+ * @returns The converted user.
+ */
 export function fromUserToUserAdapter(user: RealUserTable): AdapterUser {
   return {
     id: user.id,
@@ -117,7 +124,11 @@ export function fromUserToUserAdapter(user: RealUserTable): AdapterUser {
     emailVerified: null,
   };
 }
-
+/**
+ * Converts from a session in the database to a session for the adapter.
+ * @param results The results from the database.
+ * @returns The session for the adapter.
+ */
 export function sessionToAdapterSession(results): AdapterSession {
   return {
     userId: results.userId.toString(),

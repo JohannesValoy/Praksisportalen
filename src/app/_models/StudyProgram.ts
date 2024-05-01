@@ -1,5 +1,3 @@
-/** @format */
-
 import {
   EducationInstitutionTable,
   StudyProgramTable,

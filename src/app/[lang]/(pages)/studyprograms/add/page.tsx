@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 import SuccessDialog from "@/app/components/SuccessDialog";
 import { useRouter } from "next/navigation";
@@ -12,6 +10,10 @@ import {
 import Dropdown from "@/app/components/Dropdown";
 import ContainerBox from "@/app/components/ContainerBox";
 
+/**
+ * Creates a page that allows for adding a study program.
+ * @returns A page to add a study program.
+ */
 export default function Page() {
   const router = useRouter();
   const [name, setName] = useState("");

@@ -1,5 +1,3 @@
-/** @format */
-
 export default function logo({ currentColor }) {
   return (
     <svg

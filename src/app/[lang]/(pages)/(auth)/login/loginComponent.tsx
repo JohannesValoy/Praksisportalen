@@ -1,10 +1,12 @@
-/** @format */
-
 "use client";
 import { signIn } from "next-auth/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { navigate } from "./action";
-
+/**
+ * The login page component contains a form to login with username and password
+ * and a button to login with Feide
+ * @returns A react component
+ */
 export const LoginComponent = () => {
   const [loading, setLoading] = useState(false);
   const [formValues, setFormValues] = useState({

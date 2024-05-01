@@ -47,3 +47,4 @@ qodana.yaml
 # bun and npm
 npm-debug.log
 package-lock.json
+bun.lockb

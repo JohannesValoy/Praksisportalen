@@ -7,11 +7,19 @@ import { createStudents } from "@/services/StudentService";
 import JSONEmployees from "./employees-finished.json";
 import JSONCoordinators from "./coordinators-finished.json";
 import JSONStudents from "./students-finished.json";
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
+import JSONStudies from "./studies-finished.json";
+import JSONInstitutes from "./institutes-finished.json";
+import JSONInternships from "./internships-finished.json";
+import JSONSections from "./sections-finished.json";
+import JSONDepartment from "./departments-finished.json";
+import JSONInternshipAgreements from "./internshipAgreements-finished.json";
+import { randomInt } from "crypto";
 
+/**
+ * Seeds the database with the data from the JSON files
+ * @param knex The knex object
+ * @returns A promise that resolves when the seeding is done
+ */
 export const seed = async function (knex: Knex) {
   // Deletes ALL existing entries
   await knex("timeIntervals").del();
@@ -27,7 +35,8 @@ export const seed = async function (knex: Knex) {
   await knex("departments").del();
   await knex("employees").del();
   // Inserts seed entries
-  const employees = await createEmployees([
+
+  await createEmployees([
     ...JSONEmployees,
     // Admins
     {
@@ -83,16 +92,7 @@ export const seed = async function (knex: Knex) {
     },
   ]);
 
-  await knex("educationInstitutions").insert([
-    {
-      id: 1,
-      name: "NTNU",
-    },
-    {
-      id: 2,
-      name: "HIMOLDE",
-    },
-  ]);
+  await knex("educationInstitutions").insert([...JSONInstitutes]);
   await createCoordinators([
     // Coordinators
     ...JSONCoordinators,
@@ -174,18 +174,7 @@ export const seed = async function (knex: Knex) {
     },
   ]);
 
-  await knex("departments").insert([
-    {
-      id: 1,
-      name: "Avdeling kirugi, Ålesund",
-      employeeID: "d4af0574-bee3-4436-b25c-6f452da4faa0",
-    },
-    {
-      id: 2,
-      name: "Volda sjukehus",
-      employeeID: "ea03f5d4-0bfe-422c-8e84-eec99e8f7ec0",
-    },
-  ]);
+  await knex("departments").insert([...JSONDepartment]);
   await knex("sectionTypes").insert([
     {
       name: "Sengepost",
@@ -197,29 +186,7 @@ export const seed = async function (knex: Knex) {
       name: "Spesialseksjon",
     },
   ]);
-  await knex("sections").insert([
-    {
-      id: 1,
-      name: "Kirugisk sengepost",
-      sectionType: "Sengepost",
-      employeeID: "d4926208-8285-4bcd-91a3-f1ccab075e65",
-      departmentID: 1,
-    },
-    {
-      id: 2,
-      name: "Kirugisk poliklinikk",
-      sectionType: "Poliklinikk og dagbehandling",
-      employeeID: "fb55fd09-6cb4-4189-a711-28412ed9749a",
-      departmentID: 1,
-    },
-    {
-      id: 3,
-      name: "Akuttmottak",
-      sectionType: "Spesialseksjon",
-      employeeID: "499e26d4-be1a-4f05-b35d-90fe3035c6be",
-      departmentID: 2,
-    },
-  ]);
+  await knex("sections").insert(JSONSections);
   await knex("internshipFields").insert([
     {
       name: "Kirurgi",
@@ -230,156 +197,114 @@ export const seed = async function (knex: Knex) {
     {
       name: "Psykologi",
     },
+    { name: "Fysioterapi" },
   ]);
-  await knex("internships").insert([
-    {
-      id: 1,
-      name: "Sjukepleiepraksis",
-      internshipField: "kirurgi",
-      maxCapacity: 10,
-      currentCapacity: 0,
-      numberOfBeds: 10,
-      yearOfStudy: 1,
-      sectionID: 1,
-    },
-    {
-      id: 2,
-      name: "Sjukepleiepraksis",
-      internshipField: "Kirurgi",
-      maxCapacity: 10,
-      currentCapacity: 0,
-      numberOfBeds: 10,
-      yearOfStudy: 2,
-      sectionID: 2,
-    },
-    {
-      id: 3,
-      name: "Sjukepleiepraksis",
-      internshipField: "Kirurgi",
-      maxCapacity: 15,
-      currentCapacity: 0,
-      yearOfStudy: 3,
-      sectionID: 3,
-    },
-  ]);
-  await knex("studyPrograms").insert([
-    {
-      id: 1,
-      name: "BA - Sykepleie",
-      educationInstitutionID: 1,
-    },
-    {
-      id: 2,
-      name: "BA - Sykepleie",
-      educationInstitutionID: 2,
-    },
-    {
-      id: 45,
-      name: "BA - Sykepleie",
-      educationInstitutionID: 2,
-    },
-  ]);
-  await knex("internshipAgreements").insert([
-    {
-      id: 1,
-      studentID: "ad4efb91-9f9a-4ede-9423-a4522ea329cd",
-      internshipID: 1,
-      studyProgramID: 1,
-      status: "Avtalt",
-      startDate: new Date("2024-03-21"),
-      endDate: new Date("2024-04-21"),
-    },
-    {
-      id: 2,
-      studentID: "eaf3851e-6bf3-433f-bdd5-dfc891852edd",
-      internshipID: 1,
-      studyProgramID: 1,
-      status: "Avtalt",
-      startDate: new Date("2024-03-21"),
-      endDate: new Date("2024-04-21"),
-    },
-    {
-      id: 3,
-      studentID: "8daff6c7-fb9b-4bfa-b4f1-76f92d5ad857",
-      internshipID: 2,
-      studyProgramID: 1,
-      status: "Avtalt",
-      startDate: new Date("2024-03-21"),
-      endDate: new Date("2024-04-21"),
-    },
-    {
-      id: 4,
-      studentID: "8daff6c7-fb9b-4bfa-b4f1-76f92d5ad857",
-      internshipID: 2,
-      studyProgramID: 1,
-      status: "Avtalt",
-      startDate: new Date("2024-04-21"),
-      endDate: new Date("2024-04-28"),
-    },
-    {
-      id: 5,
-      studentID: "83040eee-f982-4b22-b9d9-63644a122dcf",
-      internshipID: 3,
-      studyProgramID: 1,
-      status: "Diskuteres",
-      startDate: new Date("2024-05-01"),
-      endDate: new Date("2024-06-01"),
-    },
-  ]);
-  await knex("timeIntervals").insert([
-    {
-      id: 1,
-      startDate: new Date("2024-03-21"),
-      endDate: new Date("2024-04-21"),
-      internshipAgreementID: 1,
-    },
-    {
-      id: 2,
-      startDate: new Date("2024-04-21"),
-      endDate: new Date("2024-04-28"),
-      internshipAgreementID: 1,
-    },
-    {
-      id: 3,
-      startDate: new Date("2024-05-01"),
-      endDate: new Date("2024-06-01"),
-      internshipAgreementID: 2,
-    },
-    {
-      id: 4,
-      startDate: new Date("2024-03-21"),
-      endDate: new Date("2024-04-21"),
-      internshipAgreementID: 3,
-    },
-    {
-      id: 5,
-      startDate: new Date("2024-04-21"),
-      endDate: new Date("2024-04-28"),
-      internshipAgreementID: 3,
-    },
-    {
-      id: 6,
-      startDate: new Date("2024-05-01"),
-      endDate: new Date("2024-06-01"),
-      internshipAgreementID: 3,
-    },
-    {
-      id: 7,
-      startDate: new Date("2024-03-21"),
-      endDate: new Date("2024-04-21"),
-      internshipAgreementID: 3,
-    },
-    {
-      id: 8,
-      startDate: new Date("2024-04-21"),
-      endDate: new Date("2024-04-28"),
-      internshipAgreementID: 3,
-    },
-    {
-      id: 9,
-      startDate: new Date("2024-05-01"),
-      endDate: new Date("2024-06-01"),
-      internshipAgreementID: 3,
-    },
-  ]);
+  await knex("internships").insert(JSONInternships);
+  await knex("studyPrograms").insert(JSONStudies);
+
+  const internships = [];
+
+  JSONInternshipAgreements.forEach((agreement) => {
+    const direction = Math.random() > 0.5 ? 1 : -1;
+    const offset = Math.floor(Math.random() * 6);
+
+    const offset2 = agreement.student_id
+      ? internships.filter(
+          (i) =>
+            i.student_id === agreement.student_id &&
+            (direction === 1
+              ? i.startDate >= Date.now()
+              : i.startDate <= Date.now())
+        ).length * 2
+      : 0;
+    const dates = [new Date(), new Date()];
+    dates[0].setDate(dates[0].getDate() + direction * (offset + offset2 * 14));
+    dates[1].setDate(
+      dates[1].getDate() + direction * (offset + (offset2 + 1) * 14)
+    );
+    dates.sort((a, b) => a.getTime() - b.getTime());
+    internships.push({
+      ...agreement,
+      startDate: new Date(dates[0]),
+      endDate: new Date(dates[1]),
+    });
+  });
+
+  await knex("internshipAgreements").insert(internships);
+
+  const timeIntervals = [];
+  internships.forEach((internship) => {
+    const startDate: Date = internship.startDate;
+    const endDate: Date = internship.endDate;
+    const weeklyPracticeDays = 2;
+    const sameSectionInternships = internships.filter(
+      (inter) => inter.section_id === internship.section_id
+    );
+    while (startDate.getTime() < endDate.getTime()) {
+      const daysInTheWeek = [];
+      while (
+        startDate.getDay() !== 6 &&
+        startDate.getTime() < endDate.getTime()
+      ) {
+        //Ignore saturdays
+        if (startDate.getDay() !== 5) {
+          daysInTheWeek.push(new Date(startDate));
+        }
+        startDate.setDate(startDate.getDate() + 1);
+      }
+      startDate.setDate(startDate.getDate() + 1);
+      let days: Date[] = daysInTheWeek.toSorted((a, b) =>
+        differenceInBusyness(a, b, sameSectionInternships, timeIntervals)
+      );
+      if (days.length > weeklyPracticeDays) {
+        days = [days[0], days[randomInt(1, days.length - 1)]];
+      }
+      for (const day of days) {
+        day.setHours(8);
+        day.setMinutes(0);
+        day.setSeconds(0);
+        const endIntervalDate = new Date(day);
+        endIntervalDate.setHours(16);
+        timeIntervals.push({
+          startDate: day,
+          endDate: endIntervalDate,
+          internshipAgreement_id: internship.id,
+        });
+      }
+    }
+  });
+  await knex("timeIntervals").insert(timeIntervals);
 };
+/**
+ * A function that calculates the different between two dates within a section of internship agreements
+ * @param a Date a
+ * @param b Date b
+ * @param sameSectionInternships The internships that are in the same section
+ * @param timeIntervals Time intervals that are already created
+ * @returns The difference in busyness
+ */
+function differenceInBusyness(
+  a: any,
+  b: any,
+  sameSectionInternships: any[],
+  timeIntervals: any[]
+) {
+  return (
+    timeIntervals.filter((ti) => {
+      return (
+        (sameSectionInternships.includes(ti.internshipAgreement_id) &&
+          ti.startDate > a &&
+          ti.startDate < a) ||
+        (ti.endDate > a && ti.endDate < a)
+      );
+    }).length -
+    timeIntervals.filter((ti) => {
+      return (
+        (sameSectionInternships.includes(ti.internshipAgreement_id) &&
+          ti.startDate < b &&
+          ti.endDate > b) ||
+        (ti.startDate < b && ti.endDate > b)
+      );
+    }).length
+  );
+}

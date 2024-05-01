@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 
 import ContainerBox from "@/app/components/ContainerBox";
@@ -8,6 +6,10 @@ import Link from "next/link";
 
 const pieParams = { margin: { right: 5 }, height: 400, width: 400 };
 
+/**
+ * The admin layout component contains the main dashboard for the admin
+ * @returns A react component with the admin dashboard
+ */
 const AdminLayout = () => {
   return (
     <div className="flex flex-row items-center rounded-lg gap-20 ">

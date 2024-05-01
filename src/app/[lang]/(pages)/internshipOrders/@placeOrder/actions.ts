@@ -3,24 +3,35 @@
 import DBclient from "@/knex/config/DBClient";
 import { getUser } from "@/lib/auth";
 import "server-only";
-
+/**
+ * Fetches ****ALL**** the internship fields from the database.
+ * @returns ****ALL**** the internship fields name.
+ */
 export async function fetchInternhipFields() {
   const response = await DBclient.table("internshipFields").select("*");
-
+  //TODO Um.... Why do we map them to exactly how the objects already looks?
   return response.map((field) => {
     return {
       name: field.name,
     };
   }, {});
 }
-
+/**
+ * Adds a new internship field to the database.
+ * @param data The name of the new internship field.
+ * @returns always null
+ */
 export async function addInternshipField(data) {
   await DBclient.table("internshipFields").insert({
     name: data,
   });
+  //TODO uhm.... why?
   return null;
 }
-
+/**
+ * Fetches ****ALL****  of the study programs that the coordinator is responsible for.
+ * @returns ****ALL**** the study programs name and id.
+ */
 export async function fetchStudyPrograms() {
   const user = await getUser();
   const query = await DBclient.from("coordinators")
@@ -28,7 +39,7 @@ export async function fetchStudyPrograms() {
     .innerJoin(
       "studyPrograms",
       "studyPrograms.educationInstitutionID",
-      "coordinators.educationInstitutionID",
+      "coordinators.educationInstitutionID"
     )
     .select("studyPrograms.name", "studyPrograms.id");
   const response = [];
@@ -51,13 +62,17 @@ interface FormData {
     }[];
   }[];
 }
-
+/**
+ * Adds the order to the database.
+ * @param data The order data.
+ * @throws error if it fails to add the internship order.
+ */
 export async function sendOrder(data: FormData) {
   try {
     await DBclient.transaction(async () => {
       // Insert into internshipOrders table
       const [internshipOrderId] = await DBclient.table(
-        "internshipOrders",
+        "internshipOrders"
       ).insert({
         studyProgramID: data.studyProgramID,
         comment: data.comment,
@@ -84,6 +99,7 @@ export async function sendOrder(data: FormData) {
     });
   } catch (error) {
     console.error("Error creating internship order:", error);
+    //TODO: Obscure the error message to the user. This is a security risk.
     throw error;
   }
 }

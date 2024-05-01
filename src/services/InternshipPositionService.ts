@@ -1,4 +1,3 @@
-/** @format */
 "use server";
 
 import { InternshipTable } from "knex/types/tables.js";
@@ -11,13 +10,13 @@ import { PageResponse } from "@/app/_models/pageinition";
 import "server-only";
 
 /**
- * getInternshipPositionObjectByID returns an InternshipPositionObject object by id.
- * @param id The id of the InternshipPositionObject.
- * @returns A InternshipPositionObject object.
- * @throws Error if the InternshipPositionObject is not found.
+ * Gets an {@link InternshipPosition} object by its id.
+ * @param id The id of the {@link InternshipPosition}.
+ * @returns The {@link InternshipPosition} object.
+ * @throws An error if no {@link InternshipPosition} is found with the given id.
  */
 async function getInternshipPositionObjectByID(
-  id: number,
+  id: number
 ): Promise<Internship> {
   const internship = await getInternshipPositionObjectByIDList([id]);
   if (internship.get(id) == undefined) {
@@ -25,13 +24,14 @@ async function getInternshipPositionObjectByID(
   }
   return internship.get(id);
 }
+
 /**
- * getInternshipPositionObjectByIDList returns a map of InternshipPositionObject objects by id.
- * @param idList The list of id.
- * @returns  A Map object that contains the list of InternshipPositionObject objects.
+ * Gets a list of {@link InternshipPosition} objects by their ids.
+ * @param idList A list of ids to fetch.
+ * @returns A map of {@link InternshipPosition} objects with the id as key.
  */
 async function getInternshipPositionObjectByIDList(
-  idList: number[],
+  idList: number[]
 ): Promise<Map<number, Internship>> {
   const query = await DBclient.select()
     .from<InternshipTable>("internships")
@@ -42,20 +42,20 @@ async function getInternshipPositionObjectByIDList(
   });
   return internships;
 }
-/**
- * getInternshipPositionObjectBySectionID returns a map of InternshipPositionObject objects by sectionID.
- * @param sections  The list of sectionID.
- * @returns  A Map object that contains the list of InternshipPositionObject objects.
- */
 
+/**
+ * Gets {@link InternShipPosition} as a map objects by sectionID.
+ * @param sections The list of sectionId.
+ * @returns  A {@link Map} where the key is the section_id and the value is the list of {@link InternshipPosition} objects.
+ */
 async function getInternshipPositionObjectBySectionID(
-  sections: number[],
+  sections: number[]
 ): Promise<Map<number, Internship[]>> {
   const query = await DBclient.from<InternshipTable>("internships")
     .select("id", "sectionID")
     .whereIn("sectionID", sections);
   const internships = await getInternshipPositionObjectByIDList(
-    query.map((internship) => internship.id),
+    query.map((internship) => internship.id)
   );
   const internshipsMap = new Map();
   query.forEach((internship) => {
@@ -73,12 +73,14 @@ async function getInternshipPositionObjectBySectionID(
 }
 
 /**
- * getInternshipPositionObjectByPage returns a paginated list of InternshipPositionObject objects.
- * @param pageRequest  The request object that contains the page, size, sort, sectionID, yearOfStudy, and field.
- * @returns  A PageResponse object that contains the list of InternshipPositionObject objects.
+ * Gets a  a paginated list of {@link InternshipObject} objects.
+ * @param pageRequest  A {@link InternshipPaginationRequest} that contains
+ * the page, size, sort, sectionID, yearOfStudy, and field.
+ * @returns  A {@link PageResponse} object that contains the list
+ * of {@link InternshipPosition} objects.
  */
 async function getInternshipPositionObjectByPageRequest(
-  pageRequest: InternshipPaginationRequest,
+  pageRequest: InternshipPaginationRequest
 ): Promise<PageResponse<Internship>> {
   const query = await DBclient.select()
     .from<InternshipTable>("internships")
@@ -103,13 +105,13 @@ async function getInternshipPositionObjectByPageRequest(
         "yearOfStudy",
       ].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id" || "name",
+        : "id" || "name"
     );
   const internships: Internship[] = [];
   query
     .slice(
       pageRequest.size * pageRequest.page,
-      pageRequest.size * pageRequest.page + pageRequest.size,
+      pageRequest.size * pageRequest.page + pageRequest.size
     )
     .forEach((internship) => {
       internships.push(internship);
@@ -121,7 +123,10 @@ async function getInternshipPositionObjectByPageRequest(
     totalPages: Math.ceil(query.length / pageRequest.size),
   };
 }
-
+/**
+ * Deletes an {@link InternshipTable}by id.
+ * @param id The id of the {@link InternshipTable}.
+ */
 async function deleteInternshipByID(id: number): Promise<void> {
   await DBclient<InternshipTable>("internships").where("id", id).del();
 }

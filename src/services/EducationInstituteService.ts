@@ -1,6 +1,4 @@
-/** @format */
 "use server";
-
 import {
   EducationInstitutionPageRequest,
   EducationInstitution,
@@ -9,8 +7,14 @@ import { PageResponse } from "@/app/_models/pageinition";
 import DBclient from "@/knex/config/DBClient";
 import { EducationInstitutionTable } from "knex/types/tables.js";
 
+/**
+ * Gets an {@link EducationInstitution} object by its id.
+ * @param id The id of the {@link EducationInstitution}.
+ * @returns The {@link EducationInstitution} object.
+ * @throws An error if no {@link EducationInstitution} is found with the given id.
+ */
 async function getEducationInstitutionByID(
-  id: number,
+  id: number
 ): Promise<EducationInstitutionTable> {
   const institutes = await getEducationInstitutionByIDList(new Set([id]));
   if (!institutes.get(id)) {
@@ -19,8 +23,13 @@ async function getEducationInstitutionByID(
   return institutes.get(id);
 }
 
+/**
+ * A list of {@link EducationInstitution} objects by their ids.
+ * @param idList A list of ids to fetch.
+ * @returns A map of {@link EducationInstitution} objects with the id as key.
+ */
 async function getEducationInstitutionByIDList(
-  idList: Set<number>,
+  idList: Set<number>
 ): Promise<Map<number, EducationInstitutionTable>> {
   const query = await DBclient.select()
     .from<EducationInstitutionTable>("educationInstitutions")
@@ -34,9 +43,13 @@ async function getEducationInstitutionByIDList(
   }
   return educationInstitutions;
 }
-
+/**
+ * Gets a list of {@link EducationInstitution} objects by a {@link EducationInstitutionPageRequest}
+ * @param pageRequest a {@link EducationInstitutionPageRequest}
+ * @returns a {@link PageResponse} of {@link EducationInstitution}
+ */
 async function getEducationInstitutionsByPageRequest(
-  pageRequest: EducationInstitutionPageRequest,
+  pageRequest: EducationInstitutionPageRequest
 ): Promise<PageResponse<EducationInstitution>> {
   const baseQuery = await DBclient.select("")
     .from<EducationInstitutionTable>("educationInstitutions")
@@ -46,11 +59,11 @@ async function getEducationInstitutionsByPageRequest(
       }
     })
     .orderBy(
-      ["id", "name"].includes(pageRequest.sort) ? pageRequest.sort : "id",
+      ["id", "name"].includes(pageRequest.sort) ? pageRequest.sort : "id"
     );
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   return {
     ...pageRequest,
@@ -60,8 +73,13 @@ async function getEducationInstitutionsByPageRequest(
   };
 }
 
+/**
+ * Converts from a list of {@link EducationInstitutionTable} to a list of {@link EducationInstitution}
+ * @param query a list of {@link EducationInstitutionTable}
+ * @returns a list of {@link EducationInstitution}
+ */
 async function createEducationInstitutionObject(
-  query: EducationInstitution[],
+  query: EducationInstitution[]
 ): Promise<EducationInstitution[]> {
   const educationInstitutions = [];
   query.forEach((educationInstitution) => {
@@ -72,22 +90,28 @@ async function createEducationInstitutionObject(
   return educationInstitutions;
 }
 
+/**
+ * Deletes an education institution by its id
+ * @param id the id of the education institution
+ * @throws An error if the education institution is referenced by an internship agreement or if an error occurs while deleting the education institution
+ */
 async function deleteEducationInstitutionByID(id: number) {
   try {
     const deletedCount = await DBclient.delete()
       .from("educationInstitutions")
       .where("id", id);
     if (deletedCount === 0) {
+      //TODO: The text in this error message is gonna be overwritten by the error message in the catch block. Either fix or ensure that the catch block is never reached
       throw new Error(`Education institution with id ${id} not found`);
     }
   } catch (error) {
     if (error.message.includes("foreign key constraint")) {
       throw new Error(
-        `Cannot delete education institution because it is referenced by internship Agreements`,
+        `Cannot delete education institution because it is referenced by internship Agreements`
       );
     }
     throw new Error(
-      "An error occurred while deleting the education institution",
+      "An error occurred while deleting the education institution"
     );
   }
 }

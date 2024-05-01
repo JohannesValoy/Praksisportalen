@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -12,7 +10,11 @@ import {
   sendOrder,
 } from "./actions";
 import Link from "next/link";
-
+/**
+ * Creates a page to place an order for internships.
+ * Should only be accessible for coordinators.
+ * @returns A page to place an order for internships.
+ */
 export default function Page() {
   const router = useRouter();
 
@@ -53,7 +55,7 @@ export default function Page() {
 
   // Initialize internshipFields as an array of InternshipField
   const [internshipFields, setInternshipFields] = useState<InternshipField[]>(
-    [],
+    []
   );
   const [newType, setNewType] = useState("");
 
@@ -79,7 +81,7 @@ export default function Page() {
         setInternshipFields(data);
       })
       .catch((error) =>
-        console.error("Failed to fetch internship field", error),
+        console.error("Failed to fetch internship field", error)
       );
   }, []);
 
@@ -152,6 +154,9 @@ export default function Page() {
     }
   };
 
+  /**
+   * Refreshes the page.
+   */
   function refreshPage() {
     window.location.reload();
   }
@@ -193,7 +198,7 @@ export default function Page() {
               options={studyPrograms}
               selectedOption={
                 studyPrograms.find(
-                  (studyProgram) => studyProgram.id === studyProgramID,
+                  (studyProgram) => studyProgram.id === studyProgramID
                 ) || null
               }
               setSelectedOption={(studyProgram) => {
@@ -240,7 +245,7 @@ export default function Page() {
                     options={internshipFields}
                     selectedOption={
                       internshipFields.find(
-                        (type) => type.name === group.internshipField,
+                        (type) => type.name === group.internshipField
                       ) || null
                     }
                     setSelectedOption={(type) => {
@@ -335,7 +340,7 @@ export default function Page() {
                               newFieldGroups[groupId].subFieldGroups[
                                 groupIndex
                               ].startWeek = new Date(
-                                Date.parse(e.target.value),
+                                Date.parse(e.target.value)
                               );
                               setFieldGroups(newFieldGroups);
                             }}

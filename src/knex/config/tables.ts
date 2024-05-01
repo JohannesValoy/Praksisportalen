@@ -1,4 +1,3 @@
-/** @format */
 //DO NOT REMOVE THE FOLLOWING IMPORT, IT IS NEEDED FOR TYPE DECLARATIONS
 import { Knex } from "knex";
 
@@ -84,7 +83,7 @@ declare module "knex/types/tables.js" {
 
   interface InternshipAgreementTable {
     id: number;
-    status: string;
+    status: "Agreed" | "Pending" | "Rejected";
     startDate: Date;
     endDate: Date;
     studentID: string;

@@ -1,4 +1,3 @@
-/** @format */
 "use server";
 
 import DBclient from "@/knex/config/DBClient";
@@ -39,7 +38,12 @@ class TimeInterval {
     };
   }
 }
-
+/**
+ * Fetches a time interval by its id
+ * @param id the id of the time interval
+ * @returns the time interval
+ * @throws an error if no time interval is found with the given id
+ */
 async function fetchTimeIntervalByID(id: number): Promise<TimeInterval> {
   const timeInterval = (await fetchTimeIntervalByIDList(new Set([id]))).get(id);
   if (timeInterval == undefined) {
@@ -47,9 +51,13 @@ async function fetchTimeIntervalByID(id: number): Promise<TimeInterval> {
   }
   return new TimeInterval(id, timeInterval.start, timeInterval.end);
 }
-
+/**
+ * This function fetches a list of time intervals by their ids
+ * @param idList a list of ids to fetch
+ * @returns a map of time intervals with the id as key. The map will only contain the time intervals that were found
+ */
 async function fetchTimeIntervalByIDList(
-  idList: Set<number>,
+  idList: Set<number>
 ): Promise<Map<number, TimeInterval>> {
   const query = await DBclient.select()
     .from("time_intervals")
@@ -58,12 +66,15 @@ async function fetchTimeIntervalByIDList(
   for (const timeInterval of query) {
     timeIntervals.set(
       timeInterval.id,
-      new TimeInterval(timeInterval.id, timeInterval.start, timeInterval.end),
+      new TimeInterval(timeInterval.id, timeInterval.start, timeInterval.end)
     );
   }
   return timeIntervals;
 }
-
+/**
+ * Deletes a time interval by its id
+ * @param id the id of the time interval to delete
+ */
 async function deleteTimeIntervalByID(id: number): Promise<void> {
   await DBclient("time_intervals").where("id", id).del();
 }

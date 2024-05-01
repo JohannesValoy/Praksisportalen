@@ -83,24 +83,28 @@ async function getInternshipPositionObjectBySectionID(
 async function getInternshipPositionObjectByPageRequest(
   pageRequest: InternshipPaginationRequest
 ): Promise<PageResponse<Internship>> {
-  let query = DBclient.select(
-    "internships.*",
-    DBclient.raw("availableInternshipsSpots(internships.id) as agreementCount")
-  ).where((builder) => {
-    if (pageRequest.section_id && typeof pageRequest.section_id == "number") {
-      builder.whereIn("section_id", pageRequest.section_id);
-    }
-    if (
-      Array.isArray(pageRequest.yearOfStudy) &&
-      pageRequest.yearOfStudy.every(Number.isFinite) &&
-      pageRequest.yearOfStudy.length > 0
-    ) {
-      builder.whereIn("yearOfStudy", pageRequest.yearOfStudy);
-    }
-    if (pageRequest.field) {
-      builder.where("internship_field", pageRequest.field);
-    }
-  });
+  let query = DBclient.from("internships")
+    .select(
+      "*",
+      DBclient.raw(
+        "availableInternshipsSpots(internships.id) as agreementCount"
+      )
+    )
+    .where((builder) => {
+      if (pageRequest.section_id && typeof pageRequest.section_id == "number") {
+        builder.whereIn("section_id", pageRequest.section_id);
+      }
+      if (
+        Array.isArray(pageRequest.yearOfStudy) &&
+        pageRequest.yearOfStudy.every(Number.isFinite) &&
+        pageRequest.yearOfStudy.length > 0
+      ) {
+        builder.whereIn("yearOfStudy", pageRequest.yearOfStudy);
+      }
+      if (pageRequest.field) {
+        builder.where("internship_field", pageRequest.field);
+      }
+    });
 
   if (pageRequest.sort === "agreementCount") {
     query = query.orderBy("agreementCount", "desc");

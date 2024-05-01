@@ -16,10 +16,10 @@ import { start } from "repl";
 import { randomInt } from "crypto";
 
 /**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
+ * Seeds the database with dummy data
+ * @param knex Knex instance
+ * @returns A promise that resolves when the seeding is done
  */
-
 export const seed = async function (knex: Knex) {
   // Deletes ALL existing entries
   await knex("timeIntervals").del();

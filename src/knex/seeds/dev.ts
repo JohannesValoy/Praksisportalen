@@ -208,19 +208,19 @@ export const seed = async function (knex: Knex) {
     const direction = Math.random() > 0.5 ? 1 : -1;
     const offset = Math.floor(Math.random() * 6);
 
-    const offset2 = agreement.student_id
+    const offset2 = agreement.studentID
       ? internships.filter(
           (i) =>
-            i.student_id === agreement.student_id &&
+            i.studentID === agreement.studentID &&
             (direction === 1
               ? i.startDate >= Date.now()
-              : i.startDate <= Date.now()),
+              : i.startDate <= Date.now())
         ).length * 2
       : 0;
     const dates = [new Date(), new Date()];
     dates[0].setDate(dates[0].getDate() + direction * (offset + offset2 * 14));
     dates[1].setDate(
-      dates[1].getDate() + direction * (offset + (offset2 + 1) * 14),
+      dates[1].getDate() + direction * (offset + (offset2 + 1) * 14)
     );
     dates.sort((a, b) => a.getTime() - b.getTime());
     internships.push({
@@ -238,7 +238,7 @@ export const seed = async function (knex: Knex) {
     const endDate: Date = internship.endDate;
     const weeklyPracticeDays = 2;
     const sameSectionInternships = internships.filter(
-      (inter) => inter.section_id === internship.section_id,
+      (inter) => inter.sectionID === internship.sectionID
     );
     while (startDate.getTime() < endDate.getTime()) {
       const daysInTheWeek = [];
@@ -254,7 +254,7 @@ export const seed = async function (knex: Knex) {
       }
       startDate.setDate(startDate.getDate() + 1);
       let days: Date[] = daysInTheWeek.toSorted((a, b) =>
-        differenceInBusyness(a, b, sameSectionInternships, timeIntervals),
+        differenceInBusyness(a, b, sameSectionInternships, timeIntervals)
       );
       if (days.length > weeklyPracticeDays) {
         days = [days[0], days[randomInt(1, days.length - 1)]];
@@ -268,7 +268,7 @@ export const seed = async function (knex: Knex) {
         timeIntervals.push({
           startDate: day,
           endDate: endIntervalDate,
-          internshipAgreement_id: internship.id,
+          internshipAgreementID: internship.id,
         });
       }
     }
@@ -287,12 +287,12 @@ function differenceInBusyness(
   a: any,
   b: any,
   sameSectionInternships: any[],
-  timeIntervals: any[],
+  timeIntervals: any[]
 ) {
   return (
     timeIntervals.filter((ti) => {
       return (
-        (sameSectionInternships.includes(ti.internshipAgreement_id) &&
+        (sameSectionInternships.includes(ti.internshipAgreementID) &&
           ti.startDate > a &&
           ti.startDate < a) ||
         (ti.endDate > a && ti.endDate < a)
@@ -300,7 +300,7 @@ function differenceInBusyness(
     }).length -
     timeIntervals.filter((ti) => {
       return (
-        (sameSectionInternships.includes(ti.internshipAgreement_id) &&
+        (sameSectionInternships.includes(ti.internshipAgreementID) &&
           ti.startDate < b &&
           ti.endDate > b) ||
         (ti.startDate < b && ti.endDate > b)

@@ -1,712 +1,712 @@
 [
   {
     "id": 1,
-    "section_id": 1,
+    "sectionID": 1,
     "numberOfBeds": 0,
     "maxCapacity": 3,
     "name": "Akutt psykisk helse, Hjelset (SNR)",
     "currentCapacity": 2,
     "yearOfStudy": 3,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 2,
-    "section_id": 1,
+    "sectionID": 1,
     "numberOfBeds": 0,
     "maxCapacity": 3,
     "name": "Akutt psykisk helse, Hjelset (SNR)",
     "currentCapacity": 2,
     "yearOfStudy": 2,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 3,
-    "section_id": 2,
+    "sectionID": 2,
     "numberOfBeds": 0,
     "maxCapacity": 1,
     "name": "Operasjon, Molde (SNR)",
     "currentCapacity": 1,
     "yearOfStudy": 1,
-    "internship_field": "Kirurgi"
+    "internshipField": "Kirurgi"
   },
   {
     "id": 4,
-    "section_id": 3,
+    "sectionID": 3,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Akuttmottak Volda",
     "currentCapacity": 3,
     "yearOfStudy": 2,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 5,
-    "section_id": 3,
+    "sectionID": 3,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Akuttmottak Volda",
     "currentCapacity": 3,
     "yearOfStudy": 3,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 6,
-    "section_id": 4,
+    "sectionID": 4,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Dagkirurgi \u00c5lesund",
     "currentCapacity": 4,
     "yearOfStudy": 2,
-    "internship_field": "Kirurgi"
+    "internshipField": "Kirurgi"
   },
   {
     "id": 7,
-    "section_id": 4,
+    "sectionID": 4,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Dagkirurgi \u00c5lesund",
     "currentCapacity": 6,
     "yearOfStudy": 3,
-    "internship_field": "Kirurgi"
+    "internshipField": "Kirurgi"
   },
   {
     "id": 8,
-    "section_id": 5,
+    "sectionID": 5,
     "numberOfBeds": 22,
     "maxCapacity": 7,
     "name": "Kirurgen 2",
     "currentCapacity": 7,
     "yearOfStudy": 2,
-    "internship_field": "Kirurgi"
+    "internshipField": "Kirurgi"
   },
   {
     "id": 9,
-    "section_id": 5,
+    "sectionID": 5,
     "numberOfBeds": 22,
     "maxCapacity": 7,
     "name": "Kirurgen 2",
     "currentCapacity": 6,
     "yearOfStudy": 3,
-    "internship_field": "Kirurgi"
+    "internshipField": "Kirurgi"
   },
   {
     "id": 10,
-    "section_id": 6,
+    "sectionID": 6,
     "numberOfBeds": 20,
     "maxCapacity": 8,
     "name": "Kirurgen 1",
     "currentCapacity": 4,
     "yearOfStudy": 2,
-    "internship_field": "Kirurgi"
+    "internshipField": "Kirurgi"
   },
   {
     "id": 11,
-    "section_id": 6,
+    "sectionID": 6,
     "numberOfBeds": 20,
     "maxCapacity": 8,
     "name": "Kirurgen 1",
     "currentCapacity": 3,
     "yearOfStudy": 3,
-    "internship_field": "Kirurgi"
+    "internshipField": "Kirurgi"
   },
   {
     "id": 12,
-    "section_id": 7,
+    "sectionID": 7,
     "numberOfBeds": 10,
     "maxCapacity": 1,
     "name": "Kir pol",
     "currentCapacity": 0,
     "yearOfStudy": 2,
-    "internship_field": "Kirurgi"
+    "internshipField": "Kirurgi"
   },
   {
     "id": 13,
-    "section_id": 7,
+    "sectionID": 7,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Kir pol ",
     "currentCapacity": 2,
     "yearOfStudy": 3,
-    "internship_field": "Kirurgi"
+    "internshipField": "Kirurgi"
   },
   {
     "id": 14,
-    "section_id": 8,
+    "sectionID": 8,
     "numberOfBeds": 24,
     "maxCapacity": 8,
     "name": "Kirurgen Volda",
     "currentCapacity": 5,
     "yearOfStudy": 2,
-    "internship_field": "Kirurgi"
+    "internshipField": "Kirurgi"
   },
   {
     "id": 15,
-    "section_id": 8,
+    "sectionID": 8,
     "numberOfBeds": 24,
     "maxCapacity": 8,
     "name": "Kirurgen Volda",
     "currentCapacity": 4,
     "yearOfStudy": 3,
-    "internship_field": "Kirurgi"
+    "internshipField": "Kirurgi"
   },
   {
     "id": 16,
-    "section_id": 9,
+    "sectionID": 9,
     "numberOfBeds": 22,
     "maxCapacity": 2,
     "name": "Medisin 5",
     "currentCapacity": 0,
     "yearOfStudy": 3,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 17,
-    "section_id": 9,
+    "sectionID": 9,
     "numberOfBeds": 22,
     "maxCapacity": 10,
     "name": "Medisin 5",
     "currentCapacity": 4,
     "yearOfStudy": 2,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 18,
-    "section_id": 10,
+    "sectionID": 10,
     "numberOfBeds": 18,
     "maxCapacity": 10,
     "name": "Sengepost barn/unge",
     "currentCapacity": 7,
     "yearOfStudy": 3,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 19,
-    "section_id": 10,
+    "sectionID": 10,
     "numberOfBeds": 18,
     "maxCapacity": 10,
     "name": "Sengepost barn/unge",
     "currentCapacity": 6,
     "yearOfStudy": 2,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 20,
-    "section_id": 11,
+    "sectionID": 11,
     "numberOfBeds": 0,
     "maxCapacity": 2,
     "name": "Dialysen \u00c5lesund",
     "currentCapacity": 0,
     "yearOfStudy": 2,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 21,
-    "section_id": 11,
+    "sectionID": 11,
     "numberOfBeds": 0,
     "maxCapacity": 2,
     "name": "Dialysen \u00c5lesund",
     "currentCapacity": 0,
     "yearOfStudy": 3,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 22,
-    "section_id": 12,
+    "sectionID": 12,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Kreft \u00c5lesund",
     "currentCapacity": 1,
     "yearOfStudy": 2,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 23,
-    "section_id": 13,
+    "sectionID": 13,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Kreft \u00c5lesund",
     "currentCapacity": 6,
     "yearOfStudy": 3,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 24,
-    "section_id": 14,
+    "sectionID": 14,
     "numberOfBeds": 25,
     "maxCapacity": 8,
     "name": "Medisin 1 \u00c5L",
     "currentCapacity": 6,
     "yearOfStudy": 2,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 25,
-    "section_id": 14,
+    "sectionID": 14,
     "numberOfBeds": 25,
     "maxCapacity": 8,
     "name": "Medisin 1, \u00c5L",
     "currentCapacity": 7,
     "yearOfStudy": 3,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 26,
-    "section_id": 15,
+    "sectionID": 15,
     "numberOfBeds": 26,
     "maxCapacity": 8,
     "name": "Medisin 2",
     "currentCapacity": 2,
     "yearOfStudy": 2,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 27,
-    "section_id": 15,
+    "sectionID": 15,
     "numberOfBeds": 26,
     "maxCapacity": 8,
     "name": "Medisin 2",
     "currentCapacity": 7,
     "yearOfStudy": 3,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 28,
-    "section_id": 15,
+    "sectionID": 15,
     "numberOfBeds": 19,
     "maxCapacity": 10,
     "name": "Medisin 5",
     "currentCapacity": 2,
     "yearOfStudy": 2,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 29,
-    "section_id": 15,
+    "sectionID": 15,
     "numberOfBeds": 19,
     "maxCapacity": 10,
     "name": "Medisin 5",
     "currentCapacity": 6,
     "yearOfStudy": 3,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 30,
-    "section_id": 16,
+    "sectionID": 16,
     "numberOfBeds": 26,
     "maxCapacity": 8,
     "name": "Medisin sengepost, Volda",
     "currentCapacity": 6,
     "yearOfStudy": 2,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 31,
-    "section_id": 16,
+    "sectionID": 16,
     "numberOfBeds": 26,
     "maxCapacity": 8,
     "name": "Medisinsk sengepost, Volda",
     "currentCapacity": 6,
     "yearOfStudy": 3,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 32,
-    "section_id": 16,
+    "sectionID": 16,
     "numberOfBeds": 9,
     "maxCapacity": 10,
     "name": "sengepost barn og unge, \u00c5L",
     "currentCapacity": 3,
     "yearOfStudy": 2,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 33,
-    "section_id": 16,
+    "sectionID": 16,
     "numberOfBeds": 9,
     "maxCapacity": 10,
     "name": "Sengepost barn og unge",
     "currentCapacity": 4,
     "yearOfStudy": 3,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 34,
-    "section_id": 17,
+    "sectionID": 17,
     "numberOfBeds": 24,
     "maxCapacity": 5,
     "name": "Sengepost fys med",
     "currentCapacity": 2,
     "yearOfStudy": 2,
-    "internship_field": "Fysioterapi"
+    "internshipField": "Fysioterapi"
   },
   {
     "id": 35,
-    "section_id": 17,
+    "sectionID": 17,
     "numberOfBeds": 24,
     "maxCapacity": 5,
     "name": "sengepost fys med ",
     "currentCapacity": 2,
     "yearOfStudy": 3,
-    "internship_field": "Fysioterapi"
+    "internshipField": "Fysioterapi"
   },
   {
     "id": 36,
-    "section_id": 18,
+    "sectionID": 18,
     "numberOfBeds": 18,
     "maxCapacity": 7,
     "name": "Ortopedisk sengepost",
     "currentCapacity": 4,
     "yearOfStudy": 2,
-    "internship_field": "Fysioterapi"
+    "internshipField": "Fysioterapi"
   },
   {
     "id": 37,
-    "section_id": 19,
+    "sectionID": 19,
     "numberOfBeds": 18,
     "maxCapacity": 7,
     "name": "Ortopedisk sengepost \u00c5L",
     "currentCapacity": 6,
     "yearOfStudy": 3,
-    "internship_field": "Fysioterapi"
+    "internshipField": "Fysioterapi"
   },
   {
     "id": 38,
-    "section_id": 20,
+    "sectionID": 20,
     "numberOfBeds": 10,
     "maxCapacity": 2,
     "name": "Akuttmottak \u00c5lesund ",
     "currentCapacity": 1,
     "yearOfStudy": 2,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 39,
-    "section_id": 21,
+    "sectionID": 21,
     "numberOfBeds": 10,
     "maxCapacity": 2,
     "name": "Akuttmottak, \u00c5lesund",
     "currentCapacity": 1,
     "yearOfStudy": 3,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 40,
-    "section_id": 22,
+    "sectionID": 22,
     "numberOfBeds": 10,
     "maxCapacity": 2,
     "name": "Team A mottak \u00c5lesund",
     "currentCapacity": 2,
     "yearOfStudy": 2,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 41,
-    "section_id": 22,
+    "sectionID": 22,
     "numberOfBeds": 10,
     "maxCapacity": 2,
     "name": "Team A mottak \u00c5lesund",
     "currentCapacity": 1,
     "yearOfStudy": 3,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 42,
-    "section_id": 23,
+    "sectionID": 23,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Team B subakutt - \u00c5L",
     "currentCapacity": 2,
     "yearOfStudy": 2,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 43,
-    "section_id": 23,
+    "sectionID": 23,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Team B subakutt - \u00c5L",
     "currentCapacity": 8,
     "yearOfStudy": 3,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 44,
-    "section_id": 24,
+    "sectionID": 24,
     "numberOfBeds": 6,
     "maxCapacity": 2,
     "name": "Alderspsykiatri \u00c5L",
     "currentCapacity": 0,
     "yearOfStudy": 2,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 45,
-    "section_id": 24,
+    "sectionID": 24,
     "numberOfBeds": 6,
     "maxCapacity": 2,
     "name": "Alderspsykiatri \u00c5L",
     "currentCapacity": 1,
     "yearOfStudy": 3,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 46,
-    "section_id": 25,
+    "sectionID": 25,
     "numberOfBeds": 10,
     "maxCapacity": 1,
     "name": "Akutt heimebehandling DPS Volda ",
     "currentCapacity": 0,
     "yearOfStudy": 2,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 47,
-    "section_id": 25,
+    "sectionID": 25,
     "numberOfBeds": 10,
     "maxCapacity": 1,
     "name": "Akutt heimebehandling DPS Volda",
     "currentCapacity": 1,
     "yearOfStudy": 3,
-    "internship_field": "Medisin"
+    "internshipField": "Medisin"
   },
   {
     "id": 48,
-    "section_id": 26,
+    "sectionID": 26,
     "numberOfBeds": 10,
     "maxCapacity": 1,
     "name": "ACT team",
     "currentCapacity": 0,
     "yearOfStudy": 2,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 49,
-    "section_id": 26,
+    "sectionID": 26,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "ACT team",
     "currentCapacity": 8,
     "yearOfStudy": 3,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 50,
-    "section_id": 27,
+    "sectionID": 27,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "AHT team",
     "currentCapacity": 5,
     "yearOfStudy": 2,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 51,
-    "section_id": 27,
+    "sectionID": 27,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "AHT team",
     "currentCapacity": 8,
     "yearOfStudy": 3,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 52,
-    "section_id": 28,
+    "sectionID": 28,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Ambulante tenester allmenn psykisk helse DPS \u00c5lesund",
     "currentCapacity": 8,
     "yearOfStudy": 2,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 53,
-    "section_id": 28,
+    "sectionID": 28,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Ambulante tenester allmenn psykisk helse DPS \u00c5lesund",
     "currentCapacity": 4,
     "yearOfStudy": 3,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 54,
-    "section_id": 29,
+    "sectionID": 29,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "TSB \u00c5lesund, avrusing",
     "currentCapacity": 1,
     "yearOfStudy": 2,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 55,
-    "section_id": 29,
+    "sectionID": 29,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "TSB \u00c5lesund, avrusing",
     "currentCapacity": 6,
     "yearOfStudy": 3,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 56,
-    "section_id": 30,
+    "sectionID": 30,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "DPS Vegsund",
     "currentCapacity": 9,
     "yearOfStudy": 2,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 57,
-    "section_id": 30,
+    "sectionID": 30,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "DPS Vegsund",
     "currentCapacity": 10,
     "yearOfStudy": 3,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 58,
-    "section_id": 31,
+    "sectionID": 31,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Utgreiing og behandling",
     "currentCapacity": 9,
     "yearOfStudy": 2,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 59,
-    "section_id": 31,
+    "sectionID": 31,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Utgreiing og behandling",
     "currentCapacity": 0,
     "yearOfStudy": 3,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 60,
-    "section_id": 32,
+    "sectionID": 32,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "D\u00f8gnbehandling Volda",
     "currentCapacity": 7,
     "yearOfStudy": 2,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 61,
-    "section_id": 32,
+    "sectionID": 32,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "D\u00f8gnbehandling Volda",
     "currentCapacity": 0,
     "yearOfStudy": 3,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 62,
-    "section_id": 33,
+    "sectionID": 33,
     "numberOfBeds": 2,
     "maxCapacity": 10,
     "name": "D\u00f8gnseksjon PHBU Molde og \u00c5lesund",
     "currentCapacity": 0,
     "yearOfStudy": 2,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 63,
-    "section_id": 33,
+    "sectionID": 33,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "D\u00f8gnseksjon PHBU Molde og \u00c5lesund",
     "currentCapacity": 9,
     "yearOfStudy": 3,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 64,
-    "section_id": 34,
+    "sectionID": 34,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "TSB korttids \u00c5lesund",
     "currentCapacity": 2,
     "yearOfStudy": 2,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 65,
-    "section_id": 34,
+    "sectionID": 34,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "TSB korttids \u00c5lesund",
     "currentCapacity": 4,
     "yearOfStudy": 3,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 66,
-    "section_id": 35,
+    "sectionID": 35,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Lokal sikkerhetspsykiatri",
     "currentCapacity": 2,
     "yearOfStudy": 2,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 67,
-    "section_id": 35,
+    "sectionID": 35,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Lokal sikkerhetspsykiatri",
     "currentCapacity": 5,
     "yearOfStudy": 3,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 68,
-    "section_id": 36,
+    "sectionID": 36,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Ambulante tenester psykisk helse DPS Volda (AAT)",
     "currentCapacity": 3,
     "yearOfStudy": 2,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 69,
-    "section_id": 37,
+    "sectionID": 37,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Ambulante tenester psykisk helse DPS Volda (AAT)",
     "currentCapacity": 0,
     "yearOfStudy": 3,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   },
   {
     "id": 70,
-    "section_id": 38,
+    "sectionID": 38,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Ambulante tenester psykisk helse DPS Volda (ACT team)",
-    "internship_field": "Psykologi",
+    "internshipField": "Psykologi",
     "currentCapacity": 1,
     "yearOfStudy": 2
   },
   {
     "id": 71,
-    "section_id": 38,
+    "sectionID": 38,
     "numberOfBeds": 10,
     "maxCapacity": 10,
     "name": "Ambulante tenester psykisk helse DPS Volda (ACT team)",
     "currentCapacity": 4,
     "yearOfStudy": 3,
-    "internship_field": "Psykologi"
+    "internshipField": "Psykologi"
   }
 ]

@@ -16,7 +16,7 @@ import "server-only";
  * @throws An error if no {@link InternshipPosition} is found with the given id.
  */
 async function getInternshipPositionObjectByID(
-  id: number
+  id: number,
 ): Promise<Internship> {
   const internship = await getInternshipPositionObjectByIDList([id]);
   if (internship.get(id) == undefined) {
@@ -31,7 +31,7 @@ async function getInternshipPositionObjectByID(
  * @returns A map of {@link InternshipPosition} objects with the id as key.
  */
 async function getInternshipPositionObjectByIDList(
-  idList: number[]
+  idList: number[],
 ): Promise<Map<number, Internship>> {
   const query = await DBclient.select()
     .from<InternshipTable>("internships")
@@ -49,13 +49,13 @@ async function getInternshipPositionObjectByIDList(
  * @returns  A {@link Map} where the key is the sectionID and the value is the list of {@link InternshipPosition} objects.
  */
 async function getInternshipPositionObjectBySectionID(
-  sections: number[]
+  sections: number[],
 ): Promise<Map<number, Internship[]>> {
   const query = await DBclient.from<InternshipTable>("internships")
     .select("id", "sectionID")
     .whereIn("sectionID", sections);
   const internships = await getInternshipPositionObjectByIDList(
-    query.map((internship) => internship.id)
+    query.map((internship) => internship.id),
   );
   const internshipsMap = new Map();
   query.forEach((internship) => {
@@ -80,7 +80,7 @@ async function getInternshipPositionObjectBySectionID(
  * of {@link InternshipPosition} objects.
  */
 async function getInternshipPositionObjectByPageRequest(
-  pageRequest: InternshipPaginationRequest
+  pageRequest: InternshipPaginationRequest,
 ): Promise<PageResponse<Internship>> {
   const query = await DBclient.select()
     .from<InternshipTable>("internships")
@@ -105,13 +105,13 @@ async function getInternshipPositionObjectByPageRequest(
         "yearOfStudy",
       ].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id" || "name"
+        : "id" || "name",
     );
   const internships: Internship[] = [];
   query
     .slice(
       pageRequest.size * pageRequest.page,
-      pageRequest.size * pageRequest.page + pageRequest.size
+      pageRequest.size * pageRequest.page + pageRequest.size,
     )
     .forEach((internship) => {
       internships.push(internship);

@@ -30,7 +30,7 @@ async function getSectionObjectByID(id: number): Promise<Section> {
  * @returns a map of {@link Section} objects with the id as key. The map will only contain the {@link Section} objects that were found
  */
 async function getSectionObjectByIDList(
-  idList: number[]
+  idList: number[],
 ): Promise<Map<number, Section>> {
   const query = await DBclient.select()
     .from<SectionTable>("sections")
@@ -49,7 +49,7 @@ async function getSectionObjectByIDList(
  * @returns a {@link PageResponse} of {@link Section}
  */
 async function getSectionsByPageRequest(
-  pageRequest: SectionPageRequest
+  pageRequest: SectionPageRequest,
 ): Promise<PageResponse<Section>> {
   const baseQuery = await DBclient.select("")
     .from<SectionTable>("sections")
@@ -65,7 +65,7 @@ async function getSectionsByPageRequest(
       }
     })
     .orderBy(
-      ["id", "name"].includes(pageRequest.sort) ? pageRequest.sort : "id"
+      ["id", "name"].includes(pageRequest.sort) ? pageRequest.sort : "id",
     );
   //TODO: ^above add email from employees table
 
@@ -73,7 +73,7 @@ async function getSectionsByPageRequest(
   pageRequest.size = pageRequest.size || 10;
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size
+    (pageRequest.page + 1) * pageRequest.size,
   );
   return {
     ...pageRequest,

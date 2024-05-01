@@ -33,23 +33,23 @@ async function getCoordinatorsByID(id: string): Promise<Coordinator> {
 }
 
 async function getCoordinatorsByIDList(
-  idList: Set<string>
+  idList: Set<string>,
 ): Promise<Map<string, Coordinator>> {
   const query = await DBclient.select()
     .from<CoordinatorTable>("coordinators")
     .whereIn("id", Array.from(idList));
   const coordinators: Map<string, Coordinator> = new Map();
   const educationInstitutionIDs = new Set(
-    query.map((coordinator) => coordinator.educationInstitutionID)
+    query.map((coordinator) => coordinator.educationInstitutionID),
   );
   const educationInstitutions = await getEducationInstitutionByIDList(
-    educationInstitutionIDs
+    educationInstitutionIDs,
   );
   for (const coordinator of query) {
     coordinators.set(coordinator.id, {
       ...coordinator,
       educationInstitution: educationInstitutions.get(
-        coordinator.educationInstitutionID
+        coordinator.educationInstitutionID,
       ),
     });
   }
@@ -62,7 +62,7 @@ async function getCoordinatorsByIDList(
  * @returns a {@link PageResponse} of {@link Coordinator}
  */
 async function getCoordinatorsByPageRequest(
-  pageRequest: CoordinatorPageRequest
+  pageRequest: CoordinatorPageRequest,
 ) {
   const baseQuery = await DBclient.select("")
     .from("coordinators")
@@ -74,11 +74,11 @@ async function getCoordinatorsByPageRequest(
     .orderBy(
       ["id", "name", "email"].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id"
+        : "id",
     );
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size
+    (pageRequest.page + 1) * pageRequest.size,
   );
   return {
     ...pageRequest,
@@ -94,18 +94,18 @@ async function getCoordinatorsByPageRequest(
  * @returns a list of {@link Coordinator}
  */
 async function createCoordinatorObjects(
-  query: CoordinatorTable[]
+  query: CoordinatorTable[],
 ): Promise<Coordinator[]> {
   const coordinators: Coordinator[] = [];
   const educationInstitutions: Map<number, EducationInstitution> =
     await getEducationInstitutionByIDList(
-      new Set(query.map((coordinator) => coordinator.educationInstitutionID))
+      new Set(query.map((coordinator) => coordinator.educationInstitutionID)),
     );
   query.forEach((coordinator) => {
     coordinators.push({
       ...coordinator,
       educationInstitution: educationInstitutions.get(
-        coordinator.educationInstitutionID
+        coordinator.educationInstitutionID,
       ),
     });
   });

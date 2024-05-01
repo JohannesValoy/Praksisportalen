@@ -39,7 +39,7 @@ export async function fetchStudyPrograms() {
     .innerJoin(
       "studyPrograms",
       "studyPrograms.educationInstitutionID",
-      "coordinators.educationInstitutionID"
+      "coordinators.educationInstitutionID",
     )
     .select("studyPrograms.name", "studyPrograms.id");
   const response = [];
@@ -72,7 +72,7 @@ export async function sendOrder(data: FormData) {
     await DBclient.transaction(async () => {
       // Insert into internshipOrders table
       const [internshipOrderId] = await DBclient.table(
-        "internshipOrders"
+        "internshipOrders",
       ).insert({
         studyProgramID: data.studyProgramID,
         comment: data.comment,

@@ -89,7 +89,7 @@ export async function up(knex: Knex): Promise<void> {
         table.check(
           "?? <= ??",
           ["currentCapacity", "maxCapacity"],
-          "maxIsHigher"
+          "maxIsHigher",
         );
         table.check("?? >= 0", ["currentCapacity"], "currentIsPositive");
         table.check("?? >= 0", ["numberOfBeds"], "bedsIsPositive");
@@ -222,7 +222,7 @@ export async function up(knex: Knex): Promise<void> {
         table.check(
           "TIMESTAMPDIFF(HOUR, ??, ??) <= 12",
           ["startDate", "endDate"],
-          "intervalIsLessThan12Hours"
+          "intervalIsLessThan12Hours",
         );
       })
       .createView("users", (view) => {
@@ -232,14 +232,14 @@ export async function up(knex: Knex): Promise<void> {
             .from("employees")
             .union(
               knex.raw(
-                'select id, name, email, "coordinator" as role, createdAt, updatedAt from coordinators'
-              )
+                'select id, name, email, "coordinator" as role, createdAt, updatedAt from coordinators',
+              ),
             )
             .union(
               knex.raw(
-                'select id, name, email, "student" as role, createdAt, updatedAt from students'
-              )
-            )
+                'select id, name, email, "student" as role, createdAt, updatedAt from students',
+              ),
+            ),
         );
       })
       .raw(check_email_andIDTrigger("employees"))
@@ -256,7 +256,7 @@ export async function up(knex: Knex): Promise<void> {
           SET NEW.maxCapacity = NEW.currentCapacity;
         END IF;
       END;
-      `
+      `,
       )
       .raw(
         `
@@ -268,7 +268,7 @@ export async function up(knex: Knex): Promise<void> {
           SET NEW.maxCapacity = NEW.currentCapacity;
         END IF;
       END;
-      `
+      `,
       )
       //TODO: Also need triggers for update
       .raw(
@@ -285,7 +285,7 @@ export async function up(knex: Knex): Promise<void> {
           SET MESSAGE_TEXT = 'Internship is full';
         END IF;
       END
-      `
+      `,
       )
       .raw(
         `
@@ -298,7 +298,7 @@ export async function up(knex: Knex): Promise<void> {
             SET MESSAGE_TEXT = 'Student already has an internship at this time';
           END IF;
         END;
-        `
+        `,
       )
       //TODO: Create a procedure or function to not need to copy the same code
       .raw(
@@ -315,7 +315,7 @@ export async function up(knex: Knex): Promise<void> {
           SET MESSAGE_TEXT = 'Time interval is outside of agreement';
         END IF;
       END;  
-      `
+      `,
       )
       .raw(
         `
@@ -328,7 +328,7 @@ export async function up(knex: Knex): Promise<void> {
           SET MESSAGE_TEXT = 'Time interval overlaps with another';
         END IF;
       END;
-        `
+        `,
       )
       .raw(
         `      
@@ -343,7 +343,7 @@ export async function up(knex: Knex): Promise<void> {
           SIGNAL SQLSTATE '45000'
           SET MESSAGE_TEXT = 'Time interval is outside of agreement';
         END IF;
-      END; `
+      END; `,
       )
       .raw(
         `
@@ -356,7 +356,7 @@ export async function up(knex: Knex): Promise<void> {
         SELECT COUNT(*) INTO internshipAgreementCount FROM internshipAgreements WHERE internshipID = internshipID AND NOW() BETWEEN startDate AND endDate;
         RETURN currentCapacity - internshipAgreementCount;
       END; 
-      `
+      `,
       )
   );
 }

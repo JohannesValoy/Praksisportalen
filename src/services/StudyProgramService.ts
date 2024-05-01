@@ -31,23 +31,23 @@ async function getStudyProgramObjectByID(id: number): Promise<StudyProgram> {
  * The map will only contain the {@link StudyProgram} that were found
  */
 async function getStudyProgramObjectByIDList(
-  idList: number[]
+  idList: number[],
 ): Promise<Map<number, StudyProgram>> {
   const query = await DBclient.select()
     .from<StudyProgramTable>("studyPrograms")
     .whereIn("id", idList);
   const studyPrograms: Map<number, StudyProgram> = new Map();
   const educationInstitutionIDs = new Set(
-    query.map((studyProgram) => studyProgram.educationInstitutionID)
+    query.map((studyProgram) => studyProgram.educationInstitutionID),
   );
   const educationInstitutions = await getEducationInstitutionByIDList(
-    educationInstitutionIDs
+    educationInstitutionIDs,
   );
   for (const studyProgram of query) {
     studyPrograms.set(studyProgram.id, {
       ...studyProgram,
       educationInstitution: educationInstitutions.get(
-        studyProgram.educationInstitutionID
+        studyProgram.educationInstitutionID,
       ),
     });
   }
@@ -59,7 +59,7 @@ async function getStudyProgramObjectByIDList(
  * @returns a {@link PageResponse} of study programs
  */
 async function getStudyProgramsByPageRequest(
-  pageRequest: StudyProgramPageRequest //to be changed
+  pageRequest: StudyProgramPageRequest, //to be changed
 ): Promise<PageResponse<StudyProgram>> {
   const baseQuery = await DBclient.select("id")
     .from<StudyProgramTable>("studyPrograms")
@@ -70,19 +70,19 @@ async function getStudyProgramsByPageRequest(
       if (pageRequest.hasEducationInstitutionID) {
         builder.where(
           "educationInstitutionID",
-          pageRequest.hasEducationInstitutionID
+          pageRequest.hasEducationInstitutionID,
         );
       }
     })
     .orderBy(
-      ["id", "name"].includes(pageRequest.sort) ? pageRequest.sort : "id"
+      ["id", "name"].includes(pageRequest.sort) ? pageRequest.sort : "id",
     );
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size
+    (pageRequest.page + 1) * pageRequest.size,
   );
   const studyPrograms = await getStudyProgramObjectByIDList(
-    pageQuery.map((studyProgram) => studyProgram.id)
+    pageQuery.map((studyProgram) => studyProgram.id),
   );
   return {
     ...pageRequest,
@@ -106,7 +106,7 @@ async function deleteStudyProgramByID(id: number) {
   } catch (error) {
     if (error.message.includes("foreign key constraint")) {
       throw new Error(
-        `Cannot delete study program because it is referenced by these internship`
+        `Cannot delete study program because it is referenced by these internship`,
       );
     }
     throw new Error("An error occurred while deleting the study program");

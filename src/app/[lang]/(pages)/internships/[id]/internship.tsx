@@ -49,14 +49,14 @@ export default function InternshipPage({
           setInternshipFields(data);
         })
         .catch((error) =>
-          console.error("Failed to fetch Internship Fields", error)
+          console.error("Failed to fetch Internship Fields", error),
         );
     }
   }, [internship]);
 
   function getSectionName(
     sectionID: string,
-    sections: Array<{ id: string; name: string }>
+    sections: Array<{ id: string; name: string }>,
   ) {
     const section = sections.find((section) => section.id === sectionID);
     return section ? section.name : "Unknown section";
@@ -163,7 +163,7 @@ export default function InternshipPage({
                         options={internshipFields}
                         selectedOption={
                           internshipFields.find(
-                            (field) => field.name === internshipField
+                            (field) => field.name === internshipField,
                           ) || null
                         }
                         setSelectedOption={(field) =>

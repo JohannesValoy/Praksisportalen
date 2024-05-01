@@ -62,7 +62,7 @@ export class TimeIntervalPageRequest implements PageRequest {
     size: number,
     internshipAgreementID: number[],
     startDate: Date,
-    end: Date
+    end: Date,
   ) {
     this.page = page > 1 ? page : 1;
     this.size = size > 0 ? size : 10;
@@ -95,7 +95,7 @@ export class TimeIntervalPageRequest implements PageRequest {
       size,
       internshipAgreementID,
       startDate,
-      endDate
+      endDate,
     );
   }
 }

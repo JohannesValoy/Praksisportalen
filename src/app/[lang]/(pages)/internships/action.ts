@@ -10,7 +10,7 @@ import {
 import "server-only";
 
 export async function paginateInternships(
-  request: InternshipPaginationRequest
+  request: InternshipPaginationRequest,
 ) {
   request.sectionID = [Number(request.sectionID)];
   return await getInternshipPositionObjectByPageRequest(request);

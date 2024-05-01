@@ -1,7 +1,3 @@
-import { Inter } from "next/font/google";
-/** @format */
-
-import { randomUUID } from "crypto";
 import type { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
@@ -29,8 +25,8 @@ export async function up(knex: Knex): Promise<void> {
     .createTable("sections", (table) => {
       table.increments("id").primary();
       table.string("name").notNullable();
-      table.string("section_type").notNullable();
-      table.foreign("section_type").references("name").inTable("sectionTypes");
+      table.string("sectionType").nullable();
+      table.foreign("sectionType").references("name").inTable("sectionTypes");
       table.string("employeeID").nullable();
       table.foreign("employeeID").references("id").inTable("employees");
       table.integer("departmentID").unsigned().notNullable();

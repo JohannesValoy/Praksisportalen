@@ -8,6 +8,7 @@ import {
   InternshipPaginationRequest,
 } from "@/app/_models/InternshipPosition";
 import { PageResponse } from "@/app/_models/pageinition";
+import "server-only";
 
 /**
  * getInternshipPositionObjectByID returns an InternshipPositionObject object by id.

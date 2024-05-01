@@ -5,8 +5,8 @@ import DBclient from "@/knex/config/DBClient";
 import { Department, DepartmentPageRequest } from "@/app/_models/Department";
 import { DepartmentTable, EmployeeTable } from "knex/types/tables.js";
 import { getEmployeeObjectByIDList } from "./EmployeeService";
-
 import { PageResponse } from "@/app/_models/pageinition";
+import "server-only";
 
 async function getDepartmentObjectByID(id: number): Promise<Department> {
   const department = await getDepartmentObjectByIDList([id]);
@@ -36,7 +36,7 @@ async function getDepartmentPageByPageRequest(
   pageRequest: DepartmentPageRequest
 ): Promise<PageResponse<Department>> {
   const baseQuery = await DBclient.from("employees")
-    .innerJoin("departments", "employees.id", "departments.employeeID")
+    .rightJoin("departments", "employees.id", "departments.employeeID")
     .where((builder) => {
       if (pageRequest.hasEmployeeID) {
         builder.where("employeeID", pageRequest.hasEmployeeID);

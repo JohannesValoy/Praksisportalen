@@ -9,9 +9,9 @@ import { InternshipAgreementTable } from "knex/types/tables.js";
 import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
 import DBclient from "@/knex/config/DBClient";
 import { PageResponse } from "@/app/_models/pageinition";
-
 import { getInternshipPositionObjectByIDList } from "./InternshipPositionService";
 import { getStudyProgramObjectByIDList } from "./StudyProgramService";
+import "server-only";
 
 /**
  * Fetches an Internship Agreement object by its ID.

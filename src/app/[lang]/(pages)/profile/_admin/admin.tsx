@@ -1,7 +1,6 @@
 /** @format */
 
 "use client";
-import Image from "next/image";
 
 import DynamicTable from "@/app/components/DynamicTable";
 import { paginateSections } from "../../sections/action";
@@ -12,7 +11,7 @@ export default function AdminPage({ user }) {
       tableName={"sections"}
       headers={{
         Name: "name",
-        Type: "section_type",
+        Type: "sectionType",
         Department: "departmentID",
       }}
       filter={{ hasEmployeeID: user.id }}

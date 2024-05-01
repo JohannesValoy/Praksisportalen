@@ -9,6 +9,7 @@ import { editDepartmentDetails } from "./action";
 import { fetchEmployees } from "../add/action";
 import Dropdown from "@/app/components/Dropdown";
 import { Department } from "@/app/_models/Department";
+import AddSection from "../../../../components/Modals/AddSectionModal";
 
 export default function DepartmentPage({
   user,
@@ -20,6 +21,8 @@ export default function DepartmentPage({
   readonly department: Department;
 }) {
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const [name, setName] = useState("");
 
@@ -63,14 +66,32 @@ export default function DepartmentPage({
     window.location.reload();
   };
 
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+    setRefreshKey((oldKey) => oldKey + 1);
+  };
+
   return (
     <>
       <div className="flex flex-col items-center">
-        <div className="flex flex-row">
+        <div className="flex flex-row items-start">
           <h1>Department: {department.name}</h1>
           {user.role === "admin" && (
-            <button className="btn btn-sm" onClick={() => setShowModal(true)}>
-              edit
+            <button onClick={() => setShowModal(true)} aria-label="Edit">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
+                />
+              </svg>
             </button>
           )}
           <dialog open={showModal === true} className="modal">
@@ -147,33 +168,39 @@ export default function DepartmentPage({
             </div>
           </dialog>
         </div>
-        <p>Leader name: {department.employee.name}</p>
-        <p>Leader email: {department.employee.email}</p>
+        <p>Leader name: {department.employee?.name}</p>
+        <p>Leader email: {department.employee?.email}</p>
         <p>Created At: {department.createdAt.toLocaleDateString()}</p>
         <p>Updated At: {department.updatedAt.toLocaleDateString()}</p>
       </div>
-      <DynamicTable
-        tableName={"sections"}
-        headers={{
-          Name: "name",
-          "Section Type": "section_type",
-          "Leader Email": "email",
-          "Created At": "createdAt",
-          "Updated At": "updatedAt",
-        }}
-        filter={{ departmentID: department.id.toString() }}
-        onRowClick={() => {}}
-        onRowButtonClick={(row) => {
-          window.location.href = `/sections/${row.id}`;
-        }}
-        buttonName={"Details"}
-        readonly={user.role !== "admin"}
-        deleteFunction={deleteSection}
-        onAddButtonClick={() => {
-          window.location.href = `/sections/add`;
-        }}
-        paginateFunction={paginateSections}
-      />
+      <>
+        {isAddModalOpen && (
+          <AddSection openModal={isAddModalOpen} onClose={closeAddModal} />
+        )}
+        <DynamicTable
+          refreshKey={refreshKey}
+          tableName={"sections"}
+          headers={{
+            Name: "name",
+            "Section Type": "sectionType",
+            "Leader Email": "email",
+            "Created At": "createdAt",
+            "Updated At": "updatedAt",
+          }}
+          filter={{ departmentID: department.id.toString() }}
+          onRowClick={() => {}}
+          onRowButtonClick={(row) => {
+            window.location.href = `/sections/${row.id}`;
+          }}
+          buttonName={"Details"}
+          readonly={user.role !== "admin"}
+          deleteFunction={deleteSection}
+          onAddButtonClick={() => {
+            setIsAddModalOpen(true);
+          }}
+          paginateFunction={paginateSections}
+        />
+      </>
     </>
   );
 }

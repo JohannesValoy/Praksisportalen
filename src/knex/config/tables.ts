@@ -43,7 +43,7 @@ declare module "knex/types/tables.js" {
   interface SectionTable {
     id: number;
     name: string;
-    section_type: string;
+    sectionType: string;
     employeeID?: string;
     departmentID: number;
     createdAt: Date;

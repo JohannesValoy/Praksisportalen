@@ -1,3 +1,4 @@
+"use server";
 import Knex from "knex";
 import KnexConfig from "@/../knexfile";
 

@@ -2,6 +2,7 @@
 "use server";
 
 import DBclient from "@/knex/config/DBClient";
+import "server-only";
 
 class TimeInterval {
   private ID: number;

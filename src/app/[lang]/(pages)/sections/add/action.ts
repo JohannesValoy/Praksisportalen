@@ -58,6 +58,7 @@ export async function createSection(data) {
     name: data.name,
     employeeID: data.employeeID,
     departmentID: data.departmentID,
+    sectionType: data.sectionType,
   });
   return null;
 }

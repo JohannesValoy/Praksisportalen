@@ -11,7 +11,7 @@ export default function EmployeePage({ user }) {
       tableName={"sections"}
       headers={{
         Name: "name",
-        Type: "section_type",
+        Type: "sectionType",
         Department: "departmentID",
       }}
       filter={{ hasEmployeeID: user.id }}

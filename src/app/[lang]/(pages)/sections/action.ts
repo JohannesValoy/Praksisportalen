@@ -16,8 +16,8 @@ export async function paginateSections(request: SectionPageRequest) {
   // If data.elements is not present, use data directly.
   const elements = data.elements.map((element) => ({
     name: element.name,
-    email: element.employee.email,
-    section_type: element.section_type,
+    email: element.employee?.email,
+    sectionType: element?.sectionType,
     id: element.id,
     createdAt: element.createdAt,
     updatedAt: element.updatedAt,

@@ -21,6 +21,7 @@ type DynamicTableProps = {
   paginateFunction: (request: any) => Promise<PageResponse<any>>;
   filter?: Record<string, string>;
   readonly?: boolean;
+  refreshKey?: number;
 };
 
 const DynamicTable: React.FC<DynamicTableProps> = ({
@@ -35,6 +36,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   paginateFunction,
   filter = {},
   readonly = false,
+  refreshKey,
 }) => {
   const searchParams = useSearchParams();
   // Ensure rows is always an array
@@ -107,7 +109,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
 
   useEffect(() => {
     fetch();
-  }, [page]); // fetch is a dependency
+  }, [page, refreshKey]); // fetch is a dependency
 
   const normalizedRows = Array.isArray(rows) ? rows : [rows];
   const onDelete = async () => {
@@ -213,7 +215,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
             </tbody>
           ) : (
             normalizedRows.map((row, index) => (
-              <tbody key={row.id}>
+              <tbody key={index}>
                 <tr onClick={() => onRowClick(row)}>
                   {!readonly && (
                     <td onClick={(e) => e.stopPropagation()}>
@@ -228,7 +230,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                   )}
                   {rowDataKeys.map((key: string, index: number) => (
                     <td
-                      key={row.id}
+                      key={index}
                       onClick={
                         clickableColumns[key]
                           ? () => clickableColumns[key](row)

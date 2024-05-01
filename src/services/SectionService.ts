@@ -5,11 +5,11 @@ import DBclient from "@/knex/config/DBClient";
 import { SectionTable } from "knex/types/tables.js";
 import { getEmployeeObjectByIDList } from "./EmployeeService";
 import { getInternshipPositionObjectBySectionID } from "./InternshipPositionService";
-
 import { PageResponse } from "@/app/_models/pageinition";
 import { Section, SectionPageRequest } from "@/app/_models/Section";
 import { Employee } from "@/app/_models/Employee";
 import { Internship } from "@/app/_models/InternshipPosition";
+import "server-only";
 
 async function getSectionObjectByID(id: number): Promise<Section> {
   const section = await getSectionObjectByIDList([id]);

@@ -4,7 +4,7 @@ import DBclient from "@/knex/config/DBClient";
 import "server-only";
 
 export async function fetchSectionTypes() {
-  const response = await DBclient.select("*").from("section_types");
+  const response = await DBclient.select("*").from("sectionTypes");
 
   return response;
 }

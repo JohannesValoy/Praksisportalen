@@ -1,4 +1,4 @@
-/** @format */
+"use server";
 
 import { Knex } from "knex";
 import { createEmployees } from "@/services/EmployeeService";
@@ -201,21 +201,21 @@ export const seed = async function (knex: Knex) {
     {
       id: 1,
       name: "Kirugisk sengepost",
-      section_type: "Sengepost",
+      sectionType: "Sengepost",
       employeeID: "d4926208-8285-4bcd-91a3-f1ccab075e65",
       departmentID: 1,
     },
     {
       id: 2,
       name: "Kirugisk poliklinikk",
-      section_type: "Poliklinikk og dagbehandling",
+      sectionType: "Poliklinikk og dagbehandling",
       employeeID: "fb55fd09-6cb4-4189-a711-28412ed9749a",
       departmentID: 1,
     },
     {
       id: 3,
       name: "Akuttmottak",
-      section_type: "Spesialseksjon",
+      sectionType: "Spesialseksjon",
       employeeID: "499e26d4-be1a-4f05-b35d-90fe3035c6be",
       departmentID: 2,
     },

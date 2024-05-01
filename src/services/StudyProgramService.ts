@@ -9,6 +9,7 @@ import {
   StudyProgramPageRequest,
 } from "@/app/_models/StudyProgram";
 import { PageResponse } from "@/app/_models/pageinition";
+import "server-only";
 
 async function getStudyProgramObjectByID(id: number): Promise<StudyProgram> {
   const studyProgram = (await getStudyProgramObjectByIDList([id])).get(id);

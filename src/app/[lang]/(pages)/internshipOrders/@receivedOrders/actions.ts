@@ -45,29 +45,29 @@ export async function fetchOrders(): Promise<Order[]> {
     .innerJoin(
       "fieldGroups",
       "internshipOrders.id",
-      "fieldGroups.internshipOrderID",
+      "fieldGroups.internshipOrderID"
     )
     .innerJoin(
       "subFieldGroups",
       "fieldGroups.id",
-      "subFieldGroups.fieldGroupID",
+      "subFieldGroups.fieldGroupID"
     )
     .select("*");
   const studyPrograms = await DBclient.table("studyPrograms")
     .whereIn(
       "studyPrograms.id",
-      orders.map((order) => order.studyProgramID),
+      orders.map((order) => order.studyProgramID)
     )
     .select();
   const educationInstitutes = await DBclient.table("educationInstitutions")
     .select()
     .whereIn(
       "id",
-      studyPrograms.map((studyprogram) => studyprogram.educationInstitution_id),
+      studyPrograms.map((studyprogram) => studyprogram.educationInstitution_id)
     );
   const response = orders.map((order) => {
     const studyProgram = studyPrograms.find(
-      (studyprogram) => studyprogram.id === order.studyProgramID,
+      (studyprogram) => studyprogram.id === order.studyProgramID
     );
     return {
       ...order,
@@ -75,7 +75,7 @@ export async function fetchOrders(): Promise<Order[]> {
         ...studyProgram,
         educationInstitute: {
           ...educationInstitutes.find(
-            (institue) => institue.id === studyProgram.educationInstitution_id,
+            (institue) => institue.id === studyProgram.educationInstitution_id
           ),
         },
       },
@@ -84,34 +84,24 @@ export async function fetchOrders(): Promise<Order[]> {
   return response;
 }
 export async function paginateInternships(
-  request: InternshipPaginationRequest,
+  request: InternshipPaginationRequest
 ) {
-  console.log(
-    "-------------------------------- request --------------------------------- " +
-      JSON.stringify(request),
-  );
-  // Ensure section_id and yearOfStudy are processed as arrays of numbers
   request.section_id = [Number(request.section_id)];
   request.yearOfStudy = [Number(request.yearOfStudy)];
   const data = await getInternshipPositionObjectByPageRequest(request);
 
-  // Log the fetched data for debugging
-  console.log(JSON.stringify(data.elements, null, 2));
-
   // Handle each element to compute free spots
   const elementsPromises = data.elements.map(async (element) => {
-    console.log("element: " + JSON.stringify(element));
     // Fetch agreements related to the current element's ID
     const internshipAgreementPageRequest: InternshipAgreementPageRequest = {
       hasInternshipID: element.id,
     };
 
     const response = await getInternshipAgreementsByPageRequest(
-      internshipAgreementPageRequest,
+      internshipAgreementPageRequest
     );
 
     const agreementAmount = response.totalElements;
-    console.log("agreements: " + JSON.stringify(agreementAmount));
 
     // Calculate free spots by subtracting the number of agreements from current capacity
     const freeSpots = element.currentCapacity - agreementAmount;
@@ -144,7 +134,7 @@ export async function getInternshipTypes() {
 export async function saveOrderDistribution(
   subFieldGroupID: number,
   InternshipID: number,
-  amount: number,
+  amount: number
 ) {
   return DBclient.transaction(async (trx) => {
     const subFieldGroup = await trx("subFieldGroups")
@@ -152,14 +142,14 @@ export async function saveOrderDistribution(
       .join(
         "internshipOrders",
         "fieldGroups.internshipOrderID",
-        "internshipOrders.id",
+        "internshipOrders.id"
       )
       .select(
         "subFieldGroups.numStudents",
         "subFieldGroups.startWeek",
         "subFieldGroups.endWeek",
         "internshipOrders.studyProgramID",
-        "internshipOrders.comment",
+        "internshipOrders.comment"
       )
       .where("subFieldGroups.id", subFieldGroupID)
       .first();
@@ -168,7 +158,7 @@ export async function saveOrderDistribution(
     if (amount <= 0) throw new Error("Amount must be greater than 0.");
     if (subFieldGroup.numStudents < amount) {
       throw new Error(
-        "Not enough students in the subFieldGroup to distribute.",
+        "Not enough students in the subFieldGroup to distribute."
       );
     }
 

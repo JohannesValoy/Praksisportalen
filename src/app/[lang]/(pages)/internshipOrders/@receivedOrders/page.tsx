@@ -127,7 +127,7 @@ function Page() {
                 key={order.id}
                 className="card bg-base-100  text-base-content shadow-xl"
               >
-                <div className="card-body flex gap-5">
+                <div className="card-body flex gap-5 p-2 md:p-5">
                   <div className="flex flex-row items-center">
                     <div className="flex items-center flex-wrap flex-grow ml-4 gap-5">
                       <div className="text-lg font-bold">
@@ -145,7 +145,7 @@ function Page() {
                       </div>
                     </div>
                     <button
-                      className="btn btn-primary ml-5"
+                      className="btn btn-primary ml-2 md:ml-5"
                       onClick={() => {
                         setSelectedOrder(order);
                         setIsModalOpen(true);
@@ -170,31 +170,31 @@ function Page() {
           ></button>
           <div
             onSubmit={() => setIsModalOpen(false)}
-            className="fixed inset-0 flex items-center justify-center z-50 h-fit w-fit mx-auto my-auto"
+            className="fixed inset-0 flex items-center justify-center z-50 h-fit w-fit mx-auto my-auto p-1 m-1"
             aria-label="Internship Distribution Modal"
           >
-            <div className="flex flex-col bg-base-100 rounded-xl shadow-lg max-w-4xl w-full mx-auto p-8 gap-5">
+            <div className="flex flex-col bg-base-100 rounded-xl shadow-lg max-w-4xl w-full mx-auto md:p-8 gap-5">
               <h1 className="text-3xl font-bold text-center text-primary">
                 {selectedOrder?.studyProgram.name}
               </h1>
               <div className="flex flex-col gap-5 text-center justify-center  text-base-content w-full">
-                <div className="mx-auto">
-                  <div className="flex gap-2">
-                    Date:{" "}
-                    <div className="text-primary font-bold">
-                      {selectedOrder?.startWeek.toISOString().split("T")[0]}
-                    </div>
-                    {"     /     "}
-                    <div className="text-primary font-bold">
-                      {selectedOrder?.endWeek.toISOString().split("T")[0]}
-                    </div>
+                <div className="flex gap-2 mx-auto">
+                  Date:{" "}
+                  <div className="text-primary font-bold">
+                    {selectedOrder?.startWeek.toISOString().split("T")[0]}
+                  </div>
+                  {"     /     "}
+                  <div className="text-primary font-bold">
+                    {selectedOrder?.endWeek.toISOString().split("T")[0]}
                   </div>
                 </div>
                 <div className="mx-auto">
                   <div className="flex gap-2">
                     Students left to assign:{" "}
+                    <div className="font-bold text-primary">{studentsLeft}</div>
+                    {"     /     "}
                     <div className="font-bold text-primary">
-                      {studentsLeft}/{selectedOrder?.numStudents}
+                      {selectedOrder?.numStudents}
                     </div>
                   </div>
                 </div>
@@ -209,9 +209,11 @@ function Page() {
                   <thead>
                     <tr className="text-xs uppercase bg-base-200 text-base-content">
                       <th></th>
-                      <th>Navn</th>
-                      <th>Felt</th>
-                      <th>Ledig</th>
+                      <th onClick={() => setSortedBy("name")}>Navn</th>
+                      <th onClick={() => setSortedBy("internship_field")}>
+                        Felt
+                      </th>
+                      <th onClick={() => setSortedBy("freeSpots")}>Ledig</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -219,14 +221,19 @@ function Page() {
                       <tr
                         key={index}
                         className={`${selectedRows.includes(row) ? "bg-neutral" : "hover:bg-base-300"} cursor-pointer, rounded-lg`}
-                        onClick={() => toggleSelection(row)}
+                        onClick={() =>
+                          row.freeSpots > 0 && toggleSelection(row)
+                        }
                       >
                         <td>
                           <input
                             type="checkbox"
                             className="checkbox checkbox-primary"
                             checked={selectedRows.includes(row)}
-                            onChange={() => toggleSelection(row)}
+                            onChange={() =>
+                              row.freeSpots > 0 && toggleSelection(row)
+                            }
+                            disabled={row.freeSpots <= 0}
                           />
                         </td>
                         <td>{row.name}</td>
@@ -286,7 +293,7 @@ function Page() {
                       />
                     </svg>
                   </button>
-                  <span className="font-semibold join-item p-2 bg-neutral">
+                  <span className="font-semibold join-item p-2 bg-neutral text-center flex items-center">
                     {page + 1} / {totalPages}
                   </span>
                   <button
@@ -330,7 +337,16 @@ function Page() {
                     </svg>
                   </button>
                 </div>
-                <div>
+                <select
+                  className="font-semibold rounded-xl p-2 bg-neutral text-center flex items-center"
+                  onChange={(e) => setPageSize(parseInt(e.target.value))}
+                >
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="30">30</option>
+                  <option value="40">40</option>
+                </select>
+                <div className="">
                   <button
                     className="btn btn-neutral mr-2"
                     onClick={() => closeModal()}
@@ -345,20 +361,20 @@ function Page() {
                           "selectedOrder: " +
                             JSON.stringify(selectedOrder) +
                             " the given id from this is " +
-                            selectedOrder.id,
+                            selectedOrder.id
                         );
                         console.log(
-                          "selectedRow: " + JSON.stringify(selectedRow),
+                          "selectedRow: " + JSON.stringify(selectedRow)
                         );
                         console.log(
-                          "selectedRow.freeSpots: " + selectedRow.freeSpots,
+                          "selectedRow.freeSpots: " + selectedRow.freeSpots
                         );
                         console.log("studentsLeft: " + studentsLeft);
                         console.log(
                           Math.min(
                             selectedRow.freeSpots,
-                            selectedOrder?.numStudents,
-                          ),
+                            selectedOrder?.numStudents
+                          )
                         );
                         //TODO FIX THIS LOGIC
                         saveDistribution(
@@ -366,8 +382,8 @@ function Page() {
                           selectedRow.id,
                           Math.min(
                             selectedRow.freeSpots,
-                            selectedOrder?.numStudents,
-                          ),
+                            selectedOrder?.numStudents
+                          )
                         );
                       });
                     }}

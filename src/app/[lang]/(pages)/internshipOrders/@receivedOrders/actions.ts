@@ -9,13 +9,7 @@ import {
 } from "@/services/InternshipPositionService";
 import DBclient from "@/knex/config/DBClient";
 import "server-only";
-import { getStudentsByInternshipId } from "@/services/StudentService";
-import {
-  getInternshipAgreementObjectByID,
-  getInternshipAgreementObjectByIDList,
-  getInternshipAgreementsByPageRequest,
-  saveInternshipAgreementObject,
-} from "@/services/AgreementService";
+import { getInternshipAgreementsByPageRequest } from "@/services/AgreementService";
 import {
   InternshipAgreement,
   InternshipAgreementPageRequest,
@@ -149,6 +143,7 @@ export async function saveOrderDistribution(
         "internshipOrders.id"
       )
       .select(
+        "subFieldGroups.id",
         "subFieldGroups.numStudents",
         "subFieldGroups.startWeek",
         "subFieldGroups.endWeek",
@@ -166,6 +161,22 @@ export async function saveOrderDistribution(
       );
     }
 
+    const coordinatorID = await trx
+      .select("internshipOrders.coordinator_id")
+      .from("internshipOrders")
+      .innerJoin(
+        "fieldGroups",
+        "internshipOrders.id",
+        "fieldGroups.internshipOrderID"
+      )
+      .innerJoin(
+        "subFieldGroups",
+        "fieldGroups.id",
+        "subFieldGroups.fieldGroupID"
+      )
+      .where("subFieldGroups.id", subFieldGroup.id)
+      .first();
+
     const newNumStudents = subFieldGroup.numStudents - amount;
     await trx("subFieldGroups")
       .where("id", subFieldGroupID)
@@ -177,6 +188,7 @@ export async function saveOrderDistribution(
       studyProgram_id: subFieldGroup.studyProgramID,
       internship_id: InternshipID,
       comment: subFieldGroup.comment,
+      coordinator_id: coordinatorID.coordinator_id,
     }));
 
     await trx("internshipAgreements").insert(agreements);

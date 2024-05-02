@@ -36,8 +36,10 @@ export async function addInternshipField(data) {
  */
 export async function fetchStudyPrograms() {
   const user = await getUser();
+
+  console.log("user: " + JSON.stringify(user));
   const query = await DBclient.from("coordinators")
-    .where("email", user.email)
+    .where("coordinators.id", user.id)
     .innerJoin(
       "studyPrograms",
       "studyPrograms.educationInstitution_id",
@@ -72,6 +74,8 @@ interface formData {
  */
 export async function sendOrder(data: formData) {
   try {
+    const user = await getUser();
+    console.log("user: " + JSON.stringify(user));
     await DBclient.transaction(async () => {
       // Insert into internshipOrders table
       const [internshipOrderId] = await DBclient.table(
@@ -79,7 +83,9 @@ export async function sendOrder(data: formData) {
       ).insert({
         studyProgramID: data.studyProgram_id,
         comment: data.comment,
+        coordinator_id: user.id,
       });
+
       // For each fieldGroup in data, insert into fieldGroups table
       for (const fieldGroup of data.fieldGroups) {
         const [fieldGroupId] = await DBclient.table("fieldGroups").insert({

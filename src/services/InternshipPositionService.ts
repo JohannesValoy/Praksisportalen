@@ -86,9 +86,7 @@ async function getInternshipPositionObjectByPageRequest(
   let query = DBclient.from("internships")
     .select(
       "*",
-      DBclient.raw(
-        "availableInternshipsSpots(internships.id) as agreementCount"
-      )
+      DBclient.raw("availableInternshipsSpots(internships.id) as vacancies")
     )
     .where((builder) => {
       if (pageRequest.section_id && typeof pageRequest.section_id == "number") {
@@ -106,8 +104,8 @@ async function getInternshipPositionObjectByPageRequest(
       }
     });
 
-  if (pageRequest.sort === "agreementCount") {
-    query = query.orderBy("agreementCount", "desc");
+  if (pageRequest.sort === "vacancies") {
+    query = query.orderBy("vacancies", "desc");
   } else {
     query = query.orderBy(
       [

@@ -176,6 +176,11 @@ export async function up(knex: Knex): Promise<void> {
           .notNullable()
           .defaultTo("Pending");
         table.integer("studyProgramID").unsigned().notNullable();
+        table.string("coordinator_id").notNullable();
+        table
+          .foreign("coordinator_id")
+          .references("id")
+          .inTable("coordinators");
         table
           .foreign("studyProgramID")
           .references("id")

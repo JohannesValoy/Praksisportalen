@@ -1,3 +1,5 @@
+/** @format */
+
 import DBclient from "@/knex/config/DBClient";
 import type { CoordinatorTable } from "knex/types/tables.js";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -43,6 +45,7 @@ const passwordProvider = CredentialsProvider({
     }
     return (await bcrypt.compareSync(String(password), user.password))
       ? fromUserToUserAdapter({
+          id: user.id,
           email: user.email,
           name: user.name,
           role: Object.hasOwn(user, "role")

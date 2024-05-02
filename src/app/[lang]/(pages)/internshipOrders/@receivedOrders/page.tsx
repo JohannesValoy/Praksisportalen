@@ -14,6 +14,7 @@ import ContainerBox from "@/app/components/ContainerBox";
  */
 import ErrorModal from "@/app/components/ErrorModal";
 import InternshipDistributionModal from "./Modal";
+import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
 
 function Page() {
   //TODO: I see no reason to use a state here. The orders are fetched once and then displayed.
@@ -43,10 +44,12 @@ function Page() {
   const fetchInternships = useCallback(() => {
     if (!selectedOrder) return;
 
-    const params = {
+    const params: InternshipPaginationRequest = {
       page,
       size: 5,
       sort: sortedBy,
+      startDate: selectedOrder.startDate,
+      endDate: selectedOrder.endDate,
       field: selectedOrder.internshipField,
       yearOfStudy: selectedOrder.studyYear,
     };
@@ -73,7 +76,7 @@ function Page() {
   }, [isModalOpen, selectedOrder, fetchInternships]);
   const toggleSelection = (row) => {
     // Ignore selection if the internship has no free spots left
-    if (row.freeSpots <= 0) return;
+    if (row.vacancies <= 0) return;
 
     let currentIndex = selectedRows.indexOf(row);
     let newSelectedRows = [...selectedRows];
@@ -86,7 +89,7 @@ function Page() {
 
     // Recalculate vacanciesSelected with the updated newSelectedRows, only counting rows with free spots
     let vacanciesSelected = newSelectedRows.reduce((total, row) => {
-      return row.freeSpots > 0 ? total + row.freeSpots : total;
+      return row.va > 0 ? total + row.vacancies : total;
     }, 0);
 
     console.log("vacanciesSelected", vacanciesSelected);

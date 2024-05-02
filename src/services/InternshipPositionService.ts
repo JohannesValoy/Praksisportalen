@@ -86,7 +86,11 @@ async function getInternshipPositionObjectByPageRequest(
   let query = DBclient.from("internships")
     .select(
       "*",
-      DBclient.raw("availableInternshipsSpots(internships.id) as vacancies")
+      pageRequest.startDate && pageRequest.endDate
+        ? DBclient.raw(
+            `availableInternshipsSpotsBetweenDates(internships.id, ${new Date(pageRequest.startDate).toDateString()}, ${new Date(pageRequest.endDate).toDateString()}) as vacancies`
+          )
+        : DBclient.raw("availableInternshipsSpots(internships.id) as vacancies")
     )
     .where((builder) => {
       if (pageRequest.section_id && typeof pageRequest.section_id == "number") {

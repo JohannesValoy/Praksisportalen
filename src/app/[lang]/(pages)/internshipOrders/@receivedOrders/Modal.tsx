@@ -112,8 +112,8 @@ const InternshipDistributionModal: React.FC<
                 {rows.map((row, index) => (
                   <tr
                     key={index}
-                    className={`${selectedRows.includes(row) ? "bg-neutral" : "hover:bg-base-300"} cursor-pointer, rounded-lg`}
-                    onClick={() => row.freeSpots > 0 && toggleSelection(row)}
+                    className={`${selectedRows.includes(row) ? "bg-neutral text-neutral-content" : "hover:bg-base-300 "} cursor-pointer, rounded-lg`}
+                    onClick={() => row.vacancies > 0 && toggleSelection(row)}
                   >
                     <td>
                       <input
@@ -121,14 +121,14 @@ const InternshipDistributionModal: React.FC<
                         className="checkbox checkbox-primary"
                         checked={selectedRows.includes(row)}
                         onChange={() =>
-                          row.freeSpots > 0 && toggleSelection(row)
+                          row.vacancies > 0 && toggleSelection(row)
                         }
-                        disabled={row.freeSpots <= 0}
+                        disabled={row.vacancies <= 0}
                       />
                     </td>
                     <td>{row.name}</td>
                     <td>{row.currentCapacity}</td>
-                    <td>{row.freeSpots}</td>
+                    <td>{row.vacancies}</td>
                   </tr>
                 ))}
                 {rows.length === 0 && (

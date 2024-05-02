@@ -1,6 +1,6 @@
 import { getUser } from "@/lib/auth";
 
-import Profile from "./Profile";
+import Profile from "./Profiles";
 
 export default async function Page({
   params,

@@ -2,7 +2,7 @@
 
 "use client";
 import { useState } from "react";
-import DynamicTable from "@/app/components/DynamicTable";
+import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
 import { deleteDepartment, paginateDepartments } from "./actions";
 import AddDepartment from "../../../components/Modals/AddDepartmentModal";
 

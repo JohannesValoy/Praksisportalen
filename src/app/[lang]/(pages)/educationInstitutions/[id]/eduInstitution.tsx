@@ -3,15 +3,14 @@
 "use client";
 
 import { useState } from "react";
-import DynamicTable from "@/app/components/DynamicTable";
+import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
 import { editDetails } from "./action";
 import { EducationInstitution } from "@/app/_models/EducationInstitution";
 import {
   deleteStudyProgram,
   paginateStudyPrograms,
 } from "../../studyprograms/actions";
-import { deleteStudent, paginateStudents } from "../../users/students/actions";
-import router from "next/router";
+import StudentTable from "@/app/components/DynamicTables/StudentTable";
 
 export default function InstitutionPage({
   eduInstitution,
@@ -35,18 +34,6 @@ export default function InstitutionPage({
     await editDetails(eduInstitution.id, update);
 
     refreashPage();
-  };
-
-  const handleEmailClick = (user) => {
-    handleClick(user.id);
-  };
-
-  const clickableColumns = {
-    email: handleEmailClick,
-  };
-
-  const handleClick = (id: string) => {
-    router.push(`/profile/${id}`);
   };
 
   const refreashPage = () => {
@@ -132,25 +119,17 @@ export default function InstitutionPage({
         tableName={"Study Programs"}
         headers={{ Name: "name" }}
         onRowClick={() => {}}
-        filter={{ hasEducationInstitutionID: eduInstitution.id.toString() }}
+        filter={{ hasEducationInstitutionID: eduInstitution?.id.toString() }}
         onAddButtonClick={() => {
           window.location.href = `/studyprograms/add`;
         }}
         deleteFunction={deleteStudyProgram}
         paginateFunction={paginateStudyPrograms}
       />
-      <DynamicTable
-        tableName={"Students"}
-        headers={{ Name: "name", Email: "email" }}
-        onRowClick={() => {}}
-        buttonName={"Details"}
-        onAddButtonClick={() => {
-          window.location.href = `/users/students/add`;
+      <StudentTable
+        filter={{
+          educationInstitutionID: eduInstitution.id,
         }}
-        filter={{ educationInstitutionID: eduInstitution.id.toString() }}
-        clickableColumns={clickableColumns}
-        deleteFunction={deleteStudent}
-        paginateFunction={paginateStudents}
       />
     </>
   );

@@ -2,9 +2,7 @@
 
 "use client";
 import React from "react";
-import DynamicTable from "@/app/components/DynamicTable";
-import { deleteStudent, paginateStudents } from "./actions";
-import { useRouter } from "next/navigation";
+import StudentTable from "@/app/components/DynamicTables/StudentTable";
 
 export default function ListOfStudents({
   wordbook,
@@ -18,39 +16,11 @@ export default function ListOfStudents({
   readonly wordbook: { readonly [key: string]: string };
   readonly educationInstitutionID?: number;
 }) {
-  const headers = { Name: "name", Email: "email" };
-  const router = useRouter();
-
-  const handleEmailClick = (user) => {
-    handleClick(user.id);
-  };
-
-  const clickableColumns = {
-    email: handleEmailClick,
-  };
-
-  const handleClick = (id: string) => {
-    router.push(`/profile/${id}`);
-  };
-
   return (
-    <DynamicTable
-      tableName={"Students"}
-      headers={headers}
-      onRowClick={() => {}}
-      onRowButtonClick={(user) => {
-        handleClick(user.id);
-      }}
-      buttonName={"Details"}
-      onAddButtonClick={() => {
-        window.location.href = `/users/students/add`;
-      }}
+    <StudentTable
       filter={{
         educationInstitutionID: educationInstitutionID?.toString(),
       }}
-      clickableColumns={clickableColumns}
-      deleteFunction={deleteStudent}
-      paginateFunction={paginateStudents}
     />
   );
 }

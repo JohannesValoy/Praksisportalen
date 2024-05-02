@@ -3,13 +3,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import DynamicTable from "@/app/components/DynamicTable";
+import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
 import { deleteSection, paginateSections } from "../../sections/action";
 import { editDepartmentDetails } from "./action";
 import { fetchEmployees } from "../add/action";
-import Dropdown from "@/app/components/Dropdown";
 import { Department } from "@/app/_models/Department";
 import AddSection from "../../../../components/Modals/AddSectionModal";
+import EmployeeDropdown from "@/app/components/Dropdowns/EmployeeDropdown";
+import SectionTable from "@/app/components/DynamicTables/SectionTable";
 
 export default function DepartmentPage({
   user,
@@ -132,24 +133,10 @@ export default function DepartmentPage({
                       <div className="label">
                         <span className="label-text">Leader</span>
                       </div>
-                      <Dropdown
-                        dropdownName="Leader"
-                        options={employees}
-                        selectedOption={
-                          employees.find((user) => user.id === employeeID) ||
-                          null
-                        }
-                        setSelectedOption={(user) =>
-                          setEmployeeID(user.id as string)
-                        }
-                        onSearchChange={() => setEmployeeID(null)}
-                        customSubClassName="h-20"
-                        renderOption={(user) => (
-                          <>
-                            <div>{user.name}</div>
-                            <div>{user.email}</div>
-                          </>
-                        )}
+                      <EmployeeDropdown
+                        employees={employees}
+                        employeeID={employeeID}
+                        setEmployeeID={setEmployeeID}
                       />
                     </div>
 
@@ -177,9 +164,8 @@ export default function DepartmentPage({
         {isAddModalOpen && (
           <AddSection openModal={isAddModalOpen} onClose={closeAddModal} />
         )}
-        <DynamicTable
+        <SectionTable
           refreshKey={refreshKey}
-          tableName={"sections"}
           headers={{
             Name: "name",
             "Section Type": "sectionType",
@@ -188,17 +174,11 @@ export default function DepartmentPage({
             "Updated At": "updatedAt",
           }}
           filter={{ departmentID: department.id.toString() }}
-          onRowClick={() => {}}
-          onRowButtonClick={(row) => {
-            window.location.href = `/sections/${row.id}`;
-          }}
-          buttonName={"Details"}
           readonly={user.role !== "admin"}
           deleteFunction={deleteSection}
           onAddButtonClick={() => {
             setIsAddModalOpen(true);
           }}
-          paginateFunction={paginateSections}
         />
       </>
     </>

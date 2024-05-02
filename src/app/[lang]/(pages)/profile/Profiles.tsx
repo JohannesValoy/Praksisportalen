@@ -30,22 +30,10 @@ export default async function Profile({ user }: Readonly<{ user }>) {
   }
 
   return (
-    <div className="flex flex-row w-full h-full items-center justify-center">
-      <div className="flex flex-row gap-20 w-full h-full items-center justify-center p-10 ">
-        <div className="flex flex-col gap-5 items-center justify-center">
-          <div
-            style={{
-              width: "15rem",
-              height: "15rem",
-              overflow: "hidden",
-              borderRadius: "50%",
-            }}
-          ></div>
-          <h1>{user.name}</h1>
-          <p>Email: {user.email}</p>
-          {page}
-        </div>
-      </div>
+    <div className="flex flex-col items-center">
+      <h1>{user.name}</h1>
+      <p>Email: {user.email}</p>
+      {page}
     </div>
   );
 }

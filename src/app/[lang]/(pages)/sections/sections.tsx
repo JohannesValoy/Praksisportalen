@@ -2,16 +2,15 @@
 
 "use client";
 import { useState } from "react";
-import DynamicTable from "@/app/components/DynamicTable";
-import { deleteSection, paginateSections } from "./action";
+import { deleteSection } from "./action";
 import AddSection from "../../../components/Modals/AddSectionModal";
+import SectionTable from "@/app/components/DynamicTables/SectionTable";
 
 export default function ListOfSections({
   wordbook,
 }: {
   readonly wordbook: { readonly [key: string]: string };
 }) {
-  const headers = { Name: "name", Email: "email" };
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -25,20 +24,19 @@ export default function ListOfSections({
       {isAddModalOpen && (
         <AddSection openModal={isAddModalOpen} onClose={closeAddModal} />
       )}
-      <DynamicTable
+      <SectionTable
         refreshKey={refreshKey}
-        tableName={"Sections"}
-        headers={headers}
-        onRowClick={() => {}}
-        onRowButtonClick={(row) => {
-          window.location.href = `/sections/${row.id}`;
+        headers={{
+          Name: "name",
+          "Section Type": "sectionType",
+          "Leader Email": "email",
+          "Created At": "createdAt",
+          "Updated At": "updatedAt",
         }}
-        buttonName={"Details"}
+        deleteFunction={deleteSection}
         onAddButtonClick={() => {
           setIsAddModalOpen(true);
         }}
-        deleteFunction={deleteSection}
-        paginateFunction={paginateSections}
       />
     </>
   );

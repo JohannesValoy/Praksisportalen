@@ -4,9 +4,9 @@
 
 import { useEffect, useState } from "react";
 import { editDetails } from "./actions";
-import Dropdown from "@/app/components/Dropdown";
+import Dropdown from "@/app/components/Dropdowns/Dropdown";
 import { fetchInternshipFields, fetchSections } from "../add/action";
-import DynamicTable from "@/app/components/DynamicTable";
+import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
 import {
   deleteInternshipAgreement,
   paginateInternshipAgreements,
@@ -159,7 +159,7 @@ export default function InternshipPage({
                     <div className="w-full">
                       <p>Internship Field</p>
                       <Dropdown
-                        dropdownName="Choose section Type"
+                        dropdownName="Choose Internship Field"
                         options={internshipFields}
                         selectedOption={
                           internshipFields.find(

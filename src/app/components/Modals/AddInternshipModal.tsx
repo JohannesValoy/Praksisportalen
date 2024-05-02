@@ -1,7 +1,7 @@
 /** @format */
 "use client";
 
-import Dropdown from "@/app/components/Dropdown";
+import Dropdown from "@/app/components/Dropdowns/Dropdown";
 import { useEffect, useState } from "react";
 import {
   createInternship,

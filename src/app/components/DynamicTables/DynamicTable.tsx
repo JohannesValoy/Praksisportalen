@@ -3,10 +3,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Trash from "@/../public/Icons/trash";
 import Add from "@/../public/Icons/add";
-import { PageResponse } from "../_models/pageinition";
+import { PageResponse } from "../../_models/pageinition";
 import { useSearchParams } from "next/navigation";
-import ContainerBox from "./ContainerBox";
-import ErrorModal from "./ErrorModal";
+import ContainerBox from "../ContainerBox";
+import ErrorModal from "../ErrorModal";
 
 type DynamicTableProps = {
   tableName: string;

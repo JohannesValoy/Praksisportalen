@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { fetchUserDetails } from "../action";
-import Profile from "../Profile";
+import Profile from "../Profiles";
 
 export default async function Page({
   params,

@@ -13,7 +13,7 @@ const pieParams = { margin: { right: 5 }, height: 400, width: 400 };
 const AdminLayout = () => {
   return (
     <div className="flex flex-row items-center rounded-lg gap-20 ">
-      <div className="flex flex-col items-center h-full w-full">
+      <div className="flex flex-col items-center">
         <ContainerBox title={"Statistics"}>
           <PieChart
             series={[{ data: [{ value: 10 }, { value: 15 }, { value: 20 }] }]}
@@ -64,43 +64,45 @@ const AdminLayout = () => {
           </div>
         </ContainerBox>
       </div>
-      <div className="flex flex-col items-center w-full h-full">
+      <div className="flex flex-col items-center">
         <ContainerBox title={"Import Data"}>
           <Link href="bulkImport" className="btn btn-primary">
             Import Data from Excel
           </Link>
         </ContainerBox>
+        <div className="flex flex-row">
+          <ContainerBox title={"Hospital"} className="w-full">
+            <Link href="users/employees" className="btn btn-primary">
+              Employees
+            </Link>
+            <Link href="departments" className="btn btn-primary">
+              Departments
+            </Link>
+            <Link href="sections" className="btn btn-primary">
+              Sections
+            </Link>
+          </ContainerBox>
+          <ContainerBox title={"Internships"} className="w-full">
+            <Link href="internshipOrders" className="btn btn-primary">
+              Received Orders
+            </Link>
+            <Link href="internships" className="btn btn-primary">
+              Internships
+            </Link>
+            <Link href="internshipAgreements" className="btn btn-primary">
+              Internship Agreements
+            </Link>
+          </ContainerBox>
+        </div>
         <ContainerBox title={"Education Institution"}>
           <Link href="users/coordinators" className="btn btn-primary">
-            Koordinatorer
+            Coordinators
           </Link>
           <Link href="studyprograms" className="btn btn-primary">
             Studies
           </Link>
           <Link href="educationInstitutions" className="btn btn-primary">
             Education Institutions
-          </Link>
-        </ContainerBox>
-        <ContainerBox title={"Hospital"}>
-          <Link href="users/employees" className="btn btn-primary">
-            Ansatte
-          </Link>
-          <Link href="departments" className="btn btn-primary">
-            Avdelinger
-          </Link>
-          <Link href="sections" className="btn btn-primary">
-            Seksjoner
-          </Link>
-        </ContainerBox>
-        <ContainerBox title={"Internships"}>
-          <Link href="internshipOrders" className="btn btn-primary">
-            Received Orders
-          </Link>
-          <Link href="internships" className="btn btn-primary">
-            Internships
-          </Link>
-          <Link href="internshipAgreements" className="btn btn-primary">
-            Internship Agreements
           </Link>
         </ContainerBox>
       </div>

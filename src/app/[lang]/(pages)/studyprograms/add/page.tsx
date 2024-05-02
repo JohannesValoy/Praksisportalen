@@ -7,7 +7,7 @@ import {
   fetchEducationInstitutions,
   fetchStudyPrograms,
 } from "./action";
-import Dropdown from "@/app/components/Dropdown";
+import Dropdown from "@/app/components/Dropdowns/Dropdown";
 import ContainerBox from "@/app/components/ContainerBox";
 
 /**

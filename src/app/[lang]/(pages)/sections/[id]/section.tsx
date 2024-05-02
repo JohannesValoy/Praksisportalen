@@ -3,16 +3,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import DynamicTable from "@/app/components/DynamicTable";
+import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
 import { editSectionDetails } from "./action";
 import {
   deleteInternship,
   paginateInternships,
 } from "../../internships/action";
 import { fetchEmployees, fetchSectionTypes } from "../add/action";
-import Dropdown from "@/app/components/Dropdown";
+import Dropdown from "@/app/components/Dropdowns/Dropdown";
 import { Section } from "@/app/_models/Section";
 import AddInternship from "../../../../components/Modals/AddInternshipModal";
+import EmployeeDropdown from "@/app/components/Dropdowns/EmployeeDropdown";
 
 export default function SectionPage({
   section,
@@ -149,24 +150,10 @@ export default function SectionPage({
                       <div className="label">
                         <span className="label-text">Leader</span>
                       </div>
-                      <Dropdown
-                        dropdownName="Leader"
-                        options={employees}
-                        selectedOption={
-                          employees.find((user) => user.id === employeeID) ||
-                          null
-                        }
-                        setSelectedOption={(user) =>
-                          setEmployeeID(user.id as string)
-                        }
-                        onSearchChange={() => setEmployeeID(null)}
-                        customSubClassName="h-20"
-                        renderOption={(user) => (
-                          <>
-                            <div>{user.name}</div>
-                            <div>{user.email}</div>
-                          </>
-                        )}
+                      <EmployeeDropdown
+                        employees={employees}
+                        employeeID={employeeID}
+                        setEmployeeID={setEmployeeID}
                       />
                     </div>
 

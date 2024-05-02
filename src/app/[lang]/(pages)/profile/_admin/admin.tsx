@@ -2,26 +2,21 @@
 
 "use client";
 
-import DynamicTable from "@/app/components/DynamicTable";
-import { paginateSections } from "../../sections/action";
+import SectionTable from "@/app/components/DynamicTables/SectionTable";
 
 export default function AdminPage({ user }) {
   return (
-    <DynamicTable
-      tableName={"sections"}
-      headers={{
-        Name: "name",
-        Type: "sectionType",
-        Department: "departmentID",
-      }}
-      filter={{ hasEmployeeID: user.id }}
-      onRowClick={() => {}}
-      onRowButtonClick={(row) => {
-        window.location.href = `/sections/${row.id}`;
-      }}
-      buttonName={"Details"}
-      readonly={true}
-      paginateFunction={paginateSections}
-    />
+    <>
+      <SectionTable
+        headers={{
+          Name: "name",
+          "Section Type": "sectionType",
+          "Leader Email": "email",
+          "Created At": "createdAt",
+          "Updated At": "updatedAt",
+        }}
+        filter={{ hasEmployeeID: user.id }}
+      />
+    </>
   );
 }

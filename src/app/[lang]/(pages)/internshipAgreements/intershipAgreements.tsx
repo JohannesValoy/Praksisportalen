@@ -3,7 +3,7 @@
 
 "use client";
 import React from "react";
-import DynamicTable from "@/app/components/DynamicTable";
+import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
 import {
   deleteInternshipAgreement,
   paginateInternshipAgreements,

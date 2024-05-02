@@ -1,7 +1,7 @@
 "use client";
 import { ThemeContext } from "@/context/ThemeContext";
 import { useContext } from "react";
-import ThemeSwap from "../ThemeChanger";
+import ThemeSwap from "./ThemeChanger";
 
 /**
  * A component that allows the user to change the theme of the application.

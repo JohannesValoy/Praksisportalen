@@ -3,7 +3,6 @@
 "use client";
 
 import ContainerBox from "@/app/components/ContainerBox";
-import Dropdown from "@/app/components/Dropdown";
 import { useState, useEffect } from "react";
 import {
   createDepartment,
@@ -11,6 +10,7 @@ import {
   fetchEmployees,
 } from "../../[lang]/(pages)/departments/add/action";
 import AddEmployee from "./AddLeaderModal";
+import EmployeeDropdown from "../Dropdowns/EmployeeDropdown";
 
 type Props = {
   openModal: boolean;
@@ -112,22 +112,10 @@ export default function AddDepartment({ openModal, onClose }: Readonly<Props>) {
               <div>
                 <p>Optional</p>
                 <div className="flex flex-row mb-2">
-                  <Dropdown
-                    dropdownName="Leader"
-                    options={employees}
-                    selectedOption={
-                      employees.find((user) => user.id === employeeID) || null
-                    }
-                    setSelectedOption={(user) =>
-                      setEmployeeID(user.id as string)
-                    }
-                    onSearchChange={() => setEmployeeID(null)}
-                    renderOption={(user) => (
-                      <>
-                        <div>{user.name}</div>
-                        <div>{user.email}</div>
-                      </>
-                    )}
+                  <EmployeeDropdown
+                    employees={employees}
+                    employeeID={employeeID}
+                    setEmployeeID={setEmployeeID}
                   />
                   <button
                     type="button"

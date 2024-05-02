@@ -45,6 +45,10 @@ install:
   stage: install
   cache:
     policy: push
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - node_modules/
+      - public/
   script:
     - bun install --also=dev
 

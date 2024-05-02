@@ -372,6 +372,19 @@ export async function up(knex: Knex): Promise<void> {
       END; 
       `
       )
+      .raw(
+        `
+      CREATE FUNCTION IF NOT EXISTS availableInternshipsSpots(internshipID INT, startWeek DATE, endWeek DATE) RETURNS INT
+      DETERMINISTIC
+      BEGIN
+        DECLARE internCapacity INT;
+        DECLARE internshipAgreementCount INT;
+        SELECT currentCapacity INTO internCapacity FROM internships WHERE id = internshipID;
+        SELECT COUNT(*) INTO internshipAgreementCount FROM internshipAgreements WHERE internship_id = internshipID AND (startWeek BETWEEN startDate AND endDate) AMD (endWeek BETWEEN startDate AND endDate);
+        RETURN internCapacity - internshipAgreementCount;
+      END; 
+      `
+      )
   );
 }
 /**

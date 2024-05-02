@@ -269,7 +269,7 @@ const InternshipDistributionModal: React.FC<
                       selectedOrder.id,
                       selectedRow.id,
                       Math.min(
-                        selectedRow.freeSpots,
+                        selectedRow.vacancies,
                         selectedOrder?.numStudents -
                           selectedOrder?.numStudentsAccepted
                       )

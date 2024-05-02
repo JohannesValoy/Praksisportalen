@@ -220,6 +220,11 @@ export async function up(knex: Knex): Promise<void> {
           .onUpdate("CASCADE")
           .onDelete("CASCADE");
         table.check("?? <= ??", ["startWeek", "endWeek"]);
+        table.check(
+          "?? >= 0",
+          ["numStudentsAccepted"],
+          "numStudentsAcceptedIsPositive"
+        );
       })
       .createTable("timeIntervals", (table) => {
         table.increments("id").primary();

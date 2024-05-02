@@ -75,6 +75,7 @@ function Page() {
     }
   }, [isModalOpen, selectedOrder, fetchInternships]);
   const toggleSelection = (row) => {
+    console.log("row selected");
     // Ignore selection if the internship has no free spots left
     if (row.vacancies <= 0) return;
 
@@ -89,7 +90,7 @@ function Page() {
 
     // Recalculate vacanciesSelected with the updated newSelectedRows, only counting rows with free spots
     let vacanciesSelected = newSelectedRows.reduce((total, row) => {
-      return row.va > 0 ? total + row.vacancies : total;
+      return row.vacancies > 0 ? total + row.vacancies : total;
     }, 0);
 
     setSelectedRows(newSelectedRows);
@@ -101,6 +102,11 @@ function Page() {
           vacanciesSelected
       )
     ); // Ensure it never goes negative
+    if (vacanciesSelected < 0) {
+      throw new Error("Vacancies selected is negative: " + vacanciesSelected);
+    }
+
+    console.log("Students left: " + studentsLeft);
   };
 
   function saveDistribution(subFieldGroupID, InternshipID, amount) {

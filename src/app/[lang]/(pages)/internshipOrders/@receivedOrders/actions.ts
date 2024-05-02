@@ -149,6 +149,9 @@ export async function saveOrderDistribution(
 
     const newNumStudents = subFieldGroup.numStudents - amount;
     const numStudentsAccepted = subFieldGroup.numStudentsAccepted + amount;
+    console.log("Amount: " + amount);
+    console.log("numStudentsAccepted", numStudentsAccepted);
+    console.log(JSON.stringify(subFieldGroup, null, 2));
 
     await trx("subFieldGroups")
       .where("id", subFieldGroupID)

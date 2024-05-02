@@ -1,4 +1,3 @@
-/** @format */
 "use client";
 import React, { useEffect, useState } from "react";
 import { Order, fetchOrders } from "./actions";

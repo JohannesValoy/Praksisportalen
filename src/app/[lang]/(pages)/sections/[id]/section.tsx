@@ -1,20 +1,14 @@
-/** @format */
-
 "use client";
 
 import { useEffect, useState } from "react";
-import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
 import { editSectionDetails } from "./action";
-import {
-  deleteInternship,
-  paginateInternships,
-} from "../../internships/action";
 import { fetchEmployees, fetchSectionTypes } from "../add/action";
 import Dropdown from "@/app/components/Dropdowns/Dropdown";
 import { Section } from "@/app/_models/Section";
 import AddInternship from "../../../../components/Modals/AddInternshipModal";
 import EmployeeDropdown from "@/app/components/Dropdowns/EmployeeDropdown";
 import EditModal from "@/app/components/Modals/EditModal";
+import InternshipTable from "@/app/components/DynamicTables/InternshipTable";
 
 export default function SectionPage({
   section,
@@ -174,29 +168,12 @@ export default function SectionPage({
         {isAddModalOpen && (
           <AddInternship openModal={isAddModalOpen} onClose={closeAddModal} />
         )}
-        <DynamicTable
+        <InternshipTable
           refreshKey={refreshKey}
-          tableName={"internships"}
-          headers={{
-            Name: "name",
-            "Internship Field": "internshipField",
-            "Max Capacity": "maxCapacity",
-            "Current Capacity": "currentCapacity",
-            "Number of Beds": "numberOfBeds",
-            "Created At": "createdAt",
-            "Updated At": "updatedAt",
-          }}
           filter={{ departmentID: section.id.toString() }}
-          onRowClick={() => {}}
-          onRowButtonClick={(row) => {
-            window.location.href = `/internships/${row.id}`;
-          }}
-          buttonName={"Details"}
-          deleteFunction={deleteInternship}
           onAddButtonClick={() => {
             setIsAddModalOpen(true);
           }}
-          paginateFunction={paginateInternships}
         />
       </>
     </>

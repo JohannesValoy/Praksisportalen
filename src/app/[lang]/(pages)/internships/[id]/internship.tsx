@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -11,6 +9,7 @@ import {
   deleteInternshipAgreement,
   paginateInternshipAgreements,
 } from "../../internshipAgreements/actions";
+import EditModal from "@/app/components/Modals/EditModal";
 
 export default function InternshipPage({
   user,
@@ -110,7 +109,7 @@ export default function InternshipPage({
           <dialog open={showModal === true} className="modal">
             <div className="modal-box">
               <div className="flex flex-row justify-between w-full">
-                <h2 className="font-bold text-lg">Edit {internship?.name}</h2>
+                <h2 className="font-bold text-lg">Edit</h2>
                 <button
                   onClick={() => setShowModal(false)}
                   type="button"
@@ -119,139 +118,104 @@ export default function InternshipPage({
                   x
                 </button>
               </div>
+              <h3 className="text-xl">{internship?.name}</h3>
 
-              <div className="modal-action">
-                <form
-                  className="w-full"
-                  method="dialog"
-                  onSubmit={handleSubmit}
-                >
-                  <div className="flex flex-col items-center w-full gap-6">
-                    <label className="form-control w-full ">
-                      <div className="label">
-                        <span className="label-text">Name</span>
-                      </div>
-                      <input
-                        type="text"
-                        placeholder="Internship Name"
-                        className="input input-bordered text-base-content"
-                        onChange={(e) => setName(e.target.value)}
-                        value={name}
-                        maxLength={255}
-                        aria-label="Set Internship Name"
-                      />
-                    </label>
-                    <div className="w-full">
-                      <p>Section</p>
-                      <div className="flex flex-row mb-2 ">
-                        <Dropdown
-                          dropdownName="Choose section"
-                          options={sections}
-                          selectedOption={
-                            sections.find((sc) => sc.id === sectionID) || null
-                          }
-                          setSelectedOption={(sc) => setSectionID(sc.id)}
-                          onSearchChange={() => setSectionID(null)}
-                          renderOption={(section) => <>{section.name}</>}
-                        />
-                      </div>
-                    </div>
-                    <div className="w-full">
-                      <p>Internship Field</p>
-                      <Dropdown
-                        dropdownName="Choose Internship Field"
-                        options={internshipFields}
-                        selectedOption={
-                          internshipFields.find(
-                            (field) => field.name === internshipField,
-                          ) || null
-                        }
-                        setSelectedOption={(field) =>
-                          setInternshipField(field.name)
-                        }
-                        onSearchChange={() => setInternshipField(null)}
-                        renderOption={(field) => <>{field.name}</>}
-                      />
-                    </div>
-                    <label className="form-control w-full mb-2">
-                      <div className="label">
-                        <span className="label-text text-xl">
-                          Current max capacity
-                        </span>
-                      </div>
-                      <input
-                        type="number"
-                        placeholder="Current max capacity"
-                        className="input input-bordered text-base-content w-full"
-                        onChange={(e) =>
-                          setCurrentCapacity(Number(e.target.value))
-                        }
-                        aria-label="Set Current max capacity"
-                      />
-                    </label>
-                    <label className="form-control w-full mb-2">
-                      <div className="label">
-                        <span className="label-text text-xl">Max Capacity</span>
-                      </div>
-                      <input
-                        type="number"
-                        placeholder="Max Capacity"
-                        className="input input-bordered text-base-content w-full"
-                        onChange={(e) => setMaxCapacity(Number(e.target.value))}
-                        aria-label="Set Max Capacity"
-                      />
-                    </label>
-                    <label className="form-control w-full mb-2">
-                      <div className="label">
-                        <span className="label-text text-xl">
-                          Number of Beds
-                        </span>
-                      </div>
-                      <input
-                        type="number"
-                        placeholder="Number of Beds"
-                        className="input input-bordered text-base-content w-full"
-                        onChange={(e) =>
-                          setNumberOfBeds(Number(e.target.value))
-                        }
-                        aria-label="Set Number of Beds"
-                      />
-                    </label>
-                    <label className="form-control w-full mb-2">
-                      <div className="label">
-                        <span className="label-text text-xl">
-                          Year of Study
-                        </span>
-                      </div>
-                      <input
-                        type="number"
-                        placeholder="Year of Study"
-                        className="input input-bordered text-base-content w-full"
-                        onChange={(e) => setYearOfStudy(Number(e.target.value))}
-                        aria-label="Set Year of Study"
-                      />
-                    </label>
-
-                    <div className="flex flex-row justify-end w-full">
-                      <button
-                        type="submit"
-                        className="btn btn-accent"
-                        disabled={
-                          !name &&
-                          !sectionID &&
-                          !internshipField &&
-                          !maxCapacity &&
-                          !currentCapacity &&
-                          !numberOfBeds &&
-                          !yearOfStudy
-                        }
-                      >
-                        Save
-                      </button>
-                    </div>
+              <EditModal
+                setName={setName}
+                handleSubmit={handleSubmit}
+                disabled={
+                  !name &&
+                  !sectionID &&
+                  !internshipField &&
+                  !maxCapacity &&
+                  !currentCapacity &&
+                  !numberOfBeds &&
+                  !yearOfStudy
+                }
+              >
+                <div className="w-full">
+                  <p>Section</p>
+                  <div className="flex flex-row mb-2 ">
+                    <Dropdown
+                      dropdownName="Choose section"
+                      options={sections}
+                      selectedOption={
+                        sections.find((sc) => sc.id === sectionID) || null
+                      }
+                      setSelectedOption={(sc) => setSectionID(sc.id)}
+                      onSearchChange={() => setSectionID(null)}
+                      renderOption={(section) => <>{section.name}</>}
+                    />
                   </div>
-                </form>
-              </div>
+                </div>
+                <div className="w-full">
+                  <p>Internship Field</p>
+                  <Dropdown
+                    dropdownName="Choose Internship Field"
+                    options={internshipFields}
+                    selectedOption={
+                      internshipFields.find(
+                        (field) => field.name === internshipField,
+                      ) || null
+                    }
+                    setSelectedOption={(field) =>
+                      setInternshipField(field.name)
+                    }
+                    onSearchChange={() => setInternshipField(null)}
+                    renderOption={(field) => <>{field.name}</>}
+                  />
+                </div>
+                <label className="form-control w-full mb-2">
+                  <div className="label">
+                    <span className="label-text text-xl">
+                      Current max capacity
+                    </span>
+                  </div>
+                  <input
+                    type="number"
+                    placeholder="Current max capacity"
+                    className="input input-bordered text-base-content w-full"
+                    onChange={(e) => setCurrentCapacity(Number(e.target.value))}
+                    aria-label="Set Current max capacity"
+                  />
+                </label>
+                <label className="form-control w-full mb-2">
+                  <div className="label">
+                    <span className="label-text text-xl">Max Capacity</span>
+                  </div>
+                  <input
+                    type="number"
+                    placeholder="Max Capacity"
+                    className="input input-bordered text-base-content w-full"
+                    onChange={(e) => setMaxCapacity(Number(e.target.value))}
+                    aria-label="Set Max Capacity"
+                  />
+                </label>
+                <label className="form-control w-full mb-2">
+                  <div className="label">
+                    <span className="label-text text-xl">Number of Beds</span>
+                  </div>
+                  <input
+                    type="number"
+                    placeholder="Number of Beds"
+                    className="input input-bordered text-base-content w-full"
+                    onChange={(e) => setNumberOfBeds(Number(e.target.value))}
+                    aria-label="Set Number of Beds"
+                  />
+                </label>
+                <label className="form-control w-full mb-2">
+                  <div className="label">
+                    <span className="label-text text-xl">Year of Study</span>
+                  </div>
+                  <input
+                    type="number"
+                    placeholder="Year of Study"
+                    className="input input-bordered text-base-content w-full"
+                    onChange={(e) => setYearOfStudy(Number(e.target.value))}
+                    aria-label="Set Year of Study"
+                  />
+                </label>
+              </EditModal>
             </div>
           </dialog>
         </div>

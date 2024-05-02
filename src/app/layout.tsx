@@ -48,7 +48,17 @@ export default async function RootLayout({
                   <ul className="dropdown-content z-[1] menu p-4 shadow bg-base-300 text-base-content rounded-box w-52">
                     <li className="gap-4">
                       <Theme />
-                      <LogoutButton hide={!(await getServerSession())?.user} />
+                      {(await getServerSession())?.user && (
+                        <>
+                          <Link
+                            href={"/profile"}
+                            className="btn btn-primary text-primary-content"
+                          >
+                            Profile
+                          </Link>
+                          <LogoutButton />
+                        </>
+                      )}
                     </li>
                   </ul>
                 </div>

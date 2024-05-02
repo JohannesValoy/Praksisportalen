@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -138,13 +136,6 @@ export default function DepartmentPage({
         )}
         <SectionTable
           refreshKey={refreshKey}
-          headers={{
-            Name: "name",
-            "Section Type": "sectionType",
-            "Leader Email": "email",
-            "Created At": "createdAt",
-            "Updated At": "updatedAt",
-          }}
           filter={{ departmentID: department.id.toString() }}
           readonly={user.role !== "admin"}
           deleteFunction={deleteSection}

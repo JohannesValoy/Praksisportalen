@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 
 import ContainerBox from "@/app/components/ContainerBox";

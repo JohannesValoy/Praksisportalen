@@ -9,13 +9,13 @@ import React from "react";
  * @param root.hide A boolean that determines whether the button is hidden or not. Defaults to true.
  * @returns A button that logs the user out of the application
  */
-export function LogoutButton({ hide = true }): React.ReactNode {
+export function LogoutButton(): React.ReactNode {
   const router = useRouter();
 
   return (
     <button
       id="logout"
-      className={`btn btn-error ${hide ? "hidden" : ""}`}
+      className={`btn btn-error text-error-content`}
       onClick={async () => {
         await signOut({ redirect: false });
         document.getElementById("logout")?.classList.add("hidden");

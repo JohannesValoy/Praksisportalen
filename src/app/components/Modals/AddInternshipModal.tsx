@@ -1,4 +1,3 @@
-/** @format */
 "use client";
 
 import Dropdown from "@/app/components/Dropdowns/Dropdown";

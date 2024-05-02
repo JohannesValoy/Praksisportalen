@@ -1,21 +1,13 @@
-/** @format */
-
 "use client";
 import { useState } from "react";
-import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
-import { deleteInternship, paginateInternships } from "./action";
 import AddInternship from "../../../components/Modals/AddInternshipModal";
+import InternshipTable from "@/app/components/DynamicTables/InternshipTable";
 
 export default function ListOfInternships({
   wordbook,
 }: {
   readonly wordbook: { readonly [key: string]: string };
 }) {
-  const headers = {
-    "Internship name": "name",
-    "Max Capacity": "maxCapacity",
-    "Current Capacity": "currentCapacity",
-  };
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -29,20 +21,11 @@ export default function ListOfInternships({
       {isAddModalOpen && (
         <AddInternship openModal={isAddModalOpen} onClose={closeAddModal} />
       )}
-      <DynamicTable
+      <InternshipTable
         refreshKey={refreshKey}
-        tableName={"Internships"}
-        headers={headers}
-        onRowClick={() => {}}
-        onRowButtonClick={(row) => {
-          window.location.href = `/internships/${row.id}`;
-        }}
-        buttonName={"Details"}
         onAddButtonClick={() => {
           setIsAddModalOpen(true);
         }}
-        deleteFunction={deleteInternship}
-        paginateFunction={paginateInternships}
       />
     </>
   );

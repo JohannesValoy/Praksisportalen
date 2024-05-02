@@ -1,13 +1,9 @@
-/** @format */
-
 "use client";
 import { useState } from "react";
-import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
-import { deleteDepartment, paginateDepartments } from "./actions";
 import AddDepartment from "../../../components/Modals/AddDepartmentModal";
+import DepartmentTable from "@/app/components/DynamicTables/DepartmentTable";
 
 const ListOfDepartments = ({ user }) => {
-  const headers = { "Department name": "name", "Leader Email": "email" };
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -21,21 +17,12 @@ const ListOfDepartments = ({ user }) => {
       {isAddModalOpen && (
         <AddDepartment openModal={isAddModalOpen} onClose={closeAddModal} />
       )}
-      <DynamicTable
+      <DepartmentTable
         refreshKey={refreshKey}
-        tableName={"Departments"}
-        headers={headers}
-        onRowClick={() => {}}
-        onRowButtonClick={(row) => {
-          window.location.href = `/departments/${row.id}`;
-        }}
-        buttonName={"Details"}
+        readonly={user.role !== "admin"}
         onAddButtonClick={() => {
           setIsAddModalOpen(true);
         }}
-        readonly={user.role !== "admin"}
-        deleteFunction={deleteDepartment}
-        paginateFunction={paginateDepartments}
       />
     </>
   );

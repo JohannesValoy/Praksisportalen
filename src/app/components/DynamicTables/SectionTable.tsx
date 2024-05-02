@@ -4,7 +4,6 @@ import { paginateSections } from "@/app/[lang]/(pages)/sections/action";
 
 interface SectionTableProps {
   refreshKey?: any;
-  headers: any;
   filter?: any;
   readonly?: boolean;
   deleteFunction?: any;
@@ -13,7 +12,6 @@ interface SectionTableProps {
 
 const SectionTable: React.FC<SectionTableProps> = ({
   refreshKey,
-  headers,
   filter,
   readonly,
   deleteFunction,
@@ -23,7 +21,13 @@ const SectionTable: React.FC<SectionTableProps> = ({
     <DynamicTable
       refreshKey={refreshKey}
       tableName={"Sections"}
-      headers={headers}
+      headers={{
+        "Section name": "name",
+        "Section Type": "sectionType",
+        "Leader Email": "email",
+        "Created At": "createdAt",
+        "Updated At": "updatedAt",
+      }}
       filter={filter}
       onRowClick={() => {}}
       onRowButtonClick={(row) => {

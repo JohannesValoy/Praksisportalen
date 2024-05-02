@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 import { useState } from "react";
 import { deleteSection } from "./action";
@@ -26,13 +24,6 @@ export default function ListOfSections({
       )}
       <SectionTable
         refreshKey={refreshKey}
-        headers={{
-          Name: "name",
-          "Section Type": "sectionType",
-          "Leader Email": "email",
-          "Created At": "createdAt",
-          "Updated At": "updatedAt",
-        }}
         deleteFunction={deleteSection}
         onAddButtonClick={() => {
           setIsAddModalOpen(true);

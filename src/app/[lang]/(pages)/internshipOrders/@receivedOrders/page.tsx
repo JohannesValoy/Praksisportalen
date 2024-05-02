@@ -102,6 +102,7 @@ function Page() {
     }
   };
 
+  //TODO make it save even with only status
   function saveDistribution(subFieldGroupID, InternshipID, amount) {
     saveOrderDistribution(subFieldGroupID, InternshipID, amount, status)
       .then(() => {

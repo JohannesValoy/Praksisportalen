@@ -101,7 +101,6 @@ export async function paginateInternships(
     );
 
     const agreementAmount = response.totalElements;
-    console.log(element);
     // Calculate free spots by subtracting the number of agreements from current capacity
     //TODO make this the vacancies from the object
     const freeSpots = element.currentCapacity - agreementAmount;
@@ -184,14 +183,7 @@ export async function saveOrderDistribution(
 
     const newNumStudents = subFieldGroup.numStudents - amount;
     const numStudentsAccepted = subFieldGroup.numStudentsAccepted + amount;
-    console.log(
-      "numStudentsAccepted: " +
-        numStudentsAccepted +
-        " + " +
-        amount +
-        " subfileddGroup = " +
-        JSON.stringify(subFieldGroup)
-    );
+   
     await trx("subFieldGroups")
       .where("id", subFieldGroupID)
       .update({ numStudentsAccepted: numStudentsAccepted });

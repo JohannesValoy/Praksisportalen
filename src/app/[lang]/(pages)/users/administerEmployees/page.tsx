@@ -1,4 +1,8 @@
+/** @format */
+
 "use client";
+
+import React from "react";
 import DynamicTable from "@/app/components/DynamicTable";
 import { paginateEmployees } from "./actions";
 import { deleteEmployee } from "@/services/EmployeeService";
@@ -8,11 +12,9 @@ import { useState } from "react";
 const ListOfEmployees = ({ params }) => {
   const [words, setWords] = useState<any>({});
   getDictionary(params.lang).then((words) =>
-    setWords(words?.administerEmployees),
+    setWords(words?.administerEmployees)
   );
   const headers = { Name: "name", Email: "email" };
-  console.log(params.lang);
-  console.log("words", words);
   const handleEmailClick = (row) => {
     window.location.href = `/profile?id=${row.id}`;
   };

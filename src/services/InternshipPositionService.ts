@@ -131,7 +131,6 @@ async function getInternshipPositionObjectByPageRequest(
     .forEach((result) => {
       internships.push(result);
     });
-  console.log(internships);
   return {
     ...pageRequest,
     elements: internships,

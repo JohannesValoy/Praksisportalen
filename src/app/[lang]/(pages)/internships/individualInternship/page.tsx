@@ -1,3 +1,5 @@
+/** @format */
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -46,7 +48,6 @@ const InternshipComponent = () => {
       getIndividualInternship(internship_id)
         .then((data) => {
           setInternship(data);
-          console.log(data);
           const dataList: DataItem[] = data.timeIntervals.map(
             (interval: any, index: number) => ({
               id: index + 1,
@@ -54,16 +55,15 @@ const InternshipComponent = () => {
               name: `Interval ${index + 1}`,
               startDate: new Date(interval.startDate),
               endDate: new Date(interval.endDate),
-            }),
+            })
           );
           setDatalist(dataList);
         })
         .catch((error) =>
-          console.error("Failed to fetch internship details:", error),
+          console.error("Failed to fetch internship details:", error)
         );
     }
   }, [internship_id]);
-  console.log(internship);
   return (
     <div className=" w-full h-full">
       {internship ? (

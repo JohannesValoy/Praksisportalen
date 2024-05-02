@@ -103,7 +103,6 @@ async function getInternshipAgreementsByPageRequest(
 async function getInternshipAgreementsByInternshipRequest(
   internshipRequest: InternshipPaginationRequest
 ) {
-  console.log("internshipRequest: " + JSON.stringify(internshipRequest));
   const internships = await DBclient("internships")
     .leftJoin(
       "internshipAgreements",
@@ -163,7 +162,6 @@ const InternshipAgreementSchema = z.object({
 async function saveInternshipAgreementObject(
   agreement: InternshipAgreement
 ): Promise<string> {
-  console.log("in service: agreement: " + JSON.stringify(agreement));
   try {
     const validatedAgreement = InternshipAgreementSchema.parse(agreement);
     if (validatedAgreement.startDate > validatedAgreement.endDate) {

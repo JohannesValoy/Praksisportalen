@@ -7,14 +7,14 @@ import {
   paginateInternships,
   saveOrderDistribution,
 } from "./actions";
-import ContainerBox from "@/app/components/ContainerBox";
+import ErrorModal from "@/app/components/ErrorModal";
+import InternshipDistributionModal from "./Modal";
+import ListOfOrders from "./ListOfOrders";
+
 /**
  * The page to display received orders.
  * @returns The page to display received orders.
  */
-import ErrorModal from "@/app/components/ErrorModal";
-import InternshipDistributionModal from "./Modal";
-
 function Page() {
   //TODO: I see no reason to use a state here. The orders are fetched once and then displayed.
   const [orders, setOrders] = useState([]);
@@ -89,8 +89,6 @@ function Page() {
       return row.freeSpots > 0 ? total + row.freeSpots : total;
     }, 0);
 
-    console.log("vacanciesSelected", vacanciesSelected);
-
     setSelectedRows(newSelectedRows);
     setStudentsLeft(
       Math.max(
@@ -127,57 +125,13 @@ function Page() {
     setStudentsLeft(0);
   };
 
-  useEffect(() => {
-    console.log("Component has re-rendered");
-  });
-
-  console.log(orders);
-
   return (
     <>
-      <ContainerBox title="Received Orders">
-        {orders ? (
-          <div className="flex flex-wrap gap-5 justify-center">
-            {orders.map((order) => (
-              <div
-                key={order.id}
-                className="card bg-base-100  text-base-content shadow-xl"
-              >
-                <div className="card-body flex gap-5 p-2 md:p-5">
-                  <div className="flex flex-row items-center">
-                    <div className="flex items-center flex-wrap flex-grow ml-4 gap-5">
-                      <div className="text-lg font-bold">
-                        {order.studyProgram.educationInstitute.name} -{" "}
-                        {order.studyProgram.name}
-                      </div>
-                      <div className="text-opacity-50">
-                        {order.numStudents - order.numStudentsAccepted} students
-                      </div>
-                      <div className="text-opacity-50">
-                        {order.internshipField}, {order.studyYear} år studenter
-                      </div>
-                      <div className="text-sm text-opacity-50">
-                        {order.createdAt.toLocaleDateString()}
-                      </div>
-                    </div>
-                    <button
-                      className="btn btn-primary ml-2 md:ml-5"
-                      onClick={() => {
-                        setSelectedOrder(order);
-                        setIsModalOpen(true);
-                      }}
-                    >
-                      Distribuer
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <span className="loading loading-spinner loading-lg"></span>
-        )}
-      </ContainerBox>
+      <ListOfOrders
+        orders={orders}
+        setSelectedOrder={setSelectedOrder}
+        setIsModalOpen={setIsModalOpen}
+      />
       {isModalOpen && (
         <InternshipDistributionModal
           setIsModalOpen={setIsModalOpen}

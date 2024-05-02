@@ -57,11 +57,29 @@ const InternshipDistributionModal: React.FC<
               <div className="text-primary font-bold">
                 {selectedOrder?.startWeek.toISOString().split("T")[0]}
               </div>
-              /
+              -
               <div className="text-primary font-bold">
                 {selectedOrder?.endWeek.toISOString().split("T")[0]}
               </div>
             </div>
+
+            <div className="mx-auto">
+              <div className="flex gap-2">
+                School:
+                <div className="font-bold text-primary">
+                  {selectedOrder.studyProgram.educationInstitute.name}
+                </div>
+                Field:
+                <div className="font-bold text-primary">
+                  {selectedOrder.internshipField}
+                </div>
+                Year:
+                <div className="font-bold text-primary">
+                  {selectedOrder.studyYear}
+                </div>
+              </div>
+            </div>
+
             <div className="mx-auto">
               <div className="flex gap-2">
                 Students left to assign:{" "}

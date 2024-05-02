@@ -14,6 +14,7 @@ import Dropdown from "@/app/components/Dropdowns/Dropdown";
 import { Section } from "@/app/_models/Section";
 import AddInternship from "../../../../components/Modals/AddInternshipModal";
 import EmployeeDropdown from "@/app/components/Dropdowns/EmployeeDropdown";
+import EditModal from "@/app/components/Modals/EditModal";
 
 export default function SectionPage({
   section,
@@ -115,7 +116,7 @@ export default function SectionPage({
           <dialog open={showModal === true} className="modal">
             <div className="modal-box">
               <div className="flex flex-row justify-between w-full">
-                <h2 className="font-bold text-lg">Edit {section.name}</h2>
+                <h2 className="font-bold text-lg">Edit</h2>
                 <button
                   onClick={() => setShowModal(false)}
                   type="button"
@@ -124,70 +125,42 @@ export default function SectionPage({
                   x
                 </button>
               </div>
+              <h3 className="text-xl"> {section.name}</h3>
 
-              <div className="modal-action">
-                <form
-                  className="w-full"
-                  method="dialog"
-                  onSubmit={handleSubmit}
-                >
-                  <div className="flex flex-col items-center w-full gap-6">
-                    <label className="form-control w-full ">
-                      <div className="label">
-                        <span className="label-text">Name</span>
-                      </div>
-                      <input
-                        type="name"
-                        placeholder="name"
-                        className="input input-bordered text-base-content"
-                        onChange={(e) => setName(e.target.value.trim())}
-                        maxLength={255}
-                        aria-label="Set first name"
-                      />
-                    </label>
-
-                    <div className="w-full">
-                      <div className="label">
-                        <span className="label-text">Leader</span>
-                      </div>
-                      <EmployeeDropdown
-                        employees={employees}
-                        employeeID={employeeID}
-                        setEmployeeID={setEmployeeID}
-                      />
-                    </div>
-
-                    <div className="w-full">
-                      <div className="label">
-                        <span className="label-text">Section Type</span>
-                      </div>
-                      <Dropdown
-                        dropdownName="Choose section Type"
-                        options={sectionTypes}
-                        selectedOption={
-                          sectionTypes.find(
-                            (type) => type.name === sectionType,
-                          ) || null
-                        }
-                        setSelectedOption={(type) => setSectionType(type.name)}
-                        onSearchChange={() => setSectionType(null)}
-                        renderOption={(type) => <>{type.name}</>}
-                        customSubClassName="h-20"
-                      />
-                    </div>
-
-                    <div className="flex flex-row justify-end w-full">
-                      <button
-                        type="submit"
-                        className="btn btn-accent"
-                        disabled={!name && !sectionType && !employeeID}
-                      >
-                        Save
-                      </button>
-                    </div>
+              <EditModal
+                setName={setName}
+                handleSubmit={handleSubmit}
+                disabled={!name && !employeeID && !sectionType}
+              >
+                <div className="w-full">
+                  <div className="label">
+                    <span className="label-text">Leader</span>
                   </div>
-                </form>
-              </div>
+                  <EmployeeDropdown
+                    employees={employees}
+                    employeeID={employeeID}
+                    setEmployeeID={setEmployeeID}
+                  />
+                </div>
+
+                <div className="w-full">
+                  <div className="label">
+                    <span className="label-text">Section Type</span>
+                  </div>
+                  <Dropdown
+                    dropdownName="Choose section Type"
+                    options={sectionTypes}
+                    selectedOption={
+                      sectionTypes.find((type) => type.name === sectionType) ||
+                      null
+                    }
+                    setSelectedOption={(type) => setSectionType(type.name)}
+                    onSearchChange={() => setSectionType(null)}
+                    renderOption={(type) => <>{type.name}</>}
+                    customSubClassName="h-20"
+                  />
+                </div>
+              </EditModal>
             </div>
           </dialog>
         </div>

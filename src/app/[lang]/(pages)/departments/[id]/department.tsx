@@ -3,14 +3,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
-import { deleteSection, paginateSections } from "../../sections/action";
+import { deleteSection } from "../../sections/action";
 import { editDepartmentDetails } from "./action";
 import { fetchEmployees } from "../add/action";
 import { Department } from "@/app/_models/Department";
 import AddSection from "../../../../components/Modals/AddSectionModal";
 import EmployeeDropdown from "@/app/components/Dropdowns/EmployeeDropdown";
 import SectionTable from "@/app/components/DynamicTables/SectionTable";
+import EditModal from "@/app/components/Modals/EditModal";
 
 export default function DepartmentPage({
   user,
@@ -98,7 +98,7 @@ export default function DepartmentPage({
           <dialog open={showModal === true} className="modal">
             <div className="modal-box">
               <div className="flex flex-row justify-between w-full">
-                <h2 className="font-bold text-lg">Edit {department.name}</h2>
+                <h2 className="font-bold text-lg">Edit</h2>
                 <button
                   onClick={() => setShowModal(false)}
                   type="button"
@@ -107,51 +107,23 @@ export default function DepartmentPage({
                   x
                 </button>
               </div>
-
-              <div className="modal-action">
-                <form
-                  className="w-full"
-                  method="dialog"
-                  onSubmit={handleSubmit}
-                >
-                  <div className="flex flex-col items-center w-full gap-6">
-                    <label className="form-control w-full ">
-                      <div className="label">
-                        <span className="label-text">Name</span>
-                      </div>
-                      <input
-                        type="name"
-                        placeholder="name"
-                        className="input input-bordered text-base-content"
-                        onChange={(e) => setName(e.target.value.trim())}
-                        maxLength={255}
-                        aria-label="Set first name"
-                      />
-                    </label>
-
-                    <div className="w-full">
-                      <div className="label">
-                        <span className="label-text">Leader</span>
-                      </div>
-                      <EmployeeDropdown
-                        employees={employees}
-                        employeeID={employeeID}
-                        setEmployeeID={setEmployeeID}
-                      />
-                    </div>
-
-                    <div className="flex flex-row justify-end w-full">
-                      <button
-                        type="submit"
-                        className="btn btn-accent"
-                        disabled={!name && !employeeID}
-                      >
-                        Save
-                      </button>
-                    </div>
+              <h3 className="text-xl"> {department.name}</h3>
+              <EditModal
+                setName={setName}
+                handleSubmit={handleSubmit}
+                disabled={!name && !employeeID}
+              >
+                <div className="w-full">
+                  <div className="label">
+                    <span className="label-text">Leader</span>
                   </div>
-                </form>
-              </div>
+                  <EmployeeDropdown
+                    employees={employees}
+                    employeeID={employeeID}
+                    setEmployeeID={setEmployeeID}
+                  />
+                </div>
+              </EditModal>
             </div>
           </dialog>
         </div>

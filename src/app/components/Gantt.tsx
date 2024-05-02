@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 interface DataItem {
@@ -10,7 +11,7 @@ interface DataItem {
 
 interface GanttProps {
   datalist: DataItem[];
-  onClickUrl: string;
+  onClickUrl?: string;
 }
 
 interface MonthMarker {
@@ -123,20 +124,26 @@ const Gantt: React.FC<GanttProps> = ({ datalist, onClickUrl }) => {
                         zIndex: 99,
                       }}
                     >
-                      <div
+                      <a
+                        href={onClickUrl ? `${onClickUrl + row_id}` : null}
                         className="btn btn-primary"
-                        onClick={() => {
-                          window.location.href = `${onClickUrl + row_id}`;
-                        }}
                         style={{
                           borderRadius: "5px",
                           height: "50%",
                           width: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          textDecoration: "none",
+                          pointerEvents: onClickUrl ? "auto" : "none",
                         }}
                       >
-                        start: {startDate.toLocaleDateString()} <br />
-                        end: {endDate.toLocaleDateString()}
-                      </div>
+                        <span>
+                          start: {startDate.toLocaleDateString()} <br />
+                          end: {endDate.toLocaleDateString()}
+                        </span>
+                      </a>
                     </div>
                   );
                 })}

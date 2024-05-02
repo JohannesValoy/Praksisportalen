@@ -22,6 +22,8 @@ export async function paginateDepartments(request: DepartmentPageRequest) {
     name: element.name,
     email: element.employee?.email || "",
     id: element.id,
+    createdAt: element.createdAt,
+    updatedAt: element.updatedAt,
   }));
   return {
     ...data,

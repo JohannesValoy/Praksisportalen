@@ -30,7 +30,7 @@ export default async function Profile({ user }: Readonly<{ user }>) {
   }
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col w-full gap-2 items-center">
       <h1>{user.name}</h1>
       <p>Email: {user.email}</p>
       {page}

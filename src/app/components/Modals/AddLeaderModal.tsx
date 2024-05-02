@@ -6,6 +6,7 @@ import {
   fetchEmployees,
 } from "../../[lang]/(pages)/users/add/action";
 import ContainerBox from "@/app/components/ContainerBox";
+import { generatePassword } from "@/services/EmployeeService";
 
 type Props = {
   openModal: boolean;
@@ -49,7 +50,7 @@ export default function AddEmployee({ openModal, onClose }: Readonly<Props>) {
       name: `${firstName} ${lastName}`,
       email: email.trim(),
       role: "user",
-      password: "password",
+      password: generatePassword(8),
     };
 
     await createEmployee(data);

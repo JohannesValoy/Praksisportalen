@@ -12,6 +12,7 @@ import {
 } from "./action";
 import SuccessDialog from "@/app/components/SuccessDialog";
 import ContainerBox from "@/app/components/ContainerBox";
+import { generatePassword } from "@/services/EmployeeService";
 
 export default function Page() {
   const router = useRouter();
@@ -26,6 +27,8 @@ export default function Page() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+
+  const password = generatePassword(8);
 
   useEffect(() => {
     if (
@@ -69,7 +72,7 @@ export default function Page() {
       const data = {
         name: `${firstName} ${lastName}`,
         email: email.trim(),
-        password: "password",
+        password: password,
       };
 
       await createCoordinator(data);
@@ -91,7 +94,7 @@ export default function Page() {
       name: `${firstName} ${lastName}`,
       email: email.trim(),
       role: role,
-      password: "password",
+      password: password,
     };
 
     await createEmployee(data);

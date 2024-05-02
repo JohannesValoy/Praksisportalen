@@ -10,6 +10,7 @@ import {
 import ErrorModal from "@/app/components/ErrorModal";
 import InternshipDistributionModal from "./Modal";
 import ListOfOrders from "./ListOfOrders";
+import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
 
 /**
  * The page to display received orders.

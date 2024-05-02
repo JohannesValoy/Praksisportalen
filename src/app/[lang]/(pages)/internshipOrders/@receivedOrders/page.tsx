@@ -11,6 +11,7 @@ import ErrorModal from "@/app/components/ErrorModal";
 import InternshipDistributionModal from "./Modal";
 import ListOfOrders from "./ListOfOrders";
 import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
+import LogIcon from "../../../../../../public/Icons/logIcon";
 
 /**
  * The page to display received orders.
@@ -75,7 +76,6 @@ function Page() {
     }
   }, [isModalOpen, selectedOrder, fetchInternships]);
   const toggleSelection = (row) => {
-    console.log("row selected");
     // Ignore selection if the internship has no free spots left
     if (row.vacancies <= 0) return;
 
@@ -105,8 +105,6 @@ function Page() {
     if (vacanciesSelected < 0) {
       throw new Error("Vacancies selected is negative: " + vacanciesSelected);
     }
-
-    console.log("Students left: " + studentsLeft);
   };
 
   function saveDistribution(subFieldGroupID, InternshipID, amount) {
@@ -136,6 +134,10 @@ function Page() {
 
   return (
     <>
+      <div className="ml-auto mt-5 mr-10">
+        <LogIcon />
+      </div>
+
       <ListOfOrders
         orders={orders}
         setSelectedOrder={setSelectedOrder}

@@ -1,7 +1,6 @@
 /** @format */
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import ReactModal from "react-modal";
 import {
   fetchOrders,
   paginateInternships,
@@ -33,10 +32,6 @@ function Page() {
   const [status, setStatus] = useState<"Finalized" | "Pending">("Pending");
 
   useEffect(() => {
-    ReactModal.setAppElement("#root");
-  }, []);
-
-  useEffect(() => {
     fetchOrders()
       .then(setOrders)
       .catch((error) => setError(error.message));
@@ -49,8 +44,8 @@ function Page() {
       page,
       size: 5,
       sort: sortedBy,
-      startDate: selectedOrder.startWeek,
-      endDate: selectedOrder.endWeek,
+      vacancyStartDate: selectedOrder.startWeek,
+      vacancyEndDate: selectedOrder.endWeek,
       field: selectedOrder.internshipField,
       yearOfStudy: selectedOrder.studyYear,
     };

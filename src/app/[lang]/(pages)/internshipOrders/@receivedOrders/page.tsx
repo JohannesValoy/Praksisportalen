@@ -48,8 +48,8 @@ function Page() {
       page,
       size: 5,
       sort: sortedBy,
-      startDate: selectedOrder.startDate,
-      endDate: selectedOrder.endDate,
+      startDate: selectedOrder.startWeek,
+      endDate: selectedOrder.endWeek,
       field: selectedOrder.internshipField,
       yearOfStudy: selectedOrder.studyYear,
     };

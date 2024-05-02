@@ -88,7 +88,7 @@ async function getInternshipPositionObjectByPageRequest(
       "*",
       pageRequest.startDate && pageRequest.endDate
         ? DBclient.raw(
-            `availableInternshipsSpotsBetweenDates(internships.id, ${new Date(pageRequest.startDate).toDateString()}, ${new Date(pageRequest.endDate).toDateString()}) as vacancies`
+            `availableInternshipsSpotsBetweenDates(internships.id, '${new Date(pageRequest.startDate).toISOString().split("T")[0]}', '${new Date(pageRequest.endDate).toISOString().split("T")[0]}') as vacancies`
           )
         : DBclient.raw("availableInternshipsSpots(internships.id) as vacancies")
     )

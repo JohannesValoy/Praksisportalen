@@ -2,7 +2,10 @@
 
 "use server";
 
-import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
+import {
+  Internship,
+  InternshipPaginationRequest,
+} from "@/app/_models/InternshipPosition";
 import {
   deleteInternshipByID,
   getInternshipPositionObjectByPageRequest,
@@ -10,10 +13,8 @@ import {
 import DBclient from "@/knex/config/DBClient";
 import "server-only";
 import { getInternshipAgreementsByPageRequest } from "@/services/AgreementService";
-import {
-  InternshipAgreement,
-  InternshipAgreementPageRequest,
-} from "../../../../_models/Agreement";
+import { InternshipAgreementPageRequest } from "../../../../_models/Agreement";
+import { PageRequest, PageResponse } from "@/app/_models/pageinition";
 export interface Order {
   id: number;
   studyProgramID: number;
@@ -84,45 +85,10 @@ export async function fetchOrders(): Promise<Order[]> {
 }
 export async function paginateInternships(
   request: InternshipPaginationRequest
-) {
+): Promise<PageResponse<Internship>> {
   request.section_id = [Number(request.section_id)];
   request.yearOfStudy = [Number(request.yearOfStudy)];
-  const data = await getInternshipPositionObjectByPageRequest(request);
-
-  // Handle each element to compute free spots
-  const elementsPromises = data.elements.map(async (element) => {
-    // Fetch agreements related to the current element's ID
-    const internshipAgreementPageRequest: InternshipAgreementPageRequest = {
-      hasInternshipID: element.id,
-    };
-
-    const response = await getInternshipAgreementsByPageRequest(
-      internshipAgreementPageRequest
-    );
-
-    const agreementAmount = response.totalElements;
-    // Calculate free spots by subtracting the number of agreements from current capacity
-    //TODO make this the vacancies from the object
-    const freeSpots = element.currentCapacity - agreementAmount;
-
-    return {
-      name: element.name,
-      field: element.internship_field,
-      yearOfStudy: element.yearOfStudy,
-      freeSpots,
-      currentCapacity: element.currentCapacity,
-      id: element.id,
-    };
-  });
-
-  // Wait for all promises to resolve
-  const elements = await Promise.all(elementsPromises);
-
-  // Return the updated data including the modified elements array with the free spots computed
-  return {
-    ...data,
-    elements,
-  };
+  return await getInternshipPositionObjectByPageRequest(request);
 }
 
 export async function deleteInternship(id: number) {
@@ -183,7 +149,7 @@ export async function saveOrderDistribution(
 
     const newNumStudents = subFieldGroup.numStudents - amount;
     const numStudentsAccepted = subFieldGroup.numStudentsAccepted + amount;
-   
+
     await trx("subFieldGroups")
       .where("id", subFieldGroupID)
       .update({ numStudentsAccepted: numStudentsAccepted });

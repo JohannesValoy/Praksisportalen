@@ -21,6 +21,7 @@ export interface Order {
   studyYear: number;
   comment: string;
   numStudents: number;
+  numStudentsAccepted: number;
   startWeek: Date;
   endWeek: Date;
   createdAt: Date;
@@ -100,8 +101,9 @@ export async function paginateInternships(
     );
 
     const agreementAmount = response.totalElements;
-
+    console.log(element);
     // Calculate free spots by subtracting the number of agreements from current capacity
+    //TODO make this the vacancies from the object
     const freeSpots = element.currentCapacity - agreementAmount;
 
     return {
@@ -109,6 +111,7 @@ export async function paginateInternships(
       field: element.internship_field,
       yearOfStudy: element.yearOfStudy,
       freeSpots,
+      currentCapacity: element.currentCapacity,
       id: element.id,
     };
   });
@@ -132,7 +135,8 @@ export async function getInternshipTypes() {
 export async function saveOrderDistribution(
   subFieldGroupID: number,
   InternshipID: number,
-  amount: number
+  amount: number,
+  status: "Finalized" | "Pending"
 ) {
   return DBclient.transaction(async (trx) => {
     const subFieldGroup = await trx("subFieldGroups")
@@ -145,6 +149,7 @@ export async function saveOrderDistribution(
       .select(
         "subFieldGroups.id",
         "subFieldGroups.numStudents",
+        "subFieldGroups.numStudentsAccepted",
         "subFieldGroups.startWeek",
         "subFieldGroups.endWeek",
         "internshipOrders.studyProgramID",
@@ -178,9 +183,34 @@ export async function saveOrderDistribution(
       .first();
 
     const newNumStudents = subFieldGroup.numStudents - amount;
+    const numStudentsAccepted = subFieldGroup.numStudentsAccepted + amount;
+    console.log(
+      "numStudentsAccepted: " +
+        numStudentsAccepted +
+        " + " +
+        amount +
+        " subfileddGroup = " +
+        JSON.stringify(subFieldGroup)
+    );
     await trx("subFieldGroups")
       .where("id", subFieldGroupID)
-      .update({ numStudents: newNumStudents });
+      .update({ numStudentsAccepted: numStudentsAccepted });
+
+    if (!status) throw new Error("Status is not defined.");
+
+    await trx("internshipOrders")
+      .innerJoin(
+        "fieldGroups",
+        "internshipOrders.id",
+        "fieldGroups.internshipOrderID"
+      )
+      .innerJoin(
+        "subFieldGroups",
+        "fieldGroups.id",
+        "subFieldGroups.fieldGroupID"
+      )
+      .where("subFieldGroups.id", subFieldGroupID)
+      .update({ status: status });
 
     const agreements = Array.from({ length: amount }, () => ({
       startDate: subFieldGroup.startWeek,

@@ -15,8 +15,8 @@ interface InternshipDistributionModalProps {
   page: number;
   setPage: (page: number) => void;
   totalPages: number;
-  setPageSize: (size: number) => void;
   closeModal: () => void;
+  setStatus: (status: "Finalized" | "Pending") => void;
 }
 
 const InternshipDistributionModal: React.FC<
@@ -33,8 +33,8 @@ const InternshipDistributionModal: React.FC<
   page,
   setPage,
   totalPages,
-  setPageSize,
   closeModal,
+  setStatus,
 }) => {
   return (
     <>
@@ -78,10 +78,10 @@ const InternshipDistributionModal: React.FC<
             </div>
           </div>
           <div className="overflow-x-auto">
-            <table className="table w-full text-sm card-body overflow-hidden">
+            <table className="table w-full text-sm card-body overflow-hidden flex items-center justify-center text-center">
               <thead>
                 <tr className="text-xs uppercase bg-base-200 text-base-content">
-                  <th></th>
+                  <td></td>
                   <th>
                     <input
                       type="button"
@@ -93,9 +93,9 @@ const InternshipDistributionModal: React.FC<
                   <th>
                     <input
                       type="button"
-                      onClick={() => setSortedBy("internship_field")}
+                      onClick={() => setSortedBy("currentCapacity")}
                       className="btn btn-ghost btn-sm"
-                      value="Felt"
+                      value="Kapasitet"
                     />
                   </th>
                   <th>
@@ -127,7 +127,7 @@ const InternshipDistributionModal: React.FC<
                       />
                     </td>
                     <td>{row.name}</td>
-                    <td>{row.field}</td>
+                    <td>{row.currentCapacity}</td>
                     <td>{row.freeSpots}</td>
                   </tr>
                 ))}
@@ -229,10 +229,12 @@ const InternshipDistributionModal: React.FC<
             </div>
             <select
               className="font-semibold btn p-2 text-neutral-content bg-neutral text-center flex items-center"
-              onChange={(e) => setPageSize(parseInt(e.target.value))}
+              onChange={(e) =>
+                setStatus(e.target.value as "Finalized" | "Pending")
+              }
             >
-              <option value="5">5</option>
-              <option value="10">10</option>
+              <option value="Pending">Venter</option>
+              <option value="Finalized">Finalized</option>
             </select>
             <div className="">
               <button
@@ -245,29 +247,13 @@ const InternshipDistributionModal: React.FC<
                 className="btn btn-success"
                 onClick={() => {
                   selectedRows.forEach((selectedRow) => {
-                    console.log(
-                      "selectedOrder: " +
-                        JSON.stringify(selectedOrder) +
-                        " the given id from this is " +
-                        selectedOrder.id
-                    );
-                    console.log("selectedRow: " + JSON.stringify(selectedRow));
-                    console.log(
-                      "selectedRow.freeSpots: " + selectedRow.freeSpots
-                    );
-                    console.log("studentsLeft: " + studentsLeft);
-                    console.log(
-                      Math.min(
-                        selectedRow.freeSpots,
-                        selectedOrder?.numStudents
-                      )
-                    );
                     saveDistribution(
                       selectedOrder.id,
                       selectedRow.id,
                       Math.min(
                         selectedRow.freeSpots,
-                        selectedOrder?.numStudents
+                        selectedOrder?.numStudents -
+                          selectedOrder?.numStudentsAccepted
                       )
                     );
                   });

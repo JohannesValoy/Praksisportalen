@@ -98,6 +98,7 @@ declare module "knex/types/tables.js" {
     comment: string;
     createdAt: Date;
     coordinator_id: string;
+    status: "Finalized" | "Pending";
   }
 
   interface FieldGroupTable {
@@ -110,6 +111,7 @@ declare module "knex/types/tables.js" {
     id: number;
     studyYear: number;
     numStudents: number;
+    numStudentsAccepted: number;
     startWeek: Date;
     endWeek: Date;
     fieldGroupID: number;

@@ -1,7 +1,6 @@
 /** @format */
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import ReactModal from "react-modal";
 import {
   fetchOrders,
@@ -27,9 +26,9 @@ function Page() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [sortedBy, setSortedBy] = useState<string>("name");
   const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(5);
   const [totalPages, setTotalPages] = useState(0);
   const [studentsLeft, setStudentsLeft] = useState(0);
+  const [status, setStatus] = useState<"Finalized" | "Pending">("Pending");
 
   useEffect(() => {
     ReactModal.setAppElement("#root");
@@ -46,7 +45,7 @@ function Page() {
 
     const params = {
       page,
-      size: pageSize,
+      size: 5,
       sort: sortedBy,
       field: selectedOrder.internshipField,
       yearOfStudy: selectedOrder.studyYear,
@@ -60,12 +59,14 @@ function Page() {
         setError("Failed to fetch internships: " + error.message);
         setIsErrorModalOpen(true);
       });
-  }, [page, pageSize, sortedBy, selectedOrder]);
+  }, [page, sortedBy, selectedOrder]);
 
   useEffect(() => {
     if (isModalOpen && selectedOrder) {
       fetchInternships();
-      setStudentsLeft(selectedOrder.numStudents);
+      setStudentsLeft(
+        selectedOrder.numStudents - selectedOrder.numStudentsAccepted
+      );
       setSelectedRows([]);
       setError(null);
     }
@@ -91,11 +92,18 @@ function Page() {
     console.log("vacanciesSelected", vacanciesSelected);
 
     setSelectedRows(newSelectedRows);
-    setStudentsLeft(Math.max(0, selectedOrder.numStudents - vacanciesSelected)); // Ensure it never goes negative
+    setStudentsLeft(
+      Math.max(
+        0,
+        selectedOrder.numStudents -
+          selectedOrder.numStudentsAccepted -
+          vacanciesSelected
+      )
+    ); // Ensure it never goes negative
   };
 
   function saveDistribution(subFieldGroupID, InternshipID, amount) {
-    saveOrderDistribution(subFieldGroupID, InternshipID, amount)
+    saveOrderDistribution(subFieldGroupID, InternshipID, amount, status)
       .then(() => {
         setIsModalOpen(false); // Show success modal
       })
@@ -143,7 +151,7 @@ function Page() {
                         {order.studyProgram.name}
                       </div>
                       <div className="text-opacity-50">
-                        {order.numStudents} students
+                        {order.numStudents - order.numStudentsAccepted} students
                       </div>
                       <div className="text-opacity-50">
                         {order.internshipField}, {order.studyYear} år studenter
@@ -184,7 +192,7 @@ function Page() {
           page={page}
           setPage={setPage}
           totalPages={totalPages}
-          setPageSize={setPageSize}
+          setStatus={setStatus}
         />
       )}
 

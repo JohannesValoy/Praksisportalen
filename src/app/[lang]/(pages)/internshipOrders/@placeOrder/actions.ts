@@ -53,7 +53,7 @@ export async function fetchStudyPrograms() {
   return response;
 }
 
-interface formData {
+interface FormData {
   studyProgram_id: number;
   comment: string;
   fieldGroups: {
@@ -72,7 +72,7 @@ interface formData {
  * @param data The order data.
  * @throws error if it fails to add the internship order.
  */
-export async function sendOrder(data: formData) {
+export async function sendOrder(data: FormData) {
   try {
     const user = await getUser();
     console.log("user: " + JSON.stringify(user));

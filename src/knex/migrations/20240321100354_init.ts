@@ -172,7 +172,7 @@ export async function up(knex: Knex): Promise<void> {
       .createTable("internshipOrders", (table) => {
         table.increments("id").primary();
         table
-          .enum("status", ["Agreed", "Pending", "Rejected"])
+          .enum("status", ["Finalized", "Pending"])
           .notNullable()
           .defaultTo("Pending");
         table.integer("studyProgramID").unsigned().notNullable();
@@ -209,6 +209,7 @@ export async function up(knex: Knex): Promise<void> {
         table.increments("id").primary();
         table.string("studyYear").notNullable();
         table.integer("numStudents").notNullable().checkPositive();
+        table.integer("numStudentsAccepted").defaultTo(0);
         table.date("startWeek").notNullable();
         table.date("endWeek").notNullable();
         table.integer("fieldGroupID").unsigned().notNullable();

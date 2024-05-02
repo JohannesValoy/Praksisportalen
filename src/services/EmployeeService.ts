@@ -108,8 +108,7 @@ async function getEmployeeObjectsByPagination(
  * @returns the number of employees deleted
  */
 async function deleteEmployee(id: string) {
-  //TODO: Why return a number? Shouldn't it be a boolean or throw a error if it can't delete? There is never gonna be a case where it returns more then 1
-  return await DBclient.delete().from("employees").where("id", id);
+  await DBclient.delete().from("employees").where("id", id);
 }
 
 async function generatePassword(length) {

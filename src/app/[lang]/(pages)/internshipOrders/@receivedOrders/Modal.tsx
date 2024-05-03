@@ -13,6 +13,7 @@ interface InternshipDistributionModalProps {
   setPage: (page: number) => void;
   totalPages: number;
   closeModal: () => void;
+  saveRows: () => void; // Define the types for selectedRows, selectedOrder
 }
 
 const InternshipDistributionModal: React.FC<
@@ -24,11 +25,11 @@ const InternshipDistributionModal: React.FC<
   selectedRows,
   toggleSelection,
   studentsLeft,
-  saveDistribution,
   page,
   setPage,
   totalPages,
   closeModal,
+  saveRows,
 }) => {
   return (
     <>
@@ -270,17 +271,7 @@ const InternshipDistributionModal: React.FC<
                 className="btn btn-success"
                 onClick={() => {
                   closeModal();
-                  selectedRows.forEach((selectedRow) => {
-                    saveDistribution(
-                      selectedOrder.id,
-                      selectedRow.id,
-                      Math.min(
-                        selectedRow.vacancies,
-                        selectedOrder?.numStudents -
-                          selectedOrder?.numStudentsAccepted,
-                      ),
-                    );
-                  });
+                  saveRows();
                 }}
               >
                 Save

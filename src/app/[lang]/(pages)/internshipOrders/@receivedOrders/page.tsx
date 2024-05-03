@@ -31,8 +31,9 @@ function Page() {
   const [studentsLeft, setStudentsLeft] = useState(0);
   const [title, setTitle] = useState("Mottatte bestillinger");
   const [status, setStatus] = useState<"Finalized" | "Pending">("Pending");
+
   const [filterStatus, setFilterStatus] = useState<"Finalized" | "Pending">(
-    "Pending",
+    "Pending"
   );
 
   /**
@@ -76,7 +77,7 @@ function Page() {
     if (isModalOpen && selectedOrder) {
       fetchInternships();
       setStudentsLeft(
-        selectedOrder.numStudents - selectedOrder.numStudentsAccepted,
+        selectedOrder.numStudents - selectedOrder.numStudentsAccepted
       );
       setSelectedRows([]);
       setError(null);
@@ -106,13 +107,29 @@ function Page() {
         0,
         selectedOrder.numStudents -
           selectedOrder.numStudentsAccepted -
-          vacanciesSelected,
-      ),
+          vacanciesSelected
+      )
     ); // Ensure it never goes negative
     if (vacanciesSelected < 0) {
       throw new Error("Vacancies selected is negative: " + vacanciesSelected);
     }
   };
+
+  /**
+   * Save the distribution of students to internships.
+   */
+  function saveRows() {
+    selectedRows.forEach((selectedRow) => {
+      saveDistribution(
+        selectedOrder.id,
+        selectedRow.id,
+        Math.min(
+          selectedRow.vacancies,
+          selectedOrder?.numStudents - selectedOrder?.numStudentsAccepted
+        )
+      );
+    });
+  }
 
   //TODO make it save even with only status
   /**
@@ -122,7 +139,6 @@ function Page() {
    * @param amount The amount of students to distribute.
    */
   function saveDistribution(subFieldGroupID, InternshipID, amount) {
-    console.log("Saving distribution");
     saveOrderDistribution(subFieldGroupID, InternshipID, amount, status)
       .then(() => {
         setIsModalOpen(false); // Show success modal
@@ -141,7 +157,6 @@ function Page() {
    * @param status The status to save.
    */
   function saveStatus(orderID, status) {
-    console.log("Saving status " + orderID + " " + status);
     saveOrderStatus(orderID, status);
     fetch();
   }
@@ -155,8 +170,6 @@ function Page() {
     setTotalPages(0);
     setStudentsLeft(0);
   };
-
-  console.log(JSON.stringify(orders));
 
   //Makes the default value of the status selector Finalized when accessing it through the log and Pending when accessing the pending orders
   useEffect(() => {
@@ -208,6 +221,7 @@ function Page() {
           page={page}
           setPage={setPage}
           totalPages={totalPages}
+          saveRows={saveRows}
         />
       )}
 

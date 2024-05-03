@@ -345,7 +345,7 @@ export async function up(knex: Knex): Promise<void> {
       BEFORE INSERT ON timeIntervals
       FOR EACH ROW
       BEGIN
-        IF EXISTS (SELECT * FROM timeIntervals WHERE internshipAgreement_id = NEW.internshipAgreement_id AND (NEW.startDate BETWEEN startDate AND endDate OR NEW.endDate BETWEEN startDate AND endDate)) THEN
+        IF EXISTS (SELECT * FROM timeIntervals WHERE internshipAgreement_id = NEW.internshipAgreement_id AND ((NEW.startDate BETWEEN startDate AND endDate) OR (NEW.endDate BETWEEN startDate AND endDate))) THEN
           SIGNAL SQLSTATE '45000'
           SET MESSAGE_TEXT = 'Time interval overlaps with another';
         END IF;

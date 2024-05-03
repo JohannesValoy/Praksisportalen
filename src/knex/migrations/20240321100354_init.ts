@@ -292,17 +292,26 @@ export async function up(knex: Knex): Promise<void> {
       END;
       `
       )
+      .raw(
+        `
+      CREATE FUNCTION IF NOT EXISTS availableInternshipsSpotsBetweenDates(internshipID INT, startWeek DATE, endWeek DATE) RETURNS INT
+      DETERMINISTIC
+      BEGIN
+        DECLARE internCapacity INT;
+        DECLARE internshipAgreementCount INT;
+        SELECT currentCapacity INTO internCapacity FROM internships WHERE id = internshipID;
+        SELECT COUNT(*) INTO internshipAgreementCount FROM internshipAgreements WHERE internship_id = internshipID AND ((startWeek BETWEEN startDate AND endDate) OR (endWeek BETWEEN startDate AND endDate));
+        RETURN internCapacity - internshipAgreementCount;
+      END; 
+      `
+      )
       //TODO: Also need triggers for update
       .raw(
         `CREATE TRIGGER hinderOverCapacity
       BEFORE INSERT ON internshipAgreements
       FOR EACH ROW
       BEGIN
-        DECLARE currentCapacity INT;
-        DECLARE internshipAgreementCount INT;
-        SELECT currentCapacity INTO currentCapacity FROM internships WHERE id = NEW.internship_id;
-        SELECT COUNT(*) INTO internshipAgreementCount FROM internshipAgreements WHERE internship_id = NEW.internship_id AND New.startDate BETWEEN startDate AND endDate;
-        IF currentCapacity <= internshipAgreementCount THEN
+        IF 0 >= availableInternshipsSpotsBetweenDates(NEW.internship_id, NEW.startDate , NEW.endDate)  THEN
           SIGNAL SQLSTATE '45000'
           SET MESSAGE_TEXT = 'Internship is full';
         END IF;
@@ -340,16 +349,27 @@ export async function up(knex: Knex): Promise<void> {
       `
       )
       .raw(
+        //With Help from GPT
         `
       CREATE TRIGGER checkNoOverlappingTimeIntervals
       BEFORE INSERT ON timeIntervals
       FOR EACH ROW
       BEGIN
-        IF EXISTS (SELECT * FROM timeIntervals WHERE internshipAgreement_id = NEW.internshipAgreement_id AND ((NEW.startDate BETWEEN startDate AND endDate) OR (NEW.endDate BETWEEN startDate AND endDate))) THEN
+        IF EXISTS (
+          SELECT * FROM timeIntervals
+          WHERE internshipAgreement_id = NEW.internshipAgreement_id
+          AND (
+            (NEW.startDate BETWEEN startDate AND endDate)
+            OR (NEW.endDate BETWEEN startDate AND endDate)
+            OR (startDate BETWEEN NEW.startDate AND NEW.endDate)
+            OR (endDate BETWEEN NEW.startDate AND NEW.endDate)
+          )
+        ) THEN
           SIGNAL SQLSTATE '45000'
           SET MESSAGE_TEXT = 'Time interval overlaps with another';
         END IF;
       END;
+
         `
       )
       .raw(
@@ -376,19 +396,6 @@ export async function up(knex: Knex): Promise<void> {
         DECLARE internshipAgreementCount INT;
         SELECT currentCapacity INTO internCapacity FROM internships WHERE id = internshipID;
         SELECT COUNT(*) INTO internshipAgreementCount FROM internshipAgreements WHERE internship_id = internshipID AND NOW() BETWEEN startDate AND endDate;
-        RETURN internCapacity - internshipAgreementCount;
-      END; 
-      `
-      )
-      .raw(
-        `
-      CREATE FUNCTION IF NOT EXISTS availableInternshipsSpotsBetweenDates(internshipID INT, startWeek DATE, endWeek DATE) RETURNS INT
-      DETERMINISTIC
-      BEGIN
-        DECLARE internCapacity INT;
-        DECLARE internshipAgreementCount INT;
-        SELECT currentCapacity INTO internCapacity FROM internships WHERE id = internshipID;
-        SELECT COUNT(*) INTO internshipAgreementCount FROM internshipAgreements WHERE internship_id = internshipID AND ((startWeek BETWEEN startDate AND endDate) OR (endWeek BETWEEN startDate AND endDate));
         RETURN internCapacity - internshipAgreementCount;
       END; 
       `

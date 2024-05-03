@@ -38,7 +38,7 @@ const InternshipDistributionModal: React.FC<
         className="fixed inset-0 bg-black opacity-50 z-40"
         onClick={closeModal}
       ></button>
-      <form
+      <div
         onSubmit={closeModal}
         className="fixed inset-0 flex items-center justify-center z-50 h-fit w-fit mx-auto my-auto p-1 m-1"
         aria-label="Internship Distribution Modal"
@@ -279,7 +279,7 @@ const InternshipDistributionModal: React.FC<
             </div>
           </div>
         </div>
-      </form>
+      </div>
     </>
   );
 };

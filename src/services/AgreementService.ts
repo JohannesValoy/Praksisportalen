@@ -20,7 +20,7 @@ import DBClient from "@/knex/config/DBClient";
  * @throws  An error if the {@link InternshipAgreement} is not found.
  */
 async function getInternshipAgreementObjectByID(
-  id: number
+  id: number,
 ): Promise<InternshipAgreement> {
   const agreementMap = await getInternshipAgreementObjectByIDList([id]);
   if (!agreementMap.has(id)) {
@@ -35,7 +35,7 @@ async function getInternshipAgreementObjectByID(
  * @returns A {@link Map} of {@link InternshipAgreement} IDs to their corresponding objects.
  */
 async function getInternshipAgreementObjectByIDList(
-  idList: number[]
+  idList: number[],
 ): Promise<Map<number, InternshipAgreement>> {
   const query = await DBclient.select()
     .from<InternshipAgreementTable>("internshipAgreements")
@@ -56,7 +56,7 @@ async function getInternshipAgreementObjectByIDList(
  * @returns A {@link PageResponse} containing the requested page of {@link InternshipAgreement}.
  */
 async function getInternshipAgreementsByPageRequest(
-  pageRequest: InternshipAgreementPageRequest
+  pageRequest: InternshipAgreementPageRequest,
 ): Promise<PageResponse<InternshipAgreement>> {
   const pageSize = pageRequest.size; // Number of items per page
   const offset = pageRequest.page * pageSize; // Calculate the offset
@@ -71,7 +71,7 @@ async function getInternshipAgreementsByPageRequest(
     .orderBy(
       ["id", "startDate", "endDate"].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id"
+        : "id",
     );
 
   pageRequest.page = pageRequest.page || 0;
@@ -99,13 +99,13 @@ async function getInternshipAgreementsByPageRequest(
  * @returns  An array of {@link InternshipAgreement}.
  */
 async function getInternshipAgreementsByInternshipRequest(
-  internshipRequest: InternshipPaginationRequest
+  internshipRequest: InternshipPaginationRequest,
 ) {
   const internships = await DBclient("internships")
     .leftJoin(
       "internshipAgreements",
       "internships.id",
-      "internshipAgreements.internship_id"
+      "internshipAgreements.internship_id",
     )
     .select("internships.*")
     .count("internshipAgreements.id as internshipAgreementCount")
@@ -125,13 +125,13 @@ async function getInternshipAgreementsByInternshipRequest(
  * @returns A list of {@link InternshipAgreement}.
  */
 async function createInternshipAgreementObject(
-  query: InternshipAgreementTable[]
+  query: InternshipAgreementTable[],
 ): Promise<InternshipAgreement[]> {
   const studyProgramsPromise = getStudyProgramObjectByIDList(
-    query.map((agreement) => agreement.studyProgram_id)
+    query.map((agreement) => agreement.studyProgram_id),
   );
   const internshipsPromise = getInternshipPositionObjectByIDList(
-    query.map((agreement) => agreement.internship_id)
+    query.map((agreement) => agreement.internship_id),
   );
   const [studyPrograms, internships] = await Promise.all([
     studyProgramsPromise,
@@ -163,7 +163,7 @@ const InternshipAgreementSchema = z.object({
  * @returns A message indicating the success of the operation.
  */
 async function saveInternshipAgreementObject(
-  agreement: InternshipAgreement
+  agreement: InternshipAgreement,
 ): Promise<string> {
   try {
     const validatedAgreement = InternshipAgreementSchema.parse(agreement);

@@ -33,7 +33,7 @@ function Page() {
   const [status, setStatus] = useState<"Finalized" | "Pending">("Pending");
 
   const [filterStatus, setFilterStatus] = useState<"Finalized" | "Pending">(
-    "Pending"
+    "Pending",
   );
 
   /**
@@ -77,7 +77,7 @@ function Page() {
     if (isModalOpen && selectedOrder) {
       fetchInternships();
       setStudentsLeft(
-        selectedOrder.numStudents - selectedOrder.numStudentsAccepted
+        selectedOrder.numStudents - selectedOrder.numStudentsAccepted,
       );
       setSelectedRows([]);
       setError(null);
@@ -107,8 +107,8 @@ function Page() {
         0,
         selectedOrder.numStudents -
           selectedOrder.numStudentsAccepted -
-          vacanciesSelected
-      )
+          vacanciesSelected,
+      ),
     ); // Ensure it never goes negative
     if (vacanciesSelected < 0) {
       throw new Error("Vacancies selected is negative: " + vacanciesSelected);
@@ -122,16 +122,15 @@ function Page() {
     let numDoneStudents = 0;
     let amount = selectedOrder.numStudents - selectedOrder.numStudentsAccepted;
     selectedRows.forEach((selectedRow) => {
+      if (amount <= 0) {
+        return;
+      }
       saveDistribution(
         selectedOrder.id,
         selectedRow.id,
-        Math.min(amount, selectedRow.vacancies)
+        Math.min(amount, selectedRow.vacancies),
       );
       numDoneStudents = numDoneStudents + selectedRow.vacancies;
-
-      if (amount <= 1) {
-        return;
-      }
     });
   }
 

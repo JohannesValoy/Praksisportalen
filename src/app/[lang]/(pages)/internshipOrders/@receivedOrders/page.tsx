@@ -10,7 +10,7 @@ import ErrorModal from "@/app/components/ErrorModal";
 import InternshipDistributionModal from "./Modal";
 import ListOfOrders from "./ListOfOrders";
 import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
-import LogIcon from "../../../../../../public/Icons/logIcon";
+import LogIcon from "@/../public/Icons/logIcon";
 
 /**
  * The page to display received orders.
@@ -119,15 +119,19 @@ function Page() {
    * Save the distribution of students to internships.
    */
   function saveRows() {
+    let numDoneStudents = 0;
+    let amount = selectedOrder.numStudents - selectedOrder.numStudentsAccepted;
     selectedRows.forEach((selectedRow) => {
       saveDistribution(
         selectedOrder.id,
         selectedRow.id,
-        Math.min(
-          selectedRow.vacancies,
-          selectedOrder?.numStudents - selectedOrder?.numStudentsAccepted
-        )
+        Math.min(amount, selectedRow.vacancies)
       );
+      numDoneStudents = numDoneStudents + selectedRow.vacancies;
+
+      if (amount <= 1) {
+        return;
+      }
     });
   }
 

@@ -5,6 +5,10 @@ import CoordinatorPage from "./_coordinator/coordinator";
 import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
 import { getCoordinatorsByID } from "@/services/CoordinatorService";
 
+/**
+ * The Profile component renders a page based on the user's role.
+ * @param user The user object.
+ */
 export default async function Profile({ user }: Readonly<{ user }>) {
   let page = null;
 
@@ -17,6 +21,10 @@ export default async function Profile({ user }: Readonly<{ user }>) {
   if (user.role === Role.admin) {
     page = <AdminPage user={user} />;
   }
+  /**
+   * If the user is a coordinator, the page will be rendered with the CoordinatorPage component.
+   * The educationInstitutionID is fetched from the coordinator object.
+   */
   if (user.role === Role.coordinator) {
     let educationInstitutionID = null;
     const coordinator = await getCoordinatorsByID(user.id);

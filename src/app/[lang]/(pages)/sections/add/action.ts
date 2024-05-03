@@ -3,6 +3,10 @@
 import DBclient from "@/knex/config/DBClient";
 import "server-only";
 
+/**
+ * The fetchDepartments function fetches all departments from the database.
+ * @returns A list of departments.
+ */
 export async function fetchDepartments() {
   const response = await DBclient("departments").select("*");
 
@@ -14,6 +18,10 @@ export async function fetchDepartments() {
   }, {});
 }
 
+/**
+ * The fetchEmployees function fetches all employees from the database.
+ * @returns A list of employees.
+ */
 export async function fetchSections() {
   const response = await DBclient("sections").select("*");
 
@@ -24,6 +32,10 @@ export async function fetchSections() {
   }, {});
 }
 
+/**
+ * The createDepartment function adds a new department to the database.
+ * @param data The department object to be added.
+ */
 export async function fetchSectionTypes() {
   const response = await DBclient("sectionTypes").select("*");
 
@@ -46,13 +58,20 @@ export async function fetchEmployees() {
   }, {});
 }
 
+/**
+ * The createDepartment function adds a new department to the database.
+ * @param data The department object to be added.
+ */
 export async function createSectionType(data) {
   await DBclient("sectionTypes").insert({
     name: data.name,
   });
-  return null;
 }
 
+/**
+ * The createDepartment function adds a new department to the database.
+ * @param data The department object to be added.
+ */
 export async function createSection(data) {
   await DBclient("sections").insert({
     name: data.name,
@@ -60,5 +79,4 @@ export async function createSection(data) {
     departmentID: data.departmentID,
     sectionType: data.sectionType,
   });
-  return null;
 }

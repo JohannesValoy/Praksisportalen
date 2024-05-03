@@ -111,6 +111,11 @@ async function deleteEmployee(id: string) {
   await DBclient.delete().from("employees").where("id", id);
 }
 
+/**
+ * Generates a random password of a given length
+ * @param length the length of the password
+ * @returns a random password
+ */
 async function generatePassword(length) {
   return crypto.randomBytes(length).toString("hex");
 }

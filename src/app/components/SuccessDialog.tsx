@@ -1,5 +1,10 @@
 import Link from "next/link";
 
+/**
+ * The SuccessDialog component displays a modal to confirm the addition of an education institution.
+ * @param isModalVisible The visibility of the modal.
+ * @returns A modal to confirm the addition of an education institution.
+ */
 export default function SuccessDialog({ isModalVisible }) {
   function refreshPage() {
     window.location.reload();

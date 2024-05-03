@@ -6,6 +6,10 @@ import { getDictionary } from "@/app/[lang]/dictionaries";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+/**
+ * The ListOfEmployees component displays a list of employees.
+ * @param params The params object.
+ */
 const ListOfEmployees = ({ params }) => {
   const [words, setWords] = useState<any>({});
   const headers = { Name: "name", Email: "email" };

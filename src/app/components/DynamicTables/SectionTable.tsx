@@ -10,6 +10,14 @@ interface SectionTableProps {
   onAddButtonClick?: () => void;
 }
 
+/**
+ * The SectionTable component displays a list of sections.
+ * @param refreshKey The refresh key.
+ * @param filter The filter object.
+ * @param readonly The readonly flag.
+ * @param deleteFunction The delete function.
+ * @param onAddButtonClick The onAddButtonClick function.
+ */
 const SectionTable: React.FC<SectionTableProps> = ({
   refreshKey,
   filter,

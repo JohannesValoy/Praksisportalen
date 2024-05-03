@@ -1,5 +1,8 @@
 import React from "react";
 
+/**
+ * The EditModalProps interface represents the props of the EditModal component.
+ */
 interface EditModalProps {
   setName: (name: string) => void;
   handleSubmit: (event: React.FormEvent) => void;
@@ -7,6 +10,13 @@ interface EditModalProps {
   disabled: boolean;
 }
 
+/**
+ * The EditModal component is a reusable edit modal component.
+ * @param setName The function to set the name.
+ * @param handleSubmit The function to handle the submit event.
+ * @param children The children elements.
+ * @param disabled The disabled flag.
+ */
 const EditModal: React.FC<EditModalProps> = ({
   setName,
   handleSubmit,

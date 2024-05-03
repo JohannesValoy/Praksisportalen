@@ -20,6 +20,17 @@ interface DropdownProps {
   onSearchChange?: (searchTerm: string) => void;
 }
 
+/**
+ * The Dropdown component is a reusable dropdown component.
+ * @param options The options to display in the dropdown.
+ * @param selectedOption The selected option.
+ * @param setSelectedOption The function to set the selected option.
+ * @param renderOption The function to render the option.
+ * @param dropdownName The name of the dropdown.
+ * @param customClassName The custom class name.
+ * @param customSubClassName The custom sub class name.
+ * @param onSearchChange The function to handle the search change.
+ */
 const Dropdown: React.FC<DropdownProps> = ({
   options,
   selectedOption,
@@ -38,6 +49,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         option.name.toLowerCase().includes((searchTerm || "").toLowerCase()),
       )
     : [];
+
   return (
     <div className="dropdown dropdown-end w-full ">
       <input

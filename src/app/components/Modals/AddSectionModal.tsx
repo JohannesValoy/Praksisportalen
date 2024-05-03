@@ -20,6 +20,11 @@ type Props = {
   onClose: () => void;
 };
 
+/**
+ * The AddSection component displays a form to add a section.
+ * @param openModal The openModal flag.
+ * @param onClose The onClose function.
+ */
 export default function AddSection({ openModal, onClose }: Readonly<Props>) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const [isTypeDisabled, setIsTypeDisabled] = useState(true);
@@ -87,6 +92,10 @@ export default function AddSection({ openModal, onClose }: Readonly<Props>) {
       .catch((error) => console.error("Failed to fetch Section Types", error));
   }, [refreshKey]);
 
+  /**
+   * The handleAddType function adds a new section type.
+   * @returns A new section type.
+   */
   const handleAddType = async () => {
     await createSectionType({ name: newType });
     setSectionTypes([...sectionTypes, { name: newType }]);
@@ -94,6 +103,11 @@ export default function AddSection({ openModal, onClose }: Readonly<Props>) {
     setNewType("");
   };
 
+  /**
+   * The handleSubmit function adds a new section.
+   * @param event The event object.
+   * @returns A new section.
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -108,11 +122,17 @@ export default function AddSection({ openModal, onClose }: Readonly<Props>) {
     onClose();
   };
 
+  /**
+   * The closeDepartmentModal function closes the add department modal.
+   */
   const closeDepartmentModal = () => {
     setOpenDepartmentModal(false);
     setRefreshKey((oldKey) => oldKey + 1);
   };
 
+  /**
+   * The closeEmployeeModal function closes the add employee modal.
+   */
   const closeEmployeeModal = () => {
     setOpenEmployeeModal(false);
     setRefreshKey((oldKey) => oldKey + 1);

@@ -17,6 +17,11 @@ type Props = {
   onClose: () => void;
 };
 
+/**
+ * The AddInternship component displays a form to add an internship.
+ * @param openModal The openModal flag.
+ * @param onClose The onClose function.
+ */
 export default function AddInternship({ openModal, onClose }: Readonly<Props>) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const [isFieldDisabled, setIsFieldDisabled] = useState(true);
@@ -81,6 +86,9 @@ export default function AddInternship({ openModal, onClose }: Readonly<Props>) {
       .catch((error) => console.error("Failed to fetch Internships", error));
   }, [refreshKey]);
 
+  /**
+   * The handleAddField function adds a new internship field.
+   */
   const handleAddField = async () => {
     await createInternshipField({ name: newField });
     setInternshipFields([...internshipFields, { name: newField }]);
@@ -88,6 +96,10 @@ export default function AddInternship({ openModal, onClose }: Readonly<Props>) {
     setNewField("");
   };
 
+  /**
+   * The handleSubmit function adds a new internship.
+   * @param event The event object.
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -105,6 +117,9 @@ export default function AddInternship({ openModal, onClose }: Readonly<Props>) {
     onClose();
   };
 
+  /**
+   * The closeAddModal function closes the add internship modal.
+   */
   const closeAddModal = () => {
     setIsAddModalOpen(false);
     setRefreshKey((oldKey) => oldKey + 1);

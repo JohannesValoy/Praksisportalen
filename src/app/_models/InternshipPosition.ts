@@ -12,4 +12,7 @@ export interface InternshipPaginationRequest extends PageRequest {
   id?: number;
 }
 
+/**
+ * A class representing an Internship
+ */
 export interface Internship extends InternshipTable {}

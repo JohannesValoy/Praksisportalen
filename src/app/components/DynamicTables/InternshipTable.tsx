@@ -11,6 +11,12 @@ interface DynamicTableProps {
   onAddButtonClick?: () => void;
 }
 
+/**
+ * The InternshipTable component displays a list of internships.
+ * @param refreshKey The refresh key.
+ * @param filter The filter object.
+ * @param onAddButtonClick The onAddButtonClick function.
+ */
 const InternshipTable: React.FC<DynamicTableProps> = ({
   refreshKey,
   filter,

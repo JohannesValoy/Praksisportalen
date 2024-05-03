@@ -12,6 +12,13 @@ interface DynamicTableProps {
   onAddButtonClick?: () => void;
 }
 
+/**
+ * The DepartmentTable component displays a list of departments.
+ * @param refreshKey The refresh key.
+ * @param readonly The readonly flag.
+ * @param filter The filter object.
+ * @param onAddButtonClick The onAddButtonClick function.
+ */
 const DepartmentTable: React.FC<DynamicTableProps> = ({
   refreshKey,
   readonly,

@@ -6,6 +6,10 @@ import { createStudent, fetchStudents } from "./action";
 import SuccessDialog from "@/app/components/SuccessDialog";
 import ContainerBox from "@/app/components/ContainerBox";
 
+/**
+ * Creates a page that allows for adding a student.
+ * @returns A page to add a student.
+ */
 export default function Page() {
   const router = useRouter();
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -38,6 +42,12 @@ export default function Page() {
       .catch((error) => console.error("Failed to fetch Students", error));
   }, []);
 
+  /**
+   * The handleSubmit function adds a new student.
+   * @param event The event object.
+   * @returns A new student.
+   * @returns A modal to confirm the addition of the student.
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
 

@@ -4,6 +4,9 @@ import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
 import { deleteCoordinator, paginateCoordinators } from "./actions";
 import { useRouter } from "next/navigation";
 
+/**
+ * The ListOfCoordinators component displays a list of coordinators.
+ */
 const ListOfCoordinators = () => {
   const router = useRouter();
 

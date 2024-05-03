@@ -6,6 +6,10 @@ import {
   paginateEducationInstitutions,
 } from "./actions";
 
+/**
+ * The ListOfEducationInstitutions component displays a list of education institutions.
+ * @param wordbook The wordbook object containing all the translations.
+ */
 export default function ListOfEducationInstitutions({
   wordbook,
 }: {

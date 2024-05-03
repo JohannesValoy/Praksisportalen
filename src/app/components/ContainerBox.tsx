@@ -1,3 +1,10 @@
+/**
+ * ContainerBox Component
+ * @param {string} title The title of the container box.
+ * @param {string} className The class name of the container box.
+ * @param {ReactNode} children The children of the container box.
+ * @returns The ContainerBox component.
+ */
 const ContainerBox = ({ children, title = "", className = "" }) => {
   return (
     <div className={`flex flex-col w-fit p-5 ${className}`}>

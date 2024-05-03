@@ -63,6 +63,14 @@ export default function Page() {
       );
   }, []);
 
+  /**
+   * The handleSubmit function adds a new study program.
+   * @param event The event object.
+   * If the educationInstitutionID is null, the function returns.
+   * The data object contains the name and educationInstitutionID of the study program.
+   * The addStudyProgram function is called with the data object.
+   * The isModalVisible state is set to true.
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (educationInstitutionID === null) {

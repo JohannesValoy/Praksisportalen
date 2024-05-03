@@ -2,6 +2,12 @@
 import React from "react";
 import StudentTable from "@/app/components/DynamicTables/StudentTable";
 
+/**
+ * The ListOfStudents component displays a list of students.
+ * @param wordbook The wordbook object containing all the translations.
+ * @param user The user object.
+ * @param educationInstitutionID The education institution ID.
+ */
 export default function ListOfStudents({
   wordbook,
   user,

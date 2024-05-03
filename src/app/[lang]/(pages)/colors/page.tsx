@@ -1,9 +1,15 @@
+/**
+ * Component to display a color description
+ */
 const ColorDescription = ({ name, description }) => (
   <p>
     <strong>{name}:</strong> {description}
   </p>
 );
 
+/**
+ * Page Component to show DaisyUI Theme Colors
+ */
 const Page = () => {
   const colors = [
     "bg-primary",

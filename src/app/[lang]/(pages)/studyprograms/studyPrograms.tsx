@@ -3,6 +3,10 @@ import React from "react";
 import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
 import { deleteStudyProgram, paginateStudyPrograms } from "./actions";
 
+/**
+ * The ListOfStudies component displays a list of study programs.
+ * @param wordbook The wordbook object containing all the translations.
+ */
 export default function ListOfStudies({
   wordbook,
 }: {

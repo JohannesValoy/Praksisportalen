@@ -15,6 +15,11 @@ type Props = {
   onClose: () => void;
 };
 
+/**
+ * The AddDepartment component displays a form to add a department.
+ * @param openModal The openModal flag.
+ * @param onClose The onClose function.
+ */
 export default function AddDepartment({ openModal, onClose }: Readonly<Props>) {
   const [departments, setDepartments] = useState([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -30,6 +35,9 @@ export default function AddDepartment({ openModal, onClose }: Readonly<Props>) {
     email: string;
   };
 
+  /**
+   * The closeAddModal function closes the add department modal.
+   */
   const closeAddModal = () => {
     setIsAddModalOpen(false);
     setRefreshKey((oldKey) => oldKey + 1);
@@ -62,6 +70,10 @@ export default function AddDepartment({ openModal, onClose }: Readonly<Props>) {
       .catch((error) => console.error("Failed to fetch Employees", error));
   }, [refreshKey]);
 
+  /**
+   * The handleSubmit function adds a new department.
+   * @param event The event object.
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
 

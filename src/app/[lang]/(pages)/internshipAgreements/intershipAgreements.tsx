@@ -6,6 +6,10 @@ import {
   paginateInternshipAgreements,
 } from "./actions";
 
+/**
+ * The ListOfInternshipAgreements component displays a list of internship agreements.
+ * @param wordbook The wordbook object containing all the translations.
+ */
 export default function ListOfInternshipAgreements({
   wordbook,
 }: {

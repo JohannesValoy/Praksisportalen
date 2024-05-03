@@ -10,6 +10,11 @@ import {
 } from "../../studyprograms/actions";
 import StudentTable from "@/app/components/DynamicTables/StudentTable";
 
+/**
+ * The InstitutionPage component displays the details of an education institution.
+ * @param eduInstitution The education institution object.
+ * @param wordbook The wordbook object containing all the translations.
+ */
 export default function InstitutionPage({
   eduInstitution,
   wordbook,
@@ -22,6 +27,10 @@ export default function InstitutionPage({
 
   const [name, setName] = useState("");
 
+  /**
+   * The handleSubmit function updates the education institution details.
+   * @param e The event object.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -34,6 +43,9 @@ export default function InstitutionPage({
     refreashPage();
   };
 
+  /**
+   * The refreashPage function reloads the page.
+   */
   const refreashPage = () => {
     window.location.reload();
   };

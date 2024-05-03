@@ -3,6 +3,9 @@
 import DBclient from "@/knex/config/DBClient";
 import "server-only";
 
+/**
+ * The TimeInterval class represents a time interval object.
+ */
 class TimeInterval {
   private ID: number;
   private _start: Date;

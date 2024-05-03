@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import { createRecord } from "./actions";
 import ContainerBox from "@/app/components/ContainerBox";
 
+/**
+ * The InternshipUploader component allows users to upload a CSV file of internship data.
+ */
 const InternshipUploader = () => {
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
@@ -14,7 +17,11 @@ const InternshipUploader = () => {
     setFile(event.target.files[0]);
   };
 
-  // Parse CSV Data into JSON
+  /**
+   * The parseCSV function parses the CSV text.
+   * @param text The CSV text.
+   * @returns The parsed CSV data.
+   */
   const parseCSV = async (text) => {
     const lines = text.split("\n").filter((line) => line.trim());
     const headers = lines[0].split(",").map((header) => header.trim());
@@ -28,6 +35,11 @@ const InternshipUploader = () => {
     });
   };
 
+  /**
+   * The sendData function sends data to the server.
+   * @param data The data to send.
+   * @returns The response from the server.
+   */
   const sendData = async (data) => {
     try {
       const { table, ...recordData } = data;
@@ -45,7 +57,9 @@ const InternshipUploader = () => {
     }
   };
 
-  // Handle file upload
+  /**
+   * The handleUpload function handles the file upload.
+   */
   const handleUpload = async () => {
     if (file && !loading) {
       setLoading(true);

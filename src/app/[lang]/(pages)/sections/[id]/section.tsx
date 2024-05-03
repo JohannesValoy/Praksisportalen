@@ -10,6 +10,12 @@ import EmployeeDropdown from "@/app/components/Dropdowns/EmployeeDropdown";
 import EditModal from "@/app/components/Modals/EditModal";
 import InternshipTable from "@/app/components/DynamicTables/InternshipTable";
 
+/**
+ * The SectionPage component displays the details of a section.
+ * @param section The section object.
+ * @param user The user object.
+ * @param wordbook The wordbook object containing all the translations.
+ */
 export default function SectionPage({
   section,
   user,
@@ -48,6 +54,15 @@ export default function SectionPage({
     }
   }, [section]);
 
+  /**
+   * The handleSubmit function updates the section details.
+   * @param e The event object.
+   * The update object contains the updated section details.
+   * If the name, section type, or employee ID is not provided, the value is not updated.
+   * If the value is provided, the value is updated.
+   * The updated section details are then sent to the editSectionDetails function.
+   * The refreashPage function is called to reload the page.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -55,7 +70,6 @@ export default function SectionPage({
     const updateSectionType = sectionType.trim();
     const updateEmployeeID = employeeID.trim();
 
-    // Declare the type of the update object
     const update: {
       name?: string;
       sectionType?: string;
@@ -77,10 +91,17 @@ export default function SectionPage({
     refreashPage();
   };
 
+  /**
+   * The refreashPage function reloads the page.
+   * @returns The reloaded page.
+   */
   const refreashPage = () => {
     window.location.reload();
   };
 
+  /**
+   * The closeAddModal function closes an add modal and triggers a refresh by updating the refresh key.
+   */
   const closeAddModal = () => {
     setIsAddModalOpen(false);
     setRefreshKey((oldKey) => oldKey + 1);

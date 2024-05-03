@@ -190,6 +190,9 @@ function compareIfAccess(request: NextRequest, token: JWT | null) {
   return false;
 }
 
+/**
+ * This is the configuration for the middleware.
+ */
 export const config = {
   matchers: [/^\/(?!api\/auth)/],
 };

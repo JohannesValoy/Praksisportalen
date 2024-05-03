@@ -13,6 +13,11 @@ type Props = {
   onClose: () => void;
 };
 
+/**
+ * The AddEmployee component displays a form to add an employee.
+ * @param openModal The openModal flag.
+ * @param onClose The onClose function.
+ */
 export default function AddEmployee({ openModal, onClose }: Readonly<Props>) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
@@ -43,6 +48,11 @@ export default function AddEmployee({ openModal, onClose }: Readonly<Props>) {
       .catch((error) => console.error("Failed to fetch Employees", error));
   }, []);
 
+  /**
+   * The handleSubmit function adds a new employee.
+   * @param event The event object.
+   * @returns A new employee.
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
 

@@ -5,7 +5,6 @@ import { TimeIntervalTable } from "knex/types/tables.js";
 /**
  * TimeIntervalObject is a class that represents an TimeInterval object.
  */
-
 class TimeIntervalObject implements TimeIntervalTable {
   id: number;
   startDate: Date;
@@ -14,6 +13,10 @@ class TimeIntervalObject implements TimeIntervalTable {
   createdAt: Date;
   updatedAt: Date;
 
+  /**
+   * Creates a new TimeIntervalObject object.
+   * @param query the TimeIntervalTable object
+   */
   constructor(query: TimeIntervalTable) {
     this.id = query.id;
     this.startDate = query.startDate;
@@ -23,6 +26,10 @@ class TimeIntervalObject implements TimeIntervalTable {
     this.updatedAt = query.updatedAt;
   }
 
+  /**
+   * Converts the TimeIntervalObject to a JSON object.
+   * @returns a JSON object
+   */
   toJSON() {
     return {
       id: this.id,

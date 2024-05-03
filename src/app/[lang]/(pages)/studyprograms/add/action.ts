@@ -3,6 +3,10 @@
 import DBclient from "@/knex/config/DBClient";
 import "server-only";
 
+/**
+ * The fetchStudyPrograms function fetches all study programs from the database.
+ * @returns A list of study programs.
+ */
 export async function fetchStudyPrograms() {
   const response = await DBclient("studyPrograms").select("*");
 
@@ -14,6 +18,10 @@ export async function fetchStudyPrograms() {
   }, {});
 }
 
+/**
+ * The fetchEducationInstitutions function fetches all education institutions from the database.
+ * @returns A list of education institutions.
+ */
 export async function fetchEducationInstitutions() {
   const response = await DBclient("educationInstitutions").select("*");
 
@@ -25,10 +33,13 @@ export async function fetchEducationInstitutions() {
   }, {});
 }
 
+/**
+ * The addStudyProgram function adds a new study program to the database.
+ * @param data The study program object to be added.
+ */
 export async function addStudyProgram(data) {
   await DBclient("studyPrograms").insert({
     name: data.name,
     educationInstitutionID: data.educationInstitutionID,
   });
-  return null;
 }

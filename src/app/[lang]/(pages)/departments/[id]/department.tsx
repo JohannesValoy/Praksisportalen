@@ -10,6 +10,12 @@ import EmployeeDropdown from "@/app/components/Dropdowns/EmployeeDropdown";
 import SectionTable from "@/app/components/DynamicTables/SectionTable";
 import EditModal from "@/app/components/Modals/EditModal";
 
+/**
+ * The DepartmentPage component displays the details of a department.
+ * @param user The user object.
+ * @param wordbook The wordbook object containing all the translations.
+ * @param department The department object.
+ */
 export default function DepartmentPage({
   user,
   wordbook,
@@ -38,6 +44,10 @@ export default function DepartmentPage({
     }
   }, [department]);
 
+  /**
+   * The handleSubmit function updates the department details.
+   * @param e The event object.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -61,10 +71,17 @@ export default function DepartmentPage({
     refreashPage();
   };
 
+  /**
+   * The refreashPage function reloads the page.
+   * @returns The reloaded page.
+   */
   const refreashPage = () => {
     window.location.reload();
   };
 
+  /**
+   * The closeAddModal function closes an add modal and triggers a refresh by updating the refresh key.
+   */
   const closeAddModal = () => {
     setIsAddModalOpen(false);
     setRefreshKey((oldKey) => oldKey + 1);

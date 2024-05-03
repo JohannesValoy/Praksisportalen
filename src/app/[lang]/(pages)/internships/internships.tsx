@@ -3,6 +3,10 @@ import { useState } from "react";
 import AddInternship from "../../../components/Modals/AddInternshipModal";
 import InternshipTable from "@/app/components/DynamicTables/InternshipTable";
 
+/**
+ * The ListOfInternships component displays a table of internships and an add button.
+ * @param wordbook The wordbook object containing all the translations.
+ */
 export default function ListOfInternships({
   wordbook,
 }: {
@@ -11,6 +15,9 @@ export default function ListOfInternships({
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
+  /**
+   * The closeAddModal function closes an add modal and triggers a refresh by updating the refresh key.
+   */
   const closeAddModal = () => {
     setIsAddModalOpen(false);
     setRefreshKey((oldKey) => oldKey + 1);

@@ -1,6 +1,10 @@
 "use client";
 import { useRouter } from "next/navigation";
 
+/**
+ * The NotFound component displays a 404 page.
+ * @returns A 404 page.
+ */
 const NotFound: React.FC = () => {
   const router = useRouter();
 

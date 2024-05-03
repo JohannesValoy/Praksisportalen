@@ -14,6 +14,10 @@ import SuccessDialog from "@/app/components/SuccessDialog";
 import ContainerBox from "@/app/components/ContainerBox";
 import { generatePassword } from "@/services/EmployeeService";
 
+/**
+ * Creates a page that allows for adding a user.
+ * @returns A page to add a user.
+ */
 export default function Page() {
   const router = useRouter();
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -65,6 +69,14 @@ export default function Page() {
       .catch((error) => console.error("Failed to fetch Students", error));
   }, []);
 
+  /**
+   * The handleSubmit function adds a new user.
+   * @param event The event object.
+   * If the role is coordinator, the coordinator object is created and added to the database.
+   * If the role is student, the student object is created and added to the database.
+   * If the role is employee, the employee object is created and added to the database.
+   * The isModalVisible state is set to true.
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
 

@@ -1,6 +1,9 @@
 "use client";
 import React from "react";
 
+/**
+ * The DataItem interface represents the data item.
+ */
 interface DataItem {
   id: number;
   row_id: number;
@@ -9,6 +12,9 @@ interface DataItem {
   endDate: Date;
 }
 
+/**
+ * The GanttProps interface represents the props of the Gantt component.
+ */
 interface GanttProps {
   datalist: DataItem[];
   onClickUrl?: string;
@@ -19,10 +25,18 @@ interface MonthMarker {
   offsetPercent: number;
 }
 
+/**
+ * The DateRange interface represents the date range.
+ */
 interface DateRange {
   [key: string]: Array<[Date, Date, number]>;
 }
 
+/**
+ * The Gantt component displays a Gantt chart.
+ * @param datalist The data list.
+ * @param onClickUrl The URL to redirect to on click.
+ */
 const Gantt: React.FC<GanttProps> = ({ datalist, onClickUrl }) => {
   const startDates = datalist.map((item) => new Date(item.startDate).getTime());
   const endDates = datalist.map((item) => new Date(item.endDate).getTime());

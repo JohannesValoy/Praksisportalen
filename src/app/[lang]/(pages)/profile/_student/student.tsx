@@ -1,5 +1,8 @@
 import Gantt from "@/app/components/Gantt";
 
+/**
+ * The DataItem interface represents the shape of the data items.
+ */
 interface DataItem {
   id: number;
   row_id: number;
@@ -8,6 +11,10 @@ interface DataItem {
   endDate: Date;
 }
 
+/**
+ * The StudentPage component displays a Gantt chart.
+ * @param user The user object.
+ */
 export default function StudentPage({ user }) {
   const datalist: DataItem[] = [
     {

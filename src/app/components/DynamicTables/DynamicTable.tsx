@@ -8,6 +8,9 @@ import { useSearchParams } from "next/navigation";
 import ContainerBox from "../ContainerBox";
 import ErrorModal from "../ErrorModal";
 
+/**
+ * The DynamicTableProps interface represents the props of the DynamicTable component.
+ */
 type DynamicTableProps = {
   tableName: string;
   headers: Record<string, string>;
@@ -23,6 +26,21 @@ type DynamicTableProps = {
   refreshKey?: number;
 };
 
+/**
+ * The DynamicTable component displays a dynamic table.
+ * @param tableName The table name.
+ * @param headers The headers object.
+ * @param onRowClick The onRowClick function.
+ * @param onRowButtonClick The onRowButtonClick function.
+ * @param buttonName The button name.
+ * @param onAddButtonClick The onAddButtonClick function.
+ * @param clickableColumns The clickableColumns object.
+ * @param deleteFunction The deleteFunction function.
+ * @param paginateFunction The paginateFunction function.
+ * @param filter The filter object.
+ * @param readonly The readonly flag.
+ * @param refreshKey The refresh key.
+ */
 const DynamicTable: React.FC<DynamicTableProps> = ({
   tableName = "",
   headers = {},

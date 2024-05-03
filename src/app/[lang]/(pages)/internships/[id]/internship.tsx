@@ -11,6 +11,14 @@ import {
 } from "../../internshipAgreements/actions";
 import EditModal from "@/app/components/Modals/EditModal";
 
+/**
+ * The InternshipPage function in TypeScript React is a functional component that renders the
+ * InternshipPage component.
+ * @param user - The `user` parameter is an object that contains the user ID and role.
+ * @param wordbook - The `wordbook` parameter is an object that contains a key-value pair of words.
+ * @param internship - The `internship` parameter is an object that contains the internship details.
+ * @returns The InternshipPage function returns a JSX Element that displays the InternshipPage component.
+ */
 export default function InternshipPage({
   user,
   wordbook,
@@ -53,6 +61,17 @@ export default function InternshipPage({
     }
   }, [internship]);
 
+  /**
+   * The function `getSectionName` takes a section ID and an array of sections, and returns the name of
+   * the section with the matching ID or "Unknown section" if not found.
+   * @param {string} sectionID - The `sectionID` parameter is a string representing the ID of the
+   * section you want to find the name for.
+   * @param sections - An array of objects where each object contains an `id` (string) and a `name`
+   * (string) representing a section.
+   * @returns The function `getSectionName` returns the name of the section corresponding to the
+   * provided `sectionID` from the `sections` array. If a section with the given `sectionID` is found,
+   * it returns the name of that section. If no matching section is found, it returns "Unknown section".
+   */
   function getSectionName(
     sectionID: string,
     sections: Array<{ id: string; name: string }>,
@@ -61,6 +80,14 @@ export default function InternshipPage({
     return section ? section.name : "Unknown section";
   }
 
+  /**
+   * The handleSubmit function in TypeScript React handles form submission by updating internship
+   * details and refreshing the page.
+   * @param e - The `e` parameter in the `handleSubmit` function is typically an event object that
+   * represents the event that was triggered. In this case, it is used to prevent the default behavior
+   * of a form submission using `e.preventDefault()`. This is a common practice in form handling to
+   * prevent the page from reloading
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -79,6 +106,9 @@ export default function InternshipPage({
     refreashPage();
   };
 
+  /**
+   * The `refreshPage` function reloads the current window location.
+   */
   const refreashPage = () => {
     window.location.reload();
   };

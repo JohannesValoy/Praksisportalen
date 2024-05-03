@@ -1,3 +1,9 @@
+/**
+ * ErrorModal component is used to display error messages in a modal.
+ * @param message The error message.
+ * @param setIsModalOpen The function to set the modal open state.
+ * @returns The ErrorModal component.
+ */
 export default function ErrorModal({ message, setIsModalOpen }) {
   return (
     <dialog

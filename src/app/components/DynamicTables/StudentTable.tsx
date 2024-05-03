@@ -10,9 +10,12 @@ interface StudentTableProps {
   filter?: any;
 }
 
+/**
+ * The StudentTable component displays a list of students.
+ * @param filter The filter object.
+ */
 const StudentTable: React.FC<StudentTableProps> = ({ filter }) => {
   const router = useRouter();
-  console.log(filter);
   const handleClick = (id: string) => {
     router.push(`/profile/${id}`);
   };

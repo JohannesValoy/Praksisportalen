@@ -16,9 +16,7 @@ export async function paginateCoordinators(request: CoordinatorPageRequest) {
 /**
  * Deletes a coordinator sby its ID
  * @param id The ID of the coordinator to delete.
- * @returns nothing......
  */
 export async function deleteCoordinator(id: number) {
-  //TODO: Remove return or change the internal method
-  return await deleteCoordinatorByID(id);
+  await deleteCoordinatorByID(id);
 }

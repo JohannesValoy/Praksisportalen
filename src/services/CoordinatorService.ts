@@ -24,6 +24,11 @@ async function createCoordinators(coordinators: CoordinatorTable[]) {
   await DBclient.insert(coordinators).into("coordinators");
 }
 
+/**
+ * Gets a {@link Coordinator} object by its ID
+ * @param id the ID of the {@link Coordinator} to get
+ * @returns a {@link Coordinator} object
+ */
 async function getCoordinatorsByID(id: string): Promise<Coordinator> {
   const coordinators = await getCoordinatorsByIDList(new Set([id]));
   if (!coordinators.get(id)) {
@@ -32,6 +37,11 @@ async function getCoordinatorsByID(id: string): Promise<Coordinator> {
   return coordinators.get(id);
 }
 
+/**
+ * Gets a list of {@link Coordinator} objects by their IDs
+ * @param idList a list of IDs
+ * @returns a map of {@link Coordinator} objects
+ */
 async function getCoordinatorsByIDList(
   idList: Set<string>,
 ): Promise<Map<string, Coordinator>> {

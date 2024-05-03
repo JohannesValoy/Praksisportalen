@@ -168,6 +168,7 @@ function Page() {
     <>
       <button
         className={`btn ${filterStatus === "Finalized" ? "btn-primary" : "btn-ghost"} ml-auto mt-5 mr-10`}
+        aria-label="Logg"
         onClick={() => {
           if (filterStatus === "Finalized") {
             setTitle("Mottatte bestillinger");

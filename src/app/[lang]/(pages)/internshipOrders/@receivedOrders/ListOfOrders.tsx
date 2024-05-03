@@ -54,6 +54,7 @@ function renderOrders(orders, setIsModalOpen, saveStatus, setSelectedOrder) {
                       setSelectedOrder(order);
                       setIsModalOpen(true);
                     }}
+                    disabled={order.status === "Finalized"}
                   >
                     Distribuer
                   </button>

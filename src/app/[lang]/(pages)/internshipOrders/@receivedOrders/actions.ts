@@ -168,7 +168,6 @@ export async function saveOrderDistribution(
       .where("subFieldGroups.id", subFieldGroup.id)
       .first();
 
-    const newNumStudents = subFieldGroup.numStudents - amount;
     const numStudentsAccepted = subFieldGroup.numStudentsAccepted + amount;
 
     await trx("subFieldGroups")
@@ -200,10 +199,107 @@ export async function saveOrderDistribution(
       coordinator_id: coordinatorID.coordinator_id,
     }));
 
-    await trx("internshipAgreements").insert(agreements);
+    const ids = await trx("internshipAgreements").insert(agreements);
 
-    if (newNumStudents === 0) {
-      await trx("subFieldGroups").where("id", subFieldGroupID).del();
+    const weeklyPracticeDays = 2;
+
+    for (const id of ids) {
+      const agreement = await trx("internshipAgreements")
+        .where("id", id)
+        .first();
+      const startDate: Date = agreement.startDate;
+      const endDate: Date = agreement.endDate;
+      const timeIntervals = await trx
+        .from("internshipAgreements")
+        .select("timeIntervals.*")
+        //Overlaps with the new internship
+        .where((builder) => {
+          builder
+            .where(
+              "internshipAgreements.startDate",
+              "<",
+              subFieldGroup.startWeek
+            )
+            .andWhere(
+              "internshipAgreements.endDate",
+              ">",
+              subFieldGroup.startWeek
+            )
+            .orWhere(
+              "internshipAgreements.startDate",
+              "<",
+              subFieldGroup.endWeek
+            )
+            .andWhere(
+              "internshipAgreements.endDate",
+              ">",
+              subFieldGroup.endWeek
+            );
+        })
+        .innerJoin(
+          "internships",
+          "internshipAgreements.internship_id",
+          "internships.id"
+        )
+        //All internships in the same section
+        .whereIn("section_id", (builder) => {
+          builder
+            .select("section_id")
+            .from("internships")
+            .innerJoin(
+              "internshipAgreements",
+              "internships.id",
+              "internshipAgreements.internship_id"
+            )
+            .where("internshipAgreements.id", agreement.id);
+        })
+        //All time intervals within those
+        .innerJoin(
+          "timeIntervals",
+          "internshipAgreements.id",
+          "timeIntervals.internshipAgreement_id"
+        );
+      // 8 - 16 work hours
+      startDate.setHours(0);
+      startDate.setMinutes(0);
+      startDate.setSeconds(0);
+      endDate.setHours(23);
+      endDate.setMinutes(59);
+      endDate.setSeconds(59);
+
+      while (startDate.getTime() < endDate.getTime()) {
+        const daysInTheWeek = [];
+        //Loop while it's not sunday and it's not the end of the internship
+        while (
+          startDate.getDay() !== 6 &&
+          startDate.getTime() < endDate.getTime()
+        ) {
+          daysInTheWeek.push(new Date(startDate));
+          //Increment the day
+          startDate.setDate(startDate.getDate() + 1);
+        }
+        //Increment the day
+        startDate.setDate(startDate.getDate() + 1);
+        daysInTheWeek.push(new Date(startDate));
+
+        //Sort the days by busyness
+        let days: Date[] = daysInTheWeek
+          .toSorted((a, b) => differenceInBusyness(a, b, timeIntervals))
+          .splice(0, weeklyPracticeDays);
+
+        for (const day of days) {
+          day.setHours(8);
+          day.setMinutes(0);
+          day.setSeconds(0);
+          const endIntervalDate = new Date(day);
+          endIntervalDate.setHours(16);
+          await trx("timeIntervals").insert({
+            startDate: day,
+            endDate: endIntervalDate,
+            internshipAgreement_id: id,
+          });
+        }
+      }
     }
   });
 }
@@ -224,4 +320,28 @@ export async function saveOrderStatus(
   return await DBclient("internshipOrders")
     .where("id", orderID)
     .update({ status: status });
+}
+
+/**
+ * A function that calculates the different between two dates within a section of internship agreements
+ * @param a Date a
+ * @param b Date b
+ * @param timeIntervals Time intervals that are already created
+ * @returns The difference in busyness
+ */
+function differenceInBusyness(a: any, b: any, timeIntervals: any[]) {
+  return (
+    timeIntervals.filter((ti) => {
+      return (
+        (ti.startDate >= a && ti.startDate <= a) ||
+        (ti.endDate >= a && ti.endDate <= a)
+      );
+    }).length -
+    timeIntervals.filter((ti) => {
+      return (
+        (ti.startDate >= b && ti.startDate <= b) ||
+        (ti.endDate >= b && ti.endDate <= b)
+      );
+    }).length
+  );
 }

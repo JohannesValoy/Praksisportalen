@@ -74,7 +74,7 @@ function renderOrders(orders, setIsModalOpen, saveStatus, setSelectedOrder) {
                   ? "Venter"
                   : groupedOrders[internshipOrderID][0].status}
             </div>
-            <ul className=" flex dropdown-content w-full z-[1] menu p-2 shadow bg-base-100 rounded-box gap-2">
+            <ul className=" flex dropdown-content w-full z-[1] menu p-2 bg-base-100 rounded-box gap-2 shadow-xl border border-base-300">
               <li>
                 <button
                   className="flex justify-center text-base-content p-3 bg-base hover:bg-accent hover:text-accent-content focus:bg-accent focus:text-accent-content"

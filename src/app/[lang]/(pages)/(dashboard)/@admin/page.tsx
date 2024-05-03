@@ -18,7 +18,7 @@ const AdminLayout = () => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    fetchOrders()
+    fetchOrders("Pending")
       .then(setOrders)
       .catch((error) => setError(error.message));
   }, []);
@@ -32,38 +32,42 @@ const AdminLayout = () => {
           />
         </ContainerBox>
         <ContainerBox title="Received Orders">
-          <button
-            className="stack w-full h-fit"
-            onClick={() => (window.location.href = "/internshipOrders")}
-          >
-            {orders.map((order, index) => (
-              <div
-                key={order.id}
-                className={`card shadow-${index} bg-primary text-primary-content`}
-              >
-                <div className="card-body">
-                  <h2 className="card-title">
-                    {order.studyProgram.educationInstitute.name} -{" "}
-                    {order.studyProgram.name}
-                  </h2>
-                  <p className="text-opacity-80">
-                    {order.numStudents} students
-                  </p>
-                  <p className="text-opacity-80">
-                    {order.internshipField}, {order.studyYear} år studenter
-                  </p>
-                  <p className="text-sm text-opacity-80">
-                    {order.createdAt.toLocaleDateString()}
-                  </p>
-                </div>
-                {index === 0 && orders.length > 1 && (
-                  <div className="badge badge-secondary p-3 rounded-full">
-                    + {orders.length - 1}
+          {orders.length > 0 ? (
+            <button
+              className="stack w-full h-fit"
+              onClick={() => (window.location.href = "/internshipOrders")}
+            >
+              {orders.map((order, index) => (
+                <div
+                  key={order.id}
+                  className={`card shadow-${index} bg-primary text-primary-content`}
+                >
+                  <div className="card-body">
+                    <h2 className="card-title">
+                      {order.studyProgram.educationInstitute.name} -{" "}
+                      {order.studyProgram.name}
+                    </h2>
+                    <p className="text-opacity-80">
+                      {order.numStudents} students
+                    </p>
+                    <p className="text-opacity-80">
+                      {order.internshipField}, {order.studyYear} år studenter
+                    </p>
+                    <p className="text-sm text-opacity-80">
+                      {order.createdAt.toLocaleDateString()}
+                    </p>
                   </div>
-                )}
-              </div>
-            ))}
-          </button>
+                  {index === 0 && orders.length > 1 && (
+                    <div className="badge badge-secondary p-3 rounded-full">
+                      + {orders.length - 1}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </button>
+          ) : (
+            "No pending orders"
+          )}
         </ContainerBox>
       </div>
       <div className="flex flex-col w-full h-full">

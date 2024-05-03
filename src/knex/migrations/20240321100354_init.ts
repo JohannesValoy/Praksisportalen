@@ -1,5 +1,3 @@
-/** @format */
-
 import type { Knex } from "knex";
 
 const check_email_and_idTrigger = (table: string) => {

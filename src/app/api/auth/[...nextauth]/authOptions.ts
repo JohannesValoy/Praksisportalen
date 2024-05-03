@@ -1,5 +1,3 @@
-/** @format */
-
 import { NextAuthOptions } from "next-auth";
 import passwordProvider from "./_providers/PasswordProvider";
 import feideProvider from "./_providers/feide";

@@ -1,5 +1,3 @@
-/** @format */
-
 export default function ErrorModal({ message, setIsModalOpen }) {
   return (
     <dialog

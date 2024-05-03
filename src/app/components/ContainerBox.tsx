@@ -1,5 +1,3 @@
-/** @format */
-
 const ContainerBox = ({ children, title = "" }) => {
   return (
     <div className="flex flex-col p-2 md:p-10 ">

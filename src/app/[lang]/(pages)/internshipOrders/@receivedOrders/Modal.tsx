@@ -1,10 +1,7 @@
-/** @format */
-
 import React from "react";
 import { Order } from "./actions";
 
 interface InternshipDistributionModalProps {
-  setIsModalOpen: (isOpen: boolean) => void;
   selectedOrder: Order;
   rows: any[]; // replace with the actual type
   setSortedBy: (sortedBy: any) => void; // replace with the actual type
@@ -22,7 +19,6 @@ interface InternshipDistributionModalProps {
 const InternshipDistributionModal: React.FC<
   InternshipDistributionModalProps
 > = ({
-  setIsModalOpen,
   selectedOrder,
   rows,
   setSortedBy,
@@ -40,10 +36,10 @@ const InternshipDistributionModal: React.FC<
     <>
       <button
         className="fixed inset-0 bg-black opacity-50 z-40"
-        onClick={() => setIsModalOpen(false)}
+        onClick={() => closeModal()}
       ></button>
       <div
-        onSubmit={() => setIsModalOpen(false)}
+        onSubmit={() => closeModal()}
         className="fixed inset-0 flex items-center justify-center z-50 h-fit w-fit mx-auto my-auto p-1 m-1"
         aria-label="Internship Distribution Modal"
       >
@@ -264,6 +260,7 @@ const InternshipDistributionModal: React.FC<
               <button
                 className="btn btn-success"
                 onClick={() => {
+                  closeModal();
                   selectedRows.forEach((selectedRow) => {
                     saveDistribution(
                       selectedOrder.id,

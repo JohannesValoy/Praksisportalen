@@ -1,5 +1,3 @@
-/** @format */
-
 //DO NOT REMOVE THE FOLLOWING IMPORT, IT IS NEEDED FOR TYPE DECLARATIONS
 import { Knex } from "knex";
 import { Coordinator } from "../../app/_models/Coordinator";

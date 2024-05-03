@@ -1,5 +1,3 @@
-/** @format */
-
 import { InternshipTable } from "knex/types/tables.js";
 import DBclient from "@/knex/config/DBClient";
 import {

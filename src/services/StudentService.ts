@@ -1,5 +1,3 @@
-/** @format */
-
 import DBclient from "@/knex/config/DBClient";
 import { StudentTable } from "knex/types/tables.js";
 import { PageResponse } from "../app/_models/pageinition";

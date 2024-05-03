@@ -1,5 +1,3 @@
-/** @format */
-
 import {
   InternshipAgreement,
   InternshipAgreementPageRequest,

@@ -1,5 +1,3 @@
-/** @format */
-
 import { NextRequest } from "next/server";
 import { Role } from "../api/auth/[...nextauth]/nextauth";
 

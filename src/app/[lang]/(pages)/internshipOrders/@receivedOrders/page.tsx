@@ -1,4 +1,3 @@
-/** @format */
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -103,6 +102,12 @@ function Page() {
   };
 
   //TODO make it save even with only status
+  /**
+   * Save the distribution of students to internships.
+   * @param subFieldGroupID The ID of the subFieldGroup to distribute students to.
+   * @param InternshipID The ID of the internship to distribute students to.
+   * @param amount The amount of students to distribute.
+   */
   function saveDistribution(subFieldGroupID, InternshipID, amount) {
     saveOrderDistribution(subFieldGroupID, InternshipID, amount, status)
       .then(() => {
@@ -141,7 +146,6 @@ function Page() {
       />
       {isModalOpen && (
         <InternshipDistributionModal
-          setIsModalOpen={setIsModalOpen}
           closeModal={closeModal}
           rows={rows}
           selectedRows={selectedRows}

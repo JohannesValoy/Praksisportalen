@@ -1,10 +1,13 @@
-/** @format */
 /**
   xmlns:xlink="http://www.w3.org/1999/xlink"
   from icon set "IconaMoon Icon Set"
-   */
+ */
 import React from "react";
 
+/**
+ * The icon for log.
+ * @returns The log icon.
+ */
 function LogIcon() {
   return (
     <svg

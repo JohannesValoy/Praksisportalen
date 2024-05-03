@@ -79,7 +79,6 @@ declare module "knex/types/tables.js" {
 
   interface InternshipAgreementTable {
     id: number;
-    status: "Agreed" | "Pending" | "Rejected";
     startDate: Date;
     endDate: Date;
     student_id?: string;

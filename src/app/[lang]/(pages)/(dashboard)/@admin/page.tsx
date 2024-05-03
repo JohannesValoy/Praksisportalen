@@ -35,6 +35,7 @@ const AdminLayout = () => {
           {orders.length > 0 ? (
             <button
               className="stack w-full h-fit"
+              aria-label="Go to pending Orders"
               onClick={() => (window.location.href = "/internshipOrders")}
             >
               {orders.map((order, index) => (

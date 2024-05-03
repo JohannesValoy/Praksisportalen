@@ -23,11 +23,11 @@ function renderOrders(orders, setIsModalOpen, saveStatus, setSelectedOrder) {
   }, {});
 
   return (
-    <div className="flex flex-wrap gap-5 justify-center">
+    <div className="flex flex-col gap-5 justify-center">
       {Object.keys(groupedOrders).map((internshipOrderID) => (
         <div
           key={internshipOrderID}
-          className="card-body card bg-base-100 shadow-xl w-fit"
+          className="card-body card bg-base-100 shadow-xl w-full"
         >
           {groupedOrders[internshipOrderID].map((order) => (
             <div key={order.id} className=" text-base-content ">

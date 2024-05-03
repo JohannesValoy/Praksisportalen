@@ -166,21 +166,27 @@ function Page() {
   }, [isModalOpen, filterStatus]);
   return (
     <>
-      <button
-        className={`btn ${filterStatus === "Finalized" ? "btn-primary" : "btn-ghost"} ml-auto mt-5 mr-10`}
-        aria-label="Logg"
-        onClick={() => {
-          if (filterStatus === "Finalized") {
-            setTitle("Mottatte bestillinger");
-            setFilterStatus("Pending");
-          } else {
-            setFilterStatus("Finalized");
-            setTitle("Distribuerte bestillinger");
-          }
-        }}
-      >
-        <LogIcon />
-      </button>
+      <div className="flex justify-between items-center mx-10">
+        <div className="w-56"></div> {/* Placeholder div */}
+        <h1 className="text-2xl font-bold">Bestillinger</h1>
+        <div className="w-56 flex justify-end">
+          <button
+            className={` btn ${filterStatus === "Finalized" ? "btn-primary" : "btn-ghost"} mt-5`}
+            aria-label="Logg"
+            onClick={() => {
+              if (filterStatus === "Finalized") {
+                setTitle("Mottatte bestillinger");
+                setFilterStatus("Pending");
+              } else {
+                setFilterStatus("Finalized");
+                setTitle("Distribuerte bestillinger");
+              }
+            }}
+          >
+            <LogIcon />
+          </button>
+        </div>
+      </div>
 
       <ListOfOrders
         orders={orders}

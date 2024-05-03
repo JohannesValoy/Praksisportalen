@@ -6,7 +6,6 @@ import {
 } from "@/app/_models/InternshipPosition";
 import "server-only";
 import { PageResponse } from "@/app/_models/pageinition";
-import knex from "knex";
 
 /**
  * Gets an {@link InternshipPosition} object by its id.

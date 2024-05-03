@@ -277,8 +277,8 @@ const InternshipDistributionModal: React.FC<
                       Math.min(
                         selectedRow.vacancies,
                         selectedOrder?.numStudents -
-                          selectedOrder?.numStudentsAccepted
-                      )
+                          selectedOrder?.numStudentsAccepted,
+                      ),
                     );
                   });
                 }}

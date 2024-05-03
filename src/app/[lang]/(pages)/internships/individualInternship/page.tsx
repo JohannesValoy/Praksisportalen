@@ -53,12 +53,12 @@ const InternshipComponent = () => {
               name: `Interval ${index + 1}`,
               startDate: new Date(interval.startDate),
               endDate: new Date(interval.endDate),
-            })
+            }),
           );
           setDatalist(dataList);
         })
         .catch((error) =>
-          console.error("Failed to fetch internship details:", error)
+          console.error("Failed to fetch internship details:", error),
         );
     }
   }, [internship_id]);

@@ -32,7 +32,7 @@ function Page() {
   const [title, setTitle] = useState("Mottatte bestillinger");
   const [status, setStatus] = useState<"Finalized" | "Pending">("Pending");
   const [filterStatus, setFilterStatus] = useState<"Finalized" | "Pending">(
-    "Pending"
+    "Pending",
   );
 
   /**
@@ -76,7 +76,7 @@ function Page() {
     if (isModalOpen && selectedOrder) {
       fetchInternships();
       setStudentsLeft(
-        selectedOrder.numStudents - selectedOrder.numStudentsAccepted
+        selectedOrder.numStudents - selectedOrder.numStudentsAccepted,
       );
       setSelectedRows([]);
       setError(null);
@@ -106,8 +106,8 @@ function Page() {
         0,
         selectedOrder.numStudents -
           selectedOrder.numStudentsAccepted -
-          vacanciesSelected
-      )
+          vacanciesSelected,
+      ),
     ); // Ensure it never goes negative
     if (vacanciesSelected < 0) {
       throw new Error("Vacancies selected is negative: " + vacanciesSelected);

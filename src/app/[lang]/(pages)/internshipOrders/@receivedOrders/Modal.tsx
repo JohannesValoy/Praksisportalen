@@ -3,12 +3,12 @@ import { Order } from "./actions";
 
 interface InternshipDistributionModalProps {
   selectedOrder: Order;
-  rows: any[]; // replace with the actual type
-  setSortedBy: (sortedBy: any) => void; // replace with the actual type
-  selectedRows: any[]; // replace with the actual type
-  toggleSelection: (selection: any) => void; // replace with the actual type
+  rows: any[]; // Replace with the actual type when available
+  setSortedBy: (sortedBy: any) => void; // Replace with the actual type when available
+  selectedRows: any[]; // Replace with the actual type when available
+  toggleSelection: (selection: any) => void; // Replace with the actual type when available
   studentsLeft: number;
-  saveDistribution(arg1, arg2, arg3);
+  saveDistribution: (arg1: any, arg2: any, arg3: any) => void; // Define the types for arg1, arg2, arg3
   page: number;
   setPage: (page: number) => void;
   totalPages: number;
@@ -30,15 +30,15 @@ const InternshipDistributionModal: React.FC<
   totalPages,
   closeModal,
 }) => {
-  //TODO move all svgs to separate files
   return (
     <>
       <button
+        aria-label="Close modal"
         className="fixed inset-0 bg-black opacity-50 z-40"
-        onClick={() => closeModal()}
+        onClick={closeModal}
       ></button>
-      <div
-        onSubmit={() => closeModal()}
+      <form
+        onSubmit={closeModal}
         className="fixed inset-0 flex items-center justify-center z-50 h-fit w-fit mx-auto my-auto p-1 m-1"
         aria-label="Internship Distribution Modal"
       >
@@ -46,8 +46,11 @@ const InternshipDistributionModal: React.FC<
           <h1 className="text-3xl font-bold text-center text-primary">
             {selectedOrder?.studyProgram.name}
           </h1>
-          <div className="flex flex-col gap-5 text-center justify-center  text-base-content w-full">
-            <div className="flex gap-2 mx-auto">
+          <div className="flex flex-col gap-5 text-center justify-center text-base-content w-full">
+            <div
+              className="flex gap-2 mx-auto"
+              aria-label="Internship date range"
+            >
               Date:
               <div className="text-primary font-bold">
                 {selectedOrder?.startWeek.toISOString().split("T")[0]}
@@ -58,7 +61,7 @@ const InternshipDistributionModal: React.FC<
               </div>
             </div>
 
-            <div className="mx-auto">
+            <div className="mx-auto" aria-label="Internship details">
               <div className="flex gap-2">
                 School:
                 <div className="font-bold text-primary">
@@ -75,9 +78,9 @@ const InternshipDistributionModal: React.FC<
               </div>
             </div>
 
-            <div className="mx-auto">
+            <div className="mx-auto" aria-label="Students left to assign">
               <div className="flex gap-2">
-                Students left to assign:{" "}
+                Students left to assign:
                 <div className="font-bold text-primary">{studentsLeft}</div>/
                 <div className="font-bold text-primary">
                   {selectedOrder?.numStudents}
@@ -86,16 +89,19 @@ const InternshipDistributionModal: React.FC<
             </div>
           </div>
           <div className="chat chat-start">
-            <div className="chat-bubble text-neutral-content bg-neutral">
+            <div
+              className="chat-bubble text-neutral-content bg-neutral"
+              aria-label="Order comment"
+            >
               {selectedOrder?.comment}
             </div>
           </div>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto" aria-label="Selection table">
             <table className="table w-full text-sm card-body overflow-hidden flex items-center justify-center text-center">
               <thead>
                 <tr className="text-xs uppercase bg-base-200 text-base-content">
                   <td></td>
-                  <th>
+                  <th aria-label="Sort by name">
                     <input
                       type="button"
                       onClick={() => setSortedBy("name")}
@@ -103,7 +109,7 @@ const InternshipDistributionModal: React.FC<
                       value="Navn"
                     />
                   </th>
-                  <th>
+                  <th aria-label="Sort by current capacity">
                     <input
                       type="button"
                       onClick={() => setSortedBy("currentCapacity")}
@@ -111,7 +117,7 @@ const InternshipDistributionModal: React.FC<
                       value="Kapasitet"
                     />
                   </th>
-                  <th>
+                  <th aria-label="Sort by vacancies">
                     <input
                       type="button"
                       onClick={() => setSortedBy("vacancies")}
@@ -125,8 +131,9 @@ const InternshipDistributionModal: React.FC<
                 {rows.map((row) => (
                   <tr
                     key={row.id}
-                    className={`${selectedRows.includes(row) ? "bg-neutral text-neutral-content" : "hover:bg-base-300 "} cursor-pointer, rounded-lg`}
+                    className={`${selectedRows.includes(row) ? "bg-neutral text-neutral-content" : "hover:bg-base-300 "} cursor-pointer rounded-lg`}
                     onClick={() => row.vacancies > 0 && toggleSelection(row)}
+                    aria-label="Internship row"
                   >
                     <td>
                       <input
@@ -137,6 +144,7 @@ const InternshipDistributionModal: React.FC<
                           row.vacancies > 0 && toggleSelection(row)
                         }
                         disabled={row.vacancies <= 0}
+                        aria-label="Select row"
                       />
                     </td>
                     <td>{row.name}</td>
@@ -146,7 +154,7 @@ const InternshipDistributionModal: React.FC<
                 ))}
                 {rows.length === 0 && (
                   <tr>
-                    <td className="text-center text-base-content">
+                    <td colSpan={4} className="text-center text-base-content">
                       No available spots found.
                     </td>
                   </tr>
@@ -154,12 +162,16 @@ const InternshipDistributionModal: React.FC<
               </tbody>
             </table>
           </div>
-          <div className="pagination flex flex-wrap justify-between items-center my-4 gap-2">
+          <div
+            className="pagination flex flex-wrap justify-between items-center my-4 gap-2"
+            aria-label="Pagination controls"
+          >
             <div className="join ">
               <button
                 className="btn btn-ghost join-item"
                 onClick={() => setPage(0)}
                 disabled={page === 0}
+                aria-label="Go to first page"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -180,6 +192,7 @@ const InternshipDistributionModal: React.FC<
                 className="btn btn-ghost join-item"
                 onClick={() => setPage(page - 1)}
                 disabled={page === 0}
+                aria-label="Go to previous page"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -196,13 +209,17 @@ const InternshipDistributionModal: React.FC<
                   />
                 </svg>
               </button>
-              <span className="font-semibold join-item p-2 text-neutral-content bg-neutral text-center flex items-center">
+              <span
+                className="font-semibold join-item p-2 text-neutral-content bg-neutral text-center flex items-center"
+                aria-label="Current page and total pages"
+              >
                 {page + 1} / {totalPages}
               </span>
               <button
                 className="flex flex-nowrap btn btn-ghost join-item w-fit"
                 onClick={() => setPage(page + 1)}
                 disabled={page + 1 >= totalPages}
+                aria-label="Go to next page"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -223,6 +240,7 @@ const InternshipDistributionModal: React.FC<
                 className="btn btn-ghost join-item"
                 onClick={() => setPage(totalPages - 1)}
                 disabled={page + 1 >= totalPages}
+                aria-label="Go to last page"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -270,7 +288,7 @@ const InternshipDistributionModal: React.FC<
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </>
   );
 };

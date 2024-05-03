@@ -10,9 +10,7 @@ import {
 } from "@/services/InternshipPositionService";
 import DBclient from "@/knex/config/DBClient";
 import "server-only";
-import { getInternshipAgreementsByPageRequest } from "@/services/AgreementService";
-import { InternshipAgreementPageRequest } from "../../../../_models/Agreement";
-import { PageRequest, PageResponse } from "@/app/_models/pageinition";
+import { PageResponse } from "@/app/_models/pageinition";
 export interface Order {
   id: number;
   studyProgramID: number;
@@ -35,15 +33,17 @@ export interface Order {
 }
 /**
  * Fetches ****ALL**** the orders from the databases and creates a list of {@link Order}s.
+ * @param status The status of the orders to fetch.
  * @returns A list of ****ALL**** the orders.
  */
-export async function fetchOrders(): Promise<Order[]> {
+export async function fetchOrders(status: string): Promise<Order[]> {
   const orders = await DBclient.table("internshipOrders")
     .innerJoin(
       "fieldGroups",
       "internshipOrders.id",
       "fieldGroups.internshipOrderID"
     )
+    .where("internshipOrders.status", status)
     .innerJoin(
       "subFieldGroups",
       "fieldGroups.id",
@@ -73,7 +73,7 @@ export async function fetchOrders(): Promise<Order[]> {
         ...studyProgram,
         educationInstitute: {
           ...educationInstitutes.find(
-            (institue) => institue.id === studyProgram.educationInstitution_id
+            (institute) => institute.id === studyProgram.educationInstitution_id
           ),
         },
       },
@@ -81,6 +81,12 @@ export async function fetchOrders(): Promise<Order[]> {
   });
   return response;
 }
+
+/**
+ * Fetches the orders from the databases and creates a list of {@link Order}s.
+ * @param request The request to fetch the orders.
+ * @returns A list of the orders.
+ */
 export async function paginateInternships(
   request: InternshipPaginationRequest
 ): Promise<PageResponse<Internship>> {
@@ -89,12 +95,29 @@ export async function paginateInternships(
   return await getInternshipPositionObjectByPageRequest(request);
 }
 
+/**
+ * Deletes an internship by its id.
+ * @param id The id of the internship to delete.
+ * @returns A promise that resolves when the internship is deleted.
+ */
 export async function deleteInternship(id: number) {
   return await deleteInternshipByID(id);
 }
+/**
+ * Fetches the internship types from the database.
+ * @returns A list of internship types.
+ */
 export async function getInternshipTypes() {
   return await DBclient.select().from("internshipFields");
 }
+/**
+ * Fetches the education institutes from the database.
+ * @param subFieldGroupID The id of the subFieldGroup.
+ * @param InternshipID The id of the internship.
+ * @param amount The amount of students to distribute.
+ * @param status The status of the distribution.
+ * @returns A promise that resolves when the distribution is saved.
+ */
 export async function saveOrderDistribution(
   subFieldGroupID: number,
   InternshipID: number,
@@ -183,4 +206,22 @@ export async function saveOrderDistribution(
       await trx("subFieldGroups").where("id", subFieldGroupID).del();
     }
   });
+}
+
+/**
+ * Save the status of the distribution.Either Pending or Finalized
+ * @param orderID The ID of the order to save the status of.
+ * @param status The status to save.
+ * @returns A promise that resolves when the status is saved.
+ */
+export async function saveOrderStatus(
+  orderID: number,
+  status: "Finalized" | "Pending"
+) {
+  console.log(
+    "status in actions: " + status + " orderID in actions: " + orderID
+  );
+  return await DBclient("internshipOrders")
+    .where("id", orderID)
+    .update({ status: status });
 }

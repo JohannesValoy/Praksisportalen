@@ -13,7 +13,6 @@ interface InternshipDistributionModalProps {
   setPage: (page: number) => void;
   totalPages: number;
   closeModal: () => void;
-  setStatus: (status: "Finalized" | "Pending") => void;
 }
 
 const InternshipDistributionModal: React.FC<
@@ -30,8 +29,8 @@ const InternshipDistributionModal: React.FC<
   setPage,
   totalPages,
   closeModal,
-  setStatus,
 }) => {
+  //TODO move all svgs to separate files
   return (
     <>
       <button
@@ -123,9 +122,9 @@ const InternshipDistributionModal: React.FC<
                 </tr>
               </thead>
               <tbody>
-                {rows.map((row, index) => (
+                {rows.map((row) => (
                   <tr
-                    key={index}
+                    key={row.id}
                     className={`${selectedRows.includes(row) ? "bg-neutral text-neutral-content" : "hover:bg-base-300 "} cursor-pointer, rounded-lg`}
                     onClick={() => row.vacancies > 0 && toggleSelection(row)}
                   >
@@ -241,15 +240,7 @@ const InternshipDistributionModal: React.FC<
                 </svg>
               </button>
             </div>
-            <select
-              className="font-semibold btn p-2 text-neutral-content bg-neutral text-center flex items-center"
-              onChange={(e) =>
-                setStatus(e.target.value as "Finalized" | "Pending")
-              }
-            >
-              <option value="Pending">Venter</option>
-              <option value="Finalized">Finalized</option>
-            </select>
+
             <div className="">
               <button
                 className="btn btn-neutral mr-2"

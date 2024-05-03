@@ -4,6 +4,7 @@ import {
   fetchOrders,
   paginateInternships,
   saveOrderDistribution,
+  saveOrderStatus,
 } from "./actions";
 import ErrorModal from "@/app/components/ErrorModal";
 import InternshipDistributionModal from "./Modal";
@@ -28,13 +29,25 @@ function Page() {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [studentsLeft, setStudentsLeft] = useState(0);
+  const [title, setTitle] = useState("Mottatte bestillinger");
   const [status, setStatus] = useState<"Finalized" | "Pending">("Pending");
+  const [filterStatus, setFilterStatus] = useState<"Finalized" | "Pending">(
+    "Pending"
+  );
 
-  useEffect(() => {
-    fetchOrders()
+  /**
+   * Fetches the orders from the database.
+   */
+  function fetch() {
+    fetchOrders(filterStatus)
       .then(setOrders)
       .catch((error) => setError(error.message));
-  }, []);
+  }
+  useEffect(() => {
+    fetchOrders(filterStatus)
+      .then(setOrders)
+      .catch((error) => setError(error.message));
+  }, [filterStatus]);
 
   const fetchInternships = useCallback(() => {
     if (!selectedOrder) return;
@@ -109,6 +122,7 @@ function Page() {
    * @param amount The amount of students to distribute.
    */
   function saveDistribution(subFieldGroupID, InternshipID, amount) {
+    console.log("Saving distribution");
     saveOrderDistribution(subFieldGroupID, InternshipID, amount, status)
       .then(() => {
         setIsModalOpen(false); // Show success modal
@@ -118,9 +132,18 @@ function Page() {
         setError("Failed to save distribution: " + error.message);
         setIsErrorModalOpen(true); // Show error modal
       });
-    fetchOrders()
-      .then(setOrders)
-      .catch((error) => setError(error.message));
+    fetch();
+  }
+
+  /**
+   * Save the status of the distribution.
+   * @param orderID The ID of the order to save the status of.
+   * @param status The status to save.
+   */
+  function saveStatus(orderID, status) {
+    console.log("Saving status " + orderID + " " + status);
+    saveOrderStatus(orderID, status);
+    fetch();
   }
 
   const closeModal = () => {
@@ -133,16 +156,37 @@ function Page() {
     setStudentsLeft(0);
   };
 
+  console.log(JSON.stringify(orders));
+
+  //Makes the default value of the status selector Finalized when accessing it through the log and Pending when accessing the pending orders
+  useEffect(() => {
+    if (isModalOpen) {
+      setStatus(filterStatus);
+    }
+  }, [isModalOpen, filterStatus]);
   return (
     <>
-      <div className="ml-auto mt-5 mr-10">
+      <button
+        className={`btn ${filterStatus === "Finalized" ? "btn-primary" : "btn-ghost"} ml-auto mt-5 mr-10`}
+        onClick={() => {
+          if (filterStatus === "Finalized") {
+            setTitle("Mottatte bestillinger");
+            setFilterStatus("Pending");
+          } else {
+            setFilterStatus("Finalized");
+            setTitle("Distribuerte bestillinger");
+          }
+        }}
+      >
         <LogIcon />
-      </div>
+      </button>
 
       <ListOfOrders
         orders={orders}
         setSelectedOrder={setSelectedOrder}
         setIsModalOpen={setIsModalOpen}
+        saveStatus={saveStatus}
+        title={title}
       />
       {isModalOpen && (
         <InternshipDistributionModal
@@ -157,7 +201,6 @@ function Page() {
           page={page}
           setPage={setPage}
           totalPages={totalPages}
-          setStatus={setStatus}
         />
       )}
 

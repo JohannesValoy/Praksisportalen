@@ -54,6 +54,12 @@ body {
   overflow: auto;
 }
 
+.custom-option {
+  margin: 5rem;
+  padding: 1rem;
+  height: 50rem;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

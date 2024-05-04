@@ -139,7 +139,8 @@ function Page() {
           " selectedRow.id: " +
           selectedRow.id +
           " Math.min(amount, selectedRow.vacancies): " +
-          Math.min(amount, selectedRow.vacancies),
+          Math.min(amount, selectedRow.vacancies) +
+          console.log("amount: " + amount),
       );
       saveDistribution(
         selectedOrder.id,

@@ -89,14 +89,16 @@ const InternshipDistributionModal: React.FC<
               </div>
             </div>
           </div>
-          <div className="chat chat-start">
-            <div
-              className="chat-bubble text-neutral-content bg-neutral"
-              aria-label="Order comment"
-            >
-              {selectedOrder?.comment}
+          {selectedOrder?.comment && (
+            <div className="chat chat-start">
+              <div
+                className="chat-bubble text-neutral-content bg-neutral"
+                aria-label="Order comment"
+              >
+                {selectedOrder.comment}
+              </div>
             </div>
-          </div>
+          )}
           <div className="overflow-x-auto" aria-label="Selection table">
             <table className="table w-full text-sm card-body overflow-hidden flex items-center justify-center text-center">
               <thead>

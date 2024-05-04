@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { addEducationInstitution, fetchEducationInstitution } from "./action";
-import SuccessDialog from "@/app/components/SuccessDialog";
+import SuccessDialog from "@/app/components/Modals/SuccessAddDialog";
 import ContainerBox from "@/app/components/ContainerBox";
 
 /**

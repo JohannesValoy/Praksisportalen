@@ -12,7 +12,7 @@ import {
   fetchSectionNames,
 } from "../../[lang]/(pages)/sections/add/action";
 import AddDepartment from "./AddDepartmentModal";
-import AddEmployee from "./AddLeaderModal";
+import AddEmployee from "./AddEmployeeModal";
 import EmployeeDropdown from "../Dropdowns/EmployeeDropdown";
 
 type Props = {

@@ -35,5 +35,5 @@ export async function paginateInternshipAgreements(
  * @param id  The id of the internship agreement.
  */
 export async function deleteInternshipAgreement(id: number) {
-  return await deleteInternshipAgreementByID(id);
+  await deleteInternshipAgreementByID(id);
 }

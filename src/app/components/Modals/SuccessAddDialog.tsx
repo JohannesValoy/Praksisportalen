@@ -6,7 +6,7 @@ import Link from "next/link";
  * @param root.isModalVisible A boolean that determines if the modal is visible.
  * @returns A modal to confirm the addition of an item.
  */
-export default function SuccessDialog({ isModalVisible }) {
+export default function SuccessAddDialog({ isModalVisible }) {
   /**
    * The refreshPage function reloads the page.
    */
@@ -17,7 +17,7 @@ export default function SuccessDialog({ isModalVisible }) {
   return (
     <dialog
       open={isModalVisible === true}
-      className="modal  modal-bottom sm:modal-middle"
+      className="modal modal-bottom sm:modal-middle"
     >
       <div className="bg-base-300 text-base-content modal-box">
         <h3 className="font-bold text-lg">Great!</h3>

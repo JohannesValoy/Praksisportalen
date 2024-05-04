@@ -23,6 +23,8 @@ type Props = {
  * @param root.section The section object.
  * @param root.user The user object.
  * @param root.wordbook The wordbook object containing all the translations.
+ * @param root.employees The employees object.
+ * @param root.sectionTypes The section types object.
  * @returns The SectionPage component.
  */
 export default function SectionPage({

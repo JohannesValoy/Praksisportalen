@@ -22,6 +22,7 @@ type Props = {
  * @param root.user The user object.
  * @param root.wordbook The wordbook object containing all the translations.
  * @param root.department The department object.
+ * @param root.employees The employees object.
  * @returns The DepartmentPage component.
  */
 export default function DepartmentPage({
@@ -148,7 +149,7 @@ export default function DepartmentPage({
         <SectionTable
           refreshKey={refreshKey}
           filter={{ departmentID: department.id.toString() }}
-          readonly={user.role !== "admin"}
+          readOnly={user.role !== "admin"}
           deleteFunction={deleteSection}
           onAddButtonClick={() => {
             setIsAddModalOpen(true);

@@ -1,5 +1,5 @@
 "use client";
-import SuccessDialog from "@/app/components/SuccessDialog";
+import SuccessDialog from "@/app/components/Modals/SuccessAddDialog";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import {

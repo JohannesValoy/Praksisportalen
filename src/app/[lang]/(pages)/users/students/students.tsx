@@ -8,6 +8,8 @@ import StudentTable from "@/app/components/DynamicTables/StudentTable";
  * @param root.wordbook The wordbook object containing all the translations.
  * @param root.user The user object.
  * @param root.educationInstitutionID The education institution ID.
+ * @param root.user.id The user ID.
+ * @param root.user.role The user role.
  * @returns A list of students.
  */
 export default function ListOfStudents({

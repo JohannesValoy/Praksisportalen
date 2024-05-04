@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import SuccessDialog from "@/app/components/SuccessDialog";
+import SuccessDialog from "@/app/components/Modals/SuccessAddDialog";
 import ContainerBox from "@/app/components/ContainerBox";
 import { createStudent } from "../../add/action";
 
@@ -13,6 +13,9 @@ type Props = {
 
 /**
  * Creates a page that allows for adding a student.
+ * @param root The root object.
+ * @param root.wordbook The wordbook object containing all the translations.
+ * @param root.students The students object.
  * @returns A page to add a student.
  */
 export default function AddStudentPage({

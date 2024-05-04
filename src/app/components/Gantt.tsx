@@ -2,7 +2,7 @@
 import React from "react";
 
 /**
- * The DataItem interface represents the data item.
+ * A DataItem is representing a time slot with a name, and id
  */
 interface DataItem {
   id: number;

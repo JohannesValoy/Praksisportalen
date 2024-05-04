@@ -22,7 +22,7 @@ type DynamicTableProps = {
   deleteFunction?: (id: string | number) => Promise<any>;
   paginateFunction: (request: any) => Promise<PageResponse<any>>;
   filter?: Record<string, string>;
-  readonly?: boolean;
+  readOnly?: boolean;
   refreshKey?: number;
 };
 
@@ -39,7 +39,7 @@ type DynamicTableProps = {
  * @param root.deleteFunction The function to delete a row.
  * @param root.paginateFunction The function to paginate the data.
  * @param root.filter The filter object.
- * @param root.readonly The readonly flag.
+ * @param root.readOnly The readOnly flag.
  * @param root.refreshKey The refresh key.
  * @returns A dynamic table.
  */
@@ -54,7 +54,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   deleteFunction,
   paginateFunction,
   filter = {},
-  readonly = false,
+  readOnly = false,
   refreshKey,
 }) => {
   const searchParams = useSearchParams();
@@ -162,7 +162,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
       <ContainerBox>
         <div className="flex bg-neutral flex-row justify-between items-center w-full p-4">
           <h1 className="text-3xl font-semibold">List of {tableName}</h1>
-          {!readonly && (
+          {!readOnly && (
             <div>
               <button
                 onClick={onAddButtonClick}
@@ -188,7 +188,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
         <table className="table text-center">
           <thead>
             <tr>
-              {!readonly && (
+              {!readOnly && (
                 <td>
                   <input
                     type="checkbox"
@@ -236,7 +236,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
             normalizedRows.map((row, index) => (
               <tbody key={index}>
                 <tr onClick={() => onRowClick(row)}>
-                  {!readonly && (
+                  {!readOnly && (
                     <td onClick={(e) => e.stopPropagation()}>
                       <input
                         type="checkbox"

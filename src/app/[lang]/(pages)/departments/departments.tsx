@@ -29,7 +29,7 @@ const ListOfDepartments = ({ user }) => {
       )}
       <DepartmentTable
         refreshKey={refreshKey}
-        readonly={user.role !== "admin"}
+        readOnly={user.role !== "admin"}
         onAddButtonClick={() => {
           setIsAddModalOpen(true);
         }}

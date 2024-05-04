@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createCoordinator, createEmployee, createStudent } from "./action";
-import SuccessDialog from "@/app/components/SuccessDialog";
+import SuccessDialog from "@/app/components/Modals/SuccessAddDialog";
 import ContainerBox from "@/app/components/ContainerBox";
 import { generatePassword } from "@/services/EmployeeService";
 
@@ -16,6 +16,11 @@ type Props = {
 
 /**
  * Creates a page that allows for adding a user.
+ * @param root The root object.
+ * @param root.wordbook The wordbook object containing all the translations.
+ * @param root.employees The employees object.
+ * @param root.coordinators The coordinators object.
+ * @param root.students The students object.
  * @returns A page to add a user.
  */
 export default function AddUserPage({

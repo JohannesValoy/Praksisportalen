@@ -15,8 +15,7 @@ import "server-only";
  */
 async function getDepartmentObjectByID(id: number): Promise<Department> {
   const department = await getDepartmentObjectByIDList([id]);
-  console.log(department.get(1));
-  if (department.get(id) == undefined) {
+  if (!department.get(id)) {
     throw new Error("Department not found");
   }
   return department.get(id);

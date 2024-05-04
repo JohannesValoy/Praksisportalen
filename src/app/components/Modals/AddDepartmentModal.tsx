@@ -7,7 +7,7 @@ import {
   fetchDepartments,
   fetchEmployees,
 } from "../../[lang]/(pages)/departments/add/action";
-import AddEmployee from "./AddLeaderModal";
+import AddEmployee from "./AddEmployeeModal";
 import EmployeeDropdown from "../Dropdowns/EmployeeDropdown";
 
 type Props = {

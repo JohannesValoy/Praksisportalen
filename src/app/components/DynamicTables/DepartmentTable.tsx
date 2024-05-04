@@ -7,7 +7,7 @@ import {
 
 interface DynamicTableProps {
   refreshKey?: any;
-  readonly?: boolean;
+  readOnly?: boolean;
   filter?: any;
   onAddButtonClick?: () => void;
 }
@@ -16,14 +16,14 @@ interface DynamicTableProps {
  * The DepartmentTable component displays a list of departments.
  * @param root The root object.
  * @param root.refreshKey The refresh key.
- * @param root.readonly The readonly flag.
+ * @param root.readOnly The readOnly flag.
  * @param root.filter The filter object.
  * @param root.onAddButtonClick The onAddButtonClick function.
  * @returns A list of departments.
  */
 const DepartmentTable: React.FC<DynamicTableProps> = ({
   refreshKey,
-  readonly,
+  readOnly,
   filter,
   onAddButtonClick,
 }) => {
@@ -45,7 +45,7 @@ const DepartmentTable: React.FC<DynamicTableProps> = ({
         window.location.href = `/departments/${row.id}`;
       }}
       buttonName={"Details"}
-      readonly={readonly}
+      readOnly={readOnly}
       onAddButtonClick={onAddButtonClick}
       deleteFunction={deleteDepartment}
       paginateFunction={paginateDepartments}

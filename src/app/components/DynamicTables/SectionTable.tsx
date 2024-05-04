@@ -5,7 +5,7 @@ import { paginateSections } from "@/app/[lang]/(pages)/sections/action";
 interface SectionTableProps {
   refreshKey?: any;
   filter?: any;
-  readonly?: boolean;
+  readOnly?: boolean;
   deleteFunction?: any;
   onAddButtonClick?: () => void;
 }
@@ -15,7 +15,7 @@ interface SectionTableProps {
  * @param root The root object.
  * @param root.refreshKey The refresh key.
  * @param root.filter The filter object.
- * @param root.readonly The readonly flag.
+ * @param root.readOnly The readOnly flag.
  * @param root.deleteFunction The delete function.
  * @param root.onAddButtonClick The on add button click function.
  * @returns A list of sections.
@@ -23,7 +23,7 @@ interface SectionTableProps {
 const SectionTable: React.FC<SectionTableProps> = ({
   refreshKey,
   filter,
-  readonly,
+  readOnly,
   deleteFunction,
   onAddButtonClick,
 }) => {
@@ -44,7 +44,7 @@ const SectionTable: React.FC<SectionTableProps> = ({
         window.location.href = `/sections/${row.id}`;
       }}
       buttonName={"Details"}
-      readonly={readonly}
+      readOnly={readOnly}
       deleteFunction={deleteFunction}
       onAddButtonClick={onAddButtonClick}
       paginateFunction={paginateSections}

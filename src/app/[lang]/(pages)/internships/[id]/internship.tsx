@@ -26,6 +26,8 @@ type Props = {
  * @param root.user - The `user` parameter is an object that contains the user ID and role.
  * @param root.wordbook - The `wordbook` parameter is an object that contains a key-value pair of words.
  * @param root.internship - The `internship` parameter is an object that contains the internship details.
+ * @param root.sections - An array of objects where each object contains an `id` (number) and a `name`
+ * @param root.internshipFields - An array of objects where each object contains a `name` (string) representing
  * @returns The InternshipPage function returns a JSX Element that displays the InternshipPage component.
  */
 export default function InternshipPage({

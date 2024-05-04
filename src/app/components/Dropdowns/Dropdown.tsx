@@ -23,13 +23,14 @@ interface DropdownProps {
 /**
  * The Dropdown component is a reusable dropdown component.
  * @param options The options to display in the dropdown.
- * @param selectedOption The selected option.
- * @param setSelectedOption The function to set the selected option.
- * @param renderOption The function to render the option.
- * @param dropdownName The name of the dropdown.
- * @param customClassName The custom class name.
- * @param customSubClassName The custom sub class name.
- * @param onSearchChange The function to handle the search change.
+ * @param options.options The options to display in the dropdown.
+ * @param options.selectedOption The selected option.
+ * @param options.setSelectedOption The function to set the selected option.
+ * @param options.renderOption The function to render the option.
+ * @param options.dropdownName The name of the dropdown.
+ * @param options.customClassName The custom class name.
+ * @param options.customSubClassName The custom sub class name.
+ * @param options.onSearchChange The function to handle the search change.
  * @returns A dropdown component.
  */
 const Dropdown: React.FC<DropdownProps> = ({
@@ -47,7 +48,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const filteredOptions = Array.isArray(options)
     ? options.filter((option) =>
-        option.name.toLowerCase().includes((searchTerm || "").toLowerCase()),
+        option.name.toLowerCase().includes((searchTerm || "").toLowerCase())
       )
     : [];
 

@@ -12,10 +12,11 @@ interface EmployeeDropdownProps {
 /**
  * The EmployeeDropdown component is a reusable dropdown component for employees.
  * @param employees The employees to display in the dropdown.
- * @param employeeID The selected employee ID.
- * @param setEmployeeID The function to set the selected employee ID.
- * @param dropdownName The name of the dropdown.
- * @param customSubClassName The custom sub class name.
+ * @param employees.employees The employees to display in the dropdown.
+ * @param employees.employeeID Id of the employee.
+ * @param employees.setEmployeeID Function to set the employee ID.
+ * @param employees.dropdownName Name of the dropdown.
+ * @param employees.customSubClassName custom name for subclasses.
  * @returns An employee dropdown component.
  */
 const EmployeeDropdown: React.FC<EmployeeDropdownProps> = ({

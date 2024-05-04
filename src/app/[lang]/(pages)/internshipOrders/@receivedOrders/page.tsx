@@ -33,7 +33,7 @@ function Page() {
   const [status, setStatus] = useState<"Finalized" | "Pending">("Pending");
 
   const [filterStatus, setFilterStatus] = useState<"Finalized" | "Pending">(
-    "Pending",
+    "Pending"
   );
 
   /**
@@ -77,7 +77,7 @@ function Page() {
     if (isModalOpen && selectedOrder) {
       fetchInternships();
       setStudentsLeft(
-        selectedOrder.numStudents - selectedOrder.numStudentsAccepted,
+        selectedOrder.numStudents - selectedOrder.numStudentsAccepted
       );
       setSelectedRows([]);
       setError(null);
@@ -107,8 +107,8 @@ function Page() {
         0,
         selectedOrder.numStudents -
           selectedOrder.numStudentsAccepted -
-          vacanciesSelected,
-      ),
+          vacanciesSelected
+      )
     ); // Ensure it never goes negative
     if (vacanciesSelected < 0) {
       throw new Error("Vacancies selected is negative: " + vacanciesSelected);
@@ -120,18 +120,38 @@ function Page() {
    */
   function saveRows() {
     let numDoneStudents = 0;
+    console.log(
+      "selectedOrder.numStudents: " +
+        selectedOrder.numStudents +
+        " selectedOrder.numStudentsAccepted: " +
+        selectedOrder.numStudentsAccepted
+    );
     let amount = selectedOrder.numStudents - selectedOrder.numStudentsAccepted;
     selectedRows.forEach((selectedRow) => {
       if (amount <= 0) {
+        console.log("amount: " + amount + "returning");
         return;
       }
+
+      console.log(
+        "saving: selectedOrder.id" +
+          selectedOrder.id +
+          " selectedRow.id: " +
+          selectedRow.id +
+          " Math.min(amount, selectedRow.vacancies): " +
+          Math.min(amount, selectedRow.vacancies)
+      );
       saveDistribution(
         selectedOrder.id,
         selectedRow.id,
-        Math.min(amount, selectedRow.vacancies),
+        Math.min(amount - numDoneStudents, selectedRow.vacancies)
       );
       numDoneStudents = numDoneStudents + selectedRow.vacancies;
+      console.log(
+        "numDoneStudents: " + Math.min(amount, selectedRow.vacancies)
+      );
     });
+    console.log("finished");
   }
 
   //TODO make it save even with only status

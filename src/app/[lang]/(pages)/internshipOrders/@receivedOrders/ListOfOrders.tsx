@@ -63,7 +63,7 @@ function renderOrders(orders, setIsModalOpen, saveStatus, setSelectedOrder) {
             </div>
           ))}
           <div className="dropdown dropdown-middle w-full ">
-            <div
+            <button
               tabIndex={0}
               role="button"
               className="w-full font-semibold btn p-2 text-neutral-content bg-neutral text-center flex items-center"
@@ -73,7 +73,7 @@ function renderOrders(orders, setIsModalOpen, saveStatus, setSelectedOrder) {
                 : groupedOrders[internshipOrderID][0].status === "Pending"
                   ? "Venter"
                   : groupedOrders[internshipOrderID][0].status}
-            </div>
+            </button>
             <ul className=" flex dropdown-content w-full z-[1] menu p-2 bg-base-100 rounded-box gap-2 shadow-xl border border-base-300">
               <li>
                 <button

@@ -33,7 +33,7 @@ function Page() {
   const [status, setStatus] = useState<"Finalized" | "Pending">("Pending");
   //Filter status is used to filter by status to either see all the Finalized orders, or see all the pending orders. In this page this is used when clicking the log button
   const [filterStatus, setFilterStatus] = useState<"Finalized" | "Pending">(
-    "Pending",
+    "Pending"
   );
 
   /**
@@ -77,7 +77,7 @@ function Page() {
     if (isModalOpen && selectedOrder) {
       fetchInternships();
       setStudentsLeft(
-        selectedOrder.numStudents - selectedOrder.numStudentsAccepted,
+        selectedOrder.numStudents - selectedOrder.numStudentsAccepted
       );
       setSelectedRows([]);
       setError(null);
@@ -107,8 +107,8 @@ function Page() {
         0,
         selectedOrder.numStudents -
           selectedOrder.numStudentsAccepted -
-          vacanciesSelected,
-      ),
+          vacanciesSelected
+      )
     ); // Ensure it never goes negative
     if (vacanciesSelected < 0) {
       throw new Error("Vacancies selected is negative: " + vacanciesSelected);
@@ -121,39 +121,20 @@ function Page() {
   //TODO THIS SHOULD BE DONE IN A BATCH BUT IS NOT CHANGED DO TO TIME CONSTRAINTS
   function saveRows() {
     let numDoneStudents = 0;
-    console.log(
-      "selectedOrder.numStudents: " +
-        selectedOrder.numStudents +
-        " selectedOrder.numStudentsAccepted: " +
-        selectedOrder.numStudentsAccepted,
-    );
+
     let amount = selectedOrder.numStudents - selectedOrder.numStudentsAccepted;
     selectedRows.forEach((selectedRow) => {
       if (amount <= 0) {
-        console.log("amount: " + amount + "returning");
         return;
       }
 
-      console.log(
-        "saving: selectedOrder.id" +
-          selectedOrder.id +
-          " selectedRow.id: " +
-          selectedRow.id +
-          " Math.min(amount, selectedRow.vacancies): " +
-          Math.min(amount, selectedRow.vacancies) +
-          console.log("amount: " + amount),
-      );
       saveDistribution(
         selectedOrder.id,
         selectedRow.id,
-        Math.min(amount - numDoneStudents, selectedRow.vacancies),
+        Math.min(amount - numDoneStudents, selectedRow.vacancies)
       );
       numDoneStudents = numDoneStudents + selectedRow.vacancies;
-      console.log(
-        "numDoneStudents: " + Math.min(amount, selectedRow.vacancies),
-      );
     });
-    console.log("finished");
   }
 
   //TODO make it save even with only status
@@ -242,7 +223,6 @@ function Page() {
           selectedOrder={selectedOrder}
           toggleSelection={toggleSelection}
           studentsLeft={studentsLeft}
-          saveDistribution={saveDistribution}
           page={page}
           setPage={setPage}
           totalPages={totalPages}

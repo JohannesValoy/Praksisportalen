@@ -318,9 +318,6 @@ export async function saveOrderStatus(
   orderID: number,
   status: "Finalized" | "Pending",
 ) {
-  console.log(
-    "status in actions: " + status + " orderID in actions: " + orderID,
-  );
   return await DBclient("internshipOrders")
     .where("id", orderID)
     .update({ status: status });

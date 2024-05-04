@@ -8,7 +8,6 @@ interface InternshipDistributionModalProps {
   selectedRows: any[]; // Replace with the actual type when available
   toggleSelection: (selection: any) => void; // Replace with the actual type when available
   studentsLeft: number;
-  saveDistribution: (arg1: any, arg2: any, arg3: any) => void; // Define the types for arg1, arg2, arg3
   page: number;
   setPage: (page: number) => void;
   totalPages: number;

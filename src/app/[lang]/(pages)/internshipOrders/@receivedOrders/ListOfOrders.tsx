@@ -2,6 +2,22 @@ import ContainerBox from "@/app/components/ContainerBox";
 import React from "react"; // Ensure React is in scope when using JSX
 
 /**
+ * Returns the text for the status.
+ * @param status The status of the order.
+ * @returns the either Ferdig, Venter or given status (if it does not match "Finalized" or "Pending") based on given status
+ */
+function getStatusText(status: string) {
+  switch (status) {
+    case "Finalized":
+      return "Ferdig";
+    case "Pending":
+      return "Venter";
+    default:
+      return status;
+  }
+}
+
+/**
  * Renders the orders.
  * @param orders The list of orders to be rendered.
  * @param setIsModalOpen A function to set the state of the modal (true/false).
@@ -65,14 +81,9 @@ function renderOrders(orders, setIsModalOpen, saveStatus, setSelectedOrder) {
           <div className="dropdown dropdown-middle w-full ">
             <button
               tabIndex={0}
-              role="button"
               className="w-full font-semibold btn p-2 text-neutral-content bg-neutral text-center flex items-center"
             >
-              {groupedOrders[internshipOrderID][0].status === "Finalized"
-                ? "Ferdig"
-                : groupedOrders[internshipOrderID][0].status === "Pending"
-                  ? "Venter"
-                  : groupedOrders[internshipOrderID][0].status}
+              {getStatusText(groupedOrders[internshipOrderID][0].status)}
             </button>
             <ul className=" flex dropdown-content w-full z-[1] menu p-2 bg-base-100 rounded-box gap-2 shadow-xl border border-base-300">
               <li>

@@ -47,7 +47,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
     const isSelected = selectedRows.includes(row);
     if (isSelected) {
       setSelectedRows(
-        selectedRows.filter((selectedRow) => selectedRow !== row),
+        selectedRows.filter((selectedRow) => selectedRow !== row)
       );
     } else {
       setSelectedRows([...selectedRows, row]);
@@ -310,7 +310,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
           </select>
         </div>
       </div>
-      {/**Delete Error modal */}
+      {/**Error modal */}
       {isModalOpen && (
         <ErrorModal
           message={error}

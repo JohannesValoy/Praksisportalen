@@ -29,7 +29,6 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        id="root"
         className={`${inter.className} flex flex-col bg-base-100 text-base-content`}
         suppressHydrationWarning={true}
       >

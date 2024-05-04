@@ -10,7 +10,7 @@ export default function ErrorModal({ message, setIsModalOpen }) {
     <dialog
       className="fixed inset-0 z-10 overflow-y-auto bg-base-300 rounded-lg"
       open
-      aria-labelledby="Delete Error"
+      aria-labelledby={"Error: " + message}
     >
       <div className="px-4 pt-5 pb-4 ">
         <div className="sm:flex sm:items-start">
@@ -20,7 +20,7 @@ export default function ErrorModal({ message, setIsModalOpen }) {
           <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
             <h3
               className="text-lg leading-6 font-medium text-base-content"
-              id="Delete Error"
+              id="Error"
             >
               Error
             </h3>

@@ -1,8 +1,9 @@
 /**
  * ContainerBox Component
- * @param  title The title of the container box.
- * @param  className The class name of the container box.
- * @param  children The children of the container box.
+ * @param root The root object.
+ * @param root.children The children of the container box.
+ * @param  root.title The title of the container box.
+ * @param  root.className The class name of the container box.
  * @returns The ContainerBox component.
  */
 const ContainerBox = ({ children, title = "", className = "" }) => {

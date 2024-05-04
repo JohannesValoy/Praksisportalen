@@ -118,6 +118,7 @@ function Page() {
   /**
    * Save the distribution of students to internships.
    */
+  //TODO THIS SHOULD BE DONE IN A BATCH BUT IS NOT CHANGED DO TO TIME CONSTRAINTS
   function saveRows() {
     let numDoneStudents = 0;
     console.log(

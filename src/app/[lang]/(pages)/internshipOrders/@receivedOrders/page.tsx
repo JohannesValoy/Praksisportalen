@@ -33,7 +33,7 @@ function Page() {
   const [status, setStatus] = useState<"Finalized" | "Pending">("Pending");
   //Filter status is used to filter by status to either see all the Finalized orders, or see all the pending orders. In this page this is used when clicking the log button
   const [filterStatus, setFilterStatus] = useState<"Finalized" | "Pending">(
-    "Pending"
+    "Pending",
   );
 
   /**
@@ -77,7 +77,7 @@ function Page() {
     if (isModalOpen && selectedOrder) {
       fetchInternships();
       setStudentsLeft(
-        selectedOrder.numStudents - selectedOrder.numStudentsAccepted
+        selectedOrder.numStudents - selectedOrder.numStudentsAccepted,
       );
       setSelectedRows([]);
       setError(null);
@@ -107,8 +107,8 @@ function Page() {
         0,
         selectedOrder.numStudents -
           selectedOrder.numStudentsAccepted -
-          vacanciesSelected
-      )
+          vacanciesSelected,
+      ),
     ); // Ensure it never goes negative
     if (vacanciesSelected < 0) {
       throw new Error("Vacancies selected is negative: " + vacanciesSelected);
@@ -131,7 +131,7 @@ function Page() {
       saveDistribution(
         selectedOrder.id,
         selectedRow.id,
-        Math.min(amount - numDoneStudents, selectedRow.vacancies)
+        Math.min(amount - numDoneStudents, selectedRow.vacancies),
       );
       numDoneStudents = numDoneStudents + selectedRow.vacancies;
     });

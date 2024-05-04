@@ -3,6 +3,7 @@ import { getUser } from "@/lib/auth";
 import { Section } from "@/app/_models/Section";
 import { getSectionObjectByID } from "@/services/SectionService";
 import SectionPage from "./section";
+import { fetchEmployees, fetchSectionTypes } from "../add/action";
 
 /**
  * The Page component fetches a section object by ID and renders the SectionPage component.
@@ -28,6 +29,12 @@ export default async function Page({
   }
 
   return (
-    <SectionPage section={section} wordbook={null} user={await getUser()} />
+    <SectionPage
+      section={section}
+      wordbook={null}
+      user={await getUser()}
+      sectionTypes={await fetchSectionTypes()}
+      employees={await fetchEmployees()}
+    />
   );
 }

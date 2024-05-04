@@ -1,15 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { editDetails } from "./actions";
 import Dropdown from "@/app/components/Dropdowns/Dropdown";
-import { fetchInternshipFields, fetchSections } from "../add/action";
 import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
 import {
   deleteInternshipAgreement,
   paginateInternshipAgreements,
 } from "../../internshipAgreements/actions";
 import EditModal from "@/app/components/Modals/EditModal";
+import { Internship } from "@/app/_models/InternshipPosition";
+
+type Props = {
+  user: { id: string; role?: string };
+  wordbook: { [key: string]: string };
+  internship: Internship;
+  sections: Array<{ id: number; name: string }>;
+  internshipFields: Array<{ name: string }>;
+};
 
 /**
  * The InternshipPage function in TypeScript React is a functional component that renders the
@@ -24,42 +32,21 @@ export default function InternshipPage({
   user,
   wordbook,
   internship,
-}: {
-  readonly user: { readonly id: string; readonly role?: string };
-  readonly wordbook: { readonly [key: string]: string };
-  readonly internship: any;
-}) {
+  sections,
+  internshipFields,
+}: Readonly<Props>) {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [name, setName] = useState("");
 
-  const [sections, setSections] = useState([]);
   const [sectionID, setSectionID] = useState(null);
-  const sectionName = getSectionName(internship.sectionID || "", sections);
+  const sectionName = getSectionName(internship.sectionID, sections);
 
-  const [internshipFields, setInternshipFields] = useState([]);
   const [internshipField, setInternshipField] = useState(null);
 
   const [currentCapacity, setCurrentCapacity] = useState(null);
   const [numberOfBeds, setNumberOfBeds] = useState(null);
   const [yearOfStudy, setYearOfStudy] = useState(null);
-
-  useEffect(() => {
-    if (internship.id !== null) {
-      fetchSections()
-        .then((data) => {
-          setSections(data);
-        })
-        .catch((error) => console.error("Failed to fetch Sections", error));
-      fetchInternshipFields()
-        .then((data) => {
-          setInternshipFields(data);
-        })
-        .catch((error) =>
-          console.error("Failed to fetch Internship Fields", error),
-        );
-    }
-  }, [internship]);
 
   /**
    * The function `getSectionName` takes a section ID and an array of sections, and returns the name of
@@ -73,8 +60,8 @@ export default function InternshipPage({
    * it returns the name of that section. If no matching section is found, it returns "Unknown section".
    */
   function getSectionName(
-    sectionID: string,
-    sections: Array<{ id: string; name: string }>,
+    sectionID: number,
+    sections: Array<{ id: number; name: string }>
   ) {
     const section = sections.find((section) => section.id === sectionID);
     return section ? section.name : "Unknown section";
@@ -183,7 +170,7 @@ export default function InternshipPage({
                     options={internshipFields}
                     selectedOption={
                       internshipFields.find(
-                        (field) => field.name === internshipField,
+                        (field) => field.name === internshipField
                       ) || null
                     }
                     setSelectedOption={(field) =>

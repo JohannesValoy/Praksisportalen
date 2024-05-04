@@ -3,6 +3,7 @@ import { getUser } from "@/lib/auth";
 import { getInternshipPositionObjectByID } from "@/services/InternshipPositionService";
 import { notFound } from "next/navigation";
 import InternshipPage from "./internship";
+import { fetchInternshipFields, fetchSections } from "../add/action";
 
 /**
  * The Page component fetches an internship object by ID and renders the InternshipPage component.
@@ -27,6 +28,8 @@ export default async function Page({
       internship={internship}
       wordbook={null}
       user={await getUser()}
+      sections={await fetchSections()}
+      internshipFields={await fetchInternshipFields()}
     />
   );
 }

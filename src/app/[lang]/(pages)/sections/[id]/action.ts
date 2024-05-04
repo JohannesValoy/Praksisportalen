@@ -5,14 +5,6 @@ import "server-only";
 
 /**
  * The fetchSections function fetches all sections from the database.
- * @returns A list of sections.
- */
-export async function fetchSectionTypes() {
-  return await DBclient.select("*").from("sectionTypes");
-}
-
-/**
- * The fetchSections function fetches all sections from the database.
  * @param id The user object.
  * @param data The data object.
  * @returns Updated list of sections.

@@ -1,14 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { editSectionDetails } from "./action";
-import { fetchEmployees, fetchSectionTypes } from "../add/action";
 import Dropdown from "@/app/components/Dropdowns/Dropdown";
 import { Section } from "@/app/_models/Section";
 import AddInternship from "../../../../components/Modals/AddInternshipModal";
 import EmployeeDropdown from "@/app/components/Dropdowns/EmployeeDropdown";
 import EditModal from "@/app/components/Modals/EditModal";
 import InternshipTable from "@/app/components/DynamicTables/InternshipTable";
+
+type Props = {
+  section: Section;
+  user: { id: string; role?: string };
+  wordbook: { [key: string]: string };
+  employees: any;
+  sectionTypes: any;
+};
 
 /**
  * The SectionPage component displays the details of a section.
@@ -22,39 +29,18 @@ export default function SectionPage({
   section,
   user,
   wordbook,
-}: {
-  readonly section: Section;
-  readonly user: { readonly id: string; readonly role?: string };
-  readonly wordbook: { readonly [key: string]: string };
-}) {
+  employees,
+  sectionTypes,
+}: Readonly<Props>) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
   const [name, setName] = useState("");
-  const [sectionTypes, setSectionTypes] = useState([]);
+
   const [sectionType, setSectionType] = useState("");
 
-  const [employees, setEmployees] = useState([]);
   const [employeeID, setEmployeeID] = useState("");
-
-  useEffect(() => {
-    if (section.id !== null) {
-      fetchEmployees()
-        .then((data) => {
-          setEmployees(data);
-        })
-        .catch((error) => console.error("Failed to fetch Employees", error));
-
-      fetchSectionTypes()
-        .then((data) => {
-          setSectionTypes(data);
-        })
-        .catch((error) =>
-          console.error("Failed to fetch Section Types", error),
-        );
-    }
-  }, [section]);
 
   /**
    * The handleSubmit function updates the section details.

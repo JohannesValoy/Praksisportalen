@@ -1,14 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { deleteSection } from "../../sections/action";
 import { editDepartmentDetails } from "./action";
-import { fetchEmployees } from "../add/action";
 import { Department } from "@/app/_models/Department";
 import AddSection from "../../../../components/Modals/AddSectionModal";
 import EmployeeDropdown from "@/app/components/Dropdowns/EmployeeDropdown";
 import SectionTable from "@/app/components/DynamicTables/SectionTable";
 import EditModal from "@/app/components/Modals/EditModal";
+
+type Props = {
+  user: { id: string; role?: string };
+  wordbook: { [key: string]: string };
+  department: Department;
+  employees: any;
+};
 
 /**
  * The DepartmentPage component displays the details of a department.
@@ -22,29 +28,15 @@ export default function DepartmentPage({
   user,
   wordbook,
   department,
-}: {
-  readonly user: { readonly id: string; readonly role?: string };
-  readonly wordbook: { readonly [key: string]: string };
-  readonly department: Department;
-}) {
+  employees,
+}: Readonly<Props>) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
   const [name, setName] = useState("");
 
-  const [employees, setEmployees] = useState([]);
   const [employeeID, setEmployeeID] = useState("");
-
-  useEffect(() => {
-    if (department?.id !== null) {
-      fetchEmployees()
-        .then((data) => {
-          setEmployees(data);
-        })
-        .catch((error) => console.error("Failed to fetch Employees", error));
-    }
-  }, [department]);
 
   /**
    * The handleSubmit function updates the department details.

@@ -56,7 +56,7 @@ export default function InternshipPage({
           setInternshipFields(data);
         })
         .catch((error) =>
-          console.error("Failed to fetch Internship Fields", error),
+          console.error("Failed to fetch Internship Fields", error)
         );
     }
   }, [internship]);
@@ -64,7 +64,7 @@ export default function InternshipPage({
   /**
    * The function `getSectionName` takes a section ID and an array of sections, and returns the name of
    * the section with the matching ID or "Unknown section" if not found.
-   * @param {string} sectionID - The `sectionID` parameter is a string representing the ID of the
+   * @param sectionID - The `sectionID` parameter is a string representing the ID of the
    * section you want to find the name for.
    * @param sections - An array of objects where each object contains an `id` (string) and a `name`
    * (string) representing a section.
@@ -74,7 +74,7 @@ export default function InternshipPage({
    */
   function getSectionName(
     sectionID: string,
-    sections: Array<{ id: string; name: string }>,
+    sections: Array<{ id: string; name: string }>
   ) {
     const section = sections.find((section) => section.id === sectionID);
     return section ? section.name : "Unknown section";
@@ -185,7 +185,7 @@ export default function InternshipPage({
                     options={internshipFields}
                     selectedOption={
                       internshipFields.find(
-                        (field) => field.name === internshipField,
+                        (field) => field.name === internshipField
                       ) || null
                     }
                     setSelectedOption={(field) =>

@@ -5,7 +5,6 @@ import DBClient from "@/knex/config/DBClient";
 
 /**
  * The addInternship function adds a new internship to the database.
- * @param internship The internship object to be added.
  * @param id The user object.
  * @param update The update object.
  */

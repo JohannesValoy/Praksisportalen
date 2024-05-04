@@ -8,7 +8,6 @@ import Link from "next/link";
 export default function SuccessDialog({ isModalVisible }) {
   /**
    * The refreshPage function reloads the page.
-   * @returns A reloaded page.
    */
   function refreshPage() {
     window.location.reload();

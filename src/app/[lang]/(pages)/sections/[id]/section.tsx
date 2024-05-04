@@ -50,7 +50,7 @@ export default function SectionPage({
           setSectionTypes(data);
         })
         .catch((error) =>
-          console.error("Failed to fetch Section Types", error),
+          console.error("Failed to fetch Section Types", error)
         );
     }
   }, [section]);
@@ -94,7 +94,6 @@ export default function SectionPage({
 
   /**
    * The refreashPage function reloads the page.
-   * @returns The reloaded page.
    */
   const refreashPage = () => {
     window.location.reload();

@@ -8,7 +8,8 @@ import { useState } from "react";
 
 /**
  * The AdminPage component displays a list of departments, a list of sections, and a list of internships.
- * @param user The user object.
+ * @param root The root object.
+ * @param root.user The user object.
  * @returns The AdminPage component.
  */
 export default function AdminPage({ user }) {

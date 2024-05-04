@@ -6,7 +6,8 @@ import { getUser } from "@/lib/auth";
 
 /**
  * The Page component fetches a department object by ID and renders the DepartmentPage component.
- * @param params The parameters of the page.
+ * @param root The root object.
+ * @param root.params The parameters of the page.
  * @returns The Page component.
  */
 export default async function Page({

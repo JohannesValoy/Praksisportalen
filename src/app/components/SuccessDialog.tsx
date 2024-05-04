@@ -2,7 +2,8 @@ import Link from "next/link";
 
 /**
  * The SuccessDialog component displays a modal to confirm the addition of an item.
- * @param isModalVisible A boolean that determines if the modal is visible.
+ * @param root The root object.
+ * @param root.isModalVisible A boolean that determines if the modal is visible.
  * @returns A modal to confirm the addition of an item.
  */
 export default function SuccessDialog({ isModalVisible }) {

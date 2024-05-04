@@ -15,8 +15,9 @@ type Props = {
 
 /**
  * The AddEmployee component displays a form to add an employee.
- * @param openModal The openModal flag.
- * @param onClose The onClose function.
+ * @param root The root object.
+ * @param root.openModal The openModal flag.
+ * @param root.onClose The onClose function.
  * @returns A form to add an employee.
  */
 export default function AddEmployee({ openModal, onClose }: Readonly<Props>) {

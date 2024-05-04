@@ -12,10 +12,11 @@ interface EditModalProps {
 
 /**
  * The EditModal component is a reusable edit modal component.
- * @param setName The function to set the name.
- * @param handleSubmit The function to handle the submit event.
- * @param children The children elements.
- * @param disabled The disabled flag.
+ * @param root The root object.
+ * @param root.setName The function to set the name.
+ * @param root.handleSubmit The function to handle the submit event.
+ * @param root.children The children elements.
+ * @param root.disabled The disabled flag.
  * @returns An edit modal component.
  */
 const EditModal: React.FC<EditModalProps> = ({

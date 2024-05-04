@@ -21,7 +21,8 @@ export const metadata: Metadata = {
 
 /**
  * The RootLayout component is the layout of the application.
- * @param children The children of the layout.
+ * @param root The root of the layout.
+ * @param root.children The children of the layout.
  * @returns The layout of the application.
  */
 export default async function RootLayout({

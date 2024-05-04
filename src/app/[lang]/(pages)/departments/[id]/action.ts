@@ -5,7 +5,6 @@ import "server-only";
 
 /**
  * The fetchDepartments function fetches all departments from the database.
- * @returns A list of departments.
  * @param id The user object.
  * @param update The update object.
  */

@@ -12,7 +12,8 @@ interface StudentTableProps {
 
 /**
  * The StudentTable component displays a list of students.
- * @param filter The filter object.
+ * @param root The root object.
+ * @param root.filter The filter object.
  * @returns A list of students.
  */
 const StudentTable: React.FC<StudentTableProps> = ({ filter }) => {

@@ -13,9 +13,10 @@ interface DynamicTableProps {
 
 /**
  * The InternshipTable component displays a list of internships.
- * @param refreshKey The refresh key.
- * @param filter The filter object.
- * @param onAddButtonClick The onAddButtonClick function.
+ * @param root The root object.
+ * @param root.refreshKey The refresh key.
+ * @param root.filter The filter object.
+ * @param root.onAddButtonClick The on add button click function.
  * @returns A list of internships.
  */
 const InternshipTable: React.FC<DynamicTableProps> = ({

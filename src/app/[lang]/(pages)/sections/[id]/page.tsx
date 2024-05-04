@@ -6,7 +6,8 @@ import SectionPage from "./section";
 
 /**
  * The Page component fetches a section object by ID and renders the SectionPage component.
- * @param params The parameters of the page.
+ * @param root The root object.
+ * @param root.params The parameters of the page.
  * @returns The SectionPage component.
  */
 export default async function Page({

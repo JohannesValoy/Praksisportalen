@@ -5,7 +5,8 @@ import DepartmentTable from "@/app/components/DynamicTables/DepartmentTable";
 
 /**
  * The ListOfDepartments component displays a list of departments.
- * @param user The user object.
+ * @param root The root object.
+ * @param root.user The user object.
  * @returns The ListOfDepartments component.
  */
 const ListOfDepartments = ({ user }) => {

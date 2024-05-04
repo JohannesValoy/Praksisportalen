@@ -12,11 +12,12 @@ interface SectionTableProps {
 
 /**
  * The SectionTable component displays a list of sections.
- * @param refreshKey The refresh key.
- * @param filter The filter object.
- * @param readonly The readonly flag.
- * @param deleteFunction The delete function.
- * @param onAddButtonClick The onAddButtonClick function.
+ * @param root The root object.
+ * @param root.refreshKey The refresh key.
+ * @param root.filter The filter object.
+ * @param root.readonly The readonly flag.
+ * @param root.deleteFunction The delete function.
+ * @param root.onAddButtonClick The on add button click function.
  * @returns A list of sections.
  */
 const SectionTable: React.FC<SectionTableProps> = ({

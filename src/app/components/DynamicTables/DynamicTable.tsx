@@ -28,18 +28,19 @@ type DynamicTableProps = {
 
 /**
  * The DynamicTable component displays a dynamic table.
- * @param tableName The table name.
- * @param headers The headers object.
- * @param onRowClick The onRowClick function.
- * @param onRowButtonClick The onRowButtonClick function.
- * @param buttonName The button name.
- * @param onAddButtonClick The onAddButtonClick function.
- * @param clickableColumns The clickableColumns object.
- * @param deleteFunction The deleteFunction function.
- * @param paginateFunction The paginateFunction function.
- * @param filter The filter object.
- * @param readonly The readonly flag.
- * @param refreshKey The refresh key.
+ * @param root The root object.
+ * @param root.tableName The name of the table.
+ * @param root.headers The headers of the table.
+ * @param root.onRowClick The function to handle row click.
+ * @param root.onRowButtonClick The function to handle row button click.
+ * @param root.buttonName The name of the button.
+ * @param root.onAddButtonClick The function to handle add button click.
+ * @param root.clickableColumns The clickable columns.
+ * @param root.deleteFunction The function to delete a row.
+ * @param root.paginateFunction The function to paginate the data.
+ * @param root.filter The filter object.
+ * @param root.readonly The readonly flag.
+ * @param root.refreshKey The refresh key.
  * @returns A dynamic table.
  */
 const DynamicTable: React.FC<DynamicTableProps> = ({

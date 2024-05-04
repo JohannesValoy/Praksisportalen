@@ -1,7 +1,8 @@
 /**
  * Component to display a color description
- * @param name - The name of the color
- * @param description - The description of the color
+ * @param root - The root of the component
+ * @param root.name - The name of the color
+ * @param root.description - The description of the color
  * @returns The Color Description Component
  */
 const ColorDescription = ({ name, description }) => (

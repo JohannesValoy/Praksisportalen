@@ -4,7 +4,8 @@ import Profile from "../Profiles";
 
 /**
  * The Page component fetches a user object by ID and renders the Profile component.
- * @param params The parameters of the page.
+ * @param root The root object.
+ * @param root.params The parameters of the page.
  * @returns The Profile component.
  */
 export default async function Page({

@@ -8,7 +8,8 @@ import { useRouter } from "next/navigation";
 
 /**
  * The ListOfEmployees component displays a list of employees.
- * @param params The params object.
+ * @param root The root object.
+ * @param root.params The params object.
  * @returns The ListOfEmployees component.
  */
 const ListOfEmployees = ({ params }) => {
@@ -17,7 +18,7 @@ const ListOfEmployees = ({ params }) => {
   const router = useRouter();
 
   getDictionary(params.lang).then((words) =>
-    setWords(words?.administerEmployees)
+    setWords(words?.administerEmployees),
   );
 
   const handleEmailClick = (user) => {

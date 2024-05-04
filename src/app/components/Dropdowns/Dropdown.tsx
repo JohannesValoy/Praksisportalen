@@ -22,14 +22,15 @@ interface DropdownProps {
 
 /**
  * The Dropdown component is a reusable dropdown component.
- * @param options The options to display in the dropdown.
- * @param selectedOption The selected option.
- * @param setSelectedOption The function to set the selected option.
- * @param renderOption The function to render the option.
- * @param dropdownName The name of the dropdown.
- * @param customClassName The custom class name.
- * @param customSubClassName The custom sub class name.
- * @param onSearchChange The function to handle the search change.
+ * @param root The root object.
+ * @param root.dropdownName The name of the dropdown.
+ * @param root.options The options to display in the dropdown.
+ * @param root.selectedOption The selected option.
+ * @param root.setSelectedOption The function to set the selected option.
+ * @param root.renderOption The function to render the option.
+ * @param root.customClassName The custom class name.
+ * @param root.customSubClassName The custom sub class name.
+ * @param root.onSearchChange The function to handle the search change.
  * @returns A dropdown component.
  */
 const Dropdown: React.FC<DropdownProps> = ({

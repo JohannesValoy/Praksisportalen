@@ -6,7 +6,8 @@ import SectionTable from "@/app/components/DynamicTables/SectionTable";
 
 /**
  * The ListOfSections component displays a list of sections.
- * @param wordbook The wordbook object containing all the translations.
+ * @param root The root object.
+ * @param root.wordbook The wordbook object containing all the translations.
  * @returns A list of sections.
  */
 export default function ListOfSections({

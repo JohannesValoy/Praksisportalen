@@ -12,9 +12,10 @@ import InternshipTable from "@/app/components/DynamicTables/InternshipTable";
 
 /**
  * The SectionPage component displays the details of a section.
- * @param section The section object.
- * @param user The user object.
- * @param wordbook The wordbook object containing all the translations.
+ * @param root The root object.
+ * @param root.section The section object.
+ * @param root.user The user object.
+ * @param root.wordbook The wordbook object containing all the translations.
  * @returns The SectionPage component.
  */
 export default function SectionPage({
@@ -50,7 +51,7 @@ export default function SectionPage({
           setSectionTypes(data);
         })
         .catch((error) =>
-          console.error("Failed to fetch Section Types", error)
+          console.error("Failed to fetch Section Types", error),
         );
     }
   }, [section]);

@@ -14,9 +14,10 @@ import EditModal from "@/app/components/Modals/EditModal";
 /**
  * The InternshipPage function in TypeScript React is a functional component that renders the
  * InternshipPage component.
- * @param user - The `user` parameter is an object that contains the user ID and role.
- * @param wordbook - The `wordbook` parameter is an object that contains a key-value pair of words.
- * @param internship - The `internship` parameter is an object that contains the internship details.
+ * @param root - The `root` parameter is an object that contains the user, wordbook, and internship details.
+ * @param root.user - The `user` parameter is an object that contains the user ID and role.
+ * @param root.wordbook - The `wordbook` parameter is an object that contains a key-value pair of words.
+ * @param root.internship - The `internship` parameter is an object that contains the internship details.
  * @returns The InternshipPage function returns a JSX Element that displays the InternshipPage component.
  */
 export default function InternshipPage({
@@ -56,7 +57,7 @@ export default function InternshipPage({
           setInternshipFields(data);
         })
         .catch((error) =>
-          console.error("Failed to fetch Internship Fields", error)
+          console.error("Failed to fetch Internship Fields", error),
         );
     }
   }, [internship]);
@@ -74,7 +75,7 @@ export default function InternshipPage({
    */
   function getSectionName(
     sectionID: string,
-    sections: Array<{ id: string; name: string }>
+    sections: Array<{ id: string; name: string }>,
   ) {
     const section = sections.find((section) => section.id === sectionID);
     return section ? section.name : "Unknown section";
@@ -185,7 +186,7 @@ export default function InternshipPage({
                     options={internshipFields}
                     selectedOption={
                       internshipFields.find(
-                        (field) => field.name === internshipField
+                        (field) => field.name === internshipField,
                       ) || null
                     }
                     setSelectedOption={(field) =>

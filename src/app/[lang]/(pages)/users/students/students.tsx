@@ -4,9 +4,10 @@ import StudentTable from "@/app/components/DynamicTables/StudentTable";
 
 /**
  * The ListOfStudents component displays a list of students.
- * @param wordbook The wordbook object containing all the translations.
- * @param user The user object.
- * @param educationInstitutionID The education institution ID.
+ * @param root The root object.
+ * @param root.wordbook The wordbook object containing all the translations.
+ * @param root.user The user object.
+ * @param root.educationInstitutionID The education institution ID.
  * @returns A list of students.
  */
 export default function ListOfStudents({

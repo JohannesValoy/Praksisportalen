@@ -22,8 +22,9 @@ type Props = {
 
 /**
  * The AddSection component displays a form to add a section.
- * @param openModal The openModal flag.
- * @param onClose The onClose function.
+ * @param root The root object.
+ * @param root.openModal The openModal flag.
+ * @param root.onClose The onClose function.
  * @returns A form to add a section.
  */
 export default function AddSection({ openModal, onClose }: Readonly<Props>) {

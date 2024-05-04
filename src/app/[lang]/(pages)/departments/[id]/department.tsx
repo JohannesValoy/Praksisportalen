@@ -12,9 +12,10 @@ import EditModal from "@/app/components/Modals/EditModal";
 
 /**
  * The DepartmentPage component displays the details of a department.
- * @param user The user object.
- * @param wordbook The wordbook object containing all the translations.
- * @param department The department object.
+ * @param root The root object.
+ * @param root.user The user object.
+ * @param root.wordbook The wordbook object containing all the translations.
+ * @param root.department The department object.
  * @returns The DepartmentPage component.
  */
 export default function DepartmentPage({

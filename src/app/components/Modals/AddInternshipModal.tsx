@@ -19,8 +19,9 @@ type Props = {
 
 /**
  * The AddInternship component displays a form to add an internship.
- * @param openModal The openModal flag.
- * @param onClose The onClose function.
+ * @param root The root object.
+ * @param root.openModal The openModal flag.
+ * @param root.onClose The onClose function.
  * @returns A form to add an internship.
  */
 export default function AddInternship({ openModal, onClose }: Readonly<Props>) {

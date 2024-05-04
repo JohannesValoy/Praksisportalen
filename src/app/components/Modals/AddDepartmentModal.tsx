@@ -17,8 +17,9 @@ type Props = {
 
 /**
  * The AddDepartment component displays a form to add a department.
- * @param openModal The openModal flag.
- * @param onClose The onClose function.
+ * @param root The root object.
+ * @param root.openModal The openModal flag.
+ * @param root.onClose The onClose function.
  * @returns A form to add a department.
  */
 export default function AddDepartment({ openModal, onClose }: Readonly<Props>) {

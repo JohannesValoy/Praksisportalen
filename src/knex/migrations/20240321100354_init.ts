@@ -329,7 +329,10 @@ export async function up(knex: Knex): Promise<void> {
         BEFORE INSERT ON internshipAgreements
         FOR EACH ROW
         BEGIN
-          IF NEW.student_id IS NOT NULL AND EXISTS (SELECT * FROM internshipAgreements WHERE student_id = NEW.student_id AND (NEW.startDate BETWEEN startDate AND endDate OR NEW.endDate BETWEEN startDate AND endDate)) THEN
+          IF NEW.student_id IS NOT NULL AND EXISTS (SELECT * FROM internshipAgreements WHERE student_id = NEW.student_id AND NOT (
+            (NEW.startDate < startDate AND new.endDate < startDate) OR
+            (NEW.startDate > endDate AND new.endDate > endDate)
+          )) THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Student already has an internship at this time';
           END IF;
@@ -360,22 +363,18 @@ export async function up(knex: Knex): Promise<void> {
       BEFORE INSERT ON timeIntervals
       FOR EACH ROW
       BEGIN
-        IF EXISTS (
-          SELECT * FROM timeIntervals
+        IF (EXISTS (
+          SELECT 1 FROM timeIntervals
           WHERE internshipAgreement_id = NEW.internshipAgreement_id
-          AND (
-            (NEW.startDate BETWEEN startDate AND endDate)
-            OR (NEW.endDate BETWEEN startDate AND endDate)
-            OR (startDate BETWEEN NEW.startDate AND NEW.endDate)
-            OR (endDate BETWEEN NEW.startDate AND NEW.endDate)
+          AND NOT (
+            (NEW.startDate < startDate AND new.endDate < startDate) OR
+            (NEW.startDate > endDate AND new.endDate > endDate)
           )
-        ) THEN
-          SIGNAL SQLSTATE '45000'
-          SET MESSAGE_TEXT = 'Time interval overlaps with another';
+        )) THEN
+          SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Time interval overlaps with another';
         END IF;
       END;
-
-        `,
+        `
       )
       .raw(
         `      

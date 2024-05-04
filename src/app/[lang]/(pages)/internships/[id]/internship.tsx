@@ -40,7 +40,6 @@ export default function InternshipPage({
   const [internshipFields, setInternshipFields] = useState([]);
   const [internshipField, setInternshipField] = useState(null);
 
-  const [maxCapacity, setMaxCapacity] = useState(null);
   const [currentCapacity, setCurrentCapacity] = useState(null);
   const [numberOfBeds, setNumberOfBeds] = useState(null);
   const [yearOfStudy, setYearOfStudy] = useState(null);
@@ -97,7 +96,6 @@ export default function InternshipPage({
     if (name) update.name = name;
     if (sectionID) update.sectionID = sectionID;
     if (internshipField) update.internshipField = internshipField;
-    if (maxCapacity) update.maxCapacity = maxCapacity;
     if (currentCapacity) update.currentCapacity = currentCapacity;
     if (numberOfBeds) update.numberOfBeds = numberOfBeds;
     if (yearOfStudy) update.yearOfStudy = yearOfStudy;
@@ -158,7 +156,6 @@ export default function InternshipPage({
                   !name &&
                   !sectionID &&
                   !internshipField &&
-                  !maxCapacity &&
                   !currentCapacity &&
                   !numberOfBeds &&
                   !yearOfStudy
@@ -210,18 +207,7 @@ export default function InternshipPage({
                     aria-label="Set Current max capacity"
                   />
                 </label>
-                <label className="form-control w-full mb-2">
-                  <div className="label">
-                    <span className="label-text text-xl">Max Capacity</span>
-                  </div>
-                  <input
-                    type="number"
-                    placeholder="Max Capacity"
-                    className="input input-bordered text-base-content w-full"
-                    onChange={(e) => setMaxCapacity(Number(e.target.value))}
-                    aria-label="Set Max Capacity"
-                  />
-                </label>
+
                 <label className="form-control w-full mb-2">
                   <div className="label">
                     <span className="label-text text-xl">Number of Beds</span>

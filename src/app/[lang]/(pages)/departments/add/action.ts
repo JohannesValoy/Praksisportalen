@@ -8,14 +8,7 @@ import "server-only";
  * @returns A list of departments.
  */
 export async function fetchDepartments() {
-  const response = await DBclient("departments").select("*");
-
-  return response.map((department) => {
-    return {
-      name: department.name,
-      employeeID: department.employeeID,
-    };
-  }, {});
+  return await DBclient("departments").select("name", "employeeID");
 }
 
 /**
@@ -23,15 +16,7 @@ export async function fetchDepartments() {
  * @returns A list of employees.
  */
 export async function fetchEmployees() {
-  const response = await DBclient("employees").select("*");
-
-  return response.map((employee) => {
-    return {
-      name: employee.name,
-      id: employee.id,
-      email: employee.email,
-    };
-  }, {});
+  return await DBclient("employees").select("name", "id", "email");
 }
 
 /**

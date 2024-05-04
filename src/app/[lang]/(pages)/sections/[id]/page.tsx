@@ -21,7 +21,7 @@ export default async function Page({
   try {
     section = await getSectionObjectByID(Number(params.id));
   } catch (error) {
-    console.error("Failed to fetch Department", error);
+    console.error("Failed to fetch Section", error);
     notFound();
   }
 

@@ -8,9 +8,7 @@ import "server-only";
  * @returns A list of sections.
  */
 export async function fetchSectionTypes() {
-  const response = await DBclient.select("*").from("sectionTypes");
-
-  return response;
+  return await DBclient.select("*").from("sectionTypes");
 }
 
 /**
@@ -18,7 +16,5 @@ export async function fetchSectionTypes() {
  * @returns A list of sections.
  */
 export async function editSectionDetails(id: number, data: any) {
-  const response = await DBclient("sections").where("id", id).update(data);
-
-  return response;
+  return await DBclient("sections").where("id", id).update(data);
 }

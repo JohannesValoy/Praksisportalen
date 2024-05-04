@@ -8,9 +8,7 @@ import "server-only";
  * @returns ****ALL**** the internship fields name.
  */
 export async function fetchInternhipFields() {
-  const response = await DBclient.table("internshipFields").select("*");
-
-  return response;
+  return await DBclient.table("internshipFields").select("*");
 }
 
 /**

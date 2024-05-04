@@ -2,9 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { createStudent, fetchStudents } from "./action";
 import SuccessDialog from "@/app/components/SuccessDialog";
 import ContainerBox from "@/app/components/ContainerBox";
+import { createStudent, fetchStudentsEmail } from "../../add/action";
 
 /**
  * Creates a page that allows for adding a student.
@@ -35,7 +35,7 @@ export default function Page() {
   }, [firstName, lastName, email, students]);
 
   useEffect(() => {
-    fetchStudents()
+    fetchStudentsEmail()
       .then((data) => {
         setStudents(data);
       })

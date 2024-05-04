@@ -8,14 +8,10 @@ import "server-only";
  * @returns A list of study programs.
  */
 export async function fetchStudyPrograms() {
-  const response = await DBclient("studyPrograms").select("*");
-
-  return response.map((study) => {
-    return {
-      name: study.name,
-      eduID: study.educationInstitutionID,
-    };
-  }, {});
+  return await DBclient("studyPrograms").select(
+    "name",
+    "educationInstitutionID",
+  );
 }
 
 /**
@@ -23,14 +19,7 @@ export async function fetchStudyPrograms() {
  * @returns A list of education institutions.
  */
 export async function fetchEducationInstitutions() {
-  const response = await DBclient("educationInstitutions").select("*");
-
-  return response.map((edu) => {
-    return {
-      name: edu.name,
-      id: edu.id,
-    };
-  }, {});
+  return await DBclient("educationInstitutions").select("name", "id");
 }
 
 /**

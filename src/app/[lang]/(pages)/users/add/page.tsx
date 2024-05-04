@@ -6,9 +6,9 @@ import {
   createCoordinator,
   createEmployee,
   createStudent,
-  fetchCoordinators,
-  fetchEmployees,
-  fetchStudents,
+  fetchCoordinatorsEmail,
+  fetchEmployeesEmail,
+  fetchStudentsEmail,
 } from "./action";
 import SuccessDialog from "@/app/components/SuccessDialog";
 import ContainerBox from "@/app/components/ContainerBox";
@@ -50,19 +50,19 @@ export default function Page() {
   }, [firstName, lastName, email, employees, coordinators, students]);
 
   useEffect(() => {
-    fetchEmployees()
+    fetchEmployeesEmail()
       .then((data) => {
         setEmployees(data);
       })
       .catch((error) => console.error("Failed to fetch Employees", error));
 
-    fetchCoordinators()
+    fetchCoordinatorsEmail()
       .then((data) => {
         setCoordinators(data);
       })
       .catch((error) => console.error("Failed to fetch Coordinators", error));
 
-    fetchStudents()
+    fetchStudentsEmail()
       .then((data) => {
         setStudents(data);
       })

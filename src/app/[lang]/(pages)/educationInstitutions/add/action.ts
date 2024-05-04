@@ -7,13 +7,7 @@ import "server-only";
  * @returns A list of education institutions.
  */
 export async function fetchEducationInstitution() {
-  const response = await DBclient("educationInstitutions").select("*");
-
-  return response.map((edu) => {
-    return {
-      name: edu.name,
-    };
-  }, {});
+  return await DBclient("educationInstitutions").select("name");
 }
 
 /**
@@ -22,5 +16,4 @@ export async function fetchEducationInstitution() {
  */
 export async function addEducationInstitution(data) {
   await DBclient("educationInstitutions").insert({ name: data });
-  return null;
 }

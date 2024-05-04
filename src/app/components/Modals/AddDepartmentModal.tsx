@@ -9,6 +9,7 @@ import {
 } from "../../[lang]/(pages)/departments/add/action";
 import AddEmployee from "./AddLeaderModal";
 import EmployeeDropdown from "../Dropdowns/EmployeeDropdown";
+import { getUser } from "@/lib/auth";
 
 type Props = {
   openModal: boolean;
@@ -22,7 +23,10 @@ type Props = {
  * @param root.onClose The onClose function.
  * @returns A form to add a department.
  */
-export default function AddDepartment({ openModal, onClose }: Readonly<Props>) {
+export default async function AddDepartment({
+  openModal,
+  onClose,
+}: Readonly<Props>) {
   const [departments, setDepartments] = useState([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [employeeID, setEmployeeID] = useState(null);
@@ -30,6 +34,11 @@ export default function AddDepartment({ openModal, onClose }: Readonly<Props>) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+
+  const user = await getUser();
+  if (user.role !== "admin") {
+    onClose();
+  }
 
   type Employee = {
     name: string;

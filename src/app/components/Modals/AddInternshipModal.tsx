@@ -11,6 +11,7 @@ import {
 } from "../../[lang]/(pages)/internships/add/action";
 import ContainerBox from "@/app/components/ContainerBox";
 import AddSection from "./AddSectionModal";
+import { getUser } from "@/lib/auth";
 
 type Props = {
   openModal: boolean;
@@ -24,7 +25,10 @@ type Props = {
  * @param root.onClose The onClose function.
  * @returns A form to add an internship.
  */
-export default function AddInternship({ openModal, onClose }: Readonly<Props>) {
+export default async function AddInternship({
+  openModal,
+  onClose,
+}: Readonly<Props>) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const [isFieldDisabled, setIsFieldDisabled] = useState(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -44,6 +48,11 @@ export default function AddInternship({ openModal, onClose }: Readonly<Props>) {
   const [currentCapacity, setCurrentCapacity] = useState(0);
   const [numberOfBeds, setNumberOfBeds] = useState(0);
   const [yearOfStudy, setYearOfStudy] = useState(0);
+
+  const user = await getUser();
+  if (user.role !== "admin") {
+    onClose();
+  }
 
   useEffect(() => {
     if (
@@ -78,7 +87,7 @@ export default function AddInternship({ openModal, onClose }: Readonly<Props>) {
         setInternshipFields(data);
       })
       .catch((error) =>
-        console.error("Failed to fetch Internship Fields", error),
+        console.error("Failed to fetch Internship Fields", error)
       );
 
     fetchInternships()
@@ -189,7 +198,7 @@ export default function AddInternship({ openModal, onClose }: Readonly<Props>) {
                     options={internshipFields}
                     selectedOption={
                       internshipFields.find(
-                        (field) => field.name === internshipField,
+                        (field) => field.name === internshipField
                       ) || null
                     }
                     setSelectedOption={(field) =>

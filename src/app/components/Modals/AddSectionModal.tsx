@@ -14,6 +14,7 @@ import {
 import AddDepartment from "./AddDepartmentModal";
 import AddEmployee from "./AddLeaderModal";
 import EmployeeDropdown from "../Dropdowns/EmployeeDropdown";
+import { getUser } from "@/lib/auth";
 
 type Props = {
   openModal: boolean;
@@ -27,7 +28,10 @@ type Props = {
  * @param root.onClose The onClose function.
  * @returns A form to add a section.
  */
-export default function AddSection({ openModal, onClose }: Readonly<Props>) {
+export default async function AddSection({
+  openModal,
+  onClose,
+}: Readonly<Props>) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const [isTypeDisabled, setIsTypeDisabled] = useState(true);
   const [openDepartmentModal, setOpenDepartmentModal] = useState(false);
@@ -46,6 +50,11 @@ export default function AddSection({ openModal, onClose }: Readonly<Props>) {
 
   const [employees, setEmployees] = useState([]);
   const [employeeID, setEmployeeID] = useState(null);
+
+  const user = await getUser();
+  if (user.role !== "admin") {
+    onClose();
+  }
 
   useEffect(() => {
     if (

@@ -20,10 +20,7 @@ type Props = {
  * @param root.onClose The onClose function.
  * @returns A form to add an employee.
  */
-export default async function AddEmployee({
-  openModal,
-  onClose,
-}: Readonly<Props>) {
+export default function AddEmployee({ openModal, onClose }: Readonly<Props>) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
   const [employees, setEmployees] = useState([]);

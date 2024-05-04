@@ -9,6 +9,7 @@ import {
 /**
  * The ListOfInternshipAgreements component displays a list of internship agreements.
  * @param wordbook The wordbook object containing all the translations.
+ * @returns A list of internship agreements.
  */
 export default function ListOfInternshipAgreements({
   wordbook,

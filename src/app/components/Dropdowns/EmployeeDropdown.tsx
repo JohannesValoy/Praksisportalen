@@ -16,6 +16,7 @@ interface EmployeeDropdownProps {
  * @param setEmployeeID The function to set the selected employee ID.
  * @param dropdownName The name of the dropdown.
  * @param customSubClassName The custom sub class name.
+ * @returns An employee dropdown component.
  */
 const EmployeeDropdown: React.FC<EmployeeDropdownProps> = ({
   employees,

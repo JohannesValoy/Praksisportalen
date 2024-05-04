@@ -17,6 +17,7 @@ interface SectionTableProps {
  * @param readonly The readonly flag.
  * @param deleteFunction The delete function.
  * @param onAddButtonClick The onAddButtonClick function.
+ * @returns A list of sections.
  */
 const SectionTable: React.FC<SectionTableProps> = ({
   refreshKey,

@@ -6,6 +6,7 @@ import InternshipTable from "@/app/components/DynamicTables/InternshipTable";
 /**
  * The ListOfInternships component displays a table of internships and an add button.
  * @param wordbook The wordbook object containing all the translations.
+ * @returns A table of internships and an add button.
  */
 export default function ListOfInternships({
   wordbook,

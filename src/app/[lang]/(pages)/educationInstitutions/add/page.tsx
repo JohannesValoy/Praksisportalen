@@ -35,7 +35,6 @@ export default function Page() {
   /**
    * The handleSubmit function adds a new education institution.
    * @param event The event object.
-   * @returns A new education institution.
    * @returns A modal to confirm the addition of the education institution.
    */
   const handleSubmit = async (event) => {

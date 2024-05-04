@@ -1,10 +1,11 @@
 import { notFound } from "next/navigation";
-import { fetchUserDetails } from "../action";
+import { fetchUserDetails } from "./action";
 import Profile from "../Profiles";
 
 /**
  * The Page component fetches a user object by ID and renders the Profile component.
  * @param params The parameters of the page.
+ * @returns The Profile component.
  */
 export default async function Page({
   params,

@@ -6,6 +6,7 @@ import DepartmentTable from "@/app/components/DynamicTables/DepartmentTable";
 /**
  * The ListOfDepartments component displays a list of departments.
  * @param user The user object.
+ * @returns The ListOfDepartments component.
  */
 const ListOfDepartments = ({ user }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -13,6 +14,7 @@ const ListOfDepartments = ({ user }) => {
 
   /**
    * The closeAddModal function closes the add department modal.
+   * It also triggers a refresh by updating the refresh key.
    */
   const closeAddModal = () => {
     setIsAddModalOpen(false);

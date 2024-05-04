@@ -9,7 +9,7 @@ import {
   fetchDepartments,
   fetchEmployees,
   fetchSectionTypes,
-  fetchSections,
+  fetchSectionNames,
 } from "../../[lang]/(pages)/sections/add/action";
 import AddDepartment from "./AddDepartmentModal";
 import AddEmployee from "./AddLeaderModal";
@@ -24,6 +24,7 @@ type Props = {
  * The AddSection component displays a form to add a section.
  * @param openModal The openModal flag.
  * @param onClose The onClose function.
+ * @returns A form to add a section.
  */
 export default function AddSection({ openModal, onClose }: Readonly<Props>) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
@@ -73,7 +74,7 @@ export default function AddSection({ openModal, onClose }: Readonly<Props>) {
       })
       .catch((error) => console.error("Failed to fetch Departments", error));
 
-    fetchSections()
+    fetchSectionNames()
       .then((data) => {
         setSections(data);
       })

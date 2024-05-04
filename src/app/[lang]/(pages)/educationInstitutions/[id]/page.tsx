@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 /**
  * The Page component fetches an education institution object by ID and renders the InstitutionPage component.
  * @param params The parameters of the page.
+ * @returns The InstitutionPage component.
  */
 export default async function Page({
   params,

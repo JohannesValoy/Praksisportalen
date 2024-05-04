@@ -16,6 +16,7 @@ interface EditModalProps {
  * @param handleSubmit The function to handle the submit event.
  * @param children The children elements.
  * @param disabled The disabled flag.
+ * @returns An edit modal component.
  */
 const EditModal: React.FC<EditModalProps> = ({
   setName,

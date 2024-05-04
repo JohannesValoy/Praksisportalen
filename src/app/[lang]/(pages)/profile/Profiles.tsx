@@ -8,6 +8,7 @@ import { getCoordinatorsByID } from "@/services/CoordinatorService";
 /**
  * The Profile component renders a page based on the user's role.
  * @param user The user object.
+ * @returns The Profile component.
  */
 export default async function Profile({ user }: Readonly<{ user }>) {
   let page = null;

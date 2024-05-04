@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import {
   createEmployee,
-  fetchEmployees,
+  fetchEmployeesEmail,
 } from "../../[lang]/(pages)/users/add/action";
 import ContainerBox from "@/app/components/ContainerBox";
 import { generatePassword } from "@/services/EmployeeService";
@@ -17,6 +17,7 @@ type Props = {
  * The AddEmployee component displays a form to add an employee.
  * @param openModal The openModal flag.
  * @param onClose The onClose function.
+ * @returns A form to add an employee.
  */
 export default function AddEmployee({ openModal, onClose }: Readonly<Props>) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
@@ -41,7 +42,7 @@ export default function AddEmployee({ openModal, onClose }: Readonly<Props>) {
   }, [firstName, lastName, email, employees]);
 
   useEffect(() => {
-    fetchEmployees()
+    fetchEmployeesEmail()
       .then((data) => {
         setEmployees(data);
       })

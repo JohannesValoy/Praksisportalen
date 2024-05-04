@@ -3,6 +3,7 @@ import ListOfDepartments from "./departments";
 
 /**
  * The Page component fetches the user object and renders the ListOfDepartments component.
+ * @returns The ListOfDepartments component.
  */
 export default async function Page() {
   return <ListOfDepartments user={await getUser()} />;

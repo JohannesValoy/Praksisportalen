@@ -9,6 +9,7 @@ import {
 /**
  * The ListOfEducationInstitutions component displays a list of education institutions.
  * @param wordbook The wordbook object containing all the translations.
+ * @returns The ListOfEducationInstitutions component.
  */
 export default function ListOfEducationInstitutions({
   wordbook,

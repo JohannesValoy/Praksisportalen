@@ -15,6 +15,7 @@ import InternshipTable from "@/app/components/DynamicTables/InternshipTable";
  * @param section The section object.
  * @param user The user object.
  * @param wordbook The wordbook object containing all the translations.
+ * @returns The SectionPage component.
  */
 export default function SectionPage({
   section,

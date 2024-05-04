@@ -40,6 +40,7 @@ type DynamicTableProps = {
  * @param filter The filter object.
  * @param readonly The readonly flag.
  * @param refreshKey The refresh key.
+ * @returns A dynamic table.
  */
 const DynamicTable: React.FC<DynamicTableProps> = ({
   tableName = "",
@@ -126,7 +127,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
 
   useEffect(() => {
     fetch();
-  }, [page, refreshKey]); // fetch is a dependency
+  }, [page, refreshKey]);
 
   const normalizedRows = Array.isArray(rows) ? rows : [rows];
   const onDelete = async () => {

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 /**
  * The ListOfCoordinators component displays a list of coordinators.
+ * @returns A list of coordinators.
  */
 const ListOfCoordinators = () => {
   const router = useRouter();

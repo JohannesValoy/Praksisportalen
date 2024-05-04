@@ -14,6 +14,7 @@ interface DataItem {
 /**
  * The StudentPage component displays a Gantt chart.
  * @param user The user object.
+ * @returns The StudentPage component.
  */
 export default function StudentPage({ user }) {
   const datalist: DataItem[] = [

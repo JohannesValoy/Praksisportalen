@@ -15,6 +15,7 @@ import EditModal from "@/app/components/Modals/EditModal";
  * @param user The user object.
  * @param wordbook The wordbook object containing all the translations.
  * @param department The department object.
+ * @returns The DepartmentPage component.
  */
 export default function DepartmentPage({
   user,
@@ -73,7 +74,7 @@ export default function DepartmentPage({
 
   /**
    * The refreashPage function reloads the page.
-   * @returns The reloaded page.
+   * This is used to refresh the page after an update.
    */
   const refreashPage = () => {
     window.location.reload();

@@ -36,6 +36,7 @@ interface DateRange {
  * The Gantt component displays a Gantt chart.
  * @param datalist The data list.
  * @param onClickUrl The URL to redirect to on click.
+ * @returns A Gantt chart.
  */
 const Gantt: React.FC<GanttProps> = ({ datalist, onClickUrl }) => {
   const startDates = datalist.map((item) => new Date(item.startDate).getTime());

@@ -45,7 +45,6 @@ export default function Page() {
   /**
    * The handleSubmit function adds a new student.
    * @param event The event object.
-   * @returns A new student.
    * @returns A modal to confirm the addition of the student.
    */
   const handleSubmit = async (event) => {

@@ -10,6 +10,7 @@ type ErrorMessageProps = {
 /**
  * The ErrorMessage component displays an error message.
  * @param message The error message.
+ * @returns An error message.
  */
 const ErrorMessage: React.FC<ErrorMessageProps> = ({ message }) => {
   return (

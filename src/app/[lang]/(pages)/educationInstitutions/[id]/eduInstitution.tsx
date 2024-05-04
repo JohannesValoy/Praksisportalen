@@ -14,6 +14,7 @@ import StudentTable from "@/app/components/DynamicTables/StudentTable";
  * The InstitutionPage component displays the details of an education institution.
  * @param eduInstitution The education institution object.
  * @param wordbook The wordbook object containing all the translations.
+ * @returns The InstitutionPage component.
  */
 export default function InstitutionPage({
   eduInstitution,

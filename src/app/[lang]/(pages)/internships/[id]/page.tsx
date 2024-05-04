@@ -7,6 +7,7 @@ import InternshipPage from "./internship";
 /**
  * The Page component fetches an internship object by ID and renders the InternshipPage component.
  * @param params The parameters of the page.
+ * @returns The InternshipPage component.
  */
 export default async function Page({
   params,

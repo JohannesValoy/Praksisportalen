@@ -6,6 +6,7 @@ const dictionaries = {
 /**
  * The getDictionary function fetches the dictionary for the given locale.
  * @param locale The locale.
+ * @returns The dictionary for the given locale.
  */
 export const getDictionary = async (locale: string) =>
   dictionaries[locale.slice(0, 2)]();

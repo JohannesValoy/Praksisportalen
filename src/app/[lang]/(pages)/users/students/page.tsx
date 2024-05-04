@@ -6,6 +6,7 @@ import { getCoordinatorsByID } from "@/services/CoordinatorService";
 
 /**
  * The Page component fetches the user object and renders the ListOfStudents component.
+ * @returns The ListOfStudents component.
  */
 export default async function Page() {
   const user = await getUser();

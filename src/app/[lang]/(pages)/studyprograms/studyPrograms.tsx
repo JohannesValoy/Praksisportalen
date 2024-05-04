@@ -6,6 +6,7 @@ import { deleteStudyProgram, paginateStudyPrograms } from "./actions";
 /**
  * The ListOfStudies component displays a list of study programs.
  * @param wordbook The wordbook object containing all the translations.
+ * @returns A list of study programs.
  */
 export default function ListOfStudies({
   wordbook,

@@ -13,7 +13,9 @@ export async function fetchSectionTypes() {
 
 /**
  * The fetchSections function fetches all sections from the database.
- * @returns A list of sections.
+ * @param id The user object.
+ * @param data The data object.
+ * @returns Updated list of sections.
  */
 export async function editSectionDetails(id: number, data: any) {
   return await DBclient("sections").where("id", id).update(data);

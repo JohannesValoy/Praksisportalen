@@ -5,6 +5,7 @@ import ContainerBox from "@/app/components/ContainerBox";
 
 /**
  * The InternshipUploader component allows users to upload a CSV file of internship data.
+ * @returns The InternshipUploader component.
  */
 const InternshipUploader = () => {
   const [file, setFile] = useState(null);

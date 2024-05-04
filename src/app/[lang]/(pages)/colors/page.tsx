@@ -1,5 +1,8 @@
 /**
  * Component to display a color description
+ * @param name - The name of the color
+ * @param description - The description of the color
+ * @returns The Color Description Component
  */
 const ColorDescription = ({ name, description }) => (
   <p>
@@ -9,6 +12,9 @@ const ColorDescription = ({ name, description }) => (
 
 /**
  * Page Component to show DaisyUI Theme Colors
+ * @param colors - The list of DaisyUI Theme Colors
+ * @param ColorDescription - The Color Description Component
+ * @returns The DaisyUI Theme Colors Page
  */
 const Page = () => {
   const colors = [

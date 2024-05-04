@@ -19,6 +19,7 @@ type Props = {
  * The AddDepartment component displays a form to add a department.
  * @param openModal The openModal flag.
  * @param onClose The onClose function.
+ * @returns A form to add a department.
  */
 export default function AddDepartment({ openModal, onClose }: Readonly<Props>) {
   const [departments, setDepartments] = useState([]);
@@ -31,7 +32,7 @@ export default function AddDepartment({ openModal, onClose }: Readonly<Props>) {
 
   type Employee = {
     name: string;
-    id: string;
+    id?: string;
     email: string;
   };
 
@@ -52,7 +53,7 @@ export default function AddDepartment({ openModal, onClose }: Readonly<Props>) {
     } else {
       setIsSubmitDisabled(false);
     }
-  }, [name]);
+  }, [name, departments]);
 
   useEffect(() => {
     fetchDepartments()

@@ -18,6 +18,7 @@ interface DynamicTableProps {
  * @param readonly The readonly flag.
  * @param filter The filter object.
  * @param onAddButtonClick The onAddButtonClick function.
+ * @returns A list of departments.
  */
 const DepartmentTable: React.FC<DynamicTableProps> = ({
   refreshKey,

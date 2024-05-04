@@ -29,7 +29,7 @@ export async function fetchSections() {
 
 /**
  * The fetchYearsOfStudy function fetches all years of study from the database.
- * @returns A list of years of study.
+ * @param data the data of the new internship field.
  */
 export async function createInternshipField(data) {
   await DBclient("internshipFields").insert({

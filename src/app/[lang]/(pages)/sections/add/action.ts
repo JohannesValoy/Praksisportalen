@@ -12,21 +12,25 @@ export async function fetchDepartments() {
 }
 
 /**
- * The fetchEmployees function fetches all employees from the database.
- * @returns A list of employees.
+ * the fetchSections function fetches all sections names from the database.
+ * @returns A list of sections.
  */
-export async function fetchSections() {
+export async function fetchSectionNames() {
   return await DBclient("sections").select("name");
 }
 
 /**
- * The createDepartment function adds a new department to the database.
- * @param data The department object to be added.
+ * The fetchSectionTypes function fetches all section types from the database.
+ * @returns A list of section types.
  */
 export async function fetchSectionTypes() {
   return await DBclient("sectionTypes").select("name");
 }
 
+/**
+ * The fetchEmployees function fetches all employees from the database.
+ * @returns A list of employees.
+ */
 export async function fetchEmployees() {
   return await DBclient("employees").select("name", "id", "email");
 }
@@ -42,8 +46,8 @@ export async function createSectionType(data) {
 }
 
 /**
- * The createDepartment function adds a new department to the database.
- * @param data The department object to be added.
+ * The createSection function adds a new section to the database.
+ * @param data The section object to be added.
  */
 export async function createSection(data) {
   await DBclient("sections").insert({

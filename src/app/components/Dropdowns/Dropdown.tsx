@@ -30,6 +30,7 @@ interface DropdownProps {
  * @param customClassName The custom class name.
  * @param customSubClassName The custom sub class name.
  * @param onSearchChange The function to handle the search change.
+ * @returns A dropdown component.
  */
 const Dropdown: React.FC<DropdownProps> = ({
   options,

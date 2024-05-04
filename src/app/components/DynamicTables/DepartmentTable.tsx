@@ -14,10 +14,11 @@ interface DynamicTableProps {
 
 /**
  * The DepartmentTable component displays a list of departments.
- * @param refreshKey The refresh key.
- * @param readonly The readonly flag.
- * @param filter The filter object.
- * @param onAddButtonClick The onAddButtonClick function.
+ * @param root The root object.
+ * @param root.refreshKey The refresh key.
+ * @param root.readonly The readonly flag.
+ * @param root.filter The filter object.
+ * @param root.onAddButtonClick The onAddButtonClick function.
  * @returns A list of departments.
  */
 const DepartmentTable: React.FC<DynamicTableProps> = ({

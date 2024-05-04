@@ -78,7 +78,7 @@ export default function AddInternship({ openModal, onClose }: Readonly<Props>) {
         setInternshipFields(data);
       })
       .catch((error) =>
-        console.error("Failed to fetch Internship Fields", error)
+        console.error("Failed to fetch Internship Fields", error),
       );
 
     fetchInternships()
@@ -189,7 +189,7 @@ export default function AddInternship({ openModal, onClose }: Readonly<Props>) {
                     options={internshipFields}
                     selectedOption={
                       internshipFields.find(
-                        (field) => field.name === internshipField
+                        (field) => field.name === internshipField,
                       ) || null
                     }
                     setSelectedOption={(field) =>

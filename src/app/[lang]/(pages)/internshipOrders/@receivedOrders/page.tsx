@@ -31,7 +31,7 @@ function Page() {
   const [studentsLeft, setStudentsLeft] = useState(0);
   const [title, setTitle] = useState("Mottatte bestillinger");
   const [status, setStatus] = useState<"Finalized" | "Pending">("Pending");
-
+  //Filter status is used to filter by status to either see all the Finalized orders, or see all the pending orders. In this page this is used when clicking the log button
   const [filterStatus, setFilterStatus] = useState<"Finalized" | "Pending">(
     "Pending",
   );

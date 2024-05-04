@@ -151,9 +151,9 @@ export async function up(knex: Knex): Promise<void> {
           .foreign("coordinator_id")
           .references("id")
           .inTable("coordinators");
-        table.integer("studyProgram_id").unsigned().notNullable();
+        table.integer("studyProgramID").unsigned().notNullable();
         table
-          .foreign("studyProgram_id")
+          .foreign("studyProgramID")
           .references("id")
           .inTable("studyPrograms");
         table.integer("internship_id").unsigned().notNullable();
@@ -374,7 +374,7 @@ export async function up(knex: Knex): Promise<void> {
           SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Time interval overlaps with another';
         END IF;
       END;
-        `
+        `,
       )
       .raw(
         `      

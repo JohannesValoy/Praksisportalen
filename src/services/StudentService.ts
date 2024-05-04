@@ -54,7 +54,7 @@ async function getStudentsByInternshipId(id: number) {
     )
     .where("internshipAgreements.internship_id", id);
 
-  return { students } as { students: Student[] };
+  return { students } as { students: StudentTable[] };
 }
 
 /**

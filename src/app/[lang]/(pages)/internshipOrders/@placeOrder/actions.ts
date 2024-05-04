@@ -51,7 +51,7 @@ export async function fetchStudyPrograms() {
 }
 
 interface FormData {
-  studyProgram_id: number;
+  studyProgramID: number;
   comment: string;
   fieldGroups: {
     internshipField: string;
@@ -77,7 +77,7 @@ export async function sendOrder(data: FormData) {
       const [internshipOrderId] = await DBclient.table(
         "internshipOrders",
       ).insert({
-        studyProgramID: data.studyProgram_id,
+        studyProgramID: data.studyProgramID,
         comment: data.comment,
         coordinator_id: user.id,
       });

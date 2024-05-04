@@ -128,7 +128,7 @@ async function createInternshipAgreementObject(
   query: InternshipAgreementTable[],
 ): Promise<InternshipAgreement[]> {
   const studyProgramsPromise = getStudyProgramObjectByIDList(
-    query.map((agreement) => agreement.studyProgram_id),
+    query.map((agreement) => agreement.studyProgramID),
   );
   const internshipsPromise = getInternshipPositionObjectByIDList(
     query.map((agreement) => agreement.internship_id),
@@ -141,7 +141,7 @@ async function createInternshipAgreementObject(
   for (const element of query) {
     objects.push({
       ...element,
-      studyProgram: studyPrograms.get(element.studyProgram_id),
+      studyProgram: studyPrograms.get(element.studyProgramID),
       internship: internships.get(element.internship_id),
     });
   }
@@ -153,7 +153,7 @@ const InternshipAgreementSchema = z.object({
   endDate: z.date(),
   student_id: z.string().optional(),
   coordinator_id: z.string().optional(),
-  studyProgram_id: z.number(),
+  studyProgramID: z.number(),
   internship_id: z.number(),
   comment: z.string().optional(),
 });

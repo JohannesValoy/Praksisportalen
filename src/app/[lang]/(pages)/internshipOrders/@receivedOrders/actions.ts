@@ -197,7 +197,7 @@ export async function saveOrderDistribution(
     const agreements = Array.from({ length: amount }, () => ({
       startDate: subFieldGroup.startWeek,
       endDate: subFieldGroup.endWeek,
-      studyProgram_id: subFieldGroup.studyProgramID,
+      studyProgramID: subFieldGroup.studyProgramID,
       internship_id: InternshipID,
       comment: subFieldGroup.comment,
       coordinator_id: coordinatorID.coordinator_id,

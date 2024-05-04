@@ -41,7 +41,7 @@ const AdminLayout = () => {
               {orders.map((order, index) => (
                 <div
                   key={order.id}
-                  className={`card shadow-${index} bg-primary text-primary-content`}
+                  className={`card shadow-${index} bg-base-100 shadow-xl text-primary hover:scale-105 transition-transform duration-200`}
                 >
                   <div className="card-body">
                     <h2 className="card-title">
@@ -59,7 +59,7 @@ const AdminLayout = () => {
                     </p>
                   </div>
                   {index === 0 && orders.length > 1 && (
-                    <div className="badge badge-secondary p-3 rounded-full">
+                    <div className="badge badge-secondary p-5 rounded-2xl">
                       + {orders.length - 1}
                     </div>
                   )}

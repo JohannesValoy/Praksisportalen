@@ -22,7 +22,23 @@ type DynamicTableProps = {
   readonly?: boolean;
 };
 
-const DynamicTable: React.FC<DynamicTableProps> = ({
+/**
+ *
+ * @param root0 root
+ * @param root0.tableName name of the table
+ * @param root0.headers headers of the table
+ * @param root0.onRowClick function that happens 
+ * @param root0.onRowButtonClick click function of the button in each row
+ * @param root0.buttonName name of the button in each row
+ * @param root0.onAddButtonClick adds data
+ * @param root0.clickableColumns function activates if there should be any headers that are clickable
+ * @param root0.deleteFunction the function this table uses to delete data
+ * @param root0.paginateFunction the function this table uses to send data
+ * @param root0.filter filters the data input into the table.
+ * @param root0.readonly If true, the table will be read-only. There will be not add or delete buttons
+ * @returns JSX.Element
+ */
+function DynamicTable({
   tableName = "",
   headers = {},
   onRowClick,
@@ -34,7 +50,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   paginateFunction,
   filter = {},
   readonly = false,
-}) => {
+}: DynamicTableProps): React.FC<DynamicTableProps> {
   const searchParams = useSearchParams();
   // Ensure rows is always an array
   const [error, setError] = useState(null);
@@ -47,7 +63,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
     const isSelected = selectedRows.includes(row);
     if (isSelected) {
       setSelectedRows(
-        selectedRows.filter((selectedRow) => selectedRow !== row),
+        selectedRows.filter((selectedRow) => selectedRow !== row)
       );
     } else {
       setSelectedRows([...selectedRows, row]);
@@ -319,6 +335,6 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
       )}
     </div>
   );
-};
+}
 
 export default DynamicTable;

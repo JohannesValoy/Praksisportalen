@@ -1,7 +1,11 @@
-/**
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  from icon set "IconaMoon Icon Set"
- */
+/*
+  Icon title: "History"
+  From icon set: "IconaMoon Icon Set"
+  Available at: "https://iconduck.com/icons/49214/history"
+  In set: "https://iconduck.com/sets/icomoon-free-icon-set"
+  License: "https://iconduck.com/licenses/cc-by-4.0"
+  No changes are made to it.
+*/
 import React from "react";
 
 /**

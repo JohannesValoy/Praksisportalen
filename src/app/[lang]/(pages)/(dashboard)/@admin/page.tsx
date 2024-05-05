@@ -15,7 +15,6 @@ const pieParams = { margin: { right: 5 }, height: 400, width: 400 };
  */
 const AdminLayout = () => {
   const [error, setError] = useState(null);
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [orders, setOrders] = useState([]);
   useEffect(() => {
     fetchOrders("Pending")
@@ -113,11 +112,8 @@ const AdminLayout = () => {
           </Link>
         </ContainerBox>
       </div>
-      {isErrorModalOpen && (
-        <ErrorModal
-          message={error}
-          setIsModalOpen={setIsErrorModalOpen}
-        ></ErrorModal>
+      {error && (
+        <ErrorModal message={error} closeModal={() => setError(null)} />
       )}
     </div>
   );

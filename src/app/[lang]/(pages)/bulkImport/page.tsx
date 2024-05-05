@@ -4,10 +4,10 @@ import { createRecord } from "./actions";
 import ContainerBox from "@/app/components/ContainerBox";
 
 /**
- * The InternshipUploader component allows users to upload a CSV file of internship data.
- * @returns The InternshipUploader component.
+ * The Page component is the bulk import page.
+ * @returns The Bulk Import page.
  */
-const InternshipUploader = () => {
+export default function Page() {
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
   const [responses, setResponses] = useState([]);
@@ -84,7 +84,7 @@ const InternshipUploader = () => {
               failedRecords.push({ record: item, error: response.statusText });
             }
             setProgress(((successCount + failureCount) / data.length) * 100);
-          }),
+          })
         ).finally(() => {
           setLoading(false);
           setUploaded(true);
@@ -156,6 +156,4 @@ const InternshipUploader = () => {
       </div>
     </ContainerBox>
   );
-};
-
-export default InternshipUploader;
+}

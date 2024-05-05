@@ -1,7 +1,6 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/solid";
-
 /**
  * The GanttProps interface represents the props of the Gantt component.
  */
@@ -20,15 +19,43 @@ interface MonthMarker {
 /**
  * The Gantt component displays a Gantt chart.
  * @param root The root object.
- * @param root.datalist The data list.
- * @param root.onClickUrl The URL to redirect to on click.
+ * @param root.fetchData A function that takes in a Date and returns a list of GanttProps.
  * @returns A Gantt chart.
  */
 export default function Gantt({
-  datalist,
+  fetchData,
 }: Readonly<{
-  datalist: GanttProp[];
+  fetchData: (data) => Promise<GanttProp[]>;
 }>) {
+  const [datalist, setDatalist] = useState([]);
+  const currentDate = useRef(new Date());
+  const minStartDate = new Date(currentDate.current);
+  minStartDate.setDate(minStartDate.getDate() - minStartDate.getDay());
+  const maxEndDate = new Date(minStartDate);
+  maxEndDate.setDate(maxEndDate.getDate() + 6);
+
+  useEffect(() => {
+    fetchData(currentDate.current).then((data) => setDatalist(data));
+  }, [fetchData]);
+
+  /**
+   * Function to fetch for a week forward
+   * It also changes the currentDate to a week forward
+   */
+  function weekForward() {
+    currentDate.current.setDate(currentDate.current.getDate() + 7);
+    fetchData(currentDate.current).then(setDatalist);
+  }
+
+  /**
+   * Function to fetch for a week backwards'
+   * It also changes the currentDate to a week backwards
+   */
+  function weekBack() {
+    currentDate.current.setDate(currentDate.current.getDate() - 7);
+    fetchData(currentDate.current).then(setDatalist);
+  }
+
   const startDates = datalist
     .map((item) =>
       item.intervals.map((interval) => interval.startDate.getTime())
@@ -37,10 +64,8 @@ export default function Gantt({
   const endDates = datalist
     .map((item) => item.intervals.map((interval) => interval.endDate.getTime()))
     .flat();
-  const minStartDate = Math.min(...startDates);
-  let weekNumber = getISOWeekNumber(new Date(minStartDate));
-  const maxEndDate = Math.max(...endDates);
-  const totalTime = maxEndDate - minStartDate;
+  let weekNumber = getISOWeekNumber(currentDate.current);
+  const totalTime = maxEndDate.getTime() - minStartDate.getTime();
 
   const monthMarkers: MonthMarker[] = [];
   let currentMonth = new Date(minStartDate);
@@ -49,31 +74,16 @@ export default function Gantt({
   }
   currentMonth.setDate(1); // Set to the first day of the month
 
-  while (currentMonth.getTime() <= maxEndDate) {
+  while (currentMonth.getTime() <= maxEndDate.getTime()) {
     const monthStart = currentMonth.getTime();
-    const offsetPercent = ((monthStart - minStartDate) / totalTime) * 100;
+    const offsetPercent =
+      ((monthStart - minStartDate.getTime()) / totalTime) * 100;
 
     monthMarkers.push({
       label: currentMonth.toLocaleString("default", { month: "short" }),
       offsetPercent,
     });
     currentMonth.setMonth(currentMonth.getMonth() + 1);
-  }
-
-  /**
-   * Sends the next week to the server
-   */
-  function nextWeek() {
-    let newDate = new Date(minStartDate);
-    newDate.setDate(newDate.getDate() + 7);
-  }
-
-  /**
-   * Sends the previous week to the server
-   */
-  function previousWeek() {
-    let newDate = new Date(minStartDate);
-    newDate.setDate(newDate.getDate() - 7);
   }
 
   /**
@@ -104,13 +114,24 @@ export default function Gantt({
     // Return the week number
     return weekNo;
   }
+
+  const daysOfWeek = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+
   return (
     <div
       className="bg-secondary-200 w-full  p-5 rounded-lg flex flex-col items-center justify-center"
       style={{
         overflowX: "auto",
         height: "40rem",
-        width: "100%",
+        width: "95%",
         border: "1px solid rgba(100,100,100,0.2)",
       }}
     >
@@ -121,11 +142,9 @@ export default function Gantt({
           style={{ height: "90%", width: "95%" }}
         >
           <div
-            className="flex flex-col"
+            className="flex flex-col p-2"
             style={{
-              width: "fit-content",
-              paddingLeft: "2%",
-              paddingRight: "2%",
+              width: "10rem",
             }}
           >
             {datalist.map((data, index) => (
@@ -143,80 +162,88 @@ export default function Gantt({
             ))}
           </div>
 
-          <div className="rounded-lg flex-1 flex flex-col relative h-full">
-            {datalist.map((dateRanges, index) => (
-              <div
-                key={index}
-                className="flex flex-row"
-                style={{ height: "100%", position: "relative" }}
-              >
-                {dateRanges.intervals.map((dateRange, index) => {
-                  const { startDate, endDate } = dateRange;
-                  const duration = endDate.getTime() - startDate.getTime();
-                  const offset = startDate.getTime() - minStartDate;
-                  const widthPercent = (duration / totalTime) * 100;
-                  const marginLeftPercent = (offset / totalTime) * 100;
-                  return (
-                    <div
-                      key={index}
-                      style={{
-                        width: `${widthPercent}%`,
-                        marginLeft: `${marginLeftPercent}%`,
-                        height: "100%",
-                        position: "absolute",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        zIndex: 99,
-                        borderRadius: "2rem",
-                      }}
-                      //Shows up when hovering over it
-                      title={`start: ${startDate.toLocaleDateString()}\nend: ${endDate.toLocaleDateString()}`}
-                      className="bg-primary"
-                    ></div>
-                  );
-                })}
-              </div>
-            ))}
-            {monthMarkers.map((marker, index) => (
-              <div
-                key={index}
-                className="absolute bg-primary"
-                style={{
-                  height: "100%",
-                  width: "3px",
-                  borderRadius: "10px",
-                  transform: "translateX(-100%)",
-                  left: `${marker.offsetPercent}%`,
-                }}
-              >
+          <div className="flex-1 flex flex-col relative h-full">
+            <div className="h-full bg-base-200 rounded-lg p-3 m-3">
+              {datalist.map((dateRanges, index) => (
                 <div
+                  key={index}
+                  className="flex flex-row"
+                  style={{ height: "100%", position: "relative" }}
+                >
+                  {dateRanges.intervals.map((dateRange, index) => {
+                    const { startDate, endDate } = dateRange;
+                    const duration = endDate.getTime() - startDate.getTime();
+                    const offset = startDate.getTime() - minStartDate.getTime();
+                    const widthPercent = (duration / totalTime) * 100;
+                    const marginLeftPercent = (offset / totalTime) * 100;
+                    return (
+                      <div
+                        key={index}
+                        style={{
+                          width: `${widthPercent}%`,
+                          marginLeft: `${marginLeftPercent}%`,
+                          height: "100%",
+                          position: "absolute",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          zIndex: 99,
+                        }}
+                        //Shows up when hovering over it
+                        title={`start: ${startDate.toLocaleString()}\nend: ${endDate.toLocaleString()}`}
+                        className="bg-primary rounded-lg"
+                      ></div>
+                    );
+                  })}
+                </div>
+              ))}
+              {monthMarkers.map((marker, index) => (
+                <div
+                  key={index}
+                  className="absolute bg-primary"
                   style={{
-                    position: "absolute",
-                    bottom: "0",
-                    transform: "translateY(105%) translateX(-50%)",
+                    height: "100%",
+                    width: "3px",
+                    borderRadius: "10px",
+                    transform: "translateX(-100%)",
+                    left: `${marker.offsetPercent}%`,
                   }}
                 >
-                  {marker.label}
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "0",
+                      transform: "translateY(105%) translateX(-50%)",
+                    }}
+                  >
+                    {marker.label}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <div className="flex flex-row w-full h-fit">
+              {daysOfWeek.map((day) => (
+                <p key={day} className="w-full flex justify-center">
+                  {day}
+                </p>
+              ))}
+            </div>
           </div>
         </div>
       </div>
       <div className="flex join">
         <button
-          className="btn h-full join-item text-base-content bg-secondary"
-          onClick={previousWeek}
+          className="btn h-full join-item text-secondary-content bg-secondary"
+          onClick={weekBack}
         >
           <ChevronLeftIcon className="size-6 " />
         </button>
-        <div className="btn flex h-full items-center join-item p-2 bg-secondary">
+        <div className="btn flex h-full items-center join-item p-2 text-secondary-content bg-secondary">
           {weekNumber}
         </div>
         <button
-          className="btn h-full  join-item text-base-content bg-secondary"
-          onClick={nextWeek}
+          className="btn h-full  join-item text-secondary-content bg-secondary"
+          onClick={weekForward}
         >
           <ChevronRightIcon className="size-6  " />
         </button>

@@ -1,3 +1,5 @@
+"use server";
+
 import { StudyProgramTable } from "knex/types/tables.js";
 import { getEducationInstitutionByIDList } from "./EducationInstituteService";
 import DBclient from "@/knex/config/DBClient";
@@ -5,8 +7,9 @@ import {
   StudyProgram,
   StudyProgramPageRequest,
 } from "@/app/_models/StudyProgram";
-import "server-only";
 import { PageResponse } from "@/app/_models/pageinition";
+import "server-only";
+
 /**
  * Get a study program by its id
  * @param id the id of the study program
@@ -35,7 +38,7 @@ async function getStudyProgramObjectByIDList(
     .whereIn("id", idList);
   const studyPrograms: Map<number, StudyProgram> = new Map();
   const educationInstitutionIDs = new Set(
-    query.map((studyProgram) => studyProgram.educationInstitution_id),
+    query.map((studyProgram) => studyProgram.educationInstitutionID),
   );
   const educationInstitutions = await getEducationInstitutionByIDList(
     educationInstitutionIDs,
@@ -44,7 +47,7 @@ async function getStudyProgramObjectByIDList(
     studyPrograms.set(studyProgram.id, {
       ...studyProgram,
       educationInstitution: educationInstitutions.get(
-        studyProgram.educationInstitution_id,
+        studyProgram.educationInstitutionID,
       ),
     });
   }
@@ -58,11 +61,17 @@ async function getStudyProgramObjectByIDList(
 async function getStudyProgramsByPageRequest(
   pageRequest: StudyProgramPageRequest, //to be changed
 ): Promise<PageResponse<StudyProgram>> {
-  const baseQuery = await DBclient.select()
+  const baseQuery = await DBclient.select("id")
     .from<StudyProgramTable>("studyPrograms")
     .where((builder) => {
       if (pageRequest.containsName) {
         builder.where("name", "like", `%${pageRequest.containsName}%`);
+      }
+      if (pageRequest.hasEducationInstitutionID) {
+        builder.where(
+          "educationInstitutionID",
+          pageRequest.hasEducationInstitutionID,
+        );
       }
     })
     .orderBy(

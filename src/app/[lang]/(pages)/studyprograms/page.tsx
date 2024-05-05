@@ -1,29 +1,9 @@
-"use client";
-import React from "react";
-import DynamicTable from "@/app/components/DynamicTable";
-import { deleteStudyProgram, paginateStudyPrograms } from "./actions";
+import ListOfStudies from "./studyPrograms";
 
-const ListOfStudies = () => {
-  const headers = { Name: "name", id: "id" };
-
-  return (
-    <>
-      <DynamicTable
-        tableName={"Study Programs"}
-        headers={headers}
-        onRowClick={() => {}}
-        onRowButtonClick={(row) => {
-          throw new Error("Not implemented");
-        }}
-        buttonName={"Details"}
-        onAddButtonClick={() => {
-          window.location.href = `/users/addUser?role=student`;
-        }}
-        deleteFunction={deleteStudyProgram}
-        paginateFunction={paginateStudyPrograms}
-      />
-    </>
-  );
-};
-
-export default ListOfStudies;
+/**
+ * The Page function returns the ListOfStudies component.
+ * @returns The ListOfStudies component.
+ */
+export default async function Page() {
+  return <ListOfStudies wordbook={null} />;
+}

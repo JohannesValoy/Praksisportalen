@@ -1,5 +1,9 @@
+"use client";
 import React from "react";
 
+/**
+ * A DataItem is representing a time slot with a name, and id
+ */
 interface DataItem {
   id: number;
   row_id: number;
@@ -8,9 +12,12 @@ interface DataItem {
   endDate: Date;
 }
 
+/**
+ * The GanttProps interface represents the props of the Gantt component.
+ */
 interface GanttProps {
   datalist: DataItem[];
-  onClickUrl: string;
+  onClickUrl?: string;
 }
 
 interface MonthMarker {
@@ -18,10 +25,20 @@ interface MonthMarker {
   offsetPercent: number;
 }
 
+/**
+ * The DateRange interface represents the date range.
+ */
 interface DateRange {
   [key: string]: Array<[Date, Date, number]>;
 }
 
+/**
+ * The Gantt component displays a Gantt chart.
+ * @param root The root object.
+ * @param root.datalist The data list.
+ * @param root.onClickUrl The URL to redirect to on click.
+ * @returns A Gantt chart.
+ */
 const Gantt: React.FC<GanttProps> = ({ datalist, onClickUrl }) => {
   const startDates = datalist.map((item) => new Date(item.startDate).getTime());
   const endDates = datalist.map((item) => new Date(item.endDate).getTime());
@@ -60,7 +77,7 @@ const Gantt: React.FC<GanttProps> = ({ datalist, onClickUrl }) => {
   );
   return (
     <div
-      className="bg-base-200  p-5 rounded-lg flex flex-col items-center justify-center"
+      className="bg-base-200 w-full  p-5 rounded-lg flex flex-col items-center justify-center"
       style={{
         height: "40rem",
         width: "70%",
@@ -123,20 +140,26 @@ const Gantt: React.FC<GanttProps> = ({ datalist, onClickUrl }) => {
                         zIndex: 99,
                       }}
                     >
-                      <div
+                      <a
+                        href={onClickUrl ? `${onClickUrl + row_id}` : null}
                         className="btn btn-primary"
-                        onClick={() => {
-                          window.location.href = `${onClickUrl + row_id}`;
-                        }}
                         style={{
                           borderRadius: "5px",
                           height: "50%",
                           width: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          textDecoration: "none",
+                          pointerEvents: onClickUrl ? "auto" : "none",
                         }}
                       >
-                        start: {startDate.toLocaleDateString()} <br />
-                        end: {endDate.toLocaleDateString()}
-                      </div>
+                        <span>
+                          start: {startDate.toLocaleDateString()} <br />
+                          end: {endDate.toLocaleDateString()}
+                        </span>
+                      </a>
                     </div>
                   );
                 })}

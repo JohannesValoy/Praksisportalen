@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import Dropdown from "@/app/components/Dropdown";
+import Dropdown from "@/app/components/Dropdowns/Dropdown";
 import {
   fetchInternhipFields,
   addInternshipField,
@@ -55,7 +55,7 @@ export default function Page() {
 
   // Initialize internshipFields as an array of InternshipField
   const [internshipFields, setInternshipFields] = useState<InternshipField[]>(
-    []
+    [],
   );
   const [newType, setNewType] = useState("");
 
@@ -75,16 +75,13 @@ export default function Page() {
         setStudyPrograms(data);
       })
       .catch((error) => console.error("Failed to fetch Study Programs", error));
-  }, []);
 
-  // Fetch internship field from the API
-  useEffect(() => {
     fetchInternhipFields()
       .then((data) => {
         setInternshipFields(data);
-      }) // Ensure proper data handling.
+      })
       .catch((error) =>
-        console.error("Failed to fetch internship field", error)
+        console.error("Failed to fetch internship field", error),
       );
   }, []);
 
@@ -170,10 +167,8 @@ export default function Page() {
         className="modal  modal-bottom sm:modal-middle"
       >
         <div className="bg-base-300 text-base-content modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Success! Your order has been placed successfully.
-          </p>
+          <h3 className="font-bold text-lg">Success!</h3>
+          <p className="py-4">Your order has been placed successfully.</p>
           <div className="modal-action">
             <Link href="/" className="btn  rounded-btn h-full">
               Home
@@ -202,7 +197,7 @@ export default function Page() {
               options={studyPrograms}
               selectedOption={
                 studyPrograms.find(
-                  (studyProgram) => studyProgram.id === studyProgramID
+                  (studyProgram) => studyProgram.id === studyProgramID,
                 ) || null
               }
               setSelectedOption={(studyProgram) => {
@@ -211,13 +206,7 @@ export default function Page() {
               onSearchChange={() => {
                 setStudyProgramID(null);
               }}
-              renderOption={(studyProgram) => (
-                <>
-                  <div className="mask mask-squircle w-12 h-12 overflow-hidden"></div>
-
-                  <div>{studyProgram.name}</div>
-                </>
-              )}
+              renderOption={(studyProgram) => <div>{studyProgram.name}</div>}
               customClassName={` ${isSubmitted && studyProgramID === null ? "input-error" : ""}`}
             />
             <button type="button">
@@ -255,7 +244,7 @@ export default function Page() {
                     options={internshipFields}
                     selectedOption={
                       internshipFields.find(
-                        (type) => type.name === group.internshipField
+                        (type) => type.name === group.internshipField,
                       ) || null
                     }
                     setSelectedOption={(type) => {
@@ -269,13 +258,7 @@ export default function Page() {
                       newFieldGroups[numericGroupId].internshipField = "";
                       setFieldGroups(newFieldGroups);
                     }}
-                    renderOption={(type) => (
-                      <>
-                        <div className="mask mask-squircle w-12 h-12 overflow-hidden "></div>
-
-                        <div>{type.name}</div>
-                      </>
-                    )}
+                    renderOption={(type) => <div>{type.name}</div>}
                     customClassName={` ${isSubmitted && fieldGroups[groupId].internshipField === "" ? "input-error" : ""}`}
                   />
                   <div className="flex flex-row mt-2 gap-2">
@@ -284,7 +267,7 @@ export default function Page() {
                       value={newType}
                       onChange={(e) => setNewType(e.target.value)}
                       placeholder="Legg til nytt praksisfelt"
-                      className="input input-bordered w-full"
+                      className="input input-bordered text-base-content w-full"
                       aria-label="Add new type"
                       maxLength={200}
                     />
@@ -301,20 +284,20 @@ export default function Page() {
                     </button>
                   </div>
                   <div className="flex flex-row mt-2">
-                    {group.subFieldGroups.map((subFieldGroup, index) => (
-                      <div key={index} className="mr-4">
+                    {group.subFieldGroups.map((subFieldGroup, groupIndex) => (
+                      <div key={groupIndex} className="mr-4">
                         <div className="label  w-full">
                           <span className="label-text text-xl">
                             {subFieldGroup.studyYear}. år studenter
                           </span>
                         </div>
 
-                        <label className="form-control w-full">
-                          <div className="label">
+                        <div className="form-control w-full">
+                          <label className="label" htmlFor="numStudents">
                             <span className="label-text text-xl">
                               Antall Studenter
                             </span>
-                          </div>
+                          </label>
                           <input
                             type="number"
                             min="0"
@@ -322,27 +305,27 @@ export default function Page() {
                             onChange={(e) => {
                               const newFieldGroups = [...fieldGroups];
                               newFieldGroups[groupId].subFieldGroups[
-                                index
+                                groupIndex
                               ].numStudents = e.target.value;
                               setFieldGroups(newFieldGroups);
 
                               // Set studentsAboveZero for this groupId
                               setStudentsAboveZero({
                                 ...studentsAboveZero,
-                                [`${groupId}_${index}`]:
+                                [`${groupId}_${groupIndex}`]:
                                   Number(e.target.value) > 0,
                               });
                             }}
-                            className="input input-bordered"
+                            className="input input-bordered text-base-content"
                           />
-                        </label>
+                        </div>
 
-                        <label className="form-control w-full">
-                          <div className="label">
+                        <div className="form-control w-full">
+                          <label className="label" htmlFor="startDate">
                             <span className="label-text text-xl">
                               Start Dato
                             </span>
-                          </div>
+                          </label>
                           <input
                             type="date"
                             value={
@@ -350,32 +333,34 @@ export default function Page() {
                                 ?.toISOString()
                                 .split("T")[0]
                             }
-                            className={`input input-bordered`}
+                            className={`input input-bordered text-base-content`}
                             onChange={(e) => {
                               const newFieldGroups = [...fieldGroups];
                               newFieldGroups[groupId].subFieldGroups[
-                                index
+                                groupIndex
                               ].startWeek = new Date(
-                                Date.parse(e.target.value)
+                                Date.parse(e.target.value),
                               );
                               setFieldGroups(newFieldGroups);
                             }}
-                            required={studentsAboveZero[`${groupId}_${index}`]}
+                            required={
+                              studentsAboveZero[`${groupId}_${groupIndex}`]
+                            }
                           />
-                        </label>
+                        </div>
 
-                        <label className="form-control w-full">
-                          <div className="label">
+                        <div className="form-control w-full">
+                          <label className="label" htmlFor="endDate">
                             <span className="label-text text-xl">
                               Slutt Dato
                             </span>
-                          </div>
+                          </label>
                           <input
                             type="date"
                             value={
                               subFieldGroup.endWeek?.toISOString().split("T")[0]
                             }
-                            className={`input input-bordered ${
+                            className={`input input-bordered text-base-content ${
                               subFieldGroup.endWeek < subFieldGroup.startWeek
                                 ? "input-error"
                                 : ""
@@ -383,13 +368,15 @@ export default function Page() {
                             onChange={(e) => {
                               const newFieldGroups = [...fieldGroups];
                               newFieldGroups[groupId].subFieldGroups[
-                                index
+                                groupIndex
                               ].endWeek = new Date(Date.parse(e.target.value));
                               setFieldGroups(newFieldGroups);
                             }}
-                            required={studentsAboveZero[`${groupId}_${index}`]}
+                            required={
+                              studentsAboveZero[`${groupId}_${groupIndex}`]
+                            }
                           />
-                        </label>
+                        </div>
                       </div>
                     ))}
                   </div>

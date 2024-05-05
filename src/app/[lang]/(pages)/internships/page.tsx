@@ -1,33 +1,9 @@
-"use client";
-import React from "react";
-import DynamicTable from "@/app/components/DynamicTable";
-import { deleteInternship, paginateInternships } from "./action";
+import ListOfInternships from "./internships";
 
-const ListOfInternships = () => {
-  const headers = {
-    Name: "name",
-    "Max Capacity": "maxCapacity",
-    "Current Capacity": "currentCapacity",
-  };
-
-  return (
-    <>
-      <DynamicTable
-        tableName={"Internships"}
-        headers={headers}
-        onRowClick={() => {}}
-        onRowButtonClick={(row) => {
-          window.location.href = `/internships/individualInternship?internship_id=${row.id}`;
-        }}
-        buttonName={"Details"}
-        onAddButtonClick={() => {
-          window.location.href = `/internships/addInternship`;
-        }}
-        deleteFunction={deleteInternship}
-        paginateFunction={paginateInternships}
-      />
-    </>
-  );
-};
-
-export default ListOfInternships;
+/**
+ * The Page function is a React component that displays the ListOfInternships component.
+ * @returns The Page component.
+ */
+export default async function Page() {
+  return <ListOfInternships wordbook={null} />;
+}

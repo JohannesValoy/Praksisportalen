@@ -1,11 +1,11 @@
 "use server";
+
 import DBclient from "@/knex/config/DBClient";
 import { Department, DepartmentPageRequest } from "@/app/_models/Department";
 import { DepartmentTable, EmployeeTable } from "knex/types/tables.js";
 import { getEmployeeObjectByIDList } from "./EmployeeService";
-
-import "server-only";
 import { PageResponse } from "@/app/_models/pageinition";
+import "server-only";
 
 /**
  * Gets a {@link Department} object by its id.
@@ -15,7 +15,7 @@ import { PageResponse } from "@/app/_models/pageinition";
  */
 async function getDepartmentObjectByID(id: number): Promise<Department> {
   const department = await getDepartmentObjectByIDList([id]);
-  if (department.get(id) == undefined) {
+  if (!department.get(id)) {
     throw new Error("Department not found");
   }
   return department.get(id);
@@ -48,15 +48,15 @@ async function getDepartmentPageByPageRequest(
   pageRequest: DepartmentPageRequest,
 ): Promise<PageResponse<Department>> {
   const baseQuery = await DBclient.from("employees")
-    .rightJoin("departments", "employees.id", "departments.employee_id")
+    .rightJoin("departments", "employees.id", "departments.employeeID")
     .where((builder) => {
       if (pageRequest.hasEmployeeID) {
-        builder.where("employee_id", pageRequest.hasEmployeeID);
+        builder.where("employeeID", pageRequest.hasEmployeeID);
       }
       if (pageRequest.hasSectionID) {
         builder.whereIn("id", (builder) => {
           builder
-            .select("department_id")
+            .select("departmentID")
             .from("sections")
             .where("id", pageRequest.hasSectionID);
         });
@@ -92,12 +92,12 @@ async function createDepartmentObject(
 ): Promise<Department[]> {
   const departments: Department[] = [];
   const employees: Map<string, EmployeeTable> = await getEmployeeObjectByIDList(
-    query.map((department) => department.employee_id),
+    query.map((department) => department.employeeID),
   );
   query.forEach((department) => {
     departments.push({
       ...department,
-      employee: employees.get(department.employee_id),
+      employee: employees.get(department.employeeID),
     });
   });
   return departments;

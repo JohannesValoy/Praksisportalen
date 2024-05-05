@@ -1,11 +1,11 @@
 /**
- * ErrorModal component
- * @param root0 The props passed to the component.
- * @param root0.message The message to display in the modal.
- * @param root0.setIsModalOpen A function to set the state of the modal (true/false).
- * @returns JSX.Element
+ * ErrorModal component is used to display error messages in a modal.
+ * @param root The root object.
+ * @param root.message The error message.
+ * @param root.closeModal The function to close the modal
+ * @returns The ErrorModal component.
  */
-export default function ErrorModal({ message, setIsModalOpen }) {
+export default function ErrorModal({ message, closeModal }) {
   return (
     <dialog
       className="fixed inset-0 z-10 overflow-y-auto bg-base-300 rounded-lg"
@@ -32,7 +32,7 @@ export default function ErrorModal({ message, setIsModalOpen }) {
         <button
           type="button"
           className="btn btn-info"
-          onClick={() => setIsModalOpen(false)}
+          onClick={() => closeModal(false)}
         >
           Close
         </button>

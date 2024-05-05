@@ -1,11 +1,13 @@
+"use server";
+
 import { InternshipTable } from "knex/types/tables.js";
 import DBclient from "@/knex/config/DBClient";
 import {
   Internship,
   InternshipPaginationRequest,
 } from "@/app/_models/InternshipPosition";
-import "server-only";
 import { PageResponse } from "@/app/_models/pageinition";
+import "server-only";
 
 /**
  * Gets an {@link InternshipPosition} object by its id.
@@ -42,27 +44,27 @@ async function getInternshipPositionObjectByIDList(
 }
 
 /**
- * Gets {@link InternShipPosition} as a map objects by section_id.
- * @param sections The list of section_id.
- * @returns  A {@link Map} where the key is the section_id and the value is the list of {@link InternshipPosition} objects.
+ * Gets {@link InternShipPosition} as a map objects by sectionID.
+ * @param sections The list of sectionId.
+ * @returns  A {@link Map} where the key is the sectionID and the value is the list of {@link InternshipPosition} objects.
  */
 async function getInternshipPositionObjectBySectionID(
   sections: number[],
 ): Promise<Map<number, Internship[]>> {
   const query = await DBclient.from<InternshipTable>("internships")
-    .select("id", "section_id")
-    .whereIn("section_id", sections);
+    .select("id", "sectionID")
+    .whereIn("sectionID", sections);
   const internships = await getInternshipPositionObjectByIDList(
     query.map((internship) => internship.id),
   );
   const internshipsMap = new Map();
   query.forEach((internship) => {
-    if (internshipsMap.has(internship.section_id)) {
+    if (internshipsMap.has(internship.sectionID)) {
       internshipsMap
-        .get(internship.section_id)
+        .get(internship.sectionID)
         .push(internships.get(internship.id));
     } else {
-      internshipsMap.set(internship.section_id, [
+      internshipsMap.set(internship.sectionID, [
         internships.get(internship.id),
       ]);
     }
@@ -73,7 +75,7 @@ async function getInternshipPositionObjectBySectionID(
 /**
  * Gets a  a paginated list of {@link InternshipObject} objects.
  * @param pageRequest  A {@link InternshipPaginationRequest} that contains
- * the page, size, sort, section_id, yearOfStudy, and field.
+ * the page, size, sort, sectionID, yearOfStudy, and field.
  * @returns  A {@link PageResponse} object that contains the list
  * of {@link InternshipPosition} objects.
  */
@@ -93,8 +95,8 @@ async function getInternshipPositionObjectByPageRequest(
           ),
     )
     .where((builder) => {
-      if (pageRequest.section_id && typeof pageRequest.section_id == "number") {
-        builder.whereIn("section_id", pageRequest.section_id);
+      if (pageRequest.sectionID && typeof pageRequest.sectionID == "number") {
+        builder.where("sectionID", pageRequest.sectionID);
       }
       if (
         Array.isArray(pageRequest.yearOfStudy) &&

@@ -8,7 +8,6 @@ import {
 import "server-only";
 /**
  * Paginates the InternshipAgreements and returns a {@link PageResponse} with modified {@link InternshipAgreement}s
- * You need to check yourself on the data structure of the InternshipAgreement :)
  * @param request The page request.
  * @returns A page response with internship agreements.
  */
@@ -21,7 +20,6 @@ export async function paginateInternshipAgreements(
   // where each element is a flattened version of the original element.
   // If data.elements is not present, use data directly.
   const elements = data.elements.map((element) => ({
-    name: element.internship.name,
     id: element.id,
     startDate: element.startDate.toLocaleDateString(),
     endDate: element.endDate.toLocaleDateString(),
@@ -35,8 +33,7 @@ export async function paginateInternshipAgreements(
 /**
  * Deletes a internship agreement by its id.
  * @param id  The id of the internship agreement.
- * @returns  .....nothing.... :)
  */
 export async function deleteInternshipAgreement(id: number) {
-  return await deleteInternshipAgreementByID(id);
+  await deleteInternshipAgreementByID(id);
 }

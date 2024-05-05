@@ -8,14 +8,9 @@ import "server-only";
  * @returns ****ALL**** the internship fields name.
  */
 export async function fetchInternhipFields() {
-  const response = await DBclient.table("internshipFields").select("*");
-  //TODO Um.... Why do we map them to exactly how the objects already looks?
-  return response.map((field) => {
-    return {
-      name: field.name,
-    };
-  }, {});
+  return await DBclient.table("internshipFields").select("*");
 }
+
 /**
  * Adds a new internship field to the database.
  * @param data The name of the new internship field.
@@ -25,9 +20,8 @@ export async function addInternshipField(data) {
   await DBclient.table("internshipFields").insert({
     name: data,
   });
-  //TODO uhm.... why?
-  return null;
 }
+
 /**
  * Fetches ****ALL****  of the study programs that the coordinator is responsible for.
  * @returns ****ALL**** the study programs name and id.
@@ -39,8 +33,8 @@ export async function fetchStudyPrograms() {
     .where("coordinators.id", user.id)
     .innerJoin(
       "studyPrograms",
-      "studyPrograms.educationInstitution_id",
-      "coordinators.educationInstitution_id",
+      "studyPrograms.educationInstitutionID",
+      "coordinators.educationInstitutionID",
     )
     .select("studyPrograms.name", "studyPrograms.id");
   const response = [];
@@ -63,7 +57,6 @@ interface FormData {
     }[];
   }[];
 }
-
 /**
  * Adds the order to the database.
  * @param data The order data.
@@ -77,7 +70,7 @@ export async function sendOrder(data: FormData) {
       const [internshipOrderId] = await trx.table("internshipOrders").insert({
         studyProgramID: data.studyProgramID,
         comment: data.comment,
-        coordinator_id: user.id,
+        coordinatorID: user.id,
       });
 
       // For each fieldGroup in data, insert into fieldGroups table
@@ -101,8 +94,6 @@ export async function sendOrder(data: FormData) {
       }
     });
   } catch (error) {
-    console.error("Error creating internship order:", error);
-    //TODO: Obscure the error message to the user. This is a security risk.
-    throw error;
+    throw new Error("Failed to add internship order");
   }
 }

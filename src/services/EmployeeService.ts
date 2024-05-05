@@ -4,6 +4,7 @@ import DBclient from "@/knex/config/DBClient";
 import { EmployeeTable } from "knex/types/tables.js";
 import { encryptPassword } from "@/lib/auth";
 import { PageResponse } from "@/app/_models/pageinition";
+import crypto from "crypto";
 
 /**
  * Gets an {@link Employee} object by its id.
@@ -107,8 +108,16 @@ async function getEmployeeObjectsByPagination(
  * @returns the number of employees deleted
  */
 async function deleteEmployee(id: string) {
-  //TODO: Why return a number? Shouldn't it be a boolean or throw a error if it can't delete? There is never gonna be a case where it returns more then 1
-  return await DBclient.delete().from("employees").where("id", id);
+  await DBclient.delete().from("employees").where("id", id);
+}
+
+/**
+ * Generates a random password of a given length
+ * @param length the length of the password
+ * @returns a random password
+ */
+async function generatePassword(length) {
+  return crypto.randomBytes(length).toString("hex");
 }
 
 export {
@@ -118,4 +127,5 @@ export {
   createEmployees,
   getEmployeeObjectsByPagination,
   deleteEmployee,
+  generatePassword,
 };

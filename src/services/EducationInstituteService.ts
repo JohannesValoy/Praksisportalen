@@ -6,7 +6,6 @@ import {
 import { PageResponse } from "@/app/_models/pageinition";
 import DBclient from "@/knex/config/DBClient";
 import { EducationInstitutionTable } from "knex/types/tables.js";
-import "server-only";
 
 /**
  * Gets an {@link EducationInstitution} object by its id.
@@ -17,13 +16,11 @@ import "server-only";
 async function getEducationInstitutionByID(
   id: number,
 ): Promise<EducationInstitutionTable> {
-  const institute = (await getEducationInstitutionByIDList(new Set([id]))).get(
-    id,
-  );
-  if (institute == undefined) {
+  const institutes = await getEducationInstitutionByIDList(new Set([id]));
+  if (!institutes.get(id)) {
     throw new Error("Education Institution not found");
   }
-  return institute[0];
+  return institutes.get(id);
 }
 
 /**

@@ -15,7 +15,6 @@ const pieParams = { margin: { right: 5 }, height: 400, width: 400 };
  */
 const AdminLayout = () => {
   const [error, setError] = useState(null);
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [orders, setOrders] = useState([]);
   useEffect(() => {
     fetchOrders("Pending")
@@ -23,8 +22,8 @@ const AdminLayout = () => {
       .catch((error) => setError(error.message));
   }, []);
   return (
-    <div className=" flex flex-row items-center justify-center rounded-lg w-full h-full container mx-auto">
-      <div className="flex flex-col h-full w-full">
+    <div className="flex flex-row items-center rounded-lg gap-20 ">
+      <div className="flex flex-col items-center">
         <ContainerBox title={"Statistics"}>
           <PieChart
             series={[{ data: [{ value: 10 }, { value: 15 }, { value: 20 }] }]}
@@ -71,15 +70,39 @@ const AdminLayout = () => {
           )}
         </ContainerBox>
       </div>
-      <div className="flex flex-col w-full h-full">
+      <div className="flex flex-col items-center">
         <ContainerBox title={"Import Data"}>
           <Link href="bulkImport" className="btn btn-primary">
             Import Data from Excel
           </Link>
         </ContainerBox>
+        <div className="flex flex-row">
+          <ContainerBox title={"Hospital"} className="w-full">
+            <Link href="users/employees" className="btn btn-primary">
+              Employees
+            </Link>
+            <Link href="departments" className="btn btn-primary">
+              Departments
+            </Link>
+            <Link href="sections" className="btn btn-primary">
+              Sections
+            </Link>
+          </ContainerBox>
+          <ContainerBox title={"Internships"} className="w-full">
+            <Link href="internshipOrders" className="btn btn-primary">
+              Received Orders
+            </Link>
+            <Link href="internships" className="btn btn-primary">
+              Internships
+            </Link>
+            <Link href="internshipAgreements" className="btn btn-primary">
+              Internship Agreements
+            </Link>
+          </ContainerBox>
+        </div>
         <ContainerBox title={"Education Institution"}>
-          <Link href="users/administerCoordinators" className="btn btn-primary">
-            Koordinatorer
+          <Link href="users/coordinators" className="btn btn-primary">
+            Coordinators
           </Link>
           <Link href="studyprograms" className="btn btn-primary">
             Studies
@@ -88,34 +111,9 @@ const AdminLayout = () => {
             Education Institutions
           </Link>
         </ContainerBox>
-        <ContainerBox title={"Hospital"}>
-          <Link href="users/administerEmployees" className="btn btn-primary">
-            Ansatte
-          </Link>
-          <Link href="departments" className="btn btn-primary">
-            Avdelinger
-          </Link>
-          <Link href="sections" className="btn btn-primary">
-            Seksjoner
-          </Link>
-        </ContainerBox>
-        <ContainerBox title={"Internships"}>
-          <Link href="internshipOrders" className="btn btn-primary">
-            Received Orders
-          </Link>
-          <Link href="internships" className="btn btn-primary">
-            Internships
-          </Link>
-          <Link href="internshipAgreements" className="btn btn-primary">
-            Internship Agreements
-          </Link>
-        </ContainerBox>
       </div>
-      {isErrorModalOpen && (
-        <ErrorModal
-          message={error}
-          setIsModalOpen={setIsErrorModalOpen}
-        ></ErrorModal>
+      {error && (
+        <ErrorModal message={error} closeModal={() => setError(null)} />
       )}
     </div>
   );

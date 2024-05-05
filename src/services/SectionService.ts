@@ -1,15 +1,15 @@
 "use server";
-import "server-only";
 
 import DBclient from "@/knex/config/DBClient";
 import { SectionTable } from "knex/types/tables.js";
 import { getEmployeeObjectByIDList } from "./EmployeeService";
 import { getInternshipPositionObjectBySectionID } from "./InternshipPositionService";
-
 import { PageResponse } from "@/app/_models/pageinition";
 import { Section, SectionPageRequest } from "@/app/_models/Section";
 import { Employee } from "@/app/_models/Employee";
 import { Internship } from "@/app/_models/InternshipPosition";
+import "server-only";
+
 /**
  * Fetches a {@link Section} by its id
  * @param id the id of the {@link Section}
@@ -53,13 +53,13 @@ async function getSectionsByPageRequest(
     .from<SectionTable>("sections")
     .where((builder) => {
       if (pageRequest.hasEmployeeID) {
-        builder.where("employee_id", pageRequest.hasEmployeeID);
+        builder.where("employeeID", pageRequest.hasEmployeeID);
       }
-      if (pageRequest.department_id) {
-        builder.where("department_id", pageRequest.department_id);
+      if (pageRequest.departmentID) {
+        builder.where("departmentID", pageRequest.departmentID);
       }
       if (pageRequest.containsName) {
-        builder.where("name", "like", `%${pageRequest.containsName}%`);
+        builder.where("name", "like", pageRequest.containsName);
       }
     })
     .orderBy(
@@ -87,7 +87,7 @@ async function getSectionsByPageRequest(
  */
 async function createSectionObject(query: SectionTable[]): Promise<Section[]> {
   const employeesPromise: Promise<Map<string, Employee>> =
-    getEmployeeObjectByIDList(query.map((section) => section.employee_id));
+    getEmployeeObjectByIDList(query.map((section) => section.employeeID));
   const internshipsPromise: Promise<Map<number, Internship[]>> =
     getInternshipPositionObjectBySectionID(query.map((section) => section.id));
   const values = await Promise.all([employeesPromise, internshipsPromise]);
@@ -100,7 +100,7 @@ async function createSectionObject(query: SectionTable[]): Promise<Section[]> {
   query.forEach((section) => {
     sections.push({
       ...section,
-      employee: employees?.get(section.employee_id),
+      employee: employees?.get(section.employeeID),
       internships: internships?.get(section.id),
     });
   });

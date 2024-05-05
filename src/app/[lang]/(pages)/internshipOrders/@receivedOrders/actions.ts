@@ -11,7 +11,6 @@ import {
 import DBclient from "@/knex/config/DBClient";
 import "server-only";
 import { PageResponse } from "@/app/_models/pageinition";
-import { start } from "repl";
 export interface Order {
   id: number;
   studyProgramID: number;
@@ -61,7 +60,7 @@ export async function fetchOrders(status: string): Promise<Order[]> {
     .select()
     .whereIn(
       "id",
-      studyPrograms.map((studyProgram) => studyProgram.educationInstitution_id),
+      studyPrograms.map((studyprogram) => studyprogram.educationInstitutionID),
     );
 
   const response = orders.map((order) => {
@@ -74,8 +73,7 @@ export async function fetchOrders(status: string): Promise<Order[]> {
         ...studyProgram,
         educationInstitute: {
           ...educationInstitutes.find(
-            (institute) =>
-              institute.id === studyProgram.educationInstitution_id,
+            (institue) => institue.id === studyProgram.educationInstitutionID,
           ),
         },
       },
@@ -92,7 +90,7 @@ export async function fetchOrders(status: string): Promise<Order[]> {
 export async function paginateInternships(
   request: InternshipPaginationRequest,
 ): Promise<PageResponse<Internship>> {
-  request.section_id = [Number(request.section_id)];
+  request.sectionID = Number(request.sectionID);
   request.yearOfStudy = [Number(request.yearOfStudy)];
   return await getInternshipPositionObjectByPageRequest(request);
 }
@@ -156,7 +154,7 @@ export async function saveOrderDistribution(
     }
 
     const coordinatorID = await trx
-      .select("internshipOrders.coordinator_id")
+      .select("internshipOrders.coordinatorID")
       .from("internshipOrders")
       .innerJoin(
         "fieldGroups",
@@ -181,9 +179,9 @@ export async function saveOrderDistribution(
       startDate: subFieldGroup.startWeek,
       endDate: subFieldGroup.endWeek,
       studyProgramID: subFieldGroup.studyProgramID,
-      internship_id: InternshipID,
+      internshipID: InternshipID,
       comment: subFieldGroup.comment,
-      coordinator_id: coordinatorID.coordinator_id,
+      coordinatorID: coordinatorID.coordinatorID,
     }));
 
     const ids = await trx("internshipAgreements").insert(agreements);
@@ -201,7 +199,7 @@ export async function saveOrderDistribution(
 
         .innerJoin(
           "internships",
-          "internshipAgreements.internship_id",
+          "internshipAgreements.internshipID",
           "internships.id",
         )
         //Overlaps with the new internship
@@ -232,7 +230,7 @@ export async function saveOrderDistribution(
             .innerJoin(
               "internshipAgreements",
               "internships.id",
-              "internshipAgreements.internship_id",
+              "internshipAgreements.internshipID",
             )
             .where("internshipAgreements.id", agreement.id);
         });
@@ -272,7 +270,7 @@ export async function saveOrderDistribution(
           await trx("timeIntervals").insert({
             startDate: day,
             endDate: endIntervalDate,
-            internshipAgreement_id: id,
+            internshipAgreementID: id,
           });
         }
       }

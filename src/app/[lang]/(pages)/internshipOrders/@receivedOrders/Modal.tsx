@@ -6,12 +6,11 @@ interface InternshipDistributionModalProps {
   selectedOrder: Order;
   closeModal: () => void;
   setError: (message: string) => void;
-  setIsErrorModalOpen: (isOpen: boolean) => void;
 }
 
 const InternshipDistributionModal: React.FC<
   InternshipDistributionModalProps
-> = ({ selectedOrder, closeModal, setError, setIsErrorModalOpen }) => {
+> = ({ selectedOrder, closeModal, setError }) => {
   const [rows, setRows] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [sortedBy, setSortedBy] = useState<string>("name");
@@ -22,9 +21,8 @@ const InternshipDistributionModal: React.FC<
   const handleError = useCallback(
     (message) => {
       setError(message);
-      setIsErrorModalOpen(true);
     },
-    [setError, setIsErrorModalOpen],
+    [setError],
   );
 
   const fetchInternships = useCallback(async () => {

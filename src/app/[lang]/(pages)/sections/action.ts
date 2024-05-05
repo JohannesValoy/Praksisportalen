@@ -20,7 +20,10 @@ export async function paginateSections(request: SectionPageRequest) {
   const elements = data.elements.map((element) => ({
     name: element.name,
     email: element.employee?.email || "",
+    sectionType: element?.sectionType,
     id: element.id,
+    createdAt: element.createdAt,
+    updatedAt: element.updatedAt,
   }));
   return {
     ...data,

@@ -19,6 +19,15 @@ body {
   width: 100vw;
 }
 
+h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+.scrollbar-hidden {
+  scrollbar-width: none;
+}
+
 @media (max-width: 640px) {
   table :where(th, td) {
     padding-left: 0.5rem !important;

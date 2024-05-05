@@ -26,7 +26,7 @@ function getStatusText(status: string) {
  * The page to display received orders.
  * @returns The page to display received orders.
  */
-function Page() {
+export default function Page() {
   //TODO: I see no reason to use a state here. The orders are fetched once and then displayed.
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [orders, setOrders] = useState([]);
@@ -35,7 +35,7 @@ function Page() {
   const [title, setTitle] = useState("Mottatte bestillinger");
   //Filter status is used to filter by status to either see all the Finalized orders, or see all the pending orders. In this page this is used when clicking the log button
   const [filterStatus, setFilterStatus] = useState<"Finalized" | "Pending">(
-    "Pending"
+    "Pending",
   );
 
   /**
@@ -195,15 +195,12 @@ function Page() {
           selectedOrder={selectedOrder}
           closeModal={closeModal}
           setError={setError}
-          setIsErrorModalOpen={setIsErrorModalOpen}
         />
       )}
 
-      {isErrorModalOpen && (
-        <ErrorModal message={error} setIsModalOpen={setIsErrorModalOpen} />
+      {error && (
+        <ErrorModal message={error} closeModal={() => setError(null)} />
       )}
     </>
   );
 }
-
-export default Page;

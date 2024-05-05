@@ -4,11 +4,7 @@ import ListOfDepartments from "@/app/[lang]/(pages)/departments/page";
  * @returns A react component with the list of departments
  */
 const EmployeeLayout = () => {
-  return (
-    <div>
-      <ListOfDepartments />
-    </div>
-  );
+  return <ListOfDepartments />;
 };
 
 export default EmployeeLayout;

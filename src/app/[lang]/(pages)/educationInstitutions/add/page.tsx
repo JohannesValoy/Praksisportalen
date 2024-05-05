@@ -1,6 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { addEducationInstitution, fetchEducationInstitution } from "./action";
+import SuccessDialog from "@/app/components/Modals/SuccessAddDialog";
+import ContainerBox from "@/app/components/ContainerBox";
+
 /**
  * Creates a page to add an education institution.
  * @returns A page to add an education institution.
@@ -8,58 +12,77 @@ import { useRouter } from "next/navigation";
 export default function Page() {
   const router = useRouter();
   const [name, setName] = useState("");
+  const [institution, setInstitution] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
+  useEffect(() => {
+    if (name.trim() === "" || institution.includes(name)) {
+      setIsSubmitDisabled(true);
+    } else {
+      setIsSubmitDisabled(false);
+    }
+  }, [name, institution]);
+
+  useEffect(() => {
+    fetchEducationInstitution()
+      .then((data) => {
+        setInstitution(data);
+      })
+      .catch((error) => console.error("Failed to fetch Study Programs", error));
+  }, []);
+
+  /**
+   * The handleSubmit function adds a new education institution.
+   * @param event The event object.
+   * @returns A modal to confirm the addition of the education institution.
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const response = await fetch("/api/educationInstitutions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-    router.back();
+    const data = name.trim();
+    addEducationInstitution(data);
+    setIsModalVisible(true);
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-3 items-center justify-center w-full h-full"
-    >
-      <h1 className="flex justify-center text-4xl font-bold">
-        Add Education Institution
-      </h1>
-      <div>
-        <label className="form-control w-full mb-2" htmlFor="name"></label>
-        <input
-          type="text"
-          id="name"
-          placeholder="Education Institution Name"
-          className="input input-bordered w-full"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </div>
-      <div className="flex w-full justify-center gap-5">
-        <button
-          type="button"
-          className="btn w-20"
-          onClick={() => router.back()}
+    <div className="flex flex-col justify-center items-center h-fit w-full">
+      <SuccessDialog isModalVisible={isModalVisible} />
+      <ContainerBox className="items-center">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-5 h-full items-center justify-center"
         >
-          Cancel
-        </button>
-        <button type="submit" className="btn btn-accent w-20">
-          Save
-        </button>
-      </div>
-    </form>
+          <h1 className="flex justify-center text-4xl font-bold">
+            Add Education Institution
+          </h1>
+          <input
+            type="text"
+            placeholder="Education Institution Name"
+            className="input input-bordered text-base-content "
+            aria-label="Education Institution Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            maxLength={255}
+            required
+          />
+          <div className="flex flex-row gap-5">
+            <button
+              type="button"
+              className="btn w-20"
+              onClick={() => router.back()}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="btn btn-accent w-20"
+              disabled={isSubmitDisabled}
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </ContainerBox>
+    </div>
   );
 }

@@ -1,12 +1,18 @@
-import DBclient from "@/knex/config/DBClient";
+"use server";
 
+import DBclient from "@/knex/config/DBClient";
+import "server-only";
+
+/**
+ * The TimeInterval class represents a time interval object.
+ */
 class TimeInterval {
-  private _id: number;
+  private ID: number;
   private _start: Date;
   private _end: Date;
 
   constructor(id: number, start: Date, end: Date) {
-    this._id = id;
+    this.ID = id;
     this._start = start;
     this._end = end;
   }
@@ -20,16 +26,16 @@ class TimeInterval {
   }
 
   public get id(): number {
-    return this._id;
+    return this.ID;
   }
 
   public set id(value: number) {
-    this._id = value;
+    this.ID = value;
   }
 
   toJSON() {
     return {
-      id: this._id,
+      id: this.ID,
       start: this._start,
       end: this._end,
     };

@@ -1,3 +1,5 @@
+"use server";
+
 import DBclient from "@/knex/config/DBClient";
 import { StudentTable } from "knex/types/tables.js";
 import { PageResponse } from "../app/_models/pageinition";
@@ -20,6 +22,12 @@ async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
     .where((builder) => {
       if (pageRequest.hasEmail) {
         builder.where("name", "like", `%${pageRequest.hasName}%`);
+      }
+      if (pageRequest.educationInstitutionID) {
+        builder.where(
+          "educationInstitutionID",
+          pageRequest.educationInstitutionID,
+        );
       }
     })
     .orderBy(
@@ -50,9 +58,9 @@ async function getStudentsByInternshipId(id: number) {
     .join(
       "internshipAgreements",
       "students.id",
-      "internshipAgreements.student_id",
+      "internshipAgreements.studentID",
     )
-    .where("internshipAgreements.internship_id", id);
+    .where("internshipAgreements.internshipID", id);
 
   return { students } as { students: StudentTable[] };
 }

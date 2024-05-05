@@ -74,11 +74,10 @@ const routeRestrictions: Route[] = [
   new Route(/(colors)/, ["GET"]),
   new Route(/(login)/, ["GET", "POST"]),
   new Route(/(colors)/, ["GET"]),
-  new Route(/(employees)/, ["GET", "POST"], [Role.admin, Role.employee]),
-  new Route(/(students)/, ["GET", "POST"], [Role.admin, Role.student]),
   new Route(/(studyprograms)/, ["GET", "POST"], [Role.admin, Role.coordinator]),
   new Route(/(departments)/, ["GET", "POST"], [Role.admin, Role.employee]),
-  new Route(/(sections)/, ["GET", "POST"], [Role.admin, Role.employee]),
+  new Route(/(sections)/, ["GET", "POST"], [Role.admin]),
+  new Route(/(sections\/\d+)/, ["GET", "POST"], [Role.employee]),
   new Route(/(internships)/, ["GET", "POST"], [Role.admin, Role.coordinator]),
   new Route(
     /(internshipOrders)/,
@@ -86,7 +85,8 @@ const routeRestrictions: Route[] = [
     [Role.admin, Role.coordinator],
   ),
   new Route(/(bulkImport)/, ["GET", "POST"], [Role.admin]),
-  new Route(/(users)/, ["GET", "POST"], [Role.admin, Role.coordinator]),
+  new Route(/(users)/, ["GET", "POST"], [Role.admin]),
+  new Route(/(users\/students)/, ["GET", "POST"], [Role.coordinator]),
   new Route(
     /(internshipAgreements)/,
     ["GET", "POST"],
@@ -99,7 +99,7 @@ const routeRestrictions: Route[] = [
   ),
   new Route(
     /(profile)/,
-    ["GET"],
+    ["GET", "POST"],
     [Role.admin, Role.employee, Role.student, Role.coordinator],
   ),
   new Route(
@@ -190,6 +190,9 @@ function compareIfAccess(request: NextRequest, token: JWT | null) {
   return false;
 }
 
+/**
+ * This is the configuration for the middleware.
+ */
 export const config = {
   matchers: [/^\/(?!api\/auth)/],
 };

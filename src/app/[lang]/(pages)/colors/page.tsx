@@ -1,5 +1,20 @@
-import React from "react";
+/**
+ * Component to display a color description
+ * @param root - The root of the component
+ * @param root.name - The name of the color
+ * @param root.description - The description of the color
+ * @returns The Color Description Component
+ */
+const ColorDescription = ({ name, description }) => (
+  <p>
+    <strong>{name}:</strong> {description}
+  </p>
+);
 
+/**
+ * Page Component to show DaisyUI Theme Colors
+ * @returns The DaisyUI Theme Colors Page
+ */
 const Page = () => {
   const colors = [
     "bg-primary",
@@ -14,11 +29,6 @@ const Page = () => {
     "bg-base-200",
     "bg-base-300",
   ];
-  const ColorDescription = ({ name, description }) => (
-    <p>
-      <strong>{name}:</strong> {description}
-    </p>
-  );
   return (
     <div className="p-6">
       <h1>DaisyUI Theme Colors</h1>

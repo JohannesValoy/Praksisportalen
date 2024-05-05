@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Order, paginateInternships, saveOrderDistribution } from "./actions";
 import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
-import ErrorModal from "@/app/components/ErrorModal";
 
 interface InternshipDistributionModalProps {
   selectedOrder: Order;

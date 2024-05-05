@@ -116,16 +116,9 @@ const InternshipDistributionModal: React.FC<
     try {
       await saveOrderDistribution(subFieldGroupID, InternshipID, amount);
     } catch (error) {
-      if (error.message.includes("Time interval overlaps with another")) {
-        handleError(
-          "The provided time interval overlaps with an existing one. Please choose a different time interval."
-        );
-      } else {
-        handleError(
-          "An error occurred while saving the distribution: " + error.message
-        );
-      }
-      throw error; // Re-throw to stop further processing in saveRows
+      handleError(
+        "An error occurred while saving the distribution: " + error.message
+      );
     }
   };
   return (

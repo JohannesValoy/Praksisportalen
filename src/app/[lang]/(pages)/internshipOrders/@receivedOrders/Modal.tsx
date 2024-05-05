@@ -6,21 +6,29 @@ import ErrorModal from "@/app/components/ErrorModal";
 interface InternshipDistributionModalProps {
   selectedOrder: Order;
   closeModal: () => void;
+  setError: (message: string) => void;
+  setIsErrorModalOpen: (isOpen: boolean) => void;
 }
 
 const InternshipDistributionModal: React.FC<
   InternshipDistributionModalProps
-> = ({ selectedOrder, closeModal}) => {
+> = ({ selectedOrder, closeModal, setError, setIsErrorModalOpen }) => {
   const [rows, setRows] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [sortedBy, setSortedBy] = useState<string>("name");
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [studentsLeft, setStudentsLeft] = useState(0);
-  const [error, setError] = useState(null);
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
-  const fetchInternships = useCallback(() => {
+  const handleError = useCallback(
+    (message) => {
+      setError(message);
+      setIsErrorModalOpen(true);
+    },
+    [setError, setIsErrorModalOpen]
+  );
+
+  const fetchInternships = useCallback(async () => {
     if (!selectedOrder) return;
 
     const params: InternshipPaginationRequest = {
@@ -31,44 +39,37 @@ const InternshipDistributionModal: React.FC<
       vacancyEndDate: selectedOrder.endWeek,
       field: selectedOrder.internshipField,
     };
-    paginateInternships(params)
-      .then((data) => {
-        setRows(data.elements || []);
-        setTotalPages(data.totalPages || 0);
-      })
-      .catch((error) => {
-        setError("Failed to fetch internships: " + error.message);
-        setIsErrorModalOpen(true);
-      });
-  }, [page, sortedBy, selectedOrder]);
+
+    try {
+      const data = await paginateInternships(params);
+      setRows(data.elements || []);
+      setTotalPages(data.totalPages || 0);
+    } catch (error) {
+      handleError(`Failed to fetch internships: ${error.message}`);
+    }
+  }, [selectedOrder, page, sortedBy, handleError]);
 
   useEffect(() => {
+    fetchInternships();
     if (selectedOrder) {
-      fetchInternships();
       setStudentsLeft(
         selectedOrder.numStudents - selectedOrder.numStudentsAccepted
       );
       setSelectedRows([]);
       setError(null);
     }
-  }, [selectedOrder, fetchInternships]);
-  const toggleSelection = (row) => {
-    // Ignore selection if the internship has no free spots left
-    if (row.vacancies <= 0) return;
+  }, [selectedOrder, fetchInternships, setError]);
 
+  const toggleSelection = (row) => {
+    if (row.vacancies <= 0) return;
     let currentIndex = selectedRows.indexOf(row);
     let newSelectedRows = [...selectedRows];
 
     if (currentIndex !== -1) {
-      newSelectedRows.splice(currentIndex, 1); // Remove the row from selection
+      newSelectedRows.splice(currentIndex, 1);
     } else {
-      newSelectedRows.push(row); // Add the row to selection
+      newSelectedRows.push(row);
     }
-
-    // Recalculate vacanciesSelected with the updated newSelectedRows, only counting rows with free spots
-    let vacanciesSelected = newSelectedRows.reduce((total, row) => {
-      return row.vacancies > 0 ? total + row.vacancies : total;
-    }, 0);
 
     setSelectedRows(newSelectedRows);
     setStudentsLeft(
@@ -76,54 +77,50 @@ const InternshipDistributionModal: React.FC<
         0,
         selectedOrder.numStudents -
           selectedOrder.numStudentsAccepted -
-          vacanciesSelected
+          newSelectedRows.reduce(
+            (total, row) => total + (row.vacancies > 0 ? row.vacancies : 0),
+            0
+          )
       )
-    ); // Ensure it never goes negative
-    if (vacanciesSelected < 0) {
-      throw new Error("Vacancies selected is negative: " + vacanciesSelected);
+    );
+  };
+
+  const saveRows = async () => {
+    try {
+      for (let selectedRow of selectedRows) {
+        await saveDistribution(
+          selectedOrder.id,
+          selectedRow.id,
+          Math.min(
+            selectedOrder.numStudents - selectedOrder.numStudentsAccepted,
+            selectedRow.vacancies
+          )
+        );
+      }
+      closeModal();
+    } catch (error) {
+      handleError(
+        `An error occurred while saving distributions: ${error.message}`
+      );
     }
   };
 
-  /**
-   * Save the distribution of students to internships.
-   */
-  //TODO THIS SHOULD BE DONE IN A BATCH BUT IS NOT CHANGED DO TO TIME CONSTRAINTS
-  function saveRows() {
-    let numDoneStudents = 0;
-
-    let amount = selectedOrder.numStudents - selectedOrder.numStudentsAccepted;
-    selectedRows.forEach((selectedRow) => {
-      if (amount <= 0) {
-        return;
+  const saveDistribution = async (subFieldGroupID, InternshipID, amount) => {
+    try {
+      await saveOrderDistribution(subFieldGroupID, InternshipID, amount);
+    } catch (error) {
+      if (error.message.includes("Time interval overlaps with another")) {
+        handleError(
+          "The provided time interval overlaps with an existing one. Please choose a different time interval."
+        );
+      } else {
+        handleError(
+          "An error occurred while saving the distribution: " + error.message
+        );
       }
-
-      saveDistribution(
-        selectedOrder.id,
-        selectedRow.id,
-        Math.min(amount - numDoneStudents, selectedRow.vacancies)
-      );
-      numDoneStudents = numDoneStudents + selectedRow.vacancies;
-    });
-  }
-
-  //TODO make it save even with only status
-  /**
-   * Save the distribution of students to internships.
-   * @param subFieldGroupID The ID of the subFieldGroup to distribute students to.
-   * @param InternshipID The ID of the internship to distribute students to.
-   * @param amount The amount of students to distribute.
-   */
-  function saveDistribution(subFieldGroupID, InternshipID, amount) {
-    saveOrderDistribution(subFieldGroupID, InternshipID, amount)
-      .then(() => {
-        closeModal()// Show success modal
-      })
-      .catch((error) => {
-        console.error(error);
-        setError("Failed to save distribution: " + error.message);
-        setIsErrorModalOpen(true); // Show error modal
-      });
-  }
+      throw error; // Re-throw to stop further processing in saveRows
+    }
+  };
   return (
     <>
       <button
@@ -375,9 +372,6 @@ const InternshipDistributionModal: React.FC<
           </div>
         </div>
       </div>
-      {isErrorModalOpen && (
-        <ErrorModal message={error} setIsModalOpen={setIsErrorModalOpen} />
-      )}
     </>
   );
 };

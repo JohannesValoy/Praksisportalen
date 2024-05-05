@@ -1,15 +1,9 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
-import {
-  fetchOrders,
-  paginateInternships,
-  saveOrderDistribution,
-  saveOrderStatus,
-} from "./actions";
+import React, { useEffect, useState } from "react";
+import { fetchOrders, saveOrderStatus } from "./actions";
 import ErrorModal from "@/app/components/ErrorModal";
 import InternshipDistributionModal from "./Modal";
 import ListOfOrders from "./ListOfOrders";
-import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
 import LogIcon from "@/../public/Icons/logIcon";
 
 /**
@@ -18,14 +12,12 @@ import LogIcon from "@/../public/Icons/logIcon";
  */
 function Page() {
   //TODO: I see no reason to use a state here. The orders are fetched once and then displayed.
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [title, setTitle] = useState("Mottatte bestillinger");
-
-  const [status, setStatus] = useState<"Finalized" | "Pending">("Pending");
   //Filter status is used to filter by status to either see all the Finalized orders, or see all the pending orders. In this page this is used when clicking the log button
   const [filterStatus, setFilterStatus] = useState<"Finalized" | "Pending">(
     "Pending"
@@ -60,12 +52,6 @@ function Page() {
     setSelectedOrder(null);
   };
 
-  //Makes the default value of the status selector Finalized when accessing it through the log and Pending when accessing the pending orders
-  useEffect(() => {
-    if (isModalOpen) {
-      setStatus(filterStatus);
-    }
-  }, [isModalOpen, filterStatus]);
   return (
     <>
       <div className="flex justify-between items-center mx-10">
@@ -101,6 +87,8 @@ function Page() {
         <InternshipDistributionModal
           selectedOrder={selectedOrder}
           closeModal={closeModal}
+          setError={setError}
+          setIsErrorModalOpen={setIsErrorModalOpen}
         />
       )}
 

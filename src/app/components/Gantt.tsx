@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/solid";
 
@@ -37,6 +38,7 @@ export default function Gantt({
     .map((item) => item.intervals.map((interval) => interval.endDate.getTime()))
     .flat();
   const minStartDate = Math.min(...startDates);
+  let weekNumber = getISOWeekNumber(new Date(minStartDate));
   const maxEndDate = Math.max(...endDates);
   const totalTime = maxEndDate - minStartDate;
 
@@ -58,6 +60,50 @@ export default function Gantt({
     currentMonth.setMonth(currentMonth.getMonth() + 1);
   }
 
+  /**
+   * Sends the next week to the server
+   */
+  function nextWeek() {
+    let newDate = new Date(minStartDate);
+    newDate.setDate(newDate.getDate() + 7);
+  }
+
+  /**
+   * Sends the previous week to the server
+   */
+  function previousWeek() {
+    let newDate = new Date(minStartDate);
+    newDate.setDate(newDate.getDate() - 7);
+  }
+
+  /**
+   * Gets the current week number from first start day of the array. Made mainly by Windows Copilot
+   * @param date The date to get the week number of.
+   * @returns The week number
+   */
+  function getISOWeekNumber(date: Date): number {
+    // Copy date so don't modify original
+    const tempDate = new Date(
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+    );
+
+    // Set to nearest Thursday (unix start day): current date + 4 - current day number
+    // Make Sunday's day number 7
+    tempDate.setUTCDate(
+      tempDate.getUTCDate() + 4 - (tempDate.getUTCDay() || 7)
+    );
+
+    // Get first day of year
+    const yearStart = new Date(Date.UTC(tempDate.getUTCFullYear(), 0, 1));
+
+    // Calculate full weeks to nearest Thursday
+    const weekNo = Math.ceil(
+      ((tempDate.getTime() - yearStart.getTime()) / 86400000 + 1) / 7
+    );
+
+    // Return the week number
+    return weekNo;
+  }
   return (
     <div
       className="bg-secondary-200 w-full  p-5 rounded-lg flex flex-col items-center justify-center"
@@ -122,14 +168,12 @@ export default function Gantt({
                         justifyContent: "center",
                         alignItems: "center",
                         zIndex: 99,
+                        borderRadius: "2rem",
                       }}
+                      //Shows up when hovering over it
+                      title={`start: ${startDate.toLocaleDateString()}\nend: ${endDate.toLocaleDateString()}`}
                       className="bg-primary"
-                    >
-                      <span
-                        className="w-full h-full bg-primary rounded-full"
-                        title={`start: ${startDate.toLocaleDateString()}\nend: ${endDate.toLocaleDateString()}`}
-                      ></span>
-                    </div>
+                    ></div>
                   );
                 })}
               </div>
@@ -161,13 +205,19 @@ export default function Gantt({
         </div>
       </div>
       <div className="flex join">
-        <button className="btn h-full join-item text-base-content bg-secondary">
+        <button
+          className="btn h-full join-item text-base-content bg-secondary"
+          onClick={previousWeek}
+        >
           <ChevronLeftIcon className="size-6 " />
         </button>
         <div className="btn flex h-full items-center join-item p-2 bg-secondary">
-          10
+          {weekNumber}
         </div>
-        <button className="btn h-full  join-item text-base-content bg-secondary">
+        <button
+          className="btn h-full  join-item text-base-content bg-secondary"
+          onClick={nextWeek}
+        >
           <ChevronRightIcon className="size-6  " />
         </button>
       </div>

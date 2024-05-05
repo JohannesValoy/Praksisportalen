@@ -12,7 +12,7 @@ interface DataItem {
 }
 
 /**
- *
+ * The getStudentAgreementGanttIntervals function fetches the student's internship agreements for a given week.
  * @param date
  * @param studentID
  */

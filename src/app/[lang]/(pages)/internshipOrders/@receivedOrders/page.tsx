@@ -29,14 +29,13 @@ function getStatusText(status: string) {
 function Page() {
   //TODO: I see no reason to use a state here. The orders are fetched once and then displayed.
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [title, setTitle] = useState("Mottatte bestillinger");
   //Filter status is used to filter by status to either see all the Finalized orders, or see all the pending orders. In this page this is used when clicking the log button
   const [filterStatus, setFilterStatus] = useState<"Finalized" | "Pending">(
-    "Pending",
+    "Pending"
   );
 
   /**
@@ -65,19 +64,21 @@ function Page() {
   }
 
   const closeModal = () => {
-    setIsModalOpen(false);
     setSelectedOrder(null);
   };
 
   useEffect(() => {
-    if (!isModalOpen) {
+    if (!selectedOrder) {
       fetch();
     }
-    console.log("updating");
-  }, [fetch, isModalOpen]);
+  }, [fetch, selectedOrder]);
 
   if (orders?.length === 0) {
-    return <p>No orders</p>;
+    return (
+      <ContainerBox title={title}>
+        <p>No orders</p>
+      </ContainerBox>
+    );
   }
 
   const groupedOrders = orders.reduce((acc, order) => {
@@ -144,7 +145,6 @@ function Page() {
                         className="btn btn-primary ml-2 md:ml-5"
                         onClick={() => {
                           setSelectedOrder(order);
-                          setIsModalOpen(true);
                         }}
                         disabled={order.status === "Finalized"}
                       >
@@ -190,7 +190,7 @@ function Page() {
           ))}
         </div>
       </ContainerBox>
-      {isModalOpen && (
+      {selectedOrder && (
         <InternshipDistributionModal
           selectedOrder={selectedOrder}
           closeModal={closeModal}

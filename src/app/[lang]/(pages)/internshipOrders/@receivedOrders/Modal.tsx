@@ -88,18 +88,21 @@ const InternshipDistributionModal: React.FC<
   const saveRows = async () => {
     let currNumStudentsAccepted = selectedOrder.numStudentsAccepted;
     try {
-      for (let selectedRow of selectedRows) {
+      const savePromises = selectedRows.map((selectedRow) => {
         const amount = Math.min(
           selectedOrder.numStudents - currNumStudentsAccepted,
           selectedRow.vacancies
         );
         if (amount < 1) {
-          return;
+          return Promise.resolve();
         }
 
-        await saveDistribution(selectedOrder.id, selectedRow.id, amount);
         currNumStudentsAccepted += amount;
-      }
+        return saveDistribution(selectedOrder.id, selectedRow.id, amount);
+      });
+
+      //Does not close modal befor the promises are done
+      await Promise.all(savePromises);
       closeModal();
     } catch (error) {
       handleError(

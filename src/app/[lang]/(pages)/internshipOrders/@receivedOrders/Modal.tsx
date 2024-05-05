@@ -38,6 +38,7 @@ const InternshipDistributionModal: React.FC<
       vacancyStartDate: selectedOrder.startWeek,
       vacancyEndDate: selectedOrder.endWeek,
       field: selectedOrder.internshipField,
+      yearOfStudy: [selectedOrder.studyYear],
     };
 
     try {
@@ -101,7 +102,7 @@ const InternshipDistributionModal: React.FC<
         return saveDistribution(selectedOrder.id, selectedRow.id, amount);
       });
 
-      //Does not close modal befor the promises are done
+      //Does not close modal before the promises are done.
       await Promise.all(savePromises);
       closeModal();
     } catch (error) {

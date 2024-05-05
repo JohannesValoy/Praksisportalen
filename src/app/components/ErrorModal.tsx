@@ -2,25 +2,23 @@
  * ErrorModal component is used to display error messages in a modal.
  * @param root The root object.
  * @param root.message The error message.
- * @param root.setIsModalOpen The function to set the modal open state.
+ * @param root.closeModal The function to close the modal
  * @returns The ErrorModal component.
  */
-export default function ErrorModal({ message, setIsModalOpen }) {
+export default function ErrorModal({ message, closeModal }) {
   return (
     <dialog
       className="fixed inset-0 z-10 overflow-y-auto bg-base-300 rounded-lg"
       open
-      aria-labelledby="Delete Error"
+      aria-labelledby={"Error: " + message}
     >
       <div className="px-4 pt-5 pb-4 ">
         <div className="sm:flex sm:items-start">
-          <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-error sm:mx-0 sm:h-10 sm:w-10">
-            {/* Icon or image can be added here */}
-          </div>
+          <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-error sm:mx-0 sm:h-10 sm:w-10"></div>
           <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
             <h3
               className="text-lg leading-6 font-medium text-base-content"
-              id="Delete Error"
+              id="Error"
             >
               Error
             </h3>
@@ -34,7 +32,7 @@ export default function ErrorModal({ message, setIsModalOpen }) {
         <button
           type="button"
           className="btn btn-info"
-          onClick={() => setIsModalOpen(false)}
+          onClick={() => closeModal(false)}
         >
           Close
         </button>

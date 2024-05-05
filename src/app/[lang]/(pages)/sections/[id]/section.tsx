@@ -176,11 +176,15 @@ export default function SectionPage({
       </div>
       <>
         {isAddModalOpen && (
-          <AddInternship openModal={isAddModalOpen} onClose={closeAddModal} />
+          <AddInternship
+            openModal={isAddModalOpen}
+            onClose={closeAddModal}
+            section={section}
+          />
         )}
         <InternshipTable
           refreshKey={refreshKey}
-          filter={{ departmentID: section.id.toString() }}
+          filter={{ sectionID: section.id.toString() }}
           onAddButtonClick={() => {
             setIsAddModalOpen(true);
           }}

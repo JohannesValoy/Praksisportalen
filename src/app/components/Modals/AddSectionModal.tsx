@@ -18,6 +18,7 @@ import EmployeeDropdown from "../Dropdowns/EmployeeDropdown";
 type Props = {
   openModal: boolean;
   onClose: () => void;
+  department?: any;
 };
 
 /**
@@ -25,9 +26,14 @@ type Props = {
  * @param root The root object.
  * @param root.openModal The openModal flag.
  * @param root.onClose The onClose function.
+ * @param root.department The department object.
  * @returns A form to add a section.
  */
-export default function AddSection({ openModal, onClose }: Readonly<Props>) {
+export default function AddSection({
+  openModal,
+  onClose,
+  department = null,
+}: Readonly<Props>) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const [isTypeDisabled, setIsTypeDisabled] = useState(true);
   const [openDepartmentModal, setOpenDepartmentModal] = useState(false);
@@ -35,7 +41,7 @@ export default function AddSection({ openModal, onClose }: Readonly<Props>) {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const [departments, setDepartments] = useState([]);
-  const [departmentID, setDepartmentID] = useState(null);
+  const [departmentID, setDepartmentID] = useState(department.id || null);
 
   const [sections, setSections] = useState([]);
   const [name, setName] = useState("");

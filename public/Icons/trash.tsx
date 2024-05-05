@@ -1,6 +1,10 @@
 //from heroicons
 
-export default function trash({ currentColor }) {
+/**
+ * Trash Icon
+ * @returns Trash Icon
+ */
+export default function trash() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -129,12 +129,11 @@ export default function Page() {
     setIsSubmitted(true);
 
     if (
-      fieldGroups.some((fieldGroup) => fieldGroup.internshipField === "") ||
-      studyProgramID === null
+      !fieldGroups.some((fieldGroup) => fieldGroup.internshipField) ||
+      !studyProgramID
     ) {
       return;
     }
-
     // Gather form data
     const formData = {
       studyProgramID: studyProgramID,

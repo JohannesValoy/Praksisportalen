@@ -15,6 +15,7 @@ import AddSection from "./AddSectionModal";
 type Props = {
   openModal: boolean;
   onClose: () => void;
+  section?: any;
 };
 
 /**
@@ -22,16 +23,21 @@ type Props = {
  * @param root The root object.
  * @param root.openModal The openModal flag.
  * @param root.onClose The onClose function.
+ * @param root.section The section object.
  * @returns A form to add an internship.
  */
-export default function AddInternship({ openModal, onClose }: Readonly<Props>) {
+export default function AddInternship({
+  openModal,
+  onClose,
+  section = null,
+}: Readonly<Props>) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const [isFieldDisabled, setIsFieldDisabled] = useState(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
   const [sections, setSections] = useState([]);
-  const [sectionID, setSectionID] = useState(null);
+  const [sectionID, setSectionID] = useState(section?.id || null);
 
   const [internships, setInternships] = useState([]);
   const [name, setName] = useState("");
@@ -78,7 +84,7 @@ export default function AddInternship({ openModal, onClose }: Readonly<Props>) {
         setInternshipFields(data);
       })
       .catch((error) =>
-        console.error("Failed to fetch Internship Fields", error),
+        console.error("Failed to fetch Internship Fields", error)
       );
 
     fetchInternships()
@@ -189,7 +195,7 @@ export default function AddInternship({ openModal, onClose }: Readonly<Props>) {
                     options={internshipFields}
                     selectedOption={
                       internshipFields.find(
-                        (field) => field.name === internshipField,
+                        (field) => field.name === internshipField
                       ) || null
                     }
                     setSelectedOption={(field) =>

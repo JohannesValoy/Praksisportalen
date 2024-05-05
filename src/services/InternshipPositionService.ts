@@ -16,7 +16,7 @@ import "server-only";
  * @throws An error if no {@link InternshipPosition} is found with the given id.
  */
 async function getInternshipPositionObjectByID(
-  id: number,
+  id: number
 ): Promise<Internship> {
   const internship = await getInternshipPositionObjectByIDList([id]);
   if (internship.get(id) == undefined) {
@@ -31,7 +31,7 @@ async function getInternshipPositionObjectByID(
  * @returns A map of {@link InternshipPosition} objects with the id as key.
  */
 async function getInternshipPositionObjectByIDList(
-  idList: number[],
+  idList: number[]
 ): Promise<Map<number, Internship>> {
   const query = await DBclient.select()
     .from<InternshipTable>("internships")
@@ -49,13 +49,13 @@ async function getInternshipPositionObjectByIDList(
  * @returns  A {@link Map} where the key is the sectionID and the value is the list of {@link InternshipPosition} objects.
  */
 async function getInternshipPositionObjectBySectionID(
-  sections: number[],
+  sections: number[]
 ): Promise<Map<number, Internship[]>> {
   const query = await DBclient.from<InternshipTable>("internships")
     .select("id", "sectionID")
     .whereIn("sectionID", sections);
   const internships = await getInternshipPositionObjectByIDList(
-    query.map((internship) => internship.id),
+    query.map((internship) => internship.id)
   );
   const internshipsMap = new Map();
   query.forEach((internship) => {
@@ -80,22 +80,38 @@ async function getInternshipPositionObjectBySectionID(
  * of {@link InternshipPosition} objects.
  */
 async function getInternshipPositionObjectByPageRequest(
-  pageRequest: InternshipPaginationRequest,
+  pageRequest: InternshipPaginationRequest
 ): Promise<PageResponse<Internship>> {
-  const query = await DBclient.select()
-    .from<InternshipTable>("internships")
+  let query = DBclient.from("internships")
+    .select(
+      "*",
+      new Date(pageRequest.vacancyStartDate).valueOf() &&
+        new Date(pageRequest.vacancyEndDate).valueOf()
+        ? DBclient.raw(
+            `availableInternshipsSpotsBetweenDates(internships.id, '${new Date(pageRequest.vacancyStartDate).toISOString().split("T")[0]}', '${new Date(pageRequest.vacancyEndDate).toISOString().split("T")[0]}') as vacancies`
+          )
+        : DBclient.raw("availableInternshipsSpots(internships.id) as vacancies")
+    )
     .where((builder) => {
       if (pageRequest.sectionID && typeof pageRequest.sectionID == "number") {
-        builder.whereIn("sectionID", pageRequest.sectionID);
+        builder.where("sectionID", pageRequest.sectionID);
       }
-      if (pageRequest.yearOfStudy && pageRequest.yearOfStudy.length > 0) {
+      if (
+        Array.isArray(pageRequest.yearOfStudy) &&
+        pageRequest.yearOfStudy.every(Number.isFinite) &&
+        pageRequest.yearOfStudy.length > 0
+      ) {
         builder.whereIn("yearOfStudy", pageRequest.yearOfStudy);
       }
       if (pageRequest.field) {
-        builder.where("field", pageRequest.field);
+        builder.where("internship_field", pageRequest.field);
       }
-    })
-    .orderBy(
+    });
+
+  if (pageRequest.sort === "vacancies") {
+    query = query.orderBy("vacancies", "desc");
+  } else {
+    query = query.orderBy(
       [
         "id",
         "name",
@@ -105,22 +121,25 @@ async function getInternshipPositionObjectByPageRequest(
         "yearOfStudy",
       ].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id" || "name",
+        : "id"
     );
+  }
+
   const internships: Internship[] = [];
-  query
+  const results = await query;
+  results
     .slice(
       pageRequest.size * pageRequest.page,
-      pageRequest.size * pageRequest.page + pageRequest.size,
+      pageRequest.size * pageRequest.page + pageRequest.size
     )
-    .forEach((internship) => {
-      internships.push(internship);
+    .forEach((result) => {
+      internships.push(result);
     });
   return {
     ...pageRequest,
     elements: internships,
-    totalElements: query.length,
-    totalPages: Math.ceil(query.length / pageRequest.size),
+    totalElements: results.length,
+    totalPages: Math.ceil(results.length / pageRequest.size),
   };
 }
 /**

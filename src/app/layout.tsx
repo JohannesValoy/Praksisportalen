@@ -6,8 +6,8 @@ import LogoutButton from "./components/LogoutButton";
 import Logo from "../../public/Icons/logo-helse-mr";
 import { getServerSession } from "next-auth";
 import ClientThemeWrapper from "@/context/ClientThemeWrapper";
-import Theme from "./components/Theme";
 import { ThemeProvider } from "@/context/ThemeContext";
+import ThemeSwap from "./components/ThemeChanger";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -51,7 +51,7 @@ export default async function RootLayout({
                   </button>
                   <ul className="dropdown-content z-[1] menu p-4 shadow bg-base-300 text-base-content rounded-box w-52">
                     <li className="gap-4">
-                      <Theme />
+                      <ThemeSwap />
                       {(await getServerSession())?.user && (
                         <>
                           <Link

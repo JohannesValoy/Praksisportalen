@@ -83,10 +83,9 @@ declare module "knex/types/tables.js" {
 
   interface InternshipAgreementTable {
     id: number;
-    status: "Agreed" | "Pending" | "Rejected";
     startDate: Date;
     endDate: Date;
-    studentID: string;
+    studentID?: string;
     coordinatorID: string;
     studyProgramID: number;
     internshipID: number;
@@ -99,6 +98,8 @@ declare module "knex/types/tables.js" {
     studyProgramID: number;
     comment: string;
     createdAt: Date;
+    coordinatorID: string;
+    status: "Finalized" | "Pending";
   }
 
   interface FieldGroupTable {
@@ -111,6 +112,7 @@ declare module "knex/types/tables.js" {
     id: number;
     studyYear: number;
     numStudents: number;
+    numStudentsAccepted: number;
     startWeek: Date;
     endWeek: Date;
     fieldGroupID: number;

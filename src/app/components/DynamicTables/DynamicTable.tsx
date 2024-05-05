@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Trash from "@/../public/Icons/trash";
 import Add from "@/../public/Icons/add";
 import { PageResponse } from "../../_models/pageinition";
@@ -43,7 +43,7 @@ type DynamicTableProps = {
  * @param root.refreshKey The refresh key.
  * @returns A dynamic table.
  */
-const DynamicTable: React.FC<DynamicTableProps> = ({
+export default function DynamicTable({
   tableName = "",
   headers = {},
   onRowClick,
@@ -56,20 +56,19 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   filter = {},
   readOnly = false,
   refreshKey,
-}) => {
+}: Readonly<DynamicTableProps>): React.ReactElement {
   const searchParams = useSearchParams();
   // Ensure rows is always an array
   const [error, setError] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const filters = useRef(filter || searchParams);
   const totalPages = useRef(0);
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
-
   const toggleSelection = (row, event) => {
     event.stopPropagation();
     const isSelected = selectedRows.includes(row);
     if (isSelected) {
       setSelectedRows(
-        selectedRows.filter((selectedRow) => selectedRow !== row),
+        selectedRows.filter((selectedRow) => selectedRow !== row)
       );
     } else {
       setSelectedRows([...selectedRows, row]);
@@ -82,27 +81,17 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
 
-  const fetch = useCallback(() => {
+  useEffect(() => {
     const request = {
       page,
       size: pageSize,
       sort: sortedBy,
     };
 
-    if (Object.keys(filter).length > 0) {
+    if (Object.keys(filters.current).length > 0) {
       // If filter is not empty, use it to filter the data
-      for (const key in filter) {
-        request[key] = filter[key];
-      }
-    } else {
-      // If filter is empty, use searchParams to filter the data
-      const filter = searchParams.keys();
-      let key = filter.next();
-      let i = 0;
-      while (key && i < 100) {
-        request[key.value] = searchParams.get(key.value);
-        key = filter.next();
-        i++;
+      for (const key in filters.current) {
+        request[key] = filters.current[key];
       }
     }
 
@@ -124,11 +113,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
       setRows(rows);
       setSelectedRows([]);
     });
-  }, [page, pageSize, sortedBy, paginateFunction, searchParams, filter]);
-
-  useEffect(() => {
-    fetch();
-  }, [page, refreshKey]);
+  }, [page, pageSize, sortedBy, refreshKey, paginateFunction, filters]);
 
   const normalizedRows = Array.isArray(rows) ? rows : [rows];
   const onDelete = async () => {
@@ -137,8 +122,6 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
         for (const row of selectedRows) {
           await deleteFunction(row.id);
         }
-        fetch();
-        setSelectedRows([]);
       } catch (err) {
         let errorMessage = "Delete failed: ";
         if (err.message.includes("foreign key constraint")) {
@@ -150,8 +133,8 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
           errorMessage += err.message;
         }
         setError(errorMessage);
-        setIsModalOpen(true);
       }
+      setSelectedRows([]);
     }
   };
   const headerTitles = Object.keys(headers);
@@ -169,7 +152,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                 className="btn btn-xs btn-ghost"
                 aria-label={`Add ${tableName}`}
               >
-                <Add currentColor="currentColor" />
+                <Add aria-label={`Add ${tableName}`} />
               </button>
 
               <button
@@ -180,7 +163,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                 className="btn btn-ghost btn-xs"
                 aria-label="Delete"
               >
-                <Trash currentColor="currentColor" />
+                <Trash />
               </button>
             </div>
           )}
@@ -233,8 +216,8 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
               </tr>
             </tbody>
           ) : (
-            normalizedRows.map((row, index) => (
-              <tbody key={index}>
+            normalizedRows.map((row) => (
+              <tbody key={row.id}>
                 <tr onClick={() => onRowClick(row)}>
                   {!readOnly && (
                     <td onClick={(e) => e.stopPropagation()}>
@@ -249,7 +232,7 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
                   )}
                   {rowDataKeys.map((key: string, index: number) => (
                     <td
-                      key={index}
+                      key={key}
                       onClick={
                         clickableColumns[key]
                           ? () => clickableColumns[key](row)
@@ -330,15 +313,12 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
           </select>
         </div>
       </ContainerBox>
-      {/**Delete Error modal */}
-      {isModalOpen && (
+      {error && (
         <ErrorModal
           message={error}
-          setIsModalOpen={setIsModalOpen}
+          closeModal={() => setError(null)}
         ></ErrorModal>
       )}
     </>
   );
-};
-
-export default DynamicTable;
+}

@@ -12,9 +12,10 @@ import "server-only";
  * @returns A page response with internships.
  */
 export async function paginateInternships(
-  request: InternshipPaginationRequest,
+  request: InternshipPaginationRequest
 ) {
-  request.sectionID = [Number(request.sectionID)];
+  request.sectionID = Number(request.sectionID);
+  console.log(request.sectionID);
   return await getInternshipPositionObjectByPageRequest(request);
 }
 /**

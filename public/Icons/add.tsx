@@ -1,4 +1,8 @@
-export default function add({ currentColor }) {
+/**
+ * Add Icon
+ * @returns Add Icon
+ */
+export default function Add() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -3,6 +3,9 @@
 import ContainerBox from "@/app/components/ContainerBox";
 import { PieChart } from "@mui/x-charts/PieChart";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { fetchOrders } from "../../internshipOrders/@receivedOrders/actions";
+import ErrorModal from "@/app/components/ErrorModal";
 
 const pieParams = { margin: { right: 5 }, height: 400, width: 400 };
 
@@ -11,6 +14,14 @@ const pieParams = { margin: { right: 5 }, height: 400, width: 400 };
  * @returns A react component with the admin dashboard
  */
 const AdminLayout = () => {
+  const [error, setError] = useState(null);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [orders, setOrders] = useState([]);
+  useEffect(() => {
+    fetchOrders("Pending")
+      .then(setOrders)
+      .catch((error) => setError(error.message));
+  }, []);
   return (
     <div className="flex flex-row items-center rounded-lg gap-20 ">
       <div className="flex flex-col items-center">
@@ -20,48 +31,44 @@ const AdminLayout = () => {
             {...pieParams}
           />
         </ContainerBox>
-        <ContainerBox title={"Notifications"}>
-          <div role="alert" className="alert shadow-lg">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="stroke-info shrink-0 w-6 h-6"
+        <ContainerBox title="Received Orders">
+          {orders.length > 0 ? (
+            <button
+              className="stack w-full h-fit"
+              aria-label="Go to pending Orders"
+              onClick={() => (window.location.href = "/internshipOrders")}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
-            </svg>
-
-            <div>
-              <h3 className="font-bold">New Internship Request!</h3>
-              <div className="text-xs">You have 1 unread message</div>
-            </div>
-            <button className="btn btn-sm">See</button>
-          </div>
-          <div role="alert" className="alert shadow-lg">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="stroke-info shrink-0 w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
-            </svg>
-            <div>
-              <h3 className="font-bold">New message!</h3>
-              <div className="text-xs">You have 1 unread message</div>
-            </div>
-            <button className="btn  btn-sm">See</button>
-          </div>
+              {orders.map((order, index) => (
+                <div
+                  key={order.id}
+                  className={`card shadow-${index} bg-base-100 shadow-xl text-primary hover:scale-105 transition-transform duration-200`}
+                >
+                  <div className="card-body">
+                    <h2 className="card-title">
+                      {order.studyProgram.educationInstitute.name} -{" "}
+                      {order.studyProgram.name}
+                    </h2>
+                    <p className="text-opacity-80">
+                      {order.numStudents} students
+                    </p>
+                    <p className="text-opacity-80">
+                      {order.internshipField}, {order.studyYear} år studenter
+                    </p>
+                    <p className="text-sm text-opacity-80">
+                      {order.createdAt.toLocaleDateString()}
+                    </p>
+                  </div>
+                  {index === 0 && orders.length > 1 && (
+                    <div className="badge badge-secondary p-5 rounded-2xl">
+                      + {orders.length - 1}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </button>
+          ) : (
+            "No pending orders"
+          )}
         </ContainerBox>
       </div>
       <div className="flex flex-col items-center">
@@ -106,8 +113,13 @@ const AdminLayout = () => {
           </Link>
         </ContainerBox>
       </div>
+      {isErrorModalOpen && (
+        <ErrorModal
+          message={error}
+          setIsModalOpen={setIsErrorModalOpen}
+        ></ErrorModal>
+      )}
     </div>
   );
 };
-
 export default AdminLayout;

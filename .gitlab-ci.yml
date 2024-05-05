@@ -25,7 +25,7 @@ stages:
 
 default:
   cache:
-    key: $CI_COMMIT_REF_SLUG
+    key: $CI_COMMIT_REF_NAME
     paths:
       - node_modules/
       - public/
@@ -44,6 +44,10 @@ workflow:
 install:
   stage: install
   cache:
+    key: $CI_COMMIT_REF_NAME
+    paths:
+      - node_modules/
+      - public/
     policy: push
     key: $CI_COMMIT_REF_SLUG
     paths:

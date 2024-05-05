@@ -28,12 +28,13 @@ export async function addInternshipField(data) {
  */
 export async function fetchStudyPrograms() {
   const user = await getUser();
+
   const query = await DBclient.from("coordinators")
-    .where("email", user.email)
+    .where("coordinators.id", user.id)
     .innerJoin(
       "studyPrograms",
       "studyPrograms.educationInstitutionID",
-      "coordinators.educationInstitutionID",
+      "coordinators.educationInstitutionID"
     )
     .select("studyPrograms.name", "studyPrograms.id");
   const response = [];
@@ -63,24 +64,25 @@ interface FormData {
  */
 export async function sendOrder(data: FormData) {
   try {
-    await DBclient.transaction(async () => {
+    const user = await getUser();
+    await DBclient.transaction(async (trx) => {
       // Insert into internshipOrders table
-      const [internshipOrderId] = await DBclient.table(
-        "internshipOrders",
-      ).insert({
+      const [internshipOrderId] = await trx.table("internshipOrders").insert({
         studyProgramID: data.studyProgramID,
         comment: data.comment,
+        coordinatorID: user.id,
       });
+
       // For each fieldGroup in data, insert into fieldGroups table
       for (const fieldGroup of data.fieldGroups) {
-        const [fieldGroupId] = await DBclient.table("fieldGroups").insert({
+        const [fieldGroupId] = await trx.table("fieldGroups").insert({
           internshipField: fieldGroup.internshipField,
           internshipOrderID: internshipOrderId,
         });
         // For each subFieldGroup in fieldGroup, insert into subFieldGroups table
         for (const subFieldGroup of fieldGroup.subFieldGroups) {
           if (subFieldGroup.numStudents > 0) {
-            await DBclient.table("subFieldGroups").insert({
+            await trx.table("subFieldGroups").insert({
               studyYear: subFieldGroup.studyYear,
               numStudents: subFieldGroup.numStudents,
               startWeek: subFieldGroup.startWeek,

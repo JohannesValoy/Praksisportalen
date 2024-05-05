@@ -1,6 +1,6 @@
 import type { Knex } from "knex";
 
-const check_email_andIDTrigger = (table: string) => {
+const check_email_and_idTrigger = (table: string) => {
   return `CREATE TRIGGER checkEmailAndId${table.toUpperCase()} 
             BEFORE INSERT ON ${table} 
 
@@ -89,7 +89,7 @@ export async function up(knex: Knex): Promise<void> {
         table.check(
           "?? <= ??",
           ["currentCapacity", "maxCapacity"],
-          "maxIsHigher",
+          "maxIsHigher"
         );
         table.check("?? >= 0", ["currentCapacity"], "currentIsPositive");
         table.check("?? >= 0", ["numberOfBeds"], "bedsIsPositive");
@@ -169,10 +169,12 @@ export async function up(knex: Knex): Promise<void> {
       .createTable("internshipOrders", (table) => {
         table.increments("id").primary();
         table
-          .enum("status", ["Agreed", "Pending", "Rejected"])
+          .enum("status", ["Finalized", "Pending"])
           .notNullable()
           .defaultTo("Pending");
         table.integer("studyProgramID").unsigned().notNullable();
+        table.string("coordinatorID").notNullable();
+        table.foreign("coordinatorID").references("id").inTable("coordinators");
         table
           .foreign("studyProgramID")
           .references("id")
@@ -201,8 +203,9 @@ export async function up(knex: Knex): Promise<void> {
         table.increments("id").primary();
         table.string("studyYear").notNullable();
         table.integer("numStudents").notNullable().checkPositive();
-        table.string("startWeek").notNullable();
-        table.string("endWeek").notNullable();
+        table.integer("numStudentsAccepted").defaultTo(0);
+        table.date("startWeek").notNullable();
+        table.date("endWeek").notNullable();
         table.integer("fieldGroupID").unsigned().notNullable();
         table
           .foreign("fieldGroupID")
@@ -211,6 +214,16 @@ export async function up(knex: Knex): Promise<void> {
           .onUpdate("CASCADE")
           .onDelete("CASCADE");
         table.check("?? <= ??", ["startWeek", "endWeek"]);
+        table.check(
+          "?? >= 0",
+          ["numStudentsAccepted"],
+          "numStudentsAcceptedIsPositive"
+        );
+        table.check(
+          "?? >= ??",
+          ["numStudents", "numStudentsAccepted"],
+          "AcceptedLessOrEqualThenStudents"
+        );
       })
       .createTable("timeIntervals", (table) => {
         table.increments("id").primary();
@@ -227,7 +240,7 @@ export async function up(knex: Knex): Promise<void> {
         table.check(
           "TIMESTAMPDIFF(HOUR, ??, ??) <= 12",
           ["startDate", "endDate"],
-          "intervalIsLessThan12Hours",
+          "intervalIsLessThan12Hours"
         );
       })
       .createView("users", (view) => {
@@ -237,19 +250,19 @@ export async function up(knex: Knex): Promise<void> {
             .from("employees")
             .union(
               knex.raw(
-                'select id, name, email, "coordinator" as role, createdAt, updatedAt from coordinators',
-              ),
+                'select id, name, email, "coordinator" as role, createdAt, updatedAt from coordinators'
+              )
             )
             .union(
               knex.raw(
-                'select id, name, email, "student" as role, createdAt, updatedAt from students',
-              ),
-            ),
+                'select id, name, email, "student" as role, createdAt, updatedAt from students'
+              )
+            )
         );
       })
-      .raw(check_email_andIDTrigger("employees"))
-      .raw(check_email_andIDTrigger("students"))
-      .raw(check_email_andIDTrigger("coordinators"))
+      .raw(check_email_and_idTrigger("employees"))
+      .raw(check_email_and_idTrigger("students"))
+      .raw(check_email_and_idTrigger("coordinators"))
       //TODO: Duplicate code for triggers, need to create a function or procedure
       .raw(
         `
@@ -261,7 +274,7 @@ export async function up(knex: Knex): Promise<void> {
           SET NEW.maxCapacity = NEW.currentCapacity;
         END IF;
       END;
-      `,
+      `
       )
       .raw(
         `
@@ -273,7 +286,24 @@ export async function up(knex: Knex): Promise<void> {
           SET NEW.maxCapacity = NEW.currentCapacity;
         END IF;
       END;
-      `,
+      `
+      )
+      .raw(
+        `
+      CREATE FUNCTION IF NOT EXISTS availableInternshipsSpotsBetweenDates(internshipID INT, startWeek DATE, endWeek DATE) RETURNS INT
+      DETERMINISTIC
+      BEGIN
+        DECLARE internCapacity INT;
+        DECLARE internshipAgreementCount INT;
+        SELECT currentCapacity INTO internCapacity FROM internships WHERE id = internshipID;
+        SELECT COUNT(*) INTO internshipAgreementCount FROM internshipAgreements 
+        WHERE internshipAgreements.internshipID = internshipID AND NOT (
+            (startWeek < startDate AND endWeek < startDate) OR
+            (startWeek > endDate AND endWeek > endDate)
+          );
+        RETURN internCapacity - internshipAgreementCount;
+      END; 
+      `
       )
       //TODO: Also need triggers for update
       .raw(
@@ -281,16 +311,12 @@ export async function up(knex: Knex): Promise<void> {
       BEFORE INSERT ON internshipAgreements
       FOR EACH ROW
       BEGIN
-        DECLARE currentCapacity INT;
-        DECLARE internshipAgreementCount INT;
-        SELECT currentCapacity INTO currentCapacity FROM internships WHERE id = NEW.internshipID;
-        SELECT COUNT(*) INTO internshipAgreementCount FROM internshipAgreements WHERE internshipID = NEW.internshipID AND New.startDate BETWEEN startDate AND endDate;
-        IF currentCapacity <= internshipAgreementCount THEN
+        IF 0 > availableInternshipsSpotsBetweenDates(NEW.internshipID, NEW.startDate , NEW.endDate)  THEN
           SIGNAL SQLSTATE '45000'
           SET MESSAGE_TEXT = 'Internship is full';
         END IF;
       END
-      `,
+      `
       )
       .raw(
         `
@@ -298,12 +324,15 @@ export async function up(knex: Knex): Promise<void> {
         BEFORE INSERT ON internshipAgreements
         FOR EACH ROW
         BEGIN
-          IF NEW.studentID IS NOT NULL AND EXISTS (SELECT * FROM internshipAgreements WHERE studentID = NEW.studentID AND (NEW.startDate BETWEEN startDate AND endDate OR NEW.endDate BETWEEN startDate AND endDate)) THEN
+          IF NEW.studentID IS NOT NULL AND EXISTS (SELECT * FROM internshipAgreements WHERE studentID = NEW.studentID AND NOT (
+            (NEW.startDate < startDate AND new.endDate < startDate) OR
+            (NEW.startDate > endDate AND new.endDate > endDate)
+          )) THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Student already has an internship at this time';
           END IF;
         END;
-        `,
+        `
       )
       //TODO: Create a procedure or function to not need to copy the same code
       .raw(
@@ -315,25 +344,32 @@ export async function up(knex: Knex): Promise<void> {
         DECLARE startDateAgreement DATE;
         DECLARE endDateAgreement DATE;
         SELECT startDate, endDate INTO startDateAgreement, endDateAgreement FROM internshipAgreements WHERE id = NEW.internshipAgreementID;
-        IF NEW.startDate < startDateAgreement OR NEW.endDate > endDateAgreement THEN
+        IF CAST(NEW.startDate AS DATE) < startDateAgreement OR CAST(NEW.endDate AS DATE) > endDateAgreement THEN
           SIGNAL SQLSTATE '45000'
           SET MESSAGE_TEXT = 'Time interval is outside of agreement';
         END IF;
       END;  
-      `,
+      `
       )
       .raw(
+        //With Help from GPT
         `
       CREATE TRIGGER checkNoOverlappingTimeIntervals
       BEFORE INSERT ON timeIntervals
       FOR EACH ROW
       BEGIN
-        IF EXISTS (SELECT * FROM timeIntervals WHERE internshipAgreementID = NEW.internshipAgreementID AND (NEW.startDate BETWEEN startDate AND endDate OR NEW.endDate BETWEEN startDate AND endDate)) THEN
-          SIGNAL SQLSTATE '45000'
-          SET MESSAGE_TEXT = 'Time interval overlaps with another';
+        IF (EXISTS (
+          SELECT 1 FROM timeIntervals
+          WHERE internshipAgreementID = NEW.internshipAgreementID
+          AND NOT (
+            (NEW.startDate < startDate AND new.endDate < startDate) OR
+            (NEW.startDate > endDate AND new.endDate > endDate)
+          )
+        )) THEN
+          SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Time interval overlaps with another';
         END IF;
       END;
-        `,
+        `
       )
       .raw(
         `      
@@ -344,24 +380,24 @@ export async function up(knex: Knex): Promise<void> {
         DECLARE startDateAgreement DATE;
         DECLARE endDateAgreement DATE;
         SELECT startDate, endDate INTO startDateAgreement, endDateAgreement FROM internshipAgreements WHERE id = NEW.internshipAgreementID;
-        IF NEW.startDate < startDateAgreement OR NEW.endDate > endDateAgreement THEN
+        IF CAST(NEW.startDate AS DATE) < startDateAgreement OR CAST(NEW.endDate AS DATE) > endDateAgreement THEN
           SIGNAL SQLSTATE '45000'
           SET MESSAGE_TEXT = 'Time interval is outside of agreement';
         END IF;
-      END; `,
+      END; `
       )
       .raw(
         `
       CREATE FUNCTION IF NOT EXISTS availableInternshipsSpots(internshipID INT) RETURNS INT
       DETERMINISTIC
       BEGIN
-        DECLARE currentCapacity INT;
+        DECLARE internCapacity INT;
         DECLARE internshipAgreementCount INT;
-        SELECT currentCapacity INTO currentCapacity FROM internships WHERE id = internshipID;
-        SELECT COUNT(*) INTO internshipAgreementCount FROM internshipAgreements WHERE internshipID = internshipID AND NOW() BETWEEN startDate AND endDate;
-        RETURN currentCapacity - internshipAgreementCount;
+        SELECT currentCapacity INTO internCapacity FROM internships WHERE id = internshipID;
+        SELECT COUNT(*) INTO internshipAgreementCount FROM internshipAgreements WHERE internshipAgreements.internshipID = internshipID AND NOW() BETWEEN startDate AND endDate;
+        RETURN internCapacity - internshipAgreementCount;
       END; 
-      `,
+      `
       )
   );
 }

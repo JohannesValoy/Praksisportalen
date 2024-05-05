@@ -19,12 +19,12 @@ export interface InternshipAgreement extends InternshipAgreementTable {
  * It should be used when you want to get a list of Internship Agreements from the server.
  */
 export interface InternshipAgreementPageRequest extends PageRequest {
-  hasCoordinatorID: number;
-  hasStudentID: number;
-  hasInternshipID: number;
-  containsComment: string;
-  containsStudyProgramID: number;
-  containsStatus: string;
+  hasCoordinatorID?: number;
+  hasStudentID?: number;
+  hasInternshipID?: number;
+  containsComment?: string;
+  containsStudyProgramID?: number;
+  containsStatus?: string;
 }
 /**
  * Creates a new {@link InternshipAgreementPageRequest} based upon a {@link NextRequest}.

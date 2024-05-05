@@ -144,7 +144,11 @@ export default function DepartmentPage({
       </div>
       <>
         {isAddModalOpen && (
-          <AddSection openModal={isAddModalOpen} onClose={closeAddModal} />
+          <AddSection
+            openModal={isAddModalOpen}
+            onClose={closeAddModal}
+            department={department}
+          />
         )}
         <SectionTable
           refreshKey={refreshKey}

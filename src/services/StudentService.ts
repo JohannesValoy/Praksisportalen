@@ -26,18 +26,18 @@ async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
       if (pageRequest.educationInstitutionID) {
         builder.where(
           "educationInstitutionID",
-          pageRequest.educationInstitutionID,
+          pageRequest.educationInstitutionID
         );
       }
     })
     .orderBy(
       ["id", "name", "email"].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id",
+        : "id"
     );
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size,
+    (pageRequest.page + 1) * pageRequest.size
   );
   return {
     ...pageRequest,
@@ -48,6 +48,24 @@ async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
 }
 
 /**
+ * Fetches a list of students by internship id
+ * @param id the id of the internship
+ * @returns a list of students
+ */
+async function getStudentsByInternshipId(id: number) {
+  const students = await DBclient.select("students.*")
+    .from("students")
+    .join(
+      "internshipAgreements",
+      "students.id",
+      "internshipAgreements.studentID"
+    )
+    .where("internshipAgreements.internshipID", id);
+
+  return { students } as { students: StudentTable[] };
+}
+
+/**
  * Deletes a student by its id
  * @param id the id of the student
  */
@@ -55,4 +73,9 @@ async function deleteStudentByID(id: string) {
   await DBclient.delete().from("students").where("id", id);
 }
 
-export { createStudents, getStudentsByPageRequest, deleteStudentByID };
+export {
+  createStudents,
+  getStudentsByPageRequest,
+  deleteStudentByID,
+  getStudentsByInternshipId,
+};

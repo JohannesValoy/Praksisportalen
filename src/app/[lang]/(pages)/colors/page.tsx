@@ -29,7 +29,6 @@ const Page = () => {
     "bg-base-200",
     "bg-base-300",
   ];
-
   return (
     <div className="p-6">
       <h1>DaisyUI Theme Colors</h1>

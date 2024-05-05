@@ -116,14 +116,12 @@ export async function getInternshipTypes() {
  * @param subFieldGroupID The id of the subFieldGroup.
  * @param InternshipID The id of the internship.
  * @param amount The amount of students to distribute.
- * @param status The status of the distribution.
  * @returns A promise that resolves when the distribution is saved.
  */
 export async function saveOrderDistribution(
   subFieldGroupID: number,
   InternshipID: number,
   amount: number,
-  status: "Finalized" | "Pending",
 ) {
   return DBclient.transaction(async (trx) => {
     const subFieldGroup = await trx("subFieldGroups")
@@ -178,21 +176,7 @@ export async function saveOrderDistribution(
       .where("id", subFieldGroupID)
       .update({ numStudentsAccepted: numStudentsAccepted });
 
-    if (!status) throw new Error("Status is not defined.");
 
-    await trx("internshipOrders")
-      .innerJoin(
-        "fieldGroups",
-        "internshipOrders.id",
-        "fieldGroups.internshipOrderID",
-      )
-      .innerJoin(
-        "subFieldGroups",
-        "fieldGroups.id",
-        "subFieldGroups.fieldGroupID",
-      )
-      .where("subFieldGroups.id", subFieldGroupID)
-      .update({ status: status });
 
     const agreements = Array.from({ length: amount }, () => ({
       startDate: subFieldGroup.startWeek,

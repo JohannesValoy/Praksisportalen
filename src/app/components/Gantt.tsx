@@ -1,5 +1,3 @@
-"use client";
-import React from "react";
 
 /**
  * The GanttProps interface represents the props of the Gantt component.
@@ -122,8 +120,10 @@ export default function Gantt({
                         alignItems: "center",
                         zIndex: 99,
                       }}
+                      className="bg-primary"
                     >
-                      <span className="btn btn-primary">
+                      {" "}
+                      <span>
                         start: {startDate.toLocaleDateString()} <br />
                         end: {endDate.toLocaleDateString()}
                       </span>

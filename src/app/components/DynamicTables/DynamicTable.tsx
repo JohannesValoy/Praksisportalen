@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Trash from "@/../public/Icons/trash";
 import Add from "@/../public/Icons/add";
 import { PageResponse } from "../../_models/pageinition";
@@ -58,11 +58,22 @@ export default function DynamicTable({
   refreshKey,
 }: Readonly<DynamicTableProps>): React.ReactElement {
   const searchParams = useSearchParams();
-  // Ensure rows is always an array
+
   const [error, setError] = useState(null);
   const filters = useRef(filter || searchParams);
   const totalPages = useRef(0);
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
+
+  const headerTitles = Object.keys(headers);
+  const rowDataKeys = Object.values(headers);
+
+  const [rows, setRows] = useState([]);
+  const normalizedRows = Array.isArray(rows) ? rows : [rows];
+  const [sortedBy, setSortedBy] = useState<string>("name");
+
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+
   const toggleSelection = (row, event) => {
     event.stopPropagation();
     const isSelected = selectedRows.includes(row);
@@ -75,13 +86,7 @@ export default function DynamicTable({
     }
   };
 
-  const [rows, setRows] = useState([]);
-  const [sortedBy, setSortedBy] = useState<string>("name");
-
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
-
-  useEffect(() => {
+  const constructRequest = useCallback(() => {
     const request = {
       page,
       size: pageSize,
@@ -89,16 +94,20 @@ export default function DynamicTable({
     };
 
     if (Object.keys(filters.current).length > 0) {
-      // If filter is not empty, use it to filter the data
       for (const key in filters.current) {
         request[key] = filters.current[key];
       }
     }
 
+    return request;
+  }, [page, pageSize, sortedBy, filters]);
+
+  const fetchData = useCallback(() => {
+    const request = constructRequest();
+
     paginateFunction(request).then((data) => {
       totalPages.current = data?.totalPages;
       if (totalPages.current < page) {
-        console.log("Setting page to", totalPages.current - 1);
         setPage(totalPages.current - 1);
       }
       const rows = data.elements.map((element) => {
@@ -113,15 +122,19 @@ export default function DynamicTable({
       setRows(rows);
       setSelectedRows([]);
     });
-  }, [page, pageSize, sortedBy, refreshKey, paginateFunction, filters]);
+  }, [constructRequest, page, paginateFunction]);
 
-  const normalizedRows = Array.isArray(rows) ? rows : [rows];
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   const onDelete = async () => {
     if (window.confirm("Are you sure you want to delete these rows?")) {
       try {
         for (const row of selectedRows) {
           await deleteFunction(row.id);
         }
+        fetchData();
       } catch (err) {
         let errorMessage = "Delete failed: ";
         if (err.message.includes("foreign key constraint")) {
@@ -134,16 +147,13 @@ export default function DynamicTable({
         }
         setError(errorMessage);
       }
-      setSelectedRows([]);
     }
   };
-  const headerTitles = Object.keys(headers);
-  const rowDataKeys = Object.values(headers);
 
   return (
     <>
       <ContainerBox>
-        <div className="flex bg-neutral flex-row justify-between items-center w-full p-4">
+        <div className="flex bg-neutral text-neutral-content flex-row justify-between items-center w-full p-4">
           <h1 className="text-3xl font-semibold">List of {tableName}</h1>
           {!readOnly && (
             <div>

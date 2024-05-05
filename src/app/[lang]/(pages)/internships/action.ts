@@ -15,7 +15,6 @@ export async function paginateInternships(
   request: InternshipPaginationRequest
 ) {
   request.sectionID = Number(request.sectionID);
-  console.log(request.sectionID);
   return await getInternshipPositionObjectByPageRequest(request);
 }
 /**

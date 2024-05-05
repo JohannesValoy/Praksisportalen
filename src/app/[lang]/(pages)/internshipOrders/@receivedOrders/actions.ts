@@ -11,7 +11,6 @@ import {
 import DBclient from "@/knex/config/DBClient";
 import "server-only";
 import { PageResponse } from "@/app/_models/pageinition";
-import { start } from "repl";
 export interface Order {
   id: number;
   studyProgramID: number;
@@ -91,7 +90,7 @@ export async function fetchOrders(status: string): Promise<Order[]> {
 export async function paginateInternships(
   request: InternshipPaginationRequest
 ): Promise<PageResponse<Internship>> {
-  request.sectionID = [Number(request.sectionID)];
+  request.sectionID = Number(request.sectionID);
   request.yearOfStudy = [Number(request.yearOfStudy)];
   return await getInternshipPositionObjectByPageRequest(request);
 }

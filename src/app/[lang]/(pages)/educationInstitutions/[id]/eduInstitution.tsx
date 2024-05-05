@@ -24,7 +24,6 @@ export default function InstitutionPage({
   readonly eduInstitution: EducationInstitution;
   readonly wordbook: { readonly [key: string]: string };
 }) {
-  console.log(eduInstitution);
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [name, setName] = useState("");

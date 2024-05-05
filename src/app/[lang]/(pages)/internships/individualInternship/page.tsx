@@ -46,7 +46,6 @@ const InternshipComponent = () => {
       getIndividualInternship(internship_id)
         .then((data) => {
           setInternship(data);
-          console.log(data);
           const dataList: DataItem[] = data.timeIntervals.map(
             (interval: any, index: number) => ({
               id: index + 1,
@@ -63,7 +62,6 @@ const InternshipComponent = () => {
         );
     }
   }, [internship_id]);
-  console.log(internship);
   return (
     <div className=" w-full h-full">
       {internship ? (

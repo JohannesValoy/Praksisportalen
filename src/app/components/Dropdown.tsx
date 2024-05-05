@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 interface Option {
-  id?: string;
+  id?: string | number;
   name: string;
   email?: string;
   image?: string;

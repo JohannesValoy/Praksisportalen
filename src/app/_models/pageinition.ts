@@ -6,12 +6,10 @@ import { Role } from "../api/auth/[...nextauth]/nextauth";
  * It should be used when you want to get a list of objects from the server.
  */
 export interface PageRequest {
-  page: number;
+  page?: number;
   size?: number;
-  sort?: baseSort;
+  sort?: string;
 }
-
-type baseSort = "id" | "name";
 
 /**
  * PageResponse is a class that represents a response for a paginated list of objects.

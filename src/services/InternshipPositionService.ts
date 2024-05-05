@@ -80,20 +80,38 @@ async function getInternshipPositionObjectBySectionID(
 async function getInternshipPositionObjectByPageRequest(
   pageRequest: InternshipPaginationRequest,
 ): Promise<PageResponse<Internship>> {
-  const query = await DBclient.select()
-    .from<InternshipTable>("internships")
+  let query = DBclient.from("internships")
+    .select(
+      "*",
+      new Date(pageRequest.vacancyStartDate).valueOf() &&
+        new Date(pageRequest.vacancyEndDate).valueOf()
+        ? DBclient.raw(
+            `availableInternshipsSpotsBetweenDates(internships.id, '${new Date(pageRequest.vacancyStartDate).toISOString().split("T")[0]}', '${new Date(pageRequest.vacancyEndDate).toISOString().split("T")[0]}') as vacancies`,
+          )
+        : DBclient.raw(
+            "availableInternshipsSpots(internships.id) as vacancies",
+          ),
+    )
     .where((builder) => {
       if (pageRequest.section_id && typeof pageRequest.section_id == "number") {
         builder.whereIn("section_id", pageRequest.section_id);
       }
-      if (pageRequest.yearOfStudy && pageRequest.yearOfStudy.length > 0) {
+      if (
+        Array.isArray(pageRequest.yearOfStudy) &&
+        pageRequest.yearOfStudy.every(Number.isFinite) &&
+        pageRequest.yearOfStudy.length > 0
+      ) {
         builder.whereIn("yearOfStudy", pageRequest.yearOfStudy);
       }
       if (pageRequest.field) {
-        builder.where("field", pageRequest.field);
+        builder.where("internship_field", pageRequest.field);
       }
-    })
-    .orderBy(
+    });
+
+  if (pageRequest.sort === "vacancies") {
+    query = query.orderBy("vacancies", "desc");
+  } else {
+    query = query.orderBy(
       [
         "id",
         "name",
@@ -103,22 +121,25 @@ async function getInternshipPositionObjectByPageRequest(
         "yearOfStudy",
       ].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id" || "name",
+        : "id",
     );
+  }
+
   const internships: Internship[] = [];
-  query
+  const results = await query;
+  results
     .slice(
       pageRequest.size * pageRequest.page,
       pageRequest.size * pageRequest.page + pageRequest.size,
     )
-    .forEach((internship) => {
-      internships.push(internship);
+    .forEach((result) => {
+      internships.push(result);
     });
   return {
     ...pageRequest,
     elements: internships,
-    totalElements: query.length,
-    totalPages: Math.ceil(query.length / pageRequest.size),
+    totalElements: results.length,
+    totalPages: Math.ceil(results.length / pageRequest.size),
   };
 }
 /**

@@ -43,6 +43,7 @@ const passwordProvider = CredentialsProvider({
     }
     return (await bcrypt.compareSync(String(password), user.password))
       ? fromUserToUserAdapter({
+          id: user.id,
           email: user.email,
           name: user.name,
           role: Object.hasOwn(user, "role")

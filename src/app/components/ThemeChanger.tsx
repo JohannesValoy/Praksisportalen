@@ -1,16 +1,16 @@
+"use client";
+import { ThemeContext } from "@/context/ThemeContext";
+import { useContext } from "react";
+
 /**
  * The ThemeSwap component is a dropdown menu that allows the user to select a theme.
- * @param root The root element of the application
- * @param root.handleOnClick The function that is called when the user selects a theme.
  * @returns A dropdown menu that allows the user to select a theme.
  */
-export default function ThemeSwap({
-  handleOnClick,
-}: {
-  handleOnClick?: (e?: any) => void;
-}) {
+export default function ThemeSwap() {
+  const { changeTheme, theme } = useContext(ThemeContext);
+
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    handleOnClick && handleOnClick(e.target.value);
+    changeTheme && changeTheme(e.target.value);
   };
   const themes = [
     "HMR",
@@ -38,17 +38,17 @@ export default function ThemeSwap({
   ];
 
   return (
-    <>
-      <select className="select bg-base-200" onChange={handleChange}>
-        <option disabled selected value="" className="bg-base-200">
-          Select theme
+    <select
+      className="select bg-base-200"
+      onChange={handleChange}
+      defaultValue={theme}
+      aria-label="theme selection"
+    >
+      {themes.map((theme, index) => (
+        <option className="bg-base-300" key={index} value={theme}>
+          {theme}
         </option>
-        {themes.map((theme, index) => (
-          <option className="bg-base-300" key={index} value={theme}>
-            {theme}
-          </option>
-        ))}
-      </select>
-    </>
+      ))}
+    </select>
   );
 }

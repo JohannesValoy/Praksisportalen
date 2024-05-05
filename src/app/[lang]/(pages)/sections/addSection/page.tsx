@@ -128,7 +128,7 @@ export default function Page() {
             selectedOption={
               users.find((user) => user.id === employee_id) || null
             }
-            setSelectedOption={(user) => setEmployee_id(user.id)}
+            setSelectedOption={(user) => setEmployee_id(user.id.toString())}
             renderOption={(user) => (
               <>
                 <div>
@@ -166,7 +166,9 @@ export default function Page() {
                 (department) => department.id === department_id,
               ) || null
             }
-            setSelectedOption={(department) => setDepartment_id(department.id)}
+            setSelectedOption={(department) =>
+              setDepartment_id(department.id.toString())
+            }
             renderOption={(department) => (
               <>
                 <th>

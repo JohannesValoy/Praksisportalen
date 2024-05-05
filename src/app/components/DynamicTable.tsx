@@ -5,21 +5,39 @@ import Trash from "@/../public/Icons/trash";
 import Add from "@/../public/Icons/add";
 import { PageResponse } from "../_models/pageinition";
 import { useSearchParams } from "next/navigation";
-import ContainerBox from "./ContainerBox";
+import ErrorModal from "./ErrorModal";
 
 type DynamicTableProps = {
   tableName: string;
   headers: Record<string, string>;
   onRowClick: (row: any) => void;
-  onRowButtonClick: (row: any) => void;
-  buttonName: string;
-  onAddButtonClick: () => void;
+  onRowButtonClick?: (row: any) => void;
+  buttonName?: string;
+  onAddButtonClick?: () => void;
   clickableColumns?: Record<string, (row: any) => void>;
-  deleteFunction: (id: string | number) => Promise<any>; // Replace 'any' with the type of the response
-  paginateFunction: (request: any) => Promise<PageResponse<any>>; // Replace 'any' with the type of the request
+  deleteFunction?: (id: string | number) => Promise<any>;
+  paginateFunction: (request: any) => Promise<PageResponse<any>>;
+  filter?: Record<string, string>;
+  readOnly?: boolean;
 };
 
-const DynamicTable: React.FC<DynamicTableProps> = ({
+/**
+ *
+ * @param root0 root
+ * @param root0.tableName name of the table
+ * @param root0.headers headers of the table
+ * @param root0.onRowClick function that happens function that happens when you click a row in the table
+ * @param root0.onRowButtonClick click function of the button in each row
+ * @param root0.buttonName name of the button in each row
+ * @param root0.onAddButtonClick adds data
+ * @param root0.clickableColumns function activates if there should be any headers that are clickable
+ * @param root0.deleteFunction the function this table uses to delete data
+ * @param root0.paginateFunction the function this table uses to send data
+ * @param root0.filter filters the data input into the table.
+ * @param root0.readOnly if the table is readonly
+ * @returns JSX.Element
+ */
+function DynamicTable({
   tableName = "",
   headers = {},
   onRowClick,
@@ -29,7 +47,9 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   clickableColumns = {},
   deleteFunction,
   paginateFunction,
-}) => {
+  filter = {},
+  readOnly = false,
+}: Readonly<DynamicTableProps>): React.ReactElement {
   const searchParams = useSearchParams();
   // Ensure rows is always an array
   const [error, setError] = useState(null);
@@ -56,31 +76,47 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   const [pageSize, setPageSize] = useState(10);
 
   const fetch = useCallback(() => {
-    const filter = searchParams.keys();
     const request = {
       page,
       size: pageSize,
       sort: sortedBy,
     };
-    let key = filter.next();
-    let i = 0;
-    while (key && i < 100) {
-      request[key.value] = searchParams.get(key.value);
-      key = filter.next();
-      i++;
+
+    if (Object.keys(filter).length > 0) {
+      // If filter is not empty, use it to filter the data
+      for (const key in filter) {
+        request[key] = filter[key];
+      }
+    } else {
+      // If filter is empty, use searchParams to filter the data
+      const filter = searchParams.keys();
+      let key = filter.next();
+      let i = 0;
+      while (key && i < 100) {
+        request[key.value] = searchParams.get(key.value);
+        key = filter.next();
+        i++;
+      }
     }
+
     paginateFunction(request).then((data) => {
       totalPages.current = data.totalPages;
       if (totalPages.current < page) {
         setPage(totalPages.current - 1);
       }
-      const rows = data.elements.map((element) => ({
-        ...element,
-      }));
+      const rows = data.elements.map((element) => {
+        const newElement = { ...element };
+        for (const prop in newElement) {
+          if (newElement[prop] instanceof Date) {
+            newElement[prop] = newElement[prop].toLocaleDateString();
+          }
+        }
+        return newElement;
+      });
       setRows(rows);
       setSelectedRows([]);
     });
-  }, [page, pageSize, sortedBy, paginateFunction, searchParams]);
+  }, [page, pageSize, sortedBy, paginateFunction, searchParams, filter]);
 
   useEffect(() => {
     fetch();
@@ -114,53 +150,61 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
   const rowDataKeys = Object.values(headers);
 
   return (
-    <>
-      <ContainerBox>
-        <div className="flex flex-row justify-between items-center w-full p-4">
+    <div className="flex flex-col justify-center items-center bg-base-300 p-5 rounded-2xl gap-5 w-full">
+      <div className="w-full">
+        <div className="flex rounded-lg bg-base-200 flex-row justify-between items-center w-full p-4">
           <h1 className="text-3xl font-semibold">List of {tableName}</h1>
-          <div>
-            <button onClick={onAddButtonClick} className="btn btn-xs btn-ghost">
-              <Add
-                currentColor="currentColor"
-                aria-label={`Add ${tableName}`}
-              />
-            </button>
+          {!readOnly && (
+            <div>
+              <button
+                onClick={onAddButtonClick}
+                className="btn btn-xs btn-ghost"
+              >
+                <Add
+                  currentColor="currentColor"
+                  aria-label={`Add ${tableName}`}
+                />
+              </button>
 
-            <button
-              onClick={(event) => {
-                event.stopPropagation();
-                onDelete();
-              }}
-              className="btn btn-ghost btn-xs"
-            >
-              <Trash currentColor="currentColor" />
-            </button>
-          </div>
+              <button
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onDelete();
+                }}
+                className="btn btn-ghost btn-xs"
+              >
+                <Trash currentColor="currentColor" />
+              </button>
+            </div>
+          )}
         </div>
         <table className="table">
           <thead>
             <tr>
-              <th>
-                <label>
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    checked={
-                      normalizedRows.length > 0 &&
-                      selectedRows.length === normalizedRows.length
-                    }
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedRows(normalizedRows);
-                      } else {
-                        setSelectedRows([]);
+              {!readOnly && (
+                <th>
+                  <label>
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      aria-label="Select all rows"
+                      checked={
+                        normalizedRows.length > 0 &&
+                        selectedRows.length === normalizedRows.length
                       }
-                    }}
-                  />
-                </label>
-              </th>
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedRows(normalizedRows);
+                        } else {
+                          setSelectedRows([]);
+                        }
+                      }}
+                    />
+                  </label>
+                </th>
+              )}
               {headerTitles.map((title, index) => (
-                <th key={index}>
+                <th key={title}>
                   <input
                     type="button"
                     onClick={() => setSortedBy(rowDataKeys[index])}
@@ -184,22 +228,25 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
               </tr>
             </tbody>
           ) : (
-            normalizedRows.map((row, index) => (
-              <tbody key={index}>
+            normalizedRows.map((row) => (
+              <tbody key={row.id}>
                 <tr onClick={() => onRowClick(row)}>
-                  <th onClick={(e) => e.stopPropagation()}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        checked={selectedRows.includes(row)}
-                        onChange={(e) => toggleSelection(row, e)}
-                      />
-                    </label>
-                  </th>
-                  {rowDataKeys.map((key: string, index: number) => (
+                  {!readOnly && (
+                    <th onClick={(e) => e.stopPropagation()}>
+                      <label>
+                        <input
+                          type="checkbox"
+                          className="checkbox"
+                          aria-label="Select this row"
+                          checked={selectedRows.includes(row)}
+                          onChange={(e) => toggleSelection(row, e)}
+                        />
+                      </label>
+                    </th>
+                  )}
+                  {rowDataKeys.map((key: string) => (
                     <td
-                      key={index}
+                      key={key}
                       onClick={
                         clickableColumns[key]
                           ? () => clickableColumns[key](row)
@@ -277,45 +324,16 @@ const DynamicTable: React.FC<DynamicTableProps> = ({
             <option value={40}>40</option>
           </select>
         </div>
-      </ContainerBox>
-      {/**Delete Error modal */}
+      </div>
+      {/**Error modal */}
       {isModalOpen && (
-        <dialog
-          className="fixed inset-0 z-10 overflow-y-auto bg-base-100 text-base-content rounded-lg"
-          open
-          aria-labelledby="Delete Error"
-        >
-          <div className="px-4 pt-5 pb-4 ">
-            <div className="sm:flex sm:items-start">
-              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-error text-error-content sm:mx-0 sm:h-10 sm:w-10">
-                {/* Icon or image can be added here */}
-              </div>
-              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                <h3
-                  className="text-lg leading-6 font-medium "
-                  id="Delete Error"
-                >
-                  Error
-                </h3>
-                <div className="mt-2">
-                  <p className="text-sm ">{error}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <button
-              type="button"
-              className="btn btn-info"
-              onClick={() => setIsModalOpen(false)}
-            >
-              Close
-            </button>
-          </div>
-        </dialog>
+        <ErrorModal
+          message={error}
+          setIsModalOpen={setIsModalOpen}
+        ></ErrorModal>
       )}
-    </>
+    </div>
   );
-};
+}
 
 export default DynamicTable;

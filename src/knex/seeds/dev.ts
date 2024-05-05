@@ -12,6 +12,7 @@ import JSONSections from "./sections-finished.json";
 import JSONDepartment from "./departments-finished.json";
 import JSONInternshipAgreements from "./internshipAgreements-finished.json";
 import { randomInt } from "crypto";
+import { Agent } from "http";
 
 /**
  * Seeds the database with the data from the JSON files
@@ -195,7 +196,7 @@ export const seed = async function (knex: Knex) {
   await knex("studyPrograms").insert(JSONStudies);
 
   const internships = [];
-
+  const referencePoint = Date.now();
   JSONInternshipAgreements.forEach((agreement) => {
     const direction = Math.random() > 0.5 ? 1 : -1;
     const offset = Math.floor(Math.random() * 6);
@@ -205,11 +206,11 @@ export const seed = async function (knex: Knex) {
           (i) =>
             i.student_id === agreement.student_id &&
             (direction === 1
-              ? i.startDate >= Date.now()
-              : i.startDate <= Date.now())
+              ? i.endDate >= referencePoint
+              : i.startDate <= referencePoint)
         ).length * 2
       : 0;
-    const dates = [new Date(), new Date()];
+    const dates = [new Date(referencePoint), new Date(referencePoint)];
     dates[0].setDate(dates[0].getDate() + direction * (offset + offset2 * 14));
     dates[1].setDate(
       dates[1].getDate() + direction * (offset + (offset2 + 1) * 14)
@@ -217,11 +218,10 @@ export const seed = async function (knex: Knex) {
     dates.sort((a, b) => a.getTime() - b.getTime());
     internships.push({
       ...agreement,
-      startDate: new Date(dates[0]),
-      endDate: new Date(dates[1]),
+      startDate: dates[0],
+      endDate: dates[1],
     });
   });
-
   await knex("internshipAgreements").insert(internships);
 
   const timeIntervals = [];

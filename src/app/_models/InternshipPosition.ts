@@ -8,8 +8,9 @@ import { PageRequest } from "./pageinition";
 export interface InternshipPaginationRequest extends PageRequest {
   section_id?: number[];
   yearOfStudy?: number[];
+  vacancyStartDate?: Date;
+  vacancyEndDate?: Date;
   field?: string;
   id?: number;
 }
-
 export interface Internship extends InternshipTable {}

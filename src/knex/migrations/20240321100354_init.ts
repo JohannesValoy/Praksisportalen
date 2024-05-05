@@ -301,10 +301,10 @@ export async function up(knex: Knex): Promise<void> {
         DECLARE internshipAgreementCount INT;
         SELECT currentCapacity INTO internCapacity FROM internships WHERE id = internshipID;
         SELECT COUNT(*) INTO internshipAgreementCount FROM internshipAgreements 
-        WHERE internship_id = internshipID NOT (
+        WHERE internship_id = internshipID AND NOT (
             (startWeek < startDate AND endWeek < startDate) OR
             (startWeek > endDate AND endWeek > endDate)
-          ));
+          );
         RETURN internCapacity - internshipAgreementCount;
       END; 
       `

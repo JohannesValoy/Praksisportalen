@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/solid";
 
 /**
  * The GanttProps interface represents the props of the Gantt component.
@@ -60,10 +61,11 @@ export default function Gantt({
 
   return (
     <div
-      className="bg-base-200 w-full  p-5 rounded-lg flex flex-col items-center justify-center"
+      className="bg-secondary-200 w-full  p-5 rounded-lg flex flex-col items-center justify-center"
       style={{
+        overflowX: "auto",
         height: "40rem",
-        width: "70%",
+        width: "100%",
         border: "1px solid rgba(100,100,100,0.2)",
       }}
     >
@@ -123,10 +125,10 @@ export default function Gantt({
                         zIndex: 99,
                       }}
                     >
-                      <span className="btn btn-primary">
-                        start: {startDate.toLocaleDateString()} <br />
-                        end: {endDate.toLocaleDateString()}
-                      </span>
+                      <span
+                        className="w-full h-full bg-primary rounded-full"
+                        title={`start: ${startDate.toLocaleDateString()}\nend: ${endDate.toLocaleDateString()}`}
+                      ></span>
                     </div>
                   );
                 })}
@@ -157,6 +159,17 @@ export default function Gantt({
             ))}
           </div>
         </div>
+      </div>
+      <div className="flex join">
+        <button className="btn h-full join-item text-base-content bg-secondary">
+          <ChevronLeftIcon className="size-6 " />
+        </button>
+        <div className="btn flex h-full items-center join-item p-2 bg-secondary">
+          10
+        </div>
+        <button className="btn h-full  join-item text-base-content bg-secondary">
+          <ChevronRightIcon className="size-6  " />
+        </button>
       </div>
     </div>
   );

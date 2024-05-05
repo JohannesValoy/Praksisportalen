@@ -5,7 +5,6 @@ import Trash from "@/../public/Icons/trash";
 import Add from "@/../public/Icons/add";
 import { PageResponse } from "../_models/pageinition";
 import { useSearchParams } from "next/navigation";
-import ContainerBox from "./ContainerBox";
 import ErrorModal from "./ErrorModal";
 
 type DynamicTableProps = {
@@ -19,7 +18,7 @@ type DynamicTableProps = {
   deleteFunction?: (id: string | number) => Promise<any>;
   paginateFunction: (request: any) => Promise<PageResponse<any>>;
   filter?: Record<string, string>;
-  readonly?: boolean;
+  readOnly?: boolean;
 };
 
 /**
@@ -35,7 +34,7 @@ type DynamicTableProps = {
  * @param root0.deleteFunction the function this table uses to delete data
  * @param root0.paginateFunction the function this table uses to send data
  * @param root0.filter filters the data input into the table.
- * @param root0.readonly If true, the table will be read-only. There will be not add or delete buttons
+ * @param root0.readOnly if the table is readonly
  * @returns JSX.Element
  */
 function DynamicTable({
@@ -49,8 +48,8 @@ function DynamicTable({
   deleteFunction,
   paginateFunction,
   filter = {},
-  readonly = false,
-}: DynamicTableProps): React.FC<DynamicTableProps> {
+  readOnly = false,
+}: Readonly<DynamicTableProps>): React.ReactElement {
   const searchParams = useSearchParams();
   // Ensure rows is always an array
   const [error, setError] = useState(null);
@@ -63,7 +62,7 @@ function DynamicTable({
     const isSelected = selectedRows.includes(row);
     if (isSelected) {
       setSelectedRows(
-        selectedRows.filter((selectedRow) => selectedRow !== row)
+        selectedRows.filter((selectedRow) => selectedRow !== row),
       );
     } else {
       setSelectedRows([...selectedRows, row]);
@@ -155,7 +154,7 @@ function DynamicTable({
       <div className="w-full">
         <div className="flex rounded-lg bg-base-200 flex-row justify-between items-center w-full p-4">
           <h1 className="text-3xl font-semibold">List of {tableName}</h1>
-          {!readonly && (
+          {!readOnly && (
             <div>
               <button
                 onClick={onAddButtonClick}
@@ -182,7 +181,7 @@ function DynamicTable({
         <table className="table">
           <thead>
             <tr>
-              {!readonly && (
+              {!readOnly && (
                 <th>
                   <label>
                     <input
@@ -205,7 +204,7 @@ function DynamicTable({
                 </th>
               )}
               {headerTitles.map((title, index) => (
-                <th key={index}>
+                <th key={row.id}>
                   <input
                     type="button"
                     onClick={() => setSortedBy(rowDataKeys[index])}
@@ -230,9 +229,9 @@ function DynamicTable({
             </tbody>
           ) : (
             normalizedRows.map((row, index) => (
-              <tbody key={index}>
+              <tbody key={row.id}>
                 <tr onClick={() => onRowClick(row)}>
-                  {!readonly && (
+                  {!readOnly && (
                     <th onClick={(e) => e.stopPropagation()}>
                       <label>
                         <input
@@ -247,7 +246,7 @@ function DynamicTable({
                   )}
                   {rowDataKeys.map((key: string, index: number) => (
                     <td
-                      key={index}
+                      key={row.id}
                       onClick={
                         clickableColumns[key]
                           ? () => clickableColumns[key](row)

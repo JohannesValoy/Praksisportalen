@@ -9,7 +9,7 @@ import React, { useState } from "react";
 const ListOfEmployees = ({ params }) => {
   const [words, setWords] = useState<any>({});
   getDictionary(params.lang).then((words) =>
-    setWords(words?.administerEmployees)
+    setWords(words?.administerEmployees),
   );
   const headers = { Name: "name", Email: "email" };
   const handleEmailClick = (row) => {

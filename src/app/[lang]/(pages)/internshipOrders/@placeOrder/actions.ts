@@ -40,7 +40,7 @@ export async function fetchStudyPrograms() {
     .innerJoin(
       "studyPrograms",
       "studyPrograms.educationInstitution_id",
-      "coordinators.educationInstitution_id"
+      "coordinators.educationInstitution_id",
     )
     .select("studyPrograms.name", "studyPrograms.id");
   const response = [];

@@ -1,7 +1,7 @@
 "use server";
-import StudentGantt from "@/app/components/gantts/StudentGantt";
-import Gantt, { GanttProp } from "@/app/components/Gantt";
+import { GanttProp } from "@/app/components/Gantt";
 import DBClient from "@/knex/config/DBClient";
+import StudentGantt from "./StudentGantt";
 /**
  * The DataItem interface represents the shape of the data items.
  */

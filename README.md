@@ -1,124 +1,56 @@
-<!-- @format -->
-
 # Praksisplasslista
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Welcome to the code repository for the praksisplasslista project.
+
+This project is a web platform designed and requested by Helse Møre og Romsdal to manage their internships.
+
+## How it works
+
+The project is a built upon Next.js with a couple extra frameworks:
+
+- DaisyUI, Tailwind and Material for building the user interface
+- Knex for migration, seeding and querying the database
+- NextAuth (Old version of Auth.js) for authentication and token creations
+
+It is completely docker containerize so it should be able to run on any operative system that has docker installed.
+
+The project has a in-built proxy and database so you don't need to bother with setting up these things.
+
+NB: In case you want only to build and run the image and none of the additional services we highly recommend looking trough the environment section within the web service found in [docker-compose.prod.yaml](./docker-compose.prod.yaml) file to ensure you have every environmental variable set correctly.
 
 ## Getting Started
 
-First, run the development server:
+To get started with this project you will only need to have [Docker](https://www.docker.com/) installed on your machine.
+
+The entire project is containerized and can be run in a development environment by the following command:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Run the development/demo environment
+# Has some dummy data to test the application as well a couple pre defined environment variables
+# Runs a additional container with adminer for DB administration on port 8080 as well as opening the db on port 3306
+docker-compose up
+
+# Run the production environment
+# You will need to set the environment variables in the .env file to the correct values 
+docker-compose -f docker-compose.prod.yml up
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This will start the project and you can access it by going to [https://localhost](https://localhost) or your custom DOMAIN environment variable in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+The project uses environment variables to configure the application.
+As previously mentioned, the development environment has some default values set in the docker-compose.yml as well as building some of it's own trough other enviromental variables.
 
-## Learn More
+The following is a list of the environment variables required of the docker-compose.prod.yaml in the project:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+NEXTAUTH_SECRET # The secret used to encrypt the session token. Set to HelloWorld in Development
+MYSQL_ROOT_PASSWORD # The password for the root user of the database. Set to changme in Development
+DOMAIN # The domain name of the application. Default to localhost if can not be found
+FEIDE_CLIENT_ID # The client id for the Feide authentication. Set to a localhost Feide clientID that will get removed after the 20 of may in Development
+FEIDE_CLIENT_SECRET # The client secret for the Feide authentication. Set to a localhost only Feide clientsecret that will get removed after the 20 of may in Development
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.stud.idi.ntnu.no/bachelorgruppe-12-bidata-2024/praksisplasslista/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
----
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-
-Choose a self-explaining name for your project.
-
-## Description
-
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-
-Show your appreciation to those who have contributed to the project.
-
-## License
-
-For open source projects, say how it is licensed.
-
-## Project status
-
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+```

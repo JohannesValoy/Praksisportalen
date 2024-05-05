@@ -1,3 +1,5 @@
+"use server";
+import StudentGantt from "@/app/components/gantts/StudentGantt";
 import Gantt, { GanttProp } from "@/app/components/Gantt";
 import DBClient from "@/knex/config/DBClient";
 /**
@@ -12,13 +14,16 @@ interface DataItem {
 }
 
 /**
- *
- * @param date
- * @param studentID
+ * Fetched the student Gant information
+ * @param date reference date
+ * @param studentID the id of the student
+ * @param days the amount of days to fetch from the start of that week
+ * @returns A promise of a list with {@link GanttProp}
  */
-async function getStudentAgreementGanttIntervals(
+export async function getStudentAgreementGanttIntervals(
   date: Date,
-  studentID: string
+  studentID: string,
+  days: number = 6
 ): Promise<GanttProp[]> {
   date.setDate(date.getDate() - date.getDay());
   const startDate = new Date(date);
@@ -26,7 +31,7 @@ async function getStudentAgreementGanttIntervals(
   startDate.setMinutes(0);
   startDate.setSeconds(0);
   startDate.setMilliseconds(0);
-  date.setDate(date.getDate() + 6);
+  date.setDate(date.getDate() + (days > 0 ? days : 6));
   const endDate = new Date(date);
   startDate.setHours(23);
   startDate.setMinutes(59);
@@ -83,6 +88,5 @@ async function getStudentAgreementGanttIntervals(
  * @returns The StudentPage component.
  */
 export default async function StudentPage({ user }) {
-  const datalist = await getStudentAgreementGanttIntervals(new Date(), user.id);
-  return <Gantt datalist={datalist} />;
+  return <StudentGantt userID={user.id} />;
 }

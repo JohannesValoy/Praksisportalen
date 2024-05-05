@@ -1,6 +1,6 @@
-import React from "react";
+"use client";
+import React, { useEffect, useRef, useState } from "react";
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/solid";
-
 /**
  * The GanttProps interface represents the props of the Gantt component.
  */
@@ -19,15 +19,40 @@ interface MonthMarker {
 /**
  * The Gantt component displays a Gantt chart.
  * @param root The root object.
- * @param root.datalist The data list.
- * @param root.onClickUrl The URL to redirect to on click.
+ * @param root.fetchData A function that takes in a Date and returns a list of GanttProps.
  * @returns A Gantt chart.
  */
 export default function Gantt({
-  datalist,
+  fetchData,
 }: Readonly<{
-  datalist: GanttProp[];
+  fetchData: (data) => Promise<GanttProp[]>;
 }>) {
+  const [datalist, setDatalist] = useState([]);
+  const currentDate = useRef(new Date());
+
+  useEffect(() => {
+    fetchData(currentDate.current).then((data) => setDatalist(data));
+  }, [fetchData]);
+
+  /**
+   * Function to fetch for a week forward
+   * It also changes the currentDate to a week forward
+   */
+  function weekForward() {
+    currentDate.current.setDate(currentDate.current.getDate() + 7);
+    fetchData(currentDate.current).then(setDatalist);
+  }
+
+  /**
+   * Function to fetch for a week backwards'
+   * It also changes the currentDate to a week backwards
+   */
+  function weekBack() {
+    currentDate.current.setDate(currentDate.current.getDate() - 7);
+    console.log("hello There");
+    fetchData(currentDate.current).then(setDatalist);
+  }
+
   const startDates = datalist
     .map((item) =>
       item.intervals.map((interval) => interval.startDate.getTime())
@@ -161,13 +186,19 @@ export default function Gantt({
         </div>
       </div>
       <div className="flex join">
-        <button className="btn h-full join-item text-base-content bg-secondary">
+        <button
+          className="btn h-full join-item text-base-content bg-secondary"
+          onClick={weekForward}
+        >
           <ChevronLeftIcon className="size-6 " />
         </button>
         <div className="btn flex h-full items-center join-item p-2 bg-secondary">
           10
         </div>
-        <button className="btn h-full  join-item text-base-content bg-secondary">
+        <button
+          className="btn h-full  join-item text-base-content bg-secondary"
+          onClick={weekBack}
+        >
           <ChevronRightIcon className="size-6  " />
         </button>
       </div>

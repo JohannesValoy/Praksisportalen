@@ -62,7 +62,7 @@ function DynamicTable({
     const isSelected = selectedRows.includes(row);
     if (isSelected) {
       setSelectedRows(
-        selectedRows.filter((selectedRow) => selectedRow !== row),
+        selectedRows.filter((selectedRow) => selectedRow !== row)
       );
     } else {
       setSelectedRows([...selectedRows, row]);
@@ -204,7 +204,7 @@ function DynamicTable({
                 </th>
               )}
               {headerTitles.map((title, index) => (
-                <th key={row.id}>
+                <th key={title}>
                   <input
                     type="button"
                     onClick={() => setSortedBy(rowDataKeys[index])}
@@ -228,7 +228,7 @@ function DynamicTable({
               </tr>
             </tbody>
           ) : (
-            normalizedRows.map((row, index) => (
+            normalizedRows.map((row) => (
               <tbody key={row.id}>
                 <tr onClick={() => onRowClick(row)}>
                   {!readOnly && (
@@ -244,9 +244,9 @@ function DynamicTable({
                       </label>
                     </th>
                   )}
-                  {rowDataKeys.map((key: string, index: number) => (
+                  {rowDataKeys.map((key: string) => (
                     <td
-                      key={row.id}
+                      key={key}
                       onClick={
                         clickableColumns[key]
                           ? () => clickableColumns[key](row)

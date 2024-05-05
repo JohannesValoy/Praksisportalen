@@ -27,7 +27,7 @@ type DynamicTableProps = {
  * @param root0 root
  * @param root0.tableName name of the table
  * @param root0.headers headers of the table
- * @param root0.onRowClick function that happens
+ * @param root0.onRowClick function that happens function that happens when you click a row in the table
  * @param root0.onRowButtonClick click function of the button in each row
  * @param root0.buttonName name of the button in each row
  * @param root0.onAddButtonClick adds data

@@ -49,10 +49,6 @@ install:
       - node_modules/
       - public/
     policy: push
-    key: $CI_COMMIT_REF_SLUG
-    paths:
-      - node_modules/
-      - public/
   script:
     - bun install --also=dev
 

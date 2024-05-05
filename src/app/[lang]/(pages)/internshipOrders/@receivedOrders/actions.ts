@@ -41,31 +41,31 @@ export async function fetchOrders(status: string): Promise<Order[]> {
     .innerJoin(
       "fieldGroups",
       "internshipOrders.id",
-      "fieldGroups.internshipOrderID"
+      "fieldGroups.internshipOrderID",
     )
     .where("internshipOrders.status", status)
     .innerJoin(
       "subFieldGroups",
       "fieldGroups.id",
-      "subFieldGroups.fieldGroupID"
+      "subFieldGroups.fieldGroupID",
     )
     .select("*");
   const studyPrograms = await DBclient.table("studyPrograms")
     .whereIn(
       "studyPrograms.id",
-      orders.map((order) => order.studyProgramID)
+      orders.map((order) => order.studyProgramID),
     )
     .select();
   const educationInstitutes = await DBclient.table("educationInstitutions")
     .select()
     .whereIn(
       "id",
-      studyPrograms.map((studyprogram) => studyprogram.educationInstitutionID)
+      studyPrograms.map((studyprogram) => studyprogram.educationInstitutionID),
     );
 
   const response = orders.map((order) => {
     const studyProgram = studyPrograms.find(
-      (studyProgram) => studyProgram.id === order.studyProgramID
+      (studyProgram) => studyProgram.id === order.studyProgramID,
     );
     return {
       ...order,
@@ -73,7 +73,7 @@ export async function fetchOrders(status: string): Promise<Order[]> {
         ...studyProgram,
         educationInstitute: {
           ...educationInstitutes.find(
-            (institue) => institue.id === studyProgram.educationInstitutionID
+            (institue) => institue.id === studyProgram.educationInstitutionID,
           ),
         },
       },
@@ -88,7 +88,7 @@ export async function fetchOrders(status: string): Promise<Order[]> {
  * @returns A list of the orders.
  */
 export async function paginateInternships(
-  request: InternshipPaginationRequest
+  request: InternshipPaginationRequest,
 ): Promise<PageResponse<Internship>> {
   request.sectionID = Number(request.sectionID);
   request.yearOfStudy = [Number(request.yearOfStudy)];
@@ -120,7 +120,7 @@ export async function getInternshipTypes() {
 export async function saveOrderDistribution(
   subFieldGroupID: number,
   InternshipID: number,
-  amount: number
+  amount: number,
 ) {
   return DBclient.transaction(async (trx) => {
     const subFieldGroup = await trx("subFieldGroups")
@@ -128,7 +128,7 @@ export async function saveOrderDistribution(
       .join(
         "internshipOrders",
         "fieldGroups.internshipOrderID",
-        "internshipOrders.id"
+        "internshipOrders.id",
       )
       .select(
         "subFieldGroups.id",
@@ -137,7 +137,7 @@ export async function saveOrderDistribution(
         "subFieldGroups.startWeek",
         "subFieldGroups.endWeek",
         "internshipOrders.studyProgramID",
-        "internshipOrders.comment"
+        "internshipOrders.comment",
       )
       .where("subFieldGroups.id", subFieldGroupID)
       .first();
@@ -149,7 +149,7 @@ export async function saveOrderDistribution(
       amount
     ) {
       throw new Error(
-        "Not enough students in the subFieldGroup to distribute."
+        "Not enough students in the subFieldGroup to distribute.",
       );
     }
 
@@ -159,12 +159,12 @@ export async function saveOrderDistribution(
       .innerJoin(
         "fieldGroups",
         "internshipOrders.id",
-        "fieldGroups.internshipOrderID"
+        "fieldGroups.internshipOrderID",
       )
       .innerJoin(
         "subFieldGroups",
         "fieldGroups.id",
-        "subFieldGroups.fieldGroupID"
+        "subFieldGroups.fieldGroupID",
       )
       .where("subFieldGroups.id", subFieldGroup.id)
       .first();
@@ -200,7 +200,7 @@ export async function saveOrderDistribution(
         .innerJoin(
           "internships",
           "internshipAgreements.internshipID",
-          "internships.id"
+          "internships.id",
         )
         //Overlaps with the new internship
         .whereNot((builder) => {
@@ -220,7 +220,7 @@ export async function saveOrderDistribution(
         .innerJoin(
           "timeIntervals",
           "internshipAgreements.id",
-          "timeIntervals.internshipAgreement_id"
+          "timeIntervals.internshipAgreement_id",
         )
         //All internships in the same section
         .whereIn("section_id", (builder) => {
@@ -230,7 +230,7 @@ export async function saveOrderDistribution(
             .innerJoin(
               "internshipAgreements",
               "internships.id",
-              "internshipAgreements.internshipID"
+              "internshipAgreements.internshipID",
             )
             .where("internshipAgreements.id", agreement.id);
         });
@@ -286,7 +286,7 @@ export async function saveOrderDistribution(
  */
 export async function saveOrderStatus(
   orderID: number,
-  status: "Finalized" | "Pending"
+  status: "Finalized" | "Pending",
 ) {
   return await DBclient("internshipOrders")
     .where("id", orderID)

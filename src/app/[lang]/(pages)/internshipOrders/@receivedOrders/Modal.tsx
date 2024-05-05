@@ -22,7 +22,7 @@ const InternshipDistributionModal: React.FC<
     (message) => {
       setError(message);
     },
-    [setError]
+    [setError],
   );
 
   const fetchInternships = useCallback(async () => {
@@ -51,7 +51,7 @@ const InternshipDistributionModal: React.FC<
     fetchInternships();
     if (selectedOrder) {
       setStudentsLeft(
-        selectedOrder.numStudents - selectedOrder.numStudentsAccepted
+        selectedOrder.numStudents - selectedOrder.numStudentsAccepted,
       );
       setSelectedRows([]);
       setError(null);
@@ -77,9 +77,9 @@ const InternshipDistributionModal: React.FC<
           selectedOrder.numStudentsAccepted -
           newSelectedRows.reduce(
             (total, row) => total + (row.vacancies > 0 ? row.vacancies : 0),
-            0
-          )
-      )
+            0,
+          ),
+      ),
     );
   };
 
@@ -89,7 +89,7 @@ const InternshipDistributionModal: React.FC<
       const savePromises = selectedRows.map((selectedRow) => {
         const amount = Math.min(
           selectedOrder.numStudents - currNumStudentsAccepted,
-          selectedRow.vacancies
+          selectedRow.vacancies,
         );
         if (amount < 1) {
           return;
@@ -104,7 +104,7 @@ const InternshipDistributionModal: React.FC<
       closeModal();
     } catch (error) {
       handleError(
-        `An error occurred while saving distributions: ${error.message}`
+        `An error occurred while saving distributions: ${error.message}`,
       );
     }
   };
@@ -114,7 +114,7 @@ const InternshipDistributionModal: React.FC<
       await saveOrderDistribution(subFieldGroupID, InternshipID, amount);
     } catch (error) {
       handleError(
-        "An error occurred while saving the distribution: " + error.message
+        "An error occurred while saving the distribution: " + error.message,
       );
     }
   };

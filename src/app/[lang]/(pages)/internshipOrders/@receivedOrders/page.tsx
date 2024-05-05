@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { fetchOrders, saveOrderStatus } from "./actions";
 import ErrorModal from "@/app/components/ErrorModal";
 import InternshipDistributionModal from "./Modal";
@@ -26,11 +26,12 @@ function Page() {
   /**
    * Fetches the orders from the database.
    */
-  function fetch() {
+  const fetch = useCallback(() => {
     fetchOrders(filterStatus)
       .then(setOrders)
       .catch((error) => setError(error.message));
-  }
+  }, [filterStatus]);
+
   useEffect(() => {
     fetchOrders(filterStatus)
       .then(setOrders)
@@ -51,6 +52,13 @@ function Page() {
     setIsModalOpen(false);
     setSelectedOrder(null);
   };
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      fetch();
+    }
+    console.log("updating");
+  }, [fetch, isModalOpen]);
 
   return (
     <>

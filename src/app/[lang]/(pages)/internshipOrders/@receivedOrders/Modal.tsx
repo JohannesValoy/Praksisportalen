@@ -86,16 +86,19 @@ const InternshipDistributionModal: React.FC<
   };
 
   const saveRows = async () => {
+    let currNumStudentsAccepted = selectedOrder.numStudentsAccepted;
     try {
       for (let selectedRow of selectedRows) {
-        await saveDistribution(
-          selectedOrder.id,
-          selectedRow.id,
-          Math.min(
-            selectedOrder.numStudents - selectedOrder.numStudentsAccepted,
-            selectedRow.vacancies
-          )
+        const amount = Math.min(
+          selectedOrder.numStudents - currNumStudentsAccepted,
+          selectedRow.vacancies
         );
+        if (amount < 1) {
+          return;
+        }
+
+        await saveDistribution(selectedOrder.id, selectedRow.id, amount);
+        currNumStudentsAccepted += amount;
       }
       closeModal();
     } catch (error) {

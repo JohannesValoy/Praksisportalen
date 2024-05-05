@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/solid";
 
@@ -124,6 +123,7 @@ export default function Gantt({
                         alignItems: "center",
                         zIndex: 99,
                       }}
+                      className="bg-primary"
                     >
                       <span
                         className="w-full h-full bg-primary rounded-full"

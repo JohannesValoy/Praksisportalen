@@ -12,13 +12,27 @@ interface DataItem {
 }
 
 /**
- * The StudentPage component displays a Gantt chart.
- * @param root The root object.
- * @param root.user The user object.
- * @returns The StudentPage component.
+ *
+ * @param date
+ * @param studentID
  */
-export default async function StudentPage({ user }) {
-  const datalist = await DBClient.transaction(async (trx) => {
+async function getStudentAgreementGanttIntervals(
+  date: Date,
+  studentID: string
+): Promise<GanttProp[]> {
+  date.setDate(date.getDate() - date.getDay());
+  const startDate = new Date(date);
+  startDate.setHours(0);
+  startDate.setMinutes(0);
+  startDate.setSeconds(0);
+  startDate.setMilliseconds(0);
+  date.setDate(date.getDate() + 6);
+  const endDate = new Date(date);
+  startDate.setHours(23);
+  startDate.setMinutes(59);
+  startDate.setSeconds(59);
+  startDate.setMilliseconds(999);
+  return await DBClient.transaction(async (trx) => {
     const agreements = await trx
       .from("internshipAgreements")
       .select(
@@ -27,7 +41,7 @@ export default async function StudentPage({ user }) {
         "timeIntervals.startDate",
         "timeIntervals.endDate"
       )
-      .where("studentID", user.id)
+      .where("studentID", studentID)
       .innerJoin(
         "internships",
         "internships.id",
@@ -37,7 +51,9 @@ export default async function StudentPage({ user }) {
         "timeIntervals",
         "timeIntervals.internshipAgreementID",
         "internshipAgreements.id"
-      );
+      )
+      .where("timeIntervals.startDate", ">=", startDate)
+      .andWhere("timeIntervals.startDate", "<=", endDate);
     const datalist: GanttProp[] = [];
     agreements.forEach((agreement) => {
       let agreementObject: GanttProp = datalist.find(
@@ -58,5 +74,15 @@ export default async function StudentPage({ user }) {
     });
     return datalist;
   });
+}
+
+/**
+ * The StudentPage component displays a Gantt chart.
+ * @param root The root object.
+ * @param root.user The user object.
+ * @returns The StudentPage component.
+ */
+export default async function StudentPage({ user }) {
+  const datalist = await getStudentAgreementGanttIntervals(new Date(), user.id);
   return <Gantt datalist={datalist} />;
 }

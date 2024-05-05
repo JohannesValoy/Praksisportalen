@@ -31,7 +31,7 @@ The entire project is containerized and can be run in a development environment 
 docker-compose up
 
 # Run the production environment
-# You will need to set the environment variables in the .env file to the correct values 
+# You will need to set the environment variables in the .env file to the correct values
 docker-compose -f docker-compose.prod.yml up
 
 ```

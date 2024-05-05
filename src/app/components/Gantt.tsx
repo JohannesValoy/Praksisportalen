@@ -2,21 +2,12 @@
 import React from "react";
 
 /**
- * A DataItem is representing a time slot with a name, and id
- */
-interface DataItem {
-  id: number;
-  row_id: number;
-  name: string;
-  startDate: Date;
-  endDate: Date;
-}
-
-/**
  * The GanttProps interface represents the props of the Gantt component.
  */
-interface GanttProps {
-  datalist: DataItem[];
+export interface GanttProp {
+  id: number;
+  name: string;
+  intervals: { startDate: Date; endDate: Date }[];
   onClickUrl?: string;
 }
 
@@ -26,22 +17,25 @@ interface MonthMarker {
 }
 
 /**
- * The DateRange interface represents the date range.
- */
-interface DateRange {
-  [key: string]: Array<[Date, Date, number]>;
-}
-
-/**
  * The Gantt component displays a Gantt chart.
  * @param root The root object.
  * @param root.datalist The data list.
  * @param root.onClickUrl The URL to redirect to on click.
  * @returns A Gantt chart.
  */
-const Gantt: React.FC<GanttProps> = ({ datalist, onClickUrl }) => {
-  const startDates = datalist.map((item) => new Date(item.startDate).getTime());
-  const endDates = datalist.map((item) => new Date(item.endDate).getTime());
+export default function Gantt({
+  datalist,
+}: Readonly<{
+  datalist: GanttProp[];
+}>) {
+  const startDates = datalist
+    .map((item) =>
+      item.intervals.map((interval) => interval.startDate.getTime())
+    )
+    .flat();
+  const endDates = datalist
+    .map((item) => item.intervals.map((interval) => interval.endDate.getTime()))
+    .flat();
   const minStartDate = Math.min(...startDates);
   const maxEndDate = Math.max(...endDates);
   const totalTime = maxEndDate - minStartDate;
@@ -64,17 +58,6 @@ const Gantt: React.FC<GanttProps> = ({ datalist, onClickUrl }) => {
     currentMonth.setMonth(currentMonth.getMonth() + 1);
   }
 
-  const groupedData: DateRange = datalist.reduce(
-    (acc: DateRange, curr: DataItem) => {
-      const { name, startDate, endDate, row_id } = curr;
-      if (!acc[name]) {
-        acc[name] = [];
-      }
-      acc[name].push([new Date(startDate), new Date(endDate), row_id]); // Include row_id here
-      return acc;
-    },
-    {},
-  );
   return (
     <div
       className="bg-base-200 w-full  p-5 rounded-lg flex flex-col items-center justify-center"
@@ -98,7 +81,7 @@ const Gantt: React.FC<GanttProps> = ({ datalist, onClickUrl }) => {
               paddingRight: "2%",
             }}
           >
-            {Object.keys(groupedData).map((section, index) => (
+            {datalist.map((data, index) => (
               <div
                 style={{
                   height: "100%",
@@ -108,20 +91,20 @@ const Gantt: React.FC<GanttProps> = ({ datalist, onClickUrl }) => {
                 }}
                 key={index}
               >
-                {section}
+                {data.name}
               </div>
             ))}
           </div>
 
           <div className="rounded-lg flex-1 flex flex-col relative h-full">
-            {Object.values(groupedData).map((dateRanges, index) => (
+            {datalist.map((dateRanges, index) => (
               <div
                 key={index}
                 className="flex flex-row"
                 style={{ height: "100%", position: "relative" }}
               >
-                {dateRanges.map((dateRange, index) => {
-                  const [startDate, endDate, row_id] = dateRange;
+                {dateRanges.intervals.map((dateRange, index) => {
+                  const { startDate, endDate } = dateRange;
                   const duration = endDate.getTime() - startDate.getTime();
                   const offset = startDate.getTime() - minStartDate;
                   const widthPercent = (duration / totalTime) * 100;
@@ -140,26 +123,10 @@ const Gantt: React.FC<GanttProps> = ({ datalist, onClickUrl }) => {
                         zIndex: 99,
                       }}
                     >
-                      <a
-                        href={onClickUrl ? `${onClickUrl + row_id}` : null}
-                        className="btn btn-primary"
-                        style={{
-                          borderRadius: "5px",
-                          height: "50%",
-                          width: "100%",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          textDecoration: "none",
-                          pointerEvents: onClickUrl ? "auto" : "none",
-                        }}
-                      >
-                        <span>
-                          start: {startDate.toLocaleDateString()} <br />
-                          end: {endDate.toLocaleDateString()}
-                        </span>
-                      </a>
+                      <span className="btn btn-primary">
+                        start: {startDate.toLocaleDateString()} <br />
+                        end: {endDate.toLocaleDateString()}
+                      </span>
                     </div>
                   );
                 })}
@@ -193,6 +160,4 @@ const Gantt: React.FC<GanttProps> = ({ datalist, onClickUrl }) => {
       </div>
     </div>
   );
-};
-
-export default Gantt;
+}

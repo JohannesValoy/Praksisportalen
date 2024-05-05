@@ -1,5 +1,5 @@
-import Gantt from "@/app/components/Gantt";
-
+import Gantt, { GanttProp } from "@/app/components/Gantt";
+import DBClient from "@/knex/config/DBClient";
 /**
  * The DataItem interface represents the shape of the data items.
  */
@@ -17,36 +17,46 @@ interface DataItem {
  * @param root.user The user object.
  * @returns The StudentPage component.
  */
-export default function StudentPage({ user }) {
-  const datalist: DataItem[] = [
-    {
-      id: 1,
-      row_id: 1,
-      name: "Section 1",
-      startDate: new Date(2024, 2, 20),
-      endDate: new Date(2024, 4, 28),
-    },
-    {
-      id: 2,
-      row_id: 2,
-      name: "Section 2",
-      startDate: new Date(2024, 0, 25),
-      endDate: new Date(2024, 2, 20),
-    },
-    {
-      id: 3,
-      row_id: 2,
-      name: "Section 2",
-      startDate: new Date(2024, 4, 28),
-      endDate: new Date(2024, 8, 1),
-    },
-    {
-      id: 4,
-      row_id: 6,
-      name: "Section 6",
-      startDate: new Date(2024, 8, 1),
-      endDate: new Date(2024, 10, 31),
-    },
-  ];
+export default async function StudentPage({ user }) {
+  const datalist = await DBClient.transaction(async (trx) => {
+    const agreements = await trx
+      .from("internshipAgreements")
+      .select(
+        "internships.name",
+        "internshipAgreements.id",
+        "timeIntervals.startDate",
+        "timeIntervals.endDate"
+      )
+      .where("studentID", user.id)
+      .innerJoin(
+        "internships",
+        "internships.id",
+        "internshipAgreements.internshipID"
+      )
+      .innerJoin(
+        "timeIntervals",
+        "timeIntervals.internshipAgreementID",
+        "internshipAgreements.id"
+      );
+    const datalist: GanttProp[] = [];
+    agreements.forEach((agreement) => {
+      let agreementObject: GanttProp = datalist.find(
+        (data) => data.name === agreement.name
+      );
+      if (!agreementObject) {
+        agreementObject = {
+          id: agreement.id,
+          name: agreement.name,
+          intervals: [],
+        };
+        datalist.push(agreementObject);
+      }
+      agreementObject.intervals.push({
+        startDate: agreement.startDate,
+        endDate: agreement.endDate,
+      });
+    });
+    return datalist;
+  });
   return <Gantt datalist={datalist} />;
 }

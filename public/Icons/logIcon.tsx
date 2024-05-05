@@ -1,5 +1,6 @@
 /*
   Icon title: "History"
+  author: Keyamoon
   From icon set: "IconaMoon Icon Set"
   Available at: "https://iconduck.com/icons/49214/history"
   In set: "https://iconduck.com/sets/icomoon-free-icon-set"

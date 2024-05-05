@@ -12,6 +12,7 @@ import JSONSections from "./sections-finished.json";
 import JSONDepartment from "./departments-finished.json";
 import JSONInternshipAgreements from "./internshipAgreements-finished.json";
 import { randomInt } from "crypto";
+import { Agent } from "http";
 
 /**
  * Seeds the database with the data from the JSON files
@@ -195,33 +196,32 @@ export const seed = async function (knex: Knex) {
   await knex("studyPrograms").insert(JSONStudies);
 
   const internships = [];
-
+  const referencePoint = Date.now();
   JSONInternshipAgreements.forEach((agreement) => {
     const direction = Math.random() > 0.5 ? 1 : -1;
-    const offset = Math.floor(Math.random() * 6);
+    const offset = 0;
 
     const offset2 = agreement.student_id
       ? internships.filter(
           (i) =>
             i.student_id === agreement.student_id &&
             (direction === 1
-              ? i.startDate >= Date.now()
-              : i.startDate <= Date.now()),
+              ? i.endDate >= referencePoint
+              : i.startDate <= referencePoint)
         ).length * 2
       : 0;
-    const dates = [new Date(), new Date()];
+    const dates = [new Date(referencePoint), new Date(referencePoint)];
     dates[0].setDate(dates[0].getDate() + direction * (offset + offset2 * 14));
     dates[1].setDate(
-      dates[1].getDate() + direction * (offset + (offset2 + 1) * 14),
+      dates[1].getDate() + direction * (offset + (offset2 + 1) * 14)
     );
     dates.sort((a, b) => a.getTime() - b.getTime());
     internships.push({
       ...agreement,
-      startDate: new Date(dates[0]),
-      endDate: new Date(dates[1]),
+      startDate: dates[0],
+      endDate: dates[1],
     });
   });
-
   await knex("internshipAgreements").insert(internships);
 
   const timeIntervals = [];
@@ -230,7 +230,7 @@ export const seed = async function (knex: Knex) {
     const endDate: Date = internship.endDate;
     const weeklyPracticeDays = 2;
     const sameSectionInternships = internships.filter(
-      (inter) => inter.section_id === internship.section_id,
+      (inter) => inter.section_id === internship.section_id
     );
     while (startDate.getTime() < endDate.getTime()) {
       const daysInTheWeek = [];
@@ -246,7 +246,7 @@ export const seed = async function (knex: Knex) {
       }
       startDate.setDate(startDate.getDate() + 1);
       let days: Date[] = daysInTheWeek.toSorted((a, b) =>
-        differenceInBusyness(a, b, sameSectionInternships, timeIntervals),
+        differenceInBusyness(a, b, sameSectionInternships, timeIntervals)
       );
       if (days.length > weeklyPracticeDays) {
         days = [days[0], days[randomInt(1, days.length - 1)]];
@@ -279,7 +279,7 @@ function differenceInBusyness(
   a: any,
   b: any,
   sameSectionInternships: any[],
-  timeIntervals: any[],
+  timeIntervals: any[]
 ) {
   return (
     timeIntervals.filter((ti) => {

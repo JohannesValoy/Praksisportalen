@@ -315,7 +315,7 @@ export async function up(knex: Knex): Promise<void> {
       BEFORE INSERT ON internshipAgreements
       FOR EACH ROW
       BEGIN
-        IF 0 >= availableInternshipsSpotsBetweenDates(NEW.internship_id, NEW.startDate , NEW.endDate)  THEN
+        IF 0 > availableInternshipsSpotsBetweenDates(NEW.internship_id, NEW.startDate , NEW.endDate)  THEN
           SIGNAL SQLSTATE '45000'
           SET MESSAGE_TEXT = 'Internship is full';
         END IF;

@@ -72,6 +72,19 @@ export default function Page() {
     }
   };
 
+  const sendUpdateUI = async (item) => {
+    const response = await sendData(item);
+    if (response.status === 200) {
+      successCount.current++;
+    } else {
+      failureCount.current++;
+      setFailedRecords((failedRecords) => [
+        ...failedRecords,
+        { record: item, error: response.statusText },
+      ]);
+    }
+  };
+
   /**
    * The handleUpload function handles the file upload.
    */
@@ -87,21 +100,12 @@ export default function Page() {
         const data = await parseCSV(text);
         Promise.all(
           data.map(async (item) => {
-            const response = await sendData(item);
-            if (response.status === 200) {
-              successCount.current++;
-            } else {
-              failureCount.current++;
-              setFailedRecords((failedRecords) => [
-                ...failedRecords,
-                { record: item, error: response.statusText },
-              ]);
-            }
+            await sendUpdateUI(item);
             setProgress(
               ((successCount.current + failureCount.current) / data.length) *
-                100,
+                100
             );
-          }),
+          })
         ).finally(() => {
           setLoading(false);
           setUploaded(true);

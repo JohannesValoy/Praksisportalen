@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { editSectionDetails } from "./action";
-import Dropdown from "@/app/components/Dropdowns/Dropdown";
+import Dropdown from "@/app/_components/Dropdowns/Dropdown";
 import { Section } from "@/app/_models/Section";
-import AddInternship from "../../../../components/Modals/AddInternshipModal";
-import EmployeeDropdown from "@/app/components/Dropdowns/EmployeeDropdown";
-import EditModal from "@/app/components/Modals/EditModal";
-import InternshipTable from "@/app/components/DynamicTables/InternshipTable";
+import AddInternship from "../../../../_components/Modals/AddInternshipModal";
+import EmployeeDropdown from "@/app/_components/Dropdowns/EmployeeDropdown";
+import EditModal from "@/app/_components/Modals/EditModal";
+import InternshipTable from "@/app/_components/DynamicTables/InternshipTable";
 
 type Props = {
   section: Section;

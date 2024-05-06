@@ -1,6 +1,6 @@
 "use client";
 
-import Gantt from "../../../../components/Gantt";
+import Gantt from "../../../../_components/Gantt";
 import { getStudentAgreementGanttIntervals } from "@/app/[lang]/(pages)/profile/_student/student";
 
 /**

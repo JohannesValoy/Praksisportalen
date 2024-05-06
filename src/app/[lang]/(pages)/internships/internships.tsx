@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import AddInternship from "../../../components/Modals/AddInternshipModal";
-import InternshipTable from "@/app/components/DynamicTables/InternshipTable";
+import AddInternship from "../../../_components/Modals/AddInternshipModal";
+import InternshipTable from "@/app/_components/DynamicTables/InternshipTable";
 
 /**
  * The ListOfInternships component displays a table of internships and an add button.

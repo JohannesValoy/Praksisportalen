@@ -5,7 +5,7 @@ import {
   createEmployee,
   fetchEmployeesEmail,
 } from "../../[lang]/(pages)/users/add/action";
-import ContainerBox from "@/app/components/ContainerBox";
+import ContainerBox from "@/app/_components/ContainerBox";
 import { generatePassword } from "@/services/EmployeeService";
 
 type Props = {

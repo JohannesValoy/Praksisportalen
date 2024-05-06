@@ -1,5 +1,5 @@
 "use client";
-import SuccessDialog from "@/app/components/Modals/SuccessAddDialog";
+import SuccessDialog from "@/app/_components/Modals/SuccessAddDialog";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
@@ -7,8 +7,8 @@ import {
   fetchEducationInstitutions,
   fetchStudyPrograms,
 } from "./action";
-import Dropdown from "@/app/components/Dropdowns/Dropdown";
-import ContainerBox from "@/app/components/ContainerBox";
+import Dropdown from "@/app/_components/Dropdowns/Dropdown";
+import ContainerBox from "@/app/_components/ContainerBox";
 
 /**
  * Creates a page that allows for adding a study program.
@@ -36,7 +36,7 @@ export default function Page() {
       name.trim() === "" ||
       educationInstitutionID === null ||
       studyPrograms.some(
-        (sp) => sp.name === name.trim() && sp.eduID === educationInstitutionID,
+        (sp) => sp.name === name.trim() && sp.eduID === educationInstitutionID
       )
     ) {
       setIsSubmitDisabled(true);
@@ -59,7 +59,7 @@ export default function Page() {
         setEducationInstitutions(data);
       })
       .catch((error) =>
-        console.error("Failed to fetch Education Institutions", error),
+        console.error("Failed to fetch Education Institutions", error)
       );
   }, []);
 
@@ -113,7 +113,7 @@ export default function Page() {
             options={educationInstitutions}
             selectedOption={
               educationInstitutions.find(
-                (edu) => edu.id === educationInstitutionID,
+                (edu) => edu.id === educationInstitutionID
               ) || null
             }
             setSelectedOption={(edu) =>

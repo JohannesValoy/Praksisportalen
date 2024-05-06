@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { createRecord } from "./actions";
-import ContainerBox from "@/app/components/ContainerBox";
+import ContainerBox from "@/app/_components/ContainerBox";
 
 /**
  * The Page component is the bulk import page.
@@ -84,7 +84,7 @@ export default function Page() {
               failedRecords.push({ record: item, error: response.statusText });
             }
             setProgress(((successCount + failureCount) / data.length) * 100);
-          }),
+          })
         ).finally(() => {
           setLoading(false);
           setUploaded(true);

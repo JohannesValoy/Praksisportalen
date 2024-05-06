@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import AddDepartment from "../../../components/Modals/AddDepartmentModal";
-import DepartmentTable from "@/app/components/DynamicTables/DepartmentTable";
+import AddDepartment from "../../../_components/Modals/AddDepartmentModal";
+import DepartmentTable from "@/app/_components/DynamicTables/DepartmentTable";
 
 /**
  * The ListOfDepartments component displays a list of departments.

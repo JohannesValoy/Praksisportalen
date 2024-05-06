@@ -1,5 +1,5 @@
 "use server";
-import { GanttProp } from "@/app/components/Gantt";
+import { GanttProp } from "@/app/_components/Gantt";
 import DBClient from "@/knex/config/DBClient";
 import StudentGantt from "./StudentGantt";
 /**
@@ -23,7 +23,7 @@ interface DataItem {
 export async function getStudentAgreementGanttIntervals(
   date: Date,
   studentID: string,
-  days: number = 6,
+  days: number = 6
 ): Promise<GanttProp[]> {
   date.setDate(date.getDate() - date.getDay());
   const startDate = new Date(date);
@@ -44,25 +44,25 @@ export async function getStudentAgreementGanttIntervals(
         "internships.name",
         "internshipAgreements.id",
         "timeIntervals.startDate",
-        "timeIntervals.endDate",
+        "timeIntervals.endDate"
       )
       .where("studentID", studentID)
       .innerJoin(
         "internships",
         "internships.id",
-        "internshipAgreements.internshipID",
+        "internshipAgreements.internshipID"
       )
       .innerJoin(
         "timeIntervals",
         "timeIntervals.internshipAgreementID",
-        "internshipAgreements.id",
+        "internshipAgreements.id"
       )
       .where("timeIntervals.startDate", ">=", startDate)
       .andWhere("timeIntervals.startDate", "<=", endDate);
     const datalist: GanttProp[] = [];
     agreements.forEach((agreement) => {
       let agreementObject: GanttProp = datalist.find(
-        (data) => data.name === agreement.name,
+        (data) => data.name === agreement.name
       );
       if (!agreementObject) {
         agreementObject = {

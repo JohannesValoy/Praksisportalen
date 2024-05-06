@@ -17,7 +17,6 @@ export const authoptions: NextAuthOptions = {
       if (user) {
         token.email = undefined;
         token.name = undefined;
-        token.id = user.id;
         token.role = user.role;
         token.id = user.id;
       }
@@ -25,7 +24,6 @@ export const authoptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (token && session.user) {
-        session.user.id = token.id;
         session.user.role = token.role;
         session.user.id = token.id;
       }

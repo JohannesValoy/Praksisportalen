@@ -1,6 +1,6 @@
 "use client";
 
-import SectionTable from "@/app/components/DynamicTables/SectionTable";
+import SectionTable from "@/app/_components/DynamicTables/SectionTable";
 
 /**
  * The EmployeePage component displays a table of sections.

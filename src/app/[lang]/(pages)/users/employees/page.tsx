@@ -1,5 +1,5 @@
 "use client";
-import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
+import DynamicTable from "@/app/_components/DynamicTables/DynamicTable";
 import { paginateEmployees } from "./actions";
 import { deleteEmployee } from "@/services/EmployeeService";
 import { getDictionary } from "@/app/[lang]/dictionaries";
@@ -18,7 +18,7 @@ const ListOfEmployees = ({ params }) => {
   const router = useRouter();
 
   getDictionary(params.lang).then((words) =>
-    setWords(words?.administerEmployees),
+    setWords(words?.administerEmployees)
   );
 
   const handleEmailClick = (user) => {

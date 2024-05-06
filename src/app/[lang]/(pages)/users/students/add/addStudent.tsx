@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import SuccessDialog from "@/app/components/Modals/SuccessAddDialog";
-import ContainerBox from "@/app/components/ContainerBox";
+import SuccessDialog from "@/app/_components/Modals/SuccessAddDialog";
+import ContainerBox from "@/app/_components/ContainerBox";
 import { createStudent } from "../../add/action";
 
 type Props = {

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import StudentTable from "@/app/components/DynamicTables/StudentTable";
+import StudentTable from "@/app/_components/DynamicTables/StudentTable";
 
 /**
  * The ListOfStudents component displays a list of students.

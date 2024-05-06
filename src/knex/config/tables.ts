@@ -1,4 +1,5 @@
 //DO NOT REMOVE THE FOLLOWING IMPORT, IT IS NEEDED FOR TYPE DECLARATIONS
+import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
 import { Knex } from "knex";
 
 declare module "knex/types/tables.js" {
@@ -25,7 +26,7 @@ declare module "knex/types/tables.js" {
   }
 
   interface UsersView extends UserAttributes {
-    role: string;
+    role: Role;
   }
   interface DepartmentTable {
     id: number;

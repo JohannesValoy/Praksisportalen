@@ -1,6 +1,6 @@
 "use client";
 
-import StudentTable from "@/app/components/DynamicTables/StudentTable";
+import StudentTable from "@/app/_components/DynamicTables/StudentTable";
 
 /**
  * The CoordinatorPage component displays a table of students.

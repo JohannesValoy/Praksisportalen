@@ -1,10 +1,10 @@
 "use client";
 
-import ContainerBox from "@/app/components/ContainerBox";
+import ContainerBox from "@/app/_components/ContainerBox";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { fetchOrders } from "../../internshipOrders/@receivedOrders/actions";
-import ErrorModal from "@/app/components/ErrorModal";
+import ErrorModal from "@/app/_components/ErrorModal";
 
 /**
  * The admin layout component contains the main dashboard for the admin

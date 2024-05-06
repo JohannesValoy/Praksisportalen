@@ -47,7 +47,7 @@ export default function ThemeSwap() {
       aria-label="theme selection"
     >
       {themes.map((theme, index) => (
-        <option className="bg-base-300" key={index} value={theme}>
+        <option className="bg-base-300" key={theme} value={theme}>
           {theme}
         </option>
       ))}

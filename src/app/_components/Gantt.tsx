@@ -11,11 +11,6 @@ export interface GanttProp {
   onClickUrl?: string;
 }
 
-interface MonthMarker {
-  label: string;
-  offsetPercent: number;
-}
-
 /**
  * The Gantt component displays a Gantt chart.
  * @param root The root object.
@@ -34,7 +29,6 @@ export default function Gantt({
   minStartDate.setDate(minStartDate.getDate() - minStartDate.getDay());
   const maxEndDate = new Date(minStartDate);
   maxEndDate.setDate(maxEndDate.getDate() + 6);
-  //const totalTime = maxEndDate.getTime() - minStartDate.getTime();
   const totalTime = 604800000;
 
   useEffect(() => {
@@ -59,34 +53,7 @@ export default function Gantt({
     fetchData(currentDate.current).then(setDatalist);
   }
 
-  const startDates = datalist
-    .map((item) =>
-      item.intervals.map((interval) => interval.startDate.getTime()),
-    )
-    .flat();
-  const endDates = datalist
-    .map((item) => item.intervals.map((interval) => interval.endDate.getTime()))
-    .flat();
   let weekNumber = getISOWeekNumber(currentDate.current);
-
-  const monthMarkers: MonthMarker[] = [];
-  let currentMonth = new Date(minStartDate);
-  if (currentMonth.getDate() > 0) {
-    currentMonth.setMonth(currentMonth.getMonth() + 1);
-  }
-  currentMonth.setDate(1); // Set to the first day of the month
-
-  while (currentMonth.getTime() <= maxEndDate.getTime()) {
-    const monthStart = currentMonth.getTime();
-    const offsetPercent =
-      ((monthStart - minStartDate.getTime()) / totalTime) * 100;
-
-    monthMarkers.push({
-      label: currentMonth.toLocaleString("default", { month: "short" }),
-      offsetPercent,
-    });
-    currentMonth.setMonth(currentMonth.getMonth() + 1);
-  }
 
   /**
    * Gets the current week number from first start day of the array. Made mainly by Windows Copilot
@@ -96,13 +63,13 @@ export default function Gantt({
   function getISOWeekNumber(date: Date): number {
     // Copy date so don't modify original
     const tempDate = new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
     );
 
     // Set to nearest Thursday (unix start day): current date + 4 - current day number
     // Make Sunday's day number 7
     tempDate.setUTCDate(
-      tempDate.getUTCDate() + 4 - (tempDate.getUTCDay() || 7),
+      tempDate.getUTCDate() + 4 - (tempDate.getUTCDay() || 7)
     );
 
     // Get first day of year
@@ -110,7 +77,7 @@ export default function Gantt({
 
     // Calculate full weeks to nearest Thursday
     const weekNo = Math.ceil(
-      ((tempDate.getTime() - yearStart.getTime()) / 86400000 + 1) / 7,
+      ((tempDate.getTime() - yearStart.getTime()) / 86400000 + 1) / 7
     );
 
     // Return the week number
@@ -132,7 +99,7 @@ export default function Gantt({
       className="bg-secondary-200 w-full  p-5 rounded-lg flex flex-col items-center justify-center"
       style={{
         overflowX: "auto",
-        height: "80vh", //bad use of vh
+        height: "80vh",
         width: "95%",
         border: "1px solid rgba(100,100,100,0.2)",
       }}

@@ -30,9 +30,12 @@ export default function Gantt({
   const [datalist, setDatalist] = useState([]);
   const currentDate = useRef(new Date());
   const minStartDate = new Date(currentDate.current);
+  minStartDate.setHours(0, 0, 0, 0);
   minStartDate.setDate(minStartDate.getDate() - minStartDate.getDay());
   const maxEndDate = new Date(minStartDate);
   maxEndDate.setDate(maxEndDate.getDate() + 6);
+  //const totalTime = maxEndDate.getTime() - minStartDate.getTime();
+  const totalTime = 604800000;
 
   useEffect(() => {
     fetchData(currentDate.current).then((data) => setDatalist(data));
@@ -65,7 +68,6 @@ export default function Gantt({
     .map((item) => item.intervals.map((interval) => interval.endDate.getTime()))
     .flat();
   let weekNumber = getISOWeekNumber(currentDate.current);
-  const totalTime = maxEndDate.getTime() - minStartDate.getTime();
 
   const monthMarkers: MonthMarker[] = [];
   let currentMonth = new Date(minStartDate);
@@ -116,13 +118,13 @@ export default function Gantt({
   }
 
   const daysOfWeek = [
+    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
     "Saturday",
-    "Sunday",
   ];
 
   return (
@@ -163,7 +165,7 @@ export default function Gantt({
           </div>
 
           <div className="flex-1 flex flex-col relative h-full">
-            <div className="h-full bg-base-200 rounded-lg p-3 m-3">
+            <div className="h-full bg-base-200 rounded-lg py-3 my-3">
               {datalist.map((dateRanges, index) => (
                 <div
                   key={index}
@@ -172,23 +174,32 @@ export default function Gantt({
                 >
                   {dateRanges.intervals.map((dateRange, index) => {
                     const { startDate, endDate } = dateRange;
-                    const duration = endDate.getTime() - startDate.getTime();
+
                     const offset = startDate.getTime() - minStartDate.getTime();
+                    const duration = endDate.getTime() - startDate.getTime();
                     const widthPercent = (duration / totalTime) * 100;
                     const marginLeftPercent = (offset / totalTime) * 100;
+                    console.log("minStartDate: " + minStartDate);
+                    console.log(`startDate: ${startDate}`);
+                    console.log(`endDate: ${endDate}`);
+                    console.log(`offset: ${offset}`);
+                    console.log(`duration: ${duration}`);
+                    console.log(`widthPercent: ${widthPercent}`);
+                    console.log(`marginLeftPercent: ${marginLeftPercent}`);
                     return (
                       <div
                         key={index}
                         style={{
+                          margin: 0,
                           width: `${widthPercent}%`,
                           marginLeft: `${marginLeftPercent}%`,
                           height: "100%",
                           position: "absolute",
                           display: "flex",
                           justifyContent: "center",
+                          padding: 0,
                           alignItems: "center",
                           zIndex: 99,
-                          transform: "translateX(-50%)",
                         }}
                         //Shows up when hovering over it
                         title={`start: ${startDate.toLocaleString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })}\nend: ${endDate.toLocaleString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })}`}
@@ -198,7 +209,7 @@ export default function Gantt({
                   })}
                 </div>
               ))}
-              {monthMarkers.map((marker, index) => (
+              {/*  {monthMarkers.map((marker, index) => (
                 <div
                   key={index}
                   className="absolute bg-primary"
@@ -220,7 +231,7 @@ export default function Gantt({
                     {marker.label}
                   </div>
                 </div>
-              ))}
+              ))} */}
             </div>
             <div className="flex flex-row w-full h-fit">
               {daysOfWeek.map((day) => (

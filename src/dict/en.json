@@ -1,0 +1,28 @@
+{
+  "dashboard": {},
+  "login": {
+    "pageName": "Login",
+    "header": "Login",
+    "loginButton": "Login",
+    "feideLoginButton": "Login with Feide",
+    "username": "Username",
+    "password": "Password"
+  },
+
+  "administerEmployees": {
+    "pageName": "Administer Employees",
+    "header": "Employees",
+    "addEmployeeButton": "Add Employee",
+    "editEmployeeButton": "Edit Employee",
+    "deleteEmployeeButton": "Delete Employee",
+    "employeeTable": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "department": "Department",
+      "position": "Position",
+      "location": "Location",
+      "employeeId": "Employee ID"
+    }
+  }
+}

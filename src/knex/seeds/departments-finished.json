@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Avdeling for sjukehuspsykiatri Nordm\u00f8re og Romsdal",
+    "id": 1
+  },
+  { "name": "Avdeling for anestesi, operasjon og intensiv(SNR)", "id": 2 },
+  { "name": "Avdeling Volda sjukehus", "id": 3 },
+  { "name": "Avdeling akutt, operasjon og intensiv, \u00c5lesund", "id": 4 },
+  { "name": "Avdeling kirurgi, \u00c5lesund", "id": 5 },
+  { "name": "Avdeling medisin, \u00c5lesund", "id": 6 },
+  { "name": "Avdeling for kvinner, barnemedisin og habilitering", "id": 7 },
+  { "name": "Avdeling kreftbehandling og rehabilitering", "id": 8 },
+  { "name": "Avdeling for sjukehuspsykiatri Sunnm\u00f8re", "id": 9 },
+  { "name": "Avdeling for DPS Sunnm\u00f8re", "id": 10 },
+  {
+    "name": "Avdeling for tverrfaglig spesialisert rusbehandling (TSB)",
+    "id": 11
+  },
+  { "name": "Avdeling for psykisk helsevern Barn og unge (PHBU)", "id": 12 }
+]

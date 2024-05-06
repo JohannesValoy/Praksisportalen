@@ -1,0 +1,31 @@
+# @format
+
+services:
+  web:
+    build:
+      context: .
+      target: dev
+    environment:
+      DATABASE_URL: mysql://root:changeme@db/praksislista
+      FEIDE_CLIENT_ID: b88b132a-2f04-49ef-aa4c-ab906312284c
+      FEIDE_CLIENT_SECRET: 53a00bbb-9ef7-409a-baf5-d68942c4b691
+      NEXTAUTH_SECRET: HelloWorld
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+        - action: sync
+          path: ./public
+          target: /app/public
+        - action: rebuild
+          path: package.json
+        - action: sync
+          path: ./tailwind.config.ts
+          target: /app/tailwind.config.ts
+
+  db:
+    environment:
+      MYSQL_ROOT_PASSWORD: changeme
+    ports:
+      - 3306:3306

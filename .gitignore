@@ -34,3 +34,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# vscode
+.vscode
+
+# Webstorm IDE
+.idea
+
+#qodana
+qodana.yaml
+
+# bun and npm
+npm-debug.log
+package-lock.json
+bun.lockb

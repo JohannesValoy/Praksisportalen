@@ -86,6 +86,9 @@ export default function Page() {
 
       <ContainerBox title={title}>
         <div className="flex flex-col gap-5 justify-center">
+          {orders?.length === 0 ? (
+            <div className="text-neutral-content text-center">No orders</div>
+          ) : null}
           {Object.keys(groupedOrders).map((internshipOrderID) => (
             <div
               key={internshipOrderID}

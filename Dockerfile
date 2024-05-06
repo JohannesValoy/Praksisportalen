@@ -30,7 +30,7 @@ RUN bun install --production
 # [optional] tests & build
 ENV NODE_ENV=production
 RUN bun test
-RUN bun --target=node run build 
+RUN bun run build 
 
 # run the app     
 EXPOSE 3000

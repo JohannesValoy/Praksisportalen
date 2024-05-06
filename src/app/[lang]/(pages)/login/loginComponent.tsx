@@ -1,6 +1,6 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { navigate } from "./action";
 /**
  * The login page component contains a form to login with username and password

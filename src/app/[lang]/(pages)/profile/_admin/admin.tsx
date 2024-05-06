@@ -1,9 +1,9 @@
 "use client";
 
-import DepartmentTable from "@/app/components/DynamicTables/DepartmentTable";
-import InternshipTable from "@/app/components/DynamicTables/InternshipTable";
-import SectionTable from "@/app/components/DynamicTables/SectionTable";
-import AddDepartment from "@/app/components/Modals/AddDepartmentModal";
+import DepartmentTable from "@/app/_components/DynamicTables/DepartmentTable";
+import InternshipTable from "@/app/_components/DynamicTables/InternshipTable";
+import SectionTable from "@/app/_components/DynamicTables/SectionTable";
+import AddDepartment from "@/app/_components/Modals/AddDepartmentModal";
 import { useState } from "react";
 
 /**

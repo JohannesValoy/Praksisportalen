@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { editDetails } from "./actions";
-import Dropdown from "@/app/components/Dropdowns/Dropdown";
-import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
+import Dropdown from "@/app/_components/Dropdowns/Dropdown";
+import DynamicTable from "@/app/_components/DynamicTables/DynamicTable";
 import {
   deleteInternshipAgreement,
   paginateInternshipAgreements,
 } from "../../internshipAgreements/actions";
-import EditModal from "@/app/components/Modals/EditModal";
+import EditModal from "@/app/_components/Modals/EditModal";
 import { Internship } from "@/app/_models/InternshipPosition";
 
 type Props = {

@@ -1,5 +1,5 @@
 "use client";
-import SuccessDialog from "@/app/components/Modals/SuccessAddDialog";
+import SuccessDialog from "@/app/_components/Modals/SuccessAddDialog";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
@@ -7,8 +7,8 @@ import {
   fetchEducationInstitutions,
   fetchStudyPrograms,
 } from "./action";
-import Dropdown from "@/app/components/Dropdowns/Dropdown";
-import ContainerBox from "@/app/components/ContainerBox";
+import Dropdown from "@/app/_components/Dropdowns/Dropdown";
+import ContainerBox from "@/app/_components/ContainerBox";
 
 /**
  * Creates a page that allows for adding a study program.

@@ -10,7 +10,9 @@ export default function ThemeSwap() {
   const { changeTheme, theme } = useContext(ThemeContext);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    changeTheme && changeTheme(e.target.value);
+    if (changeTheme) {
+      changeTheme(e.target.value);
+    }
   };
   const themes = [
     "HMR",
@@ -45,7 +47,7 @@ export default function ThemeSwap() {
       aria-label="theme selection"
     >
       {themes.map((theme, index) => (
-        <option className="bg-base-300" key={index} value={theme}>
+        <option className="bg-base-300" key={theme} value={theme}>
           {theme}
         </option>
       ))}

@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
+import DynamicTable from "@/app/_components/DynamicTables/DynamicTable";
 import { editDetails } from "./action";
 import { EducationInstitution } from "@/app/_models/EducationInstitution";
 import {
   deleteStudyProgram,
   paginateStudyPrograms,
 } from "../../studyprograms/actions";
-import StudentTable from "@/app/components/DynamicTables/StudentTable";
+import StudentTable from "@/app/_components/DynamicTables/StudentTable";
 
 /**
  * The InstitutionPage component displays the details of an education institution.

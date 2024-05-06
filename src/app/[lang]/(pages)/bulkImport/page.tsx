@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { createRecord } from "./actions";
-import ContainerBox from "@/app/components/ContainerBox";
+import ContainerBox from "@/app/_components/ContainerBox";
 
 /**
  * The Page component is the bulk import page.
@@ -9,8 +9,12 @@ import ContainerBox from "@/app/components/ContainerBox";
  */
 export default function Page() {
   const [file, setFile] = useState(null);
+  const [failedRecords, setFailedRecords] = useState<
+    { record: any; error: string }[]
+  >([]);
+  const successCount = useRef(0);
+  const failureCount = useRef(0);
   const [progress, setProgress] = useState(0);
-  const [responses, setResponses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [uploaded, setUploaded] = useState(false);
 
@@ -18,6 +22,19 @@ export default function Page() {
     setFile(event.target.files[0]);
   };
 
+  /**
+   * Displays a loading bar, success text or nothing given the page is loading or have uploaded.
+   * @returns A render element
+   */
+  function uploadedProgressOrNothing() {
+    if (loading) {
+      return <progress className="progress w-56" value={progress} max="100" />;
+    } else if (uploaded) {
+      return (
+        <p className="text-success text-xl">{"File uploaded: " + file?.name}</p>
+      );
+    }
+  }
   /**
    * The parseCSV function parses the CSV text.
    * @param text The CSV text.
@@ -44,16 +61,13 @@ export default function Page() {
   const sendData = async (data) => {
     try {
       const { table, ...recordData } = data;
-      const newRecord = await createRecord(table, recordData);
-      return {
-        status: 200,
-        statusText: "Record successfully created",
-        record: newRecord[0],
-      };
+      await createRecord(table, recordData);
+      return { status: 200 };
     } catch (error) {
+      console.log(error);
       return {
-        status: error.response?.status || 500,
-        statusText: error.response?.statusText || "Server Error",
+        status: 303,
+        statusText: error.message,
       };
     }
   };
@@ -63,13 +77,10 @@ export default function Page() {
    */
   const handleUpload = async () => {
     if (file && !loading) {
+      successCount.current = 0;
+      failureCount.current = 0;
       setLoading(true);
-      setUploaded(false);
-      setProgress(0);
-      setResponses([]);
-      let successCount = 0;
-      let failureCount = 0;
-      const failedRecords = [];
+      setFailedRecords([]);
       const reader = new FileReader();
       reader.onload = async (e) => {
         const text = e.target.result;
@@ -78,23 +89,22 @@ export default function Page() {
           data.map(async (item) => {
             const response = await sendData(item);
             if (response.status === 200) {
-              successCount++;
+              successCount.current++;
             } else {
-              failureCount++;
-              failedRecords.push({ record: item, error: response.statusText });
+              failureCount.current++;
+              setFailedRecords((failedRecords) => [
+                ...failedRecords,
+                { record: item, error: response.statusText },
+              ]);
             }
-            setProgress(((successCount + failureCount) / data.length) * 100);
+            setProgress(
+              ((successCount.current + failureCount.current) / data.length) *
+                100,
+            );
           }),
         ).finally(() => {
           setLoading(false);
           setUploaded(true);
-          setResponses([
-            {
-              status: 200,
-              message: `${successCount} records added successfully, ${failureCount} records failed.`,
-              failedRecords,
-            },
-          ]);
         });
       };
       reader.readAsText(file);
@@ -109,49 +119,40 @@ export default function Page() {
             aria-label="file input"
             id="fileInput"
             type="file"
-            className="file-input file-input-bordered w-full max-w-xs"
+            className="file-input file-input-bordered text-base-content w-full max-w-xs"
             onChange={handleFileChange}
             accept=".csv"
           />
           <button
             onClick={handleUpload}
             className="btn btn-primary"
-            disabled={loading}
+            disabled={loading || !file}
           >
             Upload
           </button>
         </div>
-        {loading ? (
-          <progress
-            className="progress w-56"
-            value={progress}
-            max="100"
-          ></progress>
-        ) : uploaded ? (
-          <p className="text-success text-xl">
-            {"File uploaded: " + file?.name}
+        {uploadedProgressOrNothing()}
+        {successCount.current + failureCount.current ? (
+          <p>
+            Success {successCount.current} Failed {failureCount.current}
           </p>
         ) : null}
         <div className="flex flex-col items-center">
-          {responses.map((response, index) => (
-            <div key={index}>
-              <p>{response.message}</p>
-              {response.failedRecords.length > 0 && (
-                <div>
-                  <p className="font-bold">Failed Records:</p>
-                  <ul>
-                    {response.failedRecords.map((failedRecord, i) => (
-                      <li key={i}>
-                        <p className="text-error">
-                          Record: {JSON.stringify(failedRecord.record)}
-                        </p>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+          {failedRecords.length > 0 && (
+            <div>
+              <p className="font-bold">Failed Records:</p>
+              <ul>
+                {failedRecords.map((failedRecord, i) => (
+                  <li key={`${i} - ${failedRecord.record}`}>
+                    <p className="text-error">
+                      Record: {JSON.stringify(failedRecord.record)} Error:{" "}
+                      {failedRecord.error}
+                    </p>
+                  </li>
+                ))}
+              </ul>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </ContainerBox>

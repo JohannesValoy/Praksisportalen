@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { addEducationInstitution, fetchEducationInstitution } from "./action";
-import SuccessDialog from "@/app/components/Modals/SuccessAddDialog";
-import ContainerBox from "@/app/components/ContainerBox";
+import SuccessDialog from "@/app/_components/Modals/SuccessAddDialog";
+import ContainerBox from "@/app/_components/ContainerBox";
 
 /**
  * Creates a page to add an education institution.

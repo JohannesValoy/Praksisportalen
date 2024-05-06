@@ -1,5 +1,5 @@
 "use client";
-import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
+import DynamicTable from "@/app/_components/DynamicTables/DynamicTable";
 import { paginateEmployees } from "./actions";
 import { deleteEmployee } from "@/services/EmployeeService";
 import { getDictionary } from "@/app/[lang]/dictionaries";

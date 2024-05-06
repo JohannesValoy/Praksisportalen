@@ -106,7 +106,7 @@ async function getInternshipPositionObjectByPageRequest(
         builder.whereIn("yearOfStudy", pageRequest.yearOfStudy);
       }
       if (pageRequest.field) {
-        builder.where("internship_field", pageRequest.field);
+        builder.where("internshipField", pageRequest.field);
       }
     });
 

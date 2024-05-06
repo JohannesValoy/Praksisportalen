@@ -1,6 +1,6 @@
 "use client";
 
-import Dropdown from "@/app/components/Dropdowns/Dropdown";
+import Dropdown from "@/app/_components/Dropdowns/Dropdown";
 import { useEffect, useState } from "react";
 import {
   createInternship,
@@ -9,7 +9,7 @@ import {
   fetchInternships,
   fetchSections,
 } from "../../[lang]/(pages)/internships/add/action";
-import ContainerBox from "@/app/components/ContainerBox";
+import ContainerBox from "@/app/_components/ContainerBox";
 import AddSection from "./AddSectionModal";
 
 type Props = {

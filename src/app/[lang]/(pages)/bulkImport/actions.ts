@@ -22,17 +22,22 @@ export async function createRecord(tableName, data) {
       obj[key] = data[key];
       return obj;
     }, {});
-
-  switch (tableName) {
-    case "coordinators":
-      await createCoordinators([validData as CoordinatorTable]);
-      break;
-    case "employees":
-      await createEmployees([validData as EmployeeTable]);
-      break;
-    default:
-      DBclient(tableName).insert(validData);
-      break;
+  try {
+    switch (tableName) {
+      case "coordinators":
+        await createCoordinators([validData as CoordinatorTable]);
+        break;
+      case "employees":
+        await createEmployees([validData as EmployeeTable]);
+        break;
+      default:
+        await DBclient(tableName).insert(validData);
+        break;
+    }
+    return validData;
+  } catch (error) {
+    throw new Error(
+      error.message.substring(error.message.lastIndexOf("-") + 2),
+    );
   }
-  return validData;
 }

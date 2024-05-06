@@ -1,4 +1,8 @@
-export default function logo({ currentColor }) {
+/**
+ * Logo for Helse Møre og Romsdal
+ * @returns SVG logo
+ */
+export default function logo() {
   return (
     <svg
       width="100%"

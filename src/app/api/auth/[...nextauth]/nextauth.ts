@@ -1,6 +1,6 @@
 //Credit to https://reacthustle.com/blog/nextjs-setup-role-based-authentication
 
-import { DefaultSession, DefaultUser } from "next-auth";
+import { DefaultUser } from "next-auth";
 // Define a role enum
 export enum Role {
   student = "student",

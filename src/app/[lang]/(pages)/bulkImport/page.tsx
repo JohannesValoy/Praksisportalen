@@ -103,9 +103,9 @@ export default function Page() {
             await sendUpdateUI(item);
             setProgress(
               ((successCount.current + failureCount.current) / data.length) *
-                100
+                100,
             );
-          })
+          }),
         ).finally(() => {
           setLoading(false);
           setUploaded(true);

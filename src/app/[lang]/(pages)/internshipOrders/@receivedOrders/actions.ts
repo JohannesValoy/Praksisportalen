@@ -220,12 +220,12 @@ export async function saveOrderDistribution(
         .innerJoin(
           "timeIntervals",
           "internshipAgreements.id",
-          "timeIntervals.internshipAgreement_id",
+          "timeIntervals.internshipAgreementID",
         )
         //All internships in the same section
-        .whereIn("section_id", (builder) => {
+        .whereIn("sectionID", (builder) => {
           builder
-            .select("section_id")
+            .select("sectionID")
             .from("internships")
             .innerJoin(
               "internshipAgreements",

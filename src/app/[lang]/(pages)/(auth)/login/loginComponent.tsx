@@ -1,6 +1,6 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { navigate } from "./action";
 /**
  * The login page component contains a form to login with username and password
@@ -41,14 +41,6 @@ export const LoginComponent = () => {
       setError(error);
     }
   };
-
-  const onLoading = useEffect(() => {
-    if (loading) {
-      document.body.style.cursor = "wait";
-    } else {
-      document.body.style.cursor = "default";
-    }
-  }, [loading]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;

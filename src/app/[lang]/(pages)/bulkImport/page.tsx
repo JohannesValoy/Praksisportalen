@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { createRecord } from "./actions";
 import ContainerBox from "@/app/_components/ContainerBox";
 
@@ -10,8 +10,10 @@ import ContainerBox from "@/app/_components/ContainerBox";
 export default function Page() {
   const [file, setFile] = useState(null);
   const [failedRecords, setFailedRecords] = useState<
-    { record: string; error: string }[]
+    { record: any; error: string }[]
   >([]);
+  const successCount = useRef(0);
+  const failureCount = useRef(0);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
   const [uploaded, setUploaded] = useState(false);
@@ -59,16 +61,13 @@ export default function Page() {
   const sendData = async (data) => {
     try {
       const { table, ...recordData } = data;
-      const newRecord = await createRecord(table, recordData);
-      return {
-        status: 200,
-        statusText: "Record successfully created",
-        record: newRecord[0],
-      };
+      await createRecord(table, recordData);
+      return { status: 200 };
     } catch (error) {
+      console.log(error);
       return {
-        status: error.response?.status || 500,
-        statusText: error.response?.statusText || "Server Error",
+        status: 303,
+        statusText: error.message,
       };
     }
   };
@@ -78,8 +77,8 @@ export default function Page() {
    */
   const handleUpload = async () => {
     if (file && !loading) {
-      let successCount = 0;
-      let failureCount = 0;
+      successCount.current = 0;
+      failureCount.current = 0;
       setLoading(true);
       setFailedRecords([]);
       const reader = new FileReader();
@@ -90,15 +89,18 @@ export default function Page() {
           data.map(async (item) => {
             const response = await sendData(item);
             if (response.status === 200) {
-              successCount++;
+              successCount.current++;
             } else {
-              failureCount++;
-              setFailedRecords([
+              failureCount.current++;
+              setFailedRecords((failedRecords) => [
                 ...failedRecords,
-                { record: JSON.stringify(item), error: response.statusText },
+                { record: item, error: response.statusText },
               ]);
             }
-            setProgress(((successCount + failureCount) / data.length) * 100);
+            setProgress(
+              ((successCount.current + failureCount.current) / data.length) *
+                100
+            );
           })
         ).finally(() => {
           setLoading(false);
@@ -124,12 +126,17 @@ export default function Page() {
           <button
             onClick={handleUpload}
             className="btn btn-primary"
-            disabled={loading}
+            disabled={loading || !file}
           >
             Upload
           </button>
         </div>
         {uploadedProgressOrNothing()}
+        {successCount.current + failureCount.current ? (
+          <p>
+            Success {successCount.current} Failed {failureCount.current}
+          </p>
+        ) : null}
         <div className="flex flex-col items-center">
           {failedRecords.length > 0 && (
             <div>
@@ -138,7 +145,8 @@ export default function Page() {
                 {failedRecords.map((failedRecord, i) => (
                   <li key={`${i} - ${failedRecord.record}`}>
                     <p className="text-error">
-                      Record: {JSON.stringify(failedRecord.record)}
+                      Record: {JSON.stringify(failedRecord.record)} Error:{" "}
+                      {failedRecord.error}
                     </p>
                   </li>
                 ))}

@@ -36,6 +36,8 @@ export async function createRecord(tableName, data) {
     }
     return validData;
   } catch (error) {
-    throw new Error(`Failed to insert record into ${tableName}`);
+    throw new Error(
+      error.message.substring(error.message.lastIndexOf("-") + 2)
+    );
   }
 }

@@ -4,10 +4,10 @@ import { useState } from "react";
 import { deleteSection } from "../../sections/action";
 import { editDepartmentDetails } from "./action";
 import { Department } from "@/app/_models/Department";
-import AddSection from "../../../../components/Modals/AddSectionModal";
-import EmployeeDropdown from "@/app/components/Dropdowns/EmployeeDropdown";
-import SectionTable from "@/app/components/DynamicTables/SectionTable";
-import EditModal from "@/app/components/Modals/EditModal";
+import AddSection from "../../../../_components/Modals/AddSectionModal";
+import EmployeeDropdown from "@/app/_components/Dropdowns/EmployeeDropdown";
+import SectionTable from "@/app/_components/DynamicTables/SectionTable";
+import EditModal from "@/app/_components/Modals/EditModal";
 
 type Props = {
   user: { id: string; role?: string };

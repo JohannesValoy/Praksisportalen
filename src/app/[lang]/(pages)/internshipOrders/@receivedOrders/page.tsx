@@ -1,10 +1,10 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
 import { fetchOrders, saveOrderStatus } from "./actions";
-import ErrorModal from "@/app/components/ErrorModal";
+import ErrorModal from "@/app/_components/ErrorModal";
 import InternshipDistributionModal from "./Modal";
 import LogIcon from "@/../public/Icons/logIcon";
-import ContainerBox from "@/app/components/ContainerBox";
+import ContainerBox from "@/app/_components/ContainerBox";
 
 /**
  * The page to display received orders.
@@ -17,7 +17,7 @@ export default function Page() {
   const [title, setTitle] = useState("Received Orders");
   //Filter status is used to filter by status to either see all the Finalized orders, or see all the pending orders. In this page this is used when clicking the log button
   const [filterStatus, setFilterStatus] = useState<"Finalized" | "Pending">(
-    "Pending",
+    "Pending"
   );
 
   /**
@@ -86,6 +86,9 @@ export default function Page() {
 
       <ContainerBox title={title}>
         <div className="flex flex-col gap-5 justify-center">
+          {orders?.length === 0 ? (
+            <div className="text-neutral-content text-center">No orders</div>
+          ) : null}
           {Object.keys(groupedOrders).map((internshipOrderID) => (
             <div
               key={internshipOrderID}

@@ -1,10 +1,10 @@
 "use client";
 
-import ContainerBox from "@/app/components/ContainerBox";
+import ContainerBox from "@/app/_components/ContainerBox";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { fetchOrders } from "../../internshipOrders/@receivedOrders/actions";
-import ErrorModal from "@/app/components/ErrorModal";
+import ErrorModal from "@/app/_components/ErrorModal";
 
 /**
  * The admin layout component contains the main dashboard for the admin
@@ -21,20 +21,20 @@ const AdminLayout = () => {
   return (
     <div className="flex flex-row flex-wrap items-center justify-center rounded-lg gap-20 ">
       <div className="flex flex-col items-center">
-        <ContainerBox title="Received Orders">
+        <ContainerBox title="Received Orders" className="items-center">
           <Link href="internshipOrders" className="btn btn-primary">
             Go to Received Orders
           </Link>
           {orders.length > 0 ? (
             <button
-              className="stack w-full h-fit"
+              className="stack w-full"
               aria-label="Go to pending Orders"
               onClick={() => (window.location.href = "/internshipOrders")}
             >
               {orders.map((order, index) => (
                 <div
                   key={order.id}
-                  className={`card shadow-${index} bg-base-100 shadow-xl text-primary hover:scale-105 transition-transform duration-200`}
+                  className={`card shadow-${index} bg-base-100 shadow-xl text-base-content hover:scale-105 duration-200`}
                 >
                   <div className="card-body">
                     <h2 className="card-title">

@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createCoordinator, createEmployee, createStudent } from "./action";
-import SuccessDialog from "@/app/components/Modals/SuccessAddDialog";
-import ContainerBox from "@/app/components/ContainerBox";
+import SuccessDialog from "@/app/_components/Modals/SuccessAddDialog";
+import ContainerBox from "@/app/_components/ContainerBox";
 import { generatePassword } from "@/services/EmployeeService";
 
 type Props = {

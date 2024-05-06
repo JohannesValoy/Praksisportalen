@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import DynamicTable from "@/app/components/DynamicTables/DynamicTable";
+import DynamicTable from "@/app/_components/DynamicTables/DynamicTable";
 import { deleteCoordinator, paginateCoordinators } from "./actions";
 import { useRouter } from "next/navigation";
 

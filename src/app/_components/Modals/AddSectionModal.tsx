@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Dropdown from "@/app/components/Dropdowns/Dropdown";
-import ContainerBox from "@/app/components/ContainerBox";
+import Dropdown from "@/app/_components/Dropdowns/Dropdown";
+import ContainerBox from "@/app/_components/ContainerBox";
 import {
   createSection,
   createSectionType,

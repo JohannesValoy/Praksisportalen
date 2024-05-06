@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { createRecord } from "./actions";
-import ContainerBox from "@/app/components/ContainerBox";
+import ContainerBox from "@/app/_components/ContainerBox";
 
 /**
  * The Page component is the bulk import page.
@@ -18,6 +18,19 @@ export default function Page() {
     setFile(event.target.files[0]);
   };
 
+  /**
+   * Displays a loading bar, success text or nothing given the page is loading or have uploaded.
+   * @returns A render element
+   */
+  function uploadedProgressOrNothing() {
+    if (loading) {
+      return <progress className="progress w-56" value={progress} max="100" />;
+    } else if (uploaded) {
+      return (
+        <p className="text-success text-xl">{"File uploaded: " + file?.name}</p>
+      );
+    }
+  }
   /**
    * The parseCSV function parses the CSV text.
    * @param text The CSV text.
@@ -63,10 +76,6 @@ export default function Page() {
    */
   const handleUpload = async () => {
     if (file && !loading) {
-      setLoading(true);
-      setUploaded(false);
-      setProgress(0);
-      setResponses([]);
       let successCount = 0;
       let failureCount = 0;
       const failedRecords = [];
@@ -84,7 +93,7 @@ export default function Page() {
               failedRecords.push({ record: item, error: response.statusText });
             }
             setProgress(((successCount + failureCount) / data.length) * 100);
-          }),
+          })
         ).finally(() => {
           setLoading(false);
           setUploaded(true);
@@ -121,17 +130,7 @@ export default function Page() {
             Upload
           </button>
         </div>
-        {loading ? (
-          <progress
-            className="progress w-56"
-            value={progress}
-            max="100"
-          ></progress>
-        ) : uploaded ? (
-          <p className="text-success text-xl">
-            {"File uploaded: " + file?.name}
-          </p>
-        ) : null}
+        {uploadedProgressOrNothing()}
         <div className="flex flex-col items-center">
           {responses.map((response, index) => (
             <div key={index}>

@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import { deleteSection } from "./action";
-import AddSection from "../../../components/Modals/AddSectionModal";
-import SectionTable from "@/app/components/DynamicTables/SectionTable";
+import AddSection from "../../../_components/Modals/AddSectionModal";
+import SectionTable from "@/app/_components/DynamicTables/SectionTable";
 
 /**
  * The ListOfSections component displays a list of sections.

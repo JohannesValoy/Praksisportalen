@@ -119,7 +119,7 @@ export default function Page() {
             aria-label="file input"
             id="fileInput"
             type="file"
-            className="file-input file-input-bordered w-full max-w-xs"
+            className="file-input file-input-bordered text-base-content w-full max-w-xs"
             onChange={handleFileChange}
             accept=".csv"
           />

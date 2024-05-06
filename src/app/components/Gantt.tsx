@@ -188,9 +188,10 @@ export default function Gantt({
                           justifyContent: "center",
                           alignItems: "center",
                           zIndex: 99,
+                          transform: "translateX(-50%)",
                         }}
                         //Shows up when hovering over it
-                        title={`start: ${startDate.toLocaleString()}\nend: ${endDate.toLocaleString()}`}
+                        title={`start: ${startDate.toLocaleString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })}\nend: ${endDate.toLocaleString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })}`}
                         className="bg-primary rounded-lg"
                       ></div>
                     );

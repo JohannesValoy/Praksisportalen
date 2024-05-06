@@ -99,9 +99,9 @@ export default function Page() {
             }
             setProgress(
               ((successCount.current + failureCount.current) / data.length) *
-                100
+                100,
             );
-          })
+          }),
         ).finally(() => {
           setLoading(false);
           setUploaded(true);

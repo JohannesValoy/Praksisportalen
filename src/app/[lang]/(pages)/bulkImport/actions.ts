@@ -37,7 +37,7 @@ export async function createRecord(tableName, data) {
     return validData;
   } catch (error) {
     throw new Error(
-      error.message.substring(error.message.lastIndexOf("-") + 2)
+      error.message.substring(error.message.lastIndexOf("-") + 2),
     );
   }
 }

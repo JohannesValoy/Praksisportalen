@@ -2,7 +2,7 @@ import DBclient from "@/knex/config/DBClient";
 import { Knex } from "knex";
 import { UserAttributes, UsersView } from "knex/types/tables.js";
 import { Adapter, AdapterUser, AdapterSession } from "next-auth/adapters";
-import { Role } from "../nextauth";
+
 /**
  * A adapter using Knex to interact with the database.
  * @param client  The Knex client to use.

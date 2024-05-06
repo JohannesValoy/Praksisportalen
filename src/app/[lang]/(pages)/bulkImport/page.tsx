@@ -9,8 +9,10 @@ import ContainerBox from "@/app/_components/ContainerBox";
  */
 export default function Page() {
   const [file, setFile] = useState(null);
+  const [failedRecords, setFailedRecords] = useState<
+    { record: string; error: string }[]
+  >([]);
   const [progress, setProgress] = useState(0);
-  const [responses, setResponses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [uploaded, setUploaded] = useState(false);
 
@@ -78,7 +80,8 @@ export default function Page() {
     if (file && !loading) {
       let successCount = 0;
       let failureCount = 0;
-      const failedRecords = [];
+      setLoading(true);
+      setFailedRecords([]);
       const reader = new FileReader();
       reader.onload = async (e) => {
         const text = e.target.result;
@@ -90,20 +93,16 @@ export default function Page() {
               successCount++;
             } else {
               failureCount++;
-              failedRecords.push({ record: item, error: response.statusText });
+              setFailedRecords([
+                ...failedRecords,
+                { record: JSON.stringify(item), error: response.statusText },
+              ]);
             }
             setProgress(((successCount + failureCount) / data.length) * 100);
           })
         ).finally(() => {
           setLoading(false);
           setUploaded(true);
-          setResponses([
-            {
-              status: 200,
-              message: `${successCount} records added successfully, ${failureCount} records failed.`,
-              failedRecords,
-            },
-          ]);
         });
       };
       reader.readAsText(file);
@@ -132,25 +131,20 @@ export default function Page() {
         </div>
         {uploadedProgressOrNothing()}
         <div className="flex flex-col items-center">
-          {responses.map((response, index) => (
-            <div key={index}>
-              <p>{response.message}</p>
-              {response.failedRecords.length > 0 && (
-                <div>
-                  <p className="font-bold">Failed Records:</p>
-                  <ul>
-                    {response.failedRecords.map((failedRecord, i) => (
-                      <li key={i}>
-                        <p className="text-error">
-                          Record: {JSON.stringify(failedRecord.record)}
-                        </p>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+          {failedRecords.length > 0 && (
+            <div>
+              <p className="font-bold">Failed Records:</p>
+              <ul>
+                {failedRecords.map((failedRecord, i) => (
+                  <li key={`${i} - ${failedRecord.record}`}>
+                    <p className="text-error">
+                      Record: {JSON.stringify(failedRecord.record)}
+                    </p>
+                  </li>
+                ))}
+              </ul>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </ContainerBox>

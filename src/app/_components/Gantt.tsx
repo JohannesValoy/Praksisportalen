@@ -61,7 +61,7 @@ export default function Gantt({
 
   const startDates = datalist
     .map((item) =>
-      item.intervals.map((interval) => interval.startDate.getTime()),
+      item.intervals.map((interval) => interval.startDate.getTime())
     )
     .flat();
   const endDates = datalist
@@ -96,13 +96,13 @@ export default function Gantt({
   function getISOWeekNumber(date: Date): number {
     // Copy date so don't modify original
     const tempDate = new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
     );
 
     // Set to nearest Thursday (unix start day): current date + 4 - current day number
     // Make Sunday's day number 7
     tempDate.setUTCDate(
-      tempDate.getUTCDate() + 4 - (tempDate.getUTCDay() || 7),
+      tempDate.getUTCDate() + 4 - (tempDate.getUTCDay() || 7)
     );
 
     // Get first day of year
@@ -110,7 +110,7 @@ export default function Gantt({
 
     // Calculate full weeks to nearest Thursday
     const weekNo = Math.ceil(
-      ((tempDate.getTime() - yearStart.getTime()) / 86400000 + 1) / 7,
+      ((tempDate.getTime() - yearStart.getTime()) / 86400000 + 1) / 7
     );
 
     // Return the week number
@@ -179,13 +179,6 @@ export default function Gantt({
                     const duration = endDate.getTime() - startDate.getTime();
                     const widthPercent = (duration / totalTime) * 100;
                     const marginLeftPercent = (offset / totalTime) * 100;
-                    console.log("minStartDate: " + minStartDate);
-                    console.log(`startDate: ${startDate}`);
-                    console.log(`endDate: ${endDate}`);
-                    console.log(`offset: ${offset}`);
-                    console.log(`duration: ${duration}`);
-                    console.log(`widthPercent: ${widthPercent}`);
-                    console.log(`marginLeftPercent: ${marginLeftPercent}`);
                     return (
                       <div
                         key={index}
@@ -209,29 +202,6 @@ export default function Gantt({
                   })}
                 </div>
               ))}
-              {/*  {monthMarkers.map((marker, index) => (
-                <div
-                  key={index}
-                  className="absolute bg-primary"
-                  style={{
-                    height: "100%",
-                    width: "3px",
-                    borderRadius: "10px",
-                    transform: "translateX(-100%)",
-                    left: `${marker.offsetPercent}%`,
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: "0",
-                      transform: "translateY(105%) translateX(-50%)",
-                    }}
-                  >
-                    {marker.label}
-                  </div>
-                </div>
-              ))} */}
             </div>
             <div className="flex flex-row w-full h-fit">
               {daysOfWeek.map((day) => (

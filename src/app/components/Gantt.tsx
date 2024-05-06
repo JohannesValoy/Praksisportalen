@@ -202,29 +202,6 @@ export default function Gantt({
                   })}
                 </div>
               ))}
-              {/*  {monthMarkers.map((marker, index) => (
-                <div
-                  key={index}
-                  className="absolute bg-primary"
-                  style={{
-                    height: "100%",
-                    width: "3px",
-                    borderRadius: "10px",
-                    transform: "translateX(-100%)",
-                    left: `${marker.offsetPercent}%`,
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: "0",
-                      transform: "translateY(105%) translateX(-50%)",
-                    }}
-                  >
-                    {marker.label}
-                  </div>
-                </div>
-              ))} */}
             </div>
             <div className="flex flex-row w-full h-fit">
               {daysOfWeek.map((day) => (

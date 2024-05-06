@@ -27,8 +27,6 @@ function getStatusText(status: string) {
  * @returns The page to display received orders.
  */
 export default function Page() {
-  //TODO: I see no reason to use a state here. The orders are fetched once and then displayed.
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);

@@ -42,14 +42,6 @@ export const LoginComponent = () => {
     }
   };
 
-  const onLoading = useEffect(() => {
-    if (loading) {
-      document.body.style.cursor = "wait";
-    } else {
-      document.body.style.cursor = "default";
-    }
-  }, [loading]);
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });

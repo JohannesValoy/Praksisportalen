@@ -1,13 +1,10 @@
 "use client";
 
 import ContainerBox from "@/app/components/ContainerBox";
-import { PieChart } from "@mui/x-charts/PieChart";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { fetchOrders } from "../../internshipOrders/@receivedOrders/actions";
 import ErrorModal from "@/app/components/ErrorModal";
-
-const pieParams = { margin: { right: 5 }, height: 400, width: 400 };
 
 /**
  * The admin layout component contains the main dashboard for the admin
@@ -22,15 +19,12 @@ const AdminLayout = () => {
       .catch((error) => setError(error.message));
   }, []);
   return (
-    <div className="flex flex-row items-center rounded-lg gap-20 ">
+    <div className="flex flex-row flex-wrap items-center justify-center rounded-lg gap-20 ">
       <div className="flex flex-col items-center">
-        <ContainerBox title={"Statistics"}>
-          <PieChart
-            series={[{ data: [{ value: 10 }, { value: 15 }, { value: 20 }] }]}
-            {...pieParams}
-          />
-        </ContainerBox>
         <ContainerBox title="Received Orders">
+          <Link href="internshipOrders" className="btn btn-primary">
+            Go to Received Orders
+          </Link>
           {orders.length > 0 ? (
             <button
               className="stack w-full h-fit"
@@ -71,44 +65,57 @@ const AdminLayout = () => {
         </ContainerBox>
       </div>
       <div className="flex flex-col items-center">
-        <ContainerBox title={"Import Data"}>
+        <ContainerBox title="Import Data">
           <Link href="bulkImport" className="btn btn-primary">
             Import Data from Excel
           </Link>
         </ContainerBox>
-        <div className="flex flex-row">
-          <ContainerBox title={"Hospital"} className="w-full">
-            <Link href="users/employees" className="btn btn-primary">
-              Employees
-            </Link>
-            <Link href="departments" className="btn btn-primary">
-              Departments
-            </Link>
-            <Link href="sections" className="btn btn-primary">
-              Sections
-            </Link>
-          </ContainerBox>
-          <ContainerBox title={"Internships"} className="w-full">
-            <Link href="internshipOrders" className="btn btn-primary">
-              Received Orders
-            </Link>
-            <Link href="internships" className="btn btn-primary">
-              Internships
-            </Link>
-            <Link href="internshipAgreements" className="btn btn-primary">
-              Internship Agreements
-            </Link>
-          </ContainerBox>
-        </div>
-        <ContainerBox title={"Education Institution"}>
-          <Link href="users/coordinators" className="btn btn-primary">
-            Coordinators
+        <ContainerBox
+          title="Hospital"
+          className="items-center"
+          subClassName="flex-row"
+        >
+          <Link href="departments" className="btn btn-primary">
+            Departments
+          </Link>
+          <Link href="sections" className="btn btn-primary">
+            Sections
+          </Link>
+          <Link href="internships" className="btn btn-primary">
+            Internships
+          </Link>
+        </ContainerBox>
+        <ContainerBox
+          title="Education Institution"
+          className="items-center"
+          subClassName="flex-row"
+        >
+          <Link href="educationInstitutions" className="btn btn-primary">
+            Education Institutions
+          </Link>
+          <Link href="internshipAgreements" className="btn btn-primary">
+            Internship Agreements
           </Link>
           <Link href="studyprograms" className="btn btn-primary">
             Studies
           </Link>
-          <Link href="educationInstitutions" className="btn btn-primary">
-            Education Institutions
+        </ContainerBox>
+        <ContainerBox
+          title="Users"
+          className="items-center"
+          subClassName="flex-row"
+        >
+          <Link href="users/employees" className="btn btn-primary">
+            Employees
+          </Link>
+          <Link href="users/coordinators" className="btn btn-primary">
+            Coordinators
+          </Link>
+          <Link href="users/students" className="btn btn-primary">
+            Students
+          </Link>
+          <Link href="users/add" className="btn btn-primary">
+            Add user
           </Link>
         </ContainerBox>
       </div>

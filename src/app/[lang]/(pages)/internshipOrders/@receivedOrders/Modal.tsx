@@ -22,7 +22,7 @@ const InternshipDistributionModal: React.FC<
     (message) => {
       setError(message);
     },
-    [setError],
+    [setError]
   );
 
   const fetchInternships = useCallback(async () => {
@@ -38,20 +38,16 @@ const InternshipDistributionModal: React.FC<
       yearOfStudy: [selectedOrder.studyYear],
     };
 
-    try {
-      const data = await paginateInternships(params);
-      setRows(data.elements || []);
-      setTotalPages(data.totalPages || 0);
-    } catch (error) {
-      handleError(`Failed to fetch internships: ${error.message}`);
-    }
-  }, [selectedOrder, page, sortedBy, handleError]);
+    const data = await paginateInternships(params);
+    setRows(data.elements || []);
+    setTotalPages(data.totalPages || 0);
+  }, [selectedOrder, page, sortedBy]);
 
   useEffect(() => {
     fetchInternships();
     if (selectedOrder) {
       setStudentsLeft(
-        selectedOrder.numStudents - selectedOrder.numStudentsAccepted,
+        selectedOrder.numStudents - selectedOrder.numStudentsAccepted
       );
       setSelectedRows([]);
       setError(null);
@@ -77,9 +73,9 @@ const InternshipDistributionModal: React.FC<
           selectedOrder.numStudentsAccepted -
           newSelectedRows.reduce(
             (total, row) => total + (row.vacancies > 0 ? row.vacancies : 0),
-            0,
-          ),
-      ),
+            0
+          )
+      )
     );
   };
 
@@ -89,7 +85,7 @@ const InternshipDistributionModal: React.FC<
       const savePromises = selectedRows.map((selectedRow) => {
         const amount = Math.min(
           selectedOrder.numStudents - currNumStudentsAccepted,
-          selectedRow.vacancies,
+          selectedRow.vacancies
         );
         if (amount < 1) {
           return;
@@ -99,12 +95,11 @@ const InternshipDistributionModal: React.FC<
         return saveDistribution(selectedOrder.id, selectedRow.id, amount);
       });
 
-      //Does not close modal before the promises are done.
       await Promise.all(savePromises);
       closeModal();
     } catch (error) {
       handleError(
-        `An error occurred while saving distributions: ${error.message}`,
+        `An error occurred while saving distributions: ${error.message}`
       );
     }
   };
@@ -114,7 +109,7 @@ const InternshipDistributionModal: React.FC<
       await saveOrderDistribution(subFieldGroupID, InternshipID, amount);
     } catch (error) {
       handleError(
-        "An error occurred while saving the distribution: " + error.message,
+        "An error occurred while saving the distribution: " + error.message
       );
     }
   };
@@ -357,11 +352,11 @@ const InternshipDistributionModal: React.FC<
                 Close
               </button>
               <button
-                className="btn btn-success"
+                className="btn btn-accent"
                 onClick={() => {
-                  closeModal();
                   saveRows();
                 }}
+                disabled={selectedRows.length === 0 || studentsLeft === 0}
               >
                 Save
               </button>

@@ -132,7 +132,7 @@ export default function Gantt({
       className="bg-secondary-200 w-full  p-5 rounded-lg flex flex-col items-center justify-center"
       style={{
         overflowX: "auto",
-        height: "40rem",
+        height: "80vh", //bad use of vh
         width: "95%",
         border: "1px solid rgba(100,100,100,0.2)",
       }}

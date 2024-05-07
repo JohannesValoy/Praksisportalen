@@ -12,7 +12,7 @@ import "server-only";
  * @returns A page response with internship agreements.
  */
 export async function paginateInternshipAgreements(
-  request: InternshipAgreementPageRequest,
+  request: InternshipAgreementPageRequest
 ) {
   const data = await getInternshipAgreementsByPageRequest(request);
 
@@ -21,6 +21,9 @@ export async function paginateInternshipAgreements(
   // If data.elements is not present, use data directly.
   const elements = data.elements.map((element) => ({
     id: element.id,
+    internship: element.internship.name,
+    studyProgram: element.studyProgram.name,
+    student: element.student?.name,
     startDate: element.startDate.toLocaleDateString(),
     endDate: element.endDate.toLocaleDateString(),
   }));

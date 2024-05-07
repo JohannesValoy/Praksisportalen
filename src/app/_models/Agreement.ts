@@ -34,7 +34,7 @@ export interface InternshipAgreementPageRequest extends PageRequest {
  * @returns A new {@link InternshipAgreementPageRequest} object.
  */
 export function fromRequestToInternshipAgreementPageRequest(
-  request: NextRequest
+  request: NextRequest,
 ): InternshipAgreementPageRequest {
   const baseRequest = fromRequestToPage(request);
   return {
@@ -51,7 +51,7 @@ export function fromRequestToInternshipAgreementPageRequest(
       ? parseInt(request.nextUrl.searchParams.get("hasInternshipID"))
       : 0,
     containsStudyProgramID: request.nextUrl.searchParams.get(
-      "containsStudyProgramID"
+      "containsStudyProgramID",
     )
       ? parseInt(request.nextUrl.searchParams.get("containsStudyProgramID"))
       : 0,

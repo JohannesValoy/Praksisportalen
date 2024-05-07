@@ -12,7 +12,7 @@ import "server-only";
  * @returns A page response with internship agreements.
  */
 export async function paginateInternshipAgreements(
-  request: InternshipAgreementPageRequest
+  request: InternshipAgreementPageRequest,
 ) {
   const data = await getInternshipAgreementsByPageRequest(request);
 

@@ -14,9 +14,6 @@ import {
  */
 export default function ListOfInternshipAgreements({
   wordbook,
-  //student,
-  //studyProgram,
-  //Internship,
 }: {
   readonly wordbook: { readonly [key: string]: string };
 }) {

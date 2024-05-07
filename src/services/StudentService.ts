@@ -20,23 +20,23 @@ async function createStudents(students: StudentTable[]) {
  * @returns a map of {@link Student} objects
  */
 async function getStudentsByIDList(
-  idList: string[]
+  idList: string[],
 ): Promise<Map<string, Student>> {
   const query = await DBclient.select()
     .from<StudentTable>("students")
     .whereIn("id", Array.from(idList));
   const students: Map<string, Student> = new Map();
   const educationInstitutionIDs = new Set(
-    query.map((student) => student.educationInstitutionID)
+    query.map((student) => student.educationInstitutionID),
   );
   const educationInstitutions = await getEducationInstitutionByIDList(
-    educationInstitutionIDs
+    educationInstitutionIDs,
   );
   for (const student of query) {
     students.set(student.id, {
       ...student,
       educationInstitution: educationInstitutions.get(
-        student.educationInstitutionID
+        student.educationInstitutionID,
       ),
     });
   }
@@ -58,18 +58,18 @@ async function getStudentsByPageRequest(pageRequest: StudentPageRequest) {
       if (pageRequest.educationInstitutionID) {
         builder.where(
           "educationInstitutionID",
-          pageRequest.educationInstitutionID
+          pageRequest.educationInstitutionID,
         );
       }
     })
     .orderBy(
       ["id", "name", "email"].includes(pageRequest.sort)
         ? pageRequest.sort
-        : "id"
+        : "id",
     );
   const pageQuery = baseQuery.slice(
     pageRequest.page * pageRequest.size,
-    (pageRequest.page + 1) * pageRequest.size
+    (pageRequest.page + 1) * pageRequest.size,
   );
   return {
     ...pageRequest,
@@ -88,13 +88,13 @@ async function createStudentObjects(query: StudentTable[]): Promise<Student[]> {
   const students: Student[] = [];
   const educationInstitutions: Map<number, EducationInstitution> =
     await getEducationInstitutionByIDList(
-      new Set(query.map((student) => student.educationInstitutionID))
+      new Set(query.map((student) => student.educationInstitutionID)),
     );
   query.forEach((student) => {
     students.push({
       ...student,
       educationInstitution: educationInstitutions.get(
-        student.educationInstitutionID
+        student.educationInstitutionID,
       ),
     });
   });
@@ -112,7 +112,7 @@ async function getStudentsByInternshipId(id: number) {
     .join(
       "internshipAgreements",
       "students.id",
-      "internshipAgreements.studentID"
+      "internshipAgreements.studentID",
     )
     .where("internshipAgreements.internshipID", id);
 

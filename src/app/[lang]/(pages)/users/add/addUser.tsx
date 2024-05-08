@@ -2,37 +2,33 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { createCoordinator, createEmployee, createStudent } from "./action";
+import { createCoordinator, createStudent } from "./action";
 import SuccessDialog from "@/app/_components/Modals/SuccessAddDialog";
 import ContainerBox from "@/app/_components/ContainerBox";
-import { generatePassword } from "@/services/EmployeeService";
+import { createEmployee, generatePassword } from "@/services/EmployeeService";
+import Dropdown from "@/app/_components/Dropdowns/Dropdown";
+import { fetchEducationInstitutions } from "../../studyprograms/add/action";
 
 type Props = {
   wordbook: { [key: string]: string };
-  employees: any;
-  coordinators: any;
-  students: any;
 };
 
 /**
  * Creates a page that allows for adding a user.
  * @param root The root object.
  * @param root.wordbook The wordbook object containing all the translations.
- * @param root.employees The employees object.
- * @param root.coordinators The coordinators object.
- * @param root.students The students object.
  * @returns A page to add a user.
  */
-export default function AddUserPage({
-  wordbook,
-  employees,
-  coordinators,
-  students,
-}: Readonly<Props>) {
+export default function AddUserPage({ wordbook }: Readonly<Props>) {
   const router = useRouter();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const [role, setRole] = useState("user");
+
+  const [educationInstitutions, setEducationInstitutions] = useState<
+    EducationInstitution[]
+  >([]);
+  const [educationInstitutionID, setEducationInstitutionID] = useState(null);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -40,20 +36,34 @@ export default function AddUserPage({
 
   const password = generatePassword(8);
 
+  type EducationInstitution = {
+    id: number;
+    name: string;
+  };
+
   useEffect(() => {
     if (
       firstName.trim() === "" ||
       lastName.trim() === "" ||
       email.trim() === "" ||
-      employees.some((emp) => emp.email === email.trim()) ||
-      coordinators.some((coordinator) => coordinator.email === email.trim()) ||
-      students.some((student) => student.email === email.trim())
+      ((role === "coordinator" || role === "student") &&
+        educationInstitutionID === null)
     ) {
       setIsSubmitDisabled(true);
     } else {
       setIsSubmitDisabled(false);
     }
-  }, [firstName, lastName, email, employees, coordinators, students]);
+  }, [firstName, lastName, email, role, educationInstitutionID]);
+
+  useEffect(() => {
+    fetchEducationInstitutions()
+      .then((data) => {
+        setEducationInstitutions(data);
+      })
+      .catch((error) =>
+        console.error("Failed to fetch Education Institutions", error),
+      );
+  }, []);
 
   /**
    * The handleSubmit function adds a new user.
@@ -65,39 +75,48 @@ export default function AddUserPage({
    */
   const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+      if (role === "coordinator") {
+        const data = {
+          name: `${firstName} ${lastName}`,
+          email: email.trim(),
+          password: password.toString(),
+          educationInstitutionID: educationInstitutionID,
+        };
 
-    if (role === "coordinator") {
-      const data = {
-        name: `${firstName} ${lastName}`,
-        email: email.trim(),
-        password: password,
-      };
+        await createCoordinator(data);
 
-      await createCoordinator(data);
+        setIsModalVisible(true);
+      }
 
-      setIsModalVisible(true);
+      if (role === "student") {
+        const data = {
+          name: `${firstName} ${lastName}`,
+          email: email.trim(),
+          educationInstitutionID: educationInstitutionID,
+        };
+
+        await createStudent(data);
+        setIsModalVisible(true);
+      }
+
+      if (role === "user" || role === "admin") {
+        const data = {
+          name: `${firstName} ${lastName}`,
+          email: email.trim(),
+          role: role,
+          password: password.toString(),
+        };
+
+        await createEmployee(data);
+
+        setIsModalVisible(true);
+      }
+    } catch (error) {
+      const errorMessage = error.message;
+      const userFriendlyMessage = errorMessage.split("-").pop().trim();
+      window.alert(userFriendlyMessage);
     }
-
-    if (role === "student") {
-      const data = {
-        name: `${firstName} ${lastName}`,
-        email: email.trim(),
-      };
-
-      await createStudent(data);
-      setIsModalVisible(true);
-    }
-
-    const data = {
-      name: `${firstName} ${lastName}`,
-      email: email.trim(),
-      role: role,
-      password: password,
-    };
-
-    await createEmployee(data);
-
-    setIsModalVisible(true);
   };
 
   return (
@@ -173,7 +192,24 @@ export default function AddUserPage({
               </label>
             </div>
           </div>
-
+          {role && (role === "coordinator" || role === "student") ? (
+            <Dropdown
+              dropdownName="Education Institution"
+              options={educationInstitutions}
+              selectedOption={
+                educationInstitutions.find(
+                  (edu) => edu.id === educationInstitutionID,
+                ) || null
+              }
+              setSelectedOption={(edu) =>
+                setEducationInstitutionID(edu.id as number)
+              }
+              onSearchChange={() => {
+                setEducationInstitutionID(null);
+              }}
+              renderOption={(edu) => <>{edu.name}</>}
+            />
+          ) : null}
           <div className="flex flex-row gap-5">
             <button
               type="button"

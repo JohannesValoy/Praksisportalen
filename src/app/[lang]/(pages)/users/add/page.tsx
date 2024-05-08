@@ -1,8 +1,3 @@
-import {
-  fetchCoordinatorsEmail,
-  fetchEmployeesEmail,
-  fetchStudentsEmail,
-} from "./action";
 import AddUserPage from "./addUser";
 
 /**
@@ -10,12 +5,5 @@ import AddUserPage from "./addUser";
  * @returns The AddUserPage component.
  */
 export default async function Page() {
-  return (
-    <AddUserPage
-      wordbook={null}
-      employees={fetchEmployeesEmail}
-      coordinators={fetchCoordinatorsEmail}
-      students={fetchStudentsEmail}
-    />
-  );
+  return <AddUserPage wordbook={null} />;
 }

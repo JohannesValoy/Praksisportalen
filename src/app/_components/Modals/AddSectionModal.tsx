@@ -41,7 +41,7 @@ export default function AddSection({
   const [refreshKey, setRefreshKey] = useState(0);
 
   const [departments, setDepartments] = useState([]);
-  const [departmentID, setDepartmentID] = useState(department.id || null);
+  const [departmentID, setDepartmentID] = useState(department?.id || null);
 
   const [sections, setSections] = useState([]);
   const [name, setName] = useState("");

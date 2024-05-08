@@ -236,15 +236,13 @@ export default function InternshipPage({
       <DynamicTable
         tableName={"Internship Agreements"}
         headers={{
-          status: "status",
+          Internship: "internship",
+          studyProgram: "studyProgram",
+          student: "student",
           "Start Date": "startDate",
           "End Date": "endDate",
         }}
         onRowClick={() => {}}
-        onRowButtonClick={(row) => {
-          window.location.href = `/internshipAgreements/${row.id}`;
-        }}
-        buttonName={"Details"}
         deleteFunction={deleteInternshipAgreement}
         paginateFunction={paginateInternshipAgreements}
       />

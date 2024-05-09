@@ -209,6 +209,7 @@ export default function AddInternship({
                       type="text"
                       value={newField}
                       onChange={(e) => setNewField(e.target.value)}
+                      aria-label="New Internship Field"
                       placeholder="New Internship Field"
                       className="input input-bordered text-base-content w-full"
                     />

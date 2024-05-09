@@ -245,6 +245,7 @@ export default function AddSection({
                   <input
                     type="text"
                     value={newType}
+                    aria-label="New section type"
                     onChange={(e) => setNewType(e.target.value)}
                     placeholder="New section type"
                     className="input input-bordered w-full text-base-content"

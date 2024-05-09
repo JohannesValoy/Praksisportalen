@@ -1,4 +1,3 @@
-import { fetchStudentsEmail } from "../../add/action";
 import AddStudentPage from "./addStudent";
 
 /**
@@ -6,5 +5,5 @@ import AddStudentPage from "./addStudent";
  * @returns The AddStudentPage component.
  */
 export default function Page() {
-  return <AddStudentPage wordbook={null} students={fetchStudentsEmail} />;
+  return <AddStudentPage wordbook={null} />;
 }

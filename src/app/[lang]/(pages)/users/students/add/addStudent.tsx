@@ -8,20 +8,15 @@ import { createStudent } from "../../add/action";
 
 type Props = {
   wordbook: { [key: string]: string };
-  students: any;
 };
 
 /**
  * Creates a page that allows for adding a student.
  * @param root The root object.
  * @param root.wordbook The wordbook object containing all the translations.
- * @param root.students The students object.
  * @returns A page to add a student.
  */
-export default function AddStudentPage({
-  wordbook,
-  students,
-}: Readonly<Props>) {
+export default function AddStudentPage({ wordbook }: Readonly<Props>) {
   const router = useRouter();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
@@ -35,14 +30,13 @@ export default function AddStudentPage({
     if (
       firstName.trim() === "" ||
       lastName.trim() === "" ||
-      email.trim() === "" ||
-      students.some((student) => student.email === email.trim())
+      email.trim() === ""
     ) {
       setIsSubmitDisabled(true);
     } else {
       setIsSubmitDisabled(false);
     }
-  }, [firstName, lastName, email, students]);
+  }, [firstName, lastName, email]);
 
   /**
    * The handleSubmit function adds a new student.
@@ -57,10 +51,14 @@ export default function AddStudentPage({
       email: email.trim(),
       password: password.trim(),
     };
-
-    await createStudent(data);
-
-    setIsModalVisible(true);
+    try {
+      await createStudent(data);
+      setIsModalVisible(true);
+    } catch (error) {
+      const errorMessage = error.message;
+      const userFriendlyMessage = errorMessage.split("-").pop().trim();
+      window.alert(userFriendlyMessage);
+    }
   };
 
   return (

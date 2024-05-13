@@ -112,7 +112,7 @@ export default function InternshipPage({
             <PencilIcon className="w-6 h-6" />
           </button>
 
-          <dialog open={showModal === true} className="modal">
+          <dialog open={showModal} className="modal">
             <div className="modal-box">
               <div className="flex flex-row justify-between w-full">
                 <h2 className="font-bold text-lg">Edit</h2>

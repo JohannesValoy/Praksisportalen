@@ -225,9 +225,8 @@ export default function Page() {
                   className="group relative justify-centers rounded-2xl bg-neutral text-neutral-content p-2 md:p-5"
                 >
                   <div className="flex flex-row items-center">
-                    <div className=" w-full">
-                      <span className="label-text text-2xl">Praksisfelt</span>
-                    </div>
+                    <span className="label-text text-2xl">Praksisfelt</span>
+
                     {Number(groupId) !== 0 && (
                       <button
                         type="button"
@@ -293,12 +292,14 @@ export default function Page() {
                         </div>
 
                         <div className="form-control w-full">
-                          <label className="label" htmlFor="numStudents">
-                            <span className="label-text text-xl">
-                              Antall Studenter
-                            </span>
+                          <label
+                            className="label"
+                            htmlFor={`numStudents_${groupIndex}`}
+                          >
+                            Antall Studenter
                           </label>
                           <input
+                            id={`numStudents_${groupIndex}`}
                             type="number"
                             min="0"
                             placeholder="0"
@@ -322,13 +323,15 @@ export default function Page() {
                         </div>
 
                         <div className="form-control w-full">
-                          <label className="label" htmlFor="startDate">
-                            <span className="label-text text-xl">
-                              Start Dato
-                            </span>
+                          <label
+                            className="label"
+                            htmlFor={`startDate_${groupIndex}`}
+                          >
+                            Start Dato
                           </label>
                           <input
-                            aria-label="Start dato"
+                            id={`startDate_${groupIndex}`}
+                            aria-label="Start date"
                             type="date"
                             value={
                               subFieldGroup.startWeek
@@ -352,13 +355,15 @@ export default function Page() {
                           />
                         </div>
                         <div className="form-control w-full">
-                          <label className="label" htmlFor="endDate">
-                            <span className="label-text text-xl">
-                              Slutt Dato
-                            </span>
+                          <label
+                            className="label"
+                            htmlFor={`endDate_${groupIndex}`}
+                          >
+                            Slutt Dato
                           </label>
                           <input
-                            aria-label="Slutt Dato"
+                            id={`endDate_${groupIndex}`}
+                            aria-label="End date"
                             type="date"
                             value={
                               subFieldGroup.endWeek?.toISOString().split("T")[0]
@@ -399,9 +404,7 @@ export default function Page() {
           </button>
 
           <div className="w-3/4 ">
-            <div className="label">
-              <span className="label-text text-xl">Kommentar</span>
-            </div>
+            <span className="label-text text-xl">Kommentar</span>
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}

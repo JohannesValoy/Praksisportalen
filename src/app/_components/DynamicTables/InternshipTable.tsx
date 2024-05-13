@@ -31,9 +31,9 @@ const InternshipTable: React.FC<DynamicTableProps> = ({
       headers={{
         "Internship name": "name",
         "Internship Field": "internshipField",
-        "Max Capacity": "maxCapacity",
         "Current Capacity": "currentCapacity",
         "Number of Beds": "numberOfBeds",
+        "Current available Capacity": "vacancies",
         "Created At": "createdAt",
         "Updated At": "updatedAt",
       }}

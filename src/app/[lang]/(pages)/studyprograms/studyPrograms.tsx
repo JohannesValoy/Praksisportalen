@@ -29,9 +29,7 @@ export default function ListOfStudies({
 
   return (
     <>
-      {isAddModalOpen && (
-        <AddStudyProgram onClose={closeAddModal} />
-      )}
+      {isAddModalOpen && <AddStudyProgram onClose={closeAddModal} />}
       <DynamicTable
         refreshKey={refreshKey}
         tableName={"Study Programs"}

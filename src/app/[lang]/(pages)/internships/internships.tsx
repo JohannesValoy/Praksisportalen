@@ -27,9 +27,7 @@ export default function ListOfInternships({
 
   return (
     <>
-      {isAddModalOpen && (
-        <AddInternship onClose={closeAddModal} />
-      )}
+      {isAddModalOpen && <AddInternship onClose={closeAddModal} />}
       <InternshipTable
         refreshKey={refreshKey}
         onAddButtonClick={() => {

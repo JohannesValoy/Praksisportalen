@@ -251,9 +251,7 @@ export default function Page() {
 
   return (
     <>
-      {isAddModalOpen && (
-        <AddStudyProgram onClose={closeAddModal} />
-      )}
+      {isAddModalOpen && <AddStudyProgram onClose={closeAddModal} />}
       <dialog
         open={isModalVisible}
         className="modal  modal-bottom sm:modal-middle"

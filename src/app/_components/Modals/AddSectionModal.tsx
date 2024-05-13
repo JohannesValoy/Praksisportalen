@@ -23,7 +23,6 @@ type Props = {
 /**
  * The AddSection component displays a form to add a section.
  * @param root The root object.
- * @param root.openModal The openModal flag.
  * @param root.onClose The onClose function.
  * @param root.department The department object.
  * @returns A form to add a section.
@@ -147,20 +146,11 @@ export default function AddSection({
   return (
     <>
       <div className="fixed inset-0 bg-black opacity-50" />
-      <dialog
-        open={true}
-        className="modal modal-bottom sm:modal-middle"
-      >
+      <dialog open={true} className="modal modal-bottom sm:modal-middle">
         {openDepartmentModal && (
-          <AddDepartment
-            onClose={closeDepartmentModal}
-          />
+          <AddDepartment onClose={closeDepartmentModal} />
         )}
-        {openEmployeeModal && (
-          <AddEmployee
-            onClose={closeEmployeeModal}
-          />
-        )}
+        {openEmployeeModal && <AddEmployee onClose={closeEmployeeModal} />}
         <div className="flex flex-col justify-center items-center h-fit w-full">
           <ContainerBox className="items-center">
             <form

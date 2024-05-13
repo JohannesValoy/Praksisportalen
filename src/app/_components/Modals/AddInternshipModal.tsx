@@ -20,7 +20,6 @@ type Props = {
 /**
  * The AddInternship component displays a form to add an internship.
  * @param root The root object.
- * @param root.openModal The openModal flag.
  * @param root.onClose The onClose function.
  * @param root.section The section object.
  * @returns A form to add an internship.
@@ -138,9 +137,7 @@ export default function AddInternship({
         open={true}
         className="modal modal-bottom sm:modal-middle lg:modal-lg xl:modal-xl"
       >
-        {isAddModalOpen && (
-          <AddSection onClose={closeAddModal} />
-        )}
+        {isAddModalOpen && <AddSection onClose={closeAddModal} />}
         <div className="flex justify-center items-center ">
           <ContainerBox className="items-center">
             <form

@@ -10,7 +10,6 @@ import ContainerBox from "@/app/_components/ContainerBox";
 import EduInstitutionDropdown from "../Dropdowns/EduInstitutionDropdown";
 
 type Props = {
-
   onClose: () => void;
   educationInstitution?: any;
 };
@@ -18,13 +17,11 @@ type Props = {
 /**
  * Creates a page that allows for adding a study program.
  * @param root The root object.
- * @param root.openModal The openModal flag.
  * @param root.onClose The onClose function.
  * @param root.educationInstitution The education institution object.
  * @returns A page to add a study program.
  */
 export default function AddStudyProgram({
-  
   onClose,
   educationInstitution,
 }: Readonly<Props>) {
@@ -100,10 +97,7 @@ export default function AddStudyProgram({
   return (
     <>
       <div className="fixed inset-0 bg-black opacity-50" />
-      <dialog
-        open={true}
-        className="modal modal-bottom sm:modal-middle"
-      >
+      <dialog open={true} className="modal modal-bottom sm:modal-middle">
         <div className="flex flex-col justify-center items-center h-fit w-full">
           <ContainerBox className="items-center">
             <form

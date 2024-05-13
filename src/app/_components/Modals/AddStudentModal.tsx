@@ -24,7 +24,6 @@ type EducationInstitution = {
  * @param root.wordbook The wordbook object containing all the translations.
  * @param root.eduInstitutionID The education institution ID.
  * @param root.educationInstitutions The education institutions object.
- * @param root.openModal The openModal flag.
  * @param root.onClose The onClose function.
  * @returns A page to add a student.
  */
@@ -32,7 +31,7 @@ export default function AddStudentModal({
   wordbook,
   eduInstitutionID,
   educationInstitutions,
-  
+
   onClose,
 }: Readonly<Props>) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
@@ -82,10 +81,7 @@ export default function AddStudentModal({
   return (
     <>
       <div className="fixed inset-0 bg-black opacity-50" />
-      <dialog
-        open={true}
-        className="modal modal-bottom sm:modal-middle"
-      >
+      <dialog open={true} className="modal modal-bottom sm:modal-middle">
         <div className="flex flex-col justify-center items-center h-fit w-full">
           <ContainerBox className="items-center">
             <form

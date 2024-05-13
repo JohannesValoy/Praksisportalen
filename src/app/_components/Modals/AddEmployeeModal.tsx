@@ -6,14 +6,12 @@ import ContainerBox from "@/app/_components/ContainerBox";
 import { generatePassword } from "@/services/EmployeeService";
 
 type Props = {
-
   onClose: () => void;
 };
 
 /**
  * The AddEmployee component displays a form to add an employee.
  * @param root The root object.
- * @param root.openModal The openModal flag.
  * @param root.onClose The onClose function.
  * @returns A form to add an employee.
  */
@@ -61,10 +59,7 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
   return (
     <>
       <div className="fixed inset-0 bg-black opacity-50" />
-      <dialog
-        open={true}
-        className="modal modal-bottom sm:modal-middle"
-      >
+      <dialog open={true} className="modal modal-bottom sm:modal-middle">
         <div className="flex flex-col justify-center items-center h-fit w-full">
           <ContainerBox className="items-center">
             <form

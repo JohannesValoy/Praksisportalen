@@ -28,9 +28,7 @@ export default function ListOfSections({
 
   return (
     <>
-      {isAddModalOpen && (
-        <AddSection onClose={closeAddModal} />
-      )}
+      {isAddModalOpen && <AddSection onClose={closeAddModal} />}
       <SectionTable
         refreshKey={refreshKey}
         deleteFunction={deleteSection}

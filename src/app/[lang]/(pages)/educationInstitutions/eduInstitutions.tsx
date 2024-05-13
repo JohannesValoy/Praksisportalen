@@ -32,9 +32,7 @@ export default function ListOfEducationInstitutions({
 
   return (
     <>
-      {isAddModalOpen && (
-        <AddEduInstitut onClose={closeAddModal} />
-      )}
+      {isAddModalOpen && <AddEduInstitut onClose={closeAddModal} />}
       <DynamicTable
         tableName={"Education Institutions"}
         headers={{ Name: "name" }}

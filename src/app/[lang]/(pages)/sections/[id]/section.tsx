@@ -164,10 +164,7 @@ export default function SectionPage({
       </div>
       <>
         {isAddModalOpen && (
-          <AddInternship
-            onClose={closeAddModal}
-            section={section}
-          />
+          <AddInternship onClose={closeAddModal} section={section} />
         )}
         <InternshipTable
           refreshKey={refreshKey}

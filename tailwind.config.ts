@@ -49,9 +49,10 @@ const config: Config = {
                    
           "accent": "#1cbcb8",
                    
-          "neutral": "#e0ebe5",
+          "neutral": "#ffffff",
                    
-          "base-100": "#ffffff",
+          "base-100": "#efede6",
+          "base-content": "#003087",
                    
           "info": "#38bdf8",
                    

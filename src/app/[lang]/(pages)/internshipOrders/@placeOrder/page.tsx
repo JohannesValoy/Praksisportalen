@@ -143,11 +143,11 @@ export default function Page() {
 
     try {
       const response = await sendOrder(formData);
-      if(response) {
+      if (response) {
         return {
           statusText: response.error,
-          status: "400"
-        }
+          status: "400",
+        };
       }
 
       setIsModalVisible(true);

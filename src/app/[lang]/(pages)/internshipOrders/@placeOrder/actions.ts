@@ -62,7 +62,9 @@ interface FormData {
  * @param data The order data.
  * @returns void if successful or a object with a .error message
  */
-export async function sendOrder(data: FormData) : Promise<void|{error : string}> {
+export async function sendOrder(
+  data: FormData,
+): Promise<void | { error: string }> {
   try {
     const user = await getUser();
     await DBclient.transaction(async (trx) => {
@@ -99,7 +101,7 @@ export async function sendOrder(data: FormData) : Promise<void|{error : string}>
     });
   } catch (error) {
     return {
-      "error": error.message.split("-")[-1]
-    }
+      error: error.message.split("-")[-1],
+    };
   }
 }

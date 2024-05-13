@@ -44,8 +44,7 @@ export default function AddStudentModal({
   const [educationInstitutionID, setEducationInstitutionID] = useState(
     eduInstitutionID || null,
   );
-  console.log(eduInstitutionID);
-  console.log(educationInstitutions);
+
   useEffect(() => {
     if (
       firstName.trim() === "" ||

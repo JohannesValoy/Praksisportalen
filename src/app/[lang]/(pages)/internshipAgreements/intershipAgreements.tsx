@@ -18,7 +18,9 @@ export default function ListOfInternshipAgreements({
   readonly wordbook: { readonly [key: string]: string };
 }) {
   const headers = {
-    status: "status",
+    Internship: "internship",
+    studyProgram: "studyProgram",
+    student: "student",
     "Start Date": "startDate",
     "End Date": "endDate",
   };
@@ -28,10 +30,6 @@ export default function ListOfInternshipAgreements({
       tableName={"Internship Agreements"}
       headers={headers}
       onRowClick={() => {}}
-      onRowButtonClick={(row) => {
-        window.location.href = `/internshipAgreements/${row.id}`;
-      }}
-      buttonName={"Details"}
       deleteFunction={deleteInternshipAgreement}
       paginateFunction={paginateInternshipAgreements}
     />

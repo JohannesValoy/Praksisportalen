@@ -41,7 +41,7 @@ export default function AddSection({
   const [refreshKey, setRefreshKey] = useState(0);
 
   const [departments, setDepartments] = useState([]);
-  const [departmentID, setDepartmentID] = useState(department.id || null);
+  const [departmentID, setDepartmentID] = useState(department?.id || null);
 
   const [sections, setSections] = useState([]);
   const [name, setName] = useState("");
@@ -245,6 +245,7 @@ export default function AddSection({
                   <input
                     type="text"
                     value={newType}
+                    aria-label="New section type"
                     onChange={(e) => setNewType(e.target.value)}
                     placeholder="New section type"
                     className="input input-bordered w-full text-base-content"

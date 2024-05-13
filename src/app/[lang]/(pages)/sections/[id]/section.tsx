@@ -42,9 +42,9 @@ export default function SectionPage({
 
   const [name, setName] = useState(section.name || "");
 
-  const [sectionType, setSectionType] = useState("");
+  const [sectionType, setSectionType] = useState(section.sectionType || "");
 
-  const [employeeID, setEmployeeID] = useState("");
+  const [employeeID, setEmployeeID] = useState(section.employeeID || "");
 
   /**
    * The handleSubmit function updates the section details.

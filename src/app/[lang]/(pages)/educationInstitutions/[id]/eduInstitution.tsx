@@ -96,7 +96,7 @@ export default function InstitutionPage({
                 setName={setName}
                 handleSubmit={handleSubmit}
                 disabled={name === eduInstitution.name}
-              ></EditModal>
+              />
             </div>
           </dialog>
         </div>

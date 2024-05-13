@@ -15,7 +15,7 @@ export default function Page() {
   const [error, setError] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [title, setTitle] = useState("Received Orders");
-  //Filter status is used to filter by status to either see all the Finalized orders, or see all the pending orders. In this page this is used when clicking the log button
+  // Filter status is used to filter by status to either see all the Finalized orders, or see all the pending orders. In this page this is used when clicking the log button
   const [filterStatus, setFilterStatus] = useState<"Finalized" | "Pending">(
     "Pending",
   );
@@ -63,52 +63,58 @@ export default function Page() {
 
   return (
     <>
-      <div className="flex justify-between items-center mx-10">
-        <h1 className="text-5xl font-bold m-5 w-full">{title}</h1>
-        <div className="w-56 flex justify-end">
-          <button
-            className={` btn ${filterStatus === "Finalized" ? "btn-primary" : "btn-ghost"} `}
-            aria-label="Logg"
-            onClick={() => {
-              if (filterStatus === "Finalized") {
-                setTitle("Received Orders");
-                setFilterStatus("Pending");
-              } else {
-                setFilterStatus("Finalized");
-                setTitle("Finalized Orders");
-              }
-            }}
-          >
-            <LogIcon />
-          </button>
-        </div>
-      </div>
+      <div className="flex flex-row gap-4 items-center mx-10 p-2 md:p-8">
+        <h1 className="text-2xl font-bold">{title}</h1>
 
-      <div className="flex flex-col gap-5 justify-center">
-        {orders?.length === 0 ? (
-          <div className="text-neutral-content text-center">No orders</div>
-        ) : null}
-        {Object.keys(groupedOrders).map((internshipOrderID) => (
-          <div
-            key={internshipOrderID}
-            className="card-body card bg-neutral shadow-xl w-full"
-          >
-            {groupedOrders[internshipOrderID].map((order) => (
-              <div key={order.id} className=" text-base-content ">
-                <div className="flex w-full flex-row items-center">
-                  <div className="flex items-center flex-wrap flex-grow ml-4 gap-5">
-                    <div className="text-lg font-bold">
-                      {order.studyProgram.educationInstitute.name} -{" "}
-                      {order.studyProgram.name}
-                    </div>
-                    <div className="text-opacity-50">
-                      {order.numStudents - order.numStudentsAccepted} students
-                    </div>
-                    <div className="text-opacity-50">
-                      {order.internshipField}, {order.studyYear} year students
-                    </div>
-                    <div className="text-sm text-opacity-50">
-                      {new Date(order.createdAt).toLocaleDateString()}
+        <button
+          className={`btn ${
+            filterStatus === "Finalized" ? "btn-primary" : "btn-secondary"
+          }`}
+          aria-label="Toggle Order Status"
+          onClick={() => {
+            if (filterStatus === "Finalized") {
+              setTitle("Received Orders");
+              setFilterStatus("Pending");
+            } else {
+              setFilterStatus("Finalized");
+              setTitle("Finalized Orders");
+            }
+          }}
+        >
+          <LogIcon />
+        </button>
+      </div>
+      <div>
+        <div className="flex flex-col gap-5 justify-center">
+          {orders?.length === 0 ? (
+            <div className="text-neutral-content text-center">No orders</div>
+          ) : null}
+          {Object.keys(groupedOrders).map((internshipOrderID) => (
+            <div
+              key={internshipOrderID}
+              className="card-body card bg-neutral shadow-xl w-full"
+            >
+              {groupedOrders[internshipOrderID].map((order) => (
+                <div key={order.id} className="text-base-content flex">
+                  <div className="flex w-full flex-col items-center">
+                    <div className="flex items-center flex-wrap flex-col flex-grow ml-4 gap-5">
+                      <div className="text-lg font-bold">
+                        {order.studyProgram.educationInstitute.name} -{" "}
+                        {order.studyProgram.name}
+                      </div>
+                      <div className="flex gap-4 flex-wrap justify-center items-center">
+                        <div className="text-opacity-50">
+                          {order.numStudents - order.numStudentsAccepted}{" "}
+                          students
+                        </div>
+                        <div className="text-opacity-50">
+                          {order.internshipField}, {order.studyYear} year
+                          students
+                        </div>
+                        <div className="text-sm text-opacity-50">
+                          {new Date(order.createdAt).toLocaleDateString()}
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <button
@@ -121,42 +127,42 @@ export default function Page() {
                     Distribute
                   </button>
                 </div>
+              ))}
+              <div className="dropdown dropdown-middle w-full">
+                <button
+                  tabIndex={0}
+                  className="w-full font-semibold btn p-2 text-neutral-content bg-neutral text-center flex items-center"
+                >
+                  {groupedOrders[internshipOrderID][0].status}
+                </button>
+                <ul className="flex dropdown-content w-full z-[1] menu p-2 bg-neutral rounded-box gap-2 shadow-xl border border-base-300">
+                  <li>
+                    <button
+                      className="flex justify-center text-neutral-content p-3 bg-base hover:bg-accent hover:text-accent-content focus:bg-accent focus:text-accent-content"
+                      onClick={() => {
+                        // Directly call saveStatus passing the order ID and new status
+                        saveStatus(internshipOrderID, "Pending");
+                      }}
+                    >
+                      Pending
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="flex justify-center text-base-content p-3 bg-base hover:bg-accent hover:text-accent-content focus:bg-accent focus:text-accent-content"
+                      onClick={() => {
+                        // Directly call saveStatus passing the order ID and new status
+                        saveStatus(internshipOrderID, "Finalized");
+                      }}
+                    >
+                      Finalized
+                    </button>
+                  </li>
+                </ul>
               </div>
-            ))}
-            <div className="dropdown dropdown-middle w-full ">
-              <button
-                tabIndex={0}
-                className="w-full font-semibold btn p-2 text-neutral-content bg-neutral text-center flex items-center"
-              >
-                {groupedOrders[internshipOrderID][0].status}
-              </button>
-              <ul className=" flex dropdown-content w-full z-[1] menu p-2 bg-neutral rounded-box gap-2 shadow-xl border border-base-300">
-                <li>
-                  <button
-                    className="flex justify-center text-neutral-content p-3 bg-base hover:bg-accent hover:text-accent-content focus:bg-accent focus:text-accent-content"
-                    onClick={() => {
-                      // Directly call saveStatus passing the order ID and new status
-                      saveStatus(internshipOrderID, "Pending");
-                    }}
-                  >
-                    Pending
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="flex justify-center text-base-content p-3 bg-base hover:bg-accent hover:text-accent-content focus:bg-accent focus:text-accent-content"
-                    onClick={() => {
-                      // Directly call saveStatus passing the order ID and new status
-                      saveStatus(internshipOrderID, "Finalized");
-                    }}
-                  >
-                    Finalized
-                  </button>
-                </li>
-              </ul>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
       {selectedOrder && (
         <InternshipDistributionModal

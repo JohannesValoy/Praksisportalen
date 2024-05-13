@@ -8,7 +8,7 @@ interface EditModalProps {
   setName: (name: string) => void;
   handleSubmit: (event: React.FormEvent) => void;
   children?: React.ReactNode;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 /**

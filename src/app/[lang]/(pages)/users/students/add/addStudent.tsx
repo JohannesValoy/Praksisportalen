@@ -5,18 +5,32 @@ import { useEffect, useState } from "react";
 import SuccessDialog from "@/app/_components/Modals/SuccessAddDialog";
 import ContainerBox from "@/app/_components/ContainerBox";
 import { createStudent } from "../../add/action";
+import Dropdown from "@/app/_components/Dropdowns/Dropdown";
 
 type Props = {
   wordbook: { [key: string]: string };
+  user: any;
+  educationInstitutions: EducationInstitution[];
+};
+
+type EducationInstitution = {
+  id: number;
+  name: string;
 };
 
 /**
  * Creates a page that allows for adding a student.
  * @param root The root object.
  * @param root.wordbook The wordbook object containing all the translations.
+ * @param root.user The user object.
+ * @param root.educationInstitutions The education institutions object.
  * @returns A page to add a student.
  */
-export default function AddStudentPage({ wordbook }: Readonly<Props>) {
+export default function AddStudentPage({
+  wordbook,
+  user,
+  educationInstitutions,
+}: Readonly<Props>) {
   const router = useRouter();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
@@ -24,19 +38,24 @@ export default function AddStudentPage({ wordbook }: Readonly<Props>) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
+  const [educationInstitutionID, setEducationInstitutionID] = useState(
+    user.educationInstitutionID || null,
+  );
+  console.log(user.educationInstitutionID);
 
   useEffect(() => {
     if (
       firstName.trim() === "" ||
       lastName.trim() === "" ||
-      email.trim() === ""
+      email.trim() === "" ||
+      !educationInstitutionID
     ) {
       setIsSubmitDisabled(true);
     } else {
       setIsSubmitDisabled(false);
     }
-  }, [firstName, lastName, email]);
+  }, [firstName, lastName, email, educationInstitutionID]);
 
   /**
    * The handleSubmit function adds a new student.
@@ -49,7 +68,7 @@ export default function AddStudentPage({ wordbook }: Readonly<Props>) {
     const data = {
       name: `${firstName} ${lastName}`,
       email: email.trim(),
-      password: password.trim(),
+      educationInstitutionID: educationInstitutionID,
     };
     try {
       await createStudent(data);
@@ -76,7 +95,9 @@ export default function AddStudentPage({ wordbook }: Readonly<Props>) {
             <div className="flex flex-row gap-4">
               <label className="form-control w-full ">
                 <div className="label">
-                  <span className="label-text">First Name</span>
+                  <span className="label-text text-neutral-content">
+                    First Name
+                  </span>
                 </div>
                 <input
                   type="name"
@@ -90,7 +111,9 @@ export default function AddStudentPage({ wordbook }: Readonly<Props>) {
               </label>
               <label className="form-control w-full">
                 <div className="label">
-                  <span className="label-text">Last Name</span>
+                  <span className="label-text text-neutral-content">
+                    Last Name
+                  </span>
                 </div>
                 <input
                   type="name"
@@ -106,7 +129,7 @@ export default function AddStudentPage({ wordbook }: Readonly<Props>) {
             <div className="flex flex-row gap-4">
               <label className="form-control w-full">
                 <div className="label">
-                  <span className="label-text">Email</span>
+                  <span className="label-text text-neutral-content">Email</span>
                 </div>
                 <input
                   type="email"
@@ -117,23 +140,26 @@ export default function AddStudentPage({ wordbook }: Readonly<Props>) {
                   required
                 />
               </label>
-              <label className="form-control w-full">
-                <div className="label">
-                  <span className="label-text">Password</span>
-                </div>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className="input input-bordered text-base-content w-full"
-                  onChange={(e) => setPassword(e.target.value)}
-                  aria-label="Set password"
-                  maxLength={255}
-                  required
-                />
-              </label>
             </div>
           </div>
-
+          {user.role && user.role === "admin" ? (
+            <Dropdown
+              dropdownName="Education Institution"
+              options={educationInstitutions}
+              selectedOption={
+                educationInstitutions.find(
+                  (edu) => edu.id === educationInstitutionID,
+                ) || null
+              }
+              setSelectedOption={(edu) =>
+                setEducationInstitutionID(edu.id as number)
+              }
+              onSearchChange={() => {
+                setEducationInstitutionID(null);
+              }}
+              renderOption={(edu) => <>{edu.name}</>}
+            />
+          ) : null}
           <div className="flex flex-row gap-5">
             <button
               type="button"

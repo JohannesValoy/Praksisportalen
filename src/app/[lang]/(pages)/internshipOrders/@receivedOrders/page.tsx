@@ -63,7 +63,7 @@ export default function Page() {
 
   return (
     <>
-      <div className="flex flex-row gap-4 items-center mx-10">
+      <div className="flex flex-row gap-4 items-center mx-10 p-2 md:p-8">
         <h1 className="text-2xl font-bold">{title}</h1>
 
         <button
@@ -84,7 +84,7 @@ export default function Page() {
           <LogIcon />
         </button>
       </div>
-      <ContainerBox>
+      <div>
         <div className="flex flex-col gap-5 justify-center">
           {orders?.length === 0 ? (
             <div className="text-neutral-content text-center">No orders</div>
@@ -92,24 +92,28 @@ export default function Page() {
           {Object.keys(groupedOrders).map((internshipOrderID) => (
             <div
               key={internshipOrderID}
-              className="card-body card bg-base-100 shadow-xl w-full"
+              className="card-body card bg-neutral shadow-xl w-full"
             >
               {groupedOrders[internshipOrderID].map((order) => (
-                <div key={order.id} className="text-base-content">
-                  <div className="flex w-full flex-row items-center">
-                    <div className="flex items-center flex-wrap flex-grow ml-4 gap-5">
+                <div key={order.id} className="text-base-content flex">
+                  <div className="flex w-full flex-col items-center">
+                    <div className="flex items-center flex-wrap flex-col flex-grow ml-4 gap-5">
                       <div className="text-lg font-bold">
                         {order.studyProgram.educationInstitute.name} -{" "}
                         {order.studyProgram.name}
                       </div>
-                      <div className="text-opacity-50">
-                        {order.numStudents - order.numStudentsAccepted} students
-                      </div>
-                      <div className="text-opacity-50">
-                        {order.internshipField}, {order.studyYear} year students
-                      </div>
-                      <div className="text-sm text-opacity-50">
-                        {new Date(order.createdAt).toLocaleDateString()}
+                      <div className="flex gap-4 flex-wrap justify-center items-center">
+                        <div className="text-opacity-50">
+                          {order.numStudents - order.numStudentsAccepted}{" "}
+                          students
+                        </div>
+                        <div className="text-opacity-50">
+                          {order.internshipField}, {order.studyYear} year
+                          students
+                        </div>
+                        <div className="text-sm text-opacity-50">
+                          {new Date(order.createdAt).toLocaleDateString()}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -159,7 +163,7 @@ export default function Page() {
             </div>
           ))}
         </div>
-      </ContainerBox>
+      </div>
       {selectedOrder && (
         <InternshipDistributionModal
           selectedOrder={selectedOrder}

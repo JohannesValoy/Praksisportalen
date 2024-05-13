@@ -60,9 +60,11 @@ interface FormData {
 /**
  * Adds the order to the database.
  * @param data The order data.
- * @throws error if it fails to add the internship order.
+ * @returns void if successful or a object with a .error message
  */
-export async function sendOrder(data: FormData) {
+export async function sendOrder(
+  data: FormData,
+): Promise<void | { error: string }> {
   try {
     const user = await getUser();
     await DBclient.transaction(async (trx) => {
@@ -80,20 +82,26 @@ export async function sendOrder(data: FormData) {
           internshipOrderID: internshipOrderId,
         });
         // For each subFieldGroup in fieldGroup, insert into subFieldGroups table
-        for (const subFieldGroup of fieldGroup.subFieldGroups) {
-          if (subFieldGroup.numStudents > 0) {
-            await trx.table("subFieldGroups").insert({
-              studyYear: subFieldGroup.studyYear,
-              numStudents: subFieldGroup.numStudents,
-              startWeek: subFieldGroup.startWeek,
-              endWeek: subFieldGroup.endWeek,
-              fieldGroupID: fieldGroupId,
-            });
-          }
+        const subFieldGroups = fieldGroup.subFieldGroups.filter(
+          (group) => group.numStudents > 0,
+        );
+        if (subFieldGroups.length === 0) {
+          throw Error("A subFieldGroup does not have the required amount");
+        }
+        for (const subFieldGroup of subFieldGroups) {
+          await trx.table("subFieldGroups").insert({
+            studyYear: subFieldGroup.studyYear,
+            numStudents: subFieldGroup.numStudents,
+            startWeek: subFieldGroup.startWeek,
+            endWeek: subFieldGroup.endWeek,
+            fieldGroupID: fieldGroupId,
+          });
         }
       }
     });
   } catch (error) {
-    throw new Error("Failed to add internship order");
+    return {
+      error: error.message.split("-")[-1],
+    };
   }
 }

@@ -132,7 +132,6 @@ export default function InstitutionPage({
         filter={{
           educationInstitutionID: eduInstitution.id,
         }}
-        eduInstitution={eduInstitution}
       />
     </>
   );

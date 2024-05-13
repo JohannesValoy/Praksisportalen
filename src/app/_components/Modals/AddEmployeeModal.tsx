@@ -54,9 +54,7 @@ export default function AddEmployee({ openModal, onClose }: Readonly<Props>) {
       await createEmployee(data);
       onClose();
     } catch (error) {
-      const errorMessage = error.message;
-      const userFriendlyMessage = errorMessage.split("-").pop().trim();
-      window.alert(userFriendlyMessage);
+      window.alert("Invalid email address. Please try again.");
     }
   };
 

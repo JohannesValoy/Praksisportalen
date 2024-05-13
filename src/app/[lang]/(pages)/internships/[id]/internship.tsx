@@ -242,6 +242,7 @@ export default function InternshipPage({
           "Start Date": "startDate",
           "End Date": "endDate",
         }}
+        filter={{ hasInternshipID: internship.id.toString() }}
         onRowClick={() => {}}
         deleteFunction={deleteInternshipAgreement}
         paginateFunction={paginateInternshipAgreements}

@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
   addStudyProgram,
@@ -29,7 +28,6 @@ export default function AddStudyProgram({
   onClose,
   educationInstitution,
 }: Readonly<Props>) {
-  const router = useRouter();
   const [name, setName] = useState("");
   const [studyPrograms, setStudyPrograms] = useState([]);
   const [educationInstitutions, setEducationInstitutions] = useState<
@@ -126,7 +124,7 @@ export default function AddStudyProgram({
                 aria-label="Set study Program Name"
                 required
               />
-              {educationInstitutionID === null ? (
+              {!educationInstitutionID ? (
                 <Dropdown
                   dropdownName="Education Institution"
                   options={educationInstitutions}
@@ -146,11 +144,7 @@ export default function AddStudyProgram({
               ) : null}
 
               <div className="flex flex-row gap-5">
-                <button
-                  type="button"
-                  className="btn w-20"
-                  onClick={() => router.back()}
-                >
+                <button type="button" className="btn w-20" onClick={onClose}>
                   Cancel
                 </button>
                 <button

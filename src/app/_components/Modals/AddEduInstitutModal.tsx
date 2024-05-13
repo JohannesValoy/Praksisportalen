@@ -83,11 +83,7 @@ export default function AddEduInstitut({
                 required
               />
               <div className="flex flex-row gap-5">
-                <button
-                  type="button"
-                  className="btn w-20"
-                  onClick={() => router.back()}
-                >
+                <button type="button" className="btn w-20" onClick={onClose}>
                   Cancel
                 </button>
                 <button

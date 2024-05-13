@@ -50,7 +50,7 @@ const StudentTable: React.FC<StudentTableProps> = ({
       }}
       buttonName={"Details"}
       onAddButtonClick={() => {
-        window.location.href = `/users/students/add?eduInstitution=${eduInstitution}`;
+        window.location.href = `/users/students/add`;
       }}
       filter={filter}
       clickableColumns={clickableColumns}

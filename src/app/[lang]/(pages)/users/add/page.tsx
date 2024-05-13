@@ -1,8 +1,4 @@
-import {
-  fetchCoordinatorsEmail,
-  fetchEmployeesEmail,
-  fetchStudentsEmail,
-} from "./action";
+import { fetchEducationInstitutions } from "../../studyprograms/actions";
 import AddUserPage from "./addUser";
 
 /**
@@ -10,12 +6,11 @@ import AddUserPage from "./addUser";
  * @returns The AddUserPage component.
  */
 export default async function Page() {
+  const educationInstitutions = await fetchEducationInstitutions();
   return (
     <AddUserPage
       wordbook={null}
-      employees={fetchEmployeesEmail}
-      coordinators={fetchCoordinatorsEmail}
-      students={fetchStudentsEmail}
+      educationInstitutions={educationInstitutions}
     />
   );
 }

@@ -9,6 +9,9 @@ import {
   paginateStudyPrograms,
 } from "../../studyprograms/actions";
 import StudentTable from "@/app/_components/DynamicTables/StudentTable";
+import AddStudyProgram from "@/app/_components/Modals/AddStudyProgramModal";
+import EditModal from "@/app/_components/Modals/EditModal";
+import { PencilIcon } from "@heroicons/react/24/outline";
 
 /**
  * The InstitutionPage component displays the details of an education institution.
@@ -25,8 +28,10 @@ export default function InstitutionPage({
   readonly wordbook: { readonly [key: string]: string };
 }) {
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState(eduInstitution.name || "");
 
   /**
    * The handleSubmit function updates the education institution details.
@@ -51,33 +56,33 @@ export default function InstitutionPage({
     window.location.reload();
   };
 
+  /**
+   * The closeAddModal function closes the add department modal.
+   * It also triggers a refresh by updating the refresh key.
+   */
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+    setRefreshKey((oldKey) => oldKey + 1);
+  };
+
   return (
     <>
+      {isAddModalOpen && (
+        <AddStudyProgram
+          onClose={closeAddModal}
+          educationInstitution={eduInstitution}
+        />
+      )}
       <div className="flex flex-col items-center">
         <div className="flex flex-row gap-1 items-start">
           <h1>{eduInstitution?.name}</h1>
           <button onClick={() => setShowModal(true)} aria-label="Edit">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
-              />
-            </svg>
+            <PencilIcon className="w-6 h-6" />
           </button>
-          <dialog open={showModal === true} className="modal">
+          <dialog open={showModal} className="modal">
             <div className="modal-box">
               <div className="flex flex-row justify-between w-full">
-                <h2 className="font-bold text-lg">
-                  Edit {eduInstitution.name}
-                </h2>
+                <h2 className="font-bold text-lg">Edit</h2>
                 <button
                   onClick={() => setShowModal(false)}
                   type="button"
@@ -86,40 +91,12 @@ export default function InstitutionPage({
                   x
                 </button>
               </div>
-
-              <div className="modal-action">
-                <form
-                  className="w-full"
-                  method="dialog"
-                  onSubmit={handleSubmit}
-                >
-                  <div className="flex flex-col items-center w-full gap-6">
-                    <label className="form-control w-full ">
-                      <div className="label">
-                        <span className="label-text">Name</span>
-                      </div>
-                      <input
-                        type="name"
-                        placeholder="name"
-                        className="input input-bordered text-base-content "
-                        onChange={(e) => setName(e.target.value.trim())}
-                        maxLength={255}
-                        aria-label="Set first name"
-                      />
-                    </label>
-
-                    <div className="flex flex-row justify-end w-full">
-                      <button
-                        type="submit"
-                        className="btn btn-accent"
-                        disabled={!name}
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
+              <EditModal
+                name={eduInstitution.name}
+                setName={setName}
+                handleSubmit={handleSubmit}
+                disabled={name === eduInstitution.name}
+              />
             </div>
           </dialog>
         </div>
@@ -127,12 +104,13 @@ export default function InstitutionPage({
         <p>Updated At: {eduInstitution?.updatedAt.toLocaleDateString()}</p>
       </div>
       <DynamicTable
+        refreshKey={refreshKey}
         tableName={"Study Programs"}
         headers={{ Name: "name" }}
         onRowClick={() => {}}
         filter={{ hasEducationInstitutionID: eduInstitution?.id.toString() }}
         onAddButtonClick={() => {
-          window.location.href = `/studyprograms/add`;
+          setIsAddModalOpen(true);
         }}
         deleteFunction={deleteStudyProgram}
         paginateFunction={paginateStudyPrograms}

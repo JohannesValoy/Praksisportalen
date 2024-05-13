@@ -3,6 +3,7 @@ import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
 import ListOfStudents from "./students";
 import { getUser } from "@/lib/auth";
 import { getCoordinatorsByID } from "@/services/CoordinatorService";
+import { fetchEducationInstitutions } from "../../studyprograms/actions";
 
 /**
  * The Page component fetches the user object and renders the ListOfStudents component.
@@ -21,8 +22,11 @@ export default async function Page() {
     educationInstitutionID = coordinator.educationInstitution.id;
   }
 
+  const educationInstitutions = await fetchEducationInstitutions();
+
   return (
     <ListOfStudents
+      educationInstitutions={educationInstitutions}
       wordbook={null}
       user={user}
       educationInstitutionID={educationInstitutionID}

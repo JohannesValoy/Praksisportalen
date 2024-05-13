@@ -14,10 +14,10 @@ const ContainerBox = ({
   subClassName = "flex-col",
 }) => {
   return (
-    <div className={`flex flex-col w-fit p-5 ${className}`}>
+    <div className={`flex flex-col text-center w-fit p-5 ${className}`}>
       {title && <h1>{title}</h1>}
       <div
-        className={`flex w-full h-full justify-center items-center bg-neutral text-neutral-content p-5 rounded-2xl gap-5 ${subClassName}`}
+        className={`flex flex-wrap w-full h-full justify-center items-center bg-neutral text-neutral-content p-5 rounded-2xl gap-5 ${subClassName}`}
       >
         {children}
       </div>

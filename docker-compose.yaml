@@ -3,6 +3,8 @@ include:
 services:
   adminer:
     image: adminer
+    environment:
+      ADMINER_DESIGN: dracula
     ports:
       - 8080:8080
     networks:

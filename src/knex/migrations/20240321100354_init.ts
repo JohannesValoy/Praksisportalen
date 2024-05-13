@@ -34,7 +34,7 @@ export async function up(knex: Knex): Promise<void> {
       .createTable("departments", (table) => {
         table.increments("id").primary();
         table.string("name").notNullable();
-        table.string("employeeID").nullable();
+        table.uuid("employeeID").nullable();
         table.foreign("employeeID").references("id").inTable("employees");
         table.timestamp("createdAt").defaultTo(knex.fn.now());
         table.timestamp("updatedAt").defaultTo(knex.fn.now());
@@ -47,7 +47,7 @@ export async function up(knex: Knex): Promise<void> {
         table.string("name").notNullable();
         table.string("sectionType").nullable();
         table.foreign("sectionType").references("name").inTable("sectionTypes");
-        table.string("employeeID").nullable();
+        table.uuid("employeeID").nullable();
         table.foreign("employeeID").references("id").inTable("employees");
         table.integer("departmentID").unsigned().notNullable();
         table
@@ -141,14 +141,14 @@ export async function up(knex: Knex): Promise<void> {
         table.increments("id").primary();
         table.date("startDate").notNullable();
         table.date("endDate").notNullable();
-        table.string("studentID");
+        table.uuid("studentID");
         table
           .foreign("studentID")
           .references("id")
           .inTable("students")
           .onUpdate("CASCADE")
           .onDelete("CASCADE");
-        table.string("coordinatorID").notNullable();
+        table.uuid("coordinatorID").notNullable();
         table.foreign("coordinatorID").references("id").inTable("coordinators");
         table.integer("studyProgramID").unsigned().notNullable();
         table
@@ -173,7 +173,7 @@ export async function up(knex: Knex): Promise<void> {
           .notNullable()
           .defaultTo("Pending");
         table.integer("studyProgramID").unsigned().notNullable();
-        table.string("coordinatorID").notNullable();
+        table.uuid("coordinatorID").notNullable();
         table.foreign("coordinatorID").references("id").inTable("coordinators");
         table
           .foreign("studyProgramID")
@@ -275,6 +275,19 @@ export async function up(knex: Knex): Promise<void> {
         END IF;
       END;
       `,
+      )
+      .raw(
+        `
+      CREATE TRIGGER orderBeforeNow
+      BEFORE INSERT ON subFieldGroups
+      FOR EACH ROW
+      BEGIN
+        IF NEW.startWeek <= NOW() THEN
+         SIGNAL SQLSTATE '45000'
+          SET MESSAGE_TEXT = 'Internship is full';
+        END IF;
+      END;
+          `,
       )
       .raw(
         `

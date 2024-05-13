@@ -1,3 +1,4 @@
+"use server";
 import { notFound } from "next/navigation";
 import { getUser } from "@/lib/auth";
 import { Section } from "@/app/_models/Section";

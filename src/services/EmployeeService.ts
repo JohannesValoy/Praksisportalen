@@ -93,6 +93,7 @@ async function getEmployeeObjectsByPagination(
   const employees: Employee[] = [];
   const offset = pageRequest.page * pageRequest.size;
   query.slice(offset, pageRequest.size + offset).forEach((employee) => {
+    employee["password"] = undefined;
     employees.push({ ...employee });
   });
   return {

@@ -112,6 +112,7 @@ async function createCoordinatorObjects(
       new Set(query.map((coordinator) => coordinator.educationInstitutionID)),
     );
   query.forEach((coordinator) => {
+    coordinator["password"] = undefined;
     coordinators.push({
       ...coordinator,
       educationInstitution: educationInstitutions.get(

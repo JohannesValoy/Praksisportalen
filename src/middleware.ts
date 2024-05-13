@@ -106,7 +106,7 @@ const routeRestrictions: Route[] = [
     /(login)/,
     ["GET", "POST"],
     [Role.none, Role.admin, Role.employee, Role.student, Role.coordinator],
-  ),
+  )
 ];
 
 const locales = ["en-US", "nb-NO"];
@@ -117,7 +117,7 @@ export default withAuth(
     const { pathname } = request.nextUrl;
     const pathnameHasLocale = locales.some(
       (locale) =>
-        pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
+        pathname.startsWith(`/${locale}`),
     );
     if (!pathnameHasLocale && !pathname.startsWith("/api")) {
       const locale = getLocale(request);
@@ -143,7 +143,7 @@ export default withAuth(
   {
     callbacks: {
       authorized({ req, token }) {
-        return !!token?.role || req.nextUrl.pathname.includes("login");
+        return !!token?.role || req.nextUrl.pathname.includes("login") || req.nextUrl.pathname.match(/(.webp|.jpg)$/);
       },
     },
   },
@@ -194,5 +194,6 @@ function compareIfAccess(request: NextRequest, token: JWT | null) {
  * This is the configuration for the middleware.
  */
 export const config = {
-  matchers: [/^\/(?!api\/auth)/],
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };

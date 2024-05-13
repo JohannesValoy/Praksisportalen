@@ -1,9 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import ErrorModal from "@/app/_components/ErrorModal";
 import { useRouter } from "next/navigation";
-import homePageImage from "./helsemr-home-page-image.jpg";
+
 
 import {
   Cog6ToothIcon,
@@ -12,7 +10,7 @@ import {
   ClipboardIcon,
   ArrowUpOnSquareIcon,
   ArrowRightIcon,
-  PlusIcon,
+  UserPlusIcon,
 } from "@heroicons/react/24/solid";
 import { fetchOrders } from "../../internshipOrders/@receivedOrders/actions";
 import Link from "next/link";
@@ -35,15 +33,15 @@ const ClickableContainer = ({
 }) => {
   const router = useRouter();
   return (
-    <div
+    <button
       className={`bg-neutral rounded-3xl p-8 flex justify-between items-between cursor-pointer hover:shadow-xl`}
       onClick={() => link && router.push(link)}
     >
       <div className="flex flex-col h-full justify-between w-full">
-        <h3 className="font-bold stroke-lg text-neutral-content">{title}</h3>
-        <h3 className="font-bold stroke-lg text-neutral-content">
+        <h2 className="font-bold stroke-lg text-neutral-content">{title}</h2>
+        <p className="font-bold stroke-lg text-neutral-content">
           {description}
-        </h3>
+        </p>
         <div className="font-bold stroke-lg text-neutral-content flex items-center justify-start">
           {children}
         </div>
@@ -54,7 +52,7 @@ const ClickableContainer = ({
       >
         {icon}
       </div>
-    </div>
+    </button>
   );
 };
 
@@ -70,29 +68,7 @@ const AdminLayout = () => {
 
   return (
     <div className="md:p-5">
-      <div className="flex flex-col sm:flex-row sm:justify-center gap-2 md:gap-16 md:p-5 items-center w-full">
-        <div className="flex justify-center items-center rounded-full w-80 md:w-96 bg-slate-600 overflow-hidden h-80 md:h-96">
-          <Image
-            src={homePageImage}
-            alt="Healthcare Team"
-            width={500}
-            height={500}
-            className="w-auto h-full max-w-none"
-            objectPosition="center"
-          />
-        </div>
-        <div className="md:w-3/5">
-          <h1 className="font-bold md:text-5xl text-2xl lg:text-7xl  text-teal-950">
-            Velkommen til
-          </h1>
-          <h1 className="font-bold md:text-5xl lg:text-7xl text-2xl text-teal-900">
-            Praksisportalen HMR
-          </h1>
-          <p className="stroke-gray-500 text-2xl">
-            På lag med deg for helsa di
-          </p>
-        </div>
-      </div>
+  
 
       <div className="mt-20 w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
@@ -147,7 +123,7 @@ const AdminLayout = () => {
               Students
             </Link>
             <Link href="users/add" className="btn btn-ghost">
-              <PlusIcon className="h-6 w-6" />
+              <UserPlusIcon className="h-6 w-6" />
             </Link>
           </ClickableContainer>
           <ClickableContainer

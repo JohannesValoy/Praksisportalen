@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import ContainerBox from "@/app/_components/ContainerBox";
 import {
   addEducationInstitution,
@@ -23,7 +22,6 @@ export default function AddEduInstitut({
   openModal,
   onClose,
 }: Readonly<Props>) {
-  const router = useRouter();
   const [name, setName] = useState("");
   const [institution, setInstitution] = useState([]);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);

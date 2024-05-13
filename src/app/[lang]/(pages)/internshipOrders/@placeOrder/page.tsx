@@ -60,7 +60,7 @@ export default function Page() {
 
   // Initialize internshipFields as an array of InternshipField
   const [internshipFields, setInternshipFields] = useState<InternshipField[]>(
-    []
+    [],
   );
   const [newType, setNewType] = useState("");
 
@@ -81,11 +81,11 @@ export default function Page() {
               [`${groupId}_${groupIndex}`]: startWeekString,
             };
           },
-          {}
+          {},
         ),
       }),
-      {}
-    )
+      {},
+    ),
   );
 
   const [tempEndWeek, setTempEndWeek] = useState(
@@ -105,11 +105,11 @@ export default function Page() {
               [`${groupId}_${groupIndex}`]: endWeekString,
             };
           },
-          {}
+          {},
         ),
       }),
-      {}
-    )
+      {},
+    ),
   );
 
   // Add a new type for InternshipField
@@ -124,15 +124,15 @@ export default function Page() {
 
   useEffect(() => {
     const isStudyProgramSelected = studyPrograms.some(
-      (program) => program.id !== undefined
+      (program) => program.id !== undefined,
     );
     const isInternshipFieldFilled = fieldGroups.some(
-      (fieldGroup) => fieldGroup.internshipField !== ""
+      (fieldGroup) => fieldGroup.internshipField !== "",
     );
     const isNumStudentsFilled = fieldGroups.some((fieldGroup) =>
       fieldGroup.subFieldGroups.some(
-        (subFieldGroup) => subFieldGroup.numStudents > 0
-      )
+        (subFieldGroup) => subFieldGroup.numStudents > 0,
+      ),
     );
 
     setIsSendDisabled(
@@ -140,7 +140,7 @@ export default function Page() {
         isStudyProgramSelected &&
         isInternshipFieldFilled &&
         isNumStudentsFilled
-      )
+      ),
     );
   }, [studyPrograms, fieldGroups]);
 
@@ -156,7 +156,7 @@ export default function Page() {
         setInternshipFields(data);
       })
       .catch((error) =>
-        console.error("Failed to fetch internship field", error)
+        console.error("Failed to fetch internship field", error),
       );
   }, []);
 
@@ -288,7 +288,7 @@ export default function Page() {
               options={studyPrograms}
               selectedOption={
                 studyPrograms.find(
-                  (studyProgram) => studyProgram.id === studyProgramID
+                  (studyProgram) => studyProgram.id === studyProgramID,
                 ) || null
               }
               setSelectedOption={(studyProgram) => {
@@ -337,7 +337,7 @@ export default function Page() {
                     options={internshipFields}
                     selectedOption={
                       internshipFields.find(
-                        (type) => type.name === group.internshipField
+                        (type) => type.name === group.internshipField,
                       ) || null
                     }
                     setSelectedOption={(type) => {
@@ -431,7 +431,7 @@ export default function Page() {
                               className={`input input-bordered text-base-content ${startWeekErrors[groupKey] ? "input-error" : ""}`}
                               onBlur={(e) => {
                                 const selectedDate = new Date(
-                                  Date.parse(e.target.value)
+                                  Date.parse(e.target.value),
                                 );
                                 const today = new Date();
 
@@ -481,10 +481,10 @@ export default function Page() {
                               }}
                               onBlur={(e) => {
                                 const selectedDate = new Date(
-                                  Date.parse(e.target.value)
+                                  Date.parse(e.target.value),
                                 );
                                 const startWeekDate = new Date(
-                                  Date.parse(tempStartWeek[groupKey])
+                                  Date.parse(tempStartWeek[groupKey]),
                                 );
 
                                 setEndWeekErrors({

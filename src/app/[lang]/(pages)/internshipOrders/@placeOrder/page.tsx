@@ -142,7 +142,13 @@ export default function Page() {
     };
 
     try {
-      await sendOrder(formData);
+      const response = await sendOrder(formData);
+      if (response) {
+        return {
+          statusText: response.error,
+          status: "400",
+        };
+      }
 
       setIsModalVisible(true);
     } catch (error) {
@@ -183,15 +189,15 @@ export default function Page() {
         </div>
       </dialog>
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col items-center w-full h-full">
-          <h1 className="flex justify-center text-4xl font-bold mb-4">
+        <div className="flex flex-col items-center w-full h-full gap-5">
+          <h1 className="flex justify-center text-4xl font-bold">
             Behov for praksisplasser
           </h1>
 
-          <div className="mb-2">
+          <div>
             <span className="label-text text-xl">Studieprogram</span>
           </div>
-          <div className="flex flex-row mb-2 gap-2">
+          <div className="flex flex-row gap-2">
             <Dropdown
               dropdownName="studieprogram"
               options={studyPrograms}
@@ -222,12 +228,11 @@ export default function Page() {
               return (
                 <div
                   key={groupId}
-                  className="group relative justify-centers rounded-3xl bg-base-200 text-base-content mb-2 p-8"
+                  className="group relative justify-centers rounded-2xl bg-neutral text-neutral-content p-2 md:p-5"
                 >
                   <div className="flex flex-row items-center">
-                    <div className=" w-full">
-                      <span className="label-text text-2xl">Praksisfelt</span>
-                    </div>
+                    <span className="label-text text-2xl">Praksisfelt</span>
+
                     {Number(groupId) !== 0 && (
                       <button
                         type="button"
@@ -283,9 +288,9 @@ export default function Page() {
                       Legg til
                     </button>
                   </div>
-                  <div className="flex flex-row mt-2">
+                  <div className="flex flex-row flex-wrap gap-5 justify-center mt-2">
                     {group.subFieldGroups.map((subFieldGroup, groupIndex) => (
-                      <div key={groupIndex} className="mr-4">
+                      <div key={groupIndex}>
                         <div className="label  w-full">
                           <span className="label-text text-xl">
                             {subFieldGroup.studyYear}. år studenter
@@ -293,15 +298,18 @@ export default function Page() {
                         </div>
 
                         <div className="form-control w-full">
-                          <label className="label" htmlFor="numStudents">
-                            <span className="label-text text-xl">
-                              Antall Studenter
-                            </span>
+                          <label
+                            className="label"
+                            htmlFor={`numStudents_${groupIndex}`}
+                          >
+                            Antall Studenter
                           </label>
                           <input
+                            id={`numStudents_${groupIndex}`}
                             type="number"
                             min="0"
-                            value={subFieldGroup.numStudents}
+                            placeholder="0"
+                            aria-label="Antall studenter"
                             onChange={(e) => {
                               const newFieldGroups = [...fieldGroups];
                               newFieldGroups[groupId].subFieldGroups[
@@ -321,12 +329,15 @@ export default function Page() {
                         </div>
 
                         <div className="form-control w-full">
-                          <label className="label" htmlFor="startDate">
-                            <span className="label-text text-xl">
-                              Start Dato
-                            </span>
+                          <label
+                            className="label"
+                            htmlFor={`startDate_${groupIndex}`}
+                          >
+                            Start Dato
                           </label>
                           <input
+                            id={`startDate_${groupIndex}`}
+                            aria-label="Start date"
                             type="date"
                             value={
                               subFieldGroup.startWeek
@@ -336,26 +347,29 @@ export default function Page() {
                             className={`input input-bordered text-base-content`}
                             onChange={(e) => {
                               const newFieldGroups = [...fieldGroups];
-                              newFieldGroups[groupId].subFieldGroups[
-                                groupIndex
-                              ].startWeek = new Date(
-                                Date.parse(e.target.value),
-                              );
-                              setFieldGroups(newFieldGroups);
+                              const dateValue = Date.parse(e.target.value);
+                              if (!isNaN(dateValue)) {
+                                newFieldGroups[groupId].subFieldGroups[
+                                  groupIndex
+                                ].startWeek = new Date(dateValue);
+                                setFieldGroups(newFieldGroups);
+                              }
                             }}
                             required={
                               studentsAboveZero[`${groupId}_${groupIndex}`]
                             }
                           />
                         </div>
-
                         <div className="form-control w-full">
-                          <label className="label" htmlFor="endDate">
-                            <span className="label-text text-xl">
-                              Slutt Dato
-                            </span>
+                          <label
+                            className="label"
+                            htmlFor={`endDate_${groupIndex}`}
+                          >
+                            Slutt Dato
                           </label>
                           <input
+                            id={`endDate_${groupIndex}`}
+                            aria-label="End date"
                             type="date"
                             value={
                               subFieldGroup.endWeek?.toISOString().split("T")[0]
@@ -367,10 +381,13 @@ export default function Page() {
                             }`}
                             onChange={(e) => {
                               const newFieldGroups = [...fieldGroups];
-                              newFieldGroups[groupId].subFieldGroups[
-                                groupIndex
-                              ].endWeek = new Date(Date.parse(e.target.value));
-                              setFieldGroups(newFieldGroups);
+                              const dateValue = Date.parse(e.target.value);
+                              if (!isNaN(dateValue)) {
+                                newFieldGroups[groupId].subFieldGroups[
+                                  groupIndex
+                                ].endWeek = new Date(dateValue);
+                                setFieldGroups(newFieldGroups);
+                              }
                             }}
                             required={
                               studentsAboveZero[`${groupId}_${groupIndex}`]
@@ -393,9 +410,7 @@ export default function Page() {
           </button>
 
           <div className="w-3/4 ">
-            <div className="label">
-              <span className="label-text text-xl">Kommentar</span>
-            </div>
+            <span className="label-text text-xl">Kommentar</span>
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}

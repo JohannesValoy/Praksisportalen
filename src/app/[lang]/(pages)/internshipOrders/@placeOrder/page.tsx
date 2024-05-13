@@ -30,19 +30,19 @@ export default function Page() {
   const initialSubFieldGroups = [
     {
       studyYear: 1,
-      numStudents: 0,
+      numStudents: null,
       startWeek: null,
       endWeek: null,
     },
     {
       studyYear: 2,
-      numStudents: 0,
+      numStudents: null,
       startWeek: null,
       endWeek: null,
     },
     {
       studyYear: 3,
-      numStudents: 0,
+      numStudents: null,
       startWeek: null,
       endWeek: null,
     },
@@ -215,7 +215,13 @@ export default function Page() {
     };
 
     try {
-      await sendOrder(formData);
+      const response = await sendOrder(formData);
+      if (response) {
+        return {
+          statusText: response.error,
+          status: "400",
+        };
+      }
 
       setIsModalVisible(true);
     } catch (error) {
@@ -256,15 +262,14 @@ export default function Page() {
         </div>
       </dialog>
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col items-center w-full h-full">
-          <h1 className="flex justify-center text-4xl font-bold mb-4">
+        <div className="flex flex-col items-center w-full h-full gap-5">
+          <h1 className="flex justify-center text-4xl font-bold">
             Order Internships
           </h1>
 
-          <div className="mb-2">
-            <span className="label-text text-xl">Study Program</span>
-          </div>
-          <div className="flex flex-row mb-2 gap-2">
+          <span className="label-text text-xl">Study Program</span>
+
+          <div className="flex flex-row gap-2">
             <Dropdown
               dropdownName="Study Program"
               options={studyPrograms}
@@ -295,14 +300,12 @@ export default function Page() {
               return (
                 <div
                   key={groupId}
-                  className="group relative justify-centers rounded-3xl bg-base-200 text-base-content mb-2 p-8"
+                  className="group relative justify-centers rounded-2xl bg-neutral text-neutral-content p-2 md:p-5"
                 >
-                  <div className="flex flex-row items-center">
-                    <div className=" w-full">
-                      <span className="label-text text-2xl">
-                        Internship field
-                      </span>
-                    </div>
+                  <div className="flex flex-row items-center justify-between">
+                    <span className="label-text text-2xl">
+                      Internship field
+                    </span>
                     {Number(groupId) !== 0 && (
                       <button
                         type="button"
@@ -355,15 +358,15 @@ export default function Page() {
                         internshipFields.some((field) => field.name === newType)
                       }
                     >
-                      Legg til
+                      Add
                     </button>
                   </div>
-                  <div className="flex flex-row mt-2">
+                  <div className="flex flex-row flex-wrap gap-5 justify-center mt-2">
                     {group.subFieldGroups.map((subFieldGroup, groupIndex) => {
                       const groupKey = `${groupId}_${groupIndex}`;
 
                       return (
-                        <div key={groupKey} className="mr-4">
+                        <div key={groupKey}>
                           <div className="label  w-full">
                             <span className="label-text text-xl">
                               {subFieldGroup.studyYear}. year students
@@ -371,14 +374,17 @@ export default function Page() {
                           </div>
 
                           <div className="form-control w-full">
-                            <label className="label" htmlFor="numStudents">
-                              <span className="label-text text-xl">
-                                Number of students
-                              </span>
+                            <label
+                              className="label"
+                              htmlFor={`numStudents_${groupIndex}`}
+                            >
+                              Number of students
                             </label>
                             <input
+                              id={`numStudents_${groupIndex}`}
                               type="number"
                               min="0"
+                              placeholder="0"
                               value={subFieldGroup.numStudents}
                               onChange={(e) => {
                                 const newFieldGroups = [...fieldGroups];
@@ -386,8 +392,6 @@ export default function Page() {
                                   groupIndex
                                 ].numStudents = e.target.value;
                                 setFieldGroups(newFieldGroups);
-
-                                // Set studentsAboveZero for this groupId
                                 setStudentsAboveZero({
                                   ...studentsAboveZero,
                                   [`${groupId}_${groupIndex}`]:
@@ -399,12 +403,14 @@ export default function Page() {
                           </div>
 
                           <div className="form-control w-full">
-                            <label className="label" htmlFor="startDate">
-                              <span className="label-text text-xl">
-                                Start date
-                              </span>
+                            <label
+                              className="label"
+                              htmlFor={`startDate_${groupIndex}`}
+                            >
+                              Start Dato
                             </label>
                             <input
+                              id={`startDate_${groupIndex}`}
                               type="date"
                               value={tempStartWeek[groupKey]}
                               className={`input input-bordered text-base-content ${startWeekErrors[groupKey] ? "input-error" : ""}`}
@@ -441,12 +447,14 @@ export default function Page() {
                           </div>
 
                           <div className="form-control w-full">
-                            <label className="label" htmlFor="endDate">
-                              <span className="label-text text-xl">
-                                End date
-                              </span>
+                            <label
+                              className="label"
+                              htmlFor={`endDate_${groupIndex}`}
+                            >
+                              End date
                             </label>
                             <input
+                              id={`endDate_${groupIndex}`}
                               type="date"
                               value={tempEndWeek[groupKey]}
                               className={`input input-bordered text-base-content ${endWeekErrors[groupKey] ? "input-error" : ""}`}
@@ -500,9 +508,7 @@ export default function Page() {
           </button>
 
           <div className="w-3/4 ">
-            <div className="label">
-              <span className="label-text text-xl">Comment</span>
-            </div>
+            <span className="label-text text-xl">Comment</span>
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}

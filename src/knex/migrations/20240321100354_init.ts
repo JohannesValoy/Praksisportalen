@@ -275,7 +275,17 @@ export async function up(knex: Knex): Promise<void> {
         END IF;
       END;
       `,
-      )
+      ).raw(`
+      CREATE TRIGGER orderBeforeNow
+      BEFORE INSERT ON subFieldGroups
+      FOR EACH ROW
+      BEGIN
+        IF NEW.startWeek <= NOW() THEN
+         SIGNAL SQLSTATE '45000'
+          SET MESSAGE_TEXT = 'Internship is full';
+        END IF;
+      END;
+          `)
       .raw(
         `
       CREATE TRIGGER maxNotLowerThenCurrent

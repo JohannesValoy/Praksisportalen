@@ -142,7 +142,13 @@ export default function Page() {
     };
 
     try {
-      await sendOrder(formData);
+      const response = await sendOrder(formData);
+      if(response) {
+        return {
+          statusText: response.error,
+          status: "400"
+        }
+      }
 
       setIsModalVisible(true);
     } catch (error) {

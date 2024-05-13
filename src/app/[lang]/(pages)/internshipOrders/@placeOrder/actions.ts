@@ -62,7 +62,7 @@ interface FormData {
  * @param data The order data.
  * @throws error if it fails to add the internship order.
  */
-export async function sendOrder(data: FormData) {
+export async function sendOrder(data: FormData) : Promise<void|{error : string}> {
   try {
     const user = await getUser();
     await DBclient.transaction(async (trx) => {
@@ -98,6 +98,8 @@ export async function sendOrder(data: FormData) {
       }
     });
   } catch (error) {
-    throw new Error("Failed to add internship order");
+    return {
+      "error": error.message.split("-")[-1]
+    }
   }
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import Gantt from "../../../../_components/Gantt";
-import { getSectionGanttIntervals } from "./page";
+import { getSectionGanttIntervals } from "./action";
 
 /**
  * A Gantt diagram that shows time intervals within a section

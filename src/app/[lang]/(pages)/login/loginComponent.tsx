@@ -54,7 +54,7 @@ export const LoginComponent = () => {
   const input_style = "input input-bordered text-base-content w-full max-w-xs";
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 h-full">
+    <div className="flex flex-col items-center justify-center gap-4 ">
       <h1 className="text-3xl mb-4">Login Page</h1>
       <form className="flex flex-col items-center" onSubmit={onSubmit}>
         {error && (

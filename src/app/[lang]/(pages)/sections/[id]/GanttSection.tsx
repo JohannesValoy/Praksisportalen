@@ -6,7 +6,7 @@ import { getSectionGanttIntervals } from "./page";
 /**
  * A Gantt diagram that show for a user
  * @param root the root element
- * @param root.userID the id of the student
+ * @param root.sectionID the id of the section
  * @returns a JSX element that shows the student GanttDiagram
  */
 export default function SectionGantt({ sectionID }) {

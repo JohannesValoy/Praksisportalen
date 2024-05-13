@@ -11,7 +11,7 @@ import DBClient from "@/knex/config/DBClient";
 /**
  * Fetched the student Gant information
  * @param date reference date
- * @param studentID the id of the student
+ * @param sectionID the id of the section
  * @param days the amount of days to fetch from the start of that week
  * @returns A promise of a list with {@link GanttProp}
  */

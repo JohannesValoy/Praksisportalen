@@ -1,4 +1,4 @@
-"use server"
+"use server";
 import { notFound } from "next/navigation";
 import { getUser } from "@/lib/auth";
 import { Section } from "@/app/_models/Section";
@@ -7,7 +7,6 @@ import SectionPage from "./section";
 import { fetchEmployees, fetchSectionTypes } from "../add/action";
 import { GanttProp } from "@/app/_components/Gantt";
 import DBClient from "@/knex/config/DBClient";
-
 
 /**
  * Fetched the student Gant information
@@ -36,13 +35,19 @@ export async function getSectionGanttIntervals(
   return await DBClient.transaction(async (trx) => {
     const agreements = await trx
       .from("sections")
-      .select("internships.name", "internships.id", "timeIntervals.startDate", "timeIntervals.endDate")
+      .select(
+        "internships.name",
+        "internships.id",
+        "timeIntervals.startDate",
+        "timeIntervals.endDate",
+      )
       .where("sections.id", sectionID)
+      .innerJoin("internships", "internships.sectionID", "sections.id")
       .innerJoin(
-        "internships",
-        "internships.sectionID",
-        "sections.id",
-      ).innerJoin("internshipAgreements", "internshipAgreements.internshipID", "internships.id")
+        "internshipAgreements",
+        "internshipAgreements.internshipID",
+        "internships.id",
+      )
       .innerJoin(
         "timeIntervals",
         "timeIntervals.internshipAgreementID",

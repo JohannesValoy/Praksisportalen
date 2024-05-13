@@ -19,5 +19,5 @@ export default function SectionGantt({ sectionID }) {
     return await getSectionGanttIntervals(date, sectionID);
   }
 
-return <Gantt fetchData={getData}/>
+  return <Gantt fetchData={getData} />;
 }

@@ -190,7 +190,7 @@ export default function SectionPage({
             setIsAddModalOpen(true);
           }}
         />
-      <SectionGantt sectionID={section.id}/>
+        <SectionGantt sectionID={section.id} />
       </>
     </>
   );

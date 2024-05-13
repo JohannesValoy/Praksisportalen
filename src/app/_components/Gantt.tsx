@@ -63,13 +63,13 @@ export default function Gantt({
   function getISOWeekNumber(date: Date): number {
     // Copy date so don't modify original
     const tempDate = new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
     );
 
     // Set to nearest Thursday (unix start day): current date + 4 - current day number
     // Make Sunday's day number 7
     tempDate.setUTCDate(
-      tempDate.getUTCDate() + 4 - (tempDate.getUTCDay() || 7)
+      tempDate.getUTCDate() + 4 - (tempDate.getUTCDay() || 7),
     );
 
     // Get first day of year
@@ -77,7 +77,7 @@ export default function Gantt({
 
     // Calculate full weeks to nearest Thursday
     const weekNo = Math.ceil(
-      ((tempDate.getTime() - yearStart.getTime()) / 86400000 + 1) / 7
+      ((tempDate.getTime() - yearStart.getTime()) / 86400000 + 1) / 7,
     );
 
     // Return the week number

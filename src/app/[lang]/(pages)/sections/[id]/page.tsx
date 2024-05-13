@@ -9,7 +9,7 @@ import { GanttProp } from "@/app/_components/Gantt";
 import DBClient from "@/knex/config/DBClient";
 
 /**
- * Fetched the student Gant information
+ * Fetched the sections Gantt information
  * @param date reference date
  * @param sectionID the id of the section
  * @param days the amount of days to fetch from the start of that week
@@ -20,18 +20,10 @@ export async function getSectionGanttIntervals(
   sectionID: string,
   days: number = 6,
 ): Promise<GanttProp[]> {
-  date.setDate(date.getDate() - date.getDay());
-  const startDate = new Date(date);
-  startDate.setHours(0);
-  startDate.setMinutes(0);
-  startDate.setSeconds(0);
-  startDate.setMilliseconds(0);
-  date.setDate(date.getDate() + (days > 0 ? days : 6));
-  const endDate = new Date(date);
-  startDate.setHours(23);
-  startDate.setMinutes(59);
-  startDate.setSeconds(59);
-  startDate.setMilliseconds(999);
+  const [startDate, endDate] = getIntervalBetweenStartOfWeekAndTotalOffsetDays(
+    date,
+    days,
+  );
   return await DBClient.transaction(async (trx) => {
     const agreements = await trx
       .from("sections")

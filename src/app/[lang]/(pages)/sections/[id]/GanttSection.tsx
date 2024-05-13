@@ -4,10 +4,10 @@ import Gantt from "../../../../_components/Gantt";
 import { getSectionGanttIntervals } from "./page";
 
 /**
- * A Gantt diagram that show for a user
+ * A Gantt diagram that shows time intervals within a section
  * @param root the root element
  * @param root.sectionID the id of the section
- * @returns a JSX element that shows the student GanttDiagram
+ * @returns a JSX element that shows the sections timeintervals GanttDiagram
  */
 export default function SectionGantt({ sectionID }) {
   /**

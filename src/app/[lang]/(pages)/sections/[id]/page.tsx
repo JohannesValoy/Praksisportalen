@@ -53,7 +53,7 @@ export async function getSectionGanttIntervals(
     const datalist: GanttProp[] = [];
     agreements.forEach((agreement) => {
       let agreementObject: GanttProp = datalist.find(
-        (data) => data.name === agreement.name,
+        (data) => data.id === agreement.id,
       );
       if (!agreementObject) {
         agreementObject = {
@@ -68,7 +68,6 @@ export async function getSectionGanttIntervals(
         endDate: agreement.endDate,
       });
     });
-    console.log(datalist)
     return datalist;
   });
 }

@@ -94,7 +94,6 @@ export default function Gantt({
     "Saturday",
   ];
 
-  console.log(datalist);
   return (
     <div
       className="bg-secondary-200 w-full  p-5 rounded-lg flex flex-col items-center justify-center"

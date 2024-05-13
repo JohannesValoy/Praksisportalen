@@ -16,7 +16,6 @@ import AddEmployee from "./AddEmployeeModal";
 import EmployeeDropdown from "../Dropdowns/EmployeeDropdown";
 
 type Props = {
-  openModal: boolean;
   onClose: () => void;
   department?: any;
 };
@@ -30,7 +29,6 @@ type Props = {
  * @returns A form to add a section.
  */
 export default function AddSection({
-  openModal,
   onClose,
   department = null,
 }: Readonly<Props>) {
@@ -150,18 +148,16 @@ export default function AddSection({
     <>
       <div className="fixed inset-0 bg-black opacity-50" />
       <dialog
-        open={openModal === true}
+        open={true}
         className="modal modal-bottom sm:modal-middle"
       >
         {openDepartmentModal && (
           <AddDepartment
-            openModal={openDepartmentModal}
             onClose={closeDepartmentModal}
           />
         )}
         {openEmployeeModal && (
           <AddEmployee
-            openModal={openEmployeeModal}
             onClose={closeEmployeeModal}
           />
         )}

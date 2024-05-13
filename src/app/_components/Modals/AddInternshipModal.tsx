@@ -13,7 +13,6 @@ import ContainerBox from "@/app/_components/ContainerBox";
 import AddSection from "./AddSectionModal";
 
 type Props = {
-  openModal: boolean;
   onClose: () => void;
   section?: any;
 };
@@ -27,7 +26,6 @@ type Props = {
  * @returns A form to add an internship.
  */
 export default function AddInternship({
-  openModal,
   onClose,
   section = null,
 }: Readonly<Props>) {
@@ -137,11 +135,11 @@ export default function AddInternship({
     <>
       <div className="fixed inset-0 bg-black opacity-50" />
       <dialog
-        open={openModal === true}
+        open={true}
         className="modal modal-bottom sm:modal-middle lg:modal-lg xl:modal-xl"
       >
         {isAddModalOpen && (
-          <AddSection openModal={isAddModalOpen} onClose={closeAddModal} />
+          <AddSection onClose={closeAddModal} />
         )}
         <div className="flex justify-center items-center ">
           <ContainerBox className="items-center">

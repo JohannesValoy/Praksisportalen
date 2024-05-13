@@ -29,7 +29,7 @@ export default function ListOfSections({
   return (
     <>
       {isAddModalOpen && (
-        <AddSection openModal={isAddModalOpen} onClose={closeAddModal} />
+        <AddSection onClose={closeAddModal} />
       )}
       <SectionTable
         refreshKey={refreshKey}

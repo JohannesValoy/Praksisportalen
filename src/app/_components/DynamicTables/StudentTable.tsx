@@ -54,7 +54,6 @@ const StudentTable: React.FC<StudentTableProps> = ({
     <>
       {isAddModalOpen && (
         <AddStudentModal
-          openModal={isAddModalOpen}
           onClose={closeAddModal}
           eduInstitutionID={filter?.educationInstitutionID}
           educationInstitutions={educationInstitutions}

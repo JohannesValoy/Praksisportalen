@@ -25,7 +25,7 @@ const ListOfDepartments = ({ user }) => {
   return (
     <>
       {isAddModalOpen && (
-        <AddDepartment openModal={isAddModalOpen} onClose={closeAddModal} />
+        <AddDepartment onClose={closeAddModal} />
       )}
       <DepartmentTable
         refreshKey={refreshKey}

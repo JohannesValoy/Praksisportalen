@@ -9,7 +9,7 @@ type Props = {
   wordbook?: { [key: string]: string };
   eduInstitutionID?: number;
   educationInstitutions?: EducationInstitution[];
-  openModal: boolean;
+
   onClose: () => void;
 };
 
@@ -32,7 +32,7 @@ export default function AddStudentModal({
   wordbook,
   eduInstitutionID,
   educationInstitutions,
-  openModal,
+  
   onClose,
 }: Readonly<Props>) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
@@ -83,7 +83,7 @@ export default function AddStudentModal({
     <>
       <div className="fixed inset-0 bg-black opacity-50" />
       <dialog
-        open={openModal === true}
+        open={true}
         className="modal modal-bottom sm:modal-middle"
       >
         <div className="flex flex-col justify-center items-center h-fit w-full">

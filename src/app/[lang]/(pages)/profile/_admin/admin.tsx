@@ -28,7 +28,7 @@ export default function AdminPage({ user }) {
       <SectionTable />
       <InternshipTable />
       {isAddModalOpen && (
-        <AddDepartment openModal={isAddModalOpen} onClose={closeAddModal} />
+        <AddDepartment onClose={closeAddModal} />
       )}
       <DepartmentTable
         refreshKey={refreshKey}

@@ -11,7 +11,6 @@ import AddEmployee from "./AddEmployeeModal";
 import EmployeeDropdown from "../Dropdowns/EmployeeDropdown";
 
 type Props = {
-  openModal: boolean;
   onClose: () => void;
 };
 
@@ -22,7 +21,7 @@ type Props = {
  * @param root.onClose The onClose function.
  * @returns A form to add a department.
  */
-export default function AddDepartment({ openModal, onClose }: Readonly<Props>) {
+export default function AddDepartment({ onClose }: Readonly<Props>) {
   const [departments, setDepartments] = useState([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [employeeID, setEmployeeID] = useState(null);
@@ -95,11 +94,11 @@ export default function AddDepartment({ openModal, onClose }: Readonly<Props>) {
     <>
       <div className="fixed inset-0 bg-black opacity-50" />
       <dialog
-        open={openModal === true}
+        open={true}
         className="modal modal-bottom sm:modal-middle"
       >
         {isAddModalOpen && (
-          <AddEmployee openModal={isAddModalOpen} onClose={closeAddModal} />
+          <AddEmployee onClose={closeAddModal} />
         )}
         <div className="flex flex-col justify-center items-center h-fit w-full">
           <ContainerBox className="items-center">

@@ -165,7 +165,6 @@ export default function SectionPage({
       <>
         {isAddModalOpen && (
           <AddInternship
-            openModal={isAddModalOpen}
             onClose={closeAddModal}
             section={section}
           />

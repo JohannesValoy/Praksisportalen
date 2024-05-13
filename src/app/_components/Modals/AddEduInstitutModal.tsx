@@ -7,7 +7,7 @@ import {
 } from "../../[lang]/(pages)/educationInstitutions/actions";
 
 type Props = {
-  openModal: boolean;
+
   onClose: () => void;
 };
 
@@ -19,7 +19,7 @@ type Props = {
  * @returns A form to add an education institution.
  */
 export default function AddEduInstitut({
-  openModal,
+  
   onClose,
 }: Readonly<Props>) {
   const [name, setName] = useState("");
@@ -58,7 +58,7 @@ export default function AddEduInstitut({
     <>
       <div className="fixed inset-0 bg-black opacity-50" />
       <dialog
-        open={openModal === true}
+        open={true}
         className="modal modal-bottom sm:modal-middle"
       >
         <div className="flex flex-col justify-center items-center h-fit w-full">

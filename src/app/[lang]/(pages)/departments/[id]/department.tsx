@@ -133,7 +133,6 @@ export default function DepartmentPage({
       <>
         {isAddModalOpen && (
           <AddSection
-            openModal={isAddModalOpen}
             onClose={closeAddModal}
             department={department}
           />

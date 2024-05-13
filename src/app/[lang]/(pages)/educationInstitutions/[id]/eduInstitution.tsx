@@ -69,7 +69,6 @@ export default function InstitutionPage({
     <>
       {isAddModalOpen && (
         <AddStudyProgram
-          openModal={isAddModalOpen}
           onClose={closeAddModal}
           educationInstitution={eduInstitution}
         />

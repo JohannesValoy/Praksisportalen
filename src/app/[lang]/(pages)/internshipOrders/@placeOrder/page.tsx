@@ -252,7 +252,7 @@ export default function Page() {
   return (
     <>
       {isAddModalOpen && (
-        <AddStudyProgram openModal={isAddModalOpen} onClose={closeAddModal} />
+        <AddStudyProgram onClose={closeAddModal} />
       )}
       <dialog
         open={isModalVisible}

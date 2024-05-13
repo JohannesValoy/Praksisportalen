@@ -10,7 +10,7 @@ import AddStudentModal from "../Modals/AddStudentModal";
 interface StudentTableProps {
   filter?: any;
   user?: any;
-  educationInstitutions?: any;
+  educationInstitutions?: { id: number; name: string }[];
 }
 
 /**
@@ -57,7 +57,7 @@ const StudentTable: React.FC<StudentTableProps> = ({
           openModal={isAddModalOpen}
           onClose={closeAddModal}
           eduInstitutionID={filter?.educationInstitutionID}
-          educationInstitutions={[educationInstitutions]}
+          educationInstitutions={educationInstitutions}
         />
       )}
       <DynamicTable

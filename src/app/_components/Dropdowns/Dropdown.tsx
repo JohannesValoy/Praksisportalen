@@ -46,12 +46,15 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  /**
+   * Incase the options are nested, flatten them. Otherwise, return the options.
+   */
   const flattenedOptions = Array.isArray(options) ? options.flat() : [];
 
   const filteredOptions = flattenedOptions.filter((option) =>
     option.name
       ? option.name.toLowerCase().includes((searchTerm || "").toLowerCase())
-      : false
+      : false,
   );
 
   return (

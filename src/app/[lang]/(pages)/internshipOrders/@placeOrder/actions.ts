@@ -83,7 +83,7 @@ export async function sendOrder(
         });
         // For each subFieldGroup in fieldGroup, insert into subFieldGroups table
         const subFieldGroups = fieldGroup.subFieldGroups.filter(
-          (group) => group.numStudents > 0,
+          (group) => group.numStudents,
         );
         if (subFieldGroups.length === 0) {
           throw Error("A subFieldGroup does not have the required amount");

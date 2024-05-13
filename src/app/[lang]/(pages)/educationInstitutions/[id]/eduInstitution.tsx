@@ -10,6 +10,7 @@ import {
 } from "../../studyprograms/actions";
 import StudentTable from "@/app/_components/DynamicTables/StudentTable";
 import AddStudyProgram from "@/app/_components/Modals/AddStudyProgramModal";
+import EditModal from "@/app/_components/Modals/EditModal";
 
 /**
  * The InstitutionPage component displays the details of an education institution.
@@ -29,7 +30,7 @@ export default function InstitutionPage({
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState(eduInstitution.name || "");
 
   /**
    * The handleSubmit function updates the education institution details.
@@ -90,9 +91,7 @@ export default function InstitutionPage({
           <dialog open={showModal === true} className="modal">
             <div className="modal-box">
               <div className="flex flex-row justify-between w-full">
-                <h2 className="font-bold text-lg">
-                  Edit {eduInstitution.name}
-                </h2>
+                <h2 className="font-bold text-lg">Edit</h2>
                 <button
                   onClick={() => setShowModal(false)}
                   type="button"
@@ -101,40 +100,12 @@ export default function InstitutionPage({
                   x
                 </button>
               </div>
-
-              <div className="modal-action">
-                <form
-                  className="w-full"
-                  method="dialog"
-                  onSubmit={handleSubmit}
-                >
-                  <div className="flex flex-col items-center w-full gap-6">
-                    <label className="form-control w-full ">
-                      <div className="label">
-                        <span className="label-text">Name</span>
-                      </div>
-                      <input
-                        type="name"
-                        placeholder="name"
-                        className="input input-bordered text-base-content "
-                        onChange={(e) => setName(e.target.value.trim())}
-                        maxLength={255}
-                        aria-label="Set first name"
-                      />
-                    </label>
-
-                    <div className="flex flex-row justify-end w-full">
-                      <button
-                        type="submit"
-                        className="btn btn-accent"
-                        disabled={!name}
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
+              <EditModal
+                name={eduInstitution.name}
+                setName={setName}
+                handleSubmit={handleSubmit}
+                disabled={name === eduInstitution.name}
+              ></EditModal>
             </div>
           </dialog>
         </div>

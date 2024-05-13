@@ -42,7 +42,6 @@ export default function AddStudentPage({
   const [educationInstitutionID, setEducationInstitutionID] = useState(
     user.educationInstitutionID || null,
   );
-  console.log(user.educationInstitutionID);
 
   useEffect(() => {
     if (

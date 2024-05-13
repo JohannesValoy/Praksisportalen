@@ -180,7 +180,7 @@ export default function AddSection({
                 placeholder="Section Name"
                 className="input input-bordered text-base-content"
                 onChange={(e) => setName(e.target.value)}
-                value={name}
+                defaultValue={name}
                 maxLength={255}
                 aria-label="Set section Name"
                 required
@@ -244,7 +244,7 @@ export default function AddSection({
                 <div className="flex flex-row mt-2">
                   <input
                     type="text"
-                    value={newType}
+                    defaultValue={newType}
                     aria-label="New section type"
                     onChange={(e) => setNewType(e.target.value)}
                     placeholder="New section type"

@@ -117,7 +117,7 @@ export default function AddStudyProgram({
                 placeholder="Study Program Name"
                 className="input input-bordered text-base-content"
                 onChange={(e) => setName(e.target.value)}
-                value={name}
+                defaultValue={name}
                 maxLength={255}
                 aria-label="Set study Program Name"
                 required

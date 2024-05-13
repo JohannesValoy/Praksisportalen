@@ -77,7 +77,7 @@ export default function AddEduInstitut({
                 placeholder="Education Institution Name"
                 className="input input-bordered text-base-content "
                 aria-label="Education Institution Name"
-                value={name}
+                defaultValue={name}
                 onChange={(e) => setName(e.target.value)}
                 maxLength={255}
                 required

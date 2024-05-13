@@ -38,7 +38,7 @@ export default function SectionPage({
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState(section.name || "");
 
   const [sectionType, setSectionType] = useState("");
 
@@ -133,7 +133,7 @@ export default function SectionPage({
                 name={section.name}
                 setName={setName}
                 handleSubmit={handleSubmit}
-                disabled={!name && !employeeID && !sectionType}
+                disabled={name === section.name && !employeeID && !sectionType}
               >
                 <div className="w-full">
                   <div className="label">

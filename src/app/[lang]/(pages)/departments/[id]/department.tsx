@@ -121,7 +121,7 @@ export default function DepartmentPage({
                 name={department.name}
                 setName={setName}
                 handleSubmit={handleSubmit}
-                disabled={!name && !employeeID}
+                disabled={name === department.name && !employeeID}
               >
                 <div className="w-full">
                   <div className="label">

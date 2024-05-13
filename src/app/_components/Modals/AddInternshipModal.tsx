@@ -159,7 +159,7 @@ export default function AddInternship({
                   placeholder="Internship Name"
                   className="input input-bordered text-base-content"
                   onChange={(e) => setName(e.target.value)}
-                  value={name}
+                  defaultValue={name}
                   maxLength={255}
                   aria-label="Set Internship Name"
                   required
@@ -207,7 +207,7 @@ export default function AddInternship({
                   <div className="flex flex-row mt-2">
                     <input
                       type="text"
-                      value={newField}
+                      defaultValue={newField}
                       onChange={(e) => setNewField(e.target.value)}
                       aria-label="New Internship Field"
                       placeholder="New Internship Field"

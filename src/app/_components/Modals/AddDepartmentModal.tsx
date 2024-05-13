@@ -116,7 +116,7 @@ export default function AddDepartment({ openModal, onClose }: Readonly<Props>) {
                 placeholder="Department Name"
                 className="input input-bordered text-base-content"
                 onChange={(e) => setName(e.target.value)}
-                value={name}
+                defaultValue={name}
                 maxLength={255}
                 aria-label="Set department Name"
                 required

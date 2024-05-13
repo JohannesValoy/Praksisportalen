@@ -36,7 +36,7 @@ const EditModal: React.FC<EditModalProps> = ({
             type="name"
             placeholder={name}
             className="input input-bordered text-base-content w-full"
-            value={name}
+            defaultValue={name}
             onChange={(e) => setName(e.target.value.trim())}
             maxLength={255}
             aria-label="Set first name"

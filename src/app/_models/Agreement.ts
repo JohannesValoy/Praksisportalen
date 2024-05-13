@@ -1,6 +1,7 @@
 import {
   InternshipAgreementTable,
-  InternshipFieldTable,
+  InternshipTable,
+  StudentTable,
 } from "knex/types/tables.js";
 import { PageRequest, fromRequestToPage } from "./pageinition";
 import { StudyProgram } from "./StudyProgram";
@@ -11,7 +12,8 @@ import { NextRequest } from "next/server";
  */
 export interface InternshipAgreement extends InternshipAgreementTable {
   studyProgram: StudyProgram;
-  internship: InternshipFieldTable;
+  internship: InternshipTable;
+  student: StudentTable;
 }
 
 /**

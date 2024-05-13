@@ -1,10 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  createEmployee,
-  fetchEmployeesEmail,
-} from "../../[lang]/(pages)/users/add/action";
+import { createEmployee } from "../../[lang]/(pages)/users/add/action";
 import ContainerBox from "@/app/_components/ContainerBox";
 import { generatePassword } from "@/services/EmployeeService";
 
@@ -23,8 +20,6 @@ type Props = {
 export default function AddEmployee({ openModal, onClose }: Readonly<Props>) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
-  const [employees, setEmployees] = useState([]);
-
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -33,22 +28,13 @@ export default function AddEmployee({ openModal, onClose }: Readonly<Props>) {
     if (
       firstName.trim() === "" ||
       lastName.trim() === "" ||
-      email.trim() === "" ||
-      employees.some((emp) => emp.email === email.trim())
+      email.trim() === ""
     ) {
       setIsSubmitDisabled(true);
     } else {
       setIsSubmitDisabled(false);
     }
-  }, [firstName, lastName, email, employees]);
-
-  useEffect(() => {
-    fetchEmployeesEmail()
-      .then((data) => {
-        setEmployees(data);
-      })
-      .catch((error) => console.error("Failed to fetch Employees", error));
-  }, []);
+  }, [firstName, lastName, email]);
 
   /**
    * The handleSubmit function adds a new employee.
@@ -64,9 +50,14 @@ export default function AddEmployee({ openModal, onClose }: Readonly<Props>) {
       role: "user",
       password: generatePassword(8),
     };
-
-    await createEmployee(data);
-    onClose();
+    try {
+      await createEmployee(data);
+      onClose();
+    } catch (error) {
+      const errorMessage = error.message;
+      const userFriendlyMessage = errorMessage.split("-").pop().trim();
+      window.alert(userFriendlyMessage);
+    }
   };
 
   return (

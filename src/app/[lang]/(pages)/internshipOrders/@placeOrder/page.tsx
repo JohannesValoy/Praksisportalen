@@ -23,23 +23,26 @@ export default function Page() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [studentsAboveZero, setStudentsAboveZero] = useState({});
+  const [startWeekErrors, setStartWeekErrors] = useState({});
+  const [endWeekErrors, setEndWeekErrors] = useState({});
+  const [isSendDisabled, setIsSendDisabled] = useState(true);
 
   const initialSubFieldGroups = [
     {
       studyYear: 1,
-      numStudents: 0,
+      numStudents: null,
       startWeek: null,
       endWeek: null,
     },
     {
       studyYear: 2,
-      numStudents: 0,
+      numStudents: null,
       startWeek: null,
       endWeek: null,
     },
     {
       studyYear: 3,
-      numStudents: 0,
+      numStudents: null,
       startWeek: null,
       endWeek: null,
     },
@@ -59,6 +62,54 @@ export default function Page() {
   );
   const [newType, setNewType] = useState("");
 
+  const [tempStartWeek, setTempStartWeek] = useState(
+    fieldGroups.reduce(
+      (acc, fieldGroup, groupId) => ({
+        ...acc,
+        ...fieldGroup.subFieldGroups.reduce(
+          (subAcc, subFieldGroup, groupIndex) => {
+            const startWeek = subFieldGroup.startWeek;
+            const startWeekString =
+              startWeek instanceof Date && !isNaN(startWeek.valueOf())
+                ? startWeek.toISOString().split("T")[0]
+                : undefined;
+
+            return {
+              ...subAcc,
+              [`${groupId}_${groupIndex}`]: startWeekString,
+            };
+          },
+          {}
+        ),
+      }),
+      {}
+    )
+  );
+
+  const [tempEndWeek, setTempEndWeek] = useState(
+    fieldGroups.reduce(
+      (acc, fieldGroup, groupId) => ({
+        ...acc,
+        ...fieldGroup.subFieldGroups.reduce(
+          (subAcc, subFieldGroup, groupIndex) => {
+            const endWeek = subFieldGroup.endWeek;
+            const endWeekString =
+              endWeek instanceof Date && !isNaN(endWeek.valueOf())
+                ? endWeek.toISOString().split("T")[0]
+                : undefined;
+
+            return {
+              ...subAcc,
+              [`${groupId}_${groupIndex}`]: endWeekString,
+            };
+          },
+          {}
+        ),
+      }),
+      {}
+    )
+  );
+
   // Add a new type for InternshipField
   type InternshipField = {
     name: string;
@@ -68,6 +119,28 @@ export default function Page() {
     id: number;
     name: string;
   };
+
+  useEffect(() => {
+    const isStudyProgramSelected = studyPrograms.some(
+      (program) => program.id !== undefined
+    );
+    const isInternshipFieldFilled = fieldGroups.some(
+      (fieldGroup) => fieldGroup.internshipField !== ""
+    );
+    const isNumStudentsFilled = fieldGroups.some((fieldGroup) =>
+      fieldGroup.subFieldGroups.some(
+        (subFieldGroup) => subFieldGroup.numStudents > 0
+      )
+    );
+
+    setIsSendDisabled(
+      !(
+        isStudyProgramSelected &&
+        isInternshipFieldFilled &&
+        isNumStudentsFilled
+      )
+    );
+  }, [studyPrograms, fieldGroups]);
 
   useEffect(() => {
     fetchStudyPrograms()
@@ -142,7 +215,13 @@ export default function Page() {
     };
 
     try {
-      await sendOrder(formData);
+      const response = await sendOrder(formData);
+      if (response) {
+        return {
+          statusText: response.error,
+          status: "400",
+        };
+      }
 
       setIsModalVisible(true);
     } catch (error) {
@@ -185,15 +264,14 @@ export default function Page() {
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col items-center w-full h-full gap-5">
           <h1 className="flex justify-center text-4xl font-bold">
-            Behov for praksisplasser
+            Order Internships
           </h1>
 
-          <div>
-            <span className="label-text text-xl">Studieprogram</span>
-          </div>
+          <span className="label-text text-xl">Study Program</span>
+
           <div className="flex flex-row gap-2">
             <Dropdown
-              dropdownName="studieprogram"
+              dropdownName="Study Program"
               options={studyPrograms}
               selectedOption={
                 studyPrograms.find(
@@ -211,7 +289,7 @@ export default function Page() {
             />
             <button type="button">
               <a href={`/studyprograms/add`} className="btn btn-primary">
-                Nytt studieprogram
+                New Study Program
               </a>
             </button>
           </div>
@@ -224,10 +302,10 @@ export default function Page() {
                   key={groupId}
                   className="group relative justify-centers rounded-3xl bg-base-200 text-base-content mb-2 p-8"
                 >
-                  <div className="flex flex-row items-center">
-                    <div className=" w-full">
-                      <span className="label-text text-2xl">Praksisfelt</span>
-                    </div>
+                  <div className="flex flex-row items-center justify-between">
+                    <span className="label-text text-2xl">
+                      Internship field
+                    </span>
                     {Number(groupId) !== 0 && (
                       <button
                         type="button"
@@ -240,7 +318,7 @@ export default function Page() {
                   </div>
                   <Dropdown
                     key={groupId}
-                    dropdownName="Praksisfelt"
+                    dropdownName="Internship Field"
                     options={internshipFields}
                     selectedOption={
                       internshipFields.find(
@@ -266,8 +344,8 @@ export default function Page() {
                       type="text"
                       value={newType}
                       onChange={(e) => setNewType(e.target.value)}
-                      placeholder="Legg til nytt praksisfelt"
-                      className="input input-bordered bg-neutral text-neutral-content w-full"
+                      placeholder="Add new Internship Field"
+                      className="input input-bordered text-base-content w-full"
                       aria-label="Add new type"
                       maxLength={200}
                     />
@@ -280,111 +358,142 @@ export default function Page() {
                         internshipFields.some((field) => field.name === newType)
                       }
                     >
-                      Legg til
+                      Add
                     </button>
                   </div>
                   <div className="flex flex-row flex-wrap gap-5 justify-center mt-2">
-                    {group.subFieldGroups.map((subFieldGroup, groupIndex) => (
-                      <div key={groupIndex}>
-                        <div className="label  w-full">
-                          <span className="label-text text-xl">
-                            {subFieldGroup.studyYear}. år studenter
-                          </span>
-                        </div>
+                    {group.subFieldGroups.map((subFieldGroup, groupIndex) => {
+                      const groupKey = `${groupId}_${groupIndex}`;
 
-                        <div className="form-control w-full">
-                          <label className="label" htmlFor="numStudents">
+                      return (
+                        <div key={groupKey}>
+                          <div className="label  w-full">
                             <span className="label-text text-xl">
-                              Antall Studenter
+                              {subFieldGroup.studyYear}. year students
                             </span>
-                          </label>
-                          <input
-                            type="number"
-                            min="0"
-                            placeholder="0"
-                            aria-label="Antall studenter"
-                            onChange={(e) => {
-                              const newFieldGroups = [...fieldGroups];
-                              newFieldGroups[groupId].subFieldGroups[
-                                groupIndex
-                              ].numStudents = e.target.value;
-                              setFieldGroups(newFieldGroups);
+                          </div>
 
-                              // Set studentsAboveZero for this groupId
-                              setStudentsAboveZero({
-                                ...studentsAboveZero,
-                                [`${groupId}_${groupIndex}`]:
-                                  Number(e.target.value) > 0,
-                              });
-                            }}
-                            className="input input-bordered bg-neutral text-neutral-content"
-                          />
-                        </div>
+                          <div className="form-control w-full">
+                            <label
+                              className="label"
+                              htmlFor={`numStudents_${groupIndex}`}
+                            >
+                              Number of students
+                            </label>
+                            <input
+                              id={`numStudents_${groupIndex}`}
+                              type="number"
+                              min="0"
+                              placeholder="0"
+                              value={subFieldGroup.numStudents}
+                              onChange={(e) => {
+                                const newFieldGroups = [...fieldGroups];
+                                newFieldGroups[groupId].subFieldGroups[
+                                  groupIndex
+                                ].numStudents = e.target.value;
+                                setFieldGroups(newFieldGroups);
+                                setStudentsAboveZero({
+                                  ...studentsAboveZero,
+                                  [`${groupId}_${groupIndex}`]:
+                                    Number(e.target.value) > 0,
+                                });
+                              }}
+                              className="input input-bordered text-base-content"
+                            />
+                          </div>
 
-                        <div className="form-control w-full">
-                          <label className="label" htmlFor="startDate">
-                            <span className="label-text text-xl">
+                          <div className="form-control w-full">
+                            <label
+                              className="label"
+                              htmlFor={`startDate_${groupIndex}`}
+                            >
                               Start Dato
-                            </span>
-                          </label>
-                          <input
-                            aria-label="Start dato"
-                            type="date"
-                            value={
-                              subFieldGroup.startWeek
-                                ?.toISOString()
-                                .split("T")[0]
-                            }
-                            className={`input input-bordered bg-neutral text-neutral-content`}
-                            onChange={(e) => {
-                              const newFieldGroups = [...fieldGroups];
-                              const dateValue = Date.parse(e.target.value);
-                              if (!isNaN(dateValue)) {
+                            </label>
+                            <input
+                              id={`startDate_${groupIndex}`}
+                              type="date"
+                              value={tempStartWeek[groupKey]}
+                              className={`input input-bordered text-base-content ${startWeekErrors[groupKey] ? "input-error" : ""}`}
+                              onBlur={(e) => {
+                                const selectedDate = new Date(
+                                  Date.parse(e.target.value)
+                                );
+                                const today = new Date();
+
+                                setStartWeekErrors({
+                                  ...startWeekErrors,
+                                  [groupKey]: selectedDate < today,
+                                });
+
+                                const newFieldGroups = [...fieldGroups];
                                 newFieldGroups[groupId].subFieldGroups[
                                   groupIndex
-                                ].startWeek = new Date(dateValue);
+                                ].startWeek = selectedDate;
                                 setFieldGroups(newFieldGroups);
+                              }}
+                              onChange={(e) =>
+                                setTempStartWeek({
+                                  ...tempStartWeek,
+                                  [groupKey]: e.target.value,
+                                })
                               }
-                            }}
-                            required={
-                              studentsAboveZero[`${groupId}_${groupIndex}`]
-                            }
-                          />
-                        </div>
-                        <div className="form-control w-full">
-                          <label className="label" htmlFor="endDate">
-                            <span className="label-text text-xl">
-                              Slutt Dato
-                            </span>
-                          </label>
-                          <input
-                            aria-label="Slutt Dato"
-                            type="date"
-                            value={
-                              subFieldGroup.endWeek?.toISOString().split("T")[0]
-                            }
-                            className={`input input-bordered bg-neutral text-neutral-content${
-                              subFieldGroup.endWeek < subFieldGroup.startWeek
-                                ? "input-error"
-                                : ""
-                            }`}
-                            onChange={(e) => {
-                              const newFieldGroups = [...fieldGroups];
-                              const dateValue = Date.parse(e.target.value);
-                              if (!isNaN(dateValue)) {
+                              required={studentsAboveZero[groupKey]}
+                            />
+                            {startWeekErrors[groupKey] && (
+                              <p className="text-sm text-error">
+                                Start date cannot be today or earlier.
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="form-control w-full">
+                            <label
+                              className="label"
+                              htmlFor={`endDate_${groupIndex}`}
+                            >
+                              End date
+                            </label>
+                            <input
+                              id={`endDate_${groupIndex}`}
+                              type="date"
+                              value={tempEndWeek[groupKey]}
+                              className={`input input-bordered text-base-content ${endWeekErrors[groupKey] ? "input-error" : ""}`}
+                              onChange={(e) => {
+                                setTempEndWeek({
+                                  ...tempEndWeek,
+                                  [groupKey]: e.target.value,
+                                });
+                              }}
+                              onBlur={(e) => {
+                                const selectedDate = new Date(
+                                  Date.parse(e.target.value)
+                                );
+                                const startWeekDate = new Date(
+                                  Date.parse(tempStartWeek[groupKey])
+                                );
+
+                                setEndWeekErrors({
+                                  ...endWeekErrors,
+                                  [groupKey]: selectedDate < startWeekDate,
+                                });
+
+                                const newFieldGroups = [...fieldGroups];
                                 newFieldGroups[groupId].subFieldGroups[
                                   groupIndex
-                                ].endWeek = new Date(dateValue);
+                                ].endWeek = selectedDate;
                                 setFieldGroups(newFieldGroups);
-                              }
-                            }}
-                            required={
-                              studentsAboveZero[`${groupId}_${groupIndex}`]
-                            }
-                          />
+                              }}
+                              required={studentsAboveZero[groupKey]}
+                            />
+                            {endWeekErrors[groupKey] && (
+                              <div className="text-error">
+                                End date can not be before start date
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               );
@@ -395,13 +504,11 @@ export default function Page() {
             className="btn btn-secondary"
             onClick={addGroup}
           >
-            Legg til praksisfelt
+            Add more Internship Fields
           </button>
 
           <div className="w-3/4 ">
-            <div className="label">
-              <span className="label-text text-xl">Kommentar</span>
-            </div>
+            <span className="label-text text-xl">Comment</span>
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
@@ -419,7 +526,11 @@ export default function Page() {
             >
               Cancel
             </button>
-            <button type="submit" className="btn btn-accent w-20">
+            <button
+              type="submit"
+              className="btn btn-accent w-20"
+              disabled={isSendDisabled}
+            >
               Send
             </button>
           </div>

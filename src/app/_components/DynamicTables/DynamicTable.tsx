@@ -314,6 +314,7 @@ export default function DynamicTable({
           <select
             className="join-item btn btn-neutral"
             value={pageSize}
+            aria-label="Select page size"
             onChange={(e) => setPageSize(parseInt(e.target.value))}
           >
             <option value={10}>10</option>

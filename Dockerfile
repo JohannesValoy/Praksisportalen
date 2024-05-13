@@ -25,12 +25,12 @@ CMD /bin/bash -c "bun --bun knex migrate:latest --knexfile src/knex/knexfile.ts 
 
 FROM base AS release
 USER app
-RUN bun install --production
+RUN bun install
 
 # [optional] tests & build
 ENV NODE_ENV=production
 RUN bun test
-RUN bun --target=node run build 
+RUN bun run build 
 
 # run the app     
 EXPOSE 3000

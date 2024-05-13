@@ -1,5 +1,6 @@
 "use server";
 
+import { Student } from "@/app/_models/Student";
 import {
   InternshipAgreement,
   InternshipAgreementPageRequest,
@@ -12,6 +13,7 @@ import { z } from "zod";
 import { getInternshipPositionObjectByIDList } from "./InternshipPositionService";
 import { getStudyProgramObjectByIDList } from "./StudyProgramService";
 import "server-only";
+import { getStudentsByIDList } from "./StudentService";
 
 /**
  * Fetches a single {@link InternshipAgreement} by its ID.
@@ -133,9 +135,14 @@ async function createInternshipAgreementObject(
   const internshipsPromise = getInternshipPositionObjectByIDList(
     query.map((agreement) => agreement.internshipID),
   );
-  const [studyPrograms, internships] = await Promise.all([
+  const studentPromise = getStudentsByIDList(
+    query.map((agreement) => agreement.studentID),
+  );
+
+  const [studyPrograms, internships, student] = await Promise.all([
     studyProgramsPromise,
     internshipsPromise,
+    studentPromise,
   ]);
   const objects: InternshipAgreement[] = [];
   for (const element of query) {
@@ -143,6 +150,7 @@ async function createInternshipAgreementObject(
       ...element,
       studyProgram: studyPrograms.get(element.studyProgramID),
       internship: internships.get(element.internshipID),
+      student: student.get(element.studentID),
     });
   }
   return objects;

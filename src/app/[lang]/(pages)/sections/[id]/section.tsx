@@ -129,9 +129,8 @@ export default function SectionPage({
                   x
                 </button>
               </div>
-              <h3 className="text-xl"> {section.name}</h3>
-
               <EditModal
+                name={section.name}
                 setName={setName}
                 handleSubmit={handleSubmit}
                 disabled={!name && !employeeID && !sectionType}

@@ -105,7 +105,7 @@ export default function InternshipPage({
     <>
       <div className="flex flex-col items-center ">
         <div className="flex flex-row items-start">
-          <h1>{internship?.name}</h1>
+          <h1>Internship: {internship?.name}</h1>
 
           <button onClick={() => setShowModal(true)} aria-label="Edit">
             <svg
@@ -136,9 +136,8 @@ export default function InternshipPage({
                   x
                 </button>
               </div>
-              <h3 className="text-xl">{internship?.name}</h3>
-
               <EditModal
+                name={internship.name}
                 setName={setName}
                 handleSubmit={handleSubmit}
                 disabled={

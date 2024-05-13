@@ -117,8 +117,8 @@ export default function DepartmentPage({
                   x
                 </button>
               </div>
-              <h3 className="text-xl"> {department.name}</h3>
               <EditModal
+                name={department.name}
                 setName={setName}
                 handleSubmit={handleSubmit}
                 disabled={!name && !employeeID}

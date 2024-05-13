@@ -10,6 +10,7 @@ import Dropdown from "@/app/_components/Dropdowns/Dropdown";
 type Props = {
   wordbook: { [key: string]: string };
   user: any;
+  eduInstitution?: EducationInstitution;
   educationInstitutions: EducationInstitution[];
 };
 
@@ -23,12 +24,14 @@ type EducationInstitution = {
  * @param root The root object.
  * @param root.wordbook The wordbook object containing all the translations.
  * @param root.user The user object.
+ * @param root.eduInstitution The education institution object.
  * @param root.educationInstitutions The education institutions object.
  * @returns A page to add a student.
  */
 export default function AddStudentPage({
   wordbook,
   user,
+  eduInstitution,
   educationInstitutions,
 }: Readonly<Props>) {
   const router = useRouter();
@@ -40,7 +43,7 @@ export default function AddStudentPage({
   const [email, setEmail] = useState("");
 
   const [educationInstitutionID, setEducationInstitutionID] = useState(
-    user.educationInstitutionID || null,
+    user.educationInstitutionID || eduInstitution?.id || null
   );
 
   useEffect(() => {
@@ -147,7 +150,7 @@ export default function AddStudentPage({
               options={educationInstitutions}
               selectedOption={
                 educationInstitutions.find(
-                  (edu) => edu.id === educationInstitutionID,
+                  (edu) => edu.id === educationInstitutionID
                 ) || null
               }
               setSelectedOption={(edu) =>

@@ -13,6 +13,7 @@ import ContainerBox from "@/app/_components/ContainerBox";
 type Props = {
   openModal: boolean;
   onClose: () => void;
+  educationInstitution?: any;
 };
 
 /**
@@ -20,11 +21,13 @@ type Props = {
  * @param root The root object.
  * @param root.openModal The openModal flag.
  * @param root.onClose The onClose function.
+ * @param root.educationInstitution The education institution object.
  * @returns A page to add a study program.
  */
 export default function AddStudyProgram({
   openModal,
   onClose,
+  educationInstitution,
 }: Readonly<Props>) {
   const router = useRouter();
   const [name, setName] = useState("");
@@ -32,8 +35,9 @@ export default function AddStudyProgram({
   const [educationInstitutions, setEducationInstitutions] = useState<
     EducationInstitution[]
   >([]);
-  const [educationInstitutionID, setEducationInstitutionID] =
-    useState<number>(null);
+  const [educationInstitutionID, setEducationInstitutionID] = useState<number>(
+    educationInstitution?.id || null
+  );
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
   type EducationInstitution = {
@@ -46,7 +50,7 @@ export default function AddStudyProgram({
       name.trim() === "" ||
       educationInstitutionID === null ||
       studyPrograms.some(
-        (sp) => sp.name === name.trim() && sp.eduID === educationInstitutionID,
+        (sp) => sp.name === name.trim() && sp.eduID === educationInstitutionID
       )
     ) {
       setIsSubmitDisabled(true);
@@ -69,7 +73,7 @@ export default function AddStudyProgram({
         setEducationInstitutions(data);
       })
       .catch((error) =>
-        console.error("Failed to fetch Education Institutions", error),
+        console.error("Failed to fetch Education Institutions", error)
       );
   }, []);
 
@@ -122,23 +126,24 @@ export default function AddStudyProgram({
                 aria-label="Set study Program Name"
                 required
               />
-
-              <Dropdown
-                dropdownName="Education Institution"
-                options={educationInstitutions}
-                selectedOption={
-                  educationInstitutions.find(
-                    (edu) => edu.id === educationInstitutionID,
-                  ) || null
-                }
-                setSelectedOption={(edu) =>
-                  setEducationInstitutionID(edu.id as number)
-                }
-                onSearchChange={() => {
-                  setEducationInstitutionID(null);
-                }}
-                renderOption={(edu) => <>{edu.name}</>}
-              />
+              {educationInstitutionID === null ? (
+                <Dropdown
+                  dropdownName="Education Institution"
+                  options={educationInstitutions}
+                  selectedOption={
+                    educationInstitutions.find(
+                      (edu) => edu.id === educationInstitutionID
+                    ) || null
+                  }
+                  setSelectedOption={(edu) =>
+                    setEducationInstitutionID(edu.id as number)
+                  }
+                  onSearchChange={() => {
+                    setEducationInstitutionID(null);
+                  }}
+                  renderOption={(edu) => <>{edu.name}</>}
+                />
+              ) : null}
 
               <div className="flex flex-row gap-5">
                 <button

@@ -63,7 +63,7 @@ export default function InternshipPage({
    */
   function getSectionName(
     sectionID: number,
-    sections: Array<{ id: number; name: string }>,
+    sections: Array<{ id: number; name: string }>
   ) {
     const section = sections.find((section) => section.id === sectionID);
     return section ? section.name : "Unknown section";
@@ -171,7 +171,7 @@ export default function InternshipPage({
                     options={internshipFields}
                     selectedOption={
                       internshipFields.find(
-                        (field) => field.name === internshipField,
+                        (field) => field.name === internshipField
                       ) || null
                     }
                     setSelectedOption={(field) =>
@@ -241,6 +241,7 @@ export default function InternshipPage({
           "Start Date": "startDate",
           "End Date": "endDate",
         }}
+        filter={{ hasInternshipID: internship.id.toString() }}
         onRowClick={() => {}}
         deleteFunction={deleteInternshipAgreement}
         paginateFunction={paginateInternshipAgreements}

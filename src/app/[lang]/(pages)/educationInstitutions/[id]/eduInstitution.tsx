@@ -67,7 +67,11 @@ export default function InstitutionPage({
   return (
     <>
       {isAddModalOpen && (
-        <AddStudyProgram openModal={isAddModalOpen} onClose={closeAddModal} />
+        <AddStudyProgram
+          openModal={isAddModalOpen}
+          onClose={closeAddModal}
+          educationInstitution={eduInstitution}
+        />
       )}
       <div className="flex flex-col items-center">
         <div className="flex flex-row gap-1 items-start">
@@ -128,6 +132,7 @@ export default function InstitutionPage({
         filter={{
           educationInstitutionID: eduInstitution.id,
         }}
+        eduInstitution={eduInstitution}
       />
     </>
   );

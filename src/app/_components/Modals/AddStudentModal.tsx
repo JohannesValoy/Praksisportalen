@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import ContainerBox from "@/app/_components/ContainerBox";
 import { createStudent } from "../../[lang]/(pages)/users/add/action";
-import Dropdown from "@/app/_components/Dropdowns/Dropdown";
 import EduInstitutionDropdown from "../Dropdowns/EduInstitutionDropdown";
 
 type Props = {

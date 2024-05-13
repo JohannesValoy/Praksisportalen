@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import DynamicTable from "@/app/_components/DynamicTables/DynamicTable";
 import {
   deleteEducationInstitution,
   paginateEducationInstitutions,
 } from "./actions";
+import AddEduInstitut from "@/app/_components/Modals/AddEduInstitutModal";
 
 /**
  * The ListOfEducationInstitutions component displays a list of education institutions.
@@ -17,22 +18,38 @@ export default function ListOfEducationInstitutions({
 }: {
   readonly wordbook: { readonly [key: string]: string };
 }) {
-  const headers = { Name: "name", id: "id" };
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  /**
+   * The closeAddModal function closes the add department modal.
+   * It also triggers a refresh by updating the refresh key.
+   */
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+    setRefreshKey((oldKey) => oldKey + 1);
+  };
 
   return (
-    <DynamicTable
-      tableName={"Education Institutions"}
-      headers={headers}
-      onRowClick={() => {}}
-      onRowButtonClick={(row) => {
-        window.location.href = `/educationInstitutions/${row.id}`;
-      }}
-      buttonName={"Details"}
-      onAddButtonClick={() => {
-        window.location.href = `/educationInstitutions/add`;
-      }}
-      deleteFunction={deleteEducationInstitution}
-      paginateFunction={paginateEducationInstitutions}
-    />
+    <>
+      {isAddModalOpen && (
+        <AddEduInstitut openModal={isAddModalOpen} onClose={closeAddModal} />
+      )}
+      <DynamicTable
+        tableName={"Education Institutions"}
+        headers={{ Name: "name", id: "id" }}
+        refreshKey={refreshKey}
+        onRowClick={() => {}}
+        onRowButtonClick={(row) => {
+          window.location.href = `/educationInstitutions/${row.id}`;
+        }}
+        buttonName={"Details"}
+        onAddButtonClick={() => {
+          setIsAddModalOpen(true);
+        }}
+        deleteFunction={deleteEducationInstitution}
+        paginateFunction={paginateEducationInstitutions}
+      />
+    </>
   );
 }

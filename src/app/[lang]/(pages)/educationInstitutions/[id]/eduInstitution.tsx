@@ -9,6 +9,7 @@ import {
   paginateStudyPrograms,
 } from "../../studyprograms/actions";
 import StudentTable from "@/app/_components/DynamicTables/StudentTable";
+import AddStudyProgram from "@/app/_components/Modals/AddStudyProgramModal";
 
 /**
  * The InstitutionPage component displays the details of an education institution.
@@ -25,6 +26,8 @@ export default function InstitutionPage({
   readonly wordbook: { readonly [key: string]: string };
 }) {
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const [name, setName] = useState("");
 
@@ -51,8 +54,20 @@ export default function InstitutionPage({
     window.location.reload();
   };
 
+  /**
+   * The closeAddModal function closes the add department modal.
+   * It also triggers a refresh by updating the refresh key.
+   */
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+    setRefreshKey((oldKey) => oldKey + 1);
+  };
+
   return (
     <>
+      {isAddModalOpen && (
+        <AddStudyProgram openModal={isAddModalOpen} onClose={closeAddModal} />
+      )}
       <div className="flex flex-col items-center">
         <div className="flex flex-row gap-1 items-start">
           <h1>{eduInstitution?.name}</h1>
@@ -127,12 +142,13 @@ export default function InstitutionPage({
         <p>Updated At: {eduInstitution?.updatedAt.toLocaleDateString()}</p>
       </div>
       <DynamicTable
+        refreshKey={refreshKey}
         tableName={"Study Programs"}
         headers={{ Name: "name" }}
         onRowClick={() => {}}
         filter={{ hasEducationInstitutionID: eduInstitution?.id.toString() }}
         onAddButtonClick={() => {
-          window.location.href = `/studyprograms/add`;
+          setIsAddModalOpen(true);
         }}
         deleteFunction={deleteStudyProgram}
         paginateFunction={paginateStudyPrograms}

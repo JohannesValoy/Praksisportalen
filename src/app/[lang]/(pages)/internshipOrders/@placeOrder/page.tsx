@@ -10,6 +10,7 @@ import {
   sendOrder,
 } from "./actions";
 import Link from "next/link";
+import AddStudyProgram from "@/app/_components/Modals/AddStudyProgramModal";
 /**
  * Creates a page to place an order for internships.
  * Should only be accessible for coordinators.
@@ -17,6 +18,7 @@ import Link from "next/link";
  */
 export default function Page() {
   const router = useRouter();
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const [studyProgramID, setStudyProgramID] = useState<number>();
   const [comment, setComment] = useState("");
@@ -160,8 +162,19 @@ export default function Page() {
     window.location.reload();
   }
 
+  /**
+   * The closeAddModal function closes the add department modal.
+   * It also triggers a refresh by updating the refresh key.
+   */
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+  };
+
   return (
-    <div>
+    <>
+      {isAddModalOpen && (
+        <AddStudyProgram openModal={isAddModalOpen} onClose={closeAddModal} />
+      )}
       <dialog
         open={isModalVisible}
         className="modal  modal-bottom sm:modal-middle"
@@ -209,10 +222,12 @@ export default function Page() {
               renderOption={(studyProgram) => <div>{studyProgram.name}</div>}
               customClassName={` ${isSubmitted && studyProgramID === null ? "input-error" : ""}`}
             />
-            <button type="button">
-              <a href={`/studyprograms/add`} className="btn btn-primary">
-                Nytt studieprogram
-              </a>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => setIsAddModalOpen(true)}
+            >
+              Nytt studieprogram
             </button>
           </div>
           <div className="flex flex-wrap justify-center gap-4">
@@ -419,6 +434,6 @@ export default function Page() {
           </div>
         </div>
       </form>
-    </div>
+    </>
   );
 }

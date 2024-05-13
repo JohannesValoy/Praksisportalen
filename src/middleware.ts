@@ -115,9 +115,8 @@ export default withAuth(
   function middleware(request) {
     // Gotten from https://nextjs.org/docs/app/building-your-application/routing/internationalization#routing-overview
     const { pathname } = request.nextUrl;
-    const pathnameHasLocale = locales.some(
-      (locale) =>
-        pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
+    const pathnameHasLocale = locales.some((locale) =>
+      pathname.startsWith(`/${locale}`),
     );
     if (!pathnameHasLocale && !pathname.startsWith("/api")) {
       const locale = getLocale(request);
@@ -143,7 +142,11 @@ export default withAuth(
   {
     callbacks: {
       authorized({ req, token }) {
-        return !!token?.role || req.nextUrl.pathname.includes("login");
+        return (
+          !!token?.role ||
+          req.nextUrl.pathname.includes("login") ||
+          req.nextUrl.pathname.match(/(.webp|.jpg)$/)
+        );
       },
     },
   },
@@ -194,5 +197,5 @@ function compareIfAccess(request: NextRequest, token: JWT | null) {
  * This is the configuration for the middleware.
  */
 export const config = {
-  matchers: [/^\/(?!api\/auth)/],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };

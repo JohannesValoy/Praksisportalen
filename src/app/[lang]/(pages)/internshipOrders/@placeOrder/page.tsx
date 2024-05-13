@@ -166,7 +166,7 @@ export default function Page() {
         open={isModalVisible}
         className="modal  modal-bottom sm:modal-middle"
       >
-        <div className="bg-base-300 text-base-content modal-box">
+        <div className="bg-base text-neutral-content modal-box">
           <h3 className="font-bold text-lg">Success!</h3>
           <p className="py-4">Your order has been placed successfully.</p>
           <div className="modal-action">
@@ -207,7 +207,7 @@ export default function Page() {
                 setStudyProgramID(null);
               }}
               renderOption={(studyProgram) => <div>{studyProgram.name}</div>}
-              customClassName={` ${isSubmitted && studyProgramID === null ? "input-error" : ""}`}
+              customClassName={` ${isSubmitted && studyProgramID === null ? "input-error" : ""} bg-neutral text-neutral-content`}
             />
             <button type="button">
               <a href={`/studyprograms/add`} className="btn btn-primary">
@@ -222,7 +222,7 @@ export default function Page() {
               return (
                 <div
                   key={groupId}
-                  className="group relative justify-centers rounded-2xl bg-neutral text-neutral-content p-2 md:p-5"
+                  className="group relative justify-centers rounded-3xl bg-base-200 text-base-content mb-2 p-8"
                 >
                   <div className="flex flex-row items-center">
                     <div className=" w-full">
@@ -259,7 +259,7 @@ export default function Page() {
                       setFieldGroups(newFieldGroups);
                     }}
                     renderOption={(type) => <div>{type.name}</div>}
-                    customClassName={` ${isSubmitted && fieldGroups[groupId].internshipField === "" ? "input-error" : ""}`}
+                    customClassName={` ${isSubmitted && fieldGroups[groupId].internshipField === "" ? "input-error" : ""} bg-neutral text-neutral-content`}
                   />
                   <div className="flex flex-row mt-2 gap-2">
                     <input
@@ -267,7 +267,7 @@ export default function Page() {
                       value={newType}
                       onChange={(e) => setNewType(e.target.value)}
                       placeholder="Legg til nytt praksisfelt"
-                      className="input input-bordered text-base-content w-full"
+                      className="input input-bordered bg-neutral text-neutral-content w-full"
                       aria-label="Add new type"
                       maxLength={200}
                     />
@@ -317,7 +317,7 @@ export default function Page() {
                                   Number(e.target.value) > 0,
                               });
                             }}
-                            className="input input-bordered text-base-content"
+                            className="input input-bordered bg-neutral text-neutral-content"
                           />
                         </div>
 
@@ -335,7 +335,7 @@ export default function Page() {
                                 ?.toISOString()
                                 .split("T")[0]
                             }
-                            className={`input input-bordered text-base-content`}
+                            className={`input input-bordered bg-neutral text-neutral-content`}
                             onChange={(e) => {
                               const newFieldGroups = [...fieldGroups];
                               const dateValue = Date.parse(e.target.value);
@@ -363,7 +363,7 @@ export default function Page() {
                             value={
                               subFieldGroup.endWeek?.toISOString().split("T")[0]
                             }
-                            className={`input input-bordered text-base-content ${
+                            className={`input input-bordered bg-neutral text-neutral-content${
                               subFieldGroup.endWeek < subFieldGroup.startWeek
                                 ? "input-error"
                                 : ""

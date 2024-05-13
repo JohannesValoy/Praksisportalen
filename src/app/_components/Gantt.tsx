@@ -63,14 +63,14 @@ export default function Gantt({
    */
   function getISOWeekNumber(date: Date): number {
     const tempDate = new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
     );
     tempDate.setUTCDate(
-      tempDate.getUTCDate() + 4 - (tempDate.getUTCDay() || 7)
+      tempDate.getUTCDate() + 4 - (tempDate.getUTCDay() || 7),
     );
     const yearStart = new Date(Date.UTC(tempDate.getUTCFullYear(), 0, 1));
     const weekNo = Math.ceil(
-      ((tempDate.getTime() - yearStart.getTime()) / 86400000 + 1) / 7
+      ((tempDate.getTime() - yearStart.getTime()) / 86400000 + 1) / 7,
     );
     return weekNo;
   }
@@ -159,8 +159,8 @@ export default function Gantt({
                               new Date(r.startDate),
                               new Date(r.endDate),
                               startDate,
-                              endDate
-                            )
+                              endDate,
+                            ),
                           )
                         ) {
                           row.push({ startDate, endDate });
@@ -214,7 +214,7 @@ export default function Gantt({
                                   day: "numeric",
                                   hour: "2-digit",
                                   minute: "2-digit",
-                                }
+                                },
                               )}\nend: ${endDate.toLocaleString(undefined, {
                                 weekday: "long",
                                 year: "numeric",

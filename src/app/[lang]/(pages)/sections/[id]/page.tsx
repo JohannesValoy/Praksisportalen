@@ -20,7 +20,10 @@ export async function getSectionGanttIntervals(
   sectionID: string,
   days: number = 6,
 ): Promise<GanttProp[]> {
-  const [startDate, endDate] = getIntervalBetweenStartOfWeekAndTotalOffsetDays(date, days)
+  const [startDate, endDate] = getIntervalBetweenStartOfWeekAndTotalOffsetDays(
+    date,
+    days,
+  );
   return await DBClient.transaction(async (trx) => {
     const agreements = await trx
       .from("sections")

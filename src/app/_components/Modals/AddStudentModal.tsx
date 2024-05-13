@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import ContainerBox from "@/app/_components/ContainerBox";
 import { createStudent } from "../../[lang]/(pages)/users/add/action";
 import Dropdown from "@/app/_components/Dropdowns/Dropdown";
+import EduInstitutionDropdown from "../Dropdowns/EduInstitutionDropdown";
 
 type Props = {
   wordbook?: { [key: string]: string };
@@ -149,21 +150,10 @@ export default function AddStudentModal({
                 </div>
               </div>
               {!eduInstitutionID ? (
-                <Dropdown
-                  dropdownName="Education Institution"
-                  options={educationInstitutions}
-                  selectedOption={
-                    educationInstitutions.find(
-                      (edu) => edu.id === educationInstitutionID,
-                    ) || null
-                  }
-                  setSelectedOption={(edu) =>
-                    setEducationInstitutionID(edu.id as number)
-                  }
-                  onSearchChange={() => {
-                    setEducationInstitutionID(null);
-                  }}
-                  renderOption={(edu) => <>{edu.name}</>}
+                <EduInstitutionDropdown
+                  educationInstitutionID={educationInstitutionID}
+                  educationInstitutions={educationInstitutions}
+                  setEducationInstitutionID={setEducationInstitutionID}
                 />
               ) : null}
               <div className="flex flex-row gap-5">

@@ -8,6 +8,7 @@ import {
 } from "../../[lang]/(pages)/studyprograms/actions";
 import Dropdown from "@/app/_components/Dropdowns/Dropdown";
 import ContainerBox from "@/app/_components/ContainerBox";
+import EduInstitutionDropdown from "../Dropdowns/EduInstitutionDropdown";
 
 type Props = {
   openModal: boolean;
@@ -125,21 +126,10 @@ export default function AddStudyProgram({
                 required
               />
               {!educationInstitutionID ? (
-                <Dropdown
-                  dropdownName="Education Institution"
-                  options={educationInstitutions}
-                  selectedOption={
-                    educationInstitutions.find(
-                      (edu) => edu.id === educationInstitutionID,
-                    ) || null
-                  }
-                  setSelectedOption={(edu) =>
-                    setEducationInstitutionID(edu.id as number)
-                  }
-                  onSearchChange={() => {
-                    setEducationInstitutionID(null);
-                  }}
-                  renderOption={(edu) => <>{edu.name}</>}
+                <EduInstitutionDropdown
+                  educationInstitutionID={educationInstitutionID}
+                  educationInstitutions={educationInstitutions}
+                  setEducationInstitutionID={setEducationInstitutionID}
                 />
               ) : null}
 

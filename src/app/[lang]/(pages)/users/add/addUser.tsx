@@ -7,6 +7,7 @@ import SuccessDialog from "@/app/_components/Modals/SuccessAddDialog";
 import ContainerBox from "@/app/_components/ContainerBox";
 import { createEmployee } from "@/services/EmployeeService";
 import Dropdown from "@/app/_components/Dropdowns/Dropdown";
+import EduInstitutionDropdown from "@/app/_components/Dropdowns/EduInstitutionDropdown";
 
 type Props = {
   wordbook: { [key: string]: string };
@@ -187,21 +188,10 @@ export default function AddUserPage({
             </div>
           </div>
           {role && (role === "coordinator" || role === "student") ? (
-            <Dropdown
-              dropdownName="Education Institution"
-              options={educationInstitutions}
-              selectedOption={
-                educationInstitutions.find(
-                  (edu) => edu.id === educationInstitutionID,
-                ) || null
-              }
-              setSelectedOption={(edu) =>
-                setEducationInstitutionID(edu.id as number)
-              }
-              onSearchChange={() => {
-                setEducationInstitutionID(null);
-              }}
-              renderOption={(edu) => <>{edu.name}</>}
+            <EduInstitutionDropdown
+              educationInstitutionID={educationInstitutionID}
+              educationInstitutions={educationInstitutions}
+              setEducationInstitutionID={setEducationInstitutionID}
             />
           ) : null}
           {role && role !== "student" ? (

@@ -13,7 +13,6 @@ import ContainerBox from "@/app/_components/ContainerBox";
 import AddSection from "./AddSectionModal";
 
 type Props = {
-  openModal: boolean;
   onClose: () => void;
   section?: any;
 };
@@ -21,13 +20,11 @@ type Props = {
 /**
  * The AddInternship component displays a form to add an internship.
  * @param root The root object.
- * @param root.openModal The openModal flag.
  * @param root.onClose The onClose function.
  * @param root.section The section object.
  * @returns A form to add an internship.
  */
 export default function AddInternship({
-  openModal,
   onClose,
   section = null,
 }: Readonly<Props>) {
@@ -137,12 +134,10 @@ export default function AddInternship({
     <>
       <div className="fixed inset-0 bg-black opacity-50" />
       <dialog
-        open={openModal === true}
+        open={true}
         className="modal modal-bottom sm:modal-middle lg:modal-lg xl:modal-xl"
       >
-        {isAddModalOpen && (
-          <AddSection openModal={isAddModalOpen} onClose={closeAddModal} />
-        )}
+        {isAddModalOpen && <AddSection onClose={closeAddModal} />}
         <div className="flex justify-center items-center ">
           <ContainerBox className="items-center">
             <form
@@ -159,7 +154,7 @@ export default function AddInternship({
                   placeholder="Internship Name"
                   className="input input-bordered text-base-content"
                   onChange={(e) => setName(e.target.value)}
-                  value={name}
+                  defaultValue={name}
                   maxLength={255}
                   aria-label="Set Internship Name"
                   required
@@ -207,7 +202,7 @@ export default function AddInternship({
                   <div className="flex flex-row mt-2">
                     <input
                       type="text"
-                      value={newField}
+                      defaultValue={newField}
                       onChange={(e) => setNewField(e.target.value)}
                       aria-label="New Internship Field"
                       placeholder="New Internship Field"

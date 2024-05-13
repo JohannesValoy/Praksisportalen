@@ -1,43 +1,66 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createEmployee } from "../../[lang]/(pages)/users/add/action";
 import ContainerBox from "@/app/_components/ContainerBox";
-import { generatePassword } from "@/services/EmployeeService";
+import { createStudent } from "../../[lang]/(pages)/users/add/action";
+import EduInstitutionDropdown from "../Dropdowns/EduInstitutionDropdown";
 
 type Props = {
+  wordbook?: { [key: string]: string };
+  eduInstitutionID?: number;
+  educationInstitutions?: EducationInstitution[];
+
   onClose: () => void;
 };
 
+type EducationInstitution = {
+  id: number;
+  name: string;
+};
+
 /**
- * The AddEmployee component displays a form to add an employee.
+ * Creates a page that allows for adding a student.
  * @param root The root object.
+ * @param root.wordbook The wordbook object containing all the translations.
+ * @param root.eduInstitutionID The education institution ID.
+ * @param root.educationInstitutions The education institutions object.
  * @param root.onClose The onClose function.
- * @returns A form to add an employee.
+ * @returns A page to add a student.
  */
-export default function AddEmployee({ onClose }: Readonly<Props>) {
+export default function AddStudentModal({
+  wordbook,
+  eduInstitutionID,
+  educationInstitutions,
+
+  onClose,
+}: Readonly<Props>) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
 
+  const [educationInstitutionID, setEducationInstitutionID] = useState(
+    eduInstitutionID || null,
+  );
+
   useEffect(() => {
     if (
       firstName.trim() === "" ||
       lastName.trim() === "" ||
-      email.trim() === ""
+      email.trim() === "" ||
+      !educationInstitutionID
     ) {
       setIsSubmitDisabled(true);
     } else {
       setIsSubmitDisabled(false);
     }
-  }, [firstName, lastName, email]);
+  }, [firstName, lastName, email, educationInstitutionID]);
 
   /**
-   * The handleSubmit function adds a new employee.
+   * The handleSubmit function adds a new student.
    * @param event The event object.
-   * @returns A new employee.
+   * @returns A modal to confirm the addition of the student.
    */
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -45,11 +68,10 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
     const data = {
       name: `${firstName} ${lastName}`,
       email: email.trim(),
-      role: "user",
-      password: generatePassword(8),
+      educationInstitutionID: educationInstitutionID,
     };
     try {
-      await createEmployee(data);
+      await createStudent(data);
       onClose();
     } catch (error) {
       window.alert("Invalid email address. Please try again.");
@@ -67,18 +89,20 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
               className="flex flex-col gap-5  items-center justify-center"
             >
               <h1 className="flex justify-center text-4xl font-bold">
-                Add user
+                Add Student
               </h1>
               <div className="flex flex-col gap-4">
                 <div className="flex flex-row gap-4">
                   <label className="form-control w-full ">
                     <div className="label">
-                      <span className="label-text">First Name</span>
+                      <span className="label-text text-neutral-content">
+                        First Name
+                      </span>
                     </div>
                     <input
                       type="name"
                       placeholder="First Name"
-                      className="input input-bordered w-full text-base-content"
+                      className="input input-bordered text-base-content w-full"
                       onChange={(e) => setFirstName(e.target.value)}
                       maxLength={255}
                       aria-label="Set first name"
@@ -87,12 +111,14 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
                   </label>
                   <label className="form-control w-full">
                     <div className="label">
-                      <span className="label-text">Last Name</span>
+                      <span className="label-text text-neutral-content">
+                        Last Name
+                      </span>
                     </div>
                     <input
                       type="name"
                       placeholder="Last Name"
-                      className="input input-bordered w-full text-base-content"
+                      className="input input-bordered text-base-content w-full"
                       onChange={(e) => setLastName(e.target.value)}
                       maxLength={255}
                       aria-label="Set last name"
@@ -100,22 +126,32 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
                     />
                   </label>
                 </div>
-                <label className="form-control w-full">
-                  <div className="label">
-                    <span className="label-text">Email</span>
-                  </div>
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="input input-bordered text-base-content w-full"
-                    onChange={(e) => setEmail(e.target.value)}
-                    aria-label="Set email"
-                    required
-                  />
-                </label>
+                <div className="flex flex-row gap-4">
+                  <label className="form-control w-full">
+                    <div className="label">
+                      <span className="label-text text-neutral-content">
+                        Email
+                      </span>
+                    </div>
+                    <input
+                      type="email"
+                      placeholder="Email"
+                      className="input input-bordered text-base-content w-full"
+                      onChange={(e) => setEmail(e.target.value)}
+                      aria-label="Set email"
+                      required
+                    />
+                  </label>
+                </div>
               </div>
-
-              <div className="flex flex-row gap-5 justify-between w-full">
+              {!eduInstitutionID ? (
+                <EduInstitutionDropdown
+                  educationInstitutionID={educationInstitutionID}
+                  educationInstitutions={educationInstitutions}
+                  setEducationInstitutionID={setEducationInstitutionID}
+                />
+              ) : null}
+              <div className="flex flex-row gap-5">
                 <button type="button" className="btn w-20" onClick={onClose}>
                   Cancel
                 </button>

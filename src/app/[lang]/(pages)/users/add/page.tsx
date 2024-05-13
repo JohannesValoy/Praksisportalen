@@ -1,3 +1,4 @@
+import { fetchEducationInstitutions } from "../../studyprograms/actions";
 import AddUserPage from "./addUser";
 
 /**
@@ -5,5 +6,11 @@ import AddUserPage from "./addUser";
  * @returns The AddUserPage component.
  */
 export default async function Page() {
-  return <AddUserPage wordbook={null} />;
+  const educationInstitutions = await fetchEducationInstitutions();
+  return (
+    <AddUserPage
+      wordbook={null}
+      educationInstitutions={educationInstitutions}
+    />
+  );
 }

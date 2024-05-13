@@ -16,7 +16,6 @@ import AddEmployee from "./AddEmployeeModal";
 import EmployeeDropdown from "../Dropdowns/EmployeeDropdown";
 
 type Props = {
-  openModal: boolean;
   onClose: () => void;
   department?: any;
 };
@@ -24,13 +23,11 @@ type Props = {
 /**
  * The AddSection component displays a form to add a section.
  * @param root The root object.
- * @param root.openModal The openModal flag.
  * @param root.onClose The onClose function.
  * @param root.department The department object.
  * @returns A form to add a section.
  */
 export default function AddSection({
-  openModal,
   onClose,
   department = null,
 }: Readonly<Props>) {
@@ -149,22 +146,11 @@ export default function AddSection({
   return (
     <>
       <div className="fixed inset-0 bg-black opacity-50" />
-      <dialog
-        open={openModal === true}
-        className="modal modal-bottom sm:modal-middle"
-      >
+      <dialog open={true} className="modal modal-bottom sm:modal-middle">
         {openDepartmentModal && (
-          <AddDepartment
-            openModal={openDepartmentModal}
-            onClose={closeDepartmentModal}
-          />
+          <AddDepartment onClose={closeDepartmentModal} />
         )}
-        {openEmployeeModal && (
-          <AddEmployee
-            openModal={openEmployeeModal}
-            onClose={closeEmployeeModal}
-          />
-        )}
+        {openEmployeeModal && <AddEmployee onClose={closeEmployeeModal} />}
         <div className="flex flex-col justify-center items-center h-fit w-full">
           <ContainerBox className="items-center">
             <form
@@ -180,7 +166,7 @@ export default function AddSection({
                 placeholder="Section Name"
                 className="input input-bordered text-base-content"
                 onChange={(e) => setName(e.target.value)}
-                value={name}
+                defaultValue={name}
                 maxLength={255}
                 aria-label="Set section Name"
                 required
@@ -244,7 +230,7 @@ export default function AddSection({
                 <div className="flex flex-row mt-2">
                   <input
                     type="text"
-                    value={newType}
+                    defaultValue={newType}
                     aria-label="New section type"
                     onChange={(e) => setNewType(e.target.value)}
                     placeholder="New section type"

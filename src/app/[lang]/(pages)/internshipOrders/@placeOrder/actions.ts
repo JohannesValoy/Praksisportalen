@@ -80,8 +80,11 @@ export async function sendOrder(data: FormData) {
           internshipOrderID: internshipOrderId,
         });
         // For each subFieldGroup in fieldGroup, insert into subFieldGroups table
-        for (const subFieldGroup of fieldGroup.subFieldGroups) {
-          if (subFieldGroup.numStudents > 0) {
+        const subFieldGroups = fieldGroup.subFieldGroups.filter(group => group.numStudents > 0)
+        if (subFieldGroups.length === 0) {
+          throw Error("A subFieldGroup does not have the required amount")
+        }
+        for (const subFieldGroup of subFieldGroups) {
             await trx.table("subFieldGroups").insert({
               studyYear: subFieldGroup.studyYear,
               numStudents: subFieldGroup.numStudents,
@@ -89,7 +92,6 @@ export async function sendOrder(data: FormData) {
               endWeek: subFieldGroup.endWeek,
               fieldGroupID: fieldGroupId,
             });
-          }
         }
       }
     });

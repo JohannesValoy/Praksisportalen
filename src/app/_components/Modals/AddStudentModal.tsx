@@ -42,7 +42,7 @@ export default function AddStudentModal({
   const [email, setEmail] = useState("");
 
   const [educationInstitutionID, setEducationInstitutionID] = useState(
-    eduInstitutionID || null
+    eduInstitutionID || null,
   );
   console.log(eduInstitutionID);
   console.log(educationInstitutions);
@@ -155,7 +155,7 @@ export default function AddStudentModal({
                   options={educationInstitutions}
                   selectedOption={
                     educationInstitutions.find(
-                      (edu) => edu.id === educationInstitutionID
+                      (edu) => edu.id === educationInstitutionID,
                     ) || null
                   }
                   setSelectedOption={(edu) =>

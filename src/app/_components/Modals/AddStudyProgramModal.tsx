@@ -34,7 +34,7 @@ export default function AddStudyProgram({
     EducationInstitution[]
   >([]);
   const [educationInstitutionID, setEducationInstitutionID] = useState<number>(
-    educationInstitution?.id || null
+    educationInstitution?.id || null,
   );
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
@@ -48,7 +48,7 @@ export default function AddStudyProgram({
       name.trim() === "" ||
       educationInstitutionID === null ||
       studyPrograms.some(
-        (sp) => sp.name === name.trim() && sp.eduID === educationInstitutionID
+        (sp) => sp.name === name.trim() && sp.eduID === educationInstitutionID,
       )
     ) {
       setIsSubmitDisabled(true);
@@ -71,7 +71,7 @@ export default function AddStudyProgram({
         setEducationInstitutions(data);
       })
       .catch((error) =>
-        console.error("Failed to fetch Education Institutions", error)
+        console.error("Failed to fetch Education Institutions", error),
       );
   }, []);
 
@@ -130,7 +130,7 @@ export default function AddStudyProgram({
                   options={educationInstitutions}
                   selectedOption={
                     educationInstitutions.find(
-                      (edu) => edu.id === educationInstitutionID
+                      (edu) => edu.id === educationInstitutionID,
                     ) || null
                   }
                   setSelectedOption={(edu) =>

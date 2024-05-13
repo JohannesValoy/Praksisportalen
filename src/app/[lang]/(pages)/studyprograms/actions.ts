@@ -1,4 +1,5 @@
 "use server";
+import { StudyProgram } from "./../../../_models/StudyProgram";
 import { StudyProgramPageRequest } from "@/app/_models/StudyProgram";
 import DBclient from "@/knex/config/DBClient";
 import {
@@ -12,7 +13,16 @@ import "server-only";
  * @returns A page response with study programs.
  */
 export async function paginateStudyPrograms(request: StudyProgramPageRequest) {
-  return await getStudyProgramsByPageRequest(request);
+  const pageStudyProgram = await getStudyProgramsByPageRequest(request);
+  pageStudyProgram["elements"] = pageStudyProgram["elements"].map(
+    (studyProgram: StudyProgram) => {
+      return {
+        ...studyProgram,
+        educationInstitutionName: studyProgram.educationInstitution.name,
+      };
+    },
+  );
+  return pageStudyProgram;
 }
 
 /**

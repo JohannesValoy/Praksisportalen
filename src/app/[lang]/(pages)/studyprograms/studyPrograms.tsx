@@ -35,7 +35,10 @@ export default function ListOfStudies({
       <DynamicTable
         refreshKey={refreshKey}
         tableName={"Study Programs"}
-        headers={{ Name: "name", id: "id" }}
+        headers={{
+          "Study name": "name",
+          "Institution name": "educationInstitutionName",
+        }}
         onRowClick={() => {}}
         onAddButtonClick={() => {
           setIsAddModalOpen(true);

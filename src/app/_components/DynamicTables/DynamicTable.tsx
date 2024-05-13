@@ -119,6 +119,7 @@ export default function DynamicTable({
         }
         return newElement;
       });
+      console.log(rows);
       setRows(rows);
       setSelectedRows([]);
     });

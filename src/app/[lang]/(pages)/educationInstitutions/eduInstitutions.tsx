@@ -37,7 +37,7 @@ export default function ListOfEducationInstitutions({
       )}
       <DynamicTable
         tableName={"Education Institutions"}
-        headers={{ Name: "name", id: "id" }}
+        headers={{ Name: "name" }}
         refreshKey={refreshKey}
         onRowClick={() => {}}
         onRowButtonClick={(row) => {

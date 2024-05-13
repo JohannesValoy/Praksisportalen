@@ -4,7 +4,6 @@ import { fetchOrders, saveOrderStatus } from "./actions";
 import ErrorModal from "@/app/_components/ErrorModal";
 import InternshipDistributionModal from "./Modal";
 import LogIcon from "@/../public/Icons/logIcon";
-import ContainerBox from "@/app/_components/ContainerBox";
 
 /**
  * The page to display received orders.

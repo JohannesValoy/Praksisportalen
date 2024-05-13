@@ -55,7 +55,7 @@ export default function Page() {
 
   // Initialize internshipFields as an array of InternshipField
   const [internshipFields, setInternshipFields] = useState<InternshipField[]>(
-    []
+    [],
   );
   const [newType, setNewType] = useState("");
 
@@ -81,7 +81,7 @@ export default function Page() {
         setInternshipFields(data);
       })
       .catch((error) =>
-        console.error("Failed to fetch internship field", error)
+        console.error("Failed to fetch internship field", error),
       );
   }, []);
 
@@ -197,7 +197,7 @@ export default function Page() {
               options={studyPrograms}
               selectedOption={
                 studyPrograms.find(
-                  (studyProgram) => studyProgram.id === studyProgramID
+                  (studyProgram) => studyProgram.id === studyProgramID,
                 ) || null
               }
               setSelectedOption={(studyProgram) => {
@@ -244,7 +244,7 @@ export default function Page() {
                     options={internshipFields}
                     selectedOption={
                       internshipFields.find(
-                        (type) => type.name === group.internshipField
+                        (type) => type.name === group.internshipField,
                       ) || null
                     }
                     setSelectedOption={(type) => {

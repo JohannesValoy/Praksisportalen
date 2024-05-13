@@ -60,7 +60,7 @@ interface FormData {
 /**
  * Adds the order to the database.
  * @param data The order data.
- * @throws error if it fails to add the internship order.
+ * @returns void if successful or a object with a .error message
  */
 export async function sendOrder(data: FormData) : Promise<void|{error : string}> {
   try {

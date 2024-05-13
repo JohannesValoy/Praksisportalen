@@ -63,28 +63,26 @@ export default function Page() {
 
   return (
     <>
-      <div className="flex justify-between items-center mx-10">
-        <h1 className="text-2xl font-bold">Orders</h1>
-        <div className="w-56 flex justify-end">
-          <button
-            className={` btn ${filterStatus === "Finalized" ? "btn-primary" : "btn-ghost"} mt-5`}
-            aria-label="Logg"
-            onClick={() => {
-              if (filterStatus === "Finalized") {
-                setTitle("Received Orders");
-                setFilterStatus("Pending");
-              } else {
-                setFilterStatus("Finalized");
-                setTitle("Finalized Orders");
-              }
-            }}
-          >
-            <LogIcon />
-          </button>
-        </div>
-      </div>
+      <div className="flex flex-row gap-4 items-center mx-10">
+        <h1 className="text-2xl font-bold">{title}</h1>
 
-      <ContainerBox title={title}>
+        <button
+          className={` btn ${filterStatus === "Finalized" ? "btn-primary" : "btn-secondary"}`}
+          aria-label="Toggle Order Status"
+          onClick={() => {
+            if (filterStatus === "Finalized") {
+              setTitle("Received Orders");
+              setFilterStatus("Pending");
+            } else {
+              setFilterStatus("Finalized");
+              setTitle("Finalized Orders");
+            }
+          }}
+        >
+          <LogIcon />
+        </button>
+      </div>
+      <ContainerBox>
         <div className="flex flex-col gap-5 justify-center">
           {orders?.length === 0 ? (
             <div className="text-neutral-content text-center">No orders</div>

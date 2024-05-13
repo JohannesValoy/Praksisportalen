@@ -5,69 +5,6 @@ import { Section } from "@/app/_models/Section";
 import { getSectionObjectByID } from "@/services/SectionService";
 import SectionPage from "./section";
 import { fetchEmployees, fetchSectionTypes } from "../add/action";
-import { GanttProp } from "@/app/_components/Gantt";
-import DBClient from "@/knex/config/DBClient";
-
-/**
- * Fetched the sections Gantt information
- * @param date reference date
- * @param sectionID the id of the section
- * @param days the amount of days to fetch from the start of that week
- * @returns A promise of a list with {@link GanttProp}
- */
-export async function getSectionGanttIntervals(
-  date: Date,
-  sectionID: string,
-  days: number = 6,
-): Promise<GanttProp[]> {
-  const [startDate, endDate] = getIntervalBetweenStartOfWeekAndTotalOffsetDays(
-    date,
-    days,
-  );
-  return await DBClient.transaction(async (trx) => {
-    const agreements = await trx
-      .from("sections")
-      .select(
-        "internships.name",
-        "internships.id",
-        "timeIntervals.startDate",
-        "timeIntervals.endDate",
-      )
-      .where("sections.id", sectionID)
-      .innerJoin("internships", "internships.sectionID", "sections.id")
-      .innerJoin(
-        "internshipAgreements",
-        "internshipAgreements.internshipID",
-        "internships.id",
-      )
-      .innerJoin(
-        "timeIntervals",
-        "timeIntervals.internshipAgreementID",
-        "internshipAgreements.id",
-      )
-      .where("timeIntervals.startDate", ">=", startDate)
-      .andWhere("timeIntervals.startDate", "<=", endDate);
-    const datalist: GanttProp[] = [];
-    agreements.forEach((agreement) => {
-      let agreementObject: GanttProp = datalist.find(
-        (data) => data.id === agreement.id,
-      );
-      if (!agreementObject) {
-        agreementObject = {
-          id: agreement.id,
-          name: agreement.name,
-          intervals: [],
-        };
-        datalist.push(agreementObject);
-      }
-      agreementObject.intervals.push({
-        startDate: agreement.startDate,
-        endDate: agreement.endDate,
-      });
-    });
-    return datalist;
-  });
-}
 
 /**
  * The Page component fetches a section object by ID and renders the SectionPage component.

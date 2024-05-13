@@ -8,6 +8,7 @@ import AddInternship from "../../../../_components/Modals/AddInternshipModal";
 import EmployeeDropdown from "@/app/_components/Dropdowns/EmployeeDropdown";
 import EditModal from "@/app/_components/Modals/EditModal";
 import InternshipTable from "@/app/_components/DynamicTables/InternshipTable";
+import SectionGantt from "./GanttSection";
 
 type Props = {
   section: Section;
@@ -189,6 +190,7 @@ export default function SectionPage({
             setIsAddModalOpen(true);
           }}
         />
+      <SectionGantt sectionID={section.id}/>
       </>
     </>
   );

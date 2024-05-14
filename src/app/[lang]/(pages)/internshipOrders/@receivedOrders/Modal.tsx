@@ -215,7 +215,7 @@ const InternshipDistributionModal: React.FC<
                       type="button"
                       onClick={() => setSortedBy("vacancies")}
                       className="btn btn-ghost btn-sm"
-                      value="Ledig"
+                      value="Vacancies"
                     />
                   </th>
                   <th>Students to Assign</th>

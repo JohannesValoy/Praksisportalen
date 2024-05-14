@@ -356,7 +356,7 @@ const InternshipDistributionModal: React.FC<
                 onClick={() => {
                   saveRows();
                 }}
-                disabled={selectedRows.length === 0 || studentsLeft === 0}
+                disabled={selectedRows.length === 0}
               >
                 Save
               </button>

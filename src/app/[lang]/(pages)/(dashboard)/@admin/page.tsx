@@ -63,6 +63,7 @@ const AdminLayout = () => {
   return (
     <div className="md:p-5">
       <h1 className="text-4xl mb-5 text-center font-bold">Dashboard</h1>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
         <ClickableContainer
           title="Manage Hospital"

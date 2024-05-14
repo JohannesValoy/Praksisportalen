@@ -37,7 +37,7 @@ const ClickableContainer = ({
       <div className="flex flex-col h-full justify-between w-full">
         <h2 className="font-bold stroke-lg ">{title}</h2>
         <p className="font-bold stroke-lg ">{description}</p>
-        <div className="font-bold stroke-lg  flex items-center justify-start">
+        <div className="font-bold stroke-lg flex-wrap flex items-center justify-start">
           {children}
         </div>
       </div>
@@ -67,10 +67,7 @@ const AdminLayout = () => {
         <ClickableContainer
           title="Manage Hospital"
           icon={
-            <Cog6ToothIcon
-              className="h-20 w-20 fill-none stroke-1 stroke-accent-content "
-              name="settings"
-            />
+            <Cog6ToothIcon className="h-20 w-20 fill-none stroke-1 stroke-accent-content " />
           }
         >
           <Link href="departments" className="btn btn-ghost">
@@ -114,7 +111,11 @@ const AdminLayout = () => {
           <Link href="users/students" className="btn btn-ghost">
             Students
           </Link>
-          <Link href="users/add" className="btn btn-ghost" name="add user">
+          <Link
+            href="users/add"
+            className="btn btn-ghost"
+            aria-label="add user"
+          >
             <UserPlusIcon className="h-6 w-6" />
           </Link>
         </ClickableContainer>

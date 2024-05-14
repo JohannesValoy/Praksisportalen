@@ -27,9 +27,7 @@ export default function AdminPage({ user }) {
     <div className="flex flex-wrap justify-center">
       <SectionTable />
       <InternshipTable />
-      {isAddModalOpen && (
-        <AddDepartment openModal={isAddModalOpen} onClose={closeAddModal} />
-      )}
+      {isAddModalOpen && <AddDepartment onClose={closeAddModal} />}
       <DepartmentTable
         refreshKey={refreshKey}
         readOnly={user.role !== "admin"}

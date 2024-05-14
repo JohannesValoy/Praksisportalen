@@ -64,7 +64,7 @@ export default function Page() {
       await createRecord(table, recordData);
       return { status: 200 };
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return {
         status: 303,
         statusText: error.message,

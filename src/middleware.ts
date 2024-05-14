@@ -28,7 +28,7 @@ class Route {
       Role.student,
       Role.coordinator,
       Role.none,
-    ],
+    ]
   ) {
     this.methods = methods;
     if (!methods.includes("OPTIONS")) {
@@ -69,7 +69,7 @@ const routeRestrictions: Route[] = [
   new Route(
     /^(\/(\w{2}|\w{2}-\w{2}|))$/,
     ["GET", "POST"],
-    [Role.admin, Role.employee, Role.student, Role.coordinator],
+    [Role.admin, Role.employee, Role.student, Role.coordinator]
   ),
   new Route(/(colors)/, ["GET"]),
   new Route(/(login)/, ["GET", "POST"]),
@@ -82,7 +82,7 @@ const routeRestrictions: Route[] = [
   new Route(
     /(internshipOrders)/,
     ["GET", "POST"],
-    [Role.admin, Role.coordinator],
+    [Role.admin, Role.coordinator]
   ),
   new Route(/(bulkImport)/, ["GET", "POST"], [Role.admin]),
   new Route(/(users)/, ["GET", "POST"], [Role.admin]),
@@ -90,22 +90,22 @@ const routeRestrictions: Route[] = [
   new Route(
     /(internshipAgreements)/,
     ["GET", "POST"],
-    [Role.admin, Role.coordinator],
+    [Role.admin, Role.coordinator]
   ),
   new Route(
     /(educationInstitutions)/,
     ["GET", "POST"],
-    [Role.admin, Role.coordinator],
+    [Role.admin, Role.coordinator]
   ),
   new Route(
     /(profile)/,
     ["GET", "POST"],
-    [Role.admin, Role.employee, Role.student, Role.coordinator],
+    [Role.admin, Role.employee, Role.student, Role.coordinator]
   ),
   new Route(
     /(login)/,
     ["GET", "POST"],
-    [Role.none, Role.admin, Role.employee, Role.student, Role.coordinator],
+    [Role.none, Role.admin, Role.employee, Role.student, Role.coordinator]
   ),
 ];
 
@@ -115,9 +115,8 @@ export default withAuth(
   function middleware(request) {
     // Gotten from https://nextjs.org/docs/app/building-your-application/routing/internationalization#routing-overview
     const { pathname } = request.nextUrl;
-    const pathnameHasLocale = locales.some(
-      (locale) =>
-        pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
+    const pathnameHasLocale = locales.some((locale) =>
+      pathname.startsWith(`/${locale}`)
     );
     if (!pathnameHasLocale && !pathname.startsWith("/api")) {
       const locale = getLocale(request);
@@ -146,7 +145,7 @@ export default withAuth(
         return !!token?.role || req.nextUrl.pathname.includes("login");
       },
     },
-  },
+  }
 );
 
 /**
@@ -172,7 +171,7 @@ function compareIfAccess(request: NextRequest, token: JWT | null) {
   const url = request.nextUrl.pathname;
   const method = request.method;
   const routes = routeRestrictions.filter(
-    (route) => route.pathregex.exec(url) && route.methods.includes(method),
+    (route) => route.pathregex.exec(url) && route.methods.includes(method)
   );
 
   //If no routes are found, refuse access
@@ -194,5 +193,5 @@ function compareIfAccess(request: NextRequest, token: JWT | null) {
  * This is the configuration for the middleware.
  */
 export const config = {
-  matchers: [/^\/(?!api\/auth)/],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };

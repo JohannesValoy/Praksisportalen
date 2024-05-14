@@ -11,18 +11,16 @@ import AddEmployee from "./AddEmployeeModal";
 import EmployeeDropdown from "../Dropdowns/EmployeeDropdown";
 
 type Props = {
-  openModal: boolean;
   onClose: () => void;
 };
 
 /**
  * The AddDepartment component displays a form to add a department.
  * @param root The root object.
- * @param root.openModal The openModal flag.
  * @param root.onClose The onClose function.
  * @returns A form to add a department.
  */
-export default function AddDepartment({ openModal, onClose }: Readonly<Props>) {
+export default function AddDepartment({ onClose }: Readonly<Props>) {
   const [departments, setDepartments] = useState([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [employeeID, setEmployeeID] = useState(null);
@@ -94,13 +92,8 @@ export default function AddDepartment({ openModal, onClose }: Readonly<Props>) {
   return (
     <>
       <div className="fixed inset-0 bg-black opacity-50" />
-      <dialog
-        open={openModal === true}
-        className="modal modal-bottom sm:modal-middle"
-      >
-        {isAddModalOpen && (
-          <AddEmployee openModal={isAddModalOpen} onClose={closeAddModal} />
-        )}
+      <dialog open={true} className="modal modal-bottom sm:modal-middle">
+        {isAddModalOpen && <AddEmployee onClose={closeAddModal} />}
         <div className="flex flex-col justify-center items-center h-fit w-full">
           <ContainerBox className="items-center">
             <form
@@ -116,7 +109,7 @@ export default function AddDepartment({ openModal, onClose }: Readonly<Props>) {
                 placeholder="Department Name"
                 className="input input-bordered text-base-content"
                 onChange={(e) => setName(e.target.value)}
-                value={name}
+                defaultValue={name}
                 maxLength={255}
                 aria-label="Set department Name"
                 required

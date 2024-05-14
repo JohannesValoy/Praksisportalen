@@ -8,6 +8,7 @@ import { getServerSession } from "next-auth";
 import ClientThemeWrapper from "@/context/ClientThemeWrapper";
 import { ThemeProvider } from "@/context/ThemeContext";
 import ThemeSwap from "./_components/ThemeChanger";
+import { Cog6ToothIcon } from "@heroicons/react/24/solid";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,7 +39,7 @@ export default async function RootLayout({
       >
         <ThemeProvider>
           <ClientThemeWrapper>
-            <header className="flex justify-between bg-base-200 text-base-content p-4 items-center ">
+            <header className="flex justify-between bg-neutral text-neutral-content p-4 items-center ">
               <Link href={"/"}>
                 <div className="h-10">
                   <Logo />
@@ -46,8 +47,8 @@ export default async function RootLayout({
               </Link>
               <div className="flex space-x-6 items-center">
                 <div className="dropdown dropdown-end">
-                  <button type="button" className="btn m-1">
-                    Settings
+                  <button type="button" className="btn btn-ghost m-1">
+                    <Cog6ToothIcon className="h-6 w-6" aria-label="Settings" />
                   </button>
                   <ul className="dropdown-content z-[1] menu p-4 shadow bg-base-300 text-base-content rounded-box w-52">
                     <li className="gap-4">

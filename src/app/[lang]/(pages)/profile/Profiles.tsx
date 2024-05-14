@@ -4,6 +4,7 @@ import AdminPage from "./_admin/admin";
 import CoordinatorPage from "./_coordinator/coordinator";
 import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
 import { getCoordinatorsByID } from "@/services/CoordinatorService";
+import EditUser from "@/app/_components/Modals/EditUserModal";
 
 /**
  * The Profile component renders a page based on the user's role.
@@ -40,7 +41,10 @@ export default async function Profile({ user }: Readonly<{ user }>) {
   }
   return (
     <div className="flex flex-col w-full gap-2 items-center">
-      <h1>{user.name}</h1>
+      <div className="flex flex-row items-start">
+        <h1>{user.name}</h1>
+        {user.role === "admin" && <EditUser user={user} />}
+      </div>
       <p>Email: {user.email}</p>
       {page}
     </div>

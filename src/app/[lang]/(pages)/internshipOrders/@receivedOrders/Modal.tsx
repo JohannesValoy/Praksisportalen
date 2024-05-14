@@ -125,7 +125,7 @@ const InternshipDistributionModal: React.FC<
         className="fixed inset-0 flex items-center justify-center z-50 h-fit w-fit mx-auto my-auto p-1 m-1"
         aria-label="Internship Distribution Modal"
       >
-        <div className="flex flex-col bg-base-100 rounded-xl shadow-lg max-w-4xl w-full mx-auto p-2 md:p-8 gap-5">
+        <div className="flex flex-col bg-neutral rounded-xl shadow-lg max-w-4xl w-full mx-auto p-2 md:p-8 gap-5">
           <h1 className="text-3xl font-bold text-center text-primary">
             {selectedOrder?.studyProgram.name}
           </h1>
@@ -184,7 +184,7 @@ const InternshipDistributionModal: React.FC<
           <div className="overflow-x-auto" aria-label="Selection table">
             <table className="table w-full text-sm card-body overflow-hidden flex items-center justify-center text-center">
               <thead>
-                <tr className="text-xs uppercase bg-base-200 text-base-content">
+                <tr className="text-xs uppercase bg-base-100 text-base-content">
                   <td></td>
                   <th aria-label="Sort by name">
                     <input

@@ -2,7 +2,7 @@
 
 import { GanttProp } from "@/app/_components/Gantt";
 import DBClient from "@/knex/config/DBClient";
-import DBclient from "@/knex/config/DBClient";
+import { getIntervalBetweenStartOfWeekAndTotalOffsetDays } from "@/lib/date";
 import "server-only";
 
 /**
@@ -12,7 +12,7 @@ import "server-only";
  * @returns Updated list of sections.
  */
 export async function editSectionDetails(id: number, data: any) {
-  return await DBclient("sections").where("id", id).update(data);
+  return await DBClient("sections").where("id", id).update(data);
 }
 
 /**
@@ -25,11 +25,11 @@ export async function editSectionDetails(id: number, data: any) {
 export async function getSectionGanttIntervals(
   date: Date,
   sectionID: string,
-  days: number = 6,
+  days: number = 6
 ): Promise<GanttProp[]> {
   const [startDate, endDate] = getIntervalBetweenStartOfWeekAndTotalOffsetDays(
     date,
-    days,
+    days
   );
   return await DBClient.transaction(async (trx) => {
     const agreements = await trx
@@ -38,26 +38,26 @@ export async function getSectionGanttIntervals(
         "internships.name",
         "internships.id",
         "timeIntervals.startDate",
-        "timeIntervals.endDate",
+        "timeIntervals.endDate"
       )
       .where("sections.id", sectionID)
       .innerJoin("internships", "internships.sectionID", "sections.id")
       .innerJoin(
         "internshipAgreements",
         "internshipAgreements.internshipID",
-        "internships.id",
+        "internships.id"
       )
       .innerJoin(
         "timeIntervals",
         "timeIntervals.internshipAgreementID",
-        "internshipAgreements.id",
+        "internshipAgreements.id"
       )
       .where("timeIntervals.startDate", ">=", startDate)
       .andWhere("timeIntervals.startDate", "<=", endDate);
     const datalist: GanttProp[] = [];
     agreements.forEach((agreement) => {
       let agreementObject: GanttProp = datalist.find(
-        (data) => data.id === agreement.id,
+        (data) => data.id === agreement.id
       );
       if (!agreementObject) {
         agreementObject = {

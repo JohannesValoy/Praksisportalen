@@ -237,7 +237,10 @@ const InternshipDistributionModal: React.FC<
                         min="0"
                         max={Math.min(row.vacancies, studentsLeft)}
                         value={allRowAmounts[row.id] || ""}
-                        disabled={row.vacancies == 0}
+                        disabled={
+                          row.vacancies == 0 ||
+                          (studentsLeft == 0 && !allRowAmounts[row.id])
+                        }
                         onChange={(e) =>
                           handleAmountChange(row, parseInt(e.target.value))
                         }

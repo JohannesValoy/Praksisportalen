@@ -67,7 +67,10 @@ const AdminLayout = () => {
         <ClickableContainer
           title="Manage Hospital"
           icon={
-            <Cog6ToothIcon className="h-20 w-20 fill-none stroke-1 stroke-accent-content " />
+            <Cog6ToothIcon
+              className="h-20 w-20 fill-none stroke-1 stroke-accent-content "
+              name="settings"
+            />
           }
         >
           <Link href="departments" className="btn btn-ghost">
@@ -111,7 +114,7 @@ const AdminLayout = () => {
           <Link href="users/students" className="btn btn-ghost">
             Students
           </Link>
-          <Link href="users/add" className="btn btn-ghost">
+          <Link href="users/add" className="btn btn-ghost" name="add user">
             <UserPlusIcon className="h-6 w-6" />
           </Link>
         </ClickableContainer>

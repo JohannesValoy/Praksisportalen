@@ -6,5 +6,5 @@ import { redirect } from "next/navigation";
  * @param url the url to navigate to
  */
 export async function navigate(url: string) {
-  redirect(`/${url}`);
+  redirect(`${url}`);
 }

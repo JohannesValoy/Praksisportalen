@@ -10,6 +10,7 @@ import {
   sendOrder,
 } from "./actions";
 import Link from "next/link";
+import AddStudyProgram from "@/app/_components/Modals/AddStudyProgramModal";
 /**
  * Creates a page to place an order for internships.
  * Should only be accessible for coordinators.
@@ -17,6 +18,7 @@ import Link from "next/link";
  */
 export default function Page() {
   const router = useRouter();
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const [studyProgramID, setStudyProgramID] = useState<number>();
   const [comment, setComment] = useState("");
@@ -239,13 +241,22 @@ export default function Page() {
     window.location.reload();
   }
 
+  /**
+   * The closeAddModal function closes the add department modal.
+   * It also triggers a refresh by updating the refresh key.
+   */
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+  };
+
   return (
-    <div>
+    <>
+      {isAddModalOpen && <AddStudyProgram onClose={closeAddModal} />}
       <dialog
         open={isModalVisible}
         className="modal  modal-bottom sm:modal-middle"
       >
-        <div className="bg-base-300 text-base-content modal-box">
+        <div className="bg-base text-neutral-content modal-box">
           <h3 className="font-bold text-lg">Success!</h3>
           <p className="py-4">Your order has been placed successfully.</p>
           <div className="modal-action">
@@ -285,12 +296,14 @@ export default function Page() {
                 setStudyProgramID(null);
               }}
               renderOption={(studyProgram) => <div>{studyProgram.name}</div>}
-              customClassName={` ${isSubmitted && studyProgramID === null ? "input-error" : ""}`}
+              customClassName={` ${isSubmitted && studyProgramID === null ? "input-error" : ""} bg-neutral text-neutral-content`}
             />
-            <button type="button">
-              <a href={`/studyprograms/add`} className="btn btn-primary">
-                New Study Program
-              </a>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => setIsAddModalOpen(true)}
+            >
+              New Study Program
             </button>
           </div>
           <div className="flex flex-wrap justify-center gap-4">
@@ -300,7 +313,7 @@ export default function Page() {
               return (
                 <div
                   key={groupId}
-                  className="group relative justify-centers rounded-2xl bg-neutral text-neutral-content p-2 md:p-5"
+                  className="group relative justify-centers rounded-3xl bg-neutral text-neutral-content mb-2 p-8"
                 >
                   <div className="flex flex-row items-center justify-between">
                     <span className="label-text text-2xl">
@@ -337,7 +350,7 @@ export default function Page() {
                       setFieldGroups(newFieldGroups);
                     }}
                     renderOption={(type) => <div>{type.name}</div>}
-                    customClassName={` ${isSubmitted && fieldGroups[groupId].internshipField === "" ? "input-error" : ""}`}
+                    customClassName={` ${isSubmitted && fieldGroups[groupId].internshipField === "" ? "input-error" : ""} bg-base-100 text-base-content`}
                   />
                   <div className="flex flex-row mt-2 gap-2">
                     <input
@@ -512,7 +525,7 @@ export default function Page() {
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              className="textarea textarea-bordered h-32 w-full"
+              className="textarea textarea-bordered bg-neutral text-neutral-content h-32 w-full"
               aria-label="Kommentarfelt"
               maxLength={65000}
             />
@@ -536,6 +549,6 @@ export default function Page() {
           </div>
         </div>
       </form>
-    </div>
+    </>
   );
 }

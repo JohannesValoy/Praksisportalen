@@ -5,41 +5,41 @@ import { useEffect, useState } from "react";
 import { createCoordinator, createStudent } from "./action";
 import SuccessDialog from "@/app/_components/Modals/SuccessAddDialog";
 import ContainerBox from "@/app/_components/ContainerBox";
-import { createEmployee, generatePassword } from "@/services/EmployeeService";
-import Dropdown from "@/app/_components/Dropdowns/Dropdown";
-import { fetchEducationInstitutions } from "../../studyprograms/add/action";
+import { createEmployee } from "@/services/EmployeeService";
+import EduInstitutionDropdown from "@/app/_components/Dropdowns/EduInstitutionDropdown";
 
 type Props = {
   wordbook: { [key: string]: string };
+  educationInstitutions: EducationInstitution[];
+};
+
+type EducationInstitution = {
+  id: number;
+  name: string;
 };
 
 /**
  * Creates a page that allows for adding a user.
  * @param root The root object.
  * @param root.wordbook The wordbook object containing all the translations.
+ * @param root.educationInstitutions The education institutions object.
  * @returns A page to add a user.
  */
-export default function AddUserPage({ wordbook }: Readonly<Props>) {
+export default function AddUserPage({
+  wordbook,
+  educationInstitutions,
+}: Readonly<Props>) {
   const router = useRouter();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const [role, setRole] = useState("user");
 
-  const [educationInstitutions, setEducationInstitutions] = useState<
-    EducationInstitution[]
-  >([]);
   const [educationInstitutionID, setEducationInstitutionID] = useState(null);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-
-  const password = generatePassword(8);
-
-  type EducationInstitution = {
-    id: number;
-    name: string;
-  };
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     if (
@@ -54,16 +54,6 @@ export default function AddUserPage({ wordbook }: Readonly<Props>) {
       setIsSubmitDisabled(false);
     }
   }, [firstName, lastName, email, role, educationInstitutionID]);
-
-  useEffect(() => {
-    fetchEducationInstitutions()
-      .then((data) => {
-        setEducationInstitutions(data);
-      })
-      .catch((error) =>
-        console.error("Failed to fetch Education Institutions", error),
-      );
-  }, []);
 
   /**
    * The handleSubmit function adds a new user.
@@ -80,7 +70,7 @@ export default function AddUserPage({ wordbook }: Readonly<Props>) {
         const data = {
           name: `${firstName} ${lastName}`,
           email: email.trim(),
-          password: password.toString(),
+          password: password,
           educationInstitutionID: educationInstitutionID,
         };
 
@@ -105,7 +95,7 @@ export default function AddUserPage({ wordbook }: Readonly<Props>) {
           name: `${firstName} ${lastName}`,
           email: email.trim(),
           role: role,
-          password: password.toString(),
+          password: password,
         };
 
         await createEmployee(data);
@@ -132,7 +122,9 @@ export default function AddUserPage({ wordbook }: Readonly<Props>) {
             <div className="flex flex-row gap-4">
               <label className="form-control w-full ">
                 <div className="label">
-                  <span className="label-text">First Name</span>
+                  <span className="label-text text-neutral-content">
+                    First Name
+                  </span>
                 </div>
                 <input
                   type="name"
@@ -146,7 +138,9 @@ export default function AddUserPage({ wordbook }: Readonly<Props>) {
               </label>
               <label className="form-control w-full">
                 <div className="label">
-                  <span className="label-text">Last Name</span>
+                  <span className="label-text text-neutral-content">
+                    Last Name
+                  </span>
                 </div>
                 <input
                   type="name"
@@ -162,7 +156,7 @@ export default function AddUserPage({ wordbook }: Readonly<Props>) {
             <div className="flex flex-row gap-4">
               <label className="form-control w-full">
                 <div className="label">
-                  <span className="label-text">Email</span>
+                  <span className="label-text text-neutral-content">Email</span>
                 </div>
                 <input
                   type="email"
@@ -175,7 +169,7 @@ export default function AddUserPage({ wordbook }: Readonly<Props>) {
               </label>
               <label className="form-control w-full">
                 <div className="label">
-                  <span className="label-text">Role</span>
+                  <span className="label-text text-neutral-content">Role</span>
                 </div>
                 <select
                   className="select select-bordered w-full"
@@ -193,22 +187,29 @@ export default function AddUserPage({ wordbook }: Readonly<Props>) {
             </div>
           </div>
           {role && (role === "coordinator" || role === "student") ? (
-            <Dropdown
-              dropdownName="Education Institution"
-              options={educationInstitutions}
-              selectedOption={
-                educationInstitutions.find(
-                  (edu) => edu.id === educationInstitutionID,
-                ) || null
-              }
-              setSelectedOption={(edu) =>
-                setEducationInstitutionID(edu.id as number)
-              }
-              onSearchChange={() => {
-                setEducationInstitutionID(null);
-              }}
-              renderOption={(edu) => <>{edu.name}</>}
+            <EduInstitutionDropdown
+              educationInstitutionID={educationInstitutionID}
+              educationInstitutions={educationInstitutions}
+              setEducationInstitutionID={setEducationInstitutionID}
             />
+          ) : null}
+          {role && role !== "student" ? (
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text text-neutral-content">
+                  Password
+                </span>
+              </div>
+              <input
+                type="password"
+                placeholder="Password"
+                className="input input-bordered text-base-content w-full"
+                onChange={(e) => setPassword(e.target.value)}
+                aria-label="Set password"
+                maxLength={255}
+                required
+              />
+            </label>
           ) : null}
           <div className="flex flex-row gap-5">
             <button

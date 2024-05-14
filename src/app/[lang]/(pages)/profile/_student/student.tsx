@@ -2,6 +2,7 @@
 import { GanttProp } from "@/app/_components/Gantt";
 import DBClient from "@/knex/config/DBClient";
 import StudentGantt from "./StudentGantt";
+import { getIntervalBetweenStartOfWeekAndTotalOffsetDays } from "@/lib/date";
 /**
  * The DataItem interface represents the shape of the data items.
  */
@@ -23,11 +24,11 @@ interface DataItem {
 export async function getStudentAgreementGanttIntervals(
   date: Date,
   studentID: string,
-  days: number = 6,
+  days: number = 6
 ): Promise<GanttProp[]> {
   const [startDate, endDate] = getIntervalBetweenStartOfWeekAndTotalOffsetDays(
     date,
-    days,
+    days
   );
   return await DBClient.transaction(async (trx) => {
     const agreements = await trx
@@ -36,25 +37,25 @@ export async function getStudentAgreementGanttIntervals(
         "internships.name",
         "internshipAgreements.id",
         "timeIntervals.startDate",
-        "timeIntervals.endDate",
+        "timeIntervals.endDate"
       )
       .where("studentID", studentID)
       .innerJoin(
         "internships",
         "internships.id",
-        "internshipAgreements.internshipID",
+        "internshipAgreements.internshipID"
       )
       .innerJoin(
         "timeIntervals",
         "timeIntervals.internshipAgreementID",
-        "internshipAgreements.id",
+        "internshipAgreements.id"
       )
       .where("timeIntervals.startDate", ">=", startDate)
       .andWhere("timeIntervals.startDate", "<=", endDate);
     const datalist: GanttProp[] = [];
     agreements.forEach((agreement) => {
       let agreementObject: GanttProp = datalist.find(
-        (data) => data.name === agreement.name,
+        (data) => data.name === agreement.name
       );
       if (!agreementObject) {
         agreementObject = {

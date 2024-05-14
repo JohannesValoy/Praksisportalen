@@ -4,7 +4,7 @@
  * @param offsetDays total days to do a offset, default to 6 for sunday
  * @returns A list with the startDate as the first element and the endDate as second element
  */
-function getIntervalBetweenStartOfWeekAndTotalOffsetDays(
+export function getIntervalBetweenStartOfWeekAndTotalOffsetDays(
   referenceDate: Date,
   offsetDays: number = 6,
 ) {

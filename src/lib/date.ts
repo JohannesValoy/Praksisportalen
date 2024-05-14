@@ -6,7 +6,7 @@
  */
 export function getIntervalBetweenStartOfWeekAndTotalOffsetDays(
   referenceDate: Date,
-  offsetDays: number = 6
+  offsetDays: number = 6,
 ) {
   referenceDate.setDate(referenceDate.getDate() - referenceDate.getDay());
   const startDate = new Date(referenceDate);
@@ -15,7 +15,7 @@ export function getIntervalBetweenStartOfWeekAndTotalOffsetDays(
   startDate.setSeconds(0);
   startDate.setMilliseconds(0);
   referenceDate.setDate(
-    referenceDate.getDate() + (offsetDays > 0 ? offsetDays : 6)
+    referenceDate.getDate() + (offsetDays > 0 ? offsetDays : 6),
   );
   const endDate = new Date(offsetDays);
   startDate.setHours(23);

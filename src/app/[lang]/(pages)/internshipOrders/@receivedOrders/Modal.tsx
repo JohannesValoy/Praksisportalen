@@ -16,7 +16,7 @@ const InternshipDistributionModal: React.FC<
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [studentsLeft, setStudentsLeft] = useState(0);
-  const [allRowAmounts, setAllRowAmounts] = useState({});
+  const [allRowAmounts, setAllRowAmounts] = useState<{}>({});
   const [inputErrors, setInputErrors] = useState({});
 
   const handleError = useCallback(
@@ -25,7 +25,6 @@ const InternshipDistributionModal: React.FC<
     },
     [setError]
   );
-  console.log("selectedOrder: ", selectedOrder);
 
   const fetchInternships = useCallback(async () => {
     if (!selectedOrder) return;
@@ -48,16 +47,15 @@ const InternshipDistributionModal: React.FC<
   useEffect(() => {
     fetchInternships();
     if (selectedOrder) {
-      const totalAssigned = Object.values(allRowAmounts).reduce(
-        (sum, pageAmounts) =>
-          sum + Object.values(pageAmounts).reduce((sum, val) => sum + val, 0),
+      const totalSelected = Object.values(allRowAmounts).reduce(
+        (sum: number, amount: number) => sum + amount,
         0
       );
 
       setStudentsLeft(
         selectedOrder.numStudents -
           selectedOrder.numStudentsAccepted -
-          totalAssigned
+          totalSelected
       );
 
       setInputErrors({});
@@ -68,63 +66,40 @@ const InternshipDistributionModal: React.FC<
   const handleAmountChange = (row, amount) => {
     const newErrors = { ...inputErrors };
 
+    // If it is a invalid number
     if (amount < 0 || amount > row.vacancies || amount > studentsLeft) {
+      //Log a error within that row
       newErrors[row.id] =
         `Amount must be between 0 and ${Math.min(row.vacancies, studentsLeft)}`;
+      //Set and render
       setInputErrors(newErrors);
+      //Quit function
       return;
+      //Else if it is a null, 0 or ""
     } else if (!amount) {
+      //Set it to be zero
       amount = 0;
     }
 
-    const newAmounts = { ...allRowAmounts };
-    newAmounts[page] = { ...newAmounts[page], [row.id]: amount };
-    setAllRowAmounts(newAmounts);
-
-    const totalSelected = Object.values(newAmounts).reduce(
-      (sum, pageAmounts) =>
-        sum + Object.values(pageAmounts).reduce((sum, val) => sum + val, 0),
-      0
-    );
-
-    setStudentsLeft(
-      Math.max(
-        0,
-        selectedOrder.numStudents -
-          selectedOrder.numStudentsAccepted -
-          totalSelected
-      )
-    );
-
-    delete newErrors[row.id];
-    setInputErrors(newErrors);
+    //Modifies the row amount
+    setAllRowAmounts((newAmounts) => {
+      return {
+        ...newAmounts,
+        [row.id]: amount,
+      };
+    });
+    setInputErrors((oldNewErrors) => delete oldNewErrors[row.id]);
   };
 
   const saveRows = async () => {
-    let currNumStudentsAccepted = selectedOrder.numStudentsAccepted;
     try {
-      const savePromises = Object.keys(allRowAmounts).flatMap((page) =>
-        Object.keys(allRowAmounts[page]).map(async (rowId) => {
-          const amount = Math.min(
-            selectedOrder.numStudents - currNumStudentsAccepted,
-            allRowAmounts[page][rowId] || 0,
-            rows.find((row) => row.id === parseInt(rowId)).vacancies
-          );
-          if (amount < 1) {
-            return;
-          }
-
-          currNumStudentsAccepted += amount;
-          console.log(
-            "row: " +
-              JSON.stringify(rows.find((row) => row.id === parseInt(rowId))),
-            "Saving distribution, selected Order id: ",
-            selectedOrder.id + " amount: " + amount
-          );
-          return saveDistribution(selectedOrder.id, parseInt(rowId), amount);
-        })
-      );
-
+      const savePromises = Object.keys(allRowAmounts).flatMap((id) => {
+        return saveDistribution(
+          selectedOrder.id,
+          parseInt(id),
+          allRowAmounts[id]
+        );
+      });
       await Promise.all(savePromises);
       closeModal();
     } catch (error) {
@@ -150,7 +125,7 @@ const InternshipDistributionModal: React.FC<
         aria-label="Close modal"
         className="fixed inset-0 bg-black opacity-50 z-40"
         onClick={closeModal}
-      ></button>
+      />
       <div
         onSubmit={closeModal}
         className="fixed inset-0 flex items-center justify-center z-50 h-fit w-fit mx-auto my-auto p-1 m-1"
@@ -261,7 +236,7 @@ const InternshipDistributionModal: React.FC<
                         type="number"
                         min="0"
                         max={Math.min(row.vacancies, studentsLeft)}
-                        value={allRowAmounts[page]?.[row.id] || ""}
+                        value={allRowAmounts[row.id] || ""}
                         onChange={(e) =>
                           handleAmountChange(row, parseInt(e.target.value))
                         }

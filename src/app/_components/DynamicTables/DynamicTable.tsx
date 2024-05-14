@@ -128,7 +128,10 @@ export default function DynamicTable({
     fetchData();
   }, [fetchData]);
 
-  const onDelete = async () => {
+  /**
+   *
+   */
+  async function onDelete() {
     if (window.confirm("Are you sure you want to delete these rows?")) {
       try {
         for (const row of selectedRows) {
@@ -148,7 +151,7 @@ export default function DynamicTable({
         setError(errorMessage);
       }
     }
-  };
+  }
 
   return (
     <>

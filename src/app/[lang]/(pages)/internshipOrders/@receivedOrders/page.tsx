@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { fetchOrders, saveOrderStatus } from "./actions";
 import ErrorModal from "@/app/_components/ErrorModal";
-import InternshipDistributionModal from "./Modal";
+import InternshipDistributionModal from "./InternshipDistributionModal";
 import LogIcon from "@/../public/Icons/logIcon";
 
 /**
@@ -16,7 +16,7 @@ export default function Page() {
   const [title, setTitle] = useState("Received Orders");
   // Filter status is used to filter by status to either see all the Finalized orders, or see all the pending orders. In this page this is used when clicking the log button
   const [filterStatus, setFilterStatus] = useState<"Finalized" | "Pending">(
-    "Pending",
+    "Pending"
   );
 
   /**
@@ -66,10 +66,10 @@ export default function Page() {
         <h1 className="text-2xl font-bold">{title}</h1>
 
         <button
+          aria-label="Toggle Order Status"
           className={`btn ${
             filterStatus === "Finalized" ? "btn-primary" : "btn-secondary"
           }`}
-          aria-label="Toggle Order Status"
           onClick={() => {
             if (filterStatus === "Finalized") {
               setTitle("Received Orders");
@@ -93,27 +93,24 @@ export default function Page() {
               key={internshipOrderID}
               className="card-body card bg-neutral shadow-xl w-full"
             >
+              <div className="text-lg font-bold">
+                {
+                  groupedOrders[internshipOrderID][0].studyProgram
+                    .educationInstitute.name
+                }{" "}
+                - {groupedOrders[internshipOrderID][0].studyProgram.name}
+              </div>
               {groupedOrders[internshipOrderID].map((order) => (
                 <div key={order.id} className="text-base-content flex">
-                  <div className="flex w-full flex-col items-center">
-                    <div className="flex items-center flex-wrap flex-col flex-grow ml-4 gap-5">
-                      <div className="text-lg font-bold">
-                        {order.studyProgram.educationInstitute.name} -{" "}
-                        {order.studyProgram.name}
-                      </div>
-                      <div className="flex gap-4 flex-wrap justify-center items-center">
-                        <div className="text-opacity-50">
-                          {order.numStudents - order.numStudentsAccepted}{" "}
-                          students
-                        </div>
-                        <div className="text-opacity-50">
-                          {order.internshipField}, {order.studyYear} year
-                          students
-                        </div>
-                        <div className="text-sm text-opacity-50">
-                          {new Date(order.createdAt).toLocaleDateString()}
-                        </div>
-                      </div>
+                  <div className="flex w-full flex-row justify-center items-center">
+                    <div className="text-opacity-50">
+                      {order.numStudents - order.numStudentsAccepted} students
+                    </div>
+                    <div className="text-opacity-50">
+                      {order.internshipField} {order.studyYear} year students
+                    </div>
+                    <div className="text-sm text-opacity-50">
+                      {new Date(order.createdAt).toLocaleDateString()}
                     </div>
                   </div>
                   <button

@@ -21,6 +21,7 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     if (
@@ -42,17 +43,21 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!password) {
+      setPassword((await generatePassword(8)).toString());
+    }
+
     const data = {
       name: `${firstName} ${lastName}`,
       email: email.trim(),
       role: "user",
-      password: generatePassword(8),
+      password: password,
     };
     try {
       await createEmployee(data);
       onClose();
     } catch (error) {
-      window.alert("Invalid email address. Please try again.");
+      window.alert(error.message);
     }
   };
 
@@ -111,6 +116,18 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
                     onChange={(e) => setEmail(e.target.value)}
                     aria-label="Set email"
                     required
+                  />
+                </label>
+                <label className="form-control w-full">
+                  <div className="label">
+                    <span className="label-text">Password (optional)</span>
+                  </div>
+                  <input
+                    type="password"
+                    placeholder="Enter password"
+                    className="input input-bordered text-base-content w-full"
+                    onChange={(e) => setPassword(e.target.value)}
+                    aria-label="Set password"
                   />
                 </label>
               </div>

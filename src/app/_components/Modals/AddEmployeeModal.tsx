@@ -57,7 +57,7 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
       await createEmployee(data);
       onClose();
     } catch (error) {
-      window.alert(error.message);
+      window.alert("Invalid email address. Please try again.");
     }
   };
 

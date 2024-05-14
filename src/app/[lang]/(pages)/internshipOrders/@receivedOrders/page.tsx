@@ -66,10 +66,10 @@ export default function Page() {
         <h1 className="text-2xl font-bold">{title}</h1>
 
         <button
+          aria-label="Toggle Order Status"
           className={`btn ${
             filterStatus === "Finalized" ? "btn-primary" : "btn-secondary"
           }`}
-          aria-label="Toggle Order Status"
           onClick={() => {
             if (filterStatus === "Finalized") {
               setTitle("Received Orders");

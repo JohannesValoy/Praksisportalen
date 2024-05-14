@@ -1,4 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
+} from "@heroicons/react/24/solid";
 import { Order, paginateInternships, saveOrderDistribution } from "./actions";
 import { InternshipPaginationRequest } from "@/app/_models/InternshipPosition";
 
@@ -23,7 +29,7 @@ const InternshipDistributionModal: React.FC<
     (message) => {
       setError(message);
     },
-    [setError]
+    [setError],
   );
 
   const fetchInternships = useCallback(async () => {
@@ -47,15 +53,24 @@ const InternshipDistributionModal: React.FC<
   useEffect(() => {
     fetchInternships();
     if (selectedOrder) {
-      const totalSelected = Object.values(allRowAmounts).reduce(
-        (sum: number, amount: number) => sum + amount,
-        0
-      );
+      let totalSelected = 0;
+
+      if (typeof allRowAmounts === "object" && allRowAmounts !== null) {
+        totalSelected = Object.values(allRowAmounts).reduce(
+          (sum: number, amount: any) => {
+            if (typeof amount !== "number") {
+              throw new Error("All values in allRowAmounts must be numbers");
+            }
+            return sum + amount;
+          },
+          0,
+        );
+      }
 
       setStudentsLeft(
         selectedOrder.numStudents -
           selectedOrder.numStudentsAccepted -
-          totalSelected
+          totalSelected,
       );
 
       setInputErrors({});
@@ -97,14 +112,14 @@ const InternshipDistributionModal: React.FC<
         return saveDistribution(
           selectedOrder.id,
           parseInt(id),
-          allRowAmounts[id]
+          allRowAmounts[id],
         );
       });
       await Promise.all(savePromises);
       closeModal();
     } catch (error) {
       handleError(
-        `An error occurred while saving distributions: ${error.message}`
+        `An error occurred while saving distributions: ${error.message}`,
       );
     }
   };
@@ -114,7 +129,7 @@ const InternshipDistributionModal: React.FC<
       await saveOrderDistribution(subFieldGroupID, InternshipID, amount);
     } catch (error) {
       handleError(
-        "An error occurred while saving the distribution: " + error.message
+        "An error occurred while saving the distribution: " + error.message,
       );
     }
   };
@@ -237,6 +252,7 @@ const InternshipDistributionModal: React.FC<
                         min="0"
                         max={Math.min(row.vacancies, studentsLeft)}
                         value={allRowAmounts[row.id] || ""}
+                        title={`Amount to assign to ${row.name}`}
                         disabled={
                           row.vacancies == 0 ||
                           (studentsLeft == 0 && !allRowAmounts[row.id])
@@ -276,20 +292,7 @@ const InternshipDistributionModal: React.FC<
                 disabled={page === 0}
                 aria-label="Go to first page"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5"
-                  />
-                </svg>
+                <ChevronDoubleLeftIcon className="w-6 h-6" />
               </button>
               <button
                 className="btn btn-ghost join-item"
@@ -297,20 +300,7 @@ const InternshipDistributionModal: React.FC<
                 disabled={page === 0}
                 aria-label="Go to previous page"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 19.5 8.25 12l7.5-7.5"
-                  />
-                </svg>
+                <ChevronLeftIcon className="w-6 h-6" />
               </button>
               <span
                 className="font-semibold join-item p-2 text-neutral-content bg-neutral text-center flex items-center"
@@ -324,20 +314,7 @@ const InternshipDistributionModal: React.FC<
                 disabled={page + 1 >= totalPages}
                 aria-label="Go to next page"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m8.25 4.5 7.5 7.5-7.5 7.5"
-                  />
-                </svg>
+                <ChevronRightIcon className="w-6 h-6" />
               </button>
               <button
                 className="btn btn-ghost join-item"
@@ -345,20 +322,7 @@ const InternshipDistributionModal: React.FC<
                 disabled={page + 1 >= totalPages}
                 aria-label="Go to last page"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m5.25 4.5 7.5 7.5-7.5 7.5"
-                  />
-                </svg>
+                <ChevronDoubleRightIcon className="w-6 h-6" />
               </button>
             </div>
 

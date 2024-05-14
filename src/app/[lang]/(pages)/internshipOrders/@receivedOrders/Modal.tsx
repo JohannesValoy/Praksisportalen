@@ -12,18 +12,20 @@ const InternshipDistributionModal: React.FC<
   InternshipDistributionModalProps
 > = ({ selectedOrder, closeModal, setError }) => {
   const [rows, setRows] = useState([]);
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [sortedBy, setSortedBy] = useState<string>("name");
+  const [sortedBy, setSortedBy] = useState<string>("vacancies");
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [studentsLeft, setStudentsLeft] = useState(0);
+  const [allRowAmounts, setAllRowAmounts] = useState({});
+  const [inputErrors, setInputErrors] = useState({});
 
   const handleError = useCallback(
     (message) => {
       setError(message);
     },
-    [setError]
+    [setError],
   );
+  console.log("selectedOrder: ", selectedOrder);
 
   const fetchInternships = useCallback(async () => {
     if (!selectedOrder) return;
@@ -46,60 +48,88 @@ const InternshipDistributionModal: React.FC<
   useEffect(() => {
     fetchInternships();
     if (selectedOrder) {
-      setStudentsLeft(
-        selectedOrder.numStudents - selectedOrder.numStudentsAccepted
+      const totalAssigned = Object.values(allRowAmounts).reduce(
+        (sum, pageAmounts) =>
+          sum + Object.values(pageAmounts).reduce((sum, val) => sum + val, 0),
+        0,
       );
-      setSelectedRows([]);
+
+      setStudentsLeft(
+        selectedOrder.numStudents -
+          selectedOrder.numStudentsAccepted -
+          totalAssigned,
+      );
+
+      setInputErrors({});
       setError(null);
     }
-  }, [selectedOrder, fetchInternships, setError]);
+  }, [selectedOrder, fetchInternships, allRowAmounts, setError]);
 
-  const toggleSelection = (row) => {
-    if (row.vacancies <= 0) return;
-    let currentIndex = selectedRows.indexOf(row);
-    let newSelectedRows = [...selectedRows];
+  const handleAmountChange = (row, amount) => {
+    const newErrors = { ...inputErrors };
 
-    if (currentIndex !== -1) {
-      newSelectedRows.splice(currentIndex, 1);
-    } else {
-      newSelectedRows.push(row);
+    if (amount < 0 || amount > row.vacancies || amount > studentsLeft) {
+      newErrors[row.id] =
+        `Amount must be between 0 and ${Math.min(row.vacancies, studentsLeft)}`;
+      setInputErrors(newErrors);
+      return;
+    } else if (!amount) {
+      amount = 0;
     }
 
-    setSelectedRows(newSelectedRows);
+    const newAmounts = { ...allRowAmounts };
+    newAmounts[page] = { ...newAmounts[page], [row.id]: amount };
+    setAllRowAmounts(newAmounts);
+
+    const totalSelected = Object.values(newAmounts).reduce(
+      (sum, pageAmounts) =>
+        sum + Object.values(pageAmounts).reduce((sum, val) => sum + val, 0),
+      0,
+    );
+
     setStudentsLeft(
       Math.max(
         0,
         selectedOrder.numStudents -
           selectedOrder.numStudentsAccepted -
-          newSelectedRows.reduce(
-            (total, row) => total + (row.vacancies > 0 ? row.vacancies : 0),
-            0
-          )
-      )
+          totalSelected,
+      ),
     );
+
+    delete newErrors[row.id];
+    setInputErrors(newErrors);
   };
 
   const saveRows = async () => {
     let currNumStudentsAccepted = selectedOrder.numStudentsAccepted;
     try {
-      const savePromises = selectedRows.map((selectedRow) => {
-        const amount = Math.min(
-          selectedOrder.numStudents - currNumStudentsAccepted,
-          selectedRow.vacancies
-        );
-        if (amount < 1) {
-          return;
-        }
+      const savePromises = Object.keys(allRowAmounts).flatMap((page) =>
+        Object.keys(allRowAmounts[page]).map(async (rowId) => {
+          const amount = Math.min(
+            selectedOrder.numStudents - currNumStudentsAccepted,
+            allRowAmounts[page][rowId] || 0,
+            rows.find((row) => row.id === parseInt(rowId)).vacancies,
+          );
+          if (amount < 1) {
+            return;
+          }
 
-        currNumStudentsAccepted += amount;
-        return saveDistribution(selectedOrder.id, selectedRow.id, amount);
-      });
+          currNumStudentsAccepted += amount;
+          console.log(
+            "row: " +
+              JSON.stringify(rows.find((row) => row.id === parseInt(rowId))),
+            "Saving distribution, selected Order id: ",
+            selectedOrder.id + " amount: " + amount,
+          );
+          return saveDistribution(selectedOrder.id, parseInt(rowId), amount);
+        }),
+      );
 
       await Promise.all(savePromises);
       closeModal();
     } catch (error) {
       handleError(
-        `An error occurred while saving distributions: ${error.message}`
+        `An error occurred while saving distributions: ${error.message}`,
       );
     }
   };
@@ -109,10 +139,11 @@ const InternshipDistributionModal: React.FC<
       await saveOrderDistribution(subFieldGroupID, InternshipID, amount);
     } catch (error) {
       handleError(
-        "An error occurred while saving the distribution: " + error.message
+        "An error occurred while saving the distribution: " + error.message,
       );
     }
   };
+
   return (
     <>
       <button
@@ -126,15 +157,18 @@ const InternshipDistributionModal: React.FC<
         aria-label="Internship Distribution Modal"
       >
         <div className="flex flex-col bg-base-100 rounded-xl shadow-lg max-w-4xl w-full mx-auto p-2 md:p-8 gap-5">
-          <h1 className="text-3xl font-bold text-center text-primary">
-            {selectedOrder?.studyProgram.name}
-          </h1>
+          <div className="flex gap-2 items-center justify-center w-full text-center">
+            Study Program:
+            <div className="text-primary font-bold">
+              {selectedOrder?.studyProgram.name}
+            </div>
+          </div>
           <div className="flex flex-col gap-5 text-center justify-center text-base-content w-full">
             <div
               className="flex gap-2 mx-auto"
               aria-label="Internship date range"
             >
-              Date:
+              Period:
               <div className="text-primary font-bold">
                 {selectedOrder?.startWeek.toISOString().split("T")[0]}
               </div>
@@ -185,13 +219,12 @@ const InternshipDistributionModal: React.FC<
             <table className="table w-full text-sm card-body overflow-hidden flex items-center justify-center text-center">
               <thead>
                 <tr className="text-xs uppercase bg-base-200 text-base-content">
-                  <td></td>
                   <th aria-label="Sort by name">
                     <input
                       type="button"
                       onClick={() => setSortedBy("name")}
                       className="btn btn-ghost btn-sm"
-                      value="Navn"
+                      value="Name"
                     />
                   </th>
                   <th aria-label="Sort by current capacity">
@@ -199,7 +232,7 @@ const InternshipDistributionModal: React.FC<
                       type="button"
                       onClick={() => setSortedBy("currentCapacity")}
                       className="btn btn-ghost btn-sm"
-                      value="Kapasitet"
+                      value="Capacity"
                     />
                   </th>
                   <th aria-label="Sort by vacancies">
@@ -210,31 +243,37 @@ const InternshipDistributionModal: React.FC<
                       value="Ledig"
                     />
                   </th>
+                  <th>Students to Assign</th>
                 </tr>
               </thead>
               <tbody>
                 {rows.map((row) => (
                   <tr
                     key={row.id}
-                    className={`${selectedRows.includes(row) ? "bg-neutral text-neutral-content" : "hover:bg-base-300 "} cursor-pointer rounded-lg`}
-                    onClick={() => row.vacancies > 0 && toggleSelection(row)}
+                    className="hover:bg-base-300 cursor-pointer rounded-lg"
                     aria-label="Internship row"
                   >
-                    <td>
-                      <input
-                        type="checkbox"
-                        className="checkbox checkbox-primary"
-                        checked={selectedRows.includes(row)}
-                        onChange={() =>
-                          row.vacancies > 0 && toggleSelection(row)
-                        }
-                        disabled={row.vacancies <= 0}
-                        aria-label="Select row"
-                      />
-                    </td>
                     <td>{row.name}</td>
                     <td>{row.currentCapacity}</td>
                     <td>{row.vacancies}</td>
+                    <td className="flex flex-col gap-2">
+                      <input
+                        type="number"
+                        min="0"
+                        max={Math.min(row.vacancies, studentsLeft)}
+                        value={allRowAmounts[page]?.[row.id] || ""}
+                        onChange={(e) =>
+                          handleAmountChange(row, parseInt(e.target.value))
+                        }
+                        className={`input input-bordered input-sm ${inputErrors[row.id] ? "input-error" : ""}`}
+                        aria-label="Amount to assign"
+                      />
+                      {inputErrors[row.id] && (
+                        <span className="text-red-500 text-xs">
+                          {inputErrors[row.id]}
+                        </span>
+                      )}
+                    </td>
                   </tr>
                 ))}
                 {rows.length === 0 && (
@@ -251,7 +290,7 @@ const InternshipDistributionModal: React.FC<
             className="pagination flex flex-wrap justify-between items-center my-4 gap-2"
             aria-label="Pagination controls"
           >
-            <div className="join ">
+            <div className="join">
               <button
                 className="btn btn-ghost join-item"
                 onClick={() => setPage(0)}
@@ -338,7 +377,7 @@ const InternshipDistributionModal: React.FC<
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5"
+                    d="m5.25 4.5 7.5 7.5-7.5 7.5"
                   />
                 </svg>
               </button>
@@ -353,10 +392,8 @@ const InternshipDistributionModal: React.FC<
               </button>
               <button
                 className="btn btn-accent"
-                onClick={() => {
-                  saveRows();
-                }}
-                disabled={selectedRows.length === 0}
+                onClick={saveRows}
+                disabled={studentsLeft === selectedOrder.numStudents}
               >
                 Save
               </button>

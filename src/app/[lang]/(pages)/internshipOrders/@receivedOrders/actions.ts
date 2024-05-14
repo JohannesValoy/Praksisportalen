@@ -122,6 +122,9 @@ export async function saveOrderDistribution(
   InternshipID: number,
   amount: number,
 ) {
+  console.log("subFieldGroupID", subFieldGroupID);
+  console.log("InternshipID", InternshipID);
+  console.log("amount", amount);
   return DBclient.transaction(async (trx) => {
     const subFieldGroup = await trx("subFieldGroups")
       .join("fieldGroups", "subFieldGroups.fieldGroupID", "fieldGroups.id")

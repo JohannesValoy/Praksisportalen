@@ -251,28 +251,27 @@ export default function DynamicTable({
                           ? () => clickableColumns[key](row)
                           : undefined
                       }
+                      className={
+                        clickableColumns[key]
+                          ? "btn btn-ghost text-neutral-content btn-xs"
+                          : ""
+                      }
                     >
-                      <div
-                        className={
-                          clickableColumns[key]
-                            ? "btn btn-ghost text-neutral-content btn-xs"
-                            : ""
-                        }
-                      >
-                        {row[key]}
-                      </div>
+                      {row[key]}
                     </td>
                   ))}
                   <td>
-                    <button
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        onRowButtonClick(row);
-                      }}
-                      className="btn btn-ghost text-neutral-content btn-xs"
-                    >
-                      {buttonName}
-                    </button>
+                    {!buttonName && !onRowButtonClick ? null : (
+                      <button
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          onRowButtonClick(row);
+                        }}
+                        className="btn btn-ghost text-neutral-content btn-xs"
+                      >
+                        {buttonName}
+                      </button>
+                    )}
                   </td>
                 </tr>
               </tbody>

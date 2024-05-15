@@ -35,7 +35,6 @@ const SectionTable: React.FC<SectionTableProps> = ({
         "Section name": "name",
         "Section Type": "sectionType",
         "Leader Email": "email",
-        "Created At": "createdAt",
         "Updated At": "updatedAt",
       }}
       filter={filter}

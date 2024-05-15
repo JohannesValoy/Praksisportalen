@@ -3,6 +3,7 @@ import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
 import { authoptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { User, getServerSession } from "next-auth";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 /**
  * Returns the role of the current user.
  * @returns The role of the current user.
@@ -27,4 +28,13 @@ export async function encryptPassword(password: string): Promise<string> {
     return await bcrypt.hash(password, 11);
   }
   return await Bun.password.hash(password, { algorithm: "bcrypt", cost: 11 });
+}
+
+/**
+ * Generates a random password of a given length
+ * @param length the length of the password
+ * @returns a random password
+ */
+export async function generatePassword(length) {
+  return crypto.randomBytes(length).toString("hex");
 }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { createEmployee } from "../../[lang]/(pages)/users/add/action";
 import ContainerBox from "@/app/_components/ContainerBox";
-import { generatePassword } from "@/services/EmployeeService";
+import { generatePassword } from "@/lib/auth";
 
 type Props = {
   onClose: () => void;
@@ -44,7 +44,7 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
     event.preventDefault();
 
     if (!password) {
-      setPassword((await generatePassword(8)).toString());
+      setPassword(generatePassword(8).toString());
     }
 
     const data = {

@@ -2,7 +2,7 @@
 
 import { GanttProp } from "@/app/_components/Gantt";
 import DBClient from "@/knex/config/DBClient";
-import { getIntervalBetweenStartOfWeekAndTotalOffsetDays } from "@/lib/date";
+import { getIntervalBetweenStartOfWeekAndTotalOffsetDays } from "@/lib/tools";
 import "server-only";
 
 /**

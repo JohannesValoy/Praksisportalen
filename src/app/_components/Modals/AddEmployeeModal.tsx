@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { createEmployee } from "../../[lang]/(pages)/users/add/action";
 import ContainerBox from "@/app/_components/ContainerBox";
-import { generatePassword } from "@/lib/auth";
+import { generatePassword } from "@/lib/tools";
+import { IconArrowsShuffle } from "@tabler/icons-react";
 
 type Props = {
   onClose: () => void;
@@ -118,22 +119,24 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
                   <div className="label">
                     <span className="label-text">Password (optional)</span>
                   </div>
-                  <input
-                    type="password"
-                    placeholder="Enter password"
-                    className="input input-bordered text-base-content w-full"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    aria-label="Set password"
-                    required
-                  />
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-outline w-full mt-2"
-                    onClick={() => setPassword(generatePassword(8).toString)}
-                  >
-                    Set random password
-                  </button>
+                  <div className="flex flex-row items-center relative">
+                    <input
+                      type="text"
+                      placeholder="Enter password"
+                      className="input input-bordered text-base-content w-full"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      aria-label="Set password"
+                      required
+                    />
+                    <IconArrowsShuffle
+                      type="button"
+                      className="absolute right-2 btn btn-ghost btn-circle btn-xs"
+                      onClick={() =>
+                        setPassword(generatePassword(8).toString())
+                      }
+                    />
+                  </div>
                 </label>
               </div>
 

@@ -31,7 +31,7 @@ const ClickableContainer = ({
   const router = useRouter();
   return (
     <button
-      className={`bg-neutral text-neutral-content rounded-3xl p-8 flex justify-between items-between hover:shadow-xl`}
+      className={`bg-neutral text-neutral-content rounded-3xl p-8 flex justify-between items-center hover:shadow-xl`}
       onClick={() => link && router.push(link)}
     >
       <div className="flex flex-col h-full justify-between w-full">
@@ -146,7 +146,7 @@ const AdminLayout = () => {
               {orders.map((order, index) => (
                 <div
                   key={order.id}
-                  className={`card shadow-${index} bg-neutral border border-base-100 shadow-lg text-base-content hover:scale-105 duration-200`}
+                  className={`card shadow-${index} bg-neutral border border-base-100 shadow-lg text-neutral-content hover:scale-105 duration-200`}
                 >
                   <div className="card-body">
                     <h2 className="card-title">

@@ -146,14 +146,14 @@ const InternshipDistributionModal: React.FC<
         className="fixed inset-0 flex items-center justify-center z-50 h-fit w-fit mx-auto my-auto p-1 m-1"
         aria-label="Internship Distribution Modal"
       >
-        <div className="flex flex-col bg-base-100 rounded-xl shadow-lg max-w-4xl w-full mx-auto p-2 md:p-8 gap-5">
+        <div className="flex flex-col bg-base-100 text-base-content rounded-xl shadow-lg max-w-4xl w-full mx-auto p-2 md:p-8 gap-5">
           <div className="flex gap-2 items-center justify-center w-full text-center">
             Study Program:
             <div className="text-primary font-bold">
               {selectedOrder?.studyProgram.name}
             </div>
           </div>
-          <div className="flex flex-col gap-5 text-center justify-center text-base-content w-full">
+          <div className="flex flex-col gap-5 text-center justify-center w-full">
             <div
               className="flex gap-2 mx-auto"
               aria-label="Internship date range"
@@ -205,82 +205,83 @@ const InternshipDistributionModal: React.FC<
               </div>
             </div>
           )}
-          <div className="overflow-x-auto" aria-label="Selection table">
-            <table className="table w-full text-sm card-body overflow-hidden flex items-center justify-center text-center">
-              <thead>
-                <tr className="text-xs uppercase bg-base-200 text-base-content">
-                  <th aria-label="Sort by name">
+          <table
+            aria-label="Selection table"
+            className="table w-full text-sm card-body flex items-center justify-center text-center"
+          >
+            <thead>
+              <tr className="text-xs uppercase bg-base-200 text-base-content">
+                <th aria-label="Sort by name">
+                  <input
+                    type="button"
+                    onClick={() => setSortedBy("name")}
+                    className="btn btn-ghost btn-sm"
+                    value="Name"
+                  />
+                </th>
+                <th aria-label="Sort by current capacity">
+                  <input
+                    type="button"
+                    onClick={() => setSortedBy("currentCapacity")}
+                    className="btn btn-ghost btn-sm"
+                    value="Capacity"
+                  />
+                </th>
+                <th aria-label="Sort by vacancies">
+                  <input
+                    type="button"
+                    onClick={() => setSortedBy("vacancies")}
+                    className="btn btn-ghost btn-sm"
+                    value="Vacancies"
+                  />
+                </th>
+                <th>Students to Assign</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row) => (
+                <tr
+                  key={row.id}
+                  className="hover:bg-base-300 cursor-pointer rounded-lg"
+                  aria-label="Internship row"
+                >
+                  <td>{row.name}</td>
+                  <td>{row.currentCapacity}</td>
+                  <td>{row.vacancies}</td>
+                  <td className="flex flex-col gap-2">
                     <input
-                      type="button"
-                      onClick={() => setSortedBy("name")}
-                      className="btn btn-ghost btn-sm"
-                      value="Name"
+                      type="number"
+                      min="0"
+                      max={Math.min(row.vacancies, studentsLeft)}
+                      value={allRowAmounts[row.id] || ""}
+                      title={`Amount to assign to ${row.name}`}
+                      disabled={
+                        row.vacancies == 0 ||
+                        (studentsLeft == 0 && !allRowAmounts[row.id])
+                      }
+                      onChange={(e) =>
+                        handleAmountChange(row, parseInt(e.target.value))
+                      }
+                      className={`input input-bordered input-sm ${inputErrors[row.id] ? "input-error" : ""}`}
+                      aria-label="Amount to assign"
                     />
-                  </th>
-                  <th aria-label="Sort by current capacity">
-                    <input
-                      type="button"
-                      onClick={() => setSortedBy("currentCapacity")}
-                      className="btn btn-ghost btn-sm"
-                      value="Capacity"
-                    />
-                  </th>
-                  <th aria-label="Sort by vacancies">
-                    <input
-                      type="button"
-                      onClick={() => setSortedBy("vacancies")}
-                      className="btn btn-ghost btn-sm"
-                      value="Vacancies"
-                    />
-                  </th>
-                  <th>Students to Assign</th>
+                    {inputErrors[row.id] && (
+                      <span className="text-red-500 text-xs">
+                        {inputErrors[row.id]}
+                      </span>
+                    )}
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {rows.map((row) => (
-                  <tr
-                    key={row.id}
-                    className="hover:bg-base-300 cursor-pointer rounded-lg"
-                    aria-label="Internship row"
-                  >
-                    <td>{row.name}</td>
-                    <td>{row.currentCapacity}</td>
-                    <td>{row.vacancies}</td>
-                    <td className="flex flex-col gap-2">
-                      <input
-                        type="number"
-                        min="0"
-                        max={Math.min(row.vacancies, studentsLeft)}
-                        value={allRowAmounts[row.id] || ""}
-                        title={`Amount to assign to ${row.name}`}
-                        disabled={
-                          row.vacancies == 0 ||
-                          (studentsLeft == 0 && !allRowAmounts[row.id])
-                        }
-                        onChange={(e) =>
-                          handleAmountChange(row, parseInt(e.target.value))
-                        }
-                        className={`input input-bordered input-sm ${inputErrors[row.id] ? "input-error" : ""}`}
-                        aria-label="Amount to assign"
-                      />
-                      {inputErrors[row.id] && (
-                        <span className="text-red-500 text-xs">
-                          {inputErrors[row.id]}
-                        </span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-                {rows.length === 0 && (
-                  <tr>
-                    <td colSpan={4} className="text-center text-base-content">
-                      No available spots found.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+              ))}
+              {rows.length === 0 && (
+                <tr>
+                  <td colSpan={4} className="text-center text-base-content">
+                    No available spots found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
           <div
             className="pagination flex flex-wrap justify-between items-center my-4 gap-2"
             aria-label="Pagination controls"

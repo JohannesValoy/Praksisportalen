@@ -31,7 +31,7 @@ const ClickableContainer = ({
   const router = useRouter();
   return (
     <button
-      className={`bg-neutral text-neutral-content rounded-3xl p-8 flex justify-between items-between hover:shadow-xl`}
+      className={`bg-neutral text-neutral-content rounded-3xl p-8 flex justify-between items-center hover:shadow-xl`}
       onClick={() => link && router.push(link)}
     >
       <div className="flex flex-col h-full justify-between w-full">

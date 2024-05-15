@@ -146,7 +146,7 @@ const AdminLayout = () => {
               {orders.map((order, index) => (
                 <div
                   key={order.id}
-                  className={`card shadow-${index} bg-neutral border border-base-100 shadow-lg text-base-content hover:scale-105 duration-200`}
+                  className={`card shadow-${index} bg-neutral border border-base-100 shadow-lg text-neutral-content hover:scale-105 duration-200`}
                 >
                   <div className="card-body">
                     <h2 className="card-title">

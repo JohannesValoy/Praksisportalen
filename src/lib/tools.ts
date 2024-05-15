@@ -1,3 +1,5 @@
+import crypto from "crypto";
+
 /**
  * Finds the startDate of a given week and the x days after that date
  * @param referenceDate A date to have as a reference
@@ -23,4 +25,17 @@ export function getIntervalBetweenStartOfWeekAndTotalOffsetDays(
   startDate.setSeconds(59);
   startDate.setMilliseconds(999);
   return [startDate, endDate];
+}
+
+/**
+ * Generates a random password of a given length
+ * @param length the length of the password
+ * @returns a random password
+ */
+export function generatePassword(length) {
+  return crypto
+    .randomBytes(length)
+    .toString("base64")
+    .replace(/=/g, "")
+    .substring(0, length);
 }

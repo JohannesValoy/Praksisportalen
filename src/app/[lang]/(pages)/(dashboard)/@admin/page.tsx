@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import {
-  Cog6ToothIcon,
   AcademicCapIcon,
   UserGroupIcon,
   ClipboardIcon,
@@ -13,6 +12,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { fetchOrders } from "../../internshipOrders/@receivedOrders/actions";
 import Link from "next/link";
+import { IconBuildingHospital } from "@tabler/icons-react";
 
 // Custom container component for better styling and functionality
 const ClickableContainer = ({
@@ -51,13 +51,12 @@ const ClickableContainer = ({
 };
 
 const AdminLayout = () => {
-  const [error, setError] = useState(null);
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     fetchOrders("Pending")
       .then(setOrders)
-      .catch((error) => setError(error.message));
+      .catch((error) => console.error("Failed to fetch orders", error));
   }, []);
 
   return (
@@ -67,7 +66,7 @@ const AdminLayout = () => {
         <ClickableContainer
           title="Manage Hospital"
           icon={
-            <Cog6ToothIcon className="h-20 w-20 fill-none stroke-1 stroke-accent-content " />
+            <IconBuildingHospital className="h-20 w-20 fill-none stroke-1 stroke-accent-content " />
           }
         >
           <Link href="departments" className="btn btn-ghost">

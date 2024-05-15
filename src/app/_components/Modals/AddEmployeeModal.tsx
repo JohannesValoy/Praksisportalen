@@ -43,10 +43,6 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!password) {
-      setPassword(generatePassword(8).toString());
-    }
-
     const data = {
       name: `${firstName} ${lastName}`,
       email: email.trim(),
@@ -126,9 +122,18 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
                     type="password"
                     placeholder="Enter password"
                     className="input input-bordered text-base-content w-full"
+                    value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     aria-label="Set password"
+                    required
                   />
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-outline w-full mt-2"
+                    onClick={() => setPassword(generatePassword(8).toString)}
+                  >
+                    Set random password
+                  </button>
                 </label>
               </div>
 

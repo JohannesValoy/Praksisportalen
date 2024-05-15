@@ -251,16 +251,13 @@ export default function DynamicTable({
                           ? () => clickableColumns[key](row)
                           : undefined
                       }
+                      className={
+                        clickableColumns[key]
+                          ? "btn btn-ghost text-neutral-content btn-xs"
+                          : ""
+                      }
                     >
-                      <div
-                        className={
-                          clickableColumns[key]
-                            ? "btn btn-ghost text-neutral-content btn-xs"
-                            : ""
-                        }
-                      >
-                        {row[key]}
-                      </div>
+                      {row[key]}
                     </td>
                   ))}
                   <td>

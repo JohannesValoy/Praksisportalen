@@ -264,15 +264,17 @@ export default function DynamicTable({
                     </td>
                   ))}
                   <td>
-                    <button
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        onRowButtonClick(row);
-                      }}
-                      className="btn btn-ghost text-neutral-content btn-xs"
-                    >
-                      {buttonName}
-                    </button>
+                    {!buttonName && !onRowButtonClick ? null : (
+                      <button
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          onRowButtonClick(row);
+                        }}
+                        className="btn btn-ghost text-neutral-content btn-xs"
+                      >
+                        {buttonName}
+                      </button>
+                    )}
                   </td>
                 </tr>
               </tbody>

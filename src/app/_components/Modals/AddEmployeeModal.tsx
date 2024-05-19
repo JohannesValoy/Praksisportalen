@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { createEmployee } from "../../[lang]/(pages)/users/add/action";
 import ContainerBox from "@/app/_components/ContainerBox";
-import { generatePassword } from "@/services/EmployeeService";
+import { generatePassword } from "@/lib/tools";
+import { IconArrowsShuffle } from "@tabler/icons-react";
 
 type Props = {
   onClose: () => void;
@@ -21,6 +22,7 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     if (
@@ -46,7 +48,7 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
       name: `${firstName} ${lastName}`,
       email: email.trim(),
       role: "user",
-      password: generatePassword(8),
+      password: password,
     };
     try {
       await createEmployee(data);
@@ -112,6 +114,29 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
                     aria-label="Set email"
                     required
                   />
+                </label>
+                <label className="form-control w-full">
+                  <div className="label">
+                    <span className="label-text">Password (optional)</span>
+                  </div>
+                  <div className="flex flex-row items-center relative">
+                    <input
+                      type="text"
+                      placeholder="Enter password"
+                      className="input input-bordered text-base-content w-full"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      aria-label="Set password"
+                      required
+                    />
+                    <IconArrowsShuffle
+                      type="button"
+                      className="absolute right-2 btn btn-ghost btn-circle btn-xs"
+                      onClick={() =>
+                        setPassword(generatePassword(8).toString())
+                      }
+                    />
+                  </div>
                 </label>
               </div>
 

@@ -40,7 +40,6 @@ type DynamicTableProps = {
  * @param root.paginateFunction The function to paginate the data.
  * @param root.filter The filter object.
  * @param root.readOnly The readOnly flag.
- * @param root.refreshKey The refresh key.
  * @returns A dynamic table.
  */
 export default function DynamicTable({
@@ -55,7 +54,6 @@ export default function DynamicTable({
   paginateFunction,
   filter = {},
   readOnly = false,
-  refreshKey,
 }: Readonly<DynamicTableProps>): React.ReactElement {
   const searchParams = useSearchParams();
 
@@ -128,7 +126,10 @@ export default function DynamicTable({
     fetchData();
   }, [fetchData]);
 
-  const onDelete = async () => {
+  /**
+   *
+   */
+  async function onDelete() {
     if (window.confirm("Are you sure you want to delete these rows?")) {
       try {
         for (const row of selectedRows) {
@@ -148,7 +149,7 @@ export default function DynamicTable({
         setError(errorMessage);
       }
     }
-  };
+  }
 
   return (
     <>
@@ -164,43 +165,45 @@ export default function DynamicTable({
               >
                 <Add aria-label={`Add ${tableName}`} />
               </button>
-
-              <button
-                onClick={(event) => {
-                  event.stopPropagation();
-                  onDelete();
-                }}
-                className="btn btn-ghost btn-xs"
-                aria-label="Delete"
-              >
-                <Trash />
-              </button>
+              {selectedRows.length > 0 && (
+                <button
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onDelete();
+                  }}
+                  className="btn btn-ghost btn-xs"
+                  aria-label="Delete"
+                >
+                  <Trash />
+                </button>
+              )}
             </div>
           )}
         </div>
         <table className="table text-center">
           <thead>
             <tr>
-              {!readOnly && (
-                <td>
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    aria-label="Select all rows"
-                    checked={
-                      normalizedRows.length > 0 &&
-                      selectedRows.length === normalizedRows.length
-                    }
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedRows(normalizedRows);
-                      } else {
-                        setSelectedRows([]);
+              {!readOnly ||
+                (!deleteFunction && (
+                  <td>
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      aria-label="Select all rows"
+                      checked={
+                        normalizedRows.length > 0 &&
+                        selectedRows.length === normalizedRows.length
                       }
-                    }}
-                  />
-                </td>
-              )}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedRows(normalizedRows);
+                        } else {
+                          setSelectedRows([]);
+                        }
+                      }}
+                    />
+                  </td>
+                ))}
               {headerTitles.map((title, index) => (
                 <th key={`${title}-${index}`}>
                   <button
@@ -229,17 +232,18 @@ export default function DynamicTable({
             normalizedRows.map((row) => (
               <tbody key={row.id}>
                 <tr onClick={() => onRowClick(row)}>
-                  {!readOnly && (
-                    <td onClick={(e) => e.stopPropagation()}>
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        aria-label="Select this row"
-                        checked={selectedRows.includes(row)}
-                        onChange={(e) => toggleSelection(row, e)}
-                      />
-                    </td>
-                  )}
+                  {!readOnly ||
+                    (!deleteFunction && (
+                      <td onClick={(e) => e.stopPropagation()}>
+                        <input
+                          type="checkbox"
+                          className="checkbox"
+                          aria-label="Select this row"
+                          checked={selectedRows.includes(row)}
+                          onChange={(e) => toggleSelection(row, e)}
+                        />
+                      </td>
+                    ))}
                   {rowDataKeys.map((key: string, index: number) => (
                     <td
                       key={key}
@@ -248,28 +252,27 @@ export default function DynamicTable({
                           ? () => clickableColumns[key](row)
                           : undefined
                       }
+                      className={
+                        clickableColumns[key]
+                          ? "btn btn-ghost text-neutral-content btn-xs"
+                          : ""
+                      }
                     >
-                      <div
-                        className={
-                          clickableColumns[key]
-                            ? "btn btn-ghost text-neutral-content btn-xs"
-                            : ""
-                        }
-                      >
-                        {row[key]}
-                      </div>
+                      {row[key]}
                     </td>
                   ))}
                   <td>
-                    <button
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        onRowButtonClick(row);
-                      }}
-                      className="btn btn-ghost text-neutral-content btn-xs"
-                    >
-                      {buttonName}
-                    </button>
+                    {!buttonName && !onRowButtonClick ? null : (
+                      <button
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          onRowButtonClick(row);
+                        }}
+                        className="btn btn-ghost text-neutral-content btn-xs"
+                      >
+                        {buttonName}
+                      </button>
+                    )}
                   </td>
                 </tr>
               </tbody>

@@ -46,7 +46,7 @@ export default async function RootLayout({
                 </div>
               </Link>
               <div className="flex space-x-6 items-center">
-                <div className="dropdown dropdown-end">
+                <div tabIndex={0} className="dropdown dropdown-end">
                   <button
                     type="button"
                     className="btn btn-ghost m-1"

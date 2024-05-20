@@ -102,15 +102,16 @@ export default function Page() {
               </div>
               {groupedOrders[internshipOrderID].map((order) => (
                 <div key={order.id} className="text-base-content flex">
-                  <div className="flex w-full flex-row justify-center items-center">
-                    <div className="text-opacity-50">
-                      {order.numStudents - order.numStudentsAccepted} students
+                  <div className="flex w-full flex-row justify-center items-center gap-2">
+                    <div className="text-opacity-50 font-bold">
+                      {order.numStudents - order.numStudentsAccepted} students,
                     </div>
                     <div className="text-opacity-50">
-                      {order.internshipField} {order.studyYear} year students
+                      {order.studyYear} year {order.internshipField}
                     </div>
-                    <div className="text-sm text-opacity-50">
-                      {new Date(order.createdAt).toLocaleDateString()}
+                    <div className="text-sm text-opacity-50 flex-row gap-2">
+                      {new Date(order.startWeek).toLocaleDateString()} to{" "}
+                      {new Date(order.endWeek).toLocaleDateString()}
                     </div>
                   </div>
                   <button

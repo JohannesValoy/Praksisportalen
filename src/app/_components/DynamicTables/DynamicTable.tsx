@@ -77,7 +77,7 @@ export default function DynamicTable({
     const isSelected = selectedRows.includes(row);
     if (isSelected) {
       setSelectedRows(
-        selectedRows.filter((selectedRow) => selectedRow !== row),
+        selectedRows.filter((selectedRow) => selectedRow !== row)
       );
     } else {
       setSelectedRows([...selectedRows, row]);
@@ -165,45 +165,43 @@ export default function DynamicTable({
               >
                 <Add aria-label={`Add ${tableName}`} />
               </button>
-              {selectedRows.length > 0 && (
-                <button
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    onDelete();
-                  }}
-                  className="btn btn-ghost btn-xs"
-                  aria-label="Delete"
-                >
-                  <Trash />
-                </button>
-              )}
+              <button
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onDelete();
+                }}
+                disabled={!selectedRows.length}
+                className="btn btn-ghost btn-xs"
+                aria-label="Delete"
+              >
+                <Trash />
+              </button>
             </div>
           )}
         </div>
         <table className="table text-center">
           <thead>
             <tr>
-              {!readOnly ||
-                (!deleteFunction && (
-                  <td>
-                    <input
-                      type="checkbox"
-                      className="checkbox"
-                      aria-label="Select all rows"
-                      checked={
-                        normalizedRows.length > 0 &&
-                        selectedRows.length === normalizedRows.length
+              {!readOnly && deleteFunction && (
+                <td>
+                  <input
+                    type="checkbox"
+                    className="checkbox"
+                    aria-label="Select all rows"
+                    checked={
+                      normalizedRows.length > 0 &&
+                      selectedRows.length === normalizedRows.length
+                    }
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRows(normalizedRows);
+                      } else {
+                        setSelectedRows([]);
                       }
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedRows(normalizedRows);
-                        } else {
-                          setSelectedRows([]);
-                        }
-                      }}
-                    />
-                  </td>
-                ))}
+                    }}
+                  />
+                </td>
+              )}
               {headerTitles.map((title, index) => (
                 <th key={`${title}-${index}`}>
                   <button
@@ -232,18 +230,17 @@ export default function DynamicTable({
             normalizedRows.map((row) => (
               <tbody key={row.id}>
                 <tr onClick={() => onRowClick(row)}>
-                  {!readOnly ||
-                    (!deleteFunction && (
-                      <td onClick={(e) => e.stopPropagation()}>
-                        <input
-                          type="checkbox"
-                          className="checkbox"
-                          aria-label="Select this row"
-                          checked={selectedRows.includes(row)}
-                          onChange={(e) => toggleSelection(row, e)}
-                        />
-                      </td>
-                    ))}
+                  {!readOnly && deleteFunction && (
+                    <td onClick={(e) => e.stopPropagation()}>
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        aria-label="Select this row"
+                        checked={selectedRows.includes(row)}
+                        onChange={(e) => toggleSelection(row, e)}
+                      />
+                    </td>
+                  )}
                   {rowDataKeys.map((key: string, index: number) => (
                     <td
                       key={key}

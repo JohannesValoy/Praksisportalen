@@ -77,7 +77,7 @@ export default function DynamicTable({
     const isSelected = selectedRows.includes(row);
     if (isSelected) {
       setSelectedRows(
-        selectedRows.filter((selectedRow) => selectedRow !== row)
+        selectedRows.filter((selectedRow) => selectedRow !== row),
       );
     } else {
       setSelectedRows([...selectedRows, row]);
@@ -242,20 +242,21 @@ export default function DynamicTable({
                     </td>
                   )}
                   {rowDataKeys.map((key: string, index: number) => (
-                    <td
-                      key={key}
-                      onClick={
-                        clickableColumns[key]
-                          ? () => clickableColumns[key](row)
-                          : undefined
-                      }
-                      className={
-                        clickableColumns[key]
-                          ? "btn btn-ghost text-neutral-content btn-xs"
-                          : ""
-                      }
-                    >
-                      {row[key]}
+                    <td key={key}>
+                      <button
+                        onClick={
+                          clickableColumns[key]
+                            ? () => clickableColumns[key](row)
+                            : undefined
+                        }
+                        className={
+                          clickableColumns[key]
+                            ? "btn btn-ghost text-neutral-content btn-xs"
+                            : ""
+                        }
+                      >
+                        {row[key]}
+                      </button>
                     </td>
                   ))}
                   <td>

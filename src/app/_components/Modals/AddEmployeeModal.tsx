@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createEmployee } from "../../[lang]/(pages)/users/add/action";
 import ContainerBox from "@/app/_components/ContainerBox";
 import { generatePassword } from "@/lib/tools";
 import { IconArrowsShuffle } from "@tabler/icons-react";
+import { createEmployee } from "@/services/EmployeeService";
 
 type Props = {
   onClose: () => void;
@@ -69,7 +69,7 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
               className="flex flex-col gap-5  items-center justify-center"
             >
               <h1 className="flex justify-center text-4xl font-bold">
-                Add user
+                Add Employee
               </h1>
               <div className="flex flex-col gap-4">
                 <div className="flex flex-row gap-4">
@@ -117,7 +117,7 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
                 </label>
                 <label className="form-control w-full">
                   <div className="label">
-                    <span className="label-text">Password (optional)</span>
+                    <span className="label-text">Password</span>
                   </div>
                   <div className="flex flex-row items-center relative">
                     <input

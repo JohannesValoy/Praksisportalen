@@ -2,11 +2,14 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { createCoordinator, createStudent } from "./action";
+import { createStudent } from "./action";
 import SuccessDialog from "@/app/_components/Modals/SuccessAddDialog";
 import ContainerBox from "@/app/_components/ContainerBox";
 import { createEmployee } from "@/services/EmployeeService";
 import EduInstitutionDropdown from "@/app/_components/Dropdowns/EduInstitutionDropdown";
+import { IconArrowsShuffle } from "@tabler/icons-react";
+import { generatePassword } from "@/lib/tools";
+import { createCoordinators } from "@/services/CoordinatorService";
 
 type Props = {
   wordbook: { [key: string]: string };
@@ -65,6 +68,7 @@ export default function AddUserPage({
    */
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
       if (role === "coordinator") {
         const data = {
@@ -74,7 +78,7 @@ export default function AddUserPage({
           educationInstitutionID: educationInstitutionID,
         };
 
-        await createCoordinator(data);
+        await createCoordinators([data]);
 
         setIsModalVisible(true);
       }
@@ -200,15 +204,22 @@ export default function AddUserPage({
                   Password
                 </span>
               </div>
-              <input
-                type="password"
-                placeholder="Password"
-                className="input input-bordered text-base-content w-full"
-                onChange={(e) => setPassword(e.target.value)}
-                aria-label="Set password"
-                maxLength={255}
-                required
-              />
+              <div className="flex flex-row items-center relative">
+                <input
+                  type="text"
+                  placeholder="Enter password"
+                  className="input input-bordered text-base-content w-full"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  aria-label="Set password"
+                  required
+                />
+                <IconArrowsShuffle
+                  type="button"
+                  className="absolute right-2 btn btn-ghost btn-circle btn-xs"
+                  onClick={() => setPassword(generatePassword(8).toString())}
+                />
+              </div>
             </label>
           ) : null}
           <div className="flex flex-row gap-5">

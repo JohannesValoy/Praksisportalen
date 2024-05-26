@@ -2,6 +2,7 @@
 import { useState } from "react";
 import EditModal from "./EditModal";
 import { PencilIcon } from "@heroicons/react/24/outline";
+import { updateUserDetails } from "@/app/[lang]/(pages)/profile/[id]/action";
 
 type Props = {
   user: any;
@@ -15,6 +16,7 @@ type Props = {
 export default function EditUser({ user }: Readonly<Props>) {
   const [name, setName] = useState(user.name || "");
   const [email, setEmail] = useState(user.email || "");
+  const [password, setPassword] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = (e) => {
@@ -26,6 +28,7 @@ export default function EditUser({ user }: Readonly<Props>) {
     const update: {
       name?: string;
       email?: string;
+      password?: string;
     } = {};
 
     if (updateName) {
@@ -34,7 +37,15 @@ export default function EditUser({ user }: Readonly<Props>) {
     if (updateEmail) {
       update.email = updateEmail;
     }
+    if (password) {
+      update.password = password;
+    }
 
+    updateUserDetails(
+      user,
+      update,
+      window.location.href.split(window.location.hostname)[1],
+    );
     setShowModal(false);
   };
 
@@ -59,7 +70,7 @@ export default function EditUser({ user }: Readonly<Props>) {
             name={user.name}
             setName={setName}
             handleSubmit={handleSubmit}
-            disabled={name === user.name && email === user.email}
+            disabled={name === user.name && email === user.email && !password}
           >
             <div className="w-full">
               <div className="label">
@@ -75,6 +86,22 @@ export default function EditUser({ user }: Readonly<Props>) {
                 aria-label="Set email"
               />
             </div>
+            {user.role != "student" && (
+              <div className="w-full">
+                <div className="label">
+                  <span className="label-text text-neutral-content">
+                    Password
+                  </span>
+                </div>
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="input input-bordered text-base-content w-full"
+                  onChange={(e) => setPassword(e.target.value)}
+                  aria-label="Set password"
+                />
+              </div>
+            )}
           </EditModal>
         </div>
       </dialog>

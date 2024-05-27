@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { createStudent } from "./action";
 import SuccessDialog from "@/app/_components/Modals/SuccessAddDialog";
 import ContainerBox from "@/app/_components/ContainerBox";
 import { createEmployee } from "@/services/EmployeeService";
@@ -10,6 +9,7 @@ import EduInstitutionDropdown from "@/app/_components/Dropdowns/EduInstitutionDr
 import { IconArrowsShuffle } from "@tabler/icons-react";
 import { generatePassword } from "@/lib/tools";
 import { createCoordinators } from "@/services/CoordinatorService";
+import { createStudent } from "@/services/StudentService";
 
 type Props = {
   wordbook: { [key: string]: string };

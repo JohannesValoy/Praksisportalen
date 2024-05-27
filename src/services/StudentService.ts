@@ -6,6 +6,15 @@ import { PageResponse } from "../app/_models/pageinition";
 import { Student, StudentPageRequest } from "@/app/_models/Student";
 import { getEducationInstitutionByIDList } from "./EducationInstituteService";
 import { EducationInstitution } from "@/app/_models/EducationInstitution";
+
+/**
+ * Inserts a student into the database
+ * @param student a {@link StudentTable} student to insert
+ */
+async function createStudent(student: StudentTable) {
+  await createStudents([student]);
+}
+
 /**
  * Inserts a list of students into the database
  * @param students a list of {@link StudentTable} students to insert
@@ -128,6 +137,7 @@ async function deleteStudentByID(id: string) {
 }
 
 export {
+  createStudent,
   createStudents,
   getStudentsByPageRequest,
   getStudentsByIDList,

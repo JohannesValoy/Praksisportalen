@@ -60,7 +60,7 @@ build:
 sonarcloud-check:
   stage: checks
   image:
-    name: sonarsource/sonar-scanner-cli:latest
+    name: sonarsource/sonar-scanner-cli:5
     entrypoint: [""]
   cache:
     key: "${CI_JOB_NAME}"

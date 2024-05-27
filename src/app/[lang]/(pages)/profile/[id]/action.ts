@@ -1,5 +1,6 @@
 "use server";
 
+import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
 import DBclient from "@/knex/config/DBClient";
 import { encryptPassword } from "@/lib/auth";
 import { User } from "next-auth";
@@ -31,13 +32,13 @@ export async function updateUserDetails(user: User, data: any, path: string) {
   if (data.password) {
     data.password = await encryptPassword(data.password);
   }
-  if (user.role === "admin" || user.role === "user") {
+  if (user.role === Role.admin || user.role === Role.employee) {
     await DBclient("employees").where("id", user.id).update(data);
   }
-  if (user.role === "student") {
+  if (user.role === Role.student) {
     await DBclient("students").where("id", user.id).update(data);
   }
-  if (user.role === "coordinator") {
+  if (user.role === Role.coordinator) {
     await DBclient("coordinators").where("id", user.id).update(data);
   }
   revalidatePath(path);

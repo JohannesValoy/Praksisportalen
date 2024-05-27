@@ -3,6 +3,7 @@ import { useState } from "react";
 import EditModal from "./EditModal";
 import { PencilIcon } from "@heroicons/react/24/outline";
 import { updateUserDetails } from "@/app/[lang]/(pages)/profile/[id]/action";
+import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
 
 type Props = {
   user: any;
@@ -86,7 +87,7 @@ export default function EditUser({ user }: Readonly<Props>) {
                 aria-label="Set email"
               />
             </div>
-            {user.role != "student" && (
+            {user.role !== Role.student && (
               <div className="w-full">
                 <div className="label">
                   <span className="label-text text-neutral-content">

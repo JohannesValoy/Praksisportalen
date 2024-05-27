@@ -19,8 +19,8 @@ export default function ListOfInternshipAgreements({
 }) {
   const headers = {
     Internship: "internship",
-    studyProgram: "studyProgram",
-    student: "student",
+    "Study Program": "studyProgram",
+    Student: "student",
     "Start Date": "startDate",
     "End Date": "endDate",
   };

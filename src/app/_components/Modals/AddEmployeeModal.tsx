@@ -5,6 +5,7 @@ import ContainerBox from "@/app/_components/ContainerBox";
 import { generatePassword } from "@/lib/tools";
 import { IconArrowsShuffle } from "@tabler/icons-react";
 import { createEmployee } from "@/services/EmployeeService";
+import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
 
 type Props = {
   onClose: () => void;
@@ -47,7 +48,7 @@ export default function AddEmployee({ onClose }: Readonly<Props>) {
     const data = {
       name: `${firstName} ${lastName}`,
       email: email.trim(),
-      role: "user",
+      role: Role.employee,
       password: password,
     };
     try {

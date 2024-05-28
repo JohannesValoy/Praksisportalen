@@ -46,11 +46,9 @@ As previously mentioned, the development environment has some default values set
 The following is a list of the environment variables required of the docker-compose.prod.yaml in the project:
 
 ```bash
-
 NEXTAUTH_SECRET # The secret used to encrypt the session token. Set to HelloWorld in Development
 MYSQL_ROOT_PASSWORD # The password for the root user of the database. Set to changme in Development
 DOMAIN # The domain name of the application. Default to localhost if can not be found
 FEIDE_CLIENT_ID # The client id for the Feide authentication. Set to a localhost Feide clientID that will get removed after the 20 of may in Development
 FEIDE_CLIENT_SECRET # The client secret for the Feide authentication. Set to a localhost only Feide clientsecret that will get removed after the 20 of may in Development
-
 ```

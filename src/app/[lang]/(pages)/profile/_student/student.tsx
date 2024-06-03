@@ -2,6 +2,7 @@
 import { GanttProp } from "@/app/_components/Gantt";
 import DBClient from "@/knex/config/DBClient";
 import StudentGantt from "./StudentGantt";
+import { getIntervalBetweenStartOfWeekAndTotalOffsetDays } from "@/lib/tools";
 /**
  * The DataItem interface represents the shape of the data items.
  */

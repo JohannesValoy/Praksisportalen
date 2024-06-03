@@ -9,6 +9,7 @@ import EmployeeDropdown from "@/app/_components/Dropdowns/EmployeeDropdown";
 import SectionTable from "@/app/_components/DynamicTables/SectionTable";
 import EditModal from "@/app/_components/Modals/EditModal";
 import { PencilIcon } from "@heroicons/react/24/outline";
+import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
 
 type Props = {
   user: { id: string; role?: string };
@@ -88,7 +89,7 @@ export default function DepartmentPage({
       <div className="flex flex-col items-center">
         <div className="flex flex-row items-start">
           <h1>Department: {department.name}</h1>
-          {user.role === "admin" && (
+          {user.role === Role.admin && (
             <button onClick={() => setShowModal(true)} aria-label="Edit">
               <PencilIcon className="w-6 h-6" />
             </button>
@@ -137,7 +138,7 @@ export default function DepartmentPage({
         <SectionTable
           refreshKey={refreshKey}
           filter={{ departmentID: department.id.toString() }}
-          readOnly={user.role !== "admin"}
+          readOnly={user.role !== Role.admin}
           deleteFunction={deleteSection}
           onAddButtonClick={() => {
             setIsAddModalOpen(true);

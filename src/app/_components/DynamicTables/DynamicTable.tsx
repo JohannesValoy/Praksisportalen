@@ -40,7 +40,6 @@ type DynamicTableProps = {
  * @param root.paginateFunction The function to paginate the data.
  * @param root.filter The filter object.
  * @param root.readOnly The readOnly flag.
- * @param root.refreshKey The refresh key.
  * @returns A dynamic table.
  */
 export default function DynamicTable({
@@ -55,7 +54,6 @@ export default function DynamicTable({
   paginateFunction,
   filter = {},
   readOnly = false,
-  refreshKey,
 }: Readonly<DynamicTableProps>): React.ReactElement {
   const searchParams = useSearchParams();
 
@@ -128,7 +126,10 @@ export default function DynamicTable({
     fetchData();
   }, [fetchData]);
 
-  const onDelete = async () => {
+  /**
+   *
+   */
+  async function onDelete() {
     if (window.confirm("Are you sure you want to delete these rows?")) {
       try {
         for (const row of selectedRows) {
@@ -148,7 +149,7 @@ export default function DynamicTable({
         setError(errorMessage);
       }
     }
-  };
+  }
 
   return (
     <>
@@ -164,12 +165,12 @@ export default function DynamicTable({
               >
                 <Add aria-label={`Add ${tableName}`} />
               </button>
-
               <button
                 onClick={(event) => {
                   event.stopPropagation();
                   onDelete();
                 }}
+                disabled={!selectedRows.length}
                 className="btn btn-ghost btn-xs"
                 aria-label="Delete"
               >
@@ -181,7 +182,7 @@ export default function DynamicTable({
         <table className="table text-center">
           <thead>
             <tr>
-              {!readOnly && (
+              {!readOnly && deleteFunction && (
                 <td>
                   <input
                     type="checkbox"
@@ -229,7 +230,7 @@ export default function DynamicTable({
             normalizedRows.map((row) => (
               <tbody key={row.id}>
                 <tr onClick={() => onRowClick(row)}>
-                  {!readOnly && (
+                  {!readOnly && deleteFunction && (
                     <td onClick={(e) => e.stopPropagation()}>
                       <input
                         type="checkbox"
@@ -241,15 +242,13 @@ export default function DynamicTable({
                     </td>
                   )}
                   {rowDataKeys.map((key: string, index: number) => (
-                    <td
-                      key={key}
-                      onClick={
-                        clickableColumns[key]
-                          ? () => clickableColumns[key](row)
-                          : undefined
-                      }
-                    >
-                      <div
+                    <td key={key}>
+                      <button
+                        onClick={
+                          clickableColumns[key]
+                            ? () => clickableColumns[key](row)
+                            : undefined
+                        }
                         className={
                           clickableColumns[key]
                             ? "btn btn-ghost text-neutral-content btn-xs"
@@ -257,19 +256,21 @@ export default function DynamicTable({
                         }
                       >
                         {row[key]}
-                      </div>
+                      </button>
                     </td>
                   ))}
                   <td>
-                    <button
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        onRowButtonClick(row);
-                      }}
-                      className="btn btn-ghost text-neutral-content btn-xs"
-                    >
-                      {buttonName}
-                    </button>
+                    {!buttonName && !onRowButtonClick ? null : (
+                      <button
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          onRowButtonClick(row);
+                        }}
+                        className="btn btn-ghost text-neutral-content btn-xs"
+                      >
+                        {buttonName}
+                      </button>
+                    )}
                   </td>
                 </tr>
               </tbody>

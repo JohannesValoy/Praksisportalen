@@ -254,9 +254,11 @@ export async function saveOrderDistribution(
           //Increment the day
           startDate.setDate(startDate.getDate() + 1);
         }
-        //Increment the day
-        daysInTheWeek.push(new Date(startDate));
-        startDate.setDate(startDate.getDate() + 1);
+        //Increment by one day only if it is not the end of the internship
+        if (startDate.getTime() < endDate.getTime()) {
+          daysInTheWeek.push(new Date(startDate));
+          startDate.setDate(startDate.getDate() + 1);
+        }
         //Sort the days by busyness
         let days: Date[] = daysInTheWeek
           .toSorted((a, b) => differenceInBusyness(a, b, timeIntervals))

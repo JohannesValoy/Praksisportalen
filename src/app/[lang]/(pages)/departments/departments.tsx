@@ -2,6 +2,7 @@
 import { useState } from "react";
 import AddDepartment from "../../../_components/Modals/AddDepartmentModal";
 import DepartmentTable from "@/app/_components/DynamicTables/DepartmentTable";
+import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
 
 /**
  * The ListOfDepartments component displays a list of departments.
@@ -27,7 +28,7 @@ const ListOfDepartments = ({ user }) => {
       {isAddModalOpen && <AddDepartment onClose={closeAddModal} />}
       <DepartmentTable
         refreshKey={refreshKey}
-        readOnly={user.role !== "admin"}
+        readOnly={user.role !== Role.admin}
         onAddButtonClick={() => {
           setIsAddModalOpen(true);
         }}

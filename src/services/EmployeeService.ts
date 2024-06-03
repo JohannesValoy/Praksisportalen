@@ -4,7 +4,6 @@ import DBclient from "@/knex/config/DBClient";
 import { EmployeeTable } from "knex/types/tables.js";
 import { encryptPassword } from "@/lib/auth";
 import { PageResponse } from "@/app/_models/pageinition";
-import crypto from "crypto";
 
 /**
  * Gets an {@link Employee} object by its id.
@@ -112,15 +111,6 @@ async function deleteEmployee(id: string) {
   await DBclient.delete().from("employees").where("id", id);
 }
 
-/**
- * Generates a random password of a given length
- * @param length the length of the password
- * @returns a random password
- */
-async function generatePassword(length) {
-  return crypto.randomBytes(length).toString("hex");
-}
-
 export {
   getEmployeeObjectByID,
   getEmployeeObjectByIDList,
@@ -128,5 +118,4 @@ export {
   createEmployees,
   getEmployeeObjectsByPagination,
   deleteEmployee,
-  generatePassword,
 };

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import {
-  Cog6ToothIcon,
   AcademicCapIcon,
   UserGroupIcon,
   ClipboardIcon,
@@ -13,6 +12,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { fetchOrders } from "../../internshipOrders/@receivedOrders/actions";
 import Link from "next/link";
+import { IconBuildingHospital } from "@tabler/icons-react";
 
 // Custom container component for better styling and functionality
 const ClickableContainer = ({
@@ -31,13 +31,13 @@ const ClickableContainer = ({
   const router = useRouter();
   return (
     <button
-      className={`bg-neutral text-neutral-content rounded-3xl p-8 flex justify-between items-between hover:shadow-xl`}
+      className={`bg-neutral text-neutral-content rounded-3xl p-8 flex justify-between items-center  ${link ? "cursor-pointer" : "cursor-default"}  hover:shadow-xl `}
       onClick={() => link && router.push(link)}
     >
       <div className="flex flex-col h-full justify-between w-full">
         <h2 className="font-bold stroke-lg ">{title}</h2>
         <p className="font-bold stroke-lg ">{description}</p>
-        <div className="font-bold stroke-lg  flex items-center justify-start">
+        <div className="font-bold stroke-lg flex-wrap flex items-center justify-start">
           {children}
         </div>
       </div>
@@ -51,13 +51,12 @@ const ClickableContainer = ({
 };
 
 const AdminLayout = () => {
-  const [error, setError] = useState(null);
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     fetchOrders("Pending")
       .then(setOrders)
-      .catch((error) => setError(error.message));
+      .catch((error) => console.error("Failed to fetch orders", error));
   }, []);
 
   return (
@@ -67,7 +66,7 @@ const AdminLayout = () => {
         <ClickableContainer
           title="Manage Hospital"
           icon={
-            <Cog6ToothIcon className="h-20 w-20 fill-none stroke-1 stroke-accent-content " />
+            <IconBuildingHospital className="h-20 w-20 fill-none stroke-1 stroke-accent-content " />
           }
         >
           <Link href="departments" className="btn btn-ghost">
@@ -111,7 +110,11 @@ const AdminLayout = () => {
           <Link href="users/students" className="btn btn-ghost">
             Students
           </Link>
-          <Link href="users/add" className="btn btn-ghost">
+          <Link
+            href="users/add"
+            className="btn btn-ghost"
+            aria-label="add user"
+          >
             <UserPlusIcon className="h-6 w-6" />
           </Link>
         </ClickableContainer>
@@ -143,7 +146,7 @@ const AdminLayout = () => {
               {orders.map((order, index) => (
                 <div
                   key={order.id}
-                  className={`card shadow-${index} bg-neutral border border-base-100 shadow-lg text-base-content hover:scale-105 duration-200`}
+                  className={`card shadow-${index} bg-neutral border border-base-100 shadow-lg text-neutral-content hover:scale-105 duration-200`}
                 >
                   <div className="card-body">
                     <h2 className="card-title">

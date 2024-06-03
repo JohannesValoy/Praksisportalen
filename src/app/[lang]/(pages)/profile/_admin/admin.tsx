@@ -4,6 +4,7 @@ import DepartmentTable from "@/app/_components/DynamicTables/DepartmentTable";
 import InternshipTable from "@/app/_components/DynamicTables/InternshipTable";
 import SectionTable from "@/app/_components/DynamicTables/SectionTable";
 import AddDepartment from "@/app/_components/Modals/AddDepartmentModal";
+import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
 import { useState } from "react";
 
 /**
@@ -30,7 +31,7 @@ export default function AdminPage({ user }) {
       {isAddModalOpen && <AddDepartment onClose={closeAddModal} />}
       <DepartmentTable
         refreshKey={refreshKey}
-        readOnly={user.role !== "admin"}
+        readOnly={user.role !== Role.admin}
         onAddButtonClick={() => {
           setIsAddModalOpen(true);
         }}

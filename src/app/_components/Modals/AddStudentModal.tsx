@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import ContainerBox from "@/app/_components/ContainerBox";
-import { createStudent } from "../../[lang]/(pages)/users/add/action";
 import EduInstitutionDropdown from "../Dropdowns/EduInstitutionDropdown";
+import { createStudent } from "@/services/StudentService";
 
 type Props = {
   wordbook?: { [key: string]: string };

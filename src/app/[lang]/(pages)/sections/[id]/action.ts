@@ -2,7 +2,7 @@
 
 import { GanttProp } from "@/app/_components/Gantt";
 import DBClient from "@/knex/config/DBClient";
-import DBclient from "@/knex/config/DBClient";
+import { getIntervalBetweenStartOfWeekAndTotalOffsetDays } from "@/lib/tools";
 import "server-only";
 
 /**
@@ -12,7 +12,7 @@ import "server-only";
  * @returns Updated list of sections.
  */
 export async function editSectionDetails(id: number, data: any) {
-  return await DBclient("sections").where("id", id).update(data);
+  return await DBClient("sections").where("id", id).update(data);
 }
 
 /**
@@ -36,6 +36,7 @@ export async function getSectionGanttIntervals(
       .from("sections")
       .select(
         "internships.name",
+        "internships.yearOfStudy",
         "internships.id",
         "timeIntervals.startDate",
         "timeIntervals.endDate",
@@ -62,7 +63,7 @@ export async function getSectionGanttIntervals(
       if (!agreementObject) {
         agreementObject = {
           id: agreement.id,
-          name: agreement.name,
+          name: agreement.name + " Year " + agreement.yearOfStudy,
           intervals: [],
         };
         datalist.push(agreementObject);

@@ -46,9 +46,13 @@ export default async function RootLayout({
                 </div>
               </Link>
               <div className="flex space-x-6 items-center">
-                <div className="dropdown dropdown-end">
-                  <button type="button" className="btn btn-ghost m-1">
-                    <Cog6ToothIcon className="h-6 w-6" aria-label="Settings" />
+                <div tabIndex={0} className="dropdown dropdown-end">
+                  <button
+                    type="button"
+                    className="btn btn-ghost m-1"
+                    aria-label="Settings"
+                  >
+                    <Cog6ToothIcon className="h-6 w-6" />
                   </button>
                   <ul className="dropdown-content z-[1] menu p-4 shadow bg-base-300 text-base-content rounded-box w-52">
                     <li className="gap-4">

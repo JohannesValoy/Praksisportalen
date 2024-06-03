@@ -30,7 +30,6 @@ const DepartmentTable: React.FC<DynamicTableProps> = ({
   const headers = {
     "Department name": "name",
     "Leader Email": "email",
-    "Created At": "createdAt",
     "Updated At": "updatedAt",
   };
 

@@ -2,11 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { createCoordinator, createStudent } from "./action";
 import SuccessDialog from "@/app/_components/Modals/SuccessAddDialog";
 import ContainerBox from "@/app/_components/ContainerBox";
 import { createEmployee } from "@/services/EmployeeService";
 import EduInstitutionDropdown from "@/app/_components/Dropdowns/EduInstitutionDropdown";
+import { IconArrowsShuffle } from "@tabler/icons-react";
+import { generatePassword } from "@/lib/tools";
+import { createCoordinators } from "@/services/CoordinatorService";
+import { createStudent } from "@/services/StudentService";
+import { Role } from "@/app/api/auth/[...nextauth]/nextauth";
 
 type Props = {
   wordbook: { [key: string]: string };
@@ -32,7 +36,7 @@ export default function AddUserPage({
   const router = useRouter();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
-  const [role, setRole] = useState("user");
+  const [role, setRole] = useState(Role.employee as string);
 
   const [educationInstitutionID, setEducationInstitutionID] = useState(null);
 
@@ -46,7 +50,7 @@ export default function AddUserPage({
       firstName.trim() === "" ||
       lastName.trim() === "" ||
       email.trim() === "" ||
-      ((role === "coordinator" || role === "student") &&
+      ((role === Role.coordinator || role === Role.student) &&
         educationInstitutionID === null)
     ) {
       setIsSubmitDisabled(true);
@@ -65,8 +69,9 @@ export default function AddUserPage({
    */
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
-      if (role === "coordinator") {
+      if (role === Role.coordinator) {
         const data = {
           name: `${firstName} ${lastName}`,
           email: email.trim(),
@@ -74,12 +79,12 @@ export default function AddUserPage({
           educationInstitutionID: educationInstitutionID,
         };
 
-        await createCoordinator(data);
+        await createCoordinators([data]);
 
         setIsModalVisible(true);
       }
 
-      if (role === "student") {
+      if (role === Role.student) {
         const data = {
           name: `${firstName} ${lastName}`,
           email: email.trim(),
@@ -90,7 +95,7 @@ export default function AddUserPage({
         setIsModalVisible(true);
       }
 
-      if (role === "user" || role === "admin") {
+      if (role === Role.employee || role === Role.admin) {
         const data = {
           name: `${firstName} ${lastName}`,
           email: email.trim(),
@@ -186,29 +191,36 @@ export default function AddUserPage({
               </label>
             </div>
           </div>
-          {role && (role === "coordinator" || role === "student") ? (
+          {role && (role === Role.coordinator || role === Role.student) ? (
             <EduInstitutionDropdown
               educationInstitutionID={educationInstitutionID}
               educationInstitutions={educationInstitutions}
               setEducationInstitutionID={setEducationInstitutionID}
             />
           ) : null}
-          {role && role !== "student" ? (
+          {role && role !== Role.student ? (
             <label className="form-control w-full">
               <div className="label">
                 <span className="label-text text-neutral-content">
                   Password
                 </span>
               </div>
-              <input
-                type="password"
-                placeholder="Password"
-                className="input input-bordered text-base-content w-full"
-                onChange={(e) => setPassword(e.target.value)}
-                aria-label="Set password"
-                maxLength={255}
-                required
-              />
+              <div className="flex flex-row items-center relative">
+                <input
+                  type="text"
+                  placeholder="Enter password"
+                  className="input input-bordered text-base-content w-full"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  aria-label="Set password"
+                  required
+                />
+                <IconArrowsShuffle
+                  type="button"
+                  className="absolute right-2 btn btn-ghost btn-circle btn-xs"
+                  onClick={() => setPassword(generatePassword(8).toString())}
+                />
+              </div>
             </label>
           ) : null}
           <div className="flex flex-row gap-5">
